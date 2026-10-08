@@ -194,8 +194,8 @@ let custom = () => null; // записи ребёнка: (slot) => AudioBuffer|n
 function voiceUrls(tpls, names) {
   const L = root.Lines, out = [];
   [].concat(tpls).forEach(t => L.parts(t).forEach(p => {
-    if (p.name) { const nm = names[p.name]; if (!nm) return; const k = L.key(L.nameKey(nm)); if (VMAN.n.has(k)) out.push('voice/n/' + k + '.mp3'); }
-    else { const k = L.key(p.text); if (VMAN.c.has(k)) out.push('voice/c/' + k + '.mp3'); else if (root.MURLOK_DEBUG) console.warn('VOICE-MISS', p.text); }
+    if (p.name) { const nm = names[p.name]; if (!nm) return; const k = L.key(L.nameKey(nm)); out.push(VMAN.n.has(k) ? 'voice/n/' + k + '.mp3' : TTS_API + encodeURIComponent(String(nm).slice(0, 30))); }
+    else { const k = L.clipKey(p); if (VMAN.c.has(k)) out.push('voice/c/' + k + '.mp3'); else if (root.MURLOK_DEBUG) console.warn('VOICE-MISS', p.text); }
   }));
   return out;
 }
@@ -211,7 +211,41 @@ async function voice(tpls, names = {}) {
   onTalk(true); vEndT = setTimeout(() => { onTalk(false); vsrcs = []; }, (t - AC.currentTime) * 1000);
   return true;
 }
+const TTS_API = 'https://level.tech-wave.ru/murlok-api/tts?t=';
+async function playBuffer(ab) { // произвольная фраза с сервера (ответ котика в чате)
+  if (!voiceOn() || !ok()) return false;
+  const my = ++vToken; let buf; try { buf = await decode(ab); } catch (e) { return false; }
+  if (my !== vToken) return false; stopVoice();
+  const g = AC.createGain(); g.gain.value = 1.15; g.connect(master);
+  const s = AC.createBufferSource(); s.buffer = buf; s.connect(g); s.start(AC.currentTime + 0.03); vsrcs.push(s);
+  onTalk(true); vEndT = setTimeout(() => { onTalk(false); vsrcs = []; }, (buf.duration + 0.1) * 1000);
+  return true;
+}
 function stopVoice() { vsrcs.forEach(s => { try { s.stop(); } catch (e) { } }); vsrcs = []; clearTimeout(vEndT); onTalk(false); }
 function preloadVoice(list, names) { if (!ok()) return; loadMan().then(m => { if (m) voiceUrls(list, names).forEach(clip); }); }
-root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, voice, preloadVoice, loadMan, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
+
+/* ---------- звуки предметов в домике ---------- */
+function nburst(t0, dur, f, q, vol, type = 'bandpass') { const n = noise(t0, dur), bp = AC.createBiquadFilter(); bp.type = type; bp.frequency.value = f; bp.Q.value = q; const g = AC.createGain(); env(g, t0, [[0.01, vol], [dur, 0.0001]]); n.connect(bp); bp.connect(g); g.connect(master); }
+function sfx(name) {
+  if (!ok()) return; const t = AC.currentTime + 0.02;
+  if (name === 'splash') { for (let i = 0; i < 7; i++) nburst(t + i * rr(0.12, 0.3), rr(0.12, 0.3), rr(600, 1800), 0.8, rr(0.25, 0.45)); return; }
+  if (name === 'scratch') { for (let i = 0; i < 6; i++) nburst(t + i * 0.16, 0.12, rr(3000, 5000), 2, 0.3, 'highpass'); return; }
+  if (name === 'lap') { for (let i = 0; i < 6; i++) tone([[rr(700, 900), 0.05, i * 0.22, 'sine', 0.14, 400]]); return; }
+  if (name === 'drum') { [0, 0.25, 0.5, 0.62, 0.75].forEach((d, i) => { tone([[i % 2 ? 180 : 110, 0.25, d, 'sine', 0.4, 50]]); nburst(t + d, 0.08, 2500, 0.7, i % 2 ? 0.25 : 0.1); }); return; }
+  if (name === 'melody') { [523, 587, 659, 523, 659, 784, 659, 523].forEach((f, i) => tone([[f, 0.28, i * 0.22, 'triangle', 0.16]])); return; }
+  if (name === 'strum') { [196, 247, 294, 392, 494].forEach((f, i) => tone([[f, 1.2, i * 0.03, 'sawtooth', 0.05], [f * 2, 0.8, i * 0.03, 'triangle', 0.05]])); return; }
+  if (name === 'whoosh') { const n = noise(t, 1.2), bp = AC.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 1; bp.frequency.setValueAtTime(300, t); bp.frequency.exponentialRampToValueAtTime(3000, t + 1); const g = AC.createGain(); env(g, t, [[0.3, 0.4], [1.2, 0.0001]]); n.connect(bp); bp.connect(g); g.connect(master); return; }
+  if (name === 'chug') { for (let i = 0; i < 10; i++) nburst(t + i * 0.18, 0.1, 400, 1, 0.3); tone([[660, 0.3, 0.1, 'square', 0.06], [880, 0.4, 0.3, 'square', 0.06]]); return; }
+  if (name === 'pop') { tone([[300, 0.08, 0, 'sine', 0.3, 900]]); nburst(t, 0.06, 1500, 1, 0.3); return; }
+  if (name === 'magic') { [1047, 1319, 1568, 2093, 1568, 2637].forEach((f, i) => tone([[f, 0.25, i * 0.07, 'sine', 0.1]])); return; }
+  if (name === 'bounce') { [0, 0.35, 0.6, 0.78].forEach((d, i) => tone([[200 - i * 20, 0.12, d, 'sine', 0.3 - i * 0.05, 90]])); return; }
+  if (name === 'tv') { nburst(t, 0.4, 3000, 0.5, 0.12); tone([[440, 0.2, 0.45, 'square', 0.05], [660, 0.3, 0.65, 'square', 0.05]]); return; }
+  if (name === 'boing') { tone([[220, 0.4, 0, 'sine', 0.3, 660]]); return; }
+  if (name === 'bubbles') { for (let i = 0; i < 8; i++) tone([[rr(500, 1100), 0.06, i * rr(0.08, 0.2), 'sine', 0.12, rr(1200, 1800)]]); return; }
+  if (name === 'fire') { for (let i = 0; i < 4; i++) { nburst(t + i * 0.4, 0.5, 800, 0.5, 0.35); tone([[rr(800, 1600), 0.4, i * 0.4 + 0.1, 'sine', 0.1, 3000]]); } return; }
+  if (name === 'shutter') { nburst(t, 0.03, 4000, 1, 0.5, 'highpass'); nburst(t + 0.08, 0.05, 2500, 1, 0.35); return; }
+  if (name === 'mystery') { [220, 277, 330].forEach((f, i) => tone([[f, 2.4, i * 0.05, 'sine', 0.06]])); [1319, 1568, 1976, 1568].forEach((f, i) => tone([[f, 0.6, 0.6 + i * 0.35, 'triangle', 0.05]])); return; }
+  if (name === 'snore') { [0, 1.4].forEach(d => { nburst(t + d, 0.7, 200, 1, 0.25, 'lowpass'); }); return; }
+}
+root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, voice, sfx, playBuffer, preloadVoice, loadMan, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
 })(this);

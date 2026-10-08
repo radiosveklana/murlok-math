@@ -64,7 +64,13 @@ function award(c, xp) {
   const r = rank(); if (r.i > before) setTimeout(() => { toast(`<span class="tb">🎖️</span><div><b>Новое звание!</b><br>${r.name}</div>`); confetti(30); speakT(PH.rank[0]); M.meow({ shape: 'long', dur: 1.1, force: true }); later(() => SND.purr(2.5), 1200); }, 1200);
   checkBadges();
 }
-function taskDone(kind, res) { S.st[kind].done++; if (!res.mistakes && !res.helped) S.st[kind].perfect++; markDay(1); save(); setTimeout(() => { checkGoals(); checkRooms(); }, 1800); }
+function taskDone(kind, res) { S.st[kind].done++; if (!res.mistakes && !res.helped) S.st[kind].perfect++; markDay(1); save(); setTimeout(() => { if (['home', 'house'].includes(curScreen)) { checkGoals(); checkRooms(); } else rewardHint(); }, 1500); }
+function rewardHint() { // во время задач сундуки не всплывают — ждут на главной
+  const t = today(), n = S.days[t] || 0, got = S.goals.date === t ? S.goals.got : [];
+  const g = GOAL_TIERS.find(x => n >= x.n && !got.includes(x.n)), room = window.Lines.ROOMS.find(r => r.need <= solvedTotal() && !S.roomsSeen.includes(r.id));
+  const key = (g ? g.n : '') + '|' + (room ? room.id : ''); if (key === '|' || rewardHint.last === key) return; rewardHint.last = key;
+  toast(`<span class="tb">${g ? '🎁' : '🔓'}</span><div>${g ? `<b>${g.name}</b> ждёт тебя на главной!` : `Открылась комната «${room.name}»!`}<br><small>Загляни, когда закончишь.</small></div>`);
+}
 const GOAL_TIERS = [{ n: 5, c: 5, icon: '🎁', name: 'Сундук задания дня' }, { n: 10, c: 8, icon: '🎁', name: 'Сундук усердия' }, { n: 20, c: 15, icon: '👑', name: 'Королевский сундук', gift: true }];
 function checkGoals() {
   const t = today(); if (S.goals.date !== t) S.goals = { date: t, got: [] };
@@ -230,7 +236,7 @@ function homeGreetOld() {
   const hi = h < 12 ? 'Доброе утро' : h < 18 ? 'Добрый день' : 'Добрый вечер';
   return pick([`${hi}, ${S.kid}! Мур-р 😺`, `${S.kid}, я так по тебе соскучился! 🐾`, st >= 2 ? `Уже ${st} ${plural(st, 'день', 'дня', 'дней')} подряд! Ты молодец! 🔥` : 'Погладь меня — я замурлычу! 🐾', t >= 5 ? 'Задание дня выполнено! Я горжусь тобой!' : `Решим ещё ${5 - t} ${plural(5 - t, 'задачу', 'задачи', 'задач')} для задания дня?`, (!S.lessons.mul || !S.lessons.eq) ? 'Начнём со Школы сыщика? Я всё объясню!' : 'Возьмём новое дело? Сладкоград ждёт! 🍬']);
 }
-const NO_FLOAT = ['home', 'hello', 'casetask', 'practice', 'bugs', 'parents', 'lesson', 'blitz'];
+const NO_FLOAT = ['home', 'hello', 'casetask', 'practice', 'bugs', 'parents', 'lesson', 'blitz', 'chat'];
 let curScreen = '', okRun = 0, lastCheer = 0;
 const mascot = document.createElement('div'); mascot.id = 'mascot'; mascot.hidden = true;
 mascot.innerHTML = '<div class="ms-bubble" hidden></div><button class="ms-cat" aria-label="Котик-напарник"></button>';
@@ -241,7 +247,9 @@ function bubbleOn(el, text, ms = 3800) { el.textContent = text; el.hidden = fals
 function say(tpl, ms, o = {}) {
   const tpls = [].concat(tpl);
   let text = tpls.join(' ').replace(/\{n\}/g, S.kid || 'сыщик').replace(/\{c\}/g, S.name || 'котик').replace(/^@s /, '').replace(/<[^>]+>/g, '');
-  if (!o.silent) speakT(o.speech || tpls);
+  let sp = o.speech || tpls;
+  if (!o.speech && !tpls.some(t => String(t).includes('{n}')) && Math.random() < 0.45 && S.kid) { sp = ['{n}!', ...tpls]; text = S.kid + ', ' + text.charAt(0).toLowerCase() + text.slice(1); }
+  if (!o.silent) speakT(sp);
   ms = ms || Math.max(3800, text.length * 75);
   const hs = $('#heroSay'); if (hs) return bubbleOn(hs, text, ms);
   if (!mascot.hidden) return bubbleOn(msBub, text, ms);
@@ -803,6 +811,7 @@ SCREENS.home = () => {
     <button class="tile t-case" data-go="newcase"><span class="ti">🔍</span><b>Новое дело</b><small>Найди вора сладостей</small></button>
     <button class="tile t-blitz" data-go="blitz"><span class="ti">⚡</span><b>Быстрые лапки</b><small>Таблица умножения на скорость</small></button>
     <button class="tile t-bug" data-go="bugs"><span class="ti">🦝</span><b>Ошибки Енота</b><small>Найди, где он ошибся</small></button>
+    ${S.chatOn !== false ? '<button class="tile t-chat" data-go="chat"><span class="ti">💬</span><b>Поболтать с котиком</b><small>Говори или пиши — котик ответит</small></button>' : ''}
     <button class="tile t-house" data-go="house"><span class="ti">🏠</span><b>Домик котика</b><small>Корми, играй, обустраивай комнаты</small></button>
     <button class="tile t-shop" data-go="shop"><span class="ti">🧁</span><b>Кондитерская</b><small>Наряды для котика</small></button>
     <button class="tile t-book" data-go="book"><span class="ti">📒</span><b>Блокнот детектива</b><small>Правила, награды, дела</small></button>
@@ -863,35 +872,63 @@ function startCase(topic, diff) {
   if (!S.crimeBag.length) S.crimeBag = shuffle(E.CRIMES.map((_, i) => i));
   const ci = S.crimeBag.shift(); save();
   const cc = E.genCase(S.cases + 1); cc.crime = E.CRIMES[ci] || cc.crime;
-  CASE = { c: cc, tasks, idx: 0, mistakes: 0, crossed: new Set(), earned: 0, xp: 0, topic, diff, accuseTries: 0 };
+  const others = E.ANIMALS.filter(a => !cc.suspects.some(x => x.animal[1] === a[1]));
+  CASE = { c: cc, ci, tasks, idx: 0, mistakes: 0, crossed: new Set(), earned: 0, xp: 0, topic, diff, accuseTries: 0, marks: [], witnesses: shuffle(others).slice(0, 4), witnessMode: Math.random() < 0.5 };
   go('caseintro');
+}
+/* портрет персонажа: зверь в шляпе, шарфе и с вещью; покачивается, при разговоре подпрыгивает */
+function portrait(s, cls = '') {
+  const A = E.ATTRS, d = (s.animal[1].length % 7) / 5;
+  return `<span class="pt ${cls}" style="--d:${d}s"><span class="pt-a">${s.animal[0]}</span>${s.hat != null ? `<span class="pt-h">${A.hat.vals[s.hat].e}</span><span class="pt-s" style="background:${A.scarf.vals[s.scarf].c}"></span><span class="pt-i">${A.item.vals[s.item].e}</span>` : ''}</span>`;
+}
+function personaSay(s, kind) { const L = window.Lines.personaLines(s.animal[1]); if (L) speakT(L[kind]); }
+function interrogate(i) {
+  const s = CASE.c.suspects[i], P = window.Lines.PERSONA[s.animal[1]] || { who: '', quirk: '' }, L = window.Lines.personaLines(s.animal[1]);
+  const lines = [['hi', `Я ${s.animal[1]}, ${P.who}. Я тут ни при чём!`], ['quirk', P.quirk], ['nervous', L ? L.nervous.replace(/^@v:\S+ /, '') : '']];
+  let k = 0;
+  const m = modal(`<div class="interro"><div class="interro-lamp"></div>${portrait(s, 'big talking')}<h2>${s.animal[1]}</h2><p class="small">${P.who}</p><div class="interro-say" id="isay">«${lines[0][1]}»</div>
+    <div class="row-btns"><button class="btn pink" id="ask">🎤 Спросить ещё</button><button class="btn" data-close>Отпустить</button></div></div>`, 'interro-sheet');
+  personaSay(s, 'hi'); M.sfx('magic');
+  $('#ask', m.el).addEventListener('click', () => { k = (k + 1) % lines.length; $('#isay', m.el).textContent = `«${lines[k][1]}»`; const pt = $('.pt', m.el); pt.classList.remove('talking'); void pt.offsetWidth; pt.classList.add('talking'); personaSay(s, lines[k][0]); });
 }
 function suspectCard(s, i, found) {
   const A = E.ATTRS;
-  return `<button class="sus ${CASE.crossed.has(i) ? 'crossed' : ''}" data-i="${i}"><span class="sa">${s.animal[0]}</span><span class="sn">${s.animal[1]}</span>
+  return `<button class="sus ${CASE.crossed.has(i) ? 'crossed' : ''}" data-i="${i}"><span class="ask-b" data-ask="${i}" title="Допросить">💬</span>${portrait(s)}<span class="sn">${s.animal[1]}</span>
     <span class="attrs"><span title="шляпа">${A.hat.vals[s.hat].e}</span><span class="scarf" title="шарф" style="background:${A.scarf.vals[s.scarf].c}"></span><span title="любит">${A.sweet.vals[s.sweet].e}</span><span title="с собой">${A.item.vals[s.item].e}</span></span></button>`;
 }
 function suspectsHTML(found) { return `<div class="sus-grid">${CASE.c.suspects.map((s, i) => suspectCard(s, i, found)).join('')}</div><div class="sus-legend">🎩 шляпа · <i class="scarf mini"></i> шарф · 🍩 любимая сладость · 🎒 что с собой</div>`; }
+function bindAsk(root) { $$('.ask-b', root).forEach(x => x.addEventListener('click', e => { e.stopPropagation(); SND.tap(); interrogate(+x.dataset.ask); })); }
 function bindSuspects(root, found, onChange) {
+  bindAsk(root);
   $$('.sus', root).forEach(b => b.addEventListener('click', () => {
     const i = +b.dataset.i, s = CASE.c.suspects[i];
     if (CASE.crossed.has(i)) { CASE.crossed.delete(i); b.classList.remove('crossed'); SND.tap(); onChange && onChange(); return; }
     if (E.alibi(CASE.c, s, found) < 0) { SND.bad(); shake(b); say(found ? `Подожди, {n}! ${s.animal[1]} подходит под все улики.` : PH.noClue[0]); return; }
-    CASE.crossed.add(i); b.classList.add('crossed'); SND.tap(); catMood('happy', 700); say(Math.random() < 0.4 ? `${s.animal[1]} — не вор!` : pick(PH.cross)); onChange && onChange();
+    CASE.crossed.add(i); b.classList.add('crossed'); SND.tap(); catMood('happy', 700); say(Math.random() < 0.4 ? `${s.animal[1]} — не вор!` : pick(PH.cross), 0, { silent: true }); personaSay(s, 'free'); onChange && onChange();
   }));
 }
+/* «фото» с места происшествия: вспышка, луч фонарика, туман, пылинки; найденные улики отмечаются на фото */
+function sceneHTML(cls = '') {
+  const marks = CASE.marks.map(m => `<span class="mark" style="left:${m.x}%;top:${m.y}%">${m.e}</span>`).join('');
+  return `<div class="scene ${cls}" style="--img:url('img/scene/${CASE.ci}.jpg')"><div class="sc-img"></div><div class="sc-fog"></div><div class="sc-dust">${'<i></i>'.repeat(14)}</div><div class="sc-beam"></div>${marks}<div class="sc-tape">МЕСТО ПРОИСШЕСТВИЯ · НЕ ВХОДИТЬ</div><div class="sc-flash"></div><div class="sc-stamp">ФОТО №${CASE.c.n}</div></div>`;
+}
+function sceneSound() { M.sfx('shutter'); later(() => M.sfx('mystery'), 250); }
+function clueMark(k) { const a = CASE.c.order[k], v = E.ATTRS[a].vals[CASE.c.culprit[a]]; return a === 'scarf' ? '🧵' : v.e; }
 SCREENS.caseintro = () => {
   if (!CASE) return go('newcase');
   const c = CASE.c;
   app.innerHTML = `${topbar('Дело №' + c.n, 'newcase')}
   <div class="page">
+    ${sceneHTML('intro')}
     <div class="dossier"><div class="stamp">СЕКРЕТНО</div><h2>«${c.crime.title}»</h2>
       <p>Сегодня утром в <b>${c.crime.place}</b> кто-то украл <b>${c.crime.what}</b>! На месте преступления видели пятерых подозреваемых.</p>
       <p>Реши <b>4 задачи</b> — за каждую получишь улику. По уликам вычисли вора! 🔍</p></div>
-    <h3>Подозреваемые</h3>${suspectsHTML(0)}
+    <h3>Подозреваемые <small class="small">— нажми 💬, чтобы допросить</small></h3>${suspectsHTML(0)}
     <button class="btn big pink" id="go">Начать расследование →</button>
   </div>`;
   $('#go').addEventListener('click', () => go('casetask'));
+  bindAsk(app); $$('.sus', app).forEach(b => b.addEventListener('click', () => interrogate(+b.dataset.i)));
+  sceneSound();
 };
 function clueBar() { return `<div class="clues">${[0, 1, 2, 3].map(k => `<span class="clue-dot ${k < CASE.idx ? 'got' : k === CASE.idx ? 'now' : ''}">${k < CASE.idx ? '🔎' : '🔒'}</span>`).join('')}</div>`; }
 SCREENS.casetask = () => {
@@ -919,8 +956,10 @@ function revealClue() {
   const k = CASE.idx, clue = CASE.c.clues[k];
   CASE.idx++;
   tone([[784, 0.12], [988, 0.12, 0.1], [1319, 0.3, 0.2]]); later(() => SND.trill(), 400); M.haptic([20, 40, 60]);
-  later(() => speakT([PH.clueN[k], clue.text]), 700);
-  const m = modal(`<div class="clue-big"><div class="clue-ic">🔎</div><h2>Улика №${k + 1}</h2><p class="clue-txt">${clue.text}</p></div>
+  CASE.marks.push({ e: clueMark(k), x: 12 + Math.random() * 74, y: 30 + Math.random() * 50 });
+  const wit = CASE.witnessMode ? CASE.witnesses[k] : null;
+  later(() => speakT([PH.clueN[k], clue.text]), 700); later(sceneSound, 100);
+  const m = modal(`${sceneHTML('clue')}<div class="clue-big">${wit ? `<div class="witness">${portrait({ animal: wit }, 'talking')}<b>Свидетель — ${wit[1]}:</b></div>` : '<div class="clue-ic">🔎</div>'}<h2>Улика №${k + 1}</h2><p class="clue-txt">${clue.text}</p></div>
     <div class="clue-list">${CASE.c.clues.slice(0, k).map(c => `<div class="clue old">🔎 ${c.text}</div>`).join('')}</div>
     <p class="small center">Вычеркни тех, кто <b>не подходит</b> под улики (нажми на карточку):</p>${suspectsHTML(CASE.idx)}
     <button class="btn big pink" id="nx">${CASE.idx < 4 ? 'Следующая задача →' : 'Вычислить вора! 🚨'}</button>`, 'wide');
@@ -933,7 +972,8 @@ SCREENS.accuse = () => {
   app.innerHTML = `${topbar('Дело №' + CASE.c.n, 'home')}
   <div class="page"><div class="dossier"><h2>🚨 Кто же вор?</h2><p>Все 4 улики собраны! Выбери подозреваемого, который подходит под <b>все</b> улики, и арестуй его.</p>
     <div class="clue-list">${CASE.c.clues.map(c => `<div class="clue">🔎 ${c.text}</div>`).join('')}</div></div>
-    ${suspectsHTML(4)}<button class="btn big pink" id="arrest" disabled>Выбери подозреваемого</button></div>`;
+    ${sceneHTML('small')}${suspectsHTML(4)}<button class="btn big pink" id="arrest" disabled>Выбери подозреваемого</button></div>`;
+  bindAsk(app);
   $$('.sus', app).forEach(b => b.addEventListener('click', () => {
     const i = +b.dataset.i; if (CASE.crossed.has(i)) { CASE.crossed.delete(i); b.classList.remove('crossed'); }
     sel = i; $$('.sus', app).forEach(x => x.classList.toggle('sel', x === b)); SND.tap();
@@ -942,7 +982,7 @@ SCREENS.accuse = () => {
   $('#arrest').addEventListener('click', () => {
     if (sel < 0) return; const s = CASE.c.suspects[sel];
     if (s.culprit) return closeCase();
-    CASE.accuseTries++; CASE.mistakes++; SND.hiss(); catMood('sad', 1500); later(() => speakT(PH.hiss[0]), 500);
+    CASE.accuseTries++; CASE.mistakes++; SND.hiss(); catMood('sad', 1500); later(() => personaSay(s, 'alibi'), 400);
     const k = E.alibi(CASE.c, s, 4), a = CASE.c.order[k], A = E.ATTRS[a], v = A.vals[s[a]];
     const why = a === 'scarf' ? `у него ${v.n} шарф` : a === 'sweet' ? `${s.animal[1].split(' ')[1]} любит ${v.w}` : `${s.animal[1].split(' ')[1]} был ${v.w} ${v.e}`;
     CASE.crossed.add(sel); $(`.sus[data-i="${sel}"]`, app).classList.add('crossed'); $(`.sus[data-i="${sel}"]`, app).classList.remove('sel'); sel = -1;
@@ -958,10 +998,10 @@ function closeCase() {
   S.caseLog.unshift({ n: CASE.c.n, title: CASE.c.crime.title, who: culprit.animal.join(' '), date: today(), perfect });
   S.caseLog = S.caseLog.slice(0, 60);
   CASE.earned += c; award(c, xp + 0); save();
-  confetti(50); SND.win(); later(() => M.purr(3), 3200); later(() => say(pick(PH.win)), 1500);
+  confetti(50); SND.win(); later(() => personaSay(culprit, 'caught'), 900); later(() => M.purr(3), 4200); later(() => say(pick(PH.win)), 3800);
   app.innerHTML = `${topbar('Дело раскрыто!', 'home')}
   <div class="page center win-page">
-    <div class="win-cat"><div class="win-cat-in">${myCat({ happy: true })}</div><div class="arrested">${culprit.animal[0]}<span>🚔</span></div></div>
+    <div class="win-cat"><div class="win-cat-in">${myCat({ happy: true })}</div><div class="arrested">${portrait(culprit, 'talking')}<span>🚔</span></div></div>
     <h2>${esc(S.kid)}, дело №${CASE.c.n} «${CASE.c.crime.title}» раскрыто!</h2>
     <p>Вором оказался <b>${culprit.animal[1]}</b>. Он во всём признался и вернул ${CASE.c.crime.what} в ${CASE.c.crime.place}.</p>
     ${perfect ? '<div class="perfect">💎 Без единой ошибки! +5 бонусных конфет</div>' : ''}
@@ -1211,8 +1251,12 @@ SCREENS.parents = () => {
     ${facts.length ? `<div class="card"><h3>Трудные примеры из таблицы</h3><div>${facts.map(([k, n]) => { const [p, q] = k.split('×'); return `<span class="chip">${p} × ${q} = ${p * q} <small>(${n})</small></span>`; }).join(' ')}</div></div>` : ''}
     <div class="card"><h3>Активность за 2 недели</h3><div class="act">${last14.map(([d, n]) => `<div class="ab"><i style="height:${n / max14 * 100}%"></i><small>${d.getDate()}</small></div>`).join('')}</div></div>
     <div class="card small"><h3>Как устроен тренажёр</h3><p>«Школа сыщика» объясняет тему и ведёт по шагам: в столбике кот спрашивает каждое действие («3 × 4 + 1 = ?»), подсвечивает запомненное число и просит самостоятельно выбрать клетку для сдвига. В уравнениях — «метод коробки»: найти последнее действие → назвать компонент → выбрать правило → посчитать → повторить → проверка.</p><p>В «Делах» те же задачи решаются самостоятельно: каждая цифра проверяется сразу, на ошибке кот даёт подсказку, после третьей попытки показывает ответ. За решённые задачи даются улики, по которым нужно вычислить вора — это тренирует внимательность и логику.</p><p>Прогресс хранится только на этом устройстве, в браузере.</p><p>Голос котика — встроенный синтез речи устройства. Музыка: Kevin MacLeod (incompetech.com), лицензия CC BY 4.0.</p></div>
+    <div class="card"><h3>💬 Разговоры с котиком</h3><p class="small">Котик отвечает с помощью нейросети по строгим правилам: только детские темы; никаких личных данных, ссылок и встреч; если ребёнку грустно, страшно или его обижают — котик поддерживает и советует рассказать взрослому, даёт детский телефон доверия 8-800-2000-122. На сервере переписка не хранится — только здесь, на этом устройстве.</p>
+      <label class="tgl"><input type="checkbox" id="chatOn" ${S.chatOn !== false ? 'checked' : ''}> Разрешить разговоры с котиком</label>
+      ${(() => { const L = S.chatLog || []; const fl = L.filter(m => m.flag); const FL = { distress: '⚠️ ребёнку плохо или страшно', pii: '🔒 личные данные', offtopic: '🚫 неподходящая тема' }; return `<p class="small">Сообщений: ${L.filter(m => m.r === 'u').length}. Отмечено котиком: ${fl.length}.</p>${fl.length ? `<div class="flags">${fl.slice(-15).reverse().map(m => `<div class="flag ${m.flag}"><b>${FL[m.flag] || m.flag}</b> · ${new Date(m.ts).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}<br>${m.r === 'u' ? 'Ребёнок' : 'Котик'}: ${esc(m.t)}</div>`).join('')}</div>` : ''}${L.length ? `<details><summary>Показать последние сообщения</summary><div class="chatlog-p">${L.slice(-40).map(m => `<div><b>${m.r === 'u' ? esc(S.kid || 'Ребёнок') : 'Котик'}:</b> ${esc(m.t)}</div>`).join('')}</div></details>` : ''}`; })()}</div>
     <div class="card"><h3>Резервная копия</h3><p class="small">Прогресс хранится в браузере этого устройства и не пропадает при обновлениях тренажёра. На всякий случай можно сохранить его в файл — и восстановить на этом или другом устройстве.</p><div class="row-btns"><button class="btn" id="exp">💾 Сохранить в файл</button><label class="btn">📂 Восстановить<input type="file" id="imp" accept="application/json" hidden></label></div></div>
     <button class="btn danger" id="reset">Сбросить весь прогресс</button></div>`;
+  $('#chatOn').addEventListener('change', e => { S.chatOn = e.target.checked; save(); });
   $('#exp').addEventListener('click', exportProgress); $('#imp').addEventListener('change', e => e.target.files[0] && importProgress(e.target.files[0]));
   $('#reset').addEventListener('click', () => {
     const m = modal(`<h2>Сбросить прогресс?</h2><p>Удалятся имя, конфеты, звания, награды и статистика. Это нельзя отменить.</p><div class="row-btns"><button class="btn danger" id="yes">Да, сбросить</button><button class="btn" data-close>Отмена</button></div>`);
@@ -1221,8 +1265,8 @@ SCREENS.parents = () => {
 };
 
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '7';
-const NEWS = ['🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
+const APP_VERSION = '9';
+const NEWS = ['🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;
   const first = !S.seenVersion && !S.cases && !solvedTotal(); S.seenVersion = APP_VERSION; save(); if (first) return;

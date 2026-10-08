@@ -11,6 +11,10 @@ const VOICES = {
   cat: { voice: 'ru-RU-SvetlanaNeural', rate: '+4%', pitch: '+30Hz', af: 'asetrate=24000*1.17,aresample=24000,atempo=0.92' },
   sus: { voice: 'ru-RU-DmitryNeural', rate: '+12%', pitch: '-8Hz', af: 'asetrate=24000*0.94,aresample=24000,atempo=1.06' },
 };
+function profile(id) { // m_5_10_106 → голос персонажа
+  const [g, p, r, a] = id.split('_'); const k = (+a || 100) / 100;
+  return { voice: g === 'f' ? 'ru-RU-SvetlanaNeural' : 'ru-RU-DmitryNeural', rate: (+r >= 0 ? '+' : '') + (+r || 0) + '%', pitch: (+p >= 0 ? '+' : '') + (+p || 0) + 'Hz', af: `asetrate=24000*${k},aresample=24000,atempo=${(1 / k * (k > 1 ? 1.06 : 1)).toFixed(3)}` };
+}
 const run = (cmd, args) => new Promise((res, rej) => execFile(cmd, args, { windowsHide: true, maxBuffer: 1 << 24 }, (e, so, se) => e ? rej(new Error(se || e.message)) : res(so)));
 function ttsText(t) { // как читать: математические знаки словами
   return t.replace(/(\d)\s*[×·]\s*(\d)/g, '$1 умножить на $2').replace(/(\d)\s*:\s*(\d)/g, '$1 разделить на $2')
@@ -19,7 +23,7 @@ function ttsText(t) { // как читать: математические зн�
 }
 async function make(text, out, kind) {
   if (fs.existsSync(out)) return 'skip';
-  const V = VOICES[kind], raw = path.join(TMP, path.basename(out) + '.raw.mp3');
+  const V = VOICES[kind] || profile(kind), raw = path.join(TMP, path.basename(out) + '.raw.mp3');
   for (let a = 0; a < 4; a++) {
     try {
       await run('edge-tts', ['--voice', V.voice, `--rate=${V.rate}`, `--pitch=${V.pitch}`, '--text', ttsText(text), '--write-media', raw]);
@@ -32,7 +36,7 @@ async function make(text, out, kind) {
   const jobs = [];
   fs.mkdirSync(path.join(ROOT, 'voice/c'), { recursive: true }); fs.mkdirSync(path.join(ROOT, 'voice/n'), { recursive: true });
   const man = { c: [], n: [] };
-  for (const t of L.allTexts()) { const sus = t.startsWith('@s '), text = sus ? t.slice(3) : t, k = L.key(text); man.c.push(k); jobs.push([text, path.join(ROOT, 'voice/c', k + '.mp3'), sus ? 'sus' : 'cat']); }
+  for (const t of L.allTexts()) { const p = L.parts(t)[0]; const k = L.clipKey(p); man.c.push(k); jobs.push([p.text, path.join(ROOT, 'voice/c', k + '.mp3'), p.voice]); }
   for (const n of new Set([...L.NAMES, ...L.CAT_NAMES])) { const k = L.key(L.nameKey(n)); if (man.n.includes(k)) continue; man.n.push(k); jobs.push([n, path.join(ROOT, 'voice/n', k + '.mp3'), 'cat']); }
   console.log('clips:', jobs.length);
   let i = 0, done = 0; const stat = {};

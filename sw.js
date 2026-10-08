@@ -1,6 +1,6 @@
 /* офлайн-кэш: сначала сеть, при отсутствии интернета — кэш */
-const CACHE = 'murlok-v7';
-const FILES = ['./', 'index.html', 'style.css?v=7', 'engine.js?v=7', 'lines.js?v=7', 'cat.js?v=7', 'sounds.js?v=7', 'app.js?v=7', 'house.js?v=7', 'icon.svg', 'manifest.webmanifest'];
+const CACHE = 'murlok-v9';
+const FILES = ['./', 'index.html', 'style.css?v=9', 'engine.js?v=9', 'lines.js?v=9', 'cat.js?v=9', 'sounds.js?v=9', 'app.js?v=9', 'house.js?v=9', 'chat.js?v=9', 'icon.svg', 'manifest.webmanifest'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {
