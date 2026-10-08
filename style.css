@@ -62,8 +62,8 @@ svg.cat .eyes { transform-origin: 100px 97px; transform-box: view-box; animation
 .brand { color: var(--pink); }
 .lead { font-size: 18px; }
 .lbl { display: block; font-weight: 800; margin: 18px 0 8px; }
-#nm { width: 100%; max-width: 360px; font: inherit; font-size: 22px; font-weight: 800; text-align: center; padding: 14px; border-radius: 16px; border: 3px solid var(--line); background: #fff; color: var(--ink); outline: none; }
-#nm:focus { border-color: var(--pink); }
+.nmi { width: 100%; max-width: 360px; font: inherit; font-size: 22px; font-weight: 800; text-align: center; padding: 14px; border-radius: 16px; border: 3px solid var(--line); background: #fff; color: var(--ink); outline: none; }
+.nmi:focus { border-color: var(--pink); }
 .furs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .fur { display: inline-flex; align-items: center; gap: 8px; background: #fff; padding: 8px 14px 8px 8px; border-radius: 999px; font-weight: 700; box-shadow: var(--sh); border: 3px solid transparent; }
 .fur i { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink); display: inline-block; }
@@ -351,3 +351,95 @@ i.x { font-style: italic; color: var(--plum); font-family: Georgia, 'Times New R
   .arrested { right: -40px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+
+/* ================= анимации кота и эффекты ================= */
+svg.cat .head { transform-box: view-box; transform-origin: 100px 145px; animation: headIdle 7s ease-in-out infinite; }
+svg.cat .ear-r { transform-box: view-box; transform-origin: 140px 70px; animation: earTwitch 6s infinite; }
+svg.cat .ear-l { transform-box: view-box; transform-origin: 60px 70px; animation: earTwitch 9s 2s infinite; }
+svg.cat .body { transform-box: view-box; transform-origin: 100px 224px; animation: breathe 3.2s ease-in-out infinite; }
+@keyframes headIdle { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-5deg); } 82% { transform: rotate(4deg); } }
+@keyframes earTwitch { 0%, 90%, 100% { transform: rotate(0); } 93% { transform: rotate(-14deg); } 96% { transform: rotate(6deg); } }
+@keyframes breathe { 50% { transform: scale(1.025, .985); } }
+.m-happy svg.cat { animation: catJump .55s cubic-bezier(.3, 1.6, .5, 1); }
+.m-happy svg.cat .tail { animation: tailHappy .25s ease-in-out 4; }
+@keyframes catJump { 0% { transform: translateY(0) scale(1, 1); } 25% { transform: translateY(2px) scale(1.06, .92); } 55% { transform: translateY(-16%) scale(.96, 1.05); } 100% { transform: translateY(0) scale(1, 1); } }
+@keyframes tailHappy { 50% { transform: rotate(-22deg); } }
+.m-sad svg.cat .head { animation: headSad 1.2s ease-out forwards; }
+.m-sad svg.cat .ear-l { animation: earDownL 1.2s forwards; } .m-sad svg.cat .ear-r { animation: earDownR 1.2s forwards; }
+.m-sad svg.cat .tail { animation: none; transform: rotate(25deg); transition: transform .4s; }
+@keyframes headSad { 30%, 100% { transform: rotate(-9deg) translateY(4px); } }
+@keyframes earDownL { 30%, 100% { transform: rotate(-28deg); } } @keyframes earDownR { 30%, 100% { transform: rotate(28deg); } }
+.m-purr svg.cat { animation: purrShake .09s linear infinite; }
+.m-purr svg.cat .tail { animation: tailHappy 1.4s ease-in-out infinite; }
+@keyframes purrShake { 0% { transform: translate(0, 0); } 25% { transform: translate(.6px, -.4px); } 50% { transform: translate(-.5px, .5px); } 75% { transform: translate(.4px, .4px); } }
+.m-yawn svg.cat .head { animation: yawnHead 1.2s ease-in-out; }
+@keyframes yawnHead { 40%, 70% { transform: rotate(-8deg) scale(1.04, 1.07); } }
+.m-twitch svg.cat .ear-r, .m-twitch svg.cat .ear-l { animation: earTwitch .5s 1 both; animation-timing-function: steps(6); }
+.hero-cat { touch-action: none; -webkit-touch-callout: none; cursor: grab; }
+.hero-cat:active { cursor: grabbing; }
+
+.heart { position: fixed; z-index: 75; pointer-events: none; font-size: 26px; animation: heartUp 2s ease-out forwards; opacity: 0; }
+@keyframes heartUp { 0% { opacity: 0; transform: translate(0, 0) scale(.4); } 15% { opacity: 1; transform: translate(0, -10px) scale(1.1); } 100% { opacity: 0; transform: translate(var(--dx), -140px) scale(.9) rotate(15deg); } }
+.flycandy { position: fixed; left: 50%; top: 50%; z-index: 76; font-size: 30px; pointer-events: none; animation: flyc 1s cubic-bezier(.5, -0.3, .7, 1) forwards; opacity: 0; }
+@keyframes flyc { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.6); } 15% { opacity: 1; transform: translate(-50%, -80%) scale(1.3); } 100% { opacity: .2; transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(.5) rotate(360deg); } }
+.pill.candy.bump { animation: bump .4s; }
+@keyframes bump { 40% { transform: scale(1.25); background: var(--gold-2); } }
+.pawfx { position: fixed; z-index: 74; pointer-events: none; font-size: 18px; transform: translate(-50%, 0); animation: pawUp .85s ease-out forwards; }
+@keyframes pawUp { 0% { opacity: 0; transform: translate(-50%, 0) scale(.5); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -38px) scale(1.1) rotate(-15deg); } }
+.big-emoji.hissing { animation: hissShake .12s linear 6; display: inline-block; }
+@keyframes hissShake { 25% { transform: translateX(-5px) rotate(-4deg); } 75% { transform: translateX(5px) rotate(4deg); } }
+
+/* переходы экранов и появление элементов */
+#app > * { animation: scrIn .35s ease-out both; }
+@keyframes scrIn { from { opacity: 0; transform: translateY(14px); } }
+.tiles .tile { animation: tileIn .45s cubic-bezier(.3, 1.4, .5, 1) both; }
+.tiles .tile:nth-child(2) { animation-delay: .05s; } .tiles .tile:nth-child(3) { animation-delay: .1s; } .tiles .tile:nth-child(4) { animation-delay: .15s; } .tiles .tile:nth-child(5) { animation-delay: .2s; } .tiles .tile:nth-child(6) { animation-delay: .25s; }
+@keyframes tileIn { from { opacity: 0; transform: scale(.85) translateY(20px); } }
+.tile:hover .ti { animation: tiWiggle .5s; }
+@keyframes tiWiggle { 30% { transform: rotate(-10deg) scale(1.1); } 60% { transform: rotate(8deg) scale(1.1); } }
+.sus { animation: tileIn .4s both; }
+.sus:nth-child(2) { animation-delay: .06s; } .sus:nth-child(3) { animation-delay: .12s; } .sus:nth-child(4) { animation-delay: .18s; } .sus:nth-child(5) { animation-delay: .24s; }
+.k:active { animation: none; }
+.opt:active, .choice:active, .item:active, .sus:active { transform: scale(.95); }
+.clue-txt { animation: clueIn .6s cubic-bezier(.3, 1.5, .5, 1) .15s both; }
+@keyframes clueIn { from { transform: scale(.6) rotate(-4deg); opacity: 0; } }
+.win-cat-in { animation: catJump .7s cubic-bezier(.3, 1.6, .5, 1) 3; }
+.arrested { animation: arrestIn .8s .3s both; }
+@keyframes arrestIn { from { transform: translateX(120px) rotate(20deg); opacity: 0; } }
+.cell.w.pop { animation: pop .35s, inkIn .6s; }
+@keyframes inkIn { from { color: var(--pink); } }
+
+/* ================= маскот ================= */
+#mascot { position: fixed; left: max(10px, env(safe-area-inset-left)); bottom: max(10px, env(safe-area-inset-bottom)); z-index: 40; display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: flex-end; gap: 6px; pointer-events: none; }
+#mascot[hidden] { display: none; }
+.ms-cat { width: 92px; height: 104px; pointer-events: auto; touch-action: none; -webkit-touch-callout: none; filter: drop-shadow(0 6px 8px rgba(59, 42, 74, .18)); animation: msIn .6s cubic-bezier(.3, 1.5, .5, 1) both; }
+@keyframes msIn { from { transform: translateY(120%); } }
+.ms-bubble, .hero-say { position: relative; background: #fff; border-radius: 18px; padding: 10px 14px; font-weight: 800; font-size: 16px; box-shadow: 0 8px 24px rgba(59, 42, 74, .18); max-width: min(280px, calc(100vw - 130px)); margin-bottom: 60px; pointer-events: auto; }
+.ms-bubble::before { content: ''; position: absolute; left: -8px; bottom: 14px; border: 9px solid transparent; border-right-color: #fff; border-left: 0; }
+.ms-bubble.in, .hero-say.in { animation: sayIn .35s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes sayIn { from { transform: scale(.5) translateY(10px); opacity: 0; } }
+.hero-say { margin: 0 0 8px; max-width: none; display: inline-block; background: var(--gold-2); box-shadow: none; }
+.hero-say[hidden], .ms-bubble[hidden] { display: none; }
+.hero-say::before { content: ''; position: absolute; left: -8px; top: 12px; border: 9px solid transparent; border-right-color: var(--gold-2); border-left: 0; }
+@media (max-width: 560px) { .hero-say::before { display: none; } }
+body.has-mascot #app { padding-bottom: 130px; }
+.helper { position: relative; }
+.cheer { position: absolute; left: 50px; top: -26px; z-index: 3; background: var(--pink); color: #fff; font-weight: 900; font-size: 15px; padding: 5px 12px; border-radius: 14px; white-space: nowrap; box-shadow: 0 6px 14px rgba(255, 94, 146, .35); animation: cheerIn 2.2s ease-out forwards; pointer-events: none; }
+@keyframes cheerIn { 0% { transform: scale(.4) translateY(10px); opacity: 0; } 12% { transform: scale(1.1); opacity: 1; } 20% { transform: scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: translateY(-14px); } }
+.mini-cat { touch-action: manipulation; }
+
+.ms-bubble { pointer-events: none; }
+.slide-head { position: relative; }
+.blitz .helper { text-align: left; }
+@media (max-width: 600px) {
+  .ms-cat { width: 68px; height: 78px; }
+  #mascot { flex-direction: column-reverse; align-items: flex-start; }
+  .ms-bubble { margin: 0 0 4px 8px; font-size: 14px; max-width: calc(100vw - 40px); }
+  .ms-bubble::before { left: 22px; bottom: -8px; border: 9px solid transparent; border-top-color: #fff; border-bottom: 0; }
+  body.has-mascot #app { padding-bottom: 110px; }
+}
+
+@media (max-width: 600px) {
+  .ms-cat { transition: transform .35s cubic-bezier(.3, 1.4, .5, 1); transform: translate(-42%, 34%) rotate(16deg); animation: none; }
+  #mascot.talk .ms-cat { transform: none; }
+}
