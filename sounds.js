@@ -166,6 +166,35 @@ function speak(text, o = {}) {
   } catch (e) { }
 }
 function unlockSpeech() { try { if ('speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } } catch (e) { } }
-function hush() { try { speechSynthesis.cancel(); } catch (e) { } onTalk(false); }
-root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
+function hush() { vToken++; stopVoice(); try { speechSynthesis.cancel(); } catch (e) { } }
+
+/* ---------- мультяшный голос котика: готовые фразы (voice/) + имя ребёнка ---------- */
+let VMAN = null, vmanP = null, vsrcs = [], vEndT = null, vToken = 0; const vcache = new Map();
+function loadMan() { if (!vmanP) vmanP = fetch('voice/manifest.json').then(r => r.json()).then(m => (VMAN = { c: new Set(m.c), n: new Set(m.n) })).catch(() => null); return vmanP; }
+function decode(b) { return new Promise((res, rej) => { try { const pr = AC.decodeAudioData(b, res, rej); if (pr && pr.then) pr.then(res, rej); } catch (e) { rej(e); } }); }
+function clip(url) { if (!vcache.has(url)) vcache.set(url, fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); }).then(decode).catch(() => null)); return vcache.get(url); }
+let custom = () => null; // записи ребёнка: (slot) => AudioBuffer|null
+function voiceUrls(tpls, names) {
+  const L = root.Lines, out = [];
+  [].concat(tpls).forEach(t => L.parts(t).forEach(p => {
+    if (p.name) { const nm = names[p.name]; if (!nm) return; const k = L.key(L.nameKey(nm)); if (VMAN.n.has(k)) out.push('voice/n/' + k + '.mp3'); }
+    else { const k = L.key(p.text); if (VMAN.c.has(k)) out.push('voice/c/' + k + '.mp3'); else if (root.MURLOK_DEBUG) console.warn('VOICE-MISS', p.text); }
+  }));
+  return out;
+}
+async function voice(tpls, names = {}) {
+  if (!voiceOn() || !ok() || !root.Lines) return false;
+  const my = ++vToken; const man = await loadMan(); if (!man || my !== vToken) return false;
+  const urls = voiceUrls(tpls, names); if (!urls.length) return false;
+  const bufs = (await Promise.all(urls.map(clip))).filter(Boolean);
+  if (my !== vToken || !bufs.length) return false;
+  stopVoice();
+  let t = AC.currentTime + 0.04; const g = AC.createGain(); g.gain.value = 1.15; g.connect(master);
+  bufs.forEach(b => { const s = AC.createBufferSource(); s.buffer = b; s.connect(g); s.start(t); vsrcs.push(s); t += b.duration + 0.05; });
+  onTalk(true); vEndT = setTimeout(() => { onTalk(false); vsrcs = []; }, (t - AC.currentTime) * 1000);
+  return true;
+}
+function stopVoice() { vsrcs.forEach(s => { try { s.stop(); } catch (e) { } }); vsrcs = []; clearTimeout(vEndT); onTalk(false); }
+function preloadVoice(list, names) { if (!ok()) return; loadMan().then(m => { if (m) voiceUrls(list, names).forEach(clip); }); }
+root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, voice, preloadVoice, loadMan, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
 })(this);
