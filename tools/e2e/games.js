@@ -5,7 +5,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const p = await b.newPage(); await p.setViewport({ width: 820, height: 1180 });
   const errs = []; p.on('pageerror', e => errs.push(e.message));
   await p.goto('http://localhost:8765/'); await p.waitForSelector('#kid');
-  await p.evaluate(() => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), { name: 'Мурзик', kid: 'Света', seenVersion: '14', login: { last: today(), day: 1 }, houseV: 2, care: { food: 90, water: 90, fun: 90, energy: 90, clean: 90, t: Date.now() } }))); });
+  await p.evaluate(() => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), { name: 'Мурзик', kid: 'Света', seenVersion: '15', login: { last: today(), day: 1 }, houseV: 2, care: { food: 90, water: 90, fun: 90, energy: 90, clean: 90, t: Date.now() } }))); });
   await p.goto('http://localhost:8765/'); await sleep(1200);
   await p.evaluate(() => go('games')); await sleep(500); await p.screenshot({ path: __dirname + '/shots/G-hub.png' });
   const ev = s => Function('return (' + s.replace(/×/g, '*').replace(/·/g, '*').replace(/:/g, '/').replace(/−/g, '-') + ')')();

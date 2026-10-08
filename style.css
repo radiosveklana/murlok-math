@@ -771,3 +771,9 @@ svg.chibi .ch-vein { animation: vein .5s ease-in-out infinite alternate; transfo
 .ccell { aspect-ratio: 1; border-radius: 6px; background: #F6F1EA; font-size: clamp(9px, 1.9vw, 15px); font-weight: 800; line-height: 1.1; padding: 1px; color: var(--ink); }
 .ccell.f { color: transparent; }
 .cgrid.reveal { gap: 0; padding: 0; overflow: hidden; } .cgrid.reveal .ccell { border-radius: 0; }
+
+.fx.falling, .room-cat.falling { transition: bottom .38s cubic-bezier(.55, 0, 1, .45) !important; }
+.fx.landed { animation: land .4s ease-out; } .room-cat.landed svg.cat { animation: landc .4s ease-out; }
+@keyframes landc { 30% { transform: scale(1.12, .85); } }
+@keyframes land { 30% { transform: translateX(-50%) scale(1.12, .85); } 100% { transform: translateX(-50%) scale(1, 1); } }
+.ccode { font-size: 34px; font-weight: 900; letter-spacing: 6px; text-align: center; background: var(--gold-2); border-radius: 14px; padding: 10px; margin: 8px 0; font-family: ui-monospace, Menlo, monospace; }

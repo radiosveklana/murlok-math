@@ -23,7 +23,20 @@ function load() {
   return fresh();
 }
 let S = load();
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } cloudSoon(); }
+/* облачная копия: прогресс не пропадёт при смене устройства/браузера; восстановление по коду */
+const CLOUD = 'https://level.tech-wave.ru/murlok-api';
+let cloudT = null, cloudDirty = false;
+function cloudCode() { if (!S.cloudCode) { const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; S.cloudCode = Array.from({ length: 8 }, () => a[Math.floor(Math.random() * a.length)]).join(''); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } } return S.cloudCode; }
+function cloudSoon() { if (!S.kid) return; cloudDirty = true; clearTimeout(cloudT); cloudT = setTimeout(cloudPush, 8000); }
+function cloudPush() { if (!cloudDirty || !S.kid) return; cloudDirty = false; const data = { ...S, chatLog: [] }; /* переписку с котиком на сервер не отправляем */ fetch(CLOUD + '/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), data }) }).then(r => { if (r.ok) { S.cloudAt = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } } else cloudDirty = true; }).catch(() => { cloudDirty = true; }); }
+document.addEventListener('visibilitychange', () => { if (document.hidden) cloudPush(); });
+async function cloudRestore(code) {
+  code = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); if (code.length !== 8) throw new Error('code');
+  const r = await fetch(CLOUD + '/load?code=' + code); if (!r.ok) throw new Error('nf');
+  const d = await r.json(); if (!d || d.v !== 1) throw new Error('bad'); d.cloudCode = code; localStorage.setItem(KEY, JSON.stringify(d)); location.reload();
+}
+try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { }
 
 const dkey = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const today = () => dkey(new Date());
@@ -33,8 +46,13 @@ function noteErr(type, fact) { S.err[type] = (S.err[type] || 0) + 1; if (fact) S
 const factKey = (p, q) => Math.min(p, q) + '×' + Math.max(p, q);
 
 /* ================= Звания, награды ================= */
-const RANKS = [[0, 'Котёнок-стажёр'], [60, 'Младший сыщик'], [180, 'Сыщик'], [360, 'Инспектор'], [600, 'Старший инспектор'], [900, 'Главный детектив'], [1300, 'Легенда сыска']];
-function rank(xp = S.xp) { let i = 0; RANKS.forEach((r, k) => { if (xp >= r[0]) i = k; }); const next = RANKS[i + 1]; return { i, name: RANKS[i][1], next, prog: next ? (xp - RANKS[i][0]) / (next[0] - RANKS[i][0]) : 1 }; }
+const RANKS_OLD = [0, 60, 180, 360, 600, 900, 1300];
+const RANKS = [[0, 'Котёнок-стажёр'], [150, 'Юный следопыт'], [400, 'Младший сыщик'], [800, 'Сыщик'], [1400, 'Опытный сыщик'], [2200, 'Детектив'], [3200, 'Старший детектив'], [4500, 'Инспектор'], [6000, 'Старший инспектор'], [8000, 'Главный инспектор'], [10500, 'Мастер дедукции'], [13500, 'Знаток улик'], [17000, 'Гроза воришек'], [21000, 'Легенда Сладкограда'], [26000, 'Великий детектив'], [32000, 'Легенда сыска']];
+function ranksMigrate() { // переход на новую шкалу: звание ребёнка не понижается
+  if (S.rankV === 2) return; let oi = 0; RANKS_OLD.forEach((t, i) => { if (S.xp >= t) oi = i; });
+  const map = [0, 2, 3, 7, 8, 9, 15], ni = map[oi] || 0; if (S.xp < RANKS[ni][0]) S.xp = RANKS[ni][0]; S.rankV = 2; save();
+}
+function rank(xp = S.xp) { ranksMigrate(); let i = 0; RANKS.forEach((r, k) => { if (xp >= r[0]) i = k; }); const next = RANKS[i + 1]; return { i, name: RANKS[i][1], next, prog: next ? (xp - RANKS[i][0]) / (next[0] - RANKS[i][0]) : 1 }; }
 const BADGES = [
   { id: 'case1', icon: '🔍', name: 'Первое дело', desc: 'Раскрыть первое дело', t: s => s.cases >= 1 },
   { id: 'case5', icon: '🕵️', name: 'Опытный сыщик', desc: 'Раскрыть 5 дел', t: s => s.cases >= 5 },
@@ -320,6 +338,8 @@ function go(name, arg) {
   (SCREENS[name] || SCREENS.home)(arg); window.scrollTo(0, 0); mascotScene(app.className.slice(4));
 }
 document.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) { SND.tap(); go(g.dataset.go, g.dataset.arg); } });
+// тактильный отклик на каждое касание кнопок, вещей и персонажей (внутри касания — так работает и на iPhone)
+document.addEventListener('click', e => { if (e.target.closest('button, .fx, .sus, .mini-cat, .hero-cat, .room-cat, .ccell, .lc')) M.haptic(10); }, true);
 function topbar(title, back = 'home') {
   return `<header class="top"><button class="back" data-go="${back}" aria-label="Назад">←</button><h1>${title}</h1><div class="pill gem" title="Кристаллы сыщика — за сложные задачи">💎 <b class="gemN">${S.gems || 0}</b></div><div class="pill candy">🍬 <b class="candyN">${S.candies}</b></div></header>`;
 }
@@ -802,8 +822,13 @@ SCREENS.hello = () => {
     <input id="nm" class="nmi" maxlength="16" placeholder="Например, Мурлок" value="${esc(S.name || '')}" autocomplete="off">
     <div class="lbl">Выбери окрас</div>
     <div class="furs">${Object.entries(FURS).map(([k, f]) => `<button class="fur ${k === fur ? 'on' : ''}" data-f="${k}"><i style="background:${f.sw}"></i>${f.name}</button>`).join('')}</div>
-    <button class="btn big pink" id="start">Начать расследования →</button></div>`;
+    <button class="btn big pink" id="start">Начать расследования →</button>
+    <button class="link" id="restore">🔑 У меня уже есть код восстановления</button></div>`;
   $$('.fur').forEach(b => b.addEventListener('click', () => { fur = b.dataset.f; $$('.fur').forEach(x => x.classList.toggle('on', x === b)); $('#hcat').innerHTML = catSVG({ fur, wear: S.wear }); SND.meow(); M.voice(pick(PH.fur), {}); }));
+  $('#restore').addEventListener('click', () => {
+    const m = modal(`<h2>🔑 Восстановить прогресс</h2><p>Введи код из 8 букв и цифр — он есть в разделе «Для взрослых» на старом устройстве.</p><input id="rcode" class="nmi" maxlength="9" placeholder="Например, K7M2Q9XA" autocomplete="off" style="text-transform:uppercase"><p class="small" id="rerr"></p><div class="row-btns"><button class="btn pink" id="rgo">Восстановить</button><button class="btn" data-close>Отмена</button></div>`);
+    $('#rgo', m.el).addEventListener('click', async () => { try { $('#rerr', m.el).textContent = 'Ищем…'; await cloudRestore($('#rcode', m.el).value); } catch (e) { $('#rerr', m.el).textContent = 'Код не найден. Проверь буквы и цифры.'; } });
+  });
   $('#start').addEventListener('click', () => {
     const kid = $('#kid').value.trim();
     if (!kid) { SND.bad(); shake($('#kid')); $('#kid').focus(); $('#kid').placeholder = 'Напиши своё имя 🙂'; return; }
@@ -1297,9 +1322,12 @@ SCREENS.parents = () => {
     <div class="card"><h3>💬 Разговоры с котиком</h3><p class="small">Котик отвечает с помощью нейросети по строгим правилам: только детские темы; никаких личных данных, ссылок и встреч; если ребёнку грустно, страшно или его обижают — котик поддерживает и советует рассказать взрослому, даёт детский телефон доверия 8-800-2000-122. На сервере переписка не хранится — только здесь, на этом устройстве.</p>
       <label class="tgl"><input type="checkbox" id="chatOn" ${S.chatOn !== false ? 'checked' : ''}> Разрешить разговоры с котиком</label>
       ${(() => { const L = S.chatLog || []; const fl = L.filter(m => m.flag); const FL = { distress: '⚠️ ребёнку плохо или страшно', pii: '🔒 личные данные', offtopic: '🚫 неподходящая тема' }; return `<p class="small">Сообщений: ${L.filter(m => m.r === 'u').length}. Отмечено котиком: ${fl.length}.</p>${fl.length ? `<div class="flags">${fl.slice(-15).reverse().map(m => `<div class="flag ${m.flag}"><b>${FL[m.flag] || m.flag}</b> · ${new Date(m.ts).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}<br>${m.r === 'u' ? 'Ребёнок' : 'Котик'}: ${esc(m.t)}</div>`).join('')}</div>` : ''}${L.length ? `<details><summary>Показать последние сообщения</summary><div class="chatlog-p">${L.slice(-40).map(m => `<div><b>${m.r === 'u' ? esc(S.kid || 'Ребёнок') : 'Котик'}:</b> ${esc(m.t)}</div>`).join('')}</div></details>` : ''}`; })()}</div>
+    <div class="card"><h3>☁️ Облачная копия прогресса</h3><p>Прогресс автоматически сохраняется на сервере. Чтобы продолжить на другом телефоне или планшете (или если браузер всё стёр), нажмите на первом экране «🔑 У меня уже есть код» и введите:</p><div class="ccode">${cloudCode()}</div><p class="small">Запишите этот код. ${S.cloudAt ? 'Последнее сохранение: ' + new Date(S.cloudAt).toLocaleString('ru-RU') : 'Первое сохранение — в течение минуты.'}</p><div class="row-btns"><button class="btn" id="cloudnow">☁️ Сохранить сейчас</button><button class="btn" id="vibtest">📳 Проверить вибрацию</button></div><p class="small">Вибрация: на Android — в Chrome; на iPhone — только с iOS 18 и одиночным откликом; на iPad вибромотора нет.</p></div>
     <div class="card"><h3>Резервная копия</h3><p class="small">Прогресс хранится в браузере этого устройства и не пропадает при обновлениях тренажёра. На всякий случай можно сохранить его в файл — и восстановить на этом или другом устройстве.</p><div class="row-btns"><button class="btn" id="exp">💾 Сохранить в файл</button><label class="btn">📂 Восстановить<input type="file" id="imp" accept="application/json" hidden></label></div></div>
     <button class="btn danger" id="reset">Сбросить весь прогресс</button></div>`;
   $('#chatOn').addEventListener('change', e => { S.chatOn = e.target.checked; save(); });
+  $('#cloudnow').addEventListener('click', () => { cloudDirty = true; cloudPush(); toast('☁️ Сохраняем на сервер…'); });
+  $('#vibtest').addEventListener('click', () => { M.haptic([60, 80, 60]); toast(S.vibro === false ? 'Вибрация выключена на главном экране (📴)' : 'Бз-з! Если телефон не дрогнул — он не поддерживает вибрацию в браузере.'); });
   $('#exp').addEventListener('click', exportProgress); $('#imp').addEventListener('change', e => e.target.files[0] && importProgress(e.target.files[0]));
   $('#reset').addEventListener('click', () => {
     const m = modal(`<h2>Сбросить прогресс?</h2><p>Удалятся имя, конфеты, звания, награды и статистика. Это нельзя отменить.</p><div class="row-btns"><button class="btn danger" id="yes">Да, сбросить</button><button class="btn" data-close>Отмена</button></div>`);
@@ -1308,8 +1336,8 @@ SCREENS.parents = () => {
 };
 
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '14';
-const NEWS = ['💎 Кристаллы сыщика за сложные задачи — на них особые вещи!', '🎨 Новая игра: математическая раскраска', '🚀 Котик предлагает повысить уровень, когда уже всё получается', '🎨 Всё перерисовано в милом аниме-стиле: места происшествий, комнаты домика и все вещи!', '🎲 Детективные игры: волшебные весы, допрос свидетелей, сейф, прикидка, мемори, погоня, логика и закономерности!', '😺 Подозреваемые стали милыми аниме-персонажами — и обижаются, если их допрашивать слишком часто', '🗣️ Котик отвечает голосом быстрее', '📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
+const APP_VERSION = '15';
+const NEWS = ['☁️ Прогресс сохраняется в облаке — его можно восстановить по коду на любом устройстве', '🎖️ 16 званий — расти стало интереснее', '🏠 Вещи падают на пол, а котик ложится точно в кроватку и залезает в ванну', '💎 Кристаллы сыщика за сложные задачи — на них особые вещи!', '🎨 Новая игра: математическая раскраска', '🚀 Котик предлагает повысить уровень, когда уже всё получается', '🎨 Всё перерисовано в милом аниме-стиле: места происшествий, комнаты домика и все вещи!', '🎲 Детективные игры: волшебные весы, допрос свидетелей, сейф, прикидка, мемори, погоня, логика и закономерности!', '😺 Подозреваемые стали милыми аниме-персонажами — и обижаются, если их допрашивать слишком часто', '🗣️ Котик отвечает голосом быстрее', '📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;
   const first = !S.seenVersion && !S.cases && !solvedTotal(); S.seenVersion = APP_VERSION; save(); if (first) return;

@@ -160,19 +160,16 @@ function yawn() { meow({ pitch: 0.75, dur: 1.1, shape: 'sad', vol: 0.32, force: 
 function pawStep() { tone([[rr(140, 180), 0.06, 0, 'sine', 0.14, 70]]); }
 
 /* ---------- вибрация (Android: vibrate; iOS 18+: системный тактильный отклик переключателя) ---------- */
-let iosSwitch = null;
 function haptic(pattern = 12) {
   if (!vibroOn()) return;
   try {
     if (navigator.vibrate) { navigator.vibrate(pattern); return; }
-    if (!iosSwitch) {
-      const lbl = document.createElement('label'); lbl.style.cssText = 'position:fixed;left:-99px;top:0;opacity:0;pointer-events:none';
-      const inp = document.createElement('input'); inp.type = 'checkbox'; inp.setAttribute('switch', ''); lbl.appendChild(inp); document.body.appendChild(lbl); iosSwitch = lbl;
-    }
-    iosSwitch.click();
+    // iOS 18+: системный тактильный отклик переключателя (работает только внутри касания)
+    const lbl = document.createElement('label'); lbl.setAttribute('aria-hidden', 'true'); lbl.style.display = 'none';
+    const inp = document.createElement('input'); inp.type = 'checkbox'; inp.setAttribute('switch', ''); lbl.appendChild(inp);
+    document.head.appendChild(lbl); lbl.click(); document.head.removeChild(lbl);
   } catch (e) { }
 }
-
 
 /* ---------- голос котика: встроенный синтез речи (Web Speech API) ---------- */
 let ruVoice = null, voiceOn = () => true, onTalk = () => {};

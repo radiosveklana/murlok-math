@@ -94,6 +94,7 @@ SCREENS.house = (roomId) => {
     roomEl.style.backgroundImage = ROOM_IMG.has(cur.id) ? `url('img/rooms/${cur.id}.jpg')` : '';
     roomEl.style.setProperty('--wall', cur.wall); roomEl.style.setProperty('--floor', cur.floor); setUnit();
     const pl = roomPlace(cur), low = careLow(), cat = S.catAt[cur.id] || { x: 78, y: 3 };
+    pl.forEach(q => { if (!isWall(q.id) && q.y > FLOOR - 6) q.y = FLOOR - 6; if (isWall(q.id) && q.y < FLOOR + 4) q.y = FLOOR + 4; }); if (cat.y > FLOOR - 6) cat.y = FLOOR - 6;
     roomEl.innerHTML = `<div class="wall"><div class="window">${cur.dark ? '✨' : '☁️'}</div></div><div class="floor"></div>
       ${pl.map(p => itemHTML(p, low)).join('')}
       <div class="room-cat" id="rcat" style="left:${cat.x}%;bottom:${cat.y}%;z-index:${zOf(cat.y) + 1}">${myCat()}</div>
@@ -113,6 +114,13 @@ SCREENS.house = (roomId) => {
     const needK = { food: 'food', water: 'water', sleep: 'energy', play: 'fun', wash: 'clean' }[it.care];
     return `<button class="fx ${it.fixed ? 'fixed' : ''} ${needK && low.includes(needK) ? 'needs' : ''}" data-id="${p.id}" style="left:${p.x}%;bottom:${p.y}%;z-index:${zOf(p.y)};--s:${FSIZE[p.id] || 10}">${icon(p.id, it.icon)}${it.care ? `<small class="ctag">${{ food: '🍽️', water: '💧', sleep: '💤', play: '🎾', wash: '🫧', rest: '🛋️' }[it.care]}</small>` : ''}</button>`;
   }
+  const FLOOR = 30; // верх пола в % высоты комнаты
+  const isWall = id => { const c = catItem(id); if (c) return !!c[7]; const f = cur.fixed.find(x => x[0] === id); return f ? f[4] > FLOOR : false; };
+  function settle(el, id, y, isCat) { // «физика»: если отпустили в воздухе — плавно падает на пол
+    const wall = !isCat && isWall(id), ny = wall ? Math.max(FLOOR + 4, Math.min(86, y)) : Math.min(y, FLOOR - 6);
+    if (ny !== y) { el.classList.add('falling'); el.style.bottom = ny + '%'; setTimeout(() => { el.classList.remove('falling'); el.classList.add('landed'); M.sfx('bounce'); M.haptic(15); setTimeout(() => el.classList.remove('landed'), 400); }, 380); }
+    return ny;
+  }
   /* одно касание = пользоваться, ведение пальцем = перетащить */
   function pointerItem(el, isCat) {
     el.addEventListener('pointerdown', e => {
@@ -131,10 +139,10 @@ SCREENS.house = (roomId) => {
         el.classList.remove('dragging'); trash.classList.remove('show');
         if (!drag) { isCat ? petRoomCat() : interact(el); return; }
         const over = trash.classList.contains('over'); trash.classList.remove('over'); M.haptic(10);
-        if (isCat) { S.catAt[cur.id] = { x: xy[0], y: xy[1] }; save(); el.style.zIndex = zOf(xy[1]) + 1; return; }
+        if (isCat) { const y = settle(el, null, xy[1], true); S.catAt[cur.id] = { x: xy[0], y }; save(); el.style.zIndex = zOf(y) + 1; return; }
         const pl = roomPlace(cur), p = pl.find(q => q.id === el.dataset.id);
         if (over && !el.classList.contains('fixed')) { S.place[cur.id] = pl.filter(q => q !== p); save(); say(HL.HOUSE_PH[1]); M.sfx('pop'); drawRoom(); return; }
-        p.x = xy[0]; p.y = xy[1]; save(); el.style.zIndex = zOf(p.y); M.sfx('pop');
+        p.x = xy[0]; p.y = settle(el, p.id, xy[1]); save(); el.style.zIndex = zOf(p.y); M.sfx('pop');
       };
       el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
     });
@@ -144,12 +152,14 @@ SCREENS.house = (roomId) => {
   roomEl.addEventListener('pointerup', e => {
     if (!placing) return; const R = roomEl.getBoundingClientRect();
     const x = Math.max(4, Math.min(96, (e.clientX - R.left) / R.width * 100)), y = Math.max(0, Math.min(88, (R.bottom - e.clientY) / R.height * 100 - 4));
-    roomPlace(cur).push({ id: placing, x, y }); save(); placing = null; confetti(10); M.sfx('pop'); say(HL.HOUSE_PH[0]); drawRoom();
+    const wall = isWall(placing), py = wall ? Math.max(FLOOR + 4, Math.min(86, y)) : Math.min(y, FLOOR - 6);
+    roomPlace(cur).push({ id: placing, x, y: py }); save(); placing = null; confetti(10); M.sfx('pop'); say(HL.HOUSE_PH[0]); drawRoom();
   });
 
   /* ---------- кот пользуется вещами ---------- */
   const catEl = () => $('#rcat');
-  const geo = b => ({ x: parseFloat(b.style.left), y: parseFloat(b.style.bottom), s: FSIZE[b.dataset.id] || 10, z: +b.style.zIndex });
+  const geo = b => { const R = roomEl.getBoundingClientRect(), B = b.getBoundingClientRect(); return { x: (B.left + B.width / 2 - R.left) / R.width * 100, y: (R.bottom - B.bottom) / R.height * 100, w: B.width / R.width * 100, h: B.height / R.height * 100, z: +b.style.zIndex }; };
+  const CATW = 7.5; // половина ширины кота в % комнаты
   function catMoveTo(x, y, z, o = {}) { const c = catEl(); c.classList.add('walking'); c.style.left = x + '%'; c.style.bottom = y + '%'; if (z != null) c.style.zIndex = z; if (o.scale) c.style.setProperty('--cs', o.scale); return new Promise(r => setTimeout(() => { c.classList.remove('walking'); r(); }, 750)); }
   function catBack() { const c = catEl(); if (!c) return; const at = S.catAt[cur.id] || { x: 78, y: 3 }; c.className = 'room-cat'; c.style.removeProperty('--cs'); c.innerHTML = myCat(); catMoveTo(at.x, at.y, zOf(at.y) + 1); }
   function catFace(o) { const c = catEl(); if (c) c.innerHTML = myCat(o); }
@@ -162,39 +172,39 @@ SCREENS.house = (roomId) => {
     const id = b.dataset.id, it = itemInfo(cur, id), c = careNow(), g = geo(b); if (!it) return;
     M.haptic(15);
     if (it.care === 'food') return openFood(b);
-    if (it.care === 'water') { if (c.water >= 95) return say(HL.HOUSE_PH[6]); return run(async () => { await catMoveTo(g.x + g.s * 0.55, g.y, g.z + 1); catEl().classList.add('eating'); M.sfx('lap'); parts(b, ['💧', '💦'], 6); await wait(1600); catEl().classList.remove('eating'); bump('water', 100); catFace({ happy: true }); say(HL.CARE.water.ok); await wait(1200); catBack(); }); }
+    if (it.care === 'water') { if (c.water >= 95) return say(HL.HOUSE_PH[6]); return run(async () => { await catMoveTo(g.x + g.w * 0.5 + CATW, g.y, g.z + 1); catEl().classList.add('eating'); M.sfx('lap'); parts(b, ['💧', '💦'], 6); await wait(1600); catEl().classList.remove('eating'); bump('water', 100); catFace({ happy: true }); say(HL.CARE.water.ok); await wait(1200); catBack(); }); }
     if (it.care === 'sleep') { if (c.energy >= 95) return say(HL.HOUSE_PH[5]); return run(async () => {
-      await catMoveTo(g.x - g.s * 0.12, g.y + g.s * 0.16, g.z + 1, { scale: 0.8 });
+      await catMoveTo(g.x - g.w * 0.1, g.y + g.h * 0.22, g.z + 1, { scale: 0.8 });
       const cc = catEl(); cc.classList.add('sleeping'); catFace({ happy: true }); b.classList.add('in-use');
-      const bl = document.createElement('div'); bl.className = 'blanket'; bl.style.cssText = `left:${g.x + g.s * 0.12}%;bottom:${g.y + g.s * 0.14}%;width:${g.s * 0.6}%;z-index:${g.z + 2}`; roomEl.appendChild(bl);
+      const bl = document.createElement('div'); bl.className = 'blanket'; bl.style.cssText = `left:${g.x + g.w * 0.12}%;bottom:${g.y + g.h * 0.18}%;width:${g.w * 0.58}%;z-index:${g.z + 2}`; roomEl.appendChild(bl);
       M.purr(4.5); M.sfx('snore'); parts(b, ['💤', '⭐', '🌙'], 9); say(PH.purr[0]);
       await wait(4500); bl.remove(); b.classList.remove('in-use'); cc.classList.remove('sleeping'); bump('energy', 100); anim(cc, 'm-happy', 700); say(HL.CARE.energy.ok); await wait(900); catBack(); }); }
     if (it.care === 'wash') { if (c.clean >= 95) return say(HL.HOUSE_PH[4]); return run(async () => {
-      await catMoveTo(g.x, g.y + g.s * 0.44, g.z - 1, { scale: 0.85 }); catFace({ happy: true }); M.sfx('splash'); M.sfx('bubbles');
+      await catMoveTo(g.x, g.y + g.h * 0.38, g.z - 1, { scale: 0.85 }); catFace({ happy: true }); M.sfx('splash'); M.sfx('bubbles');
       const iv = setInterval(() => parts(b, ['🫧', '🫧', '💦', '✨'], 4, 140), 600); await wait(3200); clearInterval(iv);
-      await catMoveTo(g.x + g.s * 0.6, g.y, g.z + 1, { scale: 1 }); const cc = catEl(); anim(cc, 'shaking', 900); parts(cc, ['💧', '💦'], 8, 160); M.sfx('splash'); await wait(900);
+      await catMoveTo(g.x + g.w * 0.5 + CATW, g.y, g.z + 1, { scale: 1 }); const cc = catEl(); anim(cc, 'shaking', 900); parts(cc, ['💧', '💦'], 8, 160); M.sfx('splash'); await wait(900);
       bump('clean', 100); say(HL.CARE.clean.ok); await wait(800); catBack(); }); }
-    if (it.care === 'rest') return run(async () => { await catMoveTo(g.x, g.y + g.s * 0.3, g.z + 1, { scale: 0.9 }); catFace({ happy: true }); M.purr(2.5); catEl().classList.add('m-purr'); say(it.line); bump('energy', 8); await wait(2600); catBack(); });
+    if (it.care === 'rest') return run(async () => { await catMoveTo(g.x, g.y + g.h * 0.32, g.z + 1, { scale: 0.9 }); catFace({ happy: true }); M.purr(2.5); catEl().classList.add('m-purr'); say(it.line); bump('energy', 8); await wait(2600); catBack(); });
     if (id === 'fx_yarn' || id === 'ball') return run(async () => { // клубок катится, кот догоняет
       const to = Math.max(8, Math.min(92, g.x + (g.x < 50 ? 30 : -30))); b.classList.add('rolling'); b.style.left = to + '%'; M.sfx('bounce');
       await catMoveTo(to + (g.x < 50 ? -6 : 6), g.y, g.z + 1); anim(catEl(), 'm-happy', 600); M.meow({ shape: 'happy' }); b.classList.remove('rolling');
       const p = roomPlace(cur).find(q => q.id === id); p.x = to; save(); bump('fun', 22); say(careNow().fun >= 85 && c.fun < 85 ? HL.CARE.fun.ok : it.line); await wait(700); catBack(); });
-    if (id === 'fx_scratch') return run(async () => { await catMoveTo(g.x + g.s * 0.35, g.y, g.z + 1); catEl().classList.add('scratching'); M.sfx('scratch'); await wait(1300); catEl().classList.remove('scratching'); bump('fun', 15); say(it.line); await wait(600); catBack(); });
+    if (id === 'fx_scratch') return run(async () => { await catMoveTo(g.x + g.w * 0.5 + CATW * 0.6, g.y, g.z + 1); catEl().classList.add('scratching'); M.sfx('scratch'); await wait(1300); catEl().classList.remove('scratching'); bump('fun', 15); say(it.line); await wait(600); catBack(); });
     // вещи из магазина
-    const near = (dx = 0.55) => catMoveTo(Math.max(4, Math.min(96, g.x + g.s * (g.x < 70 ? dx : -dx))), g.y, g.z + 1);
+    const near = () => catMoveTo(Math.max(6, Math.min(94, g.x + (g.x < 70 ? 1 : -1) * (g.w * 0.5 + CATW))), Math.min(g.y, 20), g.z + 1);
     const ACT = {
       piano: async () => { await near(); catEl().classList.add('playing'); M.sfx('melody'); parts(b, ['🎵', '🎶'], 10); await wait(2000); catEl().classList.remove('playing'); },
       guitar: async () => { await near(); catEl().classList.add('playing'); M.sfx('strum'); parts(b, ['🎸', '🎵'], 6); await wait(1300); catEl().classList.remove('playing'); },
       drum: async () => { await near(); catEl().classList.add('playing'); M.sfx('drum'); anim(b, 'boing', 900); await wait(1100); catEl().classList.remove('playing'); },
       tv: async () => { await catMoveTo(g.x, Math.max(0, g.y - 3), g.z + 2); b.classList.add('tv-on'); M.sfx('tv'); await wait(2500); b.classList.remove('tv-on'); },
-      skate: async () => { await catMoveTo(g.x, g.y + g.s * 0.25, g.z + 1); const to = g.x < 50 ? 85 : 15; b.style.transition = 'left 1.4s ease-in-out'; b.style.left = to + '%'; catMoveTo(to, g.y + g.s * 0.25, g.z + 1); M.sfx('whoosh'); await wait(1500); b.style.transition = ''; roomPlace(cur).find(q => q.id === id).x = to; save(); },
-      unicorn: async () => { await catMoveTo(g.x, g.y + g.s * 0.45, g.z + 1, { scale: 0.8 }); b.classList.add('rocking'); catEl().classList.add('rocking'); M.sfx('boing'); M.meow({ shape: 'happy' }); await wait(2400); b.classList.remove('rocking'); },
+      skate: async () => { await catMoveTo(g.x, g.y + g.h * 0.3, g.z + 1); const to = g.x < 50 ? 85 : 15; b.style.transition = 'left 1.4s ease-in-out'; b.style.left = to + '%'; catMoveTo(to, g.y + g.h * 0.3, g.z + 1); M.sfx('whoosh'); await wait(1500); b.style.transition = ''; roomPlace(cur).find(q => q.id === id).x = to; save(); },
+      unicorn: async () => { await catMoveTo(g.x, g.y + g.h * 0.42, g.z + 1, { scale: 0.8 }); b.classList.add('rocking'); catEl().classList.add('rocking'); M.sfx('boing'); M.meow({ shape: 'happy' }); await wait(2400); b.classList.remove('rocking'); },
       train: async () => { M.sfx('chug'); b.style.transition = 'left 2.2s linear'; const x0 = g.x; b.style.left = (x0 < 50 ? 88 : 12) + '%'; await wait(2300); b.style.left = x0 + '%'; await wait(2300); b.style.transition = ''; },
       carousel: async () => { b.classList.add('spinning'); M.sfx('melody'); await wait(2600); b.classList.remove('spinning'); },
       ferris: async () => { b.classList.add('spinning'); M.sfx('magic'); await wait(2600); b.classList.remove('spinning'); },
       rocket: async () => { b.classList.add('launch'); M.sfx('whoosh'); parts(b, ['🔥', '✨', '💨'], 10); await wait(2600); b.classList.remove('launch'); },
       ufo: async () => { b.classList.add('hover'); M.sfx('magic'); parts(b, ['✨', '👽'], 6); await wait(2000); b.classList.remove('hover'); },
-      tree: async () => { await catMoveTo(g.x, g.y + g.s * 0.6, g.z + 1, { scale: 0.8 }); anim(catEl(), 'm-happy', 600); M.meow({ shape: 'happy' }); await wait(1600); },
+      tree: async () => { await catMoveTo(g.x, g.y + g.h * 0.7, g.z + 1, { scale: 0.8 }); anim(catEl(), 'm-happy', 600); M.meow({ shape: 'happy' }); await wait(1600); },
       fireworks: async () => { M.sfx('fire'); parts(b, ['🎆', '🎇', '✨', '💥'], 14, 200); await wait(1500); },
       fishtank: async () => { await near(0.5); M.sfx('bubbles'); parts(b, ['🫧', '🐟'], 6); M.trill(); await wait(1500); },
       fountain: async () => { M.sfx('splash'); parts(b, ['💧', '💦', '✨'], 12, 140); await wait(1500); },
@@ -230,8 +240,8 @@ SCREENS.house = (roomId) => {
       if (S.candies < f[3]) { SND.bad(); say(PH.poor[0]); return; }
       S.candies -= f[3]; save(); updCandy(); m.close();
       run(async () => {
-        const g = geo(b); const food = document.createElement('div'); food.className = 'food-in'; food.innerHTML = icon(f[0], f[1]); food.style.cssText = `left:${g.x}%;bottom:${g.y + g.s * 0.5}%;z-index:${g.z + 1}`; roomEl.appendChild(food);
-        await catMoveTo(g.x + g.s * 0.55, g.y, g.z + 2); catEl().classList.add('eating'); M.crunch(7);
+        const g = geo(b); const food = document.createElement('div'); food.className = 'food-in'; food.innerHTML = icon(f[0], f[1]); food.style.cssText = `left:${g.x}%;bottom:${g.y + g.h * 0.55}%;z-index:${g.z + 1}`; roomEl.appendChild(food);
+        await catMoveTo(g.x + g.w * 0.5 + CATW, g.y, g.z + 2); catEl().classList.add('eating'); M.crunch(7);
         await wait(700); food.classList.add('gone'); await wait(1300); food.remove(); catEl().classList.remove('eating');
         M.purr(1.5); bump('food', f[4]); catFace({ happy: true }); hearts(catEl(), 3); say(f[5]); await wait(1200); catBack();
       });

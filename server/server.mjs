@@ -16,6 +16,7 @@ const MODEL = process.env.CHAT_MODEL || 'claude-haiku-4-5-20251001';
 const ORIGINS = (process.env.ALLOW_ORIGINS || 'https://radiosveklana.github.io').split(',');
 const DIR = path.dirname(new URL(import.meta.url).pathname);
 const TTS_DIR = path.join(DIR, 'tts'); fs.mkdirSync(TTS_DIR, { recursive: true });
+const SAVE_DIR = path.join(DIR, 'saves'); fs.mkdirSync(SAVE_DIR, { recursive: true });
 const EDGE = process.env.EDGE_TTS || path.join(DIR, 'venv/bin/edge-tts');
 const DAY_CAP = +process.env.DAY_CAP || 4000;
 
@@ -164,6 +165,21 @@ http.createServer(async (req, res) => {
       const file = await tts(url.searchParams.get('t') || '');
       res.writeHead(200, { 'content-type': 'audio/mpeg', 'cache-control': 'public, max-age=31536000, immutable', ...cors(origin) });
       return fs.createReadStream(file).pipe(res);
+    }
+    if (url.pathname === '/save' && req.method === 'POST') { // облачная копия прогресса (только игровые данные)
+      if (!ORIGINS.includes(origin)) return send(res, 403, { error: 'origin' }, origin);
+      let body = ''; for await (const c of req) { body += c; if (body.length > 400000) return send(res, 413, { error: 'big' }, origin); }
+      const d = JSON.parse(body || '{}'), code = String(d.code || '').toUpperCase();
+      if (!/^[A-Z0-9]{8}$/.test(code) || !d.data || d.data.v !== 1) return send(res, 400, { error: 'bad' }, origin);
+      if (!limit('save:' + code, 30, 6e5)) return send(res, 429, { error: 'slow' }, origin);
+      fs.writeFileSync(path.join(SAVE_DIR, code + '.json'), JSON.stringify({ ...d.data, savedAt: Date.now() }));
+      return send(res, 200, { ok: true }, origin);
+    }
+    if (url.pathname === '/load' && req.method === 'GET') {
+      const code = String(url.searchParams.get('code') || '').toUpperCase();
+      if (!/^[A-Z0-9]{8}$/.test(code) || !limit('load:' + ip, 60, 6e5)) return send(res, 400, { error: 'bad' }, origin);
+      const f = path.join(SAVE_DIR, code + '.json'); if (!fs.existsSync(f)) return send(res, 404, { error: 'nf' }, origin);
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', ...cors(origin) }); return fs.createReadStream(f).pipe(res);
     }
     if (url.pathname === '/voice' && req.method === 'POST') { // голос ребёнка → текст → ответ котика
       if (!ORIGINS.includes(origin)) return send(res, 403, { error: 'origin' }, origin);
