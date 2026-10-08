@@ -1,0 +1,93 @@
+/* cat.js — котик-детектив в SVG, окрасы и наряды */
+(function (root) {
+'use strict';
+const FURS = {
+  ginger: { name: 'Рыжий', base: '#F6A65A', light: '#FFE3C4', stripe: '#D97F2E', sw: '#F6A65A' },
+  grey: { name: 'Серый', base: '#A9B2BD', light: '#EEF0F3', stripe: '#808B97', sw: '#A9B2BD' },
+  black: { name: 'Чёрный', base: '#44405A', light: '#6A6582', iris: '#B7E36B', sw: '#44405A' },
+  white: { name: 'Белый', base: '#FFFFFF', light: '#FFF2E6', iris: '#7CC4FF', sw: '#FFFFFF' },
+  calico: { name: 'Трёхцветный', base: '#FFFFFF', light: '#FFF2E6', p1: '#F6A65A', p2: '#44405A', sw: 'linear-gradient(135deg,#F6A65A 33%,#fff 33% 66%,#44405A 66%)' },
+  cream: { name: 'Кремовый', base: '#F2D7AE', light: '#FFF6E8', stripe: '#DDB07A', sw: '#F2D7AE' },
+};
+const L = '#3B2A4A';
+const SW = 'stroke="' + L + '" stroke-width="3.5"';
+
+const ACC = {
+  /* голова */
+  deer: `<path d="M46 64 Q50 14 100 12 Q150 14 154 64 Z" fill="#B07C4F" ${SW}/>
+    <path d="M66 22 Q58 40 60 62 M100 12 V62 M134 22 Q142 40 140 62 M50 42 Q100 34 150 42" fill="none" stroke="#7E5332" stroke-width="2.5"/>
+    <path d="M36 64 Q100 80 164 64 Q100 52 36 64 Z" fill="#94653E" ${SW}/>
+    <circle cx="100" cy="11" r="6" fill="#94653E" ${SW}/>`,
+  bow: `<g transform="translate(142 40) rotate(18)"><path d="M0 0 L-24 -14 L-24 14 Z M0 0 L24 -14 L24 14 Z" fill="#FF6F9C" ${SW}/><circle r="7" fill="#FF9DBB" ${SW}/></g>`,
+  beret: `<g transform="rotate(-10 100 50)"><ellipse cx="100" cy="50" rx="54" ry="18" fill="#E6455A" ${SW}/><path d="M100 32 v-10" ${SW}/></g>`,
+  chef: `<path d="M64 60 Q50 30 72 26 Q78 6 100 12 Q122 4 130 26 Q152 28 136 60 Z" fill="#fff" ${SW}/><rect x="64" y="52" width="72" height="14" rx="4" fill="#FFE3EC" ${SW}/>`,
+  tophat: `<rect x="70" y="-6" width="60" height="52" rx="5" fill="#2F2B3A" ${SW}/><rect x="70" y="30" width="60" height="10" fill="#E6455A"/><ellipse cx="100" cy="48" rx="48" ry="9" fill="#2F2B3A" ${SW}/>`,
+  crown: `<path d="M62 56 L58 16 L80 36 L100 8 L120 36 L142 16 L138 56 Z" fill="#FFC93C" ${SW}/><circle cx="100" cy="40" r="5" fill="#E6455A"/><circle cx="78" cy="46" r="4" fill="#3D8BFD"/><circle cx="122" cy="46" r="4" fill="#2FB37A"/>`,
+  /* лицо */
+  glasses: `<circle cx="78" cy="97" r="17" fill="rgba(255,255,255,.25)" ${SW}/><circle cx="122" cy="97" r="17" fill="rgba(255,255,255,.25)" ${SW}/><path d="M95 95 q5 -5 10 0 M61 94 L44 88 M139 94 L156 88" fill="none" ${SW}/>`,
+  monocle: `<circle cx="122" cy="97" r="18" fill="rgba(255,255,255,.3)" stroke="#D9A21B" stroke-width="4"/><path d="M138 106 Q150 130 140 150" fill="none" stroke="#D9A21B" stroke-width="2.5"/>`,
+  shades: `<path d="M58 88 h38 v10 q-2 14 -19 14 q-17 0 -19 -14 Z M104 88 h38 v10 q-2 14 -19 14 q-17 0 -19 -14 Z" fill="#2F2B3A" ${SW}/><path d="M96 92 h8" ${SW}/><path d="M64 93 l8 0" stroke="#fff" stroke-width="3" opacity=".6"/>`,
+  /* шея */
+  scarf: `<path d="M48 140 Q100 170 152 140 L152 158 Q100 186 48 158 Z" fill="#E6455A" ${SW}/><path d="M118 162 L128 200 L110 204 L104 166 Z" fill="#E6455A" ${SW}/><path d="M60 150 l0 10 M80 158 l0 12 M140 150 l0 10" stroke="#fff" stroke-width="3" opacity=".7"/>`,
+  bowtie: `<path d="M100 156 L76 142 L76 170 Z M100 156 L124 142 L124 170 Z" fill="#7B5CD6" ${SW}/><circle cx="100" cy="156" r="6" fill="#9C84E8" ${SW}/>`,
+  medal: `<path d="M86 146 L100 178 L114 146" fill="none" stroke="#3D8BFD" stroke-width="7"/><circle cx="100" cy="184" r="13" fill="#FFC93C" ${SW}/><path d="M100 176 l2.5 5 5.5 .8 -4 3.9 1 5.5 -5 -2.6 -5 2.6 1 -5.5 -4 -3.9 5.5 -.8 Z" fill="#fff"/>`,
+};
+const HAND = {
+  loupe: `<path d="M150 204 L170 172" stroke="#8A5A33" stroke-width="9"/><circle cx="178" cy="158" r="19" fill="rgba(180,225,255,.6)" stroke="${L}" stroke-width="4.5"/><path d="M170 150 q4 -6 10 -5" stroke="#fff" stroke-width="3" fill="none"/>`,
+  lolly: `<path d="M152 204 L172 160" stroke="#fff" stroke-width="7"/><path d="M152 204 L172 160" stroke="${L}" stroke-width="1.5" opacity=".3"/><circle cx="176" cy="150" r="18" fill="#FF6F9C" ${SW}/><path d="M176 150 m-10 0 a10 10 0 1 0 10 -10 a6 6 0 1 1 -6 6" fill="none" stroke="#fff" stroke-width="3"/>`,
+  donut: `<circle cx="172" cy="168" r="20" fill="#E9B072" ${SW}/><path d="M154 162 q8 -16 22 -14 q14 2 16 16 q-4 8 -12 4 q-8 -6 -14 2 q-8 2 -12 -8z" fill="#FF8FB1"/><circle cx="172" cy="168" r="6" fill="#FFF5EA" ${SW}/>`,
+  note: `<rect x="156" y="146" width="34" height="42" rx="4" fill="#FFC93C" ${SW} transform="rotate(12 173 167)"/><path d="M163 160 h18 M162 168 h18 M161 176 h12" stroke="${L}" stroke-width="2" transform="rotate(12 173 167)"/>`,
+  cake: `<rect x="152" y="160" width="40" height="28" rx="5" fill="#FFE3EC" ${SW}/><path d="M152 170 q10 6 20 0 q10 -6 20 0" fill="none" stroke="#FF6F9C" stroke-width="4"/><path d="M172 160 v-12" stroke="${L}" stroke-width="3"/><path d="M172 146 q-4 -6 0 -10 q4 4 0 10" fill="#FFB938"/>`,
+};
+
+function catSVG(o = {}) {
+  const f = FURS[o.fur] || FURS.ginger, w = o.wear || {}, happy = o.happy;
+  const outline = SW;
+  let s = `<svg viewBox="0 -12 210 248" class="cat${o.cls ? ' ' + o.cls : ''}" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">`;
+  s += `<g class="tail"><path d="M146 198 C 200 192, 204 128, 174 110" fill="none" stroke="${L}" stroke-width="21"/><path d="M146 198 C 200 192, 204 128, 174 110" fill="none" stroke="${f.p2 || f.base}" stroke-width="14"/></g>`;
+  s += `<ellipse cx="100" cy="180" rx="54" ry="44" fill="${f.base}" ${outline}/>`;
+  if (f.p1) s += `<circle cx="128" cy="172" r="17" fill="${f.p1}"/><circle cx="70" cy="196" r="11" fill="${f.p2}"/>`;
+  s += `<ellipse cx="100" cy="190" rx="31" ry="29" fill="${f.light}"/>`;
+  s += `<ellipse cx="76" cy="221" rx="17" ry="9" fill="${f.base}" ${outline}/><ellipse cx="124" cy="221" rx="17" ry="9" fill="${f.base}" ${outline}/>`;
+  if (w.neck && ACC[w.neck]) s += ACC[w.neck];
+  s += `<path d="M48 80 L54 22 L94 52 Z" fill="${f.p2 || f.base}" ${outline}/><path d="M152 80 L146 22 L106 52 Z" fill="${f.p1 || f.base}" ${outline}/>`;
+  s += `<path d="M59 66 L62 37 L84 54 Z M141 66 L138 37 L116 54 Z" fill="#FFB3C7"/>`;
+  s += `<ellipse cx="100" cy="98" rx="60" ry="52" fill="${f.base}" ${outline}/>`;
+  if (f.p1) s += `<path d="M58 72 Q70 56 88 62 Q86 82 66 84 Z" fill="${f.p2}"/><path d="M118 56 Q138 56 146 76 Q130 82 120 72 Z" fill="${f.p1}"/>`;
+  if (f.stripe) s += `<path d="M100 50 v14 M86 52 l3 12 M114 52 l-3 12 M43 96 h10 M157 96 h-10" stroke="${f.stripe}" stroke-width="5"/>`;
+  s += `<ellipse cx="100" cy="121" rx="27" ry="18" fill="${f.light}"/>`;
+  if (happy) s += `<path d="M67 99 q11 -14 22 0 M111 99 q11 -14 22 0" fill="none" stroke="${L}" stroke-width="5"/>`;
+  else if (f.iris) s += `<ellipse cx="78" cy="97" rx="10" ry="12" fill="${f.iris}" stroke="${L}" stroke-width="2.5"/><ellipse cx="122" cy="97" rx="10" ry="12" fill="${f.iris}" stroke="${L}" stroke-width="2.5"/><ellipse cx="78" cy="98" rx="4" ry="8" fill="${L}"/><ellipse cx="122" cy="98" rx="4" ry="8" fill="${L}"/><circle cx="81" cy="92" r="3" fill="#fff"/><circle cx="125" cy="92" r="3" fill="#fff"/>`;
+  else s += `<g class="eyes"><ellipse cx="78" cy="97" rx="9.5" ry="12" fill="${L}"/><ellipse cx="122" cy="97" rx="9.5" ry="12" fill="${L}"/><circle cx="81.5" cy="91.5" r="3.8" fill="#fff"/><circle cx="125.5" cy="91.5" r="3.8" fill="#fff"/></g>`;
+  s += `<circle cx="61" cy="117" r="8" fill="#FF8FAB" opacity=".45"/><circle cx="139" cy="117" r="8" fill="#FF8FAB" opacity=".45"/>`;
+  s += `<path d="M94 110 h12 l-6 7 z" fill="#FF7A9C" stroke="${L}" stroke-width="2"/>`;
+  s += happy ? `<path d="M88 120 q12 16 24 0 z" fill="#FF7A9C" stroke="${L}" stroke-width="2.5"/>` : `<path d="M100 117 q-5 8 -12 4 M100 117 q5 8 12 4" fill="none" stroke="${L}" stroke-width="3"/>`;
+  s += `<path d="M72 118 L42 112 M72 124 L42 129 M128 118 L158 112 M128 124 L158 129" stroke="${L}" stroke-width="2.2" opacity=".65"/>`;
+  if (w.face && ACC[w.face]) s += ACC[w.face];
+  if (w.head && ACC[w.head]) s += ACC[w.head];
+  if (w.hand && HAND[w.hand]) s += `<circle cx="150" cy="204" r="11" fill="${f.base}" ${outline}/>` + HAND[w.hand];
+  return s + '</svg>';
+}
+
+const ITEMS = [
+  { id: 'deer', slot: 'head', name: 'Шапка сыщика', icon: '🕵️', price: 0 },
+  { id: 'bow', slot: 'head', name: 'Бантик', icon: '🎀', price: 15 },
+  { id: 'beret', slot: 'head', name: 'Берет', icon: '🎨', price: 25 },
+  { id: 'chef', slot: 'head', name: 'Колпак кондитера', icon: '👩‍🍳', price: 35 },
+  { id: 'tophat', slot: 'head', name: 'Цилиндр', icon: '🎩', price: 45 },
+  { id: 'crown', slot: 'head', name: 'Корона', icon: '👑', price: 90 },
+  { id: 'glasses', slot: 'face', name: 'Очки отличника', icon: '👓', price: 20 },
+  { id: 'monocle', slot: 'face', name: 'Монокль', icon: '🧐', price: 35 },
+  { id: 'shades', slot: 'face', name: 'Тёмные очки', icon: '🕶️', price: 50 },
+  { id: 'scarf', slot: 'neck', name: 'Шарф', icon: '🧣', price: 20 },
+  { id: 'bowtie', slot: 'neck', name: 'Бабочка', icon: '🦋', price: 25 },
+  { id: 'medal', slot: 'neck', name: 'Медаль героя', icon: '🏅', price: 70 },
+  { id: 'loupe', slot: 'hand', name: 'Лупа', icon: '🔍', price: 0 },
+  { id: 'lolly', slot: 'hand', name: 'Леденец', icon: '🍭', price: 15 },
+  { id: 'donut', slot: 'hand', name: 'Пончик', icon: '🍩', price: 20 },
+  { id: 'note', slot: 'hand', name: 'Блокнот', icon: '📒', price: 25 },
+  { id: 'cake', slot: 'hand', name: 'Тортик', icon: '🎂', price: 60 },
+];
+const SLOTS = { head: 'На голову', face: 'На мордочку', neck: 'На шею', hand: 'В лапку' };
+root.Cat = { FURS, catSVG, ITEMS, SLOTS };
+})(this);
