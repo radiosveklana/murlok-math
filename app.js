@@ -67,7 +67,7 @@ function award(c, xp) {
 function taskDone(kind, res) { S.st[kind].done++; if (!res.mistakes && !res.helped) S.st[kind].perfect++; markDay(1); save(); setTimeout(() => { if (['home', 'house'].includes(curScreen)) { checkGoals(); checkRooms(); } else rewardHint(); }, 1500); }
 function rewardHint() { // во время задач сундуки не всплывают — ждут на главной
   const t = today(), n = S.days[t] || 0, got = S.goals.date === t ? S.goals.got : [];
-  const g = GOAL_TIERS.find(x => n >= x.n && !got.includes(x.n)), room = window.Lines.ROOMS.find(r => r.need <= solvedTotal() && !S.roomsSeen.includes(r.id));
+  const g = GOAL_TIERS.find(x => n >= x.n && !got.includes(x.n)), room = window.Lines.ROOMS.find(r => roomOpen(r) && !S.roomsSeen.includes(r.id));
   const key = (g ? g.n : '') + '|' + (room ? room.id : ''); if (key === '|' || rewardHint.last === key) return; rewardHint.last = key;
   toast(`<span class="tb">${g ? '🎁' : '🔓'}</span><div>${g ? `<b>${g.name}</b> ждёт тебя на главной!` : `Открылась комната «${room.name}»!`}<br><small>Загляни, когда закончишь.</small></div>`);
 }
@@ -120,10 +120,10 @@ document.addEventListener('pointerdown', function unlock() { M.ctx(); M.unlockSp
 const tone = seq => M.tone(seq), later = (f, ms) => setTimeout(f, ms);
 const SND = {
   ok: () => { cheer(true); tone([[660, 0.12], [880, 0.2, 0.09]]); if (Math.random() < 0.3) later(() => M.chirp(), 260); catMood('happy', 900); M.haptic(15); },
-  bad: () => { cheer(false); tone([[200, 0.22, 0, 'triangle', 0.14]]); later(() => M.meow({ shape: 'question', vol: 0.32, pitch: 1.2, dur: 0.45 }), 120); catMood('sad', 1300); M.haptic([40, 60, 40]); },
+  bad: () => { cheer(false); tone([[200, 0.22, 0, 'triangle', 0.14]]); later(() => M.custom('oops') || M.meow({ shape: 'question', vol: 0.32, pitch: 1.2, dur: 0.45 }), 120); catMood('sad', 1300); M.haptic([40, 60, 40]); },
   tap: () => { tone([[560, 0.05, 0, 'sine', 0.06]]); M.haptic(8); },
   coin: () => { tone([[988, 0.09], [1319, 0.25, 0.07]]); flyCandy(); },
-  win: () => { tone([[523, 0.14], [659, 0.14, 0.11], [784, 0.14, 0.22], [1047, 0.45, 0.33]]); later(() => M.meow({ shape: 'happy', force: true }), 650); later(() => M.purr(1.8), 1350); catMood('happy', 2400); later(() => hearts(), 600); M.haptic([20, 40, 20, 40, 80]); },
+  win: () => { tone([[523, 0.14], [659, 0.14, 0.11], [784, 0.14, 0.22], [1047, 0.45, 0.33]]); later(() => M.custom('yay') || M.meow({ shape: 'happy', force: true }), 650); later(() => M.purr(1.8), 1350); catMood('happy', 2400); later(() => hearts(), 600); M.haptic([20, 40, 20, 40, 80]); },
   meow: () => { pick([() => M.meow(), () => M.meow({ shape: 'happy' }), M.kitten, () => M.trill()])(); catMood('happy', 900); M.haptic(20); },
   purr: d => { M.purr(d); catMood('purr', d * 1000); M.haptic([30, 50, 30, 50, 30]); },
   hiss: () => { M.hiss(); M.haptic([80, 40, 120]); },
@@ -186,7 +186,7 @@ const Music = (() => {
   const vol = () => (S.music && S.music.vol != null ? S.music.vol : 0.3);
   function setup() {
     if (audio) return;
-    audio = new Audio(); audio.preload = 'auto'; audio.addEventListener('ended', next);
+    audio = new Audio(); audio.preload = 'auto'; audio.addEventListener('ended', next); audio.addEventListener('error', () => setTimeout(next, 1000));
     const ac = M.ctx();
     if (ac && location.protocol !== 'file:') { try { const src = ac.createMediaElementSource(audio); gain = ac.createGain(); gain.gain.value = 0; src.connect(gain); gain.connect(ac.destination); } catch (e) { gain = null; } }
   }
@@ -201,7 +201,11 @@ const Music = (() => {
     audio.play().then(() => { started = true; document.body.classList.add('music-on'); }).catch(() => { });
   }
   function pause() { if (audio) audio.pause(); document.body.classList.remove('music-on'); }
-  function next() { if (!list.length) return; idx = (idx + 1) % list.length; audio.src = 'music/' + list[idx][0] + '.mp3'; apply(); audio.play().catch(() => { }); const np = $('#nowp'); if (np) np.innerHTML = nowPlaying(); }
+  function next() { if (!list.length) return; idx = (idx + 1) % list.length; if (idx === 0) list = shuffle(list); audio.src = 'music/' + list[idx][0] + '.mp3'; apply(); audio.play().catch(() => { }); const np = $('#nowp'); if (np) np.innerHTML = nowPlaying(); }
+  // музыка идёт по кругу; если браузер её остановил — сторож запускает снова
+  const want = () => started && S.sound && S.music && S.music.mode !== 'off' && MUSIC[S.music.mode] && !document.hidden;
+  setInterval(() => { if (!audio || !want()) return; const ac = M.ctx(); if (ac && ac.state === 'suspended') ac.resume(); if (audio.ended) next(); else if (audio.paused) audio.play().catch(() => { }); }, 4000);
+  document.addEventListener('pointerdown', () => { if (audio && want() && audio.paused) audio.play().catch(() => { }); }, true);
   return { play, pause, next, apply, setDuck: d => { duck = d; apply(); }, current: () => (list[idx] ? list[idx][1] : ''), get started() { return started; }, get playing() { return !!audio && !audio.paused; } };
 })();
 function nowPlaying() { return Music.playing ? `🎶 Сейчас играет: <b>${Music.current()}</b>` : (S.music.mode === 'off' ? 'Музыка выключена' : !S.sound ? 'Включи звук 🔊 на главном экране' : ''); }
@@ -246,7 +250,7 @@ function bubbleOn(el, text, ms = 3800) { el.textContent = text; el.hidden = fals
 /* сказать фразу тем котом, который сейчас на экране */
 function say(tpl, ms, o = {}) {
   const tpls = [].concat(tpl);
-  let text = tpls.join(' ').replace(/\{n\}/g, S.kid || 'сыщик').replace(/\{c\}/g, S.name || 'котик').replace(/^@s /, '').replace(/<[^>]+>/g, '');
+  let text = tpls.join(' ').replace(/!!/g, '!').replace(/\{n\}/g, S.kid || 'сыщик').replace(/\{c\}/g, S.name || 'котик').replace(/^@s /, '').replace(/<[^>]+>/g, '');
   let sp = o.speech || tpls;
   if (!o.speech && !tpls.some(t => String(t).includes('{n}')) && Math.random() < 0.45 && S.kid) { sp = ['{n}!', ...tpls]; text = S.kid + ', ' + text.charAt(0).toLowerCase() + text.slice(1); }
   if (!o.silent) speakT(sp);
@@ -266,7 +270,7 @@ function mascotScene(name) {
   document.body.classList.toggle('has-mascot', !mascot.hidden);
   msBub.hidden = true;
   if (!mascot.hidden || name === 'lesson' || name === 'blitz') { if (!mascot.hidden) msCat.innerHTML = myCat({ cls: 'mini' }); const key = PH[name] ? name : 'idle'; setTimeout(() => say(name === 'caseintro' && CASE ? [`Новое дело: ${CASE.c.crime.title}! Сегодня утром в ${CASE.c.crime.place} кто-то украл ${CASE.c.crime.what}.`, 'Решай задачи, {n}, — за каждую получишь улику!'] : pick(PH[key])), 600); }
-  if (name === 'home') setTimeout(() => say(homeGreet(), 4500), 700);
+  if (name === 'home') { setTimeout(() => say(homeGreet(), 4500), 700); if (!mascotScene.hi) { mascotScene.hi = 1; setTimeout(() => M.custom('hello'), 300); } }
 }
 // погладить маскота: касание — мурлыканье и фраза, удержание — мурлычет, пока держишь
 let msHold = null, msPurr = false;
@@ -805,6 +809,7 @@ SCREENS.home = () => {
     </div>
   </section>
   ${careAlertHTML()}
+  ${questHTML()}
   ${CASE ? `<button class="resume" data-go="${CASE.idx < 4 ? 'casetask' : 'accuse'}">📁 Продолжить дело №${CASE.c.n} «${CASE.c.crime.title}» — улик: ${CASE.idx} из 4 →</button>` : ''}
   <section class="tiles">
     <button class="tile t-school ${learnFirst ? 'glow' : ''}" data-go="school"><span class="ti">🎓</span><b>Школа сыщика</b><small>${learnFirst ? 'Начни отсюда!' : 'Как умножать и решать уравнения'}</small></button>
@@ -814,6 +819,7 @@ SCREENS.home = () => {
     ${S.chatOn !== false ? '<button class="tile t-chat" data-go="chat"><span class="ti">💬</span><b>Поболтать с котиком</b><small>Говори или пиши — котик ответит</small></button>' : ''}
     <button class="tile t-house" data-go="house"><span class="ti">🏠</span><b>Домик котика</b><small>Корми, играй, обустраивай комнаты</small></button>
     <button class="tile t-shop" data-go="shop"><span class="ti">🧁</span><b>Кондитерская</b><small>Наряды для котика</small></button>
+    <button class="tile t-studio" data-go="studio"><span class="ti">🎙️</span><b>Студия звуков</b><small>Запиши голоса для персонажей</small></button>
     <button class="tile t-book" data-go="book"><span class="ti">📒</span><b>Блокнот детектива</b><small>Правила, награды, дела</small></button>
   </section>
   <footer class="foot"><button class="link" data-go="parents">Для взрослых</button></footer>`;
@@ -839,6 +845,7 @@ SCREENS.home = () => {
     if (k === 'trill') { M.trill(); catMood('happy', 900); } else if (k === 'yawn') { M.yawn(); hc.classList.add('m-yawn'); setTimeout(() => hc.classList.remove('m-yawn'), 1300); }
     else if (k === 'purr') SND.purr(2); else if (k === 'kitten') { M.kitten(); catMood('happy', 700); } else { hc.classList.add('m-twitch'); setTimeout(() => hc.classList.remove('m-twitch'), 800); } }, 28000);
   cleanups.push(() => clearInterval(idle));
+  const qg = $('#qgo'); if (qg) qg.addEventListener('click', () => { SND.tap(); goEquations(); });
   setTimeout(() => { if (curScreen === 'home') { checkNews(); if (!$('.modal')) checkLogin(); if (!$('.modal')) { checkGoals(); checkRooms(); } } }, 900);
 };
 
@@ -850,7 +857,7 @@ SCREENS.newcase = () => {
     <div class="case-head"><div class="paper-note">📁 Дело №${S.cases + 1}</div><p>Выбери, какими уликами будешь пользоваться в расследовании:</p></div>
     <div class="choice-grid topic">
       <button class="choice" data-t="mul"><span>✖️</span><b>Умножение столбиком</b><small>4 примера</small></button>
-      <button class="choice" data-t="eq"><span>📦</span><b>Составные уравнения</b><small>4 уравнения</small></button>
+      <button class="choice" data-t="eq"><span>📦</span><b>Составные уравнения</b><small>4 уравнения · двойные конфеты 🍬🍬</small></button>
       <button class="choice" data-t="mix"><span>🍬</span><b>Всё вперемешку</b><small>столбик + уравнения + Енот</small></button>
     </div>
     <div class="lbl">Сложность</div>
@@ -941,7 +948,7 @@ SCREENS.casetask = () => {
   $('#sus').addEventListener('click', showSuspects);
   mountTask($('#task'), t, false, res => {
     CASE.mistakes += res.mistakes;
-    const perfect = !res.mistakes && !res.helped, c = perfect ? 3 : 1, xp = perfect ? 15 : 10;
+    const perfect = !res.mistakes && !res.helped, isEq = t.kind === 'eq', c = (perfect ? 3 : 1) * (isEq ? 2 : 1), xp = (perfect ? 15 : 10) + (isEq ? 5 : 0);
     taskDone(statKind(t.kind), res); CASE.earned += c; CASE.xp += xp; award(c, xp);
     $('#after').innerHTML = `<button class="btn big pink" id="clue">🔎 Получить улику</button>`;
     $('#clue').addEventListener('click', revealClue);
@@ -998,7 +1005,7 @@ function closeCase() {
   S.caseLog.unshift({ n: CASE.c.n, title: CASE.c.crime.title, who: culprit.animal.join(' '), date: today(), perfect });
   S.caseLog = S.caseLog.slice(0, 60);
   CASE.earned += c; award(c, xp + 0); save();
-  confetti(50); SND.win(); later(() => personaSay(culprit, 'caught'), 900); later(() => M.purr(3), 4200); later(() => say(pick(PH.win)), 3800);
+  confetti(50); SND.win(); later(() => M.custom('thief') || personaSay(culprit, 'caught'), 900); later(() => M.purr(3), 4200); later(() => say(pick(PH.win)), 3800);
   app.innerHTML = `${topbar('Дело раскрыто!', 'home')}
   <div class="page center win-page">
     <div class="win-cat"><div class="win-cat-in">${myCat({ happy: true })}</div><div class="arrested">${portrait(culprit, 'talking')}<span>🚔</span></div></div>
@@ -1105,7 +1112,8 @@ SCREENS.practice = (topic = 'mul') => {
     const t = makeTask(topic, S.prefs[key]);
     mountTask($('#task'), t, guided, res => {
       count++; taskDone(topic, res);
-      const c = (!res.mistakes && !res.helped) ? 2 : 1; award(c, guided ? 6 : 10);
+      const c = ((!res.mistakes && !res.helped) ? 2 : 1) * (topic === 'eq' ? 2 : 1); award(c, (guided ? 6 : 10) + (topic === 'eq' ? 4 : 0));
+      if (topic === 'eq') { const q = nextQuest(); if (q && q.e) toast(`<span class="tb">📦</span><div>До комнаты «${q.r.name}»: ещё ${lockText(q.r)}</div>`); }
       $('#after').innerHTML = `<button class="btn big pink" id="more">Ещё пример →</button>`;
       $('#more').addEventListener('click', () => { SND.tap(); load(); });
     });
@@ -1265,8 +1273,8 @@ SCREENS.parents = () => {
 };
 
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '9';
-const NEWS = ['🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
+const APP_VERSION = '10';
+const NEWS = ['📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;
   const first = !S.seenVersion && !S.cases && !solvedTotal(); S.seenVersion = APP_VERSION; save(); if (first) return;

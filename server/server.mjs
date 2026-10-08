@@ -41,7 +41,7 @@ const BAD_OUT = /(https?:\/\/|www\.|\bхуй|\bпизд|\bеба|\bбля|\bсу
 const SYSTEM = (kid, cat) => `Ты — ${cat}, добрый и весёлый кот-детектив, персонаж детской обучающей игры «Мурлок и Ко». С тобой разговаривает ребёнок примерно 9–11 лет по имени ${kid}. Вы напарники: вместе решаете примеры и раскрываете дела о пропавших сладостях в городе Сладкограде.
 
 Как говорить:
-- Только по-русски, коротко: 1–3 предложения, не больше 250 символов. Просто, тепло, с юмором, иногда «мур» или «мяу».
+- Только по-русски, очень коротко: 1–2 предложения, не больше 180 символов. Просто, тепло, с юмором, иногда «мур» или «мяу».
 - Если по имени понятно, девочка это или мальчик, используй правильный род (сделала/сделал, не виновата/не виноват). Если непонятно — строй фразы без рода.
 - Поддерживай, хвали за старание, задавай простой встречный вопрос, чтобы разговор продолжался.
 - Ты сказочный кот-персонаж игры, а не человек. Если спросят, кто ты, — честно скажи, что ты кот-помощник из игры.
@@ -80,7 +80,7 @@ async function chat({ kid, cat, history, text }) {
   if (msgs.length && msgs[msgs.length - 1].role === 'user') msgs.pop();
   msgs.push({ role: 'user', content: clean(text) });
   const nm = s => String(s || '').replace(/[^\p{L}\s-]/gu, '').slice(0, 20).trim();
-  const j = await claude({ model: MODEL, max_tokens: 300, temperature: 0.7, system: SYSTEM(nm(kid) || 'друг', nm(cat) || 'Мурлок'), messages: msgs });
+  const j = await claude({ model: MODEL, max_tokens: 220, temperature: 0.7, system: SYSTEM(nm(kid) || 'друг', nm(cat) || 'Мурлок'), messages: msgs });
   const raw = (j.content || []).map(c => c.text || '').join('');
   let out; try { out = JSON.parse(raw.match(/\{[\s\S]*\}/)[0]); } catch { out = { reply: raw.trim().slice(0, 300), mood: 'happy', flag: 'none' }; }
   out.reply = String(out.reply || '').slice(0, 400).trim();
@@ -108,6 +108,14 @@ async function tts(text) {
   inflight.set(h, p); return p;
 }
 
+/* ---------- распознавание речи (stt.py на 127.0.0.1:3017) ---------- */
+function stt(buf) {
+  return new Promise((resolve, reject) => {
+    const r = http.request({ host: '127.0.0.1', port: 3017, method: 'POST', path: '/', headers: { 'content-length': buf.length } }, res => { const ch = []; res.on('data', c => ch.push(c)); res.on('end', () => { try { resolve(JSON.parse(Buffer.concat(ch).toString()).text || ''); } catch (e) { reject(e); } }); });
+    r.on('error', reject); r.setTimeout(25000, () => r.destroy(new Error('stt timeout'))); r.end(buf);
+  });
+}
+
 /* ---------- HTTP ---------- */
 function send(res, code, obj, origin) {
   res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', ...cors(origin) }); res.end(JSON.stringify(obj));
@@ -126,6 +134,20 @@ http.createServer(async (req, res) => {
       res.writeHead(200, { 'content-type': 'audio/mpeg', 'cache-control': 'public, max-age=31536000, immutable', ...cors(origin) });
       return fs.createReadStream(file).pipe(res);
     }
+    if (url.pathname === '/voice' && req.method === 'POST') { // голос ребёнка → текст → ответ котика
+      if (!ORIGINS.includes(origin)) return send(res, 403, { error: 'origin' }, origin);
+      const chunks = []; let size = 0; for await (const c of req) { size += c.length; if (size > 2500000) return send(res, 413, { error: 'big' }, origin); chunks.push(c); }
+      let d = {}; try { d = JSON.parse(url.searchParams.get('m') || '{}'); } catch { }
+      const dev = String(d.device || '').slice(0, 40) || ip;
+      if (!limit('v:' + dev, 30, 6e5) || !limit('d:' + dev, 150, 864e5)) return send(res, 429, { error: 'limit', heard: '', reply: 'Мур, я немного устал болтать! Давай отдохнём и решим пару примеров?', mood: 'sad', flag: 'none' }, origin);
+      const heard = await stt(Buffer.concat(chunks)).catch(e => { console.error('stt', e.message); return ''; });
+      if (!heard || heard.length < 2) return send(res, 200, { heard: '', reply: 'Мур? Я не расслышал. Скажи ещё раз, чуть громче!', mood: 'think', flag: 'none' }, origin);
+      if (!dayOk()) return send(res, 429, { error: 'cap', heard, reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
+      let out; try { out = await chat({ ...d, text: heard }); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
+      if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1;
+      tts(out.reply).catch(() => { });
+      return send(res, 200, { heard, ...out }, origin);
+    }
     if (url.pathname === '/chat' && req.method === 'POST') {
       if (!ORIGINS.includes(origin)) return send(res, 403, { error: 'origin' }, origin);
       let body = ''; for await (const c of req) { body += c; if (body.length > 12000) return send(res, 413, { error: 'big' }, origin); }
@@ -135,6 +157,7 @@ http.createServer(async (req, res) => {
       if (!dayOk()) return send(res, 429, { error: 'cap', reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat(d); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
       if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1;
+      tts(out.reply).catch(() => { });
       return send(res, 200, out, origin);
     }
     send(res, 404, { error: 'not found' }, origin);

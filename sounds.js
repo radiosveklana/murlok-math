@@ -48,10 +48,31 @@ function tone(seq) {
   });
 }
 
+
+/* ---------- звуки, записанные ребёнком (Студия звуков) ---------- */
+const CUST = {};
+async function setCustom(id, ab, rate = 1) {
+  if (!ab) { delete CUST[id]; return true; }
+  if (!ctx()) return false;
+  try {
+    const b = await decode(ab.slice(0)); let pk = 0;
+    for (let c = 0; c < b.numberOfChannels; c++) { const d = b.getChannelData(c); for (let i = 0; i < d.length; i += 4) pk = Math.max(pk, Math.abs(d[i])); }
+    CUST[id] = { b, rate, gain: pk > 0 ? Math.min(5, 0.85 / pk) : 1 }; return true;
+  } catch (e) { return false; }
+}
+function custom(id, o = {}) {
+  const c = CUST[id]; if (!c || !ok()) return false;
+  const src = AC.createBufferSource(); src.buffer = c.b; src.playbackRate.value = (o.rate || c.rate) * (o.vary ? rr(0.94, 1.08) : 1); src.loop = !!o.loop;
+  const g = AC.createGain(); g.gain.value = c.gain; src.connect(g); g.connect(master); src.start(AC.currentTime + 0.01);
+  if (o.dur) src.stop(AC.currentTime + o.dur);
+  return src;
+}
+
 /* ---------- мяу: пила + две форманты «м-и-а-у» ---------- */
 function meow(o = {}) {
   if (!ok()) return;
   const now = AC.currentTime; if (now - lastVoice < 0.35 && !o.force) return; lastVoice = now;
+  if (CUST.meow && (!o.shape || o.shape === 'normal' || o.shape === 'happy')) { custom('meow', { vary: true }); return; }
   const p = o.pitch || rr(0.9, 1.15), dur = o.dur || rr(0.55, 0.8), t0 = now + 0.02, vol = o.vol || 0.5;
   const shape = o.shape || 'normal'; // normal | question | sad | happy | kitten | long
   const f0 = 430 * p;
@@ -72,7 +93,7 @@ function meow(o = {}) {
   osc.connect(lp); lp.connect(F1); lp.connect(F2); F1.connect(g1); F2.connect(g2); g1.connect(out); g2.connect(out); out.connect(master);
   osc.start(t0); vib.start(t0); osc.stop(t0 + dur + 0.05); vib.stop(t0 + dur + 0.05);
 }
-const kitten = () => meow({ pitch: rr(1.55, 1.8), dur: rr(0.3, 0.42), shape: Math.random() < 0.5 ? 'happy' : 'normal', vol: 0.4 });
+const kitten = () => (CUST.laugh && ok()) ? custom('laugh', { vary: true }) : meow({ pitch: rr(1.55, 1.8), dur: rr(0.3, 0.42), shape: Math.random() < 0.5 ? 'happy' : 'normal', vol: 0.4 });
 
 /* ---------- мурлыканье: шум + НЧ-тон, модуляция ~26 Гц, вдох/выдох ---------- */
 function purrNodes(t0, dur, vol = 0.55) {
@@ -97,14 +118,14 @@ function purrNodes(t0, dur, vol = 0.55) {
   tone_.start(t0); lfo.start(t0); tone_.stop(t0 + dur + 0.1); lfo.stop(t0 + dur + 0.1);
   return { out, stop: () => { const now = AC.currentTime; try { out.gain.cancelScheduledValues(now); out.gain.setValueAtTime(out.gain.value, now); out.gain.linearRampToValueAtTime(0.0001, now + 0.25); n.stop(now + 0.3); tone_.stop(now + 0.3); lfo.stop(now + 0.3); } catch (e) { } } };
 }
-function purr(dur = 2) { if (!ok()) return; purrNodes(AC.currentTime + 0.02, dur); }
+function purr(dur = 2) { if (!ok()) return; if (CUST.purr) { custom('purr', { loop: true, dur }); return; } purrNodes(AC.currentTime + 0.02, dur); }
 let purrLoop = null;
-function purrStart() { if (!ok() || purrLoop) return; purrLoop = purrNodes(AC.currentTime + 0.02, 30); }
+function purrStart() { if (!ok() || purrLoop) return; if (CUST.purr) { const src = custom('purr', { loop: true, dur: 30 }); purrLoop = { stop: () => { try { src.stop(); } catch (e) { } } }; return; } purrLoop = purrNodes(AC.currentTime + 0.02, 30); }
 function purrStop() { if (purrLoop) { purrLoop.stop(); purrLoop = null; } }
 
 /* ---------- шипение ---------- */
 function hiss(dur = 0.9) {
-  if (!ok()) return; const t0 = AC.currentTime + 0.02;
+  if (!ok()) return; if (CUST.hiss) { custom('hiss'); return; } const t0 = AC.currentTime + 0.02;
   const n = noise(t0, dur); const hp = AC.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 2500;
   const pk = AC.createBiquadFilter(); pk.type = 'peaking'; pk.frequency.value = 5500; pk.gain.value = 8;
   const g = AC.createGain(); env(g, t0, [[0.04, 0.35], [0.12, 0.25], [dur * 0.7, 0.18], [dur, 0.0001]]);
@@ -190,7 +211,6 @@ let VMAN = null, vmanP = null, vsrcs = [], vEndT = null, vToken = 0; const vcach
 function loadMan() { if (!vmanP) vmanP = fetch('voice/manifest.json').then(r => r.json()).then(m => (VMAN = { c: new Set(m.c), n: new Set(m.n) })).catch(() => null); return vmanP; }
 function decode(b) { return new Promise((res, rej) => { try { const pr = AC.decodeAudioData(b, res, rej); if (pr && pr.then) pr.then(res, rej); } catch (e) { rej(e); } }); }
 function clip(url) { if (!vcache.has(url)) vcache.set(url, fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); }).then(decode).catch(() => null)); return vcache.get(url); }
-let custom = () => null; // записи ребёнка: (slot) => AudioBuffer|null
 function voiceUrls(tpls, names) {
   const L = root.Lines, out = [];
   [].concat(tpls).forEach(t => L.parts(t).forEach(p => {
@@ -247,5 +267,5 @@ function sfx(name) {
   if (name === 'mystery') { [220, 277, 330].forEach((f, i) => tone([[f, 2.4, i * 0.05, 'sine', 0.06]])); [1319, 1568, 1976, 1568].forEach((f, i) => tone([[f, 0.6, 0.6 + i * 0.35, 'triangle', 0.05]])); return; }
   if (name === 'snore') { [0, 1.4].forEach(d => { nburst(t + d, 0.7, 200, 1, 0.25, 'lowpass'); }); return; }
 }
-root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, voice, sfx, playBuffer, preloadVoice, loadMan, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
+root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, voice, sfx, playBuffer, setCustom, custom, preloadVoice, loadMan, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
 })(this);

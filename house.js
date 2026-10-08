@@ -4,7 +4,10 @@ const HL = window.Lines;
 const OLD_FURN = { sofa: 20, plant: 10, pic: 15, tv: 30, fishtank: 40, clock: 20, bowl: 10, milk: 10, cake: 25, cookies: 15, teapot: 20, cupcakes: 35, bed: 30, teddy: 15, lamp: 15, books: 20, lights: 25, pillow: 15, map: 20, dossier: 15, flash: 15, phone: 20, puzzle: 25, case: 20, yarn: 10, balloons: 15, ball: 10, game: 30, kite: 15, paint: 20, tree: 25, sunflower: 15, fountain: 50, butterfly: 15, mushroom: 10, ladybug: 10, scope: 50, planet: 30, moon: 20, star: 15, rocket: 60, ufo: 70 };
 const CARE_RATE = { food: 5, water: 7, fun: 6, energy: 4, clean: 3 }; // убывание в час
 const catItem = id => HL.CATALOG.find(c => c[0] === id);
-const roomOpen = r => r.need <= solvedTotal();
+const roomOpen = r => r.need <= solvedTotal() && (r.eq || 0) <= S.st.eq.done;
+const itemEq = c => (c[5] === 'Волшебство' || c[5] === 'Космос') ? Math.max(3, Math.round(c[4] / 4)) : 0; // волшебные и космические вещи — за уравнения
+const itemOpen = c => c[4] <= solvedTotal() && itemEq(c) <= S.st.eq.done;
+function lockText(r) { const t = Math.max(0, r.need - solvedTotal()), e = Math.max(0, (r.eq || 0) - S.st.eq.done); return [t ? `ещё ${t} ${plural(t, 'задачу', 'задачи', 'задач')}` : '', e ? `ещё ${e} ${plural(e, 'уравнение', 'уравнения', 'уравнений')} 📦` : ''].filter(Boolean).join(' и '); }
 
 /* переход со старого домика: возвращаем конфеты за прежнюю мебель */
 function houseMigrate() {
@@ -88,10 +91,10 @@ SCREENS.house = (roomId) => {
       <div class="room-cat" id="rcat" style="left:${cat.x}%;bottom:${cat.y}%;z-index:${zOf(cat.y) + 1}">${myCat()}</div>
       <div class="trash" id="trash">🗑️<small>в сундук</small></div>
       ${placing ? `<div class="ghost" id="ghost">${catItem(placing)[1]}</div>` : ''}
-      ${open ? '' : `<div class="room-lock"><div class="big-emoji">🔒</div><h3>«${cur.name}»</h3><p>Откроется после <b>${cur.need}</b> решённых задач.</p><div class="bar"><i style="width:${Math.min(1, n / cur.need) * 100}%"></i></div><p class="small">Решено ${n} из ${cur.need} — осталось ${cur.need - n}!</p></div>`}`;
+      ${open ? '' : `<div class="room-lock"><div class="big-emoji">🔒</div><h3>«${cur.name}»</h3><p>Чтобы открыть, реши <b>${lockText(cur)}</b>.</p><div class="bar"><i style="width:${Math.min(1, (Math.min(n, cur.need) + Math.min(S.st.eq.done, cur.eq || 0)) / (cur.need + (cur.eq || 0) || 1)) * 100}%"></i></div><p class="small">Задач: ${n} из ${cur.need} · уравнений: ${S.st.eq.done} из ${cur.eq || 0}</p>${(cur.eq || 0) > S.st.eq.done ? '<button class="btn pink sm" id="goeq">📦 Решать уравнения</button>' : ''}</div>`}`;
     $('#invn').textContent = invList().length || '';
     drawCare();
-    if (!open) { hint(''); say(PH.room[1]); return; }
+    if (!open) { hint(''); say((cur.eq || 0) > S.st.eq.done ? PH.quest[0] : PH.room[1]); const ge = $('#goeq'); if (ge) ge.addEventListener('click', goEquations); return; }
     hint(placing ? `👆 Нажми в комнате туда, куда поставить <b>${catItem(placing)[2]}</b>` : `${cur.care}. Нажми на вещь — котик ею воспользуется. Вещи и котика можно <b>перетаскивать пальцем</b>, а лишнее — утащить на 🗑️.`);
     $$('.fx', roomEl).forEach(b => pointerItem(b));
     pointerItem($('#rcat'), true);
@@ -245,13 +248,13 @@ SCREENS.house = (roomId) => {
 let SHOP_TAB = 'wear';
 function furnShopHTML() {
   houseMigrate(); const n = solvedTotal(), cats = [...new Set(HL.CATALOG.map(c => c[5]))];
-  return `<p class="small">Купленные вещи попадают в <b>сундук</b> в домике — оттуда их можно поставить в любую комнату и передвинуть пальцем.</p>` + cats.map(cat => `<h3>${cat}</h3><div class="items">${HL.CATALOG.filter(c => c[5] === cat).map(c => { const own = S.furn.includes(c[0]), lock = c[4] > n; return `<button class="item ${own ? 'own on' : ''} ${lock ? 'lockd' : ''}" data-f="${c[0]}"><span class="ii">${lock ? '🔒' : c[1]}</span><span class="in">${c[2]}</span><span class="ip">${own ? 'куплено ✔' : lock ? `после ${c[4]} задач` : c[3] + ' 🍬'}</span></button>`; }).join('')}</div>`).join('');
+  return `<p class="small">✨ <b>Волшебство</b> и 🚀 <b>Космос</b> открываются за решённые уравнения. Купленные вещи попадают в <b>сундук</b> в домике — оттуда их можно поставить в любую комнату и передвинуть пальцем.</p>` + cats.map(cat => `<h3>${cat}</h3><div class="items">${HL.CATALOG.filter(c => c[5] === cat).map(c => { const own = S.furn.includes(c[0]), lock = !itemOpen(c); return `<button class="item ${own ? 'own on' : ''} ${lock ? 'lockd' : ''}" data-f="${c[0]}"><span class="ii">${lock ? '🔒' : c[1]}</span><span class="in">${c[2]}</span><span class="ip">${own ? 'куплено ✔' : lock ? (c[4] > n ? `после ${c[4]} задач` : `после ${itemEq(c)} уравнений 📦`) : c[3] + ' 🍬'}</span></button>`; }).join('')}</div>`).join('');
 }
 function bindFurnShop(root, redraw) {
   $$('.item[data-f]', root).forEach(b => b.addEventListener('click', () => {
     const c = catItem(b.dataset.f), n = solvedTotal();
     if (S.furn.includes(c[0])) { say(c[6]); return; }
-    if (c[4] > n) { SND.bad(); toast(`<span class="tb">🔒</span><div>Откроется после <b>${c[4]}</b> решённых задач.<br>Решено: ${n}. Вперёд к примерам!</div>`); say(PH.room[1]); return; }
+    if (!itemOpen(c)) { SND.bad(); const e = itemEq(c) > S.st.eq.done; toast(`<span class="tb">🔒</span><div>${e ? `Волшебные вещи открываются за уравнения: нужно <b>${itemEq(c)}</b>, решено ${S.st.eq.done}.` : `Откроется после <b>${c[4]}</b> решённых задач. Решено: ${n}.`}</div>`); say(e ? PH.quest[2] : PH.room[1]); return; }
     if (S.candies < c[3]) { SND.bad(); say(PH.poor[0]); toast(`<span class="tb">🍬</span><div>Не хватает конфет: нужно ещё <b>${c[3] - S.candies}</b>.<br>Реши ещё несколько примеров!</div>`); return; }
     const m = modal(`<div class="big-emoji">${c[1]}</div><h2>${c[2]}</h2><p>Купить за <b>${c[3]} 🍬</b>? Вещь попадёт в сундук в домике.</p><div class="row-btns"><button class="btn pink" id="buy">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`);
     $('#buy', m.el).addEventListener('click', () => { S.candies -= c[3]; S.furn.push(c[0]); save(); updCandy(); m.close(); tone([[988, 0.09], [1319, 0.25, 0.07]]); confetti(20); say(PH.boughtHome[0]); catMood('happy', 1500); redraw && redraw(); });
@@ -260,7 +263,7 @@ function bindFurnShop(root, redraw) {
 function surprise() { // редкий подарок из сундука 20 задач / 7-го дня
   houseMigrate();
   const outfits = ITEMS.filter(i => i.price > 0 && i.price <= 50 && !S.owned.includes(i.id)).map(i => ({ icon: i.icon, name: i.name, give: () => S.owned.push(i.id) }));
-  const furn = HL.CATALOG.filter(c => c[4] <= solvedTotal() && c[3] <= 50 && !S.furn.includes(c[0])).map(c => ({ icon: c[1], name: c[2], give: () => S.furn.push(c[0]) }));
+  const furn = HL.CATALOG.filter(c => itemOpen(c) && c[3] <= 50 && !S.furn.includes(c[0])).map(c => ({ icon: c[1], name: c[2], give: () => S.furn.push(c[0]) }));
   const all = outfits.concat(furn); if (!all.length) return null;
   const g = pick(all); g.give(); save(); return g;
 }
@@ -271,4 +274,18 @@ function checkRooms() {
   const m = modal(`<div class="big-emoji">${fresh.icon}🔓</div><h2>Открыта новая комната: «${fresh.name}»!</h2><p>${fresh.care}. Загляни и обустрой её!</p><div class="row-btns"><button class="btn pink" id="gohouse">🏠 Посмотреть</button><button class="btn" data-close>Позже</button></div>`);
   speakT([PH.room[0], `${fresh.name}!`]);
   $('#gohouse', m.el).addEventListener('click', () => { m.close(); go('house', fresh.id); });
+}
+
+/* квест: путь к следующей комнате — с упором на уравнения */
+function nextQuest() {
+  const r = HL.ROOMS.find(x => !roomOpen(x)); if (!r) return null;
+  const t = Math.max(0, r.need - solvedTotal()), e = Math.max(0, (r.eq || 0) - S.st.eq.done);
+  return { r, t, e };
+}
+function questHTML() {
+  const q = nextQuest(); if (!q) return '';
+  return `<div class="quest"><span class="q-ic">${q.r.icon}</span><div class="q-t"><b>Квест: открыть «${q.r.name}»</b><small>Осталось: ${lockText(q.r)}</small></div>${q.e ? '<button class="btn pink sm" id="qgo">📦 Уравнения</button>' : '<button class="btn sm" data-go="newcase">🔍 Дело</button>'}</div>`;
+}
+function goEquations() { // лёгкий вход: простые уравнения с подсказками
+  S.prefs.eqLv = S.st.eq.done < 4 ? 1 : S.st.eq.done < 15 ? 2 : S.prefs.eqLv || 2; save(); go('practice', 'eq');
 }
