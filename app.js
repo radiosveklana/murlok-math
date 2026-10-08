@@ -13,12 +13,12 @@ function fresh() {
   return { v: 1, name: '', fur: 'ginger', candies: 0, totalCandies: 0, xp: 0, owned: ['deer', 'loupe'],
     wear: { head: 'deer', face: null, neck: null, hand: 'loupe' }, cases: 0, casesPerfect: 0, caseLog: [],
     st: { mul: { done: 0, perfect: 0 }, eq: { done: 0, perfect: 0 }, bug: { done: 0, perfect: 0 }, blitz: { games: 0, best: 0 } },
-    err: {}, facts: {}, badges: [], days: {}, sound: true, vibro: true, kid: '', lessons: { mul: false, eq: false }, prefs: { mulLv: 2, eqLv: 2, diff: 1, topic: 'mix' } };
+    err: {}, facts: {}, badges: [], days: {}, sound: true, vibro: true, voice: true, kid: '', music: { mode: 'light', vol: 0.3 }, lessons: { mul: false, eq: false }, prefs: { mulLv: 2, eqLv: 2, diff: 1, topic: 'mix' } };
 }
 function load() {
   try {
     const s = JSON.parse(localStorage.getItem(KEY) || 'null');
-    if (s && s.v === 1) { const f = fresh(); return { ...f, ...s, st: { ...f.st, ...s.st }, wear: { ...f.wear, ...s.wear }, prefs: { ...f.prefs, ...s.prefs }, lessons: { ...f.lessons, ...s.lessons } }; }
+    if (s && s.v === 1) { const f = fresh(); return { ...f, ...s, st: { ...f.st, ...s.st }, wear: { ...f.wear, ...s.wear }, music: { ...f.music, ...(s.music || {}) }, prefs: { ...f.prefs, ...s.prefs }, lessons: { ...f.lessons, ...s.lessons } }; }
   } catch (e) { }
   return fresh();
 }
@@ -68,7 +68,9 @@ function taskDone(kind, res) { S.st[kind].done++; if (!res.mistakes && !res.help
 
 /* ================= Звуки и эффекты ================= */
 const M = window.Meow;
-M.setEnabled(() => S.sound); M.setVibro(() => S.vibro !== false);
+M.setEnabled(() => S.sound); M.setVibro(() => S.vibro !== false); M.setVoice(() => S.sound && S.voice !== false);
+M.onTalk(on => { document.body.classList.toggle('cat-talking', on); Music.setDuck(on); });
+document.addEventListener('pointerdown', function unlock() { M.ctx(); M.unlockSpeech(); setTimeout(() => Music.play(), 50); document.removeEventListener('pointerdown', unlock, true); }, true);
 const tone = seq => M.tone(seq), later = (f, ms) => setTimeout(f, ms);
 const SND = {
   ok: () => { cheer(true); tone([[660, 0.12], [880, 0.2, 0.09]]); if (Math.random() < 0.3) later(() => M.chirp(), 260); catMood('happy', 900); M.haptic(15); },
@@ -124,6 +126,54 @@ function modal(html, cls = '') {
 function shake(el) { if (!el) return; el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
 const myCat = (o = {}) => catSVG({ fur: S.fur, wear: S.wear, ...o });
 
+
+/* ================= Фоновая музыка (Kevin MacLeod, incompetech.com, CC BY 4.0) ================= */
+const MUSIC = {
+  light: { name: 'Лайтовая', icon: '🌸', desc: 'Спокойная и весёлая — для уроков', tracks: [['light1', 'Carefree'], ['light2', 'Easy Lemon'], ['light3', 'Hep Cats']] },
+  hard: { name: 'Жёсткая', icon: '🎸', desc: 'Драйв и бодрость — для блица и дел', tracks: [['hard1', 'Bit Shift'], ['hard2', 'Run Amok'], ['hard3', 'Volatile Reaction']] },
+  focus: { name: 'Для ударной работы', icon: '⚡', desc: 'Детективный ритм — помогает сосредоточиться', tracks: [['focus1', 'Sneaky Snitch'], ['focus2', 'Investigations'], ['focus3', 'Pixelland']] },
+};
+const Music = (() => {
+  let audio = null, gain = null, list = [], idx = 0, started = false, duck = false, mode = '';
+  const vol = () => (S.music && S.music.vol != null ? S.music.vol : 0.3);
+  function setup() {
+    if (audio) return;
+    audio = new Audio(); audio.preload = 'auto'; audio.addEventListener('ended', next);
+    const ac = M.ctx();
+    if (ac && location.protocol !== 'file:') { try { const src = ac.createMediaElementSource(audio); gain = ac.createGain(); gain.gain.value = 0; src.connect(gain); gain.connect(ac.destination); } catch (e) { gain = null; } }
+  }
+  function apply() {
+    if (!audio) return; const v = (S.sound ? vol() : 0) * (duck ? 0.3 : 1);
+    if (gain) { gain.gain.setTargetAtTime(v * 0.6, M.ctx().currentTime, 0.25); audio.volume = 1; } else audio.volume = Math.min(1, v * 0.6);
+  }
+  function load() { list = shuffle(MUSIC[S.music.mode].tracks); idx = 0; audio.src = 'music/' + list[0][0] + '.mp3'; mode = S.music.mode; }
+  function play() {
+    if (!S.music || S.music.mode === 'off' || !MUSIC[S.music.mode] || !S.sound) return pause();
+    setup(); if (mode !== S.music.mode) load(); apply();
+    audio.play().then(() => { started = true; document.body.classList.add('music-on'); }).catch(() => { });
+  }
+  function pause() { if (audio) audio.pause(); document.body.classList.remove('music-on'); }
+  function next() { if (!list.length) return; idx = (idx + 1) % list.length; audio.src = 'music/' + list[idx][0] + '.mp3'; apply(); audio.play().catch(() => { }); const np = $('#nowp'); if (np) np.innerHTML = nowPlaying(); }
+  return { play, pause, next, apply, setDuck: d => { duck = d; apply(); }, current: () => (list[idx] ? list[idx][1] : ''), get started() { return started; }, get playing() { return !!audio && !audio.paused; } };
+})();
+function nowPlaying() { return Music.playing ? `🎶 Сейчас играет: <b>${Music.current()}</b>` : (S.music.mode === 'off' ? 'Музыка выключена' : !S.sound ? 'Включи звук 🔊 на главном экране' : ''); }
+document.addEventListener('visibilitychange', () => { if (document.hidden) Music.pause(); else if (Music.started) Music.play(); });
+function openMusic() {
+  const PH_M = { light: 'Мур… какая приятная мелодия 🎶', hard: 'Ух! Я танцую! 🎸', focus: 'Включаем режим супер-сыщика ⚡', off: 'Тишина. Слушаю, как ты думаешь 🤫' };
+  const m = modal(`<h2>🎵 Музыка</h2><p class="small">Выбери настроение — котик будет слушать вместе с тобой!</p>
+    <div class="music-grid">${Object.entries(MUSIC).map(([k, v]) => `<button class="mcard ${S.music.mode === k ? 'on' : ''}" data-m="${k}"><span>${v.icon}</span><b>${v.name}</b><small>${v.desc}</small></button>`).join('')}<button class="mcard ${S.music.mode === 'off' ? 'on' : ''}" data-m="off"><span>🔕</span><b>Без музыки</b><small>Тишина</small></button></div>
+    <div class="vol"><span>🔈</span><input type="range" id="mvol" min="0" max="100" value="${Math.round(S.music.vol * 100)}" aria-label="Громкость музыки"><span>🔊</span></div>
+    <div class="nowp" id="nowp">${nowPlaying()}</div><button class="btn sm" id="mnext">⏭ Другой трек</button>
+    <p class="credit">Музыка: Kevin MacLeod (incompetech.com). Лицензия Creative Commons: By Attribution 4.0</p><button class="btn pink" data-close>Готово</button>`, 'wide');
+  $$('.mcard', m.el).forEach(b => b.addEventListener('click', () => {
+    S.music.mode = b.dataset.m; save(); $$('.mcard', m.el).forEach(x => x.classList.toggle('on', x === b)); SND.tap();
+    if (S.music.mode === 'off') Music.pause(); else Music.play();
+    say(PH_M[S.music.mode]); setTimeout(() => { const np = $('#nowp', m.el); if (np) np.innerHTML = nowPlaying(); }, 600);
+  }));
+  $('#mvol', m.el).addEventListener('input', e => { S.music.vol = +e.target.value / 100; Music.apply(); });
+  $('#mvol', m.el).addEventListener('change', save);
+  $('#mnext', m.el).addEventListener('click', () => { SND.tap(); if (S.music.mode === 'off') { S.music.mode = 'light'; save(); } Music.play(); Music.next(); });
+}
 /* ================= Маскот: котик-напарник на каждом экране ================= */
 const PH = {
   cheerOk: ['Молодец, {n}! 😻', 'Мур-р, отлично, {n}!', 'Так держать, {n}!', 'Вот это лапки! 🐾', '{n}, ты настоящий детектив!', 'Ух ты, без ошибок!', 'Мяу-класс, {n}!', 'Я горжусь тобой, {n}!', 'Супер! 😻'],
@@ -137,6 +187,8 @@ const PH = {
   blitz: ['Лапки на старт! ⚡', 'Таблица умножения — это суперсила!', 'Ошибёшься — не беда, такие примеры вернутся для тренировки.'],
   shop: ['Мур! Мне так идёт… 😺', 'Может, корону? Я ведь главный детектив!', 'Конфеты заработаны честно — выбирай!'],
   book: ['Здесь все секреты сыщика 🤫', 'Загляни в правила, если что-то забылось.', 'Смотри, сколько наград уже собрано!'],
+  pet: ['Мур! Я тебя люблю, {n}!', 'Ой, щекотно! 😹', 'Ещё погладь, пожалуйста!', 'Мяу! Давай дальше решать!', 'Мурр… как приятно!', 'Ты мой самый лучший напарник, {n}!', 'Мяу-мяу! Мне весело!'],
+  done: ['Ура, {n}! Задача решена!', 'Отлично, {n}! Получилось!', 'Мур-р! Ты умница, {n}!', 'Вот это да, {n}! Решено!', 'Так держать, {n}! Ещё одна задача позади!'],
   win: ['Ура, {n}! Мы раскрыли дело! 🎉', 'Мур-р-р, {n}, я так счастлив!', '{n}, ты лучший сыщик Сладкограда!'],
 };
 function homeGreet() {
@@ -152,11 +204,13 @@ document.body.appendChild(mascot);
 const msCat = mascot.querySelector('.ms-cat'), msBub = mascot.querySelector('.ms-bubble');
 function bubbleOn(el, text, ms = 3800) { el.textContent = text; el.hidden = false; el.classList.remove('in'); void el.offsetWidth; el.classList.add('in'); clearTimeout(el._t); if (el === msBub) mascot.classList.add('talk'); el._t = setTimeout(() => { el.hidden = true; if (el === msBub) mascot.classList.remove('talk'); }, ms); }
 /* сказать фразу тем котом, который сейчас на экране */
-function say(text, ms) {
-  text = String(text).replace(/\{n\}/g, S.kid || 'сыщик');
+function say(text, ms, o = {}) {
+  text = String(text).replace(/\{n\}/g, S.kid || 'сыщик').replace(/<[^>]+>/g, '');
+  if (!o.silent) M.speak(text, o);
+  ms = ms || Math.max(3800, text.length * 75);
   const hs = $('#heroSay'); if (hs) return bubbleOn(hs, text, ms);
   if (!mascot.hidden) return bubbleOn(msBub, text, ms);
-  const hp = $('.helper') || $('.slide-head'); if (hp) { $$('.cheer', hp).forEach(x => x.remove()); const c = document.createElement('div'); c.className = 'cheer'; c.textContent = text; hp.appendChild(c); setTimeout(() => c.remove(), 2200); }
+  const hp = $('.modal .m-cat') || $('.helper') || $('.slide-head'); if (hp) { $$('.cheer').forEach(x => x.remove()); const c = document.createElement('div'); c.className = 'cheer'; c.textContent = text; hp.appendChild(c); setTimeout(() => c.remove(), Math.min(ms, 5000)); }
 }
 function cheer(ok) {
   const now = Date.now();
@@ -164,18 +218,18 @@ function cheer(ok) {
   else { okRun = 0; if (now - lastCheer > 5000 && Math.random() < 0.6) { lastCheer = now; say(pick(PH.cheerBad)); } }
 }
 function mascotScene(name) {
-  curScreen = name; okRun = 0;
+  curScreen = name; okRun = 0; M.hush();
   mascot.hidden = NO_FLOAT.includes(name);
   document.body.classList.toggle('has-mascot', !mascot.hidden);
   msBub.hidden = true;
-  if (!mascot.hidden || name === 'lesson' || name === 'blitz') { if (!mascot.hidden) msCat.innerHTML = myCat({ cls: 'mini' }); const key = PH[name] ? name : 'idle'; setTimeout(() => say(pick(PH[key])), 600); }
+  if (!mascot.hidden || name === 'lesson' || name === 'blitz') { if (!mascot.hidden) msCat.innerHTML = myCat({ cls: 'mini' }); const key = PH[name] ? name : 'idle'; setTimeout(() => say(name === 'caseintro' && CASE ? `Дело номер ${CASE.c.n}: ${CASE.c.crime.title}! Сегодня утром в ${CASE.c.crime.place} кто-то украл ${CASE.c.crime.what}. Решай задачи, {n}, — за каждую получишь улику!` : pick(PH[key])), 600); }
   if (name === 'home') setTimeout(() => say(homeGreet(), 4500), 700);
 }
 // погладить маскота: касание — мурлыканье и фраза, удержание — мурлычет, пока держишь
 let msHold = null, msPurr = false;
 msCat.addEventListener('pointerdown', e => { e.preventDefault(); M.ctx(); mascot.classList.add('talk'); msHold = setTimeout(() => { msPurr = true; M.purrStart(); msCat.classList.add('m-purr'); msCat.innerHTML = myCat({ happy: true, cls: 'mini' }); say('Мур-мур-мур… 😻'); hearts(msCat, 3); M.haptic([25, 60, 25, 60, 25]); }, 380); });
 const msStop = () => { clearTimeout(msHold); if (msPurr) { msPurr = false; M.purrStop(); msCat.classList.remove('m-purr'); msCat.innerHTML = myCat({ cls: 'mini' }); } };
-msCat.addEventListener('pointerup', () => { if (!msPurr) { clearTimeout(msHold); SND.purr(1.4); hearts(msCat, 3); say(pick(PH.idle)); } msStop(); });
+msCat.addEventListener('pointerup', () => { if (!msPurr) { clearTimeout(msHold); SND.purr(1.4); hearts(msCat, 3); say(pick(PH.pet)); } msStop(); });
 ['pointerleave', 'pointercancel'].forEach(ev => msCat.addEventListener(ev, msStop));
 msCat.addEventListener('contextmenu', e => e.preventDefault());
 // время от времени котик сам подбадривает
@@ -211,7 +265,21 @@ function bindPad(root, h) {
   $$('.pad .k', root).forEach(b => b.addEventListener('click', () => press(b.dataset.k)));
   keyHandler = e => { let k = null; if (/^[0-9]$/.test(e.key)) k = e.key; else if (e.key === 'Backspace') k = 'back'; else if (e.key === 'Enter') k = 'ok'; if (k) { e.preventDefault(); press(k); } };
 }
-function helperHTML(id) { return `<div class="helper"><div class="mini-cat">${myCat({ cls: 'mini' })}</div><div class="bubble" id="${id}"></div></div>`; }
+function helperHTML(id) { return `<div class="helper"><div class="mini-cat">${myCat({ cls: 'mini' })}</div><div class="bubble" id="${id}"></div><button class="say-btn" aria-label="Послушать котика">🔊</button></div>`; }
+/* погладить любого кота на экране: касание — мяу и фраза, удержание — мурлычет */
+const PET_SEL = '.mini-cat, .shop-cat, .win-cat-in, .m-cat, .hello-cat';
+let petT = null, petEl = null, petPurr = false;
+document.addEventListener('pointerdown', e => {
+  const el = e.target.closest(PET_SEL); if (!el) return;
+  petEl = el; petPurr = false;
+  petT = setTimeout(() => { petPurr = true; M.purrStart(); el.classList.add('m-purr'); hearts(el, 3); say('Мур-мур-мур… 😻', 2500); M.haptic([25, 60, 25, 60, 25]); }, 380);
+});
+const petEnd = () => { clearTimeout(petT); if (!petEl) return; const el = petEl; petEl = null;
+  if (petPurr) { petPurr = false; M.purrStop(); el.classList.remove('m-purr'); return; }
+  pick([() => M.meow({ shape: 'happy' }), () => M.trill(), M.kitten])(); catMood('happy', 1000); hearts(el, 3); M.haptic(20); say(pick(PH.pet)); };
+document.addEventListener('pointerup', petEnd); document.addEventListener('pointercancel', petEnd);
+document.addEventListener('contextmenu', e => { if (e.target.closest(PET_SEL)) e.preventDefault(); });
+document.addEventListener('click', e => { const b = e.target.closest('.say-btn'); if (!b) return; const bub = b.parentElement.querySelector('.bubble'); if (bub) { M.speak(bub.innerText, { force: true }); catMood('happy', 900); } });
 function placeWord(i, n) { return i === 1 ? plural(n, 'десяток', 'десятка', 'десятков') : i === 2 ? plural(n, 'сотня', 'сотни', 'сотен') : 'тысяч'; }
 
 /* ======================================================================
@@ -308,7 +376,7 @@ function mountMul(el, { a, b, guided, onDone }) {
     const key = multi ? 's' : 'p0'; for (let c = 0; c < W; c++) cell(key, c)?.classList.add('done');
     ask.innerHTML = `<div class="ask-eq win">${a} × ${b} = <b>${P.total}</b></div>`;
     say((fb ? `<div class="fb">${fb}</div>` : '') + `🎉 ${pick(['Молодец', 'Умница', 'Отлично', 'Ура'])}, ${esc(S.kid)}! <b>${a} × ${b} = ${P.total}</b>${mistakes ? '' : '<br>Без единой ошибки — вот это лапки!'}`);
-    SND.win(); onDone && onDone({ mistakes, helped });
+    SND.win(); later(() => say(pick(PH.done)), 400); onDone && onDone({ mistakes, helped });
   }
   function feedbackMul(st) {
     if (st.t === 'mul') {
@@ -525,7 +593,7 @@ function mountEq(el, { eq, guided, onDone }) {
     focus.innerHTML = `<div class="eqbig win"><i class="x">x</i> = ${eq.x}</div>`;
     ask.innerHTML = '';
     say(`🎉 ${pick(['Молодец', 'Умница', 'Отлично'])}, ${esc(S.kid)}! <b><i class="x">x</i> = ${eq.x}</b>. Проверка сошлась — алиби подтверждено.${mistakes ? '' : '<br>Ни одной ошибки!'}`);
-    SND.win(); onDone && onDone({ mistakes, helped });
+    SND.win(); later(() => say(pick(PH.done)), 400); onDone && onDone({ mistakes, helped });
   }
   const hb = $('#' + uid + '-hint');
   if (hb) hb.addEventListener('click', () => {
@@ -564,7 +632,7 @@ function mountBugMul(el, { level, onDone }) {
       else if (g.type === 'carry') ex = `Ошибка в строке ${i + 1}: Енот <b>забыл прибавить запомненное число</b>! Правильно: ${a} × ${rows[i].bd} = <b>${correct.rows[i].val}</b>.`;
       else if (g.type === 'shift') ex = `Енот <b>забыл про сдвиг</b>! Вторая строка — это ${a} × ${rows[1].bd} десятков, её надо писать на одну клетку левее. Правильный ответ: <b>${a * b}</b>.`;
       else ex = `Неполные произведения верные, а вот <b>сложил</b> Енот неправильно. Правильный ответ: <b>${a * b}</b>.`;
-      bub.innerHTML = `<div class="fb">🔍 Нашли!</div>${ex}`; SND.win();
+      bub.innerHTML = `<div class="fb">🔍 Нашли!</div>${ex}`; SND.win(); later(() => say(pick(['Попался, Енот! 🦝', 'Зоркий глаз, {n}!', 'Вот она, ошибка! Молодец, {n}!'])), 400);
       onDone && onDone({ mistakes, helped: false, type: g.type });
       return;
     }
@@ -588,7 +656,7 @@ function mountBugEq(el, { level, onDone }) {
       let ex;
       if (g.type === 'rule') ex = `Здесь ${E.eqText(s.E)} — это <b>${E.ROLES[s.role].gen}</b>.<div class="rule">📏 ${E.ROLES[s.role].rule}</div>Правильно: ${E.eqText(s.E)} = ${E.ROLES[s.role].f(s.c, s.b).map(x => SYM[x] || x).join(' ')}`;
       else ex = `Ошибка в вычислении: ${l.f[0]} ${SYM[l.f[1]]} ${l.f[2]} = <b>${E.calc(...l.f)}</b>, а не ${l.v}.`;
-      bub.innerHTML = `<div class="fb">🔍 Попался!</div>${ex}<br>Правильный ответ: <b>x = ${g.eq.x}</b>.`; SND.win();
+      bub.innerHTML = `<div class="fb">🔍 Попался!</div>${ex}<br>Правильный ответ: <b>x = ${g.eq.x}</b>.`; SND.win(); later(() => say(pick(['Попался, Енот! 🦝', 'Зоркий глаз, {n}!', 'Вот она, ошибка! Молодец, {n}!'])), 400);
       onDone && onDone({ mistakes, helped: false });
       return;
     }
@@ -626,13 +694,13 @@ SCREENS.hello = () => {
     <div class="lbl">Выбери окрас</div>
     <div class="furs">${Object.entries(FURS).map(([k, f]) => `<button class="fur ${k === fur ? 'on' : ''}" data-f="${k}"><i style="background:${f.sw}"></i>${f.name}</button>`).join('')}</div>
     <button class="btn big pink" id="start">Начать расследования →</button></div>`;
-  $$('.fur').forEach(b => b.addEventListener('click', () => { fur = b.dataset.f; $$('.fur').forEach(x => x.classList.toggle('on', x === b)); $('#hcat').innerHTML = catSVG({ fur, wear: S.wear }); SND.meow(); }));
+  $$('.fur').forEach(b => b.addEventListener('click', () => { fur = b.dataset.f; $$('.fur').forEach(x => x.classList.toggle('on', x === b)); $('#hcat').innerHTML = catSVG({ fur, wear: S.wear }); SND.meow(); M.speak(pick(['Мяу! Мне нравится!', 'Красивый окрас!', 'Мур! Это я!', 'Ой, как красиво!'])); }));
   $('#start').addEventListener('click', () => {
     const kid = $('#kid').value.trim();
     if (!kid) { SND.bad(); shake($('#kid')); $('#kid').focus(); $('#kid').placeholder = 'Напиши своё имя 🙂'; return; }
     const nm = $('#nm').value.trim() || 'Мурлок';
     S.kid = kid[0].toUpperCase() + kid.slice(1); S.name = nm; S.fur = fur; save(); SND.win(); go('home');
-    setTimeout(() => { modal(`<div class="m-cat">${myCat({ happy: true })}</div><h2>Приятно познакомиться, ${esc(S.kid)}! Я — ${esc(nm)} 😺</h2><p>Теперь мы напарники по расследованиям!</p><p>Вот как устроено наше агентство:</p><ul class="howto"><li>🎓 <b>Школа сыщика</b> — разберёмся, как умножать столбиком и решать составные уравнения. Начни отсюда!</li><li>🔍 <b>Дела</b> — решай задачи, получай улики и вычисляй вора сладостей.</li><li>🍬 За задачи дают <b>конфеты</b> — на них можно купить котику наряды.</li><li>⭐ Чем больше дел раскрыто — тем выше <b>звание</b>.</li></ul><button class="btn pink" data-close>Понятно, мяу!</button>`); }, 300);
+    setTimeout(() => { modal(`<div class="m-cat">${myCat({ happy: true })}</div><h2>Приятно познакомиться, ${esc(S.kid)}! Я — ${esc(nm)} 😺</h2><p>Теперь мы напарники по расследованиям!</p><p>Вот как устроено наше агентство:</p><ul class="howto"><li>🎓 <b>Школа сыщика</b> — разберёмся, как умножать столбиком и решать составные уравнения. Начни отсюда!</li><li>🔍 <b>Дела</b> — решай задачи, получай улики и вычисляй вора сладостей.</li><li>🍬 За задачи дают <b>конфеты</b> — на них можно купить котику наряды.</li><li>⭐ Чем больше дел раскрыто — тем выше <b>звание</b>.</li></ul><button class="btn pink" data-close>Понятно, мяу!</button>`); say(`Приятно познакомиться, {n}! Я ${nm}, твой напарник. Начнём со Школы сыщика!`); }, 300);
   });
 };
 
@@ -642,7 +710,7 @@ SCREENS.home = () => {
   const r = rank(), st = streak(), todayN = S.days[today()] || 0, goal = 5;
   const learnFirst = !S.lessons.mul || !S.lessons.eq;
   app.innerHTML = `
-  <header class="home-top"><div class="pill" title="Дней подряд">🔥 ${st} ${plural(st, 'день', 'дня', 'дней')}</div><div class="pill candy">🍬 <b class="candyN">${S.candies}</b></div><button class="pill icon" id="vib" aria-label="Вибрация">${S.vibro !== false ? '📳' : '📴'}</button><button class="pill icon" id="snd" aria-label="Звук">${S.sound ? '🔊' : '🔇'}</button></header>
+  <header class="home-top"><div class="pill" title="Дней подряд">🔥 ${st} ${plural(st, 'день', 'дня', 'дней')}</div><div class="pill candy">🍬 <b class="candyN">${S.candies}</b></div>${M.hasSpeech() ? `<button class="pill icon" id="voi" aria-label="Голос котика">${S.voice !== false ? '🗣️' : '🤐'}</button>` : ''}<button class="pill icon" id="vib" aria-label="Вибрация">${S.vibro !== false ? '📳' : '📴'}</button><button class="pill icon" id="mus" aria-label="Музыка">🎵</button><button class="pill icon" id="snd" aria-label="Звук">${S.sound ? '🔊' : '🔇'}</button></header>
   <section class="hero">
     <button class="hero-cat" id="pet" aria-label="Погладить котика">${myCat()}</button>
     <div class="hero-info">
@@ -665,8 +733,10 @@ SCREENS.home = () => {
     <button class="tile t-book" data-go="book"><span class="ti">📒</span><b>Блокнот детектива</b><small>Правила, награды, дела</small></button>
   </section>
   <footer class="foot"><button class="link" data-go="parents">Для взрослых</button></footer>`;
-  $('#snd').addEventListener('click', e => { S.sound = !S.sound; save(); e.currentTarget.textContent = S.sound ? '🔊' : '🔇'; SND.tap(); });
+  $('#snd').addEventListener('click', e => { S.sound = !S.sound; save(); e.currentTarget.textContent = S.sound ? '🔊' : '🔇'; SND.tap(); if (S.sound) Music.play(); else { Music.pause(); M.hush(); } });
+  $('#mus').addEventListener('click', () => { SND.tap(); openMusic(); });
   const phrases = ['Мяу! Готов(а) к новому делу?', 'Мур-р… Я чую запах пончиков!', 'Сыщик всегда проверяет ответ!', 'Справа налево — так пишут столбиком!', 'Последнее действие — главная улика!', 'Мяу! Давай раскроем ещё одно дело!'];
+  $('#voi')?.addEventListener('click', e => { S.voice = S.voice === false; save(); e.currentTarget.textContent = S.voice ? '🗣️' : '🤐'; if (S.voice) say('Ура! Теперь я буду говорить, {n}!'); else M.hush(); });
   $('#vib').addEventListener('click', e => { S.vibro = S.vibro === false; save(); e.currentTarget.textContent = S.vibro ? '📳' : '📴'; M.haptic([30, 40, 30]); });
   // погладить: короткое касание — мяу, удержание — мурлычет, пока держишь
   const pet = $('#pet'); let holdT = null, purring = false, heartIv = null;
@@ -703,8 +773,8 @@ SCREENS.newcase = () => {
     <p class="small center">Лёгкое: 2-значные числа и простые уравнения · Среднее: 3-значные · Сложное: 3-значные на 3-значные и уравнения в 3 действия</p>
     <button class="btn big pink" id="go">Взять дело →</button>
   </div>`;
-  $$('.choice').forEach(b => { b.classList.toggle('on', b.dataset.t === p.topic); b.addEventListener('click', () => { p.topic = b.dataset.t; $$('.choice').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); }); });
-  $$('.diff button').forEach(b => b.addEventListener('click', () => { p.diff = +b.dataset.d; $$('.diff button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); }));
+  $$('.choice').forEach(b => { b.classList.toggle('on', b.dataset.t === p.topic); b.addEventListener('click', () => { p.topic = b.dataset.t; $$('.choice').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); catMood('happy', 700); say({ mul: 'Столбик! Отличный выбор, {n}!', eq: 'Уравнения! Будем открывать коробки 📦', mix: 'Всё вперемешку — как настоящие сыщики!' }[p.topic]); }); });
+  $$('.diff button').forEach(b => b.addEventListener('click', () => { p.diff = +b.dataset.d; $$('.diff button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); say({ 1: 'Начнём с лёгкого — разомнём лапки!', 2: 'Среднее? Мур, я в тебя верю!', 3: 'Сложное дело! Ух, будет интересно, {n}!' }[p.diff]); }));
   $('#go').addEventListener('click', () => { save(); startCase(p.topic, p.diff); });
 };
 let CASE = null;
@@ -727,8 +797,8 @@ function bindSuspects(root, found, onChange) {
   $$('.sus', root).forEach(b => b.addEventListener('click', () => {
     const i = +b.dataset.i, s = CASE.c.suspects[i];
     if (CASE.crossed.has(i)) { CASE.crossed.delete(i); b.classList.remove('crossed'); SND.tap(); onChange && onChange(); return; }
-    if (E.alibi(CASE.c, s, found) < 0) { SND.bad(); shake(b); floatText('Подходит под все улики! 🤔'); return; }
-    CASE.crossed.add(i); b.classList.add('crossed'); SND.tap(); onChange && onChange();
+    if (E.alibi(CASE.c, s, found) < 0) { SND.bad(); shake(b); say(found ? `Подожди, {n}! ${s.animal[1]} подходит под все улики 🤔` : 'Сначала нужна улика! Реши задачу 🔍'); return; }
+    CASE.crossed.add(i); b.classList.add('crossed'); SND.tap(); catMood('happy', 700); say(pick(['Точно, не подходит!', 'Верно, вычёркиваем!', 'Отличная дедукция, {n}!', `${s.animal[1]} — не вор!`])); onChange && onChange();
   }));
 }
 SCREENS.caseintro = () => {
@@ -770,6 +840,7 @@ function revealClue() {
   const k = CASE.idx, clue = CASE.c.clues[k];
   CASE.idx++;
   tone([[784, 0.12], [988, 0.12, 0.1], [1319, 0.3, 0.2]]); later(() => SND.trill(), 400); M.haptic([20, 40, 60]);
+  later(() => M.speak(`Улика номер ${k + 1}! ${clue.text}`, { force: true }), 700);
   const m = modal(`<div class="clue-big"><div class="clue-ic">🔎</div><h2>Улика №${k + 1}</h2><p class="clue-txt">${clue.text}</p></div>
     <div class="clue-list">${CASE.c.clues.slice(0, k).map(c => `<div class="clue old">🔎 ${c.text}</div>`).join('')}</div>
     <p class="small center">Вычеркни тех, кто <b>не подходит</b> под улики (нажми на карточку):</p>${suspectsHTML(CASE.idx)}
@@ -787,12 +858,12 @@ SCREENS.accuse = () => {
   $$('.sus', app).forEach(b => b.addEventListener('click', () => {
     const i = +b.dataset.i; if (CASE.crossed.has(i)) { CASE.crossed.delete(i); b.classList.remove('crossed'); }
     sel = i; $$('.sus', app).forEach(x => x.classList.toggle('sel', x === b)); SND.tap();
-    const btn = $('#arrest'); btn.disabled = false; btn.textContent = `🚔 Арестовать: ${CASE.c.suspects[i].animal[1]}!`;
+    const btn = $('#arrest'); btn.disabled = false; btn.textContent = `🚔 Арестовать: ${CASE.c.suspects[i].animal[1]}!`; say(`Думаешь, это ${CASE.c.suspects[i].animal[1]}? Сравни с уликами!`);
   }));
   $('#arrest').addEventListener('click', () => {
     if (sel < 0) return; const s = CASE.c.suspects[sel];
     if (s.culprit) return closeCase();
-    CASE.accuseTries++; CASE.mistakes++; SND.hiss(); catMood('sad', 1500);
+    CASE.accuseTries++; CASE.mistakes++; SND.hiss(); catMood('sad', 1500); later(() => M.speak('Пфф! Это не я!', { pitch: 0.75, rate: 1.15, force: true }), 500);
     const k = E.alibi(CASE.c, s, 4), a = CASE.c.order[k], A = E.ATTRS[a], v = A.vals[s[a]];
     const why = a === 'scarf' ? `у него ${v.n} шарф` : a === 'sweet' ? `${s.animal[1].split(' ')[1]} любит ${v.w}` : `${s.animal[1].split(' ')[1]} был ${v.w} ${v.e}`;
     CASE.crossed.add(sel); $(`.sus[data-i="${sel}"]`, app).classList.add('crossed'); $(`.sus[data-i="${sel}"]`, app).classList.remove('sel'); sel = -1;
@@ -873,7 +944,7 @@ SCREENS.lesson = (topic = 'mul') => {
     $$('.dots i').forEach((d, k) => d.classList.toggle('on', k === i));
     $('#prev').style.visibility = i ? 'visible' : 'hidden';
     $('#next').textContent = i < L.length - 1 ? 'Дальше →' : '🐾 Решаем вместе!';
-    if (i === L.length - 1 && !S.lessons[topic]) { S.lessons[topic] = true; save(); award(5, 20); checkBadges(); }
+    if (i === L.length - 1 && !S.lessons[topic]) { S.lessons[topic] = true; save(); award(5, 20); checkBadges(); later(() => { SND.win(); say('Урок пройден, {n}! Ты умница! Теперь решим вместе?'); }, 400); }
   };
   $('#prev').addEventListener('click', () => { if (i > 0) { i--; SND.tap(); draw(); } });
   $('#next').addEventListener('click', () => { SND.tap(); if (i < L.length - 1) { i++; draw(); } else go('practice', topic); });
@@ -890,7 +961,7 @@ const INTER = {
     const draw = () => {
       const s = st[k];
       el.innerHTML = `<div class="slide-row"><div class="story">${s ? s.txt : 'Умножаем 324 на <b>3</b> (единицы нижнего числа). Нажимай «Следующий шаг».'}<br><br><button class="btn mint" id="stp">${k < st.length - 1 ? 'Следующий шаг ▶' : 'Ещё раз ↺'}</button></div>${miniColumn(324, 23, { rows: s ? 1 : 0, partial: s ? [s.p] : [], carry: s ? s.carry : null, hlA: s ? s.hlA : [], hlB: [0] })}</div>`;
-      $('#stp', el).addEventListener('click', () => { SND.tap(); k = k < st.length - 1 ? k + 1 : -1; draw(); });
+      $('#stp', el).addEventListener('click', () => { SND.tap(); k = k < st.length - 1 ? k + 1 : -1; draw(); if (st[k]) { M.speak(st[k].txt, { force: true }); catMood('happy', 600); } });
     };
     draw();
   },
@@ -906,7 +977,7 @@ const INTER = {
     let k = 0;
     const draw = () => {
       el.innerHTML = `<div class="box-demo">${st.slice(0, k + 1).map((s, q) => `<div class="formula ${q === k ? 'now' : 'old'}">${s.f}</div>`).join('')}</div><div class="story">${st[k].t}</div><button class="btn mint" id="stp">${k < st.length - 1 ? 'Следующий шаг ▶' : 'Ещё раз ↺'}</button>`;
-      $('#stp', el).addEventListener('click', () => { SND.tap(); k = k < st.length - 1 ? k + 1 : 0; draw(); });
+      $('#stp', el).addEventListener('click', () => { SND.tap(); k = k < st.length - 1 ? k + 1 : 0; draw(); M.speak(st[k].t, { force: true }); catMood('happy', 600); });
     };
     draw();
   },
@@ -982,7 +1053,7 @@ SCREENS.blitz = () => {
       digit: d => {
         if (lock) return; buf += d; draw(); const ans = String(f[0] * f[1]);
         if (buf.length >= ans.length) {
-          if (buf === ans) { score++; $('#sc').textContent = score; SND.tap(); q.classList.add('ok'); setTimeout(() => q.classList.remove('ok'), 150); f = pickFact(f); buf = ''; draw(); }
+          if (buf === ans) { score++; $('#sc').textContent = score; SND.tap(); catMood('happy', 500); cheer(true); q.classList.add('ok'); setTimeout(() => q.classList.remove('ok'), 150); f = pickFact(f); buf = ''; draw(); }
           else { lock = true; SND.bad(); noteErr('tbl', factKey(f[0], f[1])); misses.push(`${f[0]} × ${f[1]} = ${ans}`); q.innerHTML = `${f[0]} × ${f[1]} = <span class="inp bad">${ans}</span>`; setTimeout(() => { lock = false; f = pickFact(f); buf = ''; draw(); }, 1100); }
         }
       },
@@ -1012,10 +1083,10 @@ SCREENS.shop = () => {
     $$('.fur', app).forEach(b => b.addEventListener('click', () => { S.fur = b.dataset.f; save(); SND.meow(); draw(); }));
   };
   const clickItem = it => {
-    if (S.owned.includes(it.id)) { S.wear[it.slot] = S.wear[it.slot] === it.id ? null : it.id; save(); SND.tap(); draw(); return; }
-    if (S.candies < it.price) { SND.bad(); toast(`<span class="tb">🍬</span><div>Не хватает конфет: нужно ещё <b>${it.price - S.candies}</b>.<br>Раскрой пару дел!</div>`); return; }
+    if (S.owned.includes(it.id)) { S.wear[it.slot] = S.wear[it.slot] === it.id ? null : it.id; save(); SND.tap(); draw(); if (S.wear[it.slot]) { catMood('happy', 1200); M.meow({ shape: 'happy' }); say(`${it.name} — ${pick(['мне очень идёт!', 'какая красота!', 'я самый модный сыщик!', 'мур, обожаю!'])}`); } else say('Сниму пока. Мур!'); return; }
+    if (S.candies < it.price) { SND.bad(); say(`Нужно ещё ${it.price - S.candies} конфет, {n}. Раскроем пару дел?`); toast(`<span class="tb">🍬</span><div>Не хватает конфет: нужно ещё <b>${it.price - S.candies}</b>.<br>Раскрой пару дел!</div>`); return; }
     const m = modal(`<div class="big-emoji">${it.icon}</div><h2>${it.name}</h2><p>Купить за <b>${it.price} 🍬</b>?</p><div class="row-btns"><button class="btn pink" id="buy">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`);
-    $('#buy', m.el).addEventListener('click', () => { S.candies -= it.price; S.owned.push(it.id); S.wear[it.slot] = it.id; save(); updCandy(); m.close(); tone([[988, 0.09], [1319, 0.25, 0.07]]); confetti(20); draw(); later(() => { SND.crunch(); catMood('happy', 2600); hearts($('.shop-cat'), 5); }, 150); });
+    $('#buy', m.el).addEventListener('click', () => { S.candies -= it.price; S.owned.push(it.id); S.wear[it.slot] = it.id; save(); updCandy(); m.close(); tone([[988, 0.09], [1319, 0.25, 0.07]]); confetti(20); draw(); later(() => { SND.crunch(); catMood('happy', 2600); hearts($('.shop-cat'), 5); say(`Ням! Спасибо, {n}! ${it.name} — мур-р!`); }, 150); });
   };
   draw();
 };
@@ -1028,8 +1099,9 @@ SCREENS.book = () => {
     const el = $('#bk');
     if (tab === 'rules') el.innerHTML = `<div class="card"><h3>✖️ Умножение столбиком</h3>${LESSONS.mul[5].h()}${miniColumn(324, 23, { ghost: true, sum: true })}</div>
       <div class="card"><h3>📦 Составные уравнения</h3>${LESSONS.eq[0].h()}${LESSONS.eq[1].h()}${LESSONS.eq[4].h()}</div>`;
-    if (tab === 'table') { let h = '<div class="ttable"><div class="tc hd">×</div>'; for (let q = 1; q <= 9; q++) h += `<div class="tc hd">${q}</div>`; for (let p = 1; p <= 9; p++) { h += `<div class="tc hd">${p}</div>`; for (let q = 1; q <= 9; q++) { const e = S.facts[factKey(p, q)] || 0; h += `<div class="tc ${e >= 3 ? 'e3' : e ? 'e1' : ''}">${p * q}</div>`; } } el.innerHTML = h + '</div><p class="small center">Розовым отмечены примеры, в которых были ошибки. Потренируй их в «Быстрых лапках»!</p>'; }
-    if (tab === 'awards') el.innerHTML = `<div class="badges">${BADGES.map(b => { const got = S.badges.includes(b.id); return `<div class="badge ${got ? 'got' : ''}"><span>${got ? b.icon : '🔒'}</span><b>${b.name}</b><small>${b.desc}</small></div>`; }).join('')}</div>`;
+    if (tab === 'table') { let h = '<div class="ttable"><div class="tc hd">×</div>'; for (let q = 1; q <= 9; q++) h += `<div class="tc hd">${q}</div>`; for (let p = 1; p <= 9; p++) { h += `<div class="tc hd">${p}</div>`; for (let q = 1; q <= 9; q++) { const e = S.facts[factKey(p, q)] || 0; h += `<div class="tc ${e >= 3 ? 'e3' : e ? 'e1' : ''}" data-p="${p}" data-q="${q}">${p * q}</div>`; } } el.innerHTML = h + '</div><p class="small center">Нажми на число — котик скажет пример. Розовым отмечены примеры, в которых были ошибки.</p>'; $$('.tc[data-p]', el).forEach(c => c.addEventListener('click', () => { const p = +c.dataset.p, q = +c.dataset.q; SND.tap(); c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); say(`${p} на ${q} — будет ${p * q}!`); })); }
+    if (tab === 'awards') el.innerHTML = `<div class="badges">${BADGES.map(b => { const got = S.badges.includes(b.id); return `<div class="badge ${got ? 'got' : ''}" data-b="${b.id}"><span>${got ? b.icon : '🔒'}</span><b>${b.name}</b><small>${b.desc}</small></div>`; }).join('')}</div>`;
+    if (tab === 'awards') $$('.badge', el).forEach(c => c.addEventListener('click', () => { const b = BADGES.find(x => x.id === c.dataset.b), got = S.badges.includes(b.id); SND.tap(); if (got) { catMood('happy', 900); say(`Награда «${b.name}»! Мы её заслужили, {n}!`); } else say(`Чтобы получить награду «${b.name}», нужно ${b.desc.toLowerCase()}. У нас получится!`); }));
     if (tab === 'cases') el.innerHTML = S.caseLog.length ? `<div class="caselog">${S.caseLog.map(c => `<div class="cl"><b>№${c.n} «${c.title}»</b><span>Вор: ${c.who}</span><small>${c.date.split('-').reverse().join('.')}${c.perfect ? ' · 💎 без ошибок' : ''}</small></div>`).join('')}</div>` : `<p class="center">Пока нет раскрытых дел. <button class="btn pink" data-go="newcase">Взять первое дело</button></p>`;
   };
   $$('.tabs button').forEach(b => b.addEventListener('click', () => { tab = b.dataset.t; $$('.tabs button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); draw(); }));
@@ -1067,7 +1139,7 @@ SCREENS.parents = () => {
     <div class="card"><h3>Где ошибается чаще всего</h3>${errs.length ? errs.map(([k, n]) => `<div class="erow"><div class="et"><b>${(ERR_INFO[k] || [k])[0]}</b><small>${(ERR_INFO[k] || ['', ''])[1]}</small></div><div class="ebar"><i style="width:${n / maxE * 100}%"></i><span>${n}</span></div></div>`).join('') : '<p class="small">Пока ошибок нет — или занятия ещё не начались.</p>'}</div>
     ${facts.length ? `<div class="card"><h3>Трудные примеры из таблицы</h3><div>${facts.map(([k, n]) => { const [p, q] = k.split('×'); return `<span class="chip">${p} × ${q} = ${p * q} <small>(${n})</small></span>`; }).join(' ')}</div></div>` : ''}
     <div class="card"><h3>Активность за 2 недели</h3><div class="act">${last14.map(([d, n]) => `<div class="ab"><i style="height:${n / max14 * 100}%"></i><small>${d.getDate()}</small></div>`).join('')}</div></div>
-    <div class="card small"><h3>Как устроен тренажёр</h3><p>«Школа сыщика» объясняет тему и ведёт по шагам: в столбике кот спрашивает каждое действие («3 × 4 + 1 = ?»), подсвечивает запомненное число и просит самостоятельно выбрать клетку для сдвига. В уравнениях — «метод коробки»: найти последнее действие → назвать компонент → выбрать правило → посчитать → повторить → проверка.</p><p>В «Делах» те же задачи решаются самостоятельно: каждая цифра проверяется сразу, на ошибке кот даёт подсказку, после третьей попытки показывает ответ. За решённые задачи даются улики, по которым нужно вычислить вора — это тренирует внимательность и логику.</p><p>Прогресс хранится только на этом устройстве, в браузере.</p></div>
+    <div class="card small"><h3>Как устроен тренажёр</h3><p>«Школа сыщика» объясняет тему и ведёт по шагам: в столбике кот спрашивает каждое действие («3 × 4 + 1 = ?»), подсвечивает запомненное число и просит самостоятельно выбрать клетку для сдвига. В уравнениях — «метод коробки»: найти последнее действие → назвать компонент → выбрать правило → посчитать → повторить → проверка.</p><p>В «Делах» те же задачи решаются самостоятельно: каждая цифра проверяется сразу, на ошибке кот даёт подсказку, после третьей попытки показывает ответ. За решённые задачи даются улики, по которым нужно вычислить вора — это тренирует внимательность и логику.</p><p>Прогресс хранится только на этом устройстве, в браузере.</p><p>Голос котика — встроенный синтез речи устройства. Музыка: Kevin MacLeod (incompetech.com), лицензия CC BY 4.0.</p></div>
     <button class="btn danger" id="reset">Сбросить весь прогресс</button></div>`;
   $('#reset').addEventListener('click', () => {
     const m = modal(`<h2>Сбросить прогресс?</h2><p>Удалятся имя, конфеты, звания, награды и статистика. Это нельзя отменить.</p><div class="row-btns"><button class="btn danger" id="yes">Да, сбросить</button><button class="btn" data-close>Отмена</button></div>`);

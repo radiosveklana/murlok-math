@@ -135,5 +135,37 @@ function haptic(pattern = 12) {
   } catch (e) { }
 }
 
-root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, stopAll: () => purrStop() };
+
+/* ---------- голос котика: встроенный синтез речи (Web Speech API) ---------- */
+let ruVoice = null, voiceOn = () => true, onTalk = () => {};
+function pickVoice() {
+  if (!('speechSynthesis' in window)) return;
+  const ru = speechSynthesis.getVoices().filter(v => /^ru/i.test(v.lang));
+  ruVoice = ru.find(v => /milena|милена/i.test(v.name)) || ru.find(v => /google/i.test(v.name)) || ru.find(v => /female|alena|svetlana|irina|katya|daria|anna|elena/i.test(v.name)) || ru[0] || null;
+}
+if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function cleanForSpeech(t) {
+  return String(t).replace(/<[^>]+>/g, ' ')
+    .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}️‍✔✖]/gu, '')
+    .replace(/(\d)\s*[×·]\s*(\d)/g, '$1 умножить на $2').replace(/(\d)\s*:\s*(\d)/g, '$1 разделить на $2')
+    .replace(/\s−\s/g, ' минус ').replace(/\s\+\s/g, ' плюс ').replace(/\s=\s/g, ' равно ')
+    .replace(/\bx\b/g, 'икс').replace(/Мур-р+/gi, 'Муррр').replace(/Мур-мур-мур/gi, 'Мурр мурр мурр').replace(/\(а\)/g, '')
+    .replace(/[«»"]/g, '').replace(/\s+/g, ' ').trim();
+}
+let lastSpoken = '', lastAt = 0;
+function speak(text, o = {}) {
+  if (!voiceOn() || !('speechSynthesis' in window)) return;
+  const t = cleanForSpeech(text); if (!t) return;
+  const now = Date.now(); if (t === lastSpoken && now - lastAt < 2500 && !o.force) return; lastSpoken = t; lastAt = now;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(t); u.lang = 'ru-RU'; if (ruVoice) u.voice = ruVoice;
+    u.pitch = o.pitch || 1.7; u.rate = o.rate || 1.08; u.volume = 1;
+    u.onstart = () => onTalk(true); u.onend = u.onerror = () => onTalk(false);
+    speechSynthesis.speak(u);
+  } catch (e) { }
+}
+function unlockSpeech() { try { if ('speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } } catch (e) { } }
+function hush() { try { speechSynthesis.cancel(); } catch (e) { } onTalk(false); }
+root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
 })(this);

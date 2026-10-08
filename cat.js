@@ -64,6 +64,7 @@ function catSVG(o = {}) {
   s += `<circle cx="61" cy="117" r="8" fill="#FF8FAB" opacity=".45"/><circle cx="139" cy="117" r="8" fill="#FF8FAB" opacity=".45"/>`;
   s += `<path d="M94 110 h12 l-6 7 z" fill="#FF7A9C" stroke="${L}" stroke-width="2"/>`;
   s += happy ? `<path d="M88 120 q12 16 24 0 z" fill="#FF7A9C" stroke="${L}" stroke-width="2.5"/>` : o.sad ? `<path d="M100 117 v4 M90 128 q10 -8 20 0" fill="none" stroke="${L}" stroke-width="3"/>` : `<path d="M100 117 q-5 8 -12 4 M100 117 q5 8 12 4" fill="none" stroke="${L}" stroke-width="3"/>`;
+  s += `<ellipse class="mo" cx="100" cy="125" rx="7" ry="6" fill="#8A2E55" stroke="${L}" stroke-width="2"/>`;
   s += `<path d="M72 118 L42 112 M72 124 L42 129 M128 118 L158 112 M128 124 L158 129" stroke="${L}" stroke-width="2.2" opacity=".65"/>`;
   if (w.face && ACC[w.face]) s += ACC[w.face];
   if (w.head && ACC[w.head]) s += ACC[w.head];
