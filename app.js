@@ -65,7 +65,7 @@ function award(c, xp) {
   checkBadges();
 }
 function taskDone(kind, res) { S.st[kind].done++; if (!res.mistakes && !res.helped) S.st[kind].perfect++; markDay(1); save(); setTimeout(() => { checkGoals(); checkRooms(); }, 1800); }
-const GOAL_TIERS = [{ n: 5, c: 15, icon: '🎁', name: 'Сундук задания дня' }, { n: 10, c: 25, icon: '🎁', name: 'Сундук усердия', gift: true }, { n: 20, c: 40, icon: '👑', name: 'Королевский сундук', gift: true }];
+const GOAL_TIERS = [{ n: 5, c: 5, icon: '🎁', name: 'Сундук задания дня' }, { n: 10, c: 8, icon: '🎁', name: 'Сундук усердия' }, { n: 20, c: 15, icon: '👑', name: 'Королевский сундук', gift: true }];
 function checkGoals() {
   const t = today(); if (S.goals.date !== t) S.goals = { date: t, got: [] };
   const n = S.days[t] || 0, k = GOAL_TIERS.findIndex(g => n >= g.n && !S.goals.got.includes(g.n));
@@ -74,14 +74,6 @@ function checkGoals() {
   openChest(g.icon, g.name, `Реши${n >= 20 ? 'но' : 'л(а)'} ${n} ${plural(n, 'задачу', 'задачи', 'задач')} за день!`, g.c, g.gift, PH.goal[k]);
 }
 function solvedTotal() { return S.st.mul.done + S.st.eq.done + S.st.bug.done; }
-function checkRooms() {
-  const R = window.Lines.ROOMS, n = solvedTotal();
-  const fresh = R.find(r => r.need <= n && !S.roomsSeen.includes(r.id)); if (!fresh || $('.modal')) return;
-  S.roomsSeen.push(fresh.id); save(); SND.win(); confetti(30);
-  const m = modal(`<div class="big-emoji">${fresh.icon}🔓</div><h2>Открыта новая комната: «${fresh.name}»!</h2><p>Теперь её можно обустроить — мебель продаётся в Кондитерской и прямо в домике.</p><div class="row-btns"><button class="btn pink" id="gohouse">🏠 Посмотреть</button><button class="btn" data-close>Позже</button></div>`);
-  speakT([PH.room[0], `${fresh.name}!`]);
-  $('#gohouse', m.el).addEventListener('click', () => { m.close(); go('house', fresh.id); });
-}
 /* сундук: трясётся, по нажатию открывается — конфеты и, может быть, сюрприз */
 function openChest(icon, title, sub, candies, gift, line) {
   const m = modal(`<div class="chest-wrap"><button class="chest" id="chest" aria-label="Открыть сундук">${icon === '👑' ? '👑' : '🎁'}</button><h2>${title}</h2><p>${sub}</p><p class="small" id="chint">Нажми на сундук!</p><div id="loot"></div></div>`);
@@ -96,14 +88,8 @@ function openChest(icon, title, sub, candies, gift, line) {
     if (got) later(() => speakT(PH.surprise[0]), 1500);
   });
 }
-function surprise() { // случайный подарок: наряд или мебель из открытых комнат
-  const outfits = ITEMS.filter(i => i.price > 0 && i.price <= 60 && !S.owned.includes(i.id)).map(i => ({ icon: i.icon, name: i.name, give: () => S.owned.push(i.id) }));
-  const furn = window.Lines.ROOMS.filter(r => r.need <= solvedTotal()).flatMap(r => r.items.filter(i => !S.furn.includes(i[0])).map(i => ({ icon: i[1], name: i[2], give: () => S.furn.push(i[0]) })));
-  const all = outfits.concat(furn); if (!all.length) return null;
-  const g = pick(all); g.give(); save(); return g;
-}
 /* подарок за вход каждый день: 7-дневный календарь */
-const LOGIN_REW = [5, 8, 10, 12, 15, 20, 30];
+const LOGIN_REW = [2, 3, 3, 4, 5, 6, 10];
 function checkLogin() {
   const t = today(); if (S.login.last === t) return;
   const y = new Date(); y.setDate(y.getDate() - 1);
@@ -235,6 +221,7 @@ const PH = window.Lines.PH;
 const names = () => ({ kid: S.kid, cat: S.name });
 const speakT = t => M.voice(t, names());
 function homeGreet() {
+  const low = careLow(); if (low.length && Math.random() < 0.7) return window.Lines.CARE[low[0]].low;
   const G = PH.greet, h0 = new Date().getHours(), t0 = S.days[today()] || 0;
   return pick([G[h0 < 12 ? 0 : h0 < 18 ? 1 : 2], G[3], streak() >= 2 ? G[5] : G[4], t0 >= 5 ? G[6] : G[7], (!S.lessons.mul || !S.lessons.eq) ? G[8] : G[9]]);
 }
@@ -809,13 +796,14 @@ SCREENS.home = () => {
       <div class="daily"><div><b>Задание дня:</b> решено ${todayN} ${plural(todayN, 'задача', 'задачи', 'задач')}</div><div class="goalbar"><div class="bar mint"><i style="width:${Math.min(1, todayN / 20) * 100}%"></i></div>${GOAL_TIERS.map(g => `<span class="gt ${todayN >= g.n ? 'got' : ''}" style="left:${g.n / 20 * 100}%">${todayN >= g.n ? '✅' : g.icon}<small>${g.n}</small></span>`).join('')}</div><div class="small">Сундуки за 5, 10 и 20 задач в день 🎁</div></div>
     </div>
   </section>
+  ${careAlertHTML()}
   ${CASE ? `<button class="resume" data-go="${CASE.idx < 4 ? 'casetask' : 'accuse'}">📁 Продолжить дело №${CASE.c.n} «${CASE.c.crime.title}» — улик: ${CASE.idx} из 4 →</button>` : ''}
   <section class="tiles">
     <button class="tile t-school ${learnFirst ? 'glow' : ''}" data-go="school"><span class="ti">🎓</span><b>Школа сыщика</b><small>${learnFirst ? 'Начни отсюда!' : 'Как умножать и решать уравнения'}</small></button>
     <button class="tile t-case" data-go="newcase"><span class="ti">🔍</span><b>Новое дело</b><small>Найди вора сладостей</small></button>
     <button class="tile t-blitz" data-go="blitz"><span class="ti">⚡</span><b>Быстрые лапки</b><small>Таблица умножения на скорость</small></button>
     <button class="tile t-bug" data-go="bugs"><span class="ti">🦝</span><b>Ошибки Енота</b><small>Найди, где он ошибся</small></button>
-    <button class="tile t-house" data-go="house"><span class="ti">🏠</span><b>Домик котика</b><small>Комнаты открываются за решённые задачи</small></button>
+    <button class="tile t-house" data-go="house"><span class="ti">🏠</span><b>Домик котика</b><small>Корми, играй, обустраивай комнаты</small></button>
     <button class="tile t-shop" data-go="shop"><span class="ti">🧁</span><b>Кондитерская</b><small>Наряды для котика</small></button>
     <button class="tile t-book" data-go="book"><span class="ti">📒</span><b>Блокнот детектива</b><small>Правила, награды, дела</small></button>
   </section>
@@ -964,7 +952,7 @@ SCREENS.accuse = () => {
 };
 function closeCase() {
   const perfect = CASE.mistakes === 0;
-  const c = 8 + (perfect ? 5 : 0), xp = 25;
+  const c = 6 + (perfect ? 3 : 0), xp = 25;
   S.cases++; if (perfect) S.casesPerfect++;
   const culprit = CASE.c.suspects.find(s => s.culprit);
   S.caseLog.unshift({ n: CASE.c.n, title: CASE.c.crime.title, who: culprit.animal.join(' '), date: today(), perfect });
@@ -1154,8 +1142,8 @@ SCREENS.blitz = () => {
 
 /* ================= ЭКРАН: Кондитерская ================= */
 SCREENS.shop = () => {
-  let tab = 'wear';
-  app.innerHTML = `${topbar('Кондитерская')}<div class="seg tabs shoptabs"><button data-t="wear" class="on">👗 Наряды</button><button data-t="home">🏠 Для дома</button></div><div class="page shop"><div class="shop-cat" id="sc">${myCat()}</div><div class="shop-items" id="si"></div></div>`;
+  let tab = SHOP_TAB; SHOP_TAB = 'wear';
+  app.innerHTML = `${topbar('Кондитерская')}<div class="seg tabs shoptabs"><button data-t="wear" class="${tab === 'wear' ? 'on' : ''}">👗 Наряды</button><button data-t="home" class="${tab === 'home' ? 'on' : ''}">🏠 Вещи для домика</button></div><div class="page shop"><div class="shop-cat" id="sc">${myCat()}</div><div class="shop-items" id="si"></div></div>`;
   $$('.shoptabs button').forEach(b => b.addEventListener('click', () => { tab = b.dataset.t; $$('.shoptabs button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); draw(); }));
   const draw = () => {
     if (tab === 'home') { $('#sc').innerHTML = myCat(); $('#si').innerHTML = furnShopHTML(); bindFurnShop($('#si'), draw); return; }
@@ -1232,52 +1220,9 @@ SCREENS.parents = () => {
   });
 };
 
-/* ================= мебель: общая покупка ================= */
-function furnShopHTML() {
-  const n = solvedTotal();
-  return window.Lines.ROOMS.map(r => { const open = r.need <= n; return `<h3>${r.icon} ${r.name} ${open ? '' : `<span class="lockt">🔒 откроется после ${r.need} задач (решено ${n})</span>`}</h3><div class="items ${open ? '' : 'locked'}">${r.items.map(i => { const own = S.furn.includes(i[0]); return `<button class="item ${own ? 'own on' : ''}" data-f="${i[0]}" ${open ? '' : 'disabled'}><span class="ii">${i[1]}</span><span class="in">${i[2]}</span><span class="ip">${own ? 'в домике ✔' : i[3] + ' 🍬'}</span></button>`; }).join('')}</div>`; }).join('');
-}
-function findFurn(id) { for (const r of window.Lines.ROOMS) for (const i of r.items) if (i[0] === id) return { r, i }; return null; }
-function buyFurn(id, after) {
-  const f = findFurn(id); if (!f || S.furn.includes(id)) return;
-  const [, icon, name, price] = f.i;
-  if (S.candies < price) { SND.bad(); say(PH.poor[0]); toast(`<span class="tb">🍬</span><div>Не хватает конфет: нужно ещё <b>${price - S.candies}</b>.</div>`); return; }
-  const m = modal(`<div class="big-emoji">${icon}</div><h2>${name}</h2><p>Для комнаты «${f.r.name}». Купить за <b>${price} 🍬</b>?</p><div class="row-btns"><button class="btn pink" id="buy">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`);
-  $('#buy', m.el).addEventListener('click', () => { S.candies -= price; S.furn.push(id); save(); updCandy(); m.close(); tone([[988, 0.09], [1319, 0.25, 0.07]]); confetti(20); say(PH.boughtHome[0]); catMood('happy', 1500); after && after(); });
-}
-function bindFurnShop(root, redraw) { $$('.item[data-f]', root).forEach(b => b.addEventListener('click', () => { if (S.furn.includes(b.dataset.f)) { const f = findFurn(b.dataset.f); say(f.i[6]); return; } buyFurn(b.dataset.f, redraw); })); }
-
-/* ================= ЭКРАН: Домик котика ================= */
-SCREENS.house = (roomId) => {
-  const ROOMS = window.Lines.ROOMS; let cur = ROOMS.find(r => r.id === roomId) || ROOMS[0];
-  app.innerHTML = `${topbar('Домик котика')}<div class="page"><div class="room-tabs" id="rt"></div><div id="room"></div></div>`;
-  const drawTabs = () => { const n = solvedTotal(); $('#rt').innerHTML = ROOMS.map(r => `<button class="rtab ${r === cur ? 'on' : ''} ${r.need > n ? 'lock' : ''}" data-r="${r.id}"><span>${r.need > n ? '🔒' : r.icon}</span>${r.name}</button>`).join(''); $$('.rtab').forEach(b => b.addEventListener('click', () => { cur = ROOMS.find(r => r.id === b.dataset.r); SND.tap(); drawTabs(); drawRoom(); })); };
-  const drawRoom = () => {
-    const n = solvedTotal(), open = cur.need <= n;
-    const items = cur.items.map(i => { const own = S.furn.includes(i[0]); return `<button class="furn ${own ? 'own' : 'slot'}" data-f="${i[0]}" style="left:${i[4]}%;bottom:${i[5]}%">${own ? i[1] : `<span>+</span><small>${i[3]}🍬</small>`}</button>`; }).join('');
-    $('#room').innerHTML = `<div class="room ${cur.dark ? 'dark' : ''} ${open ? '' : 'closed'}" style="--wall:${cur.wall};--floor:${cur.floor}"><div class="wall"><div class="window">${cur.dark ? '✨' : '☁️'}</div></div><div class="floor"></div>${items}<div class="room-cat" id="rcat">${myCat()}</div>
-      ${open ? '' : `<div class="room-lock"><div class="big-emoji">🔒</div><h3>«${cur.name}»</h3><p>Откроется после <b>${cur.need}</b> решённых задач.</p><div class="bar"><i style="width:${Math.min(1, n / cur.need) * 100}%"></i></div><p class="small">Решено ${n} из ${cur.need} — осталось ${cur.need - n}!</p></div>`}</div>
-      <p class="small center">${open ? 'Нажми на «+», чтобы купить вещь, или на вещь — котик с ней поиграет. Котика можно гладить!' : ''}</p>`;
-    if (!open) { say(PH.room[1]); return; }
-    if (!cur.items.some(i => S.furn.includes(i[0]))) say(PH.room[2]);
-    $$('.furn', app).forEach(b => b.addEventListener('click', () => {
-      const id = b.dataset.f, f = findFurn(id);
-      if (!S.furn.includes(id)) return buyFurn(id, () => { drawRoom(); });
-      b.classList.remove('boing'); void b.offsetWidth; b.classList.add('boing'); say(f.i[6]); catMood('happy', 1400);
-      if (['bowl', 'milk', 'cake', 'cookies', 'cupcakes', 'teapot'].includes(id)) M.crunch(4);
-      else if (['bed', 'pillow', 'sofa', 'teddy'].includes(id)) { M.purr(2); catMood('purr', 2000); }
-      else if (['yarn', 'ball', 'balloons', 'kite', 'butterfly'].includes(id)) { M.meow({ shape: 'happy' }); $('#rcat').classList.add('m-happy'); }
-      else if (['fishtank', 'scope', 'planet', 'ufo'].includes(id)) M.trill();
-      else M.chirp();
-      M.haptic(20);
-    }));
-  };
-  drawTabs(); drawRoom();
-};
-
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '6';
-const NEWS = ['🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
+const APP_VERSION = '7';
+const NEWS = ['🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;
   const first = !S.seenVersion && !S.cases && !solvedTotal(); S.seenVersion = APP_VERSION; save(); if (first) return;
@@ -1289,5 +1234,5 @@ function exportProgress() { const b = new Blob([JSON.stringify(S)], { type: 'app
 function importProgress(file) { const fr = new FileReader(); fr.onload = () => { try { const d = JSON.parse(fr.result); if (d.v !== 1) throw 0; localStorage.setItem(KEY, JSON.stringify(d)); location.reload(); } catch (e) { toast('Не получилось прочитать файл'); } }; fr.readAsText(file); }
 
 /* ================= старт ================= */
-go(S.name && S.kid ? 'home' : 'hello');
+window.addEventListener('DOMContentLoaded', () => go(S.name && S.kid ? 'home' : 'hello'));
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => { });

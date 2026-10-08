@@ -507,3 +507,36 @@ body.music-on .hero-cat svg.cat .head { animation: groove 1.1s ease-in-out infin
 .room-lock { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: rgba(255,244,232,.6); padding: 20px; }
 .room-lock .bar { width: min(320px, 80%); }
 .upd { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 90; background: var(--mint); color: #fff; font-weight: 900; padding: 12px 20px; border-radius: 999px; box-shadow: 0 8px 20px rgba(47,191,151,.4); animation: tin .4s, glow 1.5s infinite; }
+
+/* ================= новый домик ================= */
+.room.big { height: auto; aspect-ratio: 16 / 10; min-height: 340px; max-height: 72vh; touch-action: pan-y; }
+.room.big .wall { inset: 0 0 38% 0; }
+.room.big .floor { inset: 62% 0 0 0; }
+.room .window { top: 8%; width: 18%; }
+.shelf { position: absolute; left: 6%; top: 52%; width: 22%; height: 8px; background: rgba(120, 80, 50, .35); border-radius: 4px; }
+.fx { position: absolute; transform: translateX(-50%); font-size: clamp(40px, 7.5vw, 70px); line-height: 1; filter: drop-shadow(0 6px 4px rgba(0, 0, 0, .18)); transition: transform .15s; touch-action: none; user-select: none; -webkit-user-select: none; }
+.fx .ctag { position: absolute; right: -10px; top: -8px; font-size: 18px; background: #fff; border-radius: 50%; width: 28px; height: 28px; display: grid; place-items: center; box-shadow: var(--sh); }
+.fx.needs { animation: needPulse 1.2s ease-in-out infinite; }
+.fx.needs .ctag { background: var(--pink); }
+@keyframes needPulse { 50% { transform: translateX(-50%) scale(1.15); filter: drop-shadow(0 0 12px rgba(255, 94, 146, .9)); } }
+.fx.boing { animation: boing .6s; }
+.room.editing .fx, .room.editing .room-cat { outline: 3px dashed rgba(123, 92, 214, .55); outline-offset: 4px; border-radius: 12px; cursor: grab; }
+.fx.dragging, .room-cat.dragging { transform: translateX(-50%) scale(1.15); z-index: 500 !important; transition: none; }
+.room .room-cat { width: clamp(90px, 17%, 170px); z-index: 150; transition: left .7s ease-in-out, bottom .7s ease-in-out; touch-action: none; }
+.room-cat.walking svg.cat { animation: walkBob .25s ease-in-out infinite; }
+@keyframes walkBob { 50% { transform: translateY(-6%) rotate(-3deg); } }
+.room-cat.sleeping svg.cat { transform: rotate(-12deg) translateY(8%); transition: transform .5s; }
+.trash { position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%); z-index: 300; background: rgba(255, 255, 255, .85); border: 3px dashed var(--pink); border-radius: 18px; padding: 6px 16px; font-size: 30px; display: flex; flex-direction: column; align-items: center; }
+.trash small { font-size: 12px; font-weight: 800; }
+.trash.over { background: var(--pink-2); transform: translateX(-50%) scale(1.15); }
+.care-bars { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 10px; }
+.cbar { display: flex; align-items: center; gap: 6px; background: #fff; border-radius: 14px; padding: 6px 8px; box-shadow: var(--sh); }
+.cbar span { font-size: 20px; } .cbar i { flex: 1; height: 10px; background: #F1E6DA; border-radius: 6px; overflow: hidden; display: block; }
+.cbar i b { display: block; height: 100%; background: linear-gradient(90deg, #7FE0C1, var(--mint)); border-radius: 6px; transition: width .6s; }
+.cbar.low { animation: glow 1.2s infinite; } .cbar.low i b { background: linear-gradient(90deg, #FF9DBB, var(--pink)); }
+.cbar.off { opacity: .45; }
+@media (max-width: 560px) { .care-bars { grid-template-columns: repeat(5, 1fr); gap: 4px; } .cbar { flex-direction: column; padding: 4px; } .cbar i { width: 100%; } }
+.house-tools { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 12px 0 6px; }
+.tray { background: #fff; border-radius: 20px; padding: 12px; box-shadow: var(--sh2); margin: 8px 0; }
+.care-alert { display: block; width: 100%; margin-top: 14px; padding: 14px 18px; background: var(--pink-2); border: 3px solid var(--pink); border-radius: 18px; font-weight: 800; text-align: left; animation: glow 1.4s infinite; }
+.item.lockd { opacity: .55; }
