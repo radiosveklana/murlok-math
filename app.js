@@ -13,7 +13,7 @@ function fresh() {
   return { v: 1, name: '', fur: 'ginger', candies: 0, totalCandies: 0, xp: 0, owned: ['deer', 'loupe'],
     wear: { head: 'deer', face: null, neck: null, hand: 'loupe' }, cases: 0, casesPerfect: 0, caseLog: [],
     st: { mul: { done: 0, perfect: 0 }, eq: { done: 0, perfect: 0 }, bug: { done: 0, perfect: 0 }, blitz: { games: 0, best: 0 } },
-    err: {}, facts: {}, badges: [], days: {}, sound: true, vibro: true, voice: true, kid: '', music: { mode: 'light', vol: 0.3 }, login: { last: '', day: 0 }, goals: { date: '', got: [] }, furn: [], roomsSeen: ['living'], recent: [], crimeBag: [], seenVersion: '', lessons: { mul: false, eq: false }, prefs: { mulLv: 2, eqLv: 2, diff: 1, topic: 'mix' } };
+    err: {}, facts: {}, badges: [], days: {}, sound: true, vibro: true, voice: true, kid: '', music: { mode: 'light', vol: 0.3 }, gems: 0, gemsTotal: 0, perf: {}, login: { last: '', day: 0 }, goals: { date: '', got: [] }, furn: [], roomsSeen: ['living'], recent: [], crimeBag: [], seenVersion: '', lessons: { mul: false, eq: false }, prefs: { mulLv: 2, eqLv: 2, diff: 1, topic: 'mix' } };
 }
 function load() {
   try {
@@ -64,6 +64,27 @@ function award(c, xp) {
   const r = rank(); if (r.i > before) setTimeout(() => { toast(`<span class="tb">🎖️</span><div><b>Новое звание!</b><br>${r.name}</div>`); confetti(30); speakT(PH.rank[0]); M.meow({ shape: 'long', dur: 1.1, force: true }); later(() => SND.purr(2.5), 1200); }, 1200);
   checkBadges();
 }
+/* 💎 кристаллы — только за сложное */
+function awardGems(n, why) { if (!n) return; S.gems = (S.gems || 0) + n; S.gemsTotal = (S.gemsTotal || 0) + n; save(); updCandy(); floatText(`+${n} 💎`); M.sfx('magic'); if (why) setTimeout(() => toast(`<span class="tb">💎</span><div><b>+${n} ${plural(n, 'кристалл', 'кристалла', 'кристаллов')}</b><br>${why}</div>`), 600); }
+/* адаптация: запоминаем, как идут дела на уровне; хвалим и предлагаем уровень выше / помощь */
+function trackPerf(topic, level, res, sec) {
+  if (!topic || !level) return; S.perf = S.perf || {}; const k = topic + level, L = S.perf[k] = S.perf[k] || [];
+  L.push({ ok: !res.mistakes && !res.helped, m: res.mistakes || 0, sec: Math.round(sec || 0) }); if (L.length > 10) L.shift(); save();
+  const last = L.slice(-6), max = topic === 'mul' ? 4 : 4;
+  if (last.length >= 6 && last.filter(x => x.ok).length >= 5 && level < max) offerLevel(topic, level, +1);
+  else if (L.slice(-4).length >= 4 && L.slice(-4).filter(x => x.m >= 3).length >= 3 && level > 1) offerLevel(topic, level, -1);
+}
+function offerLevel(topic, level, dir) {
+  S.perf[topic + level] = []; save();
+  const names = topic === 'mul' ? E.MUL_LEVELS : E.EQ_LEVELS, to = level + dir, key = topic === 'mul' ? 'mulLv' : 'eqLv';
+  setTimeout(() => {
+    if ($('.modal')) return;
+    const up = dir > 0;
+    const m = modal(`<div class="big-emoji">${up ? '🚀' : '🤝'}</div><h2>${up ? `${esc(S.kid)}, ты тут круто научил${/[аяь]$/i.test(S.kid || '') ? 'ась' : 'ся'}!` : `${esc(S.kid)}, давай чуть полегче?`}</h2><p>${up ? `Уровень «${names[level].name}» уже получается почти без ошибок. Пора повысить уровень до <b>«${names[to].name}»</b>! За сложные задачи дают 💎 кристаллы.` : `Сейчас задачи даются тяжело — это нормально! Давай потренируемся на уровне <b>«${names[to].name}»</b> с подсказками, а потом вернёмся.`}</p><div class="row-btns"><button class="btn pink" id="lvyes">${up ? '⬆ Повысить уровень' : 'Давай полегче'}</button><button class="btn" data-close>Остаться</button></div>`);
+    say(up ? 'Ты тут круто научился! Пора повысить уровень, {n}!'.replace('научился', /[аяь]$/i.test(S.kid || '') ? 'научилась' : 'научился') : 'Ничего, {n}, разберёмся вместе!', 0, { silent: !up });
+    $('#lvyes', m.el).addEventListener('click', () => { S.prefs[key] = to; S.prefs[key + 'Chosen'] = true; save(); m.close(); SND.win(); if (curScreen === 'practice') go('practice', topic); });
+  }, 1600);
+}
 function taskDone(kind, res) { S.st[kind].done++; if (!res.mistakes && !res.helped) S.st[kind].perfect++; markDay(1); save(); setTimeout(() => { if (['home', 'house'].includes(curScreen)) { checkGoals(); checkRooms(); } else rewardHint(); }, 1500); }
 function rewardHint() { // во время задач сундуки не всплывают — ждут на главной
   const t = today(), n = S.days[t] || 0, got = S.goals.date === t ? S.goals.got : [];
@@ -77,7 +98,7 @@ function checkGoals() {
   const n = S.days[t] || 0, k = GOAL_TIERS.findIndex(g => n >= g.n && !S.goals.got.includes(g.n));
   if (k < 0 || $('.modal')) return;
   const g = GOAL_TIERS[k]; S.goals.got.push(g.n); save();
-  openChest(g.icon, g.name, `Реши${n >= 20 ? 'но' : 'л(а)'} ${n} ${plural(n, 'задачу', 'задачи', 'задач')} за день!`, g.c, g.gift, PH.goal[k]);
+  openChest(g.icon, g.name, `${esc(S.kid)}, сегодня решено ${n} ${plural(n, 'задача', 'задачи', 'задач')}!`, g.c, g.gift, PH.goal[k]);
 }
 function solvedTotal() { return S.st.mul.done + S.st.eq.done + S.st.bug.done; }
 /* сундук: трясётся, по нажатию открывается — конфеты и, может быть, сюрприз */
@@ -229,7 +250,7 @@ function openMusic() {
 /* ================= Маскот: котик-напарник на каждом экране ================= */
 const PH = window.Lines.PH;
 const names = () => ({ kid: S.kid, cat: S.name });
-const speakT = t => M.voice(t, names());
+const speakT = (t, o) => M.voice(t, names(), o);
 function homeGreet() {
   const low = careLow(); if (low.length && Math.random() < 0.7) return window.Lines.CARE[low[0]].low;
   const G = PH.greet, h0 = new Date().getHours(), t0 = S.days[today()] || 0;
@@ -253,23 +274,24 @@ function say(tpl, ms, o = {}) {
   let text = tpls.join(' ').replace(/!!/g, '!').replace(/\{n\}/g, S.kid || 'сыщик').replace(/\{c\}/g, S.name || 'котик').replace(/^@s /, '').replace(/<[^>]+>/g, '');
   let sp = o.speech || tpls;
   if (!o.speech && !tpls.some(t => String(t).includes('{n}')) && Math.random() < 0.45 && S.kid) { sp = ['{n}!', ...tpls]; text = S.kid + ', ' + text.charAt(0).toLowerCase() + text.slice(1); }
-  if (!o.silent) speakT(sp);
+  if (!o.silent) speakT(sp, { prio: o.prio });
   ms = ms || Math.max(3800, text.length * 75);
   const hs = $('#heroSay'); if (hs) return bubbleOn(hs, text, ms);
   if (!mascot.hidden) return bubbleOn(msBub, text, ms);
   const hp = $('.modal .m-cat') || $('.helper') || $('.slide-head'); if (hp) { $$('.cheer').forEach(x => x.remove()); const c = document.createElement('div'); c.className = 'cheer'; c.textContent = text; hp.appendChild(c); setTimeout(() => c.remove(), Math.min(ms, 5000)); }
 }
+function catSay(...a) { return say(...a); } // для экранов, где есть свой локальный say
 function cheer(ok) {
   const now = Date.now();
-  if (ok) { okRun++; if (okRun % 3 === 0 && now - lastCheer > 4000) { lastCheer = now; say(pick(PH.cheerOk)); } }
-  else { okRun = 0; if (now - lastCheer > 5000 && Math.random() < 0.6) { lastCheer = now; say(pick(PH.cheerBad)); } }
+  if (ok) { okRun++; if (okRun % 3 === 0 && now - lastCheer > 4000) { lastCheer = now; say(pick(PH.cheerOk), 0, { prio: 0 }); } }
+  else { okRun = 0; if (now - lastCheer > 5000 && Math.random() < 0.6) { lastCheer = now; say(pick(PH.cheerBad), 0, { prio: 0 }); } }
 }
 function mascotScene(name) {
   curScreen = name; okRun = 0; M.hush();
   mascot.hidden = NO_FLOAT.includes(name);
   document.body.classList.toggle('has-mascot', !mascot.hidden);
   msBub.hidden = true;
-  if (!mascot.hidden || name === 'lesson' || name === 'blitz') { if (!mascot.hidden) msCat.innerHTML = myCat({ cls: 'mini' }); const key = PH[name] ? name : 'idle'; setTimeout(() => say(name === 'caseintro' && CASE ? [`Новое дело: ${CASE.c.crime.title}! Сегодня утром в ${CASE.c.crime.place} кто-то украл ${CASE.c.crime.what}.`, 'Решай задачи, {n}, — за каждую получишь улику!'] : pick(PH[key])), 600); }
+  if (!mascot.hidden || name === 'lesson' || name === 'blitz') { if (!mascot.hidden) msCat.innerHTML = myCat({ cls: 'mini' }); const key = PH[name] ? name : 'idle'; setTimeout(() => say(name === 'caseintro' && CASE ? [`Новое дело: ${CASE.c.crime.title}! Сегодня утром в ${CASE.c.crime.place} кто-то украл ${CASE.c.crime.what}.`, 'Решай задачи, {n}, — за каждую получишь улику!'] : pick(PH[key]), 0, { prio: name === 'caseintro' ? 2 : 0 }), 600); }
   if (name === 'home') { setTimeout(() => say(homeGreet(), 4500), 700); if (!mascotScene.hi) { mascotScene.hi = 1; setTimeout(() => M.custom('hello'), 300); } }
 }
 // погладить маскота: касание — мурлыканье и фраза, удержание — мурлычет, пока держишь
@@ -282,9 +304,9 @@ msCat.addEventListener('contextmenu', e => e.preventDefault());
 // время от времени котик сам подбадривает
 setInterval(() => {
   if (document.hidden || msPurr) return;
-  if (!mascot.hidden) { say(pick(PH.idle)); if (Math.random() < 0.5) { M.purr(1.5); catMood('purr', 1500); } else M.trill(); }
-  else if (['casetask', 'practice', 'bugs', 'lesson', 'blitz'].includes(curScreen) && Math.random() < 0.5) say(pick(PH.idle));
-  else if (curScreen === 'home') say(homeGreet(), 4500);
+  if (!mascot.hidden) { say(pick(PH.idle), 0, { prio: 0 }); if (Math.random() < 0.5) { M.purr(1.5); catMood('purr', 1500); } else M.trill(); }
+  else if (['casetask', 'practice', 'bugs', 'lesson', 'blitz'].includes(curScreen) && Math.random() < 0.5) say(pick(PH.idle), 0, { prio: 0 });
+  else if (curScreen === 'home') say(homeGreet(), 4500, { prio: 0 });
 }, 32000);
 
 /* ================= Роутер ================= */
@@ -299,9 +321,9 @@ function go(name, arg) {
 }
 document.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) { SND.tap(); go(g.dataset.go, g.dataset.arg); } });
 function topbar(title, back = 'home') {
-  return `<header class="top"><button class="back" data-go="${back}" aria-label="Назад">←</button><h1>${title}</h1><div class="pill candy">🍬 <b class="candyN">${S.candies}</b></div></header>`;
+  return `<header class="top"><button class="back" data-go="${back}" aria-label="Назад">←</button><h1>${title}</h1><div class="pill gem" title="Кристаллы сыщика — за сложные задачи">💎 <b class="gemN">${S.gems || 0}</b></div><div class="pill candy">🍬 <b class="candyN">${S.candies}</b></div></header>`;
 }
-function updCandy() { $$('.candyN').forEach(e => { e.textContent = S.candies; }); }
+function updCandy() { $$('.candyN').forEach(e => { e.textContent = S.candies; }); $$('.gemN').forEach(e => { e.textContent = S.gems || 0; }); }
 
 /* ================= Цифровая клавиатура ================= */
 function numpad(ok = true) {
@@ -423,7 +445,7 @@ function mountMul(el, { a, b, guided, onDone }) {
     const key = multi ? 's' : 'p0'; for (let c = 0; c < W; c++) cell(key, c)?.classList.add('done');
     ask.innerHTML = `<div class="ask-eq win">${a} × ${b} = <b>${P.total}</b></div>`;
     say((fb ? `<div class="fb">${fb}</div>` : '') + `🎉 ${pick(['Молодец', 'Умница', 'Отлично', 'Ура'])}, ${esc(S.kid)}! <b>${a} × ${b} = ${P.total}</b>${mistakes ? '' : '<br>Без единой ошибки — вот это лапки!'}`);
-    SND.win(); later(() => say(pick(PH.done)), 400); onDone && onDone({ mistakes, helped });
+    SND.win(); later(() => catSay(pick(PH.done)), 400); onDone && onDone({ mistakes, helped });
   }
   function feedbackMul(st) {
     if (st.t === 'mul') {
@@ -640,7 +662,7 @@ function mountEq(el, { eq, guided, onDone }) {
     focus.innerHTML = `<div class="eqbig win"><i class="x">x</i> = ${eq.x}</div>`;
     ask.innerHTML = '';
     say(`🎉 ${pick(['Молодец', 'Умница', 'Отлично'])}, ${esc(S.kid)}! <b><i class="x">x</i> = ${eq.x}</b>. Проверка сошлась — алиби подтверждено.${mistakes ? '' : '<br>Ни одной ошибки!'}`);
-    SND.win(); later(() => say(pick(PH.done)), 400); onDone && onDone({ mistakes, helped });
+    SND.win(); later(() => catSay(pick(PH.done)), 400); onDone && onDone({ mistakes, helped });
   }
   const hb = $('#' + uid + '-hint');
   if (hb) hb.addEventListener('click', () => {
@@ -797,7 +819,7 @@ SCREENS.home = () => {
   const r = rank(), st = streak(), todayN = S.days[today()] || 0, goal = 5;
   const learnFirst = !S.lessons.mul || !S.lessons.eq;
   app.innerHTML = `
-  <header class="home-top"><div class="pill" title="Дней подряд">🔥 ${st} ${plural(st, 'день', 'дня', 'дней')}</div><div class="pill candy">🍬 <b class="candyN">${S.candies}</b></div>${true ? `<button class="pill icon" id="voi" aria-label="Голос котика">${S.voice !== false ? '🗣️' : '🤐'}</button>` : ''}<button class="pill icon" id="vib" aria-label="Вибрация">${S.vibro !== false ? '📳' : '📴'}</button><button class="pill icon" id="mus" aria-label="Музыка">🎵</button><button class="pill icon" id="snd" aria-label="Звук">${S.sound ? '🔊' : '🔇'}</button></header>
+  <header class="home-top"><div class="pill" title="Дней подряд">🔥 ${st} ${plural(st, 'день', 'дня', 'дней')}</div><div class="pill gem">💎 <b class="gemN">${S.gems || 0}</b></div><div class="pill candy">🍬 <b class="candyN">${S.candies}</b></div>${true ? `<button class="pill icon" id="voi" aria-label="Голос котика">${S.voice !== false ? '🗣️' : '🤐'}</button>` : ''}<button class="pill icon" id="vib" aria-label="Вибрация">${S.vibro !== false ? '📳' : '📴'}</button><button class="pill icon" id="mus" aria-label="Музыка">🎵</button><button class="pill icon" id="snd" aria-label="Звук">${S.sound ? '🔊' : '🔇'}</button></header>
   <section class="hero">
     <button class="hero-cat" id="pet" aria-label="Погладить котика">${myCat()}</button>
     <div class="hero-info">
@@ -868,11 +890,11 @@ SCREENS.newcase = () => {
     </div>
     <div class="lbl">Сложность</div>
     <div class="seg diff">${[[1, '🍪 Лёгкое'], [2, '🧁 Среднее'], [3, '🎂 Сложное']].map(([v, t]) => `<button data-d="${v}" class="${p.diff === v ? 'on' : ''}">${t}</button>`).join('')}</div>
-    <p class="small center">Лёгкое: 2-значные числа и простые уравнения · Среднее: 3-значные · Сложное: 3-значные на 3-значные и уравнения в 3 действия</p>
+    <p class="small center">💎 За «Сложное» дают кристаллы для особых вещей! Лёгкое: 2-значные числа и простые уравнения · Среднее: 3-значные · Сложное: 3-значные на 3-значные и уравнения в 3 действия</p>
     <button class="btn big pink" id="go">Взять дело →</button>
   </div>`;
-  $$('.choice').forEach(b => { b.classList.toggle('on', b.dataset.t === p.topic); b.addEventListener('click', () => { p.topic = b.dataset.t; $$('.choice').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); catMood('happy', 700); say(PH.topic[{ mul: 0, eq: 1, mix: 2 }[p.topic]]); }); });
-  $$('.diff button').forEach(b => b.addEventListener('click', () => { p.diff = +b.dataset.d; $$('.diff button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); say(PH.diff[p.diff - 1]); }));
+  $$('.choice').forEach(b => { b.classList.toggle('on', b.dataset.t === p.topic); b.addEventListener('click', () => { p.topic = b.dataset.t; save(); $$('.choice').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); catMood('happy', 700); say(PH.topic[{ mul: 0, eq: 1, mix: 2 }[p.topic]]); }); });
+  $$('.diff button').forEach(b => b.addEventListener('click', () => { p.diff = +b.dataset.d; save(); $$('.diff button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); say(PH.diff[p.diff - 1]); }));
   $('#go').addEventListener('click', () => { save(); startCase(p.topic, p.diff); });
 };
 let CASE = null;
@@ -895,7 +917,7 @@ function portrait(s, cls = '', mood) {
   if (window.Chibi && Chibi.has(s.animal[1])) return `<span class="pt chibi-pt ${cls}" style="--d:${d}s">${Chibi.chibiSVG(s.animal[1], { mood, hat: s.hat != null ? A.hat.vals[s.hat].e : null, scarf: s.scarf != null ? A.scarf.vals[s.scarf].c : null, item: s.item != null ? A.item.vals[s.item].e : null })}</span>`;
   return `<span class="pt ${cls}" style="--d:${d}s"><span class="pt-a">${s.animal[0]}</span>${s.hat != null ? `<span class="pt-h">${A.hat.vals[s.hat].e}</span><span class="pt-s" style="background:${A.scarf.vals[s.scarf].c}"></span><span class="pt-i">${A.item.vals[s.item].e}</span>` : ''}</span>`;
 }
-function personaSay(s, kind) { const L = window.Lines.personaLines(s.animal[1]); if (L) speakT(L[kind]); }
+function personaSay(s, kind) { const L = window.Lines.personaLines(s.animal[1]); if (L) speakT(L[kind], { prio: 2 }); }
 function interrogate(i) {
   const s = CASE.c.suspects[i], P0 = window.Lines.PERSONA[s.animal[1]] || { who: '', quirk: '' }, P = { ...P0, f: P0.g === 'f' }, L = window.Lines.personaLines(s.animal[1]);
   const lines = [['hi', `Я ${s.animal[1]}, ${P.who}. Я тут ни при чём!`], ['quirk', P.quirk], ['nervous', L ? L.nervous.replace(/^@v:\S+ /, '') : '']];
@@ -926,7 +948,7 @@ function bindSuspects(root, found, onChange) {
 /* «фото» с места происшествия: вспышка, луч фонарика, туман, пылинки; найденные улики отмечаются на фото */
 function sceneHTML(cls = '') {
   const marks = CASE.marks.map(m => `<span class="mark" style="left:${m.x}%;top:${m.y}%">${m.e}</span>`).join('');
-  return `<div class="scene ${cls}" style="--img:url('img/scene/${CASE.ci}.jpg')"><div class="sc-img"></div><div class="sc-fog"></div><div class="sc-dust">${'<i></i>'.repeat(14)}</div><div class="sc-beam"></div>${marks}<div class="sc-tape">МЕСТО ПРОИСШЕСТВИЯ · НЕ ВХОДИТЬ</div><div class="sc-flash"></div><div class="sc-stamp">ФОТО №${CASE.c.n}</div></div>`;
+  return `<div class="scene ${cls}" style="--img:url('img/scene2/${CASE.ci}.jpg'), url('img/scene/${CASE.ci}.jpg')"><div class="sc-img"></div><div class="sc-fog"></div><div class="sc-dust">${'<i></i>'.repeat(14)}</div><div class="sc-beam"></div>${marks}<div class="sc-tape">МЕСТО ПРОИСШЕСТВИЯ · НЕ ВХОДИТЬ</div><div class="sc-flash"></div><div class="sc-stamp">ФОТО №${CASE.c.n}</div></div>`;
 }
 function sceneSound() { M.sfx('shutter'); later(() => M.sfx('mystery'), 250); }
 function clueMark(k) { const a = CASE.c.order[k], v = E.ATTRS[a].vals[CASE.c.culprit[a]]; return a === 'scarf' ? '🧵' : v.e; }
@@ -959,6 +981,7 @@ SCREENS.casetask = () => {
     CASE.mistakes += res.mistakes;
     const perfect = !res.mistakes && !res.helped, isEq = t.kind === 'eq', c = (perfect ? 3 : 1) * (isEq ? 2 : 1), xp = (perfect ? 15 : 10) + (isEq ? 5 : 0);
     taskDone(statKind(t.kind), res); CASE.earned += c; CASE.xp += xp; award(c, xp);
+    { const hard = (t.kind === 'mul' && t.level >= 3) || (t.kind === 'eq' && t.level >= 3); if (hard && perfect) awardGems(1, 'за сложную задачу без ошибок'); }
     $('#after').innerHTML = `<button class="btn big pink" id="clue">🔎 Получить улику</button>`;
     $('#clue').addEventListener('click', revealClue);
   });
@@ -974,7 +997,7 @@ function revealClue() {
   tone([[784, 0.12], [988, 0.12, 0.1], [1319, 0.3, 0.2]]); later(() => SND.trill(), 400); M.haptic([20, 40, 60]);
   CASE.marks.push({ e: clueMark(k), x: 12 + Math.random() * 74, y: 30 + Math.random() * 50 });
   const wit = CASE.witnessMode ? CASE.witnesses[k] : null;
-  later(() => speakT([PH.clueN[k], clue.text]), 700); later(sceneSound, 100);
+  later(() => speakT([PH.clueN[k], clue.text], { prio: 2 }), 700); later(sceneSound, 100);
   const m = modal(`${sceneHTML('clue')}<div class="clue-big">${wit ? `<div class="witness">${portrait({ animal: wit }, 'talking')}<b>Свидетель — ${wit[1]}:</b></div>` : '<div class="clue-ic">🔎</div>'}<h2>Улика №${k + 1}</h2><p class="clue-txt">${clue.text}</p></div>
     <div class="clue-list">${CASE.c.clues.slice(0, k).map(c => `<div class="clue old">🔎 ${c.text}</div>`).join('')}</div>
     <p class="small center">Вычеркни тех, кто <b>не подходит</b> под улики (нажми на карточку):</p>${suspectsHTML(CASE.idx)}
@@ -1009,6 +1032,7 @@ SCREENS.accuse = () => {
 function closeCase() {
   const perfect = CASE.mistakes === 0;
   const c = 6 + (perfect ? 3 : 0), xp = 25;
+  if (CASE.diff >= 3) awardGems(perfect ? 3 : 2, 'за сложное дело'); else if (CASE.diff === 2 && perfect) awardGems(1, 'за дело без ошибок');
   S.cases++; if (perfect) S.casesPerfect++;
   const culprit = CASE.c.suspects.find(s => s.culprit);
   S.caseLog.unshift({ n: CASE.c.n, title: CASE.c.crime.title, who: culprit.animal.join(' '), date: today(), perfect });
@@ -1092,7 +1116,7 @@ const INTER = {
     const draw = () => {
       const s = st[k];
       el.innerHTML = `<div class="slide-row"><div class="story">${s ? s.txt : 'Умножаем 324 на <b>3</b> (единицы нижнего числа). Нажимай «Следующий шаг».'}<br><br><button class="btn mint" id="stp">${k < st.length - 1 ? 'Следующий шаг ▶' : 'Ещё раз ↺'}</button></div>${miniColumn(324, 23, { rows: s ? 1 : 0, partial: s ? [s.p] : [], carry: s ? s.carry : null, hlA: s ? s.hlA : [], hlB: [0] })}</div>`;
-      $('#stp', el).addEventListener('click', () => { SND.tap(); k = k < st.length - 1 ? k + 1 : -1; draw(); if (st[k]) { speakT(st[k].txt); catMood('happy', 600); } });
+      $('#stp', el).addEventListener('click', () => { SND.tap(); k = k < st.length - 1 ? k + 1 : -1; draw(); if (st[k]) { speakT(st[k].txt, { prio: 2 }); catMood('happy', 600); } });
     };
     draw();
   },
@@ -1101,7 +1125,7 @@ const INTER = {
     let k = 0;
     const draw = () => {
       el.innerHTML = `<div class="box-demo">${st.slice(0, k + 1).map((s, q) => `<div class="formula ${q === k ? 'now' : 'old'}">${s.f}</div>`).join('')}</div><div class="story">${st[k].t}</div><button class="btn mint" id="stp">${k < st.length - 1 ? 'Следующий шаг ▶' : 'Ещё раз ↺'}</button>`;
-      $('#stp', el).addEventListener('click', () => { SND.tap(); k = k < st.length - 1 ? k + 1 : 0; draw(); speakT(st[k].t); catMood('happy', 600); });
+      $('#stp', el).addEventListener('click', () => { SND.tap(); k = k < st.length - 1 ? k + 1 : 0; draw(); speakT(st[k].t, { prio: 2 }); catMood('happy', 600); });
     };
     draw();
   },
@@ -1110,25 +1134,26 @@ const INTER = {
 /* ================= ЭКРАН: Решаем вместе (практика) ================= */
 SCREENS.practice = (topic = 'mul') => {
   const isMul = topic === 'mul', levels = isMul ? E.MUL_LEVELS : E.EQ_LEVELS, key = isMul ? 'mulLv' : 'eqLv';
-  let guided = true, count = 0;
+  S.prefs.guided = S.prefs.guided || {}; let guided = S.prefs.guided[topic] !== false, count = 0;
   app.innerHTML = `${topbar(isMul ? 'Столбик: тренировка' : 'Уравнения: тренировка', 'school')}
   <div class="page task-page"><div class="task-head wrap">
     <div class="seg lv">${Object.entries(levels).map(([v, l]) => `<button data-v="${v}" class="${+v === S.prefs[key] ? 'on' : ''}">${l.name}</button>`).join('')}</div>
-    <div class="seg mode"><button data-m="1" class="on">🐾 С подсказками</button><button data-m="0">💪 Сам(а)</button></div></div>
+    <div class="seg mode"><button data-m="1" class="${guided ? 'on' : ''}">🐾 С подсказками</button><button data-m="0" class="${guided ? '' : 'on'}">💪 Сам(а)</button></div></div>
     <div id="task"></div><div id="after" class="after"></div></div>`;
   const load = () => {
     $('#after').innerHTML = '';
-    const t = makeTask(topic, S.prefs[key]);
+    const t = makeTask(topic, S.prefs[key]), t0 = Date.now();
     mountTask($('#task'), t, guided, res => {
-      count++; taskDone(topic, res);
+      count++; taskDone(topic, res); if (!guided) trackPerf(topic, t.level, res, (Date.now() - t0) / 1000);
+      if (!guided && t.level >= 3 && !res.mistakes && !res.helped) awardGems(1, 'за сложную задачу без ошибок');
       const c = ((!res.mistakes && !res.helped) ? 2 : 1) * (topic === 'eq' ? 2 : 1); award(c, (guided ? 6 : 10) + (topic === 'eq' ? 4 : 0));
       if (topic === 'eq') { const q = nextQuest(); if (q && q.e) toast(`<span class="tb">📦</span><div>До комнаты «${q.r.name}»: ещё ${lockText(q.r)}</div>`); }
       $('#after').innerHTML = `<button class="btn big pink" id="more">Ещё пример →</button>`;
       $('#more').addEventListener('click', () => { SND.tap(); load(); });
     });
   };
-  $$('.lv button').forEach(b => b.addEventListener('click', () => { S.prefs[key] = +b.dataset.v; save(); $$('.lv button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); load(); }));
-  $$('.mode button').forEach(b => b.addEventListener('click', () => { guided = b.dataset.m === '1'; $$('.mode button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); load(); }));
+  $$('.lv button').forEach(b => b.addEventListener('click', () => { S.prefs[key] = +b.dataset.v; S.prefs[key + 'Chosen'] = true; save(); $$('.lv button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); load(); }));
+  $$('.mode button').forEach(b => b.addEventListener('click', () => { guided = b.dataset.m === '1'; S.prefs.guided[topic] = guided; save(); $$('.mode button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); load(); }));
   load();
 };
 
@@ -1205,13 +1230,14 @@ SCREENS.shop = () => {
   const draw = () => {
     if (tab === 'home') { $('#sc').innerHTML = myCat(); $('#si').innerHTML = furnShopHTML(); bindFurnShop($('#si'), draw); return; }
     $('#sc').innerHTML = myCat();
-    $('#si').innerHTML = Object.entries(SLOTS).map(([slot, nm]) => `<h3>${nm}</h3><div class="items">${ITEMS.filter(it => it.slot === slot).map(it => { const own = S.owned.includes(it.id), on = S.wear[slot] === it.id; return `<button class="item ${own ? 'own' : ''} ${on ? 'on' : ''}" data-id="${it.id}"><span class="ii">${it.icon}</span><span class="in">${it.name}</span><span class="ip">${on ? 'надето ✔' : own ? 'надеть' : it.price + ' 🍬'}</span></button>`; }).join('')}</div>`).join('')
+    $('#si').innerHTML = Object.entries(SLOTS).map(([slot, nm]) => `<h3>${nm}</h3><div class="items">${ITEMS.filter(it => it.slot === slot).map(it => { const own = S.owned.includes(it.id), on = S.wear[slot] === it.id; return `<button class="item ${own ? 'own' : ''} ${on ? 'on' : ''} ${it.gems ? 'gemitem' : ''}" data-id="${it.id}"><span class="ii">${it.icon}</span><span class="in">${it.name}</span><span class="ip">${on ? 'надето ✔' : own ? 'надеть' : it.gems ? it.gems + ' 💎' : it.price + ' 🍬'}</span></button>`; }).join('')}</div>`).join('')
       + `<h3>Окрас котика</h3><div class="furs">${Object.entries(FURS).map(([k, f]) => `<button class="fur ${k === S.fur ? 'on' : ''}" data-f="${k}"><i style="background:${f.sw}"></i>${f.name}</button>`).join('')}</div>`;
     $$('.item', app).forEach(b => b.addEventListener('click', () => clickItem(ITEMS.find(x => x.id === b.dataset.id))));
     $$('.fur', app).forEach(b => b.addEventListener('click', () => { S.fur = b.dataset.f; save(); SND.meow(); draw(); }));
   };
   const clickItem = it => {
     if (S.owned.includes(it.id)) { S.wear[it.slot] = S.wear[it.slot] === it.id ? null : it.id; save(); SND.tap(); draw(); if (S.wear[it.slot]) { catMood('happy', 1200); M.meow({ shape: 'happy' }); { const w = pick(PH.wear); say(`${it.name} — ${w}`, 0, { speech: w }); } } else say(PH.unwear[0]); return; }
+    if (it.gems) { if ((S.gems || 0) < it.gems) { SND.bad(); toast(`<span class="tb">💎</span><div>Нужно <b>${it.gems} 💎</b>, у тебя ${S.gems || 0}.<br>Кристаллы дают за сложные задачи и дела!</div>`); return; } const mg = modal(`<div class="big-emoji">${it.icon}</div><h2>${it.name}</h2><p>Особая вещь за <b>${it.gems} 💎</b>. Купить?</p><div class="row-btns"><button class="btn pink" id="buyg">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`); $('#buyg', mg.el).addEventListener('click', () => { S.gems -= it.gems; S.owned.push(it.id); S.wear[it.slot] = it.id; save(); updCandy(); mg.close(); M.sfx('magic'); confetti(30); draw(); say(PH.bought[0]); }); return; }
     if (S.candies < it.price) { SND.bad(); say(PH.poor[0]); toast(`<span class="tb">🍬</span><div>Не хватает конфет: нужно ещё <b>${it.price - S.candies}</b>.<br>Раскрой пару дел!</div>`); return; }
     const m = modal(`<div class="big-emoji">${it.icon}</div><h2>${it.name}</h2><p>Купить за <b>${it.price} 🍬</b>?</p><div class="row-btns"><button class="btn pink" id="buy">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`);
     $('#buy', m.el).addEventListener('click', () => { S.candies -= it.price; S.owned.push(it.id); S.wear[it.slot] = it.id; save(); updCandy(); m.close(); tone([[988, 0.09], [1319, 0.25, 0.07]]); confetti(20); draw(); later(() => { SND.crunch(); catMood('happy', 2600); hearts($('.shop-cat'), 5); say(PH.bought[0]); }, 150); });
@@ -1282,8 +1308,8 @@ SCREENS.parents = () => {
 };
 
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '12';
-const NEWS = ['🎲 Детективные игры: волшебные весы, допрос свидетелей, сейф, прикидка, мемори, погоня, логика и закономерности!', '😺 Подозреваемые стали милыми аниме-персонажами — и обижаются, если их допрашивать слишком часто', '🗣️ Котик отвечает голосом быстрее', '📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
+const APP_VERSION = '14';
+const NEWS = ['💎 Кристаллы сыщика за сложные задачи — на них особые вещи!', '🎨 Новая игра: математическая раскраска', '🚀 Котик предлагает повысить уровень, когда уже всё получается', '🎨 Всё перерисовано в милом аниме-стиле: места происшествий, комнаты домика и все вещи!', '🎲 Детективные игры: волшебные весы, допрос свидетелей, сейф, прикидка, мемори, погоня, логика и закономерности!', '😺 Подозреваемые стали милыми аниме-персонажами — и обижаются, если их допрашивать слишком часто', '🗣️ Котик отвечает голосом быстрее', '📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;
   const first = !S.seenVersion && !S.cases && !solvedTotal(); S.seenVersion = APP_VERSION; save(); if (first) return;

@@ -119,6 +119,12 @@ function stt(buf) {
 /* ---------- потоковая озвучка: начинаем синтез сразу, клиент слушает по мере готовности ---------- */
 import { spawn } from 'node:child_process';
 const live = new Map(); // hash → { chunks, done, subs }
+function splitSay(t) { // та же функция есть в chat.js
+  const parts = String(t).slice(0, 400).split(/(?<=[.!?…])\s+/).map(x => x.trim()).filter(Boolean), out = [];
+  parts.forEach(x => { if (out.length && (out[out.length - 1].length < 25 || out.length >= 3)) out[out.length - 1] += ' ' + x; else out.push(x); });
+  return out;
+}
+const startSay = text => splitSay(text).forEach(startStream);
 function streamKey(t) { return createHash('sha1').update('s|' + t).digest('hex').slice(0, 20); }
 function startStream(text) {
   const t = ttsText(String(text).slice(0, 400)).trim(); if (!t) return null;
@@ -170,7 +176,7 @@ http.createServer(async (req, res) => {
       if (!dayOk()) return send(res, 429, { error: 'cap', heard, reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat({ ...d, text: heard }); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
       if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1;
-      startStream(out.reply);
+      startSay(out.reply);
       return send(res, 200, { heard, ...out }, origin);
     }
     if (url.pathname === '/chat' && req.method === 'POST') {
@@ -182,7 +188,7 @@ http.createServer(async (req, res) => {
       if (!dayOk()) return send(res, 429, { error: 'cap', reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat(d); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
       if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1;
-      startStream(out.reply);
+      startSay(out.reply);
       return send(res, 200, out, origin);
     }
     send(res, 404, { error: 'not found' }, origin);

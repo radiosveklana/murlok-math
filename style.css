@@ -746,3 +746,28 @@ svg.chibi .ch-vein { animation: vein .5s ease-in-out infinite alternate; transfo
 .enot-pic { display: flex; align-items: center; gap: 10px; background: #F3F8FF; border: 3px dashed #C9D9EA; border-radius: 18px; padding: 8px 12px; margin-bottom: 10px; }
 .enot-pic .chibi-pt { font-size: 50px; } .enot-pic small { color: var(--muted); font-style: italic; }
 .runner .chibi-pt { font-size: 34px; }
+
+/* ================= аниме-картинки ================= */
+.sc-img { background: none; background-image: var(--img), linear-gradient(#2E2950, #4B3F7A); background-size: cover, cover; background-position: center, center; }
+.room.hasbg { background-size: cover; background-position: center bottom; }
+.room.hasbg .wall, .room.hasbg .floor { display: none; }
+.room.big .fx img.ic-img { width: calc(var(--u) * var(--s) * 1.15); height: auto; display: block; pointer-events: none; -webkit-user-drag: none; }
+.room.big .ghost img.ic-img { width: calc(var(--u) * var(--s) * 1.15); }
+.item .ii img.ic-img { width: 60px; height: 60px; object-fit: contain; display: block; margin: 0 auto; }
+.big-emoji img.ic-img.big { width: 120px; height: 120px; object-fit: contain; }
+.food-in img.ic-img { width: calc(var(--u) * 5); }
+
+.pill.gem { background: #EDE6FF; color: #6B4FD0; }
+.item.gemitem { background: linear-gradient(160deg, #F4F0FF, #E7F7FF); outline: 2px dashed #B9A6FF; }
+.item.gemitem .ip { color: #6B4FD0; }
+
+/* ================= математическая раскраска ================= */
+.palette { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 10px; }
+.pc { display: flex; align-items: center; gap: 6px; background: #fff; padding: 6px 10px 6px 6px; border-radius: 14px; box-shadow: var(--sh); border: 3px solid transparent; }
+.pc i { width: 28px; height: 28px; border-radius: 8px; background: var(--c); border: 2px solid var(--ink); display: inline-block; }
+.pc b { font-size: 20px; } .pc small { font-size: 12px; color: var(--muted); }
+.pc.on { border-color: var(--pink); transform: scale(1.06); } .pc.fin { opacity: .55; }
+.cgrid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; max-width: 620px; margin: 0 auto; background: #fff; padding: 6px; border-radius: 16px; box-shadow: var(--sh2); }
+.ccell { aspect-ratio: 1; border-radius: 6px; background: #F6F1EA; font-size: clamp(9px, 1.9vw, 15px); font-weight: 800; line-height: 1.1; padding: 1px; color: var(--ink); }
+.ccell.f { color: transparent; }
+.cgrid.reveal { gap: 0; padding: 0; overflow: hidden; } .cgrid.reveal .ccell { border-radius: 0; }

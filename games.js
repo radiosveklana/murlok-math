@@ -3,6 +3,7 @@
 const GAMES = [
   { id: 'scales', icon: '⚖️', name: 'Волшебные весы', desc: 'Узнай, сколько весит коробка. Это и есть уравнение!', skill: 'Уравнения', kind: 'eq' },
   { id: 'interro', icon: '🕵️', name: 'Допрос свидетелей', desc: 'Кто ошибся в расчётах — тот врёт', skill: 'Проверка вычислений', kind: 'eq' },
+  { id: 'color', icon: '🎨', name: 'Математическая раскраска', desc: 'Реши пример — раскрась клетку. Что же получится?', skill: 'Таблица и устный счёт', kind: 'mul' },
   { id: 'safe', icon: '🔐', name: 'Сейф вора', desc: 'Реши примеры — из ответов сложится код', skill: 'Умножение', kind: 'mul' },
   { id: 'estimate', icon: '🎯', name: 'Прикидка', desc: 'Какой ответ похож на правду?', skill: 'Прикидка и проверка', kind: 'mul' },
   { id: 'memo', icon: '🃏', name: 'Мемори', desc: 'Найди пары: пример и ответ', skill: 'Таблица умножения', kind: 'mul' },
@@ -83,6 +84,54 @@ function finishGame(g, st) {
 SCREENS.game = id => { const g = GAMES.find(x => x.id === id) || GAMES[0]; GAME_FN[g.id](g); };
 
 const GAME_FN = {
+
+  /* 🎨 МАТЕМАТИЧЕСКАЯ РАСКРАСКА: выбери цвет-число и закрась клетки, где ответ равен этому числу */
+  color(g) {
+    const st = gameShell(g, 1); $('#gdots').innerHTML = '';
+    const PICS = [
+      { name: 'Сердечко', pal: { '.': '#DFF3FF', R: '#FF5E92', W: '#FFFFFF' }, px: ['.RR..RR.', 'RRRRRRRR', 'RRWRRRRR', 'RRRRRRRR', '.RRRRRR.', '..RRRR..', '...RR...', '........'] },
+      { name: 'Котик', pal: { '.': '#E8F7EF', O: '#F6A65A', E: '#3B2A4A', P: '#FF9DBB' }, px: ['O......O', 'OO....OO', 'OOOOOOOO', 'OEOOOOEO', 'OOOPPOOO', 'OOOOOOOO', '.OOOOOO.', '........'] },
+      { name: 'Капкейк', pal: { '.': '#FFF4E0', C: '#E6455A', W: '#FFFFFF', P: '#FF9DBB', B: '#9C6B45' }, px: ['...CC...', '..WWWW..', '.WWWWWW.', '.PPPPPP.', '.BBBBBB.', '.BPBPBP.', '..BBBB..', '........'] },
+      { name: 'Звёздочка', pal: { '.': '#2E2950', Y: '#FFC93C', W: '#FFFFFF' }, px: ['...YY...', 'W..YY..W', 'YYYYYYYY', '.YYYYYY.', '..YYYY..', '.YY..YY.', 'YY....YY', 'W......W'] },
+      { name: 'Рыбка', pal: { '.': '#CDEBFF', B: '#3D8BFD', E: '#3B2A4A', T: '#FFC93C' }, px: ['........', '...BBB..', '..BBBBBT', '.BEBBBTT', '..BBBBBT', '...BBB..', '........', '..T..T..'] },
+      { name: 'Мороженое', pal: { '.': '#FFE9F2', P: '#FF9DBB', M: '#7FE0C1', K: '#E0A96D' }, px: ['..PPPP..', '.PPPPPP.', '.MMMMMM.', '.MMMMMM.', '..KKKK..', '..KKKK..', '...KK...', '...KK...'] },
+    ];
+    const pic = pick(PICS), letters = Object.keys(pic.pal);
+    const hard = S.st.mul.done > 20;
+    const pool = shuffle(hard ? [72, 84, 96, 108, 112, 126, 135, 144, 156, 168] : [24, 28, 32, 36, 42, 45, 48, 54, 56, 63, 64, 72]);
+    const num = {}; letters.forEach((l, i) => { num[l] = pool[i]; });
+    function expr(v) {
+      const o = [];
+      for (let a = 2; a <= 9; a++) if (v % a === 0 && v / a >= 2 && v / a <= (hard ? 99 : 9)) o.push(`${a} × ${v / a}`);
+      const k = rnd(2, hard ? 4 : 6); o.push(`${v * k} : ${k}`);
+      const d = rnd(4, 30); o.push(`${v - d} + ${d}`); o.push(`${v + d} − ${d}`);
+      return pick(o.concat(o.filter(x => x.includes('×'))));
+    }
+    const cells = []; pic.px.forEach((row, y) => [...row].forEach((l, x) => cells.push({ l, e: expr(num[l]), done: false })));
+    let sel = letters[1] || letters[0], mistakes = 0;
+    st.say(`Выбери цвет с числом, а потом закрашивай клетки, где <b>ответ равен этому числу</b>. Посмотрим, что за картинка спряталась! 🎨`);
+    const left = l => cells.filter(c => c.l === l && !c.done).length;
+    const draw = () => {
+      $('#garea').innerHTML = `<div class="palette">${letters.map(l => `<button class="pc ${l === sel ? 'on' : ''} ${left(l) ? '' : 'fin'}" data-l="${l}" style="--c:${pic.pal[l]}"><i></i><b>${num[l]}</b><small>${left(l) ? 'ещё ' + left(l) : '✔'}</small></button>`).join('')}</div>
+        <div class="cgrid">${cells.map((c, i) => `<button class="ccell ${c.done ? 'f' : ''}" data-i="${i}" style="${c.done ? `background:${pic.pal[c.l]}` : ''}">${c.done ? '' : c.e}</button>`).join('')}</div>`;
+      $$('.pc', app).forEach(b => b.addEventListener('click', () => { sel = b.dataset.l; SND.tap(); draw(); }));
+      $$(".ccell", app).forEach(b => b.addEventListener('click', () => {
+        const c = cells[+b.dataset.i]; if (c.done) return;
+        if (c.l === sel) { c.done = true; b.classList.add('f', 'pop'); b.style.background = pic.pal[c.l]; b.textContent = ''; SND.tap(); M.haptic(8);
+          const pcEl = $(`.pc[data-l="${sel}"] small`); if (pcEl) pcEl.textContent = left(sel) ? 'ещё ' + left(sel) : '✔';
+          if (!left(sel)) { $(`.pc[data-l="${sel}"]`).classList.add('fin'); SND.ok(); const nx = letters.find(l => left(l)); if (nx) { sel = nx; setTimeout(draw, 300); } }
+          if (cells.every(x => x.done)) finish();
+        } else { mistakes++; SND.bad(); shake(b); const [p2, op, q2] = c.e.split(' '); const v = E.calc(+p2, { '×': '*', ':': '/', '+': '+', '−': '-' }[op], +q2); st.say(`<div class="fb bad">Не тот цвет!</div>${c.e} = <b>${v}</b>. Найди цвет с числом ${v}.`); if (op === '×') noteErr('tbl', factKey(+p2, +q2)); }
+      }));
+    };
+    function finish() {
+      st.say(`<div class="fb">🎉 Получилось: ${pic.name}!</div>Все примеры решены${mistakes ? '' : ' без единой ошибки'}!`);
+      $('.cgrid').classList.add('reveal'); confetti(40); M.sfx('magic');
+      if (!mistakes) awardGems(1, 'за раскраску без ошибок');
+      setTimeout(() => { st.score = Math.max(4, 10 - mistakes); st.rounds = 10; st.r = 1; const keep = $('.cgrid').outerHTML; finishGame(g, st); $('#garea').insertAdjacentHTML('afterbegin', keep); }, 2200);
+    }
+    draw();
+  },
   /* ⚖️ ВЕСЫ: уравнение как равновесие. Убираем одинаковое с обеих чаш, делим поровну. */
   scales(g) {
     const st = gameShell(g, 5);

@@ -1,0 +1,1196 @@
+{
+ "scenes": [
+  {
+   "kind": "scene",
+   "out": "img/scene2/0.jpg",
+   "p": "interior of a cozy pastry shop at night, empty glass cake stand, cream smears and crumbs on the counter, tiny paw prints on the floor, curtains blowing at an open window, moonlight, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 30
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/1.jpg",
+   "p": "cozy bakery at night, an empty donut box on the counter, sugar sprinkles scattered, tiny paw prints leading to a back door left ajar, warm lamp light, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 31
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/2.jpg",
+   "p": "magical candy bank vault, round vault door open, empty treasure chest, a few colorful gummy candies on the floor, beams of moonlight, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 32
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/3.jpg",
+   "p": "autumn fair at dusk, wooden stall with paper lanterns, an empty basket where caramel apples were, fallen orange leaves, paw prints in the dust, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 33
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/4.jpg",
+   "p": "charming cafe at night, empty recipe stand on a table, flour dusted on the table, an open drawer, a feather on the floor, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 34
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/5.jpg",
+   "p": "whimsical chocolate factory, conveyor belts and pipes, an empty golden pedestal, chocolate drips, sparkling dust in the air, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 35
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/6.jpg",
+   "p": "school cafeteria at night, an empty baking tray on a table, a trail of cookie crumbs across the floor to a window, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 36
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/7.jpg",
+   "p": "park with a fountain at night, an abandoned ice cream cart with an open lid, melted ice cream puddles, glowing lanterns, fireflies, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 37
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/8.jpg",
+   "p": "old tea house with a samovar at night, an empty pie plate on a lace tablecloth, honey drips, window open to a big moon, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 38
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/9.jpg",
+   "p": "toy shop at night, a big empty glass jar on a shelf, a few rainbow lollipops on the floor, toy soldiers watching, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 39
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/10.jpg",
+   "p": "cozy cellar with shelves of jars at night, three empty spots on the shelf, a cherry on the floor, lantern light, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 40
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/11.jpg",
+   "p": "birthday party garden at night, festive table with balloons, empty cupcake stand, confetti and crumbs, string lights, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 41
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/12.jpg",
+   "p": "old lighthouse interior at night, spiral staircase, an empty sack by the window, glowing caramel candies scattered like fireflies, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 42
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/13.jpg",
+   "p": "grand old library at night, tall bookshelves, an empty book stand with a glowing outline, floating dust in moonbeams, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 43
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/14.jpg",
+   "p": "frozen ice rink at night, a little table with an empty snowman-shaped cake plate, sled tracks and paw prints in the snow, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 44
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/15.jpg",
+   "p": "toy museum at night, glass display case open and empty, gingerbread crumbs on velvet, gentle moonlight, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 45
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/16.jpg",
+   "p": "observatory dome at night, big telescope pointing at the moon, an empty plate with moon-shaped crumbs, stars through the open roof, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 46
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/17.jpg",
+   "p": "harbor pier at night, an open empty wooden treasure chest, a few chocolate coins glinting, ship lanterns, gentle waves, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 47
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/18.jpg",
+   "p": "circus tent interior at night, striped tent, an empty cotton candy machine, pink fluffy wisps floating in the air, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 48
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/19.jpg",
+   "p": "toy train at a tiny station at night, open cargo wagon with only a few gummy bears left, glowing lamps, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 49
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/20.jpg",
+   "p": "castle dining hall at night, an empty silver dish on a long table, candles flickering, moonlit stained glass, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 50
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/21.jpg",
+   "p": "beach at night under a big moon, an open empty ice cream freezer cart, footprints in the sand leading away, soft waves, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 51
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/22.jpg",
+   "p": "baking contest hall at night, a podium with an empty trophy cake stand, ribbons, spotlights, crumbs on the floor, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 52
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/23.jpg",
+   "p": "misty park at night, an overturned picnic basket, a few cinnamon bun crumbs, glowing lantern in soft fog, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 53
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/24.jpg",
+   "p": "cute underwater cafe with glass dome, jellyfish lamps, an empty cake stand on a table, pearls scattered, bubbles, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 54
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/25.jpg",
+   "p": "magical greenhouse at night, glowing flowers, an empty candy flower pot, garden tools, moonlight through glass roof, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 55
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/26.jpg",
+   "p": "hot air balloon festival at dusk, colorful balloons, an empty picnic basket on the grass, lanterns, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 56
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/27.jpg",
+   "p": "cute zoo at night, empty fruit basket near a monkey enclosure, banana peels, lanterns, stars, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 57
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/28.jpg",
+   "p": "puppet theater stage with red curtains, an open empty little chest, spotlight, puppets hanging, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 58
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/29.jpg",
+   "p": "ice palace hall, glittering ice columns, an empty ice pedestal, snowflakes floating, blue light, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 59
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/30.jpg",
+   "p": "old windmill interior at night, flour sacks, one torn sack with sugar spilled, moonlight through the window, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 60
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/31.jpg",
+   "p": "toy spaceport at night, little rockets, an empty crate, glowing runway lights, stars, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 61
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/32.jpg",
+   "p": "cute pirate ship deck at night, an empty barrel, rope, lantern, moon over the sea, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 62
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/33.jpg",
+   "p": "rainbow waterfall in a magical forest, an empty jar on a rock, sparkles and mist, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 63
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/34.jpg",
+   "p": "cozy night market with paper lanterns, an empty stall, a fallen lantern, warm lights, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 64
+  },
+  {
+   "kind": "scene",
+   "out": "img/scene2/35.jpg",
+   "p": "candy mine tunnel, glowing gem-like chocolates in the walls, an empty mine cart, lantern light, mysterious detective mood, magical night atmosphere, no characters",
+   "w": 1280,
+   "h": 720,
+   "seed": 65
+  }
+ ],
+ "rooms": [
+  {
+   "kind": "room",
+   "out": "img/rooms/kitchen.jpg",
+   "p": "cozy cute kitchen interior, front view, pastel tiled wall with shelves and hanging pots, window with flowers, light wooden floor taking the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 60
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/living.jpg",
+   "p": "cozy cute living room interior, front view, warm peach wallpaper, window with curtains, framed pictures, soft rug on wooden floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 61
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/bedroom.jpg",
+   "p": "cozy cute bedroom interior, front view, lilac wallpaper with stars, round window with night sky, soft carpet floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 62
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/play.jpg",
+   "p": "cute playroom interior, front view, mint wallpaper with polka dots, colorful bunting flags, window, pink soft floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 63
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/bath.jpg",
+   "p": "cute bathroom interior, front view, light blue tiles, round window, little shelves with bubbles, light blue tiled floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 64
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/office.jpg",
+   "p": "cute detective office interior, front view, wooden wall panels, bookshelves, window with rain, cork board, wooden floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 65
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/garden.jpg",
+   "p": "cute sunny garden, front view, blue sky with fluffy clouds, white fence with flowers, green lawn in the lower third, empty open grass space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 66
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/pool.jpg",
+   "p": "cute indoor swimming pool room, front view, light blue tiles, big window with sun, palm plant, blue water area in the lower third, empty space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 67
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/music.jpg",
+   "p": "cute music room interior, front view, pink wallpaper with music notes, small stage lights, wooden floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 68
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/library.jpg",
+   "p": "cozy cute library room interior, front view, tall bookshelves on the walls, round window, wooden floor with rug in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 69
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/station.jpg",
+   "p": "cute space station interior, front view, round windows with planets and stars, soft blue lights, metal floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 70
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/attic.jpg",
+   "p": "cute attic observatory at night, front view, sloped wooden roof with big round window full of stars, purple night glow, wooden floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 71
+  }
+ ],
+ "items": [
+  {
+   "kind": "item",
+   "id": "fx_bowl",
+   "out": "img/items/fx_bowl.webp",
+   "p": "a cute cat food bowl, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_water",
+   "out": "img/items/fx_water.webp",
+   "p": "a cute pet water bowl with water drop, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_stove",
+   "out": "img/items/fx_stove.webp",
+   "p": "a cute little kitchen stove with a pan, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_sofa",
+   "out": "img/items/fx_sofa.webp",
+   "p": "a cozy cute pink sofa, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_lamp",
+   "out": "img/items/fx_lamp.webp",
+   "p": "a cute hanging ceiling lamp, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_bed",
+   "out": "img/items/fx_bed.webp",
+   "p": "a cozy cute cat bed with pillow and blanket, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_yarn",
+   "out": "img/items/fx_yarn.webp",
+   "p": "a ball of pink yarn, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_scratch",
+   "out": "img/items/fx_scratch.webp",
+   "p": "a cute cat scratching post, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_tub",
+   "out": "img/items/fx_tub.webp",
+   "p": "a cute bathtub full of bubbles, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_duck",
+   "out": "img/items/fx_duck.webp",
+   "p": "a yellow rubber duck, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_soap",
+   "out": "img/items/fx_soap.webp",
+   "p": "a pink soap bar with bubbles, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_map",
+   "out": "img/items/fx_map.webp",
+   "p": "a cute treasure map of a candy town, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_desk",
+   "out": "img/items/fx_desk.webp",
+   "p": "a cute wooden filing cabinet, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_house",
+   "out": "img/items/fx_house.webp",
+   "p": "a cute little cat house with a red roof, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_tulip",
+   "out": "img/items/fx_tulip.webp",
+   "p": "a bunch of tulips in a pot, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_scope",
+   "out": "img/items/fx_scope.webp",
+   "p": "a cute brass telescope on a tripod, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_pool",
+   "out": "img/items/fx_pool.webp",
+   "p": "a cute small round swimming pool with water, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_ring",
+   "out": "img/items/fx_ring.webp",
+   "p": "a cute swim ring, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_mic",
+   "out": "img/items/fx_mic.webp",
+   "p": "a cute microphone on a stand, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_notes",
+   "out": "img/items/fx_notes.webp",
+   "p": "a music sheet with notes, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_shelf",
+   "out": "img/items/fx_shelf.webp",
+   "p": "a tall wooden bookshelf with books, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_globe",
+   "out": "img/items/fx_globe.webp",
+   "p": "a cute desk globe, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_window",
+   "out": "img/items/fx_window.webp",
+   "p": "a round spaceship porthole with a planet view, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_panel",
+   "out": "img/items/fx_panel.webp",
+   "p": "a cute spaceship control panel with buttons, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "lamp2",
+   "out": "img/items/lamp2.webp",
+   "p": "a soft round pouf, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "vase",
+   "out": "img/items/vase.webp",
+   "p": "a cute vase with flowers, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "rug",
+   "out": "img/items/rug.webp",
+   "p": "a round knitted rug, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "hammock",
+   "out": "img/items/hammock.webp",
+   "p": "a cute hammock on a stand, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "bookcase",
+   "out": "img/items/bookcase.webp",
+   "p": "a small shelf with fairy tale books, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "catwheel",
+   "out": "img/items/catwheel.webp",
+   "p": "a cat exercise wheel, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "plush",
+   "out": "img/items/plush.webp",
+   "p": "a giant teddy bear, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "blocks",
+   "out": "img/items/blocks.webp",
+   "p": "colorful toy building blocks, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "puzzle",
+   "out": "img/items/puzzle.webp",
+   "p": "a jigsaw puzzle, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "dollhouse",
+   "out": "img/items/dollhouse.webp",
+   "p": "a cute dollhouse, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "bubbles",
+   "out": "img/items/bubbles.webp",
+   "p": "soap bubbles with a bubble wand, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "slide",
+   "out": "img/items/slide.webp",
+   "p": "a small playground slide, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "trampoline",
+   "out": "img/items/trampoline.webp",
+   "p": "a small trampoline, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "scooter",
+   "out": "img/items/scooter.webp",
+   "p": "a kick scooter, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "macarons",
+   "out": "img/items/macarons.webp",
+   "p": "a tower of colorful macarons, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "pancakes",
+   "out": "img/items/pancakes.webp",
+   "p": "a stack of pancakes with honey, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "jelly",
+   "out": "img/items/jelly.webp",
+   "p": "a wobbly jelly pudding, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "candyhouse",
+   "out": "img/items/candyhouse.webp",
+   "p": "a gingerbread house, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "chocofountain",
+   "out": "img/items/chocofountain.webp",
+   "p": "a chocolate fountain with fruits, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "kitten",
+   "out": "img/items/kitten.webp",
+   "p": "a cute little kitten"
+  },
+  {
+   "kind": "item",
+   "id": "puppy",
+   "out": "img/items/puppy.webp",
+   "p": "a cute puppy"
+  },
+  {
+   "kind": "item",
+   "id": "owlet",
+   "out": "img/items/owlet.webp",
+   "p": "a cute baby owl"
+  },
+  {
+   "kind": "item",
+   "id": "snail",
+   "out": "img/items/snail.webp",
+   "p": "a cute snail"
+  },
+  {
+   "kind": "item",
+   "id": "ladybug",
+   "out": "img/items/ladybug.webp",
+   "p": "a cute ladybug"
+  },
+  {
+   "kind": "item",
+   "id": "balloonarch",
+   "out": "img/items/balloonarch.webp",
+   "p": "a balloon arch, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "garland",
+   "out": "img/items/garland.webp",
+   "p": "a string of colorful bunting flags, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "partyhat",
+   "out": "img/items/partyhat.webp",
+   "p": "a party table with cake and party hats, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "mirrorball",
+   "out": "img/items/mirrorball.webp",
+   "p": "a disco mirror ball, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "magicbook",
+   "out": "img/items/magicbook.webp",
+   "p": "a glowing magic spell book"
+  },
+  {
+   "kind": "item",
+   "id": "potion",
+   "out": "img/items/potion.webp",
+   "p": "a glowing magic potion bottle"
+  },
+  {
+   "kind": "item",
+   "id": "magichat",
+   "out": "img/items/magichat.webp",
+   "p": "a magician top hat with a bunny"
+  },
+  {
+   "kind": "item",
+   "id": "phoenix",
+   "out": "img/items/phoenix.webp",
+   "p": "a cute fire phoenix bird"
+  },
+  {
+   "kind": "item",
+   "id": "comet",
+   "out": "img/items/comet.webp",
+   "p": "a shooting comet"
+  },
+  {
+   "kind": "item",
+   "id": "astronaut",
+   "out": "img/items/astronaut.webp",
+   "p": "a cute empty astronaut space suit"
+  },
+  {
+   "kind": "item",
+   "id": "satellite",
+   "out": "img/items/satellite.webp",
+   "p": "a cute satellite"
+  },
+  {
+   "kind": "item",
+   "id": "rainbowtree",
+   "out": "img/items/rainbowtree.webp",
+   "p": "a blooming sakura tree, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "pond",
+   "out": "img/items/pond.webp",
+   "p": "a small pond with lotus flowers, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "palm",
+   "out": "img/items/palm.webp",
+   "p": "a palm tree, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "rainbowfox",
+   "out": "img/items/rainbowfox.webp",
+   "p": "a plush fox toy, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "beanbag",
+   "out": "img/items/beanbag.webp",
+   "p": "a bean bag chair, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "chair",
+   "out": "img/items/chair.webp",
+   "p": "a cozy armchair, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "plant",
+   "out": "img/items/plant.webp",
+   "p": "a potted plant, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "pic",
+   "out": "img/items/pic.webp",
+   "p": "a framed painting of a cat, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "clock",
+   "out": "img/items/clock.webp",
+   "p": "a cute round wall clock, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "tv",
+   "out": "img/items/tv.webp",
+   "p": "a cute retro television, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "lantern",
+   "out": "img/items/lantern.webp",
+   "p": "a paper lantern, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "books",
+   "out": "img/items/books.webp",
+   "p": "a stack of colorful books, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "mirror",
+   "out": "img/items/mirror.webp",
+   "p": "a round mirror with a golden frame, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "lights",
+   "out": "img/items/lights.webp",
+   "p": "a garland of star fairy lights, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "piano",
+   "out": "img/items/piano.webp",
+   "p": "a small upright piano, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "guitar",
+   "out": "img/items/guitar.webp",
+   "p": "a cute acoustic guitar, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "drum",
+   "out": "img/items/drum.webp",
+   "p": "a cute toy drum, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "trophy",
+   "out": "img/items/trophy.webp",
+   "p": "a golden trophy cup, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "teddy",
+   "out": "img/items/teddy.webp",
+   "p": "a teddy bear, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "ball",
+   "out": "img/items/ball.webp",
+   "p": "a soccer ball, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "balloons",
+   "out": "img/items/balloons.webp",
+   "p": "a bunch of colorful balloons, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "yoyo",
+   "out": "img/items/yoyo.webp",
+   "p": "a yo-yo, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "kite",
+   "out": "img/items/kite.webp",
+   "p": "a colorful kite, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "skate",
+   "out": "img/items/skate.webp",
+   "p": "a cute skateboard, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "game",
+   "out": "img/items/game.webp",
+   "p": "a game console with a controller, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "train",
+   "out": "img/items/train.webp",
+   "p": "a cute toy steam train, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "robot",
+   "out": "img/items/robot.webp",
+   "p": "a cute friendly toy robot, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "unicorn",
+   "out": "img/items/unicorn.webp",
+   "p": "a rocking unicorn toy, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "castle",
+   "out": "img/items/castle.webp",
+   "p": "a cute toy castle for cats, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "tent",
+   "out": "img/items/tent.webp",
+   "p": "a circus tent toy, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "carousel",
+   "out": "img/items/carousel.webp",
+   "p": "a cute carousel with horses, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "ferris",
+   "out": "img/items/ferris.webp",
+   "p": "a cute ferris wheel, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "cake",
+   "out": "img/items/cake.webp",
+   "p": "a strawberry birthday cake, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "cookies",
+   "out": "img/items/cookies.webp",
+   "p": "a jar of cookies, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "cupcakes",
+   "out": "img/items/cupcakes.webp",
+   "p": "a stand with cupcakes, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "icecream",
+   "out": "img/items/icecream.webp",
+   "p": "an ice cream cone, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "candyjar",
+   "out": "img/items/candyjar.webp",
+   "p": "a big jar of candies, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "lolly",
+   "out": "img/items/lolly.webp",
+   "p": "a lollipop tree, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "donuts",
+   "out": "img/items/donuts.webp",
+   "p": "a tower of donuts, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "choco",
+   "out": "img/items/choco.webp",
+   "p": "a mountain of chocolate bars, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fishtank",
+   "out": "img/items/fishtank.webp",
+   "p": "a round fish tank with goldfish"
+  },
+  {
+   "kind": "item",
+   "id": "butterfly",
+   "out": "img/items/butterfly.webp",
+   "p": "a cute butterfly"
+  },
+  {
+   "kind": "item",
+   "id": "chick",
+   "out": "img/items/chick.webp",
+   "p": "a cute baby chick"
+  },
+  {
+   "kind": "item",
+   "id": "parrot",
+   "out": "img/items/parrot.webp",
+   "p": "a cute green parrot on a perch"
+  },
+  {
+   "kind": "item",
+   "id": "hamster",
+   "out": "img/items/hamster.webp",
+   "p": "a cute hamster"
+  },
+  {
+   "kind": "item",
+   "id": "turtle",
+   "out": "img/items/turtle.webp",
+   "p": "a cute little turtle"
+  },
+  {
+   "kind": "item",
+   "id": "bunny",
+   "out": "img/items/bunny.webp",
+   "p": "a cute baby bunny"
+  },
+  {
+   "kind": "item",
+   "id": "gift",
+   "out": "img/items/gift.webp",
+   "p": "a stack of gift boxes, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "confetti",
+   "out": "img/items/confetti.webp",
+   "p": "a party popper with confetti, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "pinata",
+   "out": "img/items/pinata.webp",
+   "p": "a colorful llama pinata, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fireworks",
+   "out": "img/items/fireworks.webp",
+   "p": "colorful fireworks burst, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "rainbow",
+   "out": "img/items/rainbow.webp",
+   "p": "a rainbow with clouds"
+  },
+  {
+   "kind": "item",
+   "id": "crystal",
+   "out": "img/items/crystal.webp",
+   "p": "a glowing crystal ball"
+  },
+  {
+   "kind": "item",
+   "id": "wand",
+   "out": "img/items/wand.webp",
+   "p": "a magic wand with stars"
+  },
+  {
+   "kind": "item",
+   "id": "fairy",
+   "out": "img/items/fairy.webp",
+   "p": "a tiny cute fairy"
+  },
+  {
+   "kind": "item",
+   "id": "gem",
+   "out": "img/items/gem.webp",
+   "p": "a sparkling treasure chest with gems"
+  },
+  {
+   "kind": "item",
+   "id": "genie",
+   "out": "img/items/genie.webp",
+   "p": "a magic lamp with a friendly genie"
+  },
+  {
+   "kind": "item",
+   "id": "dragon",
+   "out": "img/items/dragon.webp",
+   "p": "a cute baby dragon"
+  },
+  {
+   "kind": "item",
+   "id": "star",
+   "out": "img/items/star.webp",
+   "p": "a shining star"
+  },
+  {
+   "kind": "item",
+   "id": "moon",
+   "out": "img/items/moon.webp",
+   "p": "a crescent moon"
+  },
+  {
+   "kind": "item",
+   "id": "planet",
+   "out": "img/items/planet.webp",
+   "p": "the planet Saturn with rings"
+  },
+  {
+   "kind": "item",
+   "id": "rocket",
+   "out": "img/items/rocket.webp",
+   "p": "a cute rocket"
+  },
+  {
+   "kind": "item",
+   "id": "ufo",
+   "out": "img/items/ufo.webp",
+   "p": "a cute flying saucer"
+  },
+  {
+   "kind": "item",
+   "id": "alien",
+   "out": "img/items/alien.webp",
+   "p": "a cute friendly alien"
+  },
+  {
+   "kind": "item",
+   "id": "sunflower",
+   "out": "img/items/sunflower.webp",
+   "p": "a sunflower in a pot, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "cactus",
+   "out": "img/items/cactus.webp",
+   "p": "a cute cactus in a pot, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "mushroom",
+   "out": "img/items/mushroom.webp",
+   "p": "a red spotted mushroom, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "tree",
+   "out": "img/items/tree.webp",
+   "p": "a round green tree, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "snowman",
+   "out": "img/items/snowman.webp",
+   "p": "a cute snowman, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fountain",
+   "out": "img/items/fountain.webp",
+   "p": "a small stone fountain, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "f_fish",
+   "out": "img/items/f_fish.webp",
+   "p": "a fish"
+  },
+  {
+   "kind": "item",
+   "id": "f_milk",
+   "out": "img/items/f_milk.webp",
+   "p": "a glass of milk"
+  },
+  {
+   "kind": "item",
+   "id": "f_cheese",
+   "out": "img/items/f_cheese.webp",
+   "p": "a piece of cheese"
+  },
+  {
+   "kind": "item",
+   "id": "f_shrimp",
+   "out": "img/items/f_shrimp.webp",
+   "p": "a fried shrimp"
+  },
+  {
+   "kind": "item",
+   "id": "f_cake",
+   "out": "img/items/f_cake.webp",
+   "p": "a cupcake"
+  }
+ ]
+}

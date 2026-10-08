@@ -6,26 +6,32 @@ const CAN_REC = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia
 const CHAT_TIPS = ['Как у тебя дела?', 'Загадай мне загадку', 'Расскажи про космос', 'Помоги понять умножение', 'Какое твоё любимое лакомство?', 'Мне сегодня грустно', 'Расскажи смешную историю', 'Какие бывают кошки?'];
 const deviceId = () => { if (!S.device) { S.device = 'd' + Math.random().toString(36).slice(2) + Date.now().toString(36); save(); } return S.device; };
 
-/* голос котика для любого текста — потоком с сервера: начинает звучать, пока фраза ещё синтезируется */
-const voiceEl = new Audio(); voiceEl.preload = 'auto'; voiceEl.crossOrigin = 'anonymous';
-document.addEventListener('pointerdown', function unlockVoice() { // iOS: «разблокировать» элемент касанием
-  document.removeEventListener('pointerdown', unlockVoice, true);
-  voiceEl.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA='; voiceEl.play().catch(() => { });
-}, true);
-voiceEl.addEventListener('playing', () => { document.body.classList.add('cat-talking'); Music.setDuck(true); });
-['ended', 'pause', 'error'].forEach(ev => voiceEl.addEventListener(ev, () => { document.body.classList.remove('cat-talking'); Music.setDuck(false); }));
-function speakRemote(text) {
-  if (!S.sound || S.voice === false) return;
-  try {
-    M.hush();
-    voiceEl.src = API + '/tts?s=1&t=' + encodeURIComponent(String(text).slice(0, 400));
-    voiceEl.preservesPitch = false; voiceEl.webkitPreservesPitch = false; voiceEl.mozPreservesPitch = false;
-    voiceEl.playbackRate = 1.14; voiceEl.volume = 1;
-    voiceEl.addEventListener('loadedmetadata', () => { voiceEl.playbackRate = 1.14; }, { once: true });
-    voiceEl.play().catch(() => { });
-  } catch (e) { }
+/* голос котика для любого текста. Ответ режется на фразы: первая звучит, пока сервер озвучивает следующие.
+   Воспроизведение через Web Audio — так надёжно работает на iPhone/iPad (Safari не любит поток без длины). */
+function splitSay(t) { // та же функция есть на сервере — фразы должны совпадать
+  const parts = String(t).slice(0, 400).split(/(?<=[.!?…])\s+/).map(x => x.trim()).filter(Boolean), out = [];
+  parts.forEach(x => { if (out.length && (out[out.length - 1].length < 25 || out.length >= 3)) out[out.length - 1] += ' ' + x; else out.push(x); });
+  return out;
 }
-
+let speakTok = 0, speakSrc = null;
+function stopRemote() { speakTok++; if (speakSrc) { try { speakSrc.stop(); } catch (e) { } speakSrc = null; } document.body.classList.remove('cat-talking'); Music.setDuck(false); }
+async function speakRemote(text) {
+  if (!S.sound || S.voice === false) return;
+  M.hush(); stopRemote(); const my = speakTok, ac = M.ctx(); if (!ac) return;
+  const proms = splitSay(text).map(t => fetch(API + '/tts?s=1&t=' + encodeURIComponent(t)).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null));
+  for (const pr of proms) {
+    const ab = await pr; if (my !== speakTok) return; if (!ab || ab.byteLength < 500) continue;
+    let buf; try { buf = await new Promise((res, rej) => { const q = ac.decodeAudioData(ab, res, rej); if (q && q.then) q.then(res, rej); }); } catch (e) { continue; }
+    if (my !== speakTok) return;
+    await new Promise(res => {
+      const src = ac.createBufferSource(); src.buffer = buf; src.playbackRate.value = 1.12;
+      const g = ac.createGain(); g.gain.value = 1.2; src.connect(g); g.connect(ac.destination);
+      src.onended = () => res(); speakSrc = src; document.body.classList.add('cat-talking'); Music.setDuck(true); M.setBusy(buf.duration / 1.12 + 0.3, 2);
+      src.start(); setTimeout(res, (buf.duration / 1.12 + 0.5) * 1000);
+    });
+  }
+  if (my === speakTok) { document.body.classList.remove('cat-talking'); Music.setDuck(false); }
+}
 
 /* помощь с микрофоном: понятная инструкция под конкретный телефон и браузер */
 function micHelp(err) {

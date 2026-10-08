@@ -4,6 +4,12 @@ const HL = window.Lines;
 const OLD_FURN = { sofa: 20, plant: 10, pic: 15, tv: 30, fishtank: 40, clock: 20, bowl: 10, milk: 10, cake: 25, cookies: 15, teapot: 20, cupcakes: 35, bed: 30, teddy: 15, lamp: 15, books: 20, lights: 25, pillow: 15, map: 20, dossier: 15, flash: 15, phone: 20, puzzle: 25, case: 20, yarn: 10, balloons: 15, ball: 10, game: 30, kite: 15, paint: 20, tree: 25, sunflower: 15, fountain: 50, butterfly: 15, mushroom: 10, ladybug: 10, scope: 50, planet: 30, moon: 20, star: 15, rocket: 60, ufo: 70 };
 const CARE_RATE = { food: 5, water: 7, fun: 6, energy: 4, clean: 3 }; // убывание в час
 const catItem = id => HL.CATALOG.find(c => c[0] === id);
+const GEM_FURN = { unicorn: 6, castle: 8, dragon: 10, carousel: 12, ferris: 15, gem: 5 }; // особые вещи — только за 💎
+/* аниме-наклейки вещей (img/items), если нарисованы; иначе эмодзи */
+let ITEM_IMG = new Set(), ROOM_IMG = new Set();
+fetch('img/items/index.json').then(r => r.json()).then(a => { ITEM_IMG = new Set(a); }).catch(() => { });
+fetch('img/rooms/index.json').then(r => r.json()).then(a => { ROOM_IMG = new Set(a); }).catch(() => { });
+const icon = (id, emo, cls = '') => ITEM_IMG.has(id) ? `<img class="ic-img ${cls}" src="img/items/${id}.webp" alt="" draggable="false">` : emo;
 const roomOpen = r => r.need <= solvedTotal() && (r.eq || 0) <= S.st.eq.done;
 const itemEq = c => (c[5] === 'Волшебство' || c[5] === 'Космос') ? Math.max(3, Math.round(c[4] / 4)) : 0; // волшебные и космические вещи — за уравнения
 const itemOpen = c => c[4] <= solvedTotal() && itemEq(c) <= S.st.eq.done;
@@ -53,6 +59,7 @@ function itemInfo(room, id) {
 const FSIZE = { fx_bed: 30, fx_sofa: 28, fx_tub: 27, fx_bowl: 8, fx_water: 8, fx_stove: 13, fx_lamp: 9, fx_yarn: 7, fx_scratch: 15, fx_duck: 6, fx_soap: 6, fx_map: 17, fx_desk: 15, fx_house: 22, fx_tulip: 9, fx_scope: 18,
   chair: 15, plant: 10, pic: 11, clock: 9, tv: 15, lantern: 8, books: 9, mirror: 12, lights: 13, piano: 22, guitar: 13, drum: 12, trophy: 10, teddy: 10, ball: 7, balloons: 13, yoyo: 6, kite: 12, skate: 11, game: 9, train: 16, robot: 14, unicorn: 19, castle: 26, tent: 26, carousel: 28, ferris: 30,
   cake: 9, cookies: 8, cupcakes: 9, icecream: 8, candyjar: 9, lolly: 15, donuts: 12, choco: 17, fishtank: 15, butterfly: 6, chick: 6, parrot: 9, hamster: 7, turtle: 8, bunny: 8, gift: 10, confetti: 8, pinata: 12, fireworks: 17, rainbow: 24, crystal: 9, wand: 8, fairy: 10, gem: 9, genie: 15, dragon: 19,
+  fx_pool: 30, fx_ring: 9, fx_mic: 12, fx_notes: 14, fx_shelf: 22, fx_globe: 11, fx_window: 20, fx_panel: 18, lamp2: 10, vase: 10, rug: 18, hammock: 24, bookcase: 15, catwheel: 22, plush: 18, blocks: 10, puzzle: 10, dollhouse: 20, bubbles: 10, slide: 24, trampoline: 24, scooter: 13, macarons: 11, pancakes: 10, jelly: 9, candyhouse: 20, chocofountain: 20, kitten: 9, puppy: 10, owlet: 8, snail: 7, ladybug: 6, balloonarch: 26, garland: 22, partyhat: 20, mirrorball: 11, magicbook: 10, potion: 8, magichat: 11, phoenix: 15, comet: 14, astronaut: 16, satellite: 14, rainbowtree: 26, pond: 24, palm: 22, rainbowfox: 10, beanbag: 14,
   star: 8, moon: 12, planet: 15, rocket: 19, ufo: 17, alien: 12, sunflower: 13, cactus: 11, mushroom: 8, tree: 28, snowman: 17, fountain: 24 };
 const CAT_W = 15;
 SCREENS.house = (roomId) => {
@@ -83,14 +90,15 @@ SCREENS.house = (roomId) => {
   const hint = t => { $('#hint').innerHTML = t; };
   const drawRoom = () => {
     const open = roomOpen(cur), n = solvedTotal();
-    roomEl.className = `room big ${cur.dark ? 'dark' : ''} ${open ? '' : 'closed'} ${placing ? 'placing' : ''}`;
+    roomEl.className = `room big ${cur.dark ? 'dark' : ''} ${open ? '' : 'closed'} ${placing ? 'placing' : ''} ${ROOM_IMG.has(cur.id) ? 'hasbg' : ''}`;
+    roomEl.style.backgroundImage = ROOM_IMG.has(cur.id) ? `url('img/rooms/${cur.id}.jpg')` : '';
     roomEl.style.setProperty('--wall', cur.wall); roomEl.style.setProperty('--floor', cur.floor); setUnit();
     const pl = roomPlace(cur), low = careLow(), cat = S.catAt[cur.id] || { x: 78, y: 3 };
     roomEl.innerHTML = `<div class="wall"><div class="window">${cur.dark ? '✨' : '☁️'}</div></div><div class="floor"></div>
       ${pl.map(p => itemHTML(p, low)).join('')}
       <div class="room-cat" id="rcat" style="left:${cat.x}%;bottom:${cat.y}%;z-index:${zOf(cat.y) + 1}">${myCat()}</div>
       <div class="trash" id="trash">🗑️<small>в сундук</small></div>
-      ${placing ? `<div class="ghost" id="ghost">${catItem(placing)[1]}</div>` : ''}
+      ${placing ? `<div class="ghost" id="ghost" style="--s:${FSIZE[placing] || 10}">${icon(placing, catItem(placing)[1])}</div>` : ''}
       ${open ? '' : `<div class="room-lock"><div class="big-emoji">🔒</div><h3>«${cur.name}»</h3><p>Чтобы открыть, реши <b>${lockText(cur)}</b>.</p><div class="bar"><i style="width:${Math.min(1, (Math.min(n, cur.need) + Math.min(S.st.eq.done, cur.eq || 0)) / (cur.need + (cur.eq || 0) || 1)) * 100}%"></i></div><p class="small">Задач: ${n} из ${cur.need} · уравнений: ${S.st.eq.done} из ${cur.eq || 0}</p>${(cur.eq || 0) > S.st.eq.done ? '<button class="btn pink sm" id="goeq">📦 Решать уравнения</button>' : ''}</div>`}`;
     $('#invn').textContent = invList().length || '';
     drawCare();
@@ -103,7 +111,7 @@ SCREENS.house = (roomId) => {
   function itemHTML(p, low) {
     const it = itemInfo(cur, p.id); if (!it) return '';
     const needK = { food: 'food', water: 'water', sleep: 'energy', play: 'fun', wash: 'clean' }[it.care];
-    return `<button class="fx ${it.fixed ? 'fixed' : ''} ${needK && low.includes(needK) ? 'needs' : ''}" data-id="${p.id}" style="left:${p.x}%;bottom:${p.y}%;z-index:${zOf(p.y)};--s:${FSIZE[p.id] || 10}">${it.icon}${it.care ? `<small class="ctag">${{ food: '🍽️', water: '💧', sleep: '💤', play: '🎾', wash: '🫧', rest: '🛋️' }[it.care]}</small>` : ''}</button>`;
+    return `<button class="fx ${it.fixed ? 'fixed' : ''} ${needK && low.includes(needK) ? 'needs' : ''}" data-id="${p.id}" style="left:${p.x}%;bottom:${p.y}%;z-index:${zOf(p.y)};--s:${FSIZE[p.id] || 10}">${icon(p.id, it.icon)}${it.care ? `<small class="ctag">${{ food: '🍽️', water: '💧', sleep: '💤', play: '🎾', wash: '🫧', rest: '🛋️' }[it.care]}</small>` : ''}</button>`;
   }
   /* одно касание = пользоваться, ведение пальцем = перетащить */
   function pointerItem(el, isCat) {
@@ -216,13 +224,13 @@ SCREENS.house = (roomId) => {
   function openFood(b) {
     const c = careNow();
     if (c.food >= 95) return say(HL.HOUSE_PH[3]);
-    const m = modal(`<h2>🥣 Чем покормим котика?</h2><p class="small">Сытость: ${Math.round(c.food)}%. Еда покупается за конфеты, заработанные примерами.</p><div class="items">${HL.FOODS.map(f => `<button class="item" data-food="${f[0]}"><span class="ii">${f[1]}</span><span class="in">${f[2]}</span><span class="ip">${f[3]} 🍬 · +${f[4]}%</span></button>`).join('')}</div><button class="btn" data-close>Потом</button>`);
+    const m = modal(`<h2>🥣 Чем покормим котика?</h2><p class="small">Сытость: ${Math.round(c.food)}%. Еда покупается за конфеты, заработанные примерами.</p><div class="items">${HL.FOODS.map(f => `<button class="item" data-food="${f[0]}"><span class="ii">${icon(f[0], f[1])}</span><span class="in">${f[2]}</span><span class="ip">${f[3]} 🍬 · +${f[4]}%</span></button>`).join('')}</div><button class="btn" data-close>Потом</button>`);
     $$('[data-food]', m.el).forEach(x => x.addEventListener('click', () => {
       const f = HL.FOODS.find(y => y[0] === x.dataset.food);
       if (S.candies < f[3]) { SND.bad(); say(PH.poor[0]); return; }
       S.candies -= f[3]; save(); updCandy(); m.close();
       run(async () => {
-        const g = geo(b); const food = document.createElement('div'); food.className = 'food-in'; food.textContent = f[1]; food.style.cssText = `left:${g.x}%;bottom:${g.y + g.s * 0.5}%;z-index:${g.z + 1}`; roomEl.appendChild(food);
+        const g = geo(b); const food = document.createElement('div'); food.className = 'food-in'; food.innerHTML = icon(f[0], f[1]); food.style.cssText = `left:${g.x}%;bottom:${g.y + g.s * 0.5}%;z-index:${g.z + 1}`; roomEl.appendChild(food);
         await catMoveTo(g.x + g.s * 0.55, g.y, g.z + 2); catEl().classList.add('eating'); M.crunch(7);
         await wait(700); food.classList.add('gone'); await wait(1300); food.remove(); catEl().classList.remove('eating');
         M.purr(1.5); bump('food', f[4]); catFace({ happy: true }); hearts(catEl(), 3); say(f[5]); await wait(1200); catBack();
@@ -232,7 +240,7 @@ SCREENS.house = (roomId) => {
   $('#invb').addEventListener('click', () => {
     const t = $('#tray'), list = invList(); t.hidden = !t.hidden; SND.tap();
     if (t.hidden) return;
-    t.innerHTML = list.length ? `<p class="small center">Выбери вещь, а потом нажми в комнате, куда её поставить:</p><div class="items">${list.map(id => { const c = catItem(id); return `<button class="item" data-put="${id}"><span class="ii">${c[1]}</span><span class="in">${c[2]}</span></button>`; }).join('')}</div>` : `<p class="center">Сундук пуст. Вещи покупаются в <b>Магазине вещей</b> за конфеты, заработанные примерами 🍬</p>`;
+    t.innerHTML = list.length ? `<p class="small center">Выбери вещь, а потом нажми в комнате, куда её поставить:</p><div class="items">${list.map(id => { const c = catItem(id); return `<button class="item" data-put="${id}"><span class="ii">${icon(id, c[1])}</span><span class="in">${c[2]}</span></button>`; }).join('')}</div>` : `<p class="center">Сундук пуст. Вещи покупаются в <b>Магазине вещей</b> за конфеты, заработанные примерами 🍬</p>`;
     $$('[data-put]', t).forEach(x => x.addEventListener('click', () => {
       if (!roomOpen(cur)) return say((cur.eq || 0) > S.st.eq.done ? PH.quest[0] : PH.room[1]);
       placing = x.dataset.put; t.hidden = true; SND.tap(); drawRoom(); roomEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
@@ -248,22 +256,23 @@ SCREENS.house = (roomId) => {
 let SHOP_TAB = 'wear';
 function furnShopHTML() {
   houseMigrate(); const n = solvedTotal(), cats = [...new Set(HL.CATALOG.map(c => c[5]))];
-  return `<p class="small">✨ <b>Волшебство</b> и 🚀 <b>Космос</b> открываются за решённые уравнения. Купленные вещи попадают в <b>сундук</b> в домике — оттуда их можно поставить в любую комнату и передвинуть пальцем.</p>` + cats.map(cat => `<h3>${cat}</h3><div class="items">${HL.CATALOG.filter(c => c[5] === cat).map(c => { const own = S.furn.includes(c[0]), lock = !itemOpen(c); return `<button class="item ${own ? 'own on' : ''} ${lock ? 'lockd' : ''}" data-f="${c[0]}"><span class="ii">${lock ? '🔒' : c[1]}</span><span class="in">${c[2]}</span><span class="ip">${own ? 'куплено ✔' : lock ? (c[4] > n ? `после ${c[4]} задач` : `после ${itemEq(c)} уравнений 📦`) : c[3] + ' 🍬'}</span></button>`; }).join('')}</div>`).join('');
+  return `<p class="small">✨ <b>Волшебство</b> и 🚀 <b>Космос</b> открываются за решённые уравнения. Купленные вещи попадают в <b>сундук</b> в домике — оттуда их можно поставить в любую комнату и передвинуть пальцем.</p>` + cats.map(cat => `<h3>${cat}</h3><div class="items">${HL.CATALOG.filter(c => c[5] === cat).map(c => { const own = S.furn.includes(c[0]), lock = !itemOpen(c); return `<button class="item ${own ? 'own on' : ''} ${lock ? 'lockd' : ''}" data-f="${c[0]}"><span class="ii">${lock ? '🔒' : icon(c[0], c[1])}</span><span class="in">${c[2]}</span><span class="ip">${own ? 'куплено ✔' : lock ? (c[4] > n ? `после ${c[4]} задач` : `после ${itemEq(c)} уравнений 📦`) : GEM_FURN[c[0]] ? GEM_FURN[c[0]] + ' 💎' : c[3] + ' 🍬'}</span></button>`; }).join('')}</div>`).join('');
 }
 function bindFurnShop(root, redraw) {
   $$('.item[data-f]', root).forEach(b => b.addEventListener('click', () => {
     const c = catItem(b.dataset.f), n = solvedTotal();
     if (S.furn.includes(c[0])) { say(c[6]); return; }
     if (!itemOpen(c)) { SND.bad(); const e = itemEq(c) > S.st.eq.done; toast(`<span class="tb">🔒</span><div>${e ? `Волшебные вещи открываются за уравнения: нужно <b>${itemEq(c)}</b>, решено ${S.st.eq.done}.` : `Откроется после <b>${c[4]}</b> решённых задач. Решено: ${n}.`}</div>`); say(e ? PH.quest[2] : PH.room[1]); return; }
+    if (GEM_FURN[c[0]]) { const g = GEM_FURN[c[0]]; if ((S.gems || 0) < g) { SND.bad(); toast(`<span class="tb">💎</span><div>Особая вещь: нужно <b>${g} 💎</b>, у тебя ${S.gems || 0}.<br>Кристаллы дают за сложные задачи!</div>`); return; } const mg = modal(`<div class="big-emoji">${icon(c[0], c[1], 'big')}</div><h2>${c[2]}</h2><p>Особая вещь за <b>${g} 💎</b>. Купить?</p><div class="row-btns"><button class="btn pink" id="buyg">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`); $('#buyg', mg.el).addEventListener('click', () => { S.gems -= g; S.furn.push(c[0]); save(); updCandy(); mg.close(); M.sfx('magic'); confetti(30); say(PH.boughtHome[0]); redraw && redraw(); }); return; }
     if (S.candies < c[3]) { SND.bad(); say(PH.poor[0]); toast(`<span class="tb">🍬</span><div>Не хватает конфет: нужно ещё <b>${c[3] - S.candies}</b>.<br>Реши ещё несколько примеров!</div>`); return; }
-    const m = modal(`<div class="big-emoji">${c[1]}</div><h2>${c[2]}</h2><p>Купить за <b>${c[3]} 🍬</b>? Вещь попадёт в сундук в домике.</p><div class="row-btns"><button class="btn pink" id="buy">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`);
+    const m = modal(`<div class="big-emoji">${icon(c[0], c[1], 'big')}</div><h2>${c[2]}</h2><p>Купить за <b>${c[3]} 🍬</b>? Вещь попадёт в сундук в домике.</p><div class="row-btns"><button class="btn pink" id="buy">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`);
     $('#buy', m.el).addEventListener('click', () => { S.candies -= c[3]; S.furn.push(c[0]); save(); updCandy(); m.close(); tone([[988, 0.09], [1319, 0.25, 0.07]]); confetti(20); say(PH.boughtHome[0]); catMood('happy', 1500); redraw && redraw(); });
   }));
 }
 function surprise() { // редкий подарок из сундука 20 задач / 7-го дня
   houseMigrate();
-  const outfits = ITEMS.filter(i => i.price > 0 && i.price <= 50 && !S.owned.includes(i.id)).map(i => ({ icon: i.icon, name: i.name, give: () => S.owned.push(i.id) }));
-  const furn = HL.CATALOG.filter(c => itemOpen(c) && c[3] <= 50 && !S.furn.includes(c[0])).map(c => ({ icon: c[1], name: c[2], give: () => S.furn.push(c[0]) }));
+  const outfits = ITEMS.filter(i => i.price > 0 && !i.gems && i.price <= 50 && !S.owned.includes(i.id)).map(i => ({ icon: i.icon, name: i.name, give: () => S.owned.push(i.id) }));
+  const furn = HL.CATALOG.filter(c => itemOpen(c) && !GEM_FURN[c[0]] && c[3] <= 50 && !S.furn.includes(c[0])).map(c => ({ icon: c[1], name: c[2], give: () => S.furn.push(c[0]) }));
   const all = outfits.concat(furn); if (!all.length) return null;
   const g = pick(all); g.give(); save(); return g;
 }
@@ -287,5 +296,5 @@ function questHTML() {
   return `<div class="quest"><span class="q-ic">${q.r.icon}</span><div class="q-t"><b>Квест: открыть «${q.r.name}»</b><small>Осталось: ${lockText(q.r)}</small></div>${q.e ? '<button class="btn pink sm" id="qgo">📦 Уравнения</button>' : '<button class="btn sm" data-go="newcase">🔍 Дело</button>'}</div>`;
 }
 function goEquations() { // лёгкий вход: простые уравнения с подсказками
-  S.prefs.eqLv = S.st.eq.done < 4 ? 1 : S.st.eq.done < 15 ? 2 : S.prefs.eqLv || 2; save(); go('practice', 'eq');
+  if (!S.prefs.eqLvChosen) S.prefs.eqLv = S.st.eq.done < 4 ? 1 : S.st.eq.done < 15 ? 2 : S.prefs.eqLv || 2; save(); go('practice', 'eq');
 }

@@ -28,6 +28,8 @@ const ACC = {
   monocle: `<circle cx="122" cy="97" r="18" fill="rgba(255,255,255,.3)" stroke="#D9A21B" stroke-width="4"/><path d="M138 106 Q150 130 140 150" fill="none" stroke="#D9A21B" stroke-width="2.5"/>`,
   shades: `<path d="M58 88 h38 v10 q-2 14 -19 14 q-17 0 -19 -14 Z M104 88 h38 v10 q-2 14 -19 14 q-17 0 -19 -14 Z" fill="#2F2B3A" ${SW}/><path d="M96 92 h8" ${SW}/><path d="M64 93 l8 0" stroke="#fff" stroke-width="3" opacity=".6"/>`,
   /* шея */
+  goldhat: `<path d="M46 64 Q50 14 100 12 Q150 14 154 64 Z" fill="#FFC93C" ${SW}/><path d="M66 22 Q58 40 60 62 M100 12 V62 M134 22 Q142 40 140 62 M50 42 Q100 34 150 42" fill="none" stroke="#D99A1B" stroke-width="2.5"/><path d="M36 64 Q100 80 164 64 Q100 52 36 64 Z" fill="#F2B21B" ${SW}/><circle cx="100" cy="11" r="7" fill="#7CC4FF" ${SW}/><path d="M70 30 l4 -6 4 6 M126 30 l4 -6 4 6" stroke="#fff" stroke-width="2"/>`,
+  rainbow: `<defs><linearGradient id="rbw" x1="0" x2="1"><stop offset="0" stop-color="#FF6F9C"/><stop offset=".25" stop-color="#FFC93C"/><stop offset=".5" stop-color="#7FE0C1"/><stop offset=".75" stop-color="#7CC4FF"/><stop offset="1" stop-color="#B9A6FF"/></linearGradient></defs><path d="M48 140 Q100 170 152 140 L152 158 Q100 186 48 158 Z" fill="url(#rbw)" ${SW}/><path d="M118 162 L128 200 L110 204 L104 166 Z" fill="url(#rbw)" ${SW}/>`,
   headph: `<path d="M44 96 Q40 30 100 28 Q160 30 156 96" fill="none" stroke="#7B5CD6" stroke-width="9"/><rect x="30" y="84" width="22" height="34" rx="9" fill="#FF6F9C" ${SW}/><rect x="148" y="84" width="22" height="34" rx="9" fill="#FF6F9C" ${SW}/>`,
   pirate: `<path d="M38 60 Q100 -4 162 60 Q100 44 38 60 Z" fill="#2F2B3A" ${SW}/><path d="M42 60 Q100 46 158 60" fill="none" stroke="#FFC93C" stroke-width="4"/><circle cx="100" cy="36" r="8" fill="#fff"/><path d="M95 33 l3 3 M105 33 l-3 3 M96 41 h8" stroke="#2F2B3A" stroke-width="2"/>`,
   flower: `<g>${[60, 78, 100, 122, 140].map((x, i) => `<circle cx="${x}" cy="${50 - (i % 2) * 6}" r="11" fill="${['#FF8FB1', '#FFC93C', '#7CC4FF', '#B7E36B', '#FF8FB1'][i]}" ${SW}/><circle cx="${x}" cy="${50 - (i % 2) * 6}" r="4" fill="#fff"/>`).join('')}</g>`,
@@ -38,6 +40,7 @@ const ACC = {
   medal: `<path d="M86 146 L100 178 L114 146" fill="none" stroke="#3D8BFD" stroke-width="7"/><circle cx="100" cy="184" r="13" fill="#FFC93C" ${SW}/><path d="M100 176 l2.5 5 5.5 .8 -4 3.9 1 5.5 -5 -2.6 -5 2.6 1 -5.5 -4 -3.9 5.5 -.8 Z" fill="#fff"/>`,
 };
 const HAND = {
+  starwand: `<path d="M150 204 L178 156" stroke="#B9A6FF" stroke-width="7"/><path d="M182 132 l6 12 13 2 -9 9 2 13 -12 -6 -12 6 2 -13 -9 -9 13 -2 Z" fill="#FFE27A" ${SW}/><circle cx="196" cy="128" r="3" fill="#fff"/><circle cx="168" cy="138" r="2.5" fill="#fff"/>`,
   fish: `<g transform="rotate(-25 172 165)"><ellipse cx="172" cy="165" rx="22" ry="12" fill="#7CC4FF" ${SW}/><path d="M192 165 l14 -10 v20 z" fill="#7CC4FF" ${SW}/><circle cx="160" cy="162" r="2.5" fill="${L}"/></g>`,
   yarn: `<circle cx="174" cy="168" r="18" fill="#FF8FB1" ${SW}/><path d="M160 160 q14 6 28 0 M158 170 q16 8 32 0 M164 180 q10 -14 20 -26" fill="none" stroke="#E0447A" stroke-width="2.5"/><path d="M160 184 q-10 10 -4 22" fill="none" stroke="#FF8FB1" stroke-width="3"/>`,
   loupe: `<path d="M150 204 L170 172" stroke="#8A5A33" stroke-width="9"/><circle cx="178" cy="158" r="19" fill="rgba(180,225,255,.6)" stroke="${L}" stroke-width="4.5"/><path d="M170 150 q4 -6 10 -5" stroke="#fff" stroke-width="3" fill="none"/>`,
@@ -89,6 +92,9 @@ const ITEMS = [
   { id: 'chef', slot: 'head', name: 'Колпак кондитера', icon: '👩‍🍳', price: 35 },
   { id: 'tophat', slot: 'head', name: 'Цилиндр', icon: '🎩', price: 45 },
   { id: 'crown', slot: 'head', name: 'Корона', icon: '👑', price: 90 },
+  { id: 'goldhat', slot: 'head', name: 'Золотая шапка сыщика', icon: '🏆', price: 0, gems: 10 },
+  { id: 'rainbow', slot: 'neck', name: 'Радужный шарф', icon: '🌈', price: 0, gems: 7 },
+  { id: 'starwand', slot: 'hand', name: 'Звёздная палочка', icon: '🪄', price: 0, gems: 8 },
   { id: 'flower', slot: 'head', name: 'Венок', icon: '🌸', price: 30 },
   { id: 'headph', slot: 'head', name: 'Наушники', icon: '🎧', price: 40 },
   { id: 'pirate', slot: 'head', name: 'Пиратская шляпа', icon: '🏴‍☠️', price: 55 },

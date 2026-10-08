@@ -204,7 +204,7 @@ function speak(text, o = {}) {
   } catch (e) { }
 }
 function unlockSpeech() { try { if ('speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } } catch (e) { } }
-function hush() { vToken++; stopVoice(); try { speechSynthesis.cancel(); } catch (e) { } }
+function hush() { vToken++; hushTok++; stopVoice(); busyUntil = 0; busyPrio = -1; try { speechSynthesis.cancel(); } catch (e) { } }
 
 /* ---------- мультяшный голос котика: готовые фразы (voice/) + имя ребёнка ---------- */
 let VMAN = null, vmanP = null, vsrcs = [], vEndT = null, vToken = 0; const vcache = new Map();
@@ -219,16 +219,27 @@ function voiceUrls(tpls, names) {
   }));
   return out;
 }
-async function voice(tpls, names = {}) {
+/* очередь голосов: prio 2 — персонажи, улики, уроки, чат; 1 — котик; 0 — болтовня (пропускается, если кто-то говорит).
+   Важное прерывает менее важное, равное — ждёт своей очереди. */
+let busyUntil = 0, busyPrio = -1, hushTok = 0;
+function setBusy(sec, prio = 2) { if (!AC) return; busyUntil = Math.max(busyUntil, AC.currentTime + sec); busyPrio = Math.max(prio, AC.currentTime < busyUntil ? busyPrio : -1); }
+async function voice(tpls, names = {}, o = {}) {
+  const prio = o.prio == null ? 1 : o.prio;
   if (!voiceOn() || !ok() || !root.Lines) return false;
-  const my = ++vToken; const man = await loadMan(); if (!man || my !== vToken) return false;
+  const myHush = hushTok, man = await loadMan(); if (!man || myHush !== hushTok) return false;
   const urls = voiceUrls(tpls, names); if (!urls.length) return false;
   const bufs = (await Promise.all(urls.map(clip))).filter(Boolean);
-  if (my !== vToken || !bufs.length) return false;
-  stopVoice();
+  if (myHush !== hushTok || !bufs.length) return false;
+  let now = AC.currentTime;
+  if (now < busyUntil) {
+    if (prio > busyPrio) stopVoice();                 // важное перебивает болтовню
+    else if (prio === 0) return false;                 // болтовню не вставляем поверх
+    else { const wait = (busyUntil - now) * 1000 + 200; if (wait > 9000) return false; await new Promise(r => setTimeout(r, wait)); if (myHush !== hushTok) return false; if (AC.currentTime < busyUntil && prio <= busyPrio) return false; }
+  }
   let t = AC.currentTime + 0.04; const g = AC.createGain(); g.gain.value = 1.15; g.connect(master);
-  bufs.forEach(b => { const s = AC.createBufferSource(); s.buffer = b; s.connect(g); s.start(t); vsrcs.push(s); t += b.duration + 0.05; });
-  onTalk(true); vEndT = setTimeout(() => { onTalk(false); vsrcs = []; }, (t - AC.currentTime) * 1000);
+  bufs.forEach(b => { const src = AC.createBufferSource(); src.buffer = b; src.connect(g); src.start(t); vsrcs.push(src); t += b.duration + 0.05; });
+  busyUntil = t; busyPrio = prio; onTalk(true); clearTimeout(vEndT);
+  vEndT = setTimeout(() => { onTalk(false); vsrcs = []; busyPrio = -1; }, (t - AC.currentTime) * 1000);
   return true;
 }
 const TTS_API = 'https://level.tech-wave.ru/murlok-api/tts?t=';
@@ -241,7 +252,7 @@ async function playBuffer(ab) { // произвольная фраза с сер
   onTalk(true); vEndT = setTimeout(() => { onTalk(false); vsrcs = []; }, (buf.duration + 0.1) * 1000);
   return true;
 }
-function stopVoice() { vsrcs.forEach(s => { try { s.stop(); } catch (e) { } }); vsrcs = []; clearTimeout(vEndT); onTalk(false); }
+function stopVoice() { vsrcs.forEach(s => { try { s.stop(); } catch (e) { } }); vsrcs = []; clearTimeout(vEndT); onTalk(false); busyUntil = 0; busyPrio = -1; }
 function preloadVoice(list, names) { if (!ok()) return; loadMan().then(m => { if (m) voiceUrls(list, names).forEach(clip); }); }
 
 /* ---------- звуки предметов в домике ---------- */
@@ -267,5 +278,5 @@ function sfx(name) {
   if (name === 'mystery') { [220, 277, 330].forEach((f, i) => tone([[f, 2.4, i * 0.05, 'sine', 0.06]])); [1319, 1568, 1976, 1568].forEach((f, i) => tone([[f, 0.6, 0.6 + i * 0.35, 'triangle', 0.05]])); return; }
   if (name === 'snore') { [0, 1.4].forEach(d => { nburst(t + d, 0.7, 200, 1, 0.25, 'lowpass'); }); return; }
 }
-root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, voice, sfx, playBuffer, setCustom, custom, preloadVoice, loadMan, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
+root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, voice, setBusy, sfx, playBuffer, setCustom, custom, preloadVoice, loadMan, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
 })(this);
