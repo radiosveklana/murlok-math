@@ -116,7 +116,7 @@ const errors = []; const misses = new Set();
   await p.screenshot({ path: __dirname + `/shots/${tag}-36-parents-full.png`, fullPage: true });
   await click('.back'); await click('[data-go="house"]'); await sleep(600); await dismiss(); if (await p.$('.modal [data-close]')) await click('.modal [data-close]'); await shot('37-house');
   await p.evaluate(() => { S.candies = 400; S.gems = 30; S.st.mul.done += 60; S.st.eq.done += 12; S.care.food = 20; S.care.fun = 20; save(); });
-  await click('.back'); await sleep(800); await shot('37b-home-care'); await click('.care-alert'); await sleep(700); await shot('37c-kitchen');
+  await click('.back'); for (let i = 0; i < 4; i++) { await sleep(1200); await dismiss(); } await shot('37b-home-care'); await click('.care-alert'); await sleep(700); await shot('37c-kitchen');
   await click('.fx[data-id="fx_bowl"]'); await sleep(300); await click('[data-food="f_fish"]'); await sleep(2200); await shot('38-fed');
   await click('.fx[data-id="fx_water"]'); await sleep(1500);
   await click('#hshop'); await sleep(400); await shot('39-shop-home'); await click('.item[data-f="unicorn"]'); await click('#buyg'); await sleep(300); await click('.item[data-f="teddy"]'); await click('#buy'); await sleep(300);

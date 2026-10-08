@@ -777,3 +777,30 @@ svg.chibi .ch-vein { animation: vein .5s ease-in-out infinite alternate; transfo
 @keyframes landc { 30% { transform: scale(1.12, .85); } }
 @keyframes land { 30% { transform: translateX(-50%) scale(1.12, .85); } 100% { transform: translateX(-50%) scale(1, 1); } }
 .ccode { font-size: 34px; font-weight: 900; letter-spacing: 6px; text-align: center; background: var(--gold-2); border-radius: 14px; padding: 10px; margin: 8px 0; font-family: ui-monospace, Menlo, monospace; }
+
+.interro-say.angry { background: #FFE0E0; color: #B3261E; border: 2px solid #F4A6A6; }
+.mood-bar { font-size: 15px; font-weight: 800; margin: 4px 0 8px; }
+
+.msg.cat { position: relative; padding-right: 44px; }
+.replay { position: absolute; right: 6px; bottom: 6px; width: 32px; height: 32px; border-radius: 50%; background: var(--plum-2); font-size: 16px; }
+.replay.nudge { animation: glow 1s infinite; background: var(--pink); }
+.ghost-t { opacity: .35; }
+
+/* ================= телефоны (iPhone и др.) ================= */
+.cheer { white-space: normal; max-width: min(260px, 70vw); text-align: center; }
+@media (max-width: 700px) {
+  .room.big { min-height: 0; aspect-ratio: 4 / 3; max-height: none; }
+  .scales { height: 250px; margin-top: 40px; }
+  .scales .pan { width: 46%; } .box3 { font-size: 24px; } .pan-in { min-height: 70px; }
+  .wt { min-width: 38px; height: 34px; font-size: 16px; } .wt.big { min-width: 52px; height: 42px; font-size: 19px; }
+  .task-head { gap: 6px; } .clue-dot { width: 32px; height: 32px; font-size: 17px; }
+  .games-grid { grid-template-columns: 1fr 1fr; gap: 8px; } .game-card { padding: 12px; } .game-card .gi { font-size: 32px; } .game-card b { font-size: 16px; }
+  .opts.six { grid-template-columns: 1fr 1fr; }
+  .sheet { padding: 16px; border-radius: 22px; }
+  .pt.big.chibi-pt { font-size: 96px; }
+  .care-bars { grid-template-columns: repeat(5, 1fr); }
+  .rec { flex-wrap: wrap; } .rec-b { width: 100%; justify-content: flex-end; }
+  .lgrid { grid-template-columns: 84px repeat(var(--n), 1fr); }
+  .chat-say { font-size: 17px; }
+}
+@supports (padding: max(0px)) { body { padding-bottom: env(safe-area-inset-bottom); } .top { padding-top: max(14px, env(safe-area-inset-top)); } }

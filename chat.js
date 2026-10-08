@@ -15,22 +15,46 @@ function splitSay(t) { // та же функция есть на сервере 
 }
 let speakTok = 0, speakSrc = null;
 function stopRemote() { speakTok++; if (speakSrc) { try { speakSrc.stop(); } catch (e) { } speakSrc = null; } document.body.classList.remove('cat-talking'); Music.setDuck(false); }
-async function speakRemote(text) {
-  if (!S.sound || S.voice === false) return;
-  M.hush(); stopRemote(); const my = speakTok, ac = M.ctx(); if (!ac) return;
-  const proms = splitSay(text).map(t => fetch(API + '/tts?s=1&t=' + encodeURIComponent(t)).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null));
-  for (const pr of proms) {
-    const ab = await pr; if (my !== speakTok) return; if (!ab || ab.byteLength < 500) continue;
-    let buf; try { buf = await new Promise((res, rej) => { const q = ac.decodeAudioData(ab, res, rej); if (q && q.then) q.then(res, rej); }); } catch (e) { continue; }
-    if (my !== speakTok) return;
-    await new Promise(res => {
-      const src = ac.createBufferSource(); src.buffer = buf; src.playbackRate.value = 1.12;
-      const g = ac.createGain(); g.gain.value = 1.2; src.connect(g); g.connect(ac.destination);
-      src.onended = () => res(); speakSrc = src; document.body.classList.add('cat-talking'); Music.setDuck(true); M.setBusy(buf.duration / 1.12 + 0.3, 2);
-      src.start(); setTimeout(res, (buf.duration / 1.12 + 0.5) * 1000);
-    });
+/* запасной плеер (HTML audio): разблокируется первым касанием — iOS потом разрешает ему играть */
+const fallbackEl = new Audio(); fallbackEl.preload = 'auto'; fallbackEl.playsInline = true; fallbackEl.setAttribute('playsinline', '');
+document.addEventListener('pointerup', function unlockFb() { document.removeEventListener('pointerup', unlockFb, true); fallbackEl.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA='; fallbackEl.play().then(() => fallbackEl.pause()).catch(() => { }); }, true);
+function wakeAudio() { // после микрофона iPhone переключает звук в режим записи — возвращаем воспроизведение
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { }
+  const ac = M.ctx(); if (ac && ac.state !== 'running') ac.resume().catch(() => { }); return ac;
+}
+let lastSpoken = '';
+async function speakRemote(text, onProgress) {
+  if (!S.sound || S.voice === false) return false;
+  M.hush(); stopRemote(); lastSpoken = text; const my = speakTok, ac = wakeAudio(); if (!ac) return false;
+  const chunks = splitSay(text), proms = chunks.map(t => fetch(API + '/tts?s=1&t=' + encodeURIComponent(t)).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null));
+  let played = false, shown = 0;
+  for (let i = 0; i < proms.length; i++) {
+    const ab = await proms[i]; if (my !== speakTok) return played; if (!ab || ab.byteLength < 500) continue;
+    if (ac.state !== 'running') { try { await ac.resume(); } catch (e) { } }
+    let buf = null; try { buf = await new Promise((res, rej) => { const q = ac.decodeAudioData(ab.slice(0), res, rej); if (q && q.then) q.then(res, rej); }); } catch (e) { buf = null; }
+    if (my !== speakTok) return played;
+    onProgress && onProgress(shown += chunks[i].length + 1);
+    document.body.classList.add('cat-talking'); Music.setDuck(true);
+    if (buf && ac.state === 'running') {
+      await new Promise(res => {
+        const src = ac.createBufferSource(); src.buffer = buf; src.playbackRate.value = 1.12;
+        const g = ac.createGain(); g.gain.value = 1.2; src.connect(g); g.connect(ac.destination);
+        src.onended = () => res(); speakSrc = src; M.setBusy(buf.duration / 1.12 + 0.3, 2);
+        src.start(); setTimeout(res, (buf.duration / 1.12 + 0.5) * 1000);
+      });
+    } else { // запасной путь: обычный HTML-плеер
+      await new Promise(res => {
+        const url = URL.createObjectURL(new Blob([ab], { type: 'audio/mpeg' }));
+        fallbackEl.src = url; fallbackEl.preservesPitch = false; fallbackEl.webkitPreservesPitch = false; fallbackEl.playbackRate = 1.12;
+        fallbackEl.onended = () => { URL.revokeObjectURL(url); res(); }; fallbackEl.onerror = () => res();
+        fallbackEl.play().then(() => M.setBusy(10, 2)).catch(() => res());
+        setTimeout(res, 20000);
+      });
+    }
+    played = true;
   }
   if (my === speakTok) { document.body.classList.remove('cat-talking'); Music.setDuck(false); }
+  return played;
 }
 
 /* помощь с микрофоном: понятная инструкция под конкретный телефон и браузер */
@@ -58,7 +82,10 @@ SCREENS.chat = () => {
     <p class="small center">Котик — персонаж игры. Не рассказывай ему секреты: фамилию, адрес, телефон и пароли 🤫</p></div>`;
   const log = $('#clog'), cin = $('#cin'), csay = $('#csay'), ccat = $('#ccat');
   let busy = false;
-  const draw = () => { log.innerHTML = S.chatLog.slice(-30).map(m => `<div class="msg ${m.r === 'u' ? 'me' : 'cat'}">${esc(m.t)}</div>`).join(''); log.scrollTop = log.scrollHeight; };
+  const draw = () => {
+    log.innerHTML = S.chatLog.slice(-30).map((m, k, arr) => `<div class="msg ${m.r === 'u' ? 'me' : 'cat'}">${esc(m.t)}${m.r === 'c' ? `<button class="replay" data-t="${esc(m.t)}" aria-label="Повторить голосом">🔊</button>` : ''}</div>`).join(''); log.scrollTop = log.scrollHeight;
+    $$('.replay', log).forEach(b => b.addEventListener('click', e => { e.stopPropagation(); wakeAudio(); speakRemote(b.dataset.t); }));
+  };
   const face = mood => { ccat.innerHTML = myCat({ happy: mood === 'happy' || mood === 'love' || mood === 'surprised', sad: mood === 'sad' }); ccat.className = 'chat-cat m-' + (mood === 'sad' ? 'sad' : mood === 'think' ? 'think' : 'happy'); if (mood === 'love') hearts(ccat, 5); };
   async function send(text) {
     text = String(text || '').trim(); if (!text || busy) return;
@@ -78,12 +105,16 @@ SCREENS.chat = () => {
     S.chatLog.push({ r: 'c', t: out.reply, ts: Date.now(), flag: out.flag !== 'none' ? out.flag : undefined });
     if (out.flag && out.flag !== 'none') { const last = S.chatLog[S.chatLog.length - 2]; if (last) last.flag = out.flag; }
     if (S.chatLog.length > 300) S.chatLog = S.chatLog.slice(-300);
-    save(); draw(); csay.textContent = out.reply; face(out.mood); busy = false;
-    speakRemote(out.reply);
+    save(); draw(); face(out.mood); busy = false;
+    const full = out.reply; csay.innerHTML = `<span class="typed"></span><span class="ghost-t">${esc(full)}</span>`;
+    const typed = $('.typed', csay), ghost = $('.ghost-t', csay);
+    const show = n => { typed.textContent = full.slice(0, n); ghost.textContent = full.slice(n); };
+    let typer = 0; const tick = setInterval(() => { typer = Math.min(full.length, typer + 2); show(Math.max(typer, 0)); if (typer >= full.length) clearInterval(tick); }, 45);
+    speakRemote(full, n => { typer = Math.max(typer, n - 25); }).then(ok => { if (!ok) { clearInterval(tick); show(full.length); const rb = $$('.replay', log).pop(); if (rb) rb.classList.add('nudge'); } });
   }
-  $('#csend').addEventListener('click', () => send(cin.value));
+  $('#csend').addEventListener('click', () => { wakeAudio(); send(cin.value); });
   cin.addEventListener('keydown', e => { if (e.key === 'Enter') send(cin.value); });
-  $$('.chip-b').forEach(b => b.addEventListener('click', () => send(b.textContent)));
+  $$('.chip-b').forEach(b => b.addEventListener('click', () => { wakeAudio(); send(b.textContent); }));
   /* голос: записываем, сами останавливаемся, когда ребёнок замолчал, распознаём на сервере */
   if (!CAN_REC) $('#mic').addEventListener('click', () => micHelp({ name: window.isSecureContext ? 'NoRecorder' : 'Insecure' }));
   if (CAN_REC) {
@@ -107,7 +138,7 @@ SCREENS.chat = () => {
       }, 80);
       mr.ondataavailable = e => e.data.size && chunks.push(e.data);
       mr.onstop = async () => {
-        clearInterval(iv); src.disconnect(); stream.getTracks().forEach(t => t.stop()); rec = null; mic.classList.remove('on'); mic.textContent = '🎤'; Music.setDuck(false);
+        clearInterval(iv); src.disconnect(); stream.getTracks().forEach(t => t.stop()); rec = null; mic.classList.remove('on'); mic.textContent = '🎤'; Music.setDuck(false); wakeAudio();
         const blob = new Blob(chunks, { type: mr.mimeType || type || 'audio/webm' });
         if (!spoke || blob.size < 2000) { csay.textContent = 'Мур? Я ничего не услышал. Нажми 🎤 и скажи что-нибудь!'; ccat.className = 'chat-cat'; return; }
         busy = true; $('#chips').innerHTML = '';

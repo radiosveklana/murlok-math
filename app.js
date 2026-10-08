@@ -279,7 +279,7 @@ function homeGreetOld() {
   const hi = h < 12 ? 'Доброе утро' : h < 18 ? 'Добрый день' : 'Добрый вечер';
   return pick([`${hi}, ${S.kid}! Мур-р 😺`, `${S.kid}, я так по тебе соскучился! 🐾`, st >= 2 ? `Уже ${st} ${plural(st, 'день', 'дня', 'дней')} подряд! Ты молодец! 🔥` : 'Погладь меня — я замурлычу! 🐾', t >= 5 ? 'Задание дня выполнено! Я горжусь тобой!' : `Решим ещё ${5 - t} ${plural(5 - t, 'задачу', 'задачи', 'задач')} для задания дня?`, (!S.lessons.mul || !S.lessons.eq) ? 'Начнём со Школы сыщика? Я всё объясню!' : 'Возьмём новое дело? Сладкоград ждёт! 🍬']);
 }
-const NO_FLOAT = ['home', 'hello', 'casetask', 'practice', 'bugs', 'parents', 'lesson', 'blitz', 'chat'];
+const NO_FLOAT = ['home', 'hello', 'casetask', 'practice', 'bugs', 'parents', 'lesson', 'blitz', 'chat', 'game'];
 let curScreen = '', okRun = 0, lastCheer = 0;
 const mascot = document.createElement('div'); mascot.id = 'mascot'; mascot.hidden = true;
 mascot.innerHTML = '<div class="ms-bubble" hidden></div><button class="ms-cat" aria-label="Котик-напарник"></button>';
@@ -944,15 +944,31 @@ function portrait(s, cls = '', mood) {
 }
 function personaSay(s, kind) { const L = window.Lines.personaLines(s.animal[1]); if (L) speakT(L[kind], { prio: 2 }); }
 function interrogate(i) {
-  const s = CASE.c.suspects[i], P0 = window.Lines.PERSONA[s.animal[1]] || { who: '', quirk: '' }, P = { ...P0, f: P0.g === 'f' }, L = window.Lines.personaLines(s.animal[1]);
-  const lines = [['hi', `Я ${s.animal[1]}, ${P.who}. Я тут ни при чём!`], ['quirk', P.quirk], ['nervous', L ? L.nervous.replace(/^@v:\S+ /, '') : '']];
-  let k = 0; CASE.asked = CASE.asked || {}; CASE.asked[i] = (CASE.asked[i] || 0) + 1;
-  const n = CASE.asked[i], mood = n >= 5 ? 'angry' : n >= 3 ? 'angry' : 'idle';
-  if (n >= 3) { const off = n >= 5; const m2 = modal(`<div class="interro"><div class="interro-lamp"></div>${portrait(s, 'big talking angry', 'angry')}<h2>${s.animal[1]}</h2><div class="interro-say">«${off ? (P.f ? 'Хмф! Я обиделась и больше ничего не скажу!' : 'Хмф! Я обиделся и больше ничего не скажу!') : (s.animal[1] && (window.Lines.PERSONA[s.animal[1]] || {}).g === 'f' ? 'Ну сколько можно спрашивать?! Я уже всё рассказала!' : 'Ну сколько можно спрашивать?! Я уже всё рассказал!')}»</div><p class="small">${off ? 'Подозреваемый обиделся. Лучше поищи улики в задачах!' : 'Подозреваемый возмущён — не стоит спрашивать одно и то же много раз.'}</p><button class="btn pink" data-close>Хорошо</button></div>`, 'interro-sheet'); personaSay(s, off ? 'offended' : 'annoyed'); M.sfx('drum'); return; }
-  const m = modal(`<div class="interro"><div class="interro-lamp"></div>${portrait(s, 'big talking', mood)}<h2>${s.animal[1]}</h2><p class="small">${P.who}</p><div class="interro-say" id="isay">«${lines[0][1]}»</div>
-    <div class="row-btns"><button class="btn pink" id="ask">🎤 Спросить ещё</button><button class="btn" data-close>Отпустить</button></div></div>`, 'interro-sheet');
-  personaSay(s, 'hi'); M.sfx('magic');
-  $('#ask', m.el).addEventListener('click', () => { k = (k + 1) % lines.length; $('#isay', m.el).textContent = `«${lines[k][1]}»`; const pt = $('.pt', m.el); pt.classList.remove('talking'); void pt.offsetWidth; pt.classList.add('talking'); personaSay(s, lines[k][0]); });
+  /* каждый вопрос на счету: 1–2 — отвечает, 3–4 — возмущается, 5+ — обижается и молчит до следующего дела */
+  const s = CASE.c.suspects[i], P0 = window.Lines.PERSONA[s.animal[1]] || { who: '', quirk: '' }, f = P0.g === 'f', L = window.Lines.personaLines(s.animal[1]);
+  const plain = t => String(t || '').replace(/^@v:\S+ /, '');
+  const answers = [['hi', `Я ${s.animal[1]}, ${P0.who}. Я тут ни при чём!`], ['quirk', P0.quirk], ['nervous', plain(L && L.nervous)]];
+  CASE.asked = CASE.asked || {};
+  const m = modal(`<div class="interro"><div class="interro-lamp"></div><div id="ipt"></div><h2>${s.animal[1]}</h2><p class="small">${P0.who}</p><div class="interro-say" id="isay"></div><div class="mood-bar" id="imood"></div>
+    <div class="row-btns"><button class="btn pink" id="ask">🎤 Спросить</button><button class="btn" data-close>Отпустить</button></div></div>`, 'interro-sheet');
+  function ask() {
+    const n = CASE.asked[i] = (CASE.asked[i] || 0) + 1;
+    let kind, text, mood;
+    if (n >= 5) { kind = 'offended'; mood = 'angry'; text = f ? 'Хмф! Я обиделась и больше ничего не скажу!' : 'Хмф! Я обиделся и больше ничего не скажу!'; }
+    else if (n >= 3) { kind = 'annoyed'; mood = 'angry'; text = f ? 'Ну сколько можно спрашивать?! Я уже всё рассказала!' : 'Ну сколько можно спрашивать?! Я уже всё рассказал!'; }
+    else { [kind, text] = answers[(n - 1) % answers.length]; mood = 'idle'; }
+    $('#ipt', m.el).innerHTML = portrait(s, 'big talking' + (mood === 'angry' ? ' angry' : ''), mood);
+    const say_ = $('#isay', m.el); say_.textContent = `«${text}»`; say_.classList.toggle('angry', mood === 'angry'); say_.classList.remove('pop'); void say_.offsetWidth; say_.classList.add('pop');
+    const pat = 5 - Math.min(5, n);
+    $('#imood', m.el).innerHTML = n >= 5 ? '😤 Обиделся(ась) — больше не отвечает' : `Терпение: ${'💛'.repeat(pat)}${'🖤'.repeat(5 - pat)}`;
+    personaSay(s, kind);
+    if (mood === 'angry') { M.sfx('drum'); M.haptic([40, 40, 80]); } else M.sfx('magic');
+    if (n >= 5) { const b = $('#ask', m.el); b.disabled = true; b.textContent = '🤐 Молчит'; }
+    if (n === 3) toast('<span class="tb">😾</span><div>Подозреваемый сердится — не спрашивай одно и то же много раз!</div>');
+  }
+  if ((CASE.asked[i] || 0) >= 5) { CASE.asked[i]--; } // повторное открытие — сразу обиженный ответ
+  ask();
+  $('#ask', m.el).addEventListener('click', ask);
 }
 function suspectCard(s, i, found) {
   const A = E.ATTRS;
@@ -1336,8 +1352,8 @@ SCREENS.parents = () => {
 };
 
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '15';
-const NEWS = ['☁️ Прогресс сохраняется в облаке — его можно восстановить по коду на любом устройстве', '🎖️ 16 званий — расти стало интереснее', '🏠 Вещи падают на пол, а котик ложится точно в кроватку и залезает в ванну', '💎 Кристаллы сыщика за сложные задачи — на них особые вещи!', '🎨 Новая игра: математическая раскраска', '🚀 Котик предлагает повысить уровень, когда уже всё получается', '🎨 Всё перерисовано в милом аниме-стиле: места происшествий, комнаты домика и все вещи!', '🎲 Детективные игры: волшебные весы, допрос свидетелей, сейф, прикидка, мемори, погоня, логика и закономерности!', '😺 Подозреваемые стали милыми аниме-персонажами — и обижаются, если их допрашивать слишком часто', '🗣️ Котик отвечает голосом быстрее', '📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
+const APP_VERSION = '16';
+const NEWS = ['📱 Всё удобно и на телефоне', '😾 Подозреваемые сердятся и обижаются, если допрашивать их слишком часто', '🔊 У ответов котика есть кнопка «повторить голосом»', '☁️ Прогресс сохраняется в облаке — его можно восстановить по коду на любом устройстве', '🎖️ 16 званий — расти стало интереснее', '🏠 Вещи падают на пол, а котик ложится точно в кроватку и залезает в ванну', '💎 Кристаллы сыщика за сложные задачи — на них особые вещи!', '🎨 Новая игра: математическая раскраска', '🚀 Котик предлагает повысить уровень, когда уже всё получается', '🎨 Всё перерисовано в милом аниме-стиле: места происшествий, комнаты домика и все вещи!', '🎲 Детективные игры: волшебные весы, допрос свидетелей, сейф, прикидка, мемори, погоня, логика и закономерности!', '😺 Подозреваемые стали милыми аниме-персонажами — и обижаются, если их допрашивать слишком часто', '🗣️ Котик отвечает голосом быстрее', '📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;
   const first = !S.seenVersion && !S.cases && !solvedTotal(); S.seenVersion = APP_VERSION; save(); if (first) return;
