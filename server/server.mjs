@@ -116,6 +116,23 @@ function stt(buf) {
   });
 }
 
+/* ---------- потоковая озвучка: начинаем синтез сразу, клиент слушает по мере готовности ---------- */
+import { spawn } from 'node:child_process';
+const live = new Map(); // hash → { chunks, done, subs }
+function streamKey(t) { return createHash('sha1').update('s|' + t).digest('hex').slice(0, 20); }
+function startStream(text) {
+  const t = ttsText(String(text).slice(0, 400)).trim(); if (!t) return null;
+  const h = streamKey(t), file = path.join(TTS_DIR, h + '.s.mp3');
+  if (fs.existsSync(file)) return { h, file };
+  if (live.has(h)) return { h };
+  const L = { chunks: [], done: false, subs: new Set() }; live.set(h, L);
+  const p = spawn(EDGE, ['--voice', 'ru-RU-SvetlanaNeural', '--rate=+4%', '--pitch=+30Hz', '--text', t]);
+  p.stdout.on('data', c => { L.chunks.push(c); L.subs.forEach(r => r.write(c)); });
+  p.on('close', () => { L.done = true; L.subs.forEach(r => r.end()); if (L.chunks.length) fs.writeFile(file, Buffer.concat(L.chunks), () => { }); setTimeout(() => live.delete(h), 60000); });
+  p.on('error', () => { L.done = true; L.subs.forEach(r => r.end()); live.delete(h); });
+  return { h };
+}
+
 /* ---------- HTTP ---------- */
 function send(res, code, obj, origin) {
   res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', ...cors(origin) }); res.end(JSON.stringify(obj));
@@ -128,6 +145,14 @@ http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') { res.writeHead(204, cors(origin)); return res.end(); }
   try {
     if (url.pathname === '/health') return send(res, 200, { ok: true, today: dayCount, flags }, origin);
+    if (url.pathname === '/tts' && req.method === 'GET' && url.searchParams.get('s')) { // поток
+      if (!limit('tts:' + ip, 600, 6e5)) return send(res, 429, { error: 'slow down' }, origin);
+      const r0 = startStream(url.searchParams.get('t') || ''); if (!r0) return send(res, 400, { error: 'empty' }, origin);
+      res.writeHead(200, { 'content-type': 'audio/mpeg', 'cache-control': 'no-store', ...cors(origin) });
+      if (r0.file) return fs.createReadStream(r0.file).pipe(res);
+      const L = live.get(r0.h); L.chunks.forEach(c => res.write(c)); if (L.done) return res.end();
+      L.subs.add(res); req.on('close', () => L.subs.delete(res)); return;
+    }
     if (url.pathname === '/tts' && req.method === 'GET') {
       if (!limit('tts:' + ip, 600, 6e5)) return send(res, 429, { error: 'slow down' }, origin);
       const file = await tts(url.searchParams.get('t') || '');
@@ -145,7 +170,7 @@ http.createServer(async (req, res) => {
       if (!dayOk()) return send(res, 429, { error: 'cap', heard, reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat({ ...d, text: heard }); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
       if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1;
-      tts(out.reply).catch(() => { });
+      startStream(out.reply);
       return send(res, 200, { heard, ...out }, origin);
     }
     if (url.pathname === '/chat' && req.method === 'POST') {
@@ -157,7 +182,7 @@ http.createServer(async (req, res) => {
       if (!dayOk()) return send(res, 429, { error: 'cap', reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat(d); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
       if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1;
-      tts(out.reply).catch(() => { });
+      startStream(out.reply);
       return send(res, 200, out, origin);
     }
     send(res, 404, { error: 'not found' }, origin);

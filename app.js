@@ -653,6 +653,7 @@ function mountEq(el, { eq, guided, onDone }) {
 /* ======================================================================
    ОШИБКИ ЕНОТА — найти неверную строку
    ====================================================================== */
+const raccoonPic = () => window.Chibi ? `<span class="pt chibi-pt talking">${Chibi.chibiSVG('Енот Тимоша', { hat: '🎩' })}</span><b>Енот Тимоша</b><small>«Я умножаю быстрее всех!»</small>` : '🦝';
 function mountBugMul(el, { level, onDone }) {
   const g = E.genMulBug(level), { a, b, rows, sum } = g, nB = rows.length;
   const W = Math.max(String(sum).length, String(a * b).length, ...rows.map(r => String(r.val).length + r.shift), String(a).length) + 1;
@@ -665,7 +666,7 @@ function mountBugMul(el, { level, onDone }) {
   rows.forEach((r, i) => { html += rowHTML('p' + i, r.val, r.shift, { pick: true, sign: i === 1 ? '+' : '', ul: i === nB - 1 }); });
   html += rowHTML('s', sum, 0, { pick: true });
   el.innerHTML = `<div class="task-wrap"><div class="paper-col"><div class="task-title">🦝 Енот решал: ${a} × ${b}</div><div class="paper raccoon"><div class="mgrid" style="--w:${W}">${html}</div></div></div>
-    <div class="ctrl-col">${helperHTML('bb')}<div class="ask"><div class="ask-txt">Нажми на строку, где Енот ошибся 👆</div><div class="ask-sub">Проверь каждое неполное произведение и сумму. Можно считать на листочке ✏️</div></div></div></div>`;
+    <div class="ctrl-col"><div class="enot-pic">${raccoonPic()}</div>${helperHTML('bb')}<div class="ask"><div class="ask-txt">Нажми на строку, где Енот ошибся 👆</div><div class="ask-sub">Проверь каждое неполное произведение и сумму. Можно считать на листочке ✏️</div></div></div></div>`;
   const bub = $('#bb', el); bub.innerHTML = `Енот Тимоша хвастается, что умножает быстрее всех. Но в его решении <b>одна ошибка</b>! Найди её.`;
   let mistakes = 0, done = false;
   const correct = g.plan;
@@ -693,7 +694,7 @@ function mountBugEq(el, { level, onDone }) {
   const ln = l => `${l.E.k === 'x' ? '<i class="x">x</i>' : E.eqHTML(l.E)} = ${l.kind === 'expr' ? `${l.f[0]} ${SYM[l.f[1]]} ${l.f[2]}` : l.v}`;
   el.innerHTML = `<div class="task-wrap eqw"><div class="paper-col"><div class="task-title">🦝 Енот решал уравнение</div><div class="paper eqpaper raccoon"><div class="eq-lines">
      <div class="eql first">${E.eqHTML(g.eq.lhs)} = ${g.eq.rhs}</div>${g.lines.map((l, i) => `<div class="eql pickrow" data-i="${i}">${ln(l)}</div>`).join('')}</div></div></div>
-    <div class="ctrl-col">${helperHTML('bb')}<div class="ask"><div class="ask-txt">Нажми на первую неверную строку 👆</div><div class="ask-sub">Проверяй каждую строку по порядку: правило и вычисления.</div></div></div></div>`;
+    <div class="ctrl-col"><div class="enot-pic">${raccoonPic()}</div>${helperHTML('bb')}<div class="ask"><div class="ask-txt">Нажми на первую неверную строку 👆</div><div class="ask-sub">Проверяй каждую строку по порядку: правило и вычисления.</div></div></div></div>`;
   const bub = $('#bb', el); bub.innerHTML = `Енот решил уравнение и получил ответ <b>x = ${g.lines[g.lines.length - 1].v}</b>. Но где-то закралась ошибка! Найди строку, где она <b>появилась впервые</b>.`;
   let mistakes = 0, done = false;
   $$('.pickrow', el).forEach(r => r.addEventListener('click', () => {
@@ -759,10 +760,11 @@ function mountTask(el, t, guided, onDone) {
   if (t.story) { const st = document.createElement('div'); st.className = 'story-card'; st.innerHTML = '📖 ' + t.story; el.before(st); }
   if (t.kind === 'mul') mountMul(el, { a: t.a, b: t.b, guided, onDone });
   else if (t.kind === 'eq') mountEq(el, { eq: t.eq, guided, onDone });
+  else if (t.kind === 'interro') mountCaseInterro(el, { eqMode: t.level === 'eq', witnesses: CASE && CASE.witnesses, onDone });
   else if (t.kind === 'bugmul') mountBugMul(el, { level: t.level, onDone });
   else mountBugEq(el, { level: t.level, onDone });
 }
-const statKind = k => k.startsWith('bug') ? 'bug' : k;
+const statKind = k => k.startsWith('bug') || k === 'interro' ? 'bug' : k;
 
 
 /* ================= ЭКРАН: знакомство ================= */
@@ -815,6 +817,7 @@ SCREENS.home = () => {
     <button class="tile t-school ${learnFirst ? 'glow' : ''}" data-go="school"><span class="ti">🎓</span><b>Школа сыщика</b><small>${learnFirst ? 'Начни отсюда!' : 'Как умножать и решать уравнения'}</small></button>
     <button class="tile t-case" data-go="newcase"><span class="ti">🔍</span><b>Новое дело</b><small>Найди вора сладостей</small></button>
     <button class="tile t-blitz" data-go="blitz"><span class="ti">⚡</span><b>Быстрые лапки</b><small>Таблица умножения на скорость</small></button>
+    <button class="tile t-games" data-go="games"><span class="ti">🎲</span><b>Детективные игры</b><small>Весы, допрос, сейф, логика…</small></button>
     <button class="tile t-bug" data-go="bugs"><span class="ti">🦝</span><b>Ошибки Енота</b><small>Найди, где он ошибся</small></button>
     ${S.chatOn !== false ? '<button class="tile t-chat" data-go="chat"><span class="ti">💬</span><b>Поболтать с котиком</b><small>Говори или пиши — котик ответит</small></button>' : ''}
     <button class="tile t-house" data-go="house"><span class="ti">🏠</span><b>Домик котика</b><small>Корми, играй, обустраивай комнаты</small></button>
@@ -874,8 +877,8 @@ function startCase(topic, diff) {
   const mulLv = { 1: [2, 2, 3, 3], 2: [3, 3, 3, 4], 3: [4, 4, 4, 4] }[diff];
   const eqLv = { 1: [2, 2, 2, 2], 2: [2, 3, 3, 3], 3: [3, 4, 3, 4] }[diff];
   if (diff === 1) mulLv[0] = 1;
-  const kinds = topic === 'mul' ? ['mul', 'mul', 'mul', 'mul'] : topic === 'eq' ? ['eq', 'eq', 'eq', 'eq'] : shuffle(['mul', 'eq', pick(['bugmul', 'bugeq'])]).concat([pick(['mul', 'eq'])]);
-  const tasks = kinds.map((k, i) => makeTask(k, k === 'mul' ? mulLv[i] : k === 'eq' ? eqLv[i] : k === 'bugeq' ? diff + 1 : (diff >= 2 ? 2 : 1)));
+  const kinds = topic === 'mul' ? ['mul', 'mul', 'interro', 'mul'] : topic === 'eq' ? ['eq', 'eq', 'interro', 'eq'] : shuffle(['mul', 'eq', pick(['bugmul', 'bugeq', 'interro'])]).concat([pick(['mul', 'eq', 'interro'])]);
+  const tasks = kinds.map((k, i) => makeTask(k, k === 'mul' ? mulLv[i] : k === 'eq' ? eqLv[i] : k === 'interro' ? (topic === 'eq' || (topic === 'mix' && Math.random() < 0.5) ? 'eq' : 'mul') : k === 'bugeq' ? diff + 1 : (diff >= 2 ? 2 : 1)));
   if (!S.crimeBag.length) S.crimeBag = shuffle(E.CRIMES.map((_, i) => i));
   const ci = S.crimeBag.shift(); save();
   const cc = E.genCase(S.cases + 1); cc.crime = E.CRIMES[ci] || cc.crime;
@@ -884,16 +887,19 @@ function startCase(topic, diff) {
   go('caseintro');
 }
 /* портрет персонажа: зверь в шляпе, шарфе и с вещью; покачивается, при разговоре подпрыгивает */
-function portrait(s, cls = '') {
+function portrait(s, cls = '', mood) {
   const A = E.ATTRS, d = (s.animal[1].length % 7) / 5;
+  if (window.Chibi && Chibi.has(s.animal[1])) return `<span class="pt chibi-pt ${cls}" style="--d:${d}s">${Chibi.chibiSVG(s.animal[1], { mood, hat: s.hat != null ? A.hat.vals[s.hat].e : null, scarf: s.scarf != null ? A.scarf.vals[s.scarf].c : null, item: s.item != null ? A.item.vals[s.item].e : null })}</span>`;
   return `<span class="pt ${cls}" style="--d:${d}s"><span class="pt-a">${s.animal[0]}</span>${s.hat != null ? `<span class="pt-h">${A.hat.vals[s.hat].e}</span><span class="pt-s" style="background:${A.scarf.vals[s.scarf].c}"></span><span class="pt-i">${A.item.vals[s.item].e}</span>` : ''}</span>`;
 }
 function personaSay(s, kind) { const L = window.Lines.personaLines(s.animal[1]); if (L) speakT(L[kind]); }
 function interrogate(i) {
-  const s = CASE.c.suspects[i], P = window.Lines.PERSONA[s.animal[1]] || { who: '', quirk: '' }, L = window.Lines.personaLines(s.animal[1]);
+  const s = CASE.c.suspects[i], P0 = window.Lines.PERSONA[s.animal[1]] || { who: '', quirk: '' }, P = { ...P0, f: P0.g === 'f' }, L = window.Lines.personaLines(s.animal[1]);
   const lines = [['hi', `Я ${s.animal[1]}, ${P.who}. Я тут ни при чём!`], ['quirk', P.quirk], ['nervous', L ? L.nervous.replace(/^@v:\S+ /, '') : '']];
-  let k = 0;
-  const m = modal(`<div class="interro"><div class="interro-lamp"></div>${portrait(s, 'big talking')}<h2>${s.animal[1]}</h2><p class="small">${P.who}</p><div class="interro-say" id="isay">«${lines[0][1]}»</div>
+  let k = 0; CASE.asked = CASE.asked || {}; CASE.asked[i] = (CASE.asked[i] || 0) + 1;
+  const n = CASE.asked[i], mood = n >= 5 ? 'angry' : n >= 3 ? 'angry' : 'idle';
+  if (n >= 3) { const off = n >= 5; const m2 = modal(`<div class="interro"><div class="interro-lamp"></div>${portrait(s, 'big talking angry', 'angry')}<h2>${s.animal[1]}</h2><div class="interro-say">«${off ? (P.f ? 'Хмф! Я обиделась и больше ничего не скажу!' : 'Хмф! Я обиделся и больше ничего не скажу!') : (s.animal[1] && (window.Lines.PERSONA[s.animal[1]] || {}).g === 'f' ? 'Ну сколько можно спрашивать?! Я уже всё рассказала!' : 'Ну сколько можно спрашивать?! Я уже всё рассказал!')}»</div><p class="small">${off ? 'Подозреваемый обиделся. Лучше поищи улики в задачах!' : 'Подозреваемый возмущён — не стоит спрашивать одно и то же много раз.'}</p><button class="btn pink" data-close>Хорошо</button></div>`, 'interro-sheet'); personaSay(s, off ? 'offended' : 'annoyed'); M.sfx('drum'); return; }
+  const m = modal(`<div class="interro"><div class="interro-lamp"></div>${portrait(s, 'big talking', mood)}<h2>${s.animal[1]}</h2><p class="small">${P.who}</p><div class="interro-say" id="isay">«${lines[0][1]}»</div>
     <div class="row-btns"><button class="btn pink" id="ask">🎤 Спросить ещё</button><button class="btn" data-close>Отпустить</button></div></div>`, 'interro-sheet');
   personaSay(s, 'hi'); M.sfx('magic');
   $('#ask', m.el).addEventListener('click', () => { k = (k + 1) % lines.length; $('#isay', m.el).textContent = `«${lines[k][1]}»`; const pt = $('.pt', m.el); pt.classList.remove('talking'); void pt.offsetWidth; pt.classList.add('talking'); personaSay(s, lines[k][0]); });
@@ -941,7 +947,7 @@ function clueBar() { return `<div class="clues">${[0, 1, 2, 3].map(k => `<span c
 SCREENS.casetask = () => {
   if (!CASE) return go('newcase');
   const t = CASE.tasks[CASE.idx];
-  const title = { mul: 'Умножь столбиком', eq: 'Реши уравнение', bugmul: 'Найди ошибку Енота', bugeq: 'Найди ошибку Енота' }[t.kind];
+  const title = { mul: 'Умножь столбиком', eq: 'Реши уравнение', bugmul: 'Найди ошибку Енота', bugeq: 'Найди ошибку Енота', interro: 'Математический допрос' }[t.kind];
   app.innerHTML = `${topbar('Дело №' + CASE.c.n, 'home')}
   <div class="page task-page"><div class="task-head"><div><b>Улика ${CASE.idx + 1} из 4</b> · ${title}</div>${clueBar()}<button class="btn ghost sm" id="sus">👥 Подозреваемые</button></div>
   <div id="task"></div><div id="after" class="after"></div></div>`;
@@ -1273,12 +1279,12 @@ SCREENS.parents = () => {
 };
 
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '10';
-const NEWS = ['📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
+const APP_VERSION = '11';
+const NEWS = ['🎲 Детективные игры: волшебные весы, допрос свидетелей, сейф, прикидка, мемори, погоня, логика и закономерности!', '😺 Подозреваемые стали милыми аниме-персонажами — и обижаются, если их допрашивать слишком часто', '🗣️ Котик отвечает голосом быстрее', '📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;
   const first = !S.seenVersion && !S.cases && !solvedTotal(); S.seenVersion = APP_VERSION; save(); if (first) return;
-  modal(`<div class="big-emoji">🎉</div><h2>Обновление!</h2><p>Вот что появилось:</p><ul class="howto">${NEWS.map(x => `<li>${x}</li>`).join('')}</ul><button class="btn pink" data-close>Ура, мяу!</button>`);
+  modal(`<div class="big-emoji">🎉</div><h2>Обновление!</h2><p>Вот что появилось:</p><ul class="howto">${NEWS.slice(0, 6).map(x => `<li>${x}</li>`).join('')}</ul><button class="btn pink" data-close>Ура, мяу!</button>`);
   speakT(PH.news[0]);
 }
 setInterval(() => { if (document.hidden) return; fetch('version.json?t=' + Date.now()).then(r => r.json()).then(v => { if (v.v && v.v !== APP_VERSION && !$('.upd')) { const t = document.createElement('button'); t.className = 'upd'; t.textContent = '✨ Есть обновление — нажми!'; t.onclick = () => location.reload(); document.body.appendChild(t); } }).catch(() => { }); }, 5 * 60 * 1000);
@@ -1287,4 +1293,10 @@ function importProgress(file) { const fr = new FileReader(); fr.onload = () => {
 
 /* ================= старт ================= */
 window.addEventListener('DOMContentLoaded', () => go(S.name && S.kid ? 'home' : 'hello'));
-if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => { });
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  const hadCtrl = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.register('sw.js').then(r => r.update()).catch(() => { });
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadCtrl && !window.__reloaded) { window.__reloaded = true; location.reload(); } }); // новая версия — сразу перезагружаемся
+}
+// проверка обновления сразу при запуске и потом каждые 5 минут
+setTimeout(() => fetch('version.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).then(v => { if (v.v && v.v !== APP_VERSION && !sessionStorage.getItem('upd' + v.v)) { sessionStorage.setItem('upd' + v.v, 1); location.reload(); } }).catch(() => { }), 2500);

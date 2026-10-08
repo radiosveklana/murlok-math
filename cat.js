@@ -2,12 +2,12 @@
 (function (root) {
 'use strict';
 const FURS = {
-  ginger: { name: 'Рыжий', base: '#F6A65A', light: '#FFE3C4', stripe: '#D97F2E', sw: '#F6A65A' },
-  grey: { name: 'Серый', base: '#A9B2BD', light: '#EEF0F3', stripe: '#808B97', sw: '#A9B2BD' },
+  ginger: { name: 'Рыжий', base: '#F6A65A', light: '#FFE3C4', stripe: '#D97F2E', sw: '#F6A65A', ai: '#3F9A4A' },
+  grey: { name: 'Серый', base: '#A9B2BD', light: '#EEF0F3', stripe: '#808B97', sw: '#A9B2BD', ai: '#3A7BD5' },
   black: { name: 'Чёрный', base: '#44405A', light: '#6A6582', iris: '#B7E36B', sw: '#44405A' },
   white: { name: 'Белый', base: '#FFFFFF', light: '#FFF2E6', iris: '#7CC4FF', sw: '#FFFFFF' },
-  calico: { name: 'Трёхцветный', base: '#FFFFFF', light: '#FFF2E6', p1: '#F6A65A', p2: '#44405A', sw: 'linear-gradient(135deg,#F6A65A 33%,#fff 33% 66%,#44405A 66%)' },
-  cream: { name: 'Кремовый', base: '#F2D7AE', light: '#FFF6E8', stripe: '#DDB07A', sw: '#F2D7AE' },
+  calico: { name: 'Трёхцветный', base: '#FFFFFF', light: '#FFF2E6', p1: '#F6A65A', p2: '#44405A', ai: '#C98A2B', sw: 'linear-gradient(135deg,#F6A65A 33%,#fff 33% 66%,#44405A 66%)' },
+  cream: { name: 'Кремовый', base: '#F2D7AE', light: '#FFF6E8', stripe: '#DDB07A', sw: '#F2D7AE', ai: '#8E5BD6' },
 };
 const L = '#3B2A4A';
 const SW = 'stroke="' + L + '" stroke-width="3.5"';
@@ -66,9 +66,11 @@ function catSVG(o = {}) {
   s += `<ellipse cx="100" cy="121" rx="27" ry="18" fill="${f.light}"/>`;
   if (happy) s += `<path d="M67 99 q11 -14 22 0 M111 99 q11 -14 22 0" fill="none" stroke="${L}" stroke-width="5"/>`;
   else if (o.sad) s += `<ellipse cx="78" cy="100" rx="8.5" ry="9" fill="${L}"/><ellipse cx="122" cy="100" rx="8.5" ry="9" fill="${L}"/><circle cx="80.5" cy="96" r="3" fill="#fff"/><circle cx="124.5" cy="96" r="3" fill="#fff"/><path d="M64 84 L88 90 M136 84 L112 90" stroke="${L}" stroke-width="4"/><path d="M84 112 q-3 8 0 12" fill="none" stroke="#7CC4FF" stroke-width="4" opacity=".8"/>`;
-  else if (f.iris) s += `<ellipse cx="78" cy="97" rx="10" ry="12" fill="${f.iris}" stroke="${L}" stroke-width="2.5"/><ellipse cx="122" cy="97" rx="10" ry="12" fill="${f.iris}" stroke="${L}" stroke-width="2.5"/><ellipse cx="78" cy="98" rx="4" ry="8" fill="${L}"/><ellipse cx="122" cy="98" rx="4" ry="8" fill="${L}"/><circle cx="81" cy="92" r="3" fill="#fff"/><circle cx="125" cy="92" r="3" fill="#fff"/>`;
-  else s += `<g class="eyes"><ellipse cx="78" cy="97" rx="9.5" ry="12" fill="${L}"/><ellipse cx="122" cy="97" rx="9.5" ry="12" fill="${L}"/><circle cx="81.5" cy="91.5" r="3.8" fill="#fff"/><circle cx="125.5" cy="91.5" r="3.8" fill="#fff"/></g>`;
-  s += `<circle cx="61" cy="117" r="8" fill="#FF8FAB" opacity=".45"/><circle cx="139" cy="117" r="8" fill="#FF8FAB" opacity=".45"/>`;
+  else { // аниме-глаза: крупные, с цветной радужкой, бликами и ресничками
+    const iris = f.ai || f.iris || '#3F9A4A';
+    s += `<g class="eyes">${[78, 122].map((x, i) => `<ellipse cx="${x}" cy="96" rx="13" ry="16" fill="#fff" stroke="${L}" stroke-width="3"/><ellipse cx="${x}" cy="98" rx="10.5" ry="13.5" fill="${iris}"/><ellipse cx="${x}" cy="101" rx="6" ry="8" fill="#1E1428"/><ellipse cx="${x - 4}" cy="91" rx="4.6" ry="5.6" fill="#fff"/><circle cx="${x + 4.5}" cy="104" r="2.4" fill="#fff"/><path d="M${x + (i ? 11 : -11)} ${84} l${i ? 6 : -6} -5" stroke="${L}" stroke-width="3"/>`).join('')}</g>`;
+  }
+  s += `<ellipse cx="60" cy="116" rx="10" ry="6" fill="#FF7FA6" opacity=".55"/><ellipse cx="140" cy="116" rx="10" ry="6" fill="#FF7FA6" opacity=".55"/>`;
   s += `<path d="M94 110 h12 l-6 7 z" fill="#FF7A9C" stroke="${L}" stroke-width="2"/>`;
   s += happy ? `<path d="M88 120 q12 16 24 0 z" fill="#FF7A9C" stroke="${L}" stroke-width="2.5"/>` : o.sad ? `<path d="M100 117 v4 M90 128 q10 -8 20 0" fill="none" stroke="${L}" stroke-width="3"/>` : `<path d="M100 117 q-5 8 -12 4 M100 117 q5 8 12 4" fill="none" stroke="${L}" stroke-width="3"/>`;
   s += `<ellipse class="mo" cx="100" cy="125" rx="7" ry="6" fill="#8A2E55" stroke="${L}" stroke-width="2"/>`;

@@ -43,8 +43,8 @@ SCREENS.studio = () => {
   async function record(row, slot) {
     const btn = $('.rec-btn', row);
     if (rec) { rec.stop(); return; }
-    if (!navigator.mediaDevices || !window.MediaRecorder) { toast('Этот браузер не умеет записывать звук 😿'); return; }
-    let stream; try { stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } }); } catch (e) { toast('Разреши доступ к микрофону 🎤'); return; }
+    if (!navigator.mediaDevices || !window.MediaRecorder) { if (typeof micHelp === 'function') micHelp({ name: 'NoRecorder' }); else toast('Этот браузер не умеет записывать звук 😿'); return; }
+    let stream; try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e) { if (typeof micHelp === 'function') micHelp(e); else toast('Разреши доступ к микрофону 🎤'); return; }
     Music.setDuck(true); M.hush();
     const type = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/aac'].find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || '';
     const mr = new MediaRecorder(stream, type ? { mimeType: type } : {}), chunks = [];

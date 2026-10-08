@@ -72,7 +72,7 @@ SCREENS.house = (roomId) => {
   const drawCare = () => {
     const c = careNow();
     $('#cb').innerHTML = Object.entries(HL.CARE).map(([k, C]) => { const open = roomOpen(ROOMS.find(r => r.id === C.room)); return `<button class="cbar ${!open ? 'off' : c[k] < 35 ? 'low' : ''}" data-r="${C.room}" title="${C.name}"><span>${open ? C.icon : '🔒'}</span><i><b style="width:${open ? Math.round(c[k]) : 0}%"></b></i></button>`; }).join('');
-    $$('.cbar', app).forEach(b => b.addEventListener('click', () => { const r = ROOMS.find(x => x.id === b.dataset.r); if (roomOpen(r)) { cur = r; SND.tap(); drawTabs(); drawRoom(); } else say(PH.room[1]); }));
+    $$('.cbar', app).forEach(b => b.addEventListener('click', () => { const r = ROOMS.find(x => x.id === b.dataset.r); if (roomOpen(r)) { cur = r; SND.tap(); drawTabs(); drawRoom(); } else say((r.eq || 0) > S.st.eq.done ? PH.quest[0] : PH.room[1]); }));
   };
   const drawTabs = () => {
     $('#rt').innerHTML = ROOMS.map(r => `<button class="rtab ${r === cur ? 'on' : ''} ${roomOpen(r) ? '' : 'lock'}" data-r="${r.id}"><span>${roomOpen(r) ? r.icon : '🔒'}</span>${r.name}</button>`).join('');
@@ -234,7 +234,7 @@ SCREENS.house = (roomId) => {
     if (t.hidden) return;
     t.innerHTML = list.length ? `<p class="small center">Выбери вещь, а потом нажми в комнате, куда её поставить:</p><div class="items">${list.map(id => { const c = catItem(id); return `<button class="item" data-put="${id}"><span class="ii">${c[1]}</span><span class="in">${c[2]}</span></button>`; }).join('')}</div>` : `<p class="center">Сундук пуст. Вещи покупаются в <b>Магазине вещей</b> за конфеты, заработанные примерами 🍬</p>`;
     $$('[data-put]', t).forEach(x => x.addEventListener('click', () => {
-      if (!roomOpen(cur)) return say(PH.room[1]);
+      if (!roomOpen(cur)) return say((cur.eq || 0) > S.st.eq.done ? PH.quest[0] : PH.room[1]);
       placing = x.dataset.put; t.hidden = true; SND.tap(); drawRoom(); roomEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }));
   });
