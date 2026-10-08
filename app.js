@@ -821,7 +821,7 @@ SCREENS.home = () => {
   $('#snd').addEventListener('click', e => { S.sound = !S.sound; save(); e.currentTarget.textContent = S.sound ? '🔊' : '🔇'; SND.tap(); if (S.sound) Music.play(); else { Music.pause(); M.hush(); } });
   $('#mus').addEventListener('click', () => { SND.tap(); openMusic(); });
   const phrases = ['Мяу! Готов(а) к новому делу?', 'Мур-р… Я чую запах пончиков!', 'Сыщик всегда проверяет ответ!', 'Справа налево — так пишут столбиком!', 'Последнее действие — главная улика!', 'Мяу! Давай раскроем ещё одно дело!'];
-  $('#voi')?.addEventListener('click', e => { S.voice = S.voice === false; save(); e.currentTarget.textContent = S.voice ? '🗣️' : '🤐'; if (S.voice) say(PH.voiceOn[0]); else M.hush(); });
+  $('#voi')?.addEventListener('click', e => { S.voice = S.voice === false; save(); e.currentTarget.textContent = S.voice ? '🗣️' : '🤐'; if (S.voice) { M.ctx(); say(PH.voiceOn[0]); } else M.hush(); });
   $('#vib').addEventListener('click', e => { S.vibro = S.vibro === false; save(); e.currentTarget.textContent = S.vibro ? '📳' : '📴'; M.haptic([30, 40, 30]); });
   // погладить: короткое касание — мяу, удержание — мурлычет, пока держишь
   const pet = $('#pet'); let holdT = null, purring = false, heartIv = null;
@@ -1274,7 +1274,7 @@ SCREENS.house = (roomId) => {
 };
 
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '4';
+const APP_VERSION = '5';
 const NEWS = ['🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;

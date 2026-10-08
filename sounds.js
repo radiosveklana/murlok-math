@@ -4,6 +4,22 @@
 let AC = null, master = null, noiseBuf = null, lastVoice = 0;
 let enabled = () => true, vibroOn = () => true;
 
+
+/* iOS: в беззвучном режиме Safari глушит Web Audio. Переключаем аудиосессию в «воспроизведение»
+   (Safari 17+) и держим тихий <audio> — так звук слышен и при включённом беззвучном переключателе. */
+let unmuted = false;
+function unmuteIOS() {
+  if (unmuted) return; unmuted = true;
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { }
+  try {
+    const sr = 8000, n = sr / 2, buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
+    const w = (o, str) => { for (let i = 0; i < str.length; i++) v.setUint8(o + i, str.charCodeAt(i)); };
+    w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, n * 2, true);
+    const a = document.createElement('audio'); a.setAttribute('x-webkit-airplay', 'deny'); a.preload = 'auto'; a.loop = true; a.volume = 0.01;
+    a.src = URL.createObjectURL(new Blob([buf], { type: 'audio/wav' })); a.play().catch(() => { unmuted = false; });
+  } catch (e) { }
+}
 function ctx() {
   if (!AC) {
     const C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
@@ -13,6 +29,7 @@ function ctx() {
     const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
   }
   if (AC.state === 'suspended') AC.resume();
+  unmuteIOS();
   return AC;
 }
 const rr = (a, b) => a + Math.random() * (b - a);
