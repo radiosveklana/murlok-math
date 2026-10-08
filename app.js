@@ -185,6 +185,8 @@ const myCat = (o = {}) => catSVG({ fur: S.fur, wear: S.wear, ...o });
 const MUSIC = {
   light: { name: 'Лайтовая', icon: '🌸', desc: 'Спокойная и весёлая — для уроков', tracks: [['light1', 'Carefree'], ['light2', 'Easy Lemon'], ['light3', 'Hep Cats']] },
   hard: { name: 'Жёсткая', icon: '🎸', desc: 'Драйв и бодрость — для блица и дел', tracks: [['hard1', 'Bit Shift'], ['hard2', 'Run Amok'], ['hard3', 'Volatile Reaction']] },
+  mystic: { name: 'Мистическая', icon: '🔮', desc: 'Волшебная и загадочная — как в сказке', tracks: [['myst1', 'Comfortable Mystery'], ['myst2', 'Comfortable Mystery 4'], ['myst3', 'Mystery Bazaar'], ['myst4', 'Enchanted Valley'], ['myst5', 'Magic Forest'], ['myst6', 'Dreamy Flashback']] },
+  spy: { name: 'Таинственная', icon: '🕵️', desc: 'Шпионская — для секретных расследований', tracks: [['spy1', 'Hidden Agenda'], ['spy2', 'Spy Glass'], ['spy3', 'Sneaky Adventure'], ['spy4', 'Night on the Docks'], ['spy5', 'Thinking Music']] },
   focus: { name: 'Для ударной работы', icon: '⚡', desc: 'Детективный ритм — помогает сосредоточиться', tracks: [['focus1', 'Sneaky Snitch'], ['focus2', 'Investigations'], ['focus3', 'Pixelland']] },
 };
 const Music = (() => {
@@ -213,7 +215,7 @@ const Music = (() => {
 function nowPlaying() { return Music.playing ? `🎶 Сейчас играет: <b>${Music.current()}</b>` : (S.music.mode === 'off' ? 'Музыка выключена' : !S.sound ? 'Включи звук 🔊 на главном экране' : ''); }
 document.addEventListener('visibilitychange', () => { if (document.hidden) Music.pause(); else if (Music.started) Music.play(); });
 function openMusic() {
-  const PH_M = { light: PH.music[0], hard: PH.music[1], focus: PH.music[2], off: PH.music[3] };
+  const PH_M = { light: PH.music[0], hard: PH.music[1], focus: PH.music[2], off: PH.music[3], mystic: PH.music[4], spy: PH.music[5] };
   const m = modal(`<h2>🎵 Музыка</h2><p class="small">Выбери настроение — котик будет слушать вместе с тобой!</p>
     <div class="music-grid">${Object.entries(MUSIC).map(([k, v]) => `<button class="mcard ${S.music.mode === k ? 'on' : ''}" data-m="${k}"><span>${v.icon}</span><b>${v.name}</b><small>${v.desc}</small></button>`).join('')}<button class="mcard ${S.music.mode === 'off' ? 'on' : ''}" data-m="off"><span>🔕</span><b>Без музыки</b><small>Тишина</small></button></div>
     <div class="vol"><span>🔈</span><input type="range" id="mvol" min="0" max="100" value="${Math.round(S.music.vol * 100)}" aria-label="Громкость музыки"><span>🔊</span></div>
@@ -1274,8 +1276,8 @@ SCREENS.house = (roomId) => {
 };
 
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '5';
-const NEWS = ['🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор'];
+const APP_VERSION = '6';
+const NEWS = ['🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;
   const first = !S.seenVersion && !S.cases && !solvedTotal(); S.seenVersion = APP_VERSION; save(); if (first) return;
