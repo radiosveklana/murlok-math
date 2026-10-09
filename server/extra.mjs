@@ -173,6 +173,7 @@ ${RULES}
     if (url.pathname === '/tg/test') { const s = save(code); const chats = Object.entries(F.tg).filter(([, v]) => v.code === code).map(([k]) => k); for (const c of chats) await tgApi('sendMessage', { chat_id: c, text: weekly(s) }); return send(res, 200, { ok: chats.length > 0 }, origin); }
     return send(res, 404, { error: 'nf' }, origin);
   }
+  let startHook = null;
   if (TG) { // приём /start <токен> (long polling) и отправка отчётов по воскресеньям в 19:00 МСК
     let off = 0;
     (async function poll() {
@@ -180,6 +181,7 @@ ${RULES}
         const r = await tgApi('getUpdates', { offset: off, timeout: 30 });
         for (const u of (r && r.result) || []) {
           off = u.update_id + 1; const m = u.message; if (!m || !m.text) continue; const chat = String(m.chat.id), tok = (m.text.match(/^\/start\s+([A-Z0-9]{16})/) || [])[1];
+          if (tok && startHook && startHook(tok, chat)) { await tgApi('sendMessage', { chat_id: chat, text: '✅ Уведомления админки «Мурлок и Ко» подключены. Сюда будут приходить тревожные отметки из разговоров детей с котиком.' }); continue; }
           if (tok && F.tgTok[tok] && Date.now() - F.tgTok[tok].t < 864e5) { F.tg[chat] = { code: F.tgTok[tok].code }; delete F.tgTok[tok]; touch(); await tgApi('sendMessage', { chat_id: chat, text: '🐾 Готово! Каждое воскресенье вечером я буду присылать короткий отчёт о занятиях. Отключить можно в приложении: «Для взрослых» → Telegram, или командой /stop.' }); await tgApi('sendMessage', { chat_id: chat, text: weekly(save(F.tg[chat].code) || {}) }); }
           else if (/^\/stop/.test(m.text)) { delete F.tg[chat]; touch(); await tgApi('sendMessage', { chat_id: chat, text: 'Отчёты отключены. Мур!' }); }
           else await tgApi('sendMessage', { chat_id: chat, text: 'Это бот отчётов «Мурлок и Ко». Подключение — в приложении: «Для взрослых» → «Отчёт в Telegram».' });
@@ -201,7 +203,8 @@ ${RULES}
     if (url.pathname.startsWith('/tg/') && req.method === 'POST') { await tgRoute(req, res, url, origin); return true; }
     return false;
   };
-  route.rp = (d, res, origin, ip) => rpHandle(d, res, origin, ip); // голосовая реплика в тренажёре (из /voice)
+  route.rp = (d, res, origin, ip) => rpHandle(d, res, origin, ip);
+  route.tg = tgApi; route.tgLinks = () => F.tg; route.setStartHook = f => { startHook = f; }; route.TG_BOT = TG_BOT; // голосовая реплика в тренажёре (из /voice)
   route.hasRp = id => !!RP[id];
   return route;
 }

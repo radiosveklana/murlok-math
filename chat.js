@@ -1,7 +1,7 @@
 /* chat.js — «Поболтать с котиком»: ребёнок говорит (микрофон) или пишет, котик отвечает голосом.
    Ответы даёт сервер murlok-api (строгие детские правила безопасности). Переписка хранится только на этом устройстве. */
 'use strict';
-const API = 'https://level.tech-wave.ru/murlok-api';
+const API = (location.hostname === 'murlok.tech-wave.ru' ? '/api' : 'https://level.tech-wave.ru/murlok-api');
 const CAN_REC = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
 const CHAT_TIPS = ['Как у тебя дела?', 'Загадай мне загадку', 'Расскажи про космос', 'Помоги понять умножение', 'Какое твоё любимое лакомство?', 'Мне сегодня грустно', 'Расскажи смешную историю', 'Какие бывают кошки?'];
 const deviceId = () => { if (!S.device) { S.device = 'd' + Math.random().toString(36).slice(2) + Date.now().toString(36); save(); } return S.device; };
@@ -29,6 +29,7 @@ let lastSpoken = '';
 async function speakRemote(text, onProgress) {
   if (!S.sound || S.voice === false) return false;
   M.hush(); stopRemote(); lastSpoken = text; const my = speakTok, ac = wakeAudio(); if (!ac) return false;
+  M.setBusy(4, 2); // занимаем очередь сразу: пока грузится голос, котик-маскот не должен заговорить поверх
   const chunks = splitSay(text), proms = chunks.map(t => fetch(API + '/tts?s=1&t=' + encodeURIComponent(t)).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null));
   let played = false, shown = 0;
   for (let i = 0; i < proms.length; i++) {
@@ -37,7 +38,7 @@ async function speakRemote(text, onProgress) {
     let buf = null; try { buf = await new Promise((res, rej) => { const q = ac.decodeAudioData(ab.slice(0), res, rej); if (q && q.then) q.then(res, rej); }); } catch (e) { buf = null; }
     if (my !== speakTok) return played;
     onProgress && onProgress(shown += chunks[i].length + 1);
-    document.body.classList.add('cat-talking'); Music.setDuck(true);
+    M.hush(); document.body.classList.add('cat-talking'); Music.setDuck(true); // кто успел заговорить — замолкает, потом говорит котик
     if (buf && ac.state === 'running') {
       await new Promise(res => {
         const src = ac.createBufferSource(); src.buffer = buf; src.playbackRate.value = 1.12;

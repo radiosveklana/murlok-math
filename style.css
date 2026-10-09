@@ -1074,3 +1074,23 @@ html, body { overflow-x: hidden; } /* страховка: случайный в�
 /* раздел для взрослых: таблицы на узком экране */
 .parents .tbl { table-layout: fixed; width: 100%; } .parents .tbl td, .parents .tbl th { overflow-wrap: anywhere; word-break: break-word; }
 @media (max-width: 420px) { .parents .tbl td { font-size: 13px; padding: 6px 4px; } .pbar { width: 54px; } }
+/* «Мысль дня» — выразительная карточка */
+.thought { position: relative; overflow: hidden; display: flex; gap: 12px; align-items: center; margin: 12px 0; padding: 16px 16px 14px; border-radius: 24px; cursor: pointer; color: #fff;
+  background: linear-gradient(135deg, #7B5CD6 0%, #E0447A 55%, #F5A623 100%); box-shadow: 0 10px 26px rgba(123, 92, 214, .35); animation: thIn .6s cubic-bezier(.3, 1.4, .5, 1) both; }
+.thought::before { content: '“'; position: absolute; right: 10px; top: -28px; font: 900 130px/1 Georgia, serif; color: rgba(255, 255, 255, .18); pointer-events: none; }
+.th-cat { flex: 0 0 64px; width: 64px; filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .2)); animation: thFloat 3s ease-in-out infinite; } .th-cat svg { width: 100%; height: auto; display: block; }
+.th-body { min-width: 0; flex: 1; position: relative; z-index: 1; }
+.th-label { font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+.th-q { margin: 4px 0 6px; font: 800 19px/1.3 Georgia, 'Times New Roman', serif; text-shadow: 0 1px 2px rgba(0, 0, 0, .15); overflow-wrap: anywhere; }
+.th-who { font-size: 13px; font-style: italic; opacity: .92; }
+.th-btns { display: flex; gap: 10px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+.th-read { border: 0; border-radius: 14px; padding: 7px 12px; font: 800 14px inherit; font-family: inherit; background: rgba(255, 255, 255, .95); color: #7B5CD6; box-shadow: 0 3px 0 rgba(0, 0, 0, .12); }
+.th-more { font-size: 13px; font-weight: 800; opacity: .9; }
+.th-star { position: absolute; font-style: normal; color: #FFF6C9; opacity: .8; animation: thTw 2.4s ease-in-out infinite; pointer-events: none; } .th-star.s1 { left: 72px; top: 8px; font-size: 14px; } .th-star.s2 { right: 70px; bottom: 10px; font-size: 18px; animation-delay: .8s; } .th-star.s3 { left: 46%; top: 6px; font-size: 11px; animation-delay: 1.5s; }
+.thought.pulse { animation: thPulse .5s; }
+@keyframes thIn { from { opacity: 0; transform: translateY(10px) scale(.97); } }
+@keyframes thFloat { 50% { transform: translateY(-4px) rotate(-3deg); } }
+@keyframes thTw { 50% { opacity: .2; transform: scale(.6); } }
+@keyframes thPulse { 50% { transform: scale(1.02); } }
+@media (max-width: 380px) { .th-cat { flex-basis: 50px; width: 50px; } .th-q { font-size: 17px; } }
+.racc-says { margin: 10px 0; padding: 8px 12px; background: #FFF3E0; border-radius: 12px; border-left: 4px solid #B07C45; }

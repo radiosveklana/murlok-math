@@ -28,7 +28,22 @@ const Drills = (() => {
   { const bl = SCREENS.blitz; SCREENS.blitz = arg => { bl(arg); const pg = $('.page', app); if (!pg) return; pg.insertAdjacentHTML('afterbegin', `<div class="drill-modes"><b>Режимы:</b> <button class="chip on">✖️ Таблица умножения</button>${Object.entries(MODES).map(([k, m]) => `<button class="chip" data-go="drill" data-arg="${k}">${m.icon} ${m.name}${best()[k] ? ' · 🏆 ' + best()[k] : ''}</button>`).join('')}</div>`); }; }
 
   /* ---------- Ошибки Енота: деление и сложение/вычитание ---------- */
+  const RACC = ['Енот Тимоша хвастается', 'Енот уверен', 'Енот спешил и написал', 'Енот считал в уме и говорит', 'Енот подсмотрел у Лисы и записал'];
+  function mistakeOf(c) { // типичные ошибки: лишний/потерянный ноль, ±1, ±10, переставленные цифры, перепутал действие
+    const s = String(c), opts = [c * 10, Math.floor(c / 10), c + 1, c - 1, c + 10, c - 10, s.length > 1 ? +(s.slice(0, -2) + s.slice(-1) + s.slice(-2, -1)) : c + 2, c + 100];
+    const ok = shuffle(opts).filter(x => Number.isInteger(x) && x >= 0 && x !== c); return ok[0] != null ? ok[0] : c + 1;
+  }
+  function programBug() { // ошибка Енота в любой теме программы 4 класса (из генераторов «копилки»)
+    const units = (((window.SUBJECTS || {}).math4 || {}).units || []).filter(u => u.gen); if (!units.length) return null;
+    for (let t = 0; t < 30; t++) {
+      const u = pick(units), q = u.gen(1 + Math.floor(Math.random() * 3)); if (!q || q.type !== 'input' || !Number.isInteger(+q.c)) continue;
+      const c = +q.c, right = Math.random() < 0.3, said = right ? c : mistakeOf(c);
+      return { type: 'tf', topic: u.title, icon: u.icon, correct: c, wrong: !right, q: `<div class="small">${u.icon} ${u.title}</div>${q.q}<div class="racc-says">🦝 ${pick(RACC)}: <b>${said}</b></div>Енот прав?`, c: right, why: `${right ? 'Да, Енот прав!' : `Енот ошибся: правильно — <b>${c}</b>.`} ${q.why || ''}` };
+    }
+    return null;
+  }
   function bugQ() {
+    if (Math.random() < 0.55) { const pq = programBug(); if (pq) return pq; }
     if (Math.random() < 0.5) { // деление: одна неверная цифра частного или остатка
       const P = Column.genDiv(R(1, 3)), wrongQ = Math.random() < 0.6, q = P.q, r = P.r;
       let wq = q, wr = r; if (wrongQ) { const s = String(q).split(''), i = R(0, s.length - 1); s[i] = String((+s[i] + R(1, 8)) % 10); if (s[0] === '0' && s.length > 1) s[0] = '1'; wq = +s.join(''); if (wq === q) wq = q + 1; } else { wr = r + P.b > 0 && r < P.b - 1 ? r + 1 : Math.max(0, r - 1); if (wr === r) wr = r + P.b; }
@@ -41,14 +56,22 @@ const Drills = (() => {
   }
   SCREENS.bugs2 = () => {
     const N = 8; let k = 0, ok = 0;
-    app.innerHTML = `${topbar('🦝 Ошибки Енота: деление и сложение', 'bugs')}<div class="page"><div class="g-dots">${Array.from({ length: N }, () => '<i></i>').join('')}</div>${helperHTML('b2bub')}<div id="b2q"></div></div>`;
-    $('#b2bub').innerHTML = 'Енот снова хвастается! Проверь его вычисления — найди, где он ошибся.';
+    app.innerHTML = `${topbar('🦝 Ошибки Енота: вся программа', 'bugs')}<div class="page"><div class="g-dots">${Array.from({ length: N }, () => '<i></i>').join('')}</div>${helperHTML('b2bub')}<div id="b2q"></div></div>`;
+    $('#b2bub').innerHTML = 'Енот решает задачи из всей программы 4 класса и хвастается! Проверь его — а если ошибся, назови правильный ответ.';
     const ask = () => { const q = bugQ(), T = ACAD_Q[q.type]; window.__aq = q; $('#b2q').innerHTML = T.render(q) + '<div id="b2w"></div>';
-      T.bind($('#b2q'), q, (r, why) => { $$('.g-dots i')[k].className = r ? 'ok' : 'bad'; if (r) { ok++; SND.ok(); } else SND.bad(); taskDone('bug', { mistakes: r ? 0 : 1 }); award(r ? 2 : 0, r ? 8 : 2); $('#b2w').innerHTML = `<p>${why}</p><button class="btn big pink" id="b2n">${k + 1 < N ? 'Дальше →' : 'Итоги 🏆'}</button>`; $('#b2n').addEventListener('click', () => { k++; k < N ? ask() : fin(); }); }); };
+      T.bind($('#b2q'), q, (r, why) => {
+        $$('.g-dots i')[k].className = r ? 'ok' : 'bad'; if (r) { ok++; SND.ok(); } else SND.bad(); taskDone('bug', { mistakes: r ? 0 : 1 }); award(r ? 2 : 0, r ? 8 : 2);
+        const next = () => { $('#b2w').innerHTML = `<p>${why}</p><button class="btn big pink" id="b2n">${k + 1 < N ? 'Дальше →' : 'Итоги 🏆'}</button>`; $('#b2n').addEventListener('click', () => { k++; k < N ? ask() : fin(); }); };
+        if (r && q.wrong && q.correct != null) { // поймал Енота — а правильный ответ знаешь?
+          let buf = ''; $('#b2w').innerHTML = `<div class="fb">✔ Поймал${/[аяь]$/i.test(S.kid || '') ? 'а' : ''} Енота!</div><p>А какой ответ правильный? <span class="inp" id="b2v">?</span> <small>(+3 🍬)</small></p>${numpad(true)}<button class="btn sm" id="b2skip">Пропустить</button>`;
+          $('#b2skip').addEventListener('click', () => { keyHandler = null; next(); });
+          bindPad($('#b2w'), { digit: x => { if (buf.length < 7) { buf += x; $('#b2v').textContent = buf; } }, back: () => { buf = buf.slice(0, -1); $('#b2v').textContent = buf || '?'; }, ok: () => { if (!buf) return; keyHandler = null; if (+buf === q.correct) { SND.win(); award(3, 10); toast('🎯 Точно! Ты исправил(а) Енота'); } else { SND.bad(); toast('Правильно: ' + q.correct); } next(); } });
+        } else next();
+      }); };
     const fin = () => { if (ok === N) awardGems(1, 'за то, что поймал(а) все ошибки Енота'); SND.win(); $('#b2q').innerHTML = `<div class="center g-result"><div class="big-emoji">${ok === N ? '🏆' : '🦝'}</div><h2>${ok} из ${N}!</h2><div class="row-btns"><button class="btn big pink" id="b2a">Ещё</button><button class="btn" data-go="bugs">К ошибкам Енота</button></div></div>`; $('#b2a').addEventListener('click', () => go('bugs2')); };
     ask();
   };
-  { const bg = SCREENS.bugs; SCREENS.bugs = arg => { bg(arg); const pg = $('.page', app); if (pg) pg.insertAdjacentHTML('afterbegin', '<button class="btn mint bugs2-link" data-go="bugs2">➗➕ Новые ошибки Енота: деление и сложение →</button>'); }; }
+  { const bg = SCREENS.bugs; SCREENS.bugs = arg => { bg(arg); const pg = $('.page', app); if (pg) pg.insertAdjacentHTML('afterbegin', '<button class="btn mint bugs2-link" data-go="bugs2">🦝 Ошибки Енота во всей программе: деление, задачи, величины, порядок действий →</button>'); }; }
   ['drill', 'bugs2'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
   return { MODES, bugQ };
 })();

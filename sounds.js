@@ -239,7 +239,7 @@ async function voice(tpls, names = {}, o = {}) {
   vEndT = setTimeout(() => { onTalk(false); vsrcs = []; busyPrio = -1; }, (t - AC.currentTime) * 1000);
   return true;
 }
-const TTS_API = 'https://level.tech-wave.ru/murlok-api/tts?t=';
+const TTS_API = (location.hostname === 'murlok.tech-wave.ru' ? '/api' : 'https://level.tech-wave.ru/murlok-api') + '/tts?t=';
 async function playBuffer(ab) { // произвольная фраза с сервера (ответ котика в чате)
   if (!voiceOn() || !ok()) return false;
   const my = ++vToken; let buf; try { buf = await decode(ab); } catch (e) { return false; }

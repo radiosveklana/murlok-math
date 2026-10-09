@@ -64,7 +64,9 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   await go('drill', 'div'); const qtxt = await E(() => document.querySelector('#dq').innerText); const [x, y] = qtxt.split(':').map(Number);
   for (const ch of String(x / y)) await p.keyboard.press(ch); await sleep(300); ok('division drill counts', await E(() => document.querySelector('#ds').innerText === '1'));
   await go('bugs'); ok('bugs: new mode link', !!(await p.$('.bugs2-link')));
-  await go('bugs2'); for (let k = 0; k < 3; k++) { await answer(); await sleep(300); await click('#b2n'); } ok('raccoon column bugs', (await p.$$('.g-dots i.ok')).length === 3);
+  ok('raccoon bugs from whole program', await E(() => { let prog = 0, bad = 0; for (let i = 0; i < 200; i++) { const q = Drills.bugQ(); if (q.topic) prog++; if (!q || !q.q || /NaN|undefined/.test(q.q) || (q.type === 'tf' && typeof q.c !== 'boolean')) bad++; if (q.wrong && q.correct === undefined) bad++; } return prog > 60 && bad === 0; }));
+  await go('bugs2'); for (let k = 0; k < 3; k++) { await answer(); await sleep(300); if (await p.$('#b2skip')) { const c = await E(() => window.__aq.correct); for (const ch of String(c)) await p.keyboard.press(ch); await p.keyboard.press('Enter'); await sleep(300); } await click('#b2n'); }
+  ok('raccoon bugs answered', (await p.$$('.g-dots i.ok')).length === 3);
 
   /* ---------- награды, мысль дня, игры Академии, ОБЖ ---------- */
   await go('home'); ok('home: awards instead of notebook', !(await p.$('.t-book')) && /награды/i.test(await E(() => document.querySelector('.t-diploma').innerText)));
@@ -81,6 +83,9 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   ok('news shown', !!(await p.$('#newsOk')));
   await p.reload(); await sleep(2500); ok('news survives reload', !!(await p.$('#newsOk')));
   await click('#newsOk'); await p.reload(); await sleep(2500); ok('news closed for good', !(await p.$('#newsOk')) && (await E(() => S.seenVersion === APP_VERSION)));
+  /* ---------- звёздная карта в обсерватории открывает небо ---------- */
+  await go('house', 'observ'); await sleep(900); { const t = await p.$('.fx[data-id="fx_starmap"]'); if (t) { const bb = await t.boundingBox(); await p.touchscreen.tap(bb.x + bb.width / 2, bb.y + bb.height / 2); await sleep(2200); } }
+  ok('star map item opens sky', await E(() => curScreen === 'starmap'));
   ok('no errors', !errors.length, errors.slice(0, 4).join(' | '));
   console.log('V22 DONE', n); await b.close();
 })().catch(e => { console.log('V22 FAIL crash', e.message); console.log(errors.join('\n')); process.exit(1); });

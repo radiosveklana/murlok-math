@@ -14,7 +14,8 @@ const Awards = (() => {
   { const hm = SCREENS.home; SCREENS.home = arg => { const r = hm(arg); try {
     const bk = $('.t-book', app); if (bk) bk.remove();
     const dp = $('.t-diploma', app); if (dp) { $('b', dp).textContent = 'Мои награды'; $('small', dp).textContent = `дипломы, значки, дела`; }
-    const D = (((window.SUBJECTS || {}).stories || {}).daily) || []; if (D.length && !$('.thought', app)) { const day = Math.floor(Date.now() / 864e5), q = D[day % D.length]; const tiles = $('.tiles', app); if (tiles) tiles.insertAdjacentHTML('beforebegin', `<div class="thought" data-go="subject" data-arg="stories"><b>🌟 Мысль дня</b><p>«${q.t}»</p><small>— ${q.who}</small></div>`); }
+    const D = (((window.SUBJECTS || {}).stories || {}).daily) || []; if (D.length && !$('.thought', app)) { const day = Math.floor(Date.now() / 864e5), q = D[day % D.length]; const tiles = $('.tiles', app); if (tiles) tiles.insertAdjacentHTML('beforebegin', `<div class="thought" data-go="subject" data-arg="stories"><i class="th-star s1">✦</i><i class="th-star s2">✧</i><i class="th-star s3">✦</i><div class="th-cat">${myCat({ cls: 'mini', smile: true, star: true })}</div><div class="th-body"><div class="th-label">🌟 Мысль дня</div><p class="th-q">${q.t}</p><div class="th-who">— ${q.who}</div><div class="th-btns"><button class="th-read" type="button">🔊 Прочитай</button><span class="th-more">Истории →</span></div></div></div>`);
+        const th = $('.thought', app); $('.th-read', th).addEventListener('click', e => { e.stopPropagation(); if (typeof wakeAudio === 'function') wakeAudio(); speakRemote(`Мысль дня. ${q.t} ${q.who && q.who !== 'факт' ? q.who : ''}`); th.classList.remove('pulse'); void th.offsetWidth; th.classList.add('pulse'); }); }
   } catch (e) { console.warn(e); } return r; }; }
   /* ---------- детективные игры: игры по темам Академии ---------- */
   { const gm = SCREENS.games; SCREENS.games = arg => { gm(arg); const pg = $('.page', app); if (!pg) return;

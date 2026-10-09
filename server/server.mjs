@@ -9,6 +9,10 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { makeExtra } from './extra.mjs';
+import { makeAccounts } from './accounts.mjs';
+import { makeAdmin } from './admin.mjs';
+import { createRequire } from 'node:module';
+const requireCJS = createRequire(import.meta.url);
 
 const PORT = +process.env.PORT || 3016;
 const KEY = process.env.ANTHROPIC_API_KEY || '';
@@ -159,9 +163,16 @@ function startStream(text) {
 function send(res, code, obj, origin) {
   res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', ...cors(origin) }); res.end(JSON.stringify(obj));
 }
-function cors(origin) { return ORIGINS.includes(origin) ? { 'access-control-allow-origin': origin, 'vary': 'Origin', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET,POST,OPTIONS', 'access-control-max-age': '86400' } : {}; }
+function cors(origin) { return ORIGINS.includes(origin) ? { 'access-control-allow-origin': origin, 'vary': 'Origin', 'access-control-allow-headers': 'content-type, authorization', 'access-control-allow-methods': 'GET,POST,OPTIONS', 'access-control-max-age': '86400' } : {}; }
 function ipOf(req) { return String(req.headers['x-real-ip'] || req.socket.remoteAddress || ''); }
 const extra = makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk }); // друзья, тренажёр разговора, Telegram
+// почта (team@tech-wave.ru через Яндекс) — для кодов входа и рассылок
+let mailer = null; try { const nm = requireCJS('nodemailer'); if (process.env.SMTP_HOST) mailer = nm.createTransport({ host: process.env.SMTP_HOST, port: +process.env.SMTP_PORT || 465, secure: process.env.SMTP_SECURE !== 'false', auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } }); } catch (e) { console.error('nodemailer', e.message); }
+const mail = async (to, subject, text) => { if (!mailer) throw new Error('mail off'); await mailer.sendMail({ from: `"Мурлок и Ко" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`, to, subject, text }); };
+const accounts = makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg: extra.tg });
+extra.setStartHook((tok, chat) => accounts.tgStart(tok, chat));
+const admin = makeAdmin({ DIR, SAVE_DIR, acc: accounts, send, mail, tg: extra.tg, tgLinks: extra.tgLinks, TG_BOT: extra.TG_BOT });
+const flagIt = (d, out, text) => { if (out && out.flag && out.flag !== 'none') accounts.flag({ flag: out.flag, kid: String(d.kid || '').slice(0, 20), cat: String(d.cat || '').slice(0, 20), code: String(d.code || '').slice(0, 8), text: maskPII(String(text || '')).slice(0, 300) }); };
 http.createServer(async (req, res) => {
   const origin = req.headers.origin || '', url = new URL(req.url, 'http://x'), ip = ipOf(req);
   res.setHeader('x-content-type-options', 'nosniff');
@@ -217,7 +228,7 @@ http.createServer(async (req, res) => {
       if (d.scenario && extra.hasRp(d.scenario)) return extra.rp({ ...d, text: heard, heard }, res, origin, ip); // тренажёр разговора
       if (!dayOk()) return send(res, 429, { error: 'cap', heard, reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat({ ...d, text: heard }); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
-      if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1;
+      if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1; flagIt(d, out, heard);
       startSay(out.reply);
       return send(res, 200, { heard, ...out }, origin);
     }
@@ -229,10 +240,13 @@ http.createServer(async (req, res) => {
       if (!limit('m:' + dev, 30, 6e5) || !limit('d:' + dev, 150, 864e5) || !limit('ip:' + ip, 600, 6e5)) return send(res, 429, { error: 'limit', reply: 'Мур, я немного устал болтать! Давай отдохнём и решим пару примеров, а потом продолжим?', mood: 'sad', flag: 'none' }, origin);
       if (!dayOk()) return send(res, 429, { error: 'cap', reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat(d); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
-      if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1;
+      if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1; flagIt(d, out, d.text);
       startSay(out.reply);
       return send(res, 200, out, origin);
     }
+    if (url.pathname.startsWith('/acc/')) return await accounts.acc(req, res, url, origin, ip);
+    if (url.pathname.startsWith('/r/')) return accounts.refLink(req, res, url);
+    if (url.pathname === '/admin' || url.pathname.startsWith('/admin/')) return await admin.route(req, res, url);
     if (await extra(req, res, url, origin, ip)) return;
     send(res, 404, { error: 'not found' }, origin);
   } catch (e) { console.error(e.message); send(res, 500, { error: 'server' }, origin); }

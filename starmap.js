@@ -42,8 +42,8 @@ const StarMap = (() => {
   let down = null;
   document.addEventListener('pointerdown', e => { const f = e.target.closest('.room:not(.guest) .fx'); down = f ? { id: f.dataset.id, x: e.clientX, y: e.clientY } : null; }, true);
   document.addEventListener('pointerup', e => {
-    if (!down || !/^(fx_tscope|telescope2|scope)$/.test(down.id) || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 8) return; down = null;
-    setTimeout(() => { if (curScreen !== 'house' || $('.modal')) return; const m = modal(`<div class="big-emoji">🔭✨</div><h2>Заглянуть в телескоп?</h2><p>Посмотрим на звёздное небо и созвездия!</p><div class="row-btns"><button class="btn pink" id="tsgo">🌌 Смотреть</button><button class="btn" data-close>Потом</button></div>`); $('#tsgo', m.el).addEventListener('click', () => { m.close(); go('starmap', 'house'); }); }, 1200);
+    if (!down || !/^(fx_tscope|fx_starmap|fx_window|telescope2|scope|galaxy)$/.test(down.id) || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 12) return; down = null;
+    setTimeout(() => { if (curScreen === 'house' && !$('.modal')) go('starmap', 'house'); }, 1300); // котик договаривает — и открывается звёздное небо
   }, true);
   const sp = (window.SUBJECTS || {}).space; if (sp) sp.extras = [...(sp.extras || []).filter(e => e.id !== 'starmap'), { id: 'starmap', icon: '🔭', name: 'Карта звёздного неба', run: () => go('starmap'), badge: () => (S.starsSeen || []).length ? `открыто ${(S.starsSeen || []).length} из ${D().constellations.length}` : '', prog: () => (S.starsSeen || []).length / (D().constellations.length || 1) }];
   if (!NO_FLOAT.includes('starmap')) NO_FLOAT.push('starmap');
