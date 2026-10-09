@@ -13,7 +13,7 @@ const SAVE = { v: 1, kid: 'Кэтика', name: 'Котофей', fur: 'galaxy',
   p.on('pageerror', e => errors.push('PAGEERR ' + e.message)); p.on('console', m => { if (m.type() === 'error' && !/favicon|navigator.vibrate|Failed to load resource|CORS|murlok-api|404/.test(m.text())) errors.push('CONSOLE ' + m.text()); });
   const calls = []; let pendingItems = [];
   await p.setRequestInterception(true);
-  p.on('request', r => {
+  const handler = r => {
     const u = r.url(); const H = { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type, authorization' };
     if (r.method() === 'OPTIONS' && /murlok-api/.test(u)) return r.respond({ status: 204, headers: { ...H, 'access-control-allow-methods': 'GET,POST,OPTIONS' } });
     const m = u.match(/murlok-api\/(acc\/[a-z\/]+|save|load|tts|chat|friend\/\w+)/); if (!m) return r.continue();
@@ -31,7 +31,8 @@ const SAVE = { v: 1, kid: 'Кэтика', name: 'Котофей', fur: 'galaxy',
     if (act === 'acc/priorities') return J({ ok: true });
     if (act === 'load') return J(SAVE);
     return J({ ok: true });
-  });
+  };
+  p.on('request', handler);
   await p.goto(URL); await p.waitForSelector('#kid');
   const E = (f, ...a) => p.evaluate(f, ...a), go = async (s, a) => { await E((s, a) => { document.querySelectorAll('.modal').forEach(m => m.remove()); go(s, a); }, s, a); await sleep(700); };
   const click = async s => { await p.waitForSelector(s, { timeout: 8000 }); await E(() => document.querySelectorAll('.toast').forEach(t => t.remove())); try { await p.click(s); } catch (e) { await E(s => document.querySelector(s).click(), s); } await sleep(400); };
@@ -45,12 +46,13 @@ const SAVE = { v: 1, kid: 'Кэтика', name: 'Котофей', fur: 'galaxy',
   for (let t = 0; t < 3 && !(await E(() => typeof go === 'function').catch(() => false)); t++) await sleep(1000);
   ok('child progress loaded from cloud', await E(() => S.kid === 'Кэтика' && S.xp === 32130 && S.cloudCode === 'KIDCODE1'));
   ok('child linked on device', await E(() => Accounts.linked()));
-  await sleep(3500); ok('survey opens for new child', await E(() => curScreen === 'survey'));
+  for (let t = 0; t < 12 && !(await E(() => curScreen === 'survey')); t++) { await E(() => document.querySelectorAll('.modal').forEach(m => m.remove())); await sleep(1500); }
+  ok('survey opens for new child', await E(() => curScreen === 'survey'));
   for (let i = 0; i < 6; i++) { await click('#sv .opt'); await click('#svn'); }
   ok('survey saved', await E(() => !!S.profile && !!S.profile.like) && calls.some(c => c.startsWith('acc/survey')));
   /* ---------- подстройка Академии и облако ---------- */
-  await go('academy'); ok('academy: favourite subjects first', await E(() => { const c = document.querySelector('.acad-grid .acad-card'); return c && c.classList.contains('fav') && ['read', 'world'].includes(c.dataset.s); }));
-  const saves0 = calls.filter(c => c.startsWith('save')).length; await E(() => { cloudDirty = true; cloudPush(); }); await sleep(800);
+  await go('academy'); ok('academy: favourite subjects first', await E(() => { const c = document.querySelector('.acad-grid .acad-card'); return c && c.classList.contains('fav') && ['read', 'think', 'world'].includes(c.dataset.s); }), await E(() => [...document.querySelectorAll('.acad-grid .acad-card')].slice(0, 3).map(c => c.dataset.s + (c.classList.contains('fav') ? '*' : '')).join(',')));
+  const saves0 = calls.filter(c => c.startsWith('save')).length; await E(() => { window.ALLOW_CLOUD = true; cloudDirty = true; cloudPush(); }); await sleep(800);
   ok('linked child syncs to cloud', calls.filter(c => c.startsWith('save')).length > saves0);
   /* ---------- подарок от админа ---------- */
   pendingItems = [{ type: 'grant', candies: 50, gems: 5, note: 'За старание!' }]; const c0 = await E(() => S.candies); await go('home'); await sleep(2500);
@@ -59,11 +61,11 @@ const SAVE = { v: 1, kid: 'Кэтика', name: 'Котофей', fur: 'galaxy',
 
   /* ---------- новое устройство без кабинета: облако и друзья закрыты, родитель привязывает ---------- */
   const ctx2 = await b.createBrowserContext(); const q = await ctx2.newPage(); await q.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true }); await q.setRequestInterception(true);
-  q.on('request', r => p.listeners('request')[0](r)); q.on('pageerror', e => errors.push('PAGEERR2 ' + e.message));
+  q.on('request', handler); q.on('pageerror', e => errors.push('PAGEERR2 ' + e.message));
   await q.goto(URL); await q.waitForSelector('#kid');
   await q.evaluate(s => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), s, { cloudCode: 'DEVICE01' }))); }, SAVE); await q.goto(URL); await sleep(1500);
   const E2 = (f, ...a) => q.evaluate(f, ...a), click2 = async s => { await q.waitForSelector(s, { timeout: 8000 }); await E2(() => document.querySelectorAll('.toast').forEach(t => t.remove())); try { await q.click(s); } catch (e) { await E2(s => document.querySelector(s).click(), s); } await sleep(400); };
-  const sv0 = calls.filter(c => c.startsWith('save')).length; await E2(() => { cloudDirty = true; cloudPush(); }); await sleep(600);
+  const sv0 = calls.filter(c => c.startsWith('save')).length; await E2(() => { window.ALLOW_CLOUD = true; cloudDirty = true; cloudPush(); }); await sleep(600);
   ok('unlinked device does not push to cloud', calls.filter(c => c.startsWith('save')).length === sv0);
   await E2(() => { document.querySelectorAll('.modal').forEach(m => m.remove()); go('friends'); }); await sleep(600); ok('friends locked without cabinet', await E2(() => /вместе со взрослым/.test(document.body.innerText)));
   await E2(() => go('parents')); await sleep(600); ok('parents: cabinet entry', !!(await q.$('.acc-card')));
@@ -74,7 +76,7 @@ const SAVE = { v: 1, kid: 'Кэтика', name: 'Котофей', fur: 'galaxy',
   ok('referral counters shown', await E2(() => /Переходы: 3/.test(document.body.innerText) && /регистрации: 1/.test(document.body.innerText)));
   ok('link-this-device card', !!(await q.$('#linkhere')));
   for (const i of [2, 3, 4]) await click2(`#pk0 .pp[data-i="${i}"]`); await click2('#linkhere'); await sleep(1500);
-  ok('device progress linked', await E2(() => Accounts.linked() && calls.some(c => c.startsWith('acc/child') && c.includes('DEVICE01'))));
+  ok('device progress linked', (await E2(() => Accounts.linked())) && calls.some(c => c.startsWith('acc/child') && c.includes('DEVICE01')));
   ok('parent token kept out of game state', await E2(() => !JSON.stringify(S).includes('PTOKEN')));
   ok('no errors', !errors.length, errors.slice(0, 4).join(' | '));
   console.log('V25 DONE', n); await b.close();

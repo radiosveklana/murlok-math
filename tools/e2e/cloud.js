@@ -6,7 +6,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new' });
   const errs = [];
   const p = await b.newPage(); p.on('pageerror', e => errs.push(e.message));
-  await p.evaluateOnNewDocument(() => { window.ALLOW_CLOUD = true; });
+  await p.evaluateOnNewDocument(() => { window.ALLOW_CLOUD = true; try { sessionStorage.setItem('childMe', '1'); localStorage.setItem('murlok-acc:murlok-detective-v1', JSON.stringify({ token: 'TEST', childId: 'CTEST', familyCode: 'TEST01', name: 'ТестРобот' })); } catch (e) { } }); // облако — только для детей из кабинета
   await p.goto(URL); await p.waitForSelector('#kid');
   await p.evaluate(() => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), { name: 'Мурзик', kid: 'ТестРобот', xp: 4321, candies: 77, seenVersion: APP_VERSION, rankV: 2, login: { last: today(), day: 1 } }))); });
   await p.goto(URL); await sleep(1500);

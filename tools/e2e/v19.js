@@ -20,6 +20,7 @@ const LIST = { me: 'MYCODE', friends: [{ pub: 'FRND22', cat: 'Пушок', kid: 
     if (/murlok-api\/(tts|tg|save|chat)/.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: '{}' });
     r.continue();
   });
+  await p.evaluateOnNewDocument(() => { try { sessionStorage.setItem('childMe', '1'); localStorage.setItem('murlok-acc:murlok-detective-v1', JSON.stringify({ token: 'TEST', childId: 'CTEST', familyCode: 'TEST01', name: 'Тест' })); } catch (e) { } }); // друзья — только с кабинетом
   await p.goto(URL); for (let t = 0; t < 3 && !(await p.evaluate(() => typeof window.Coach === 'object' && typeof go === 'function').catch(() => false)); t++) { errors.length = 0; await p.reload(); await new Promise(r => setTimeout(r, 800)); } await p.waitForSelector('#kid');
   await p.evaluate(() => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), { name: 'Мурзик', kid: 'Тест', seenVersion: APP_VERSION, rankV: 2, xp: 31990, candies: 40, gems: 2, cloudCode: 'TESTCODE', cloudAt: Date.now(), login: { last: today(), day: 1 } }))); });
   await p.goto(URL); for (let t = 0; t < 3 && !(await p.evaluate(() => typeof window.Coach === 'object' && typeof go === 'function').catch(() => false)); t++) { errors.length = 0; await p.reload(); await new Promise(r => setTimeout(r, 800)); } await sleep(1300);

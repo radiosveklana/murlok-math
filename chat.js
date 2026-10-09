@@ -99,7 +99,7 @@ SCREENS.chat = () => {
     csay.innerHTML = '<span class="dots"><i></i><i></i><i></i></span>'; ccat.className = 'chat-cat m-think'; M.purr(1.2);
     let out;
     try {
-      const r = await fetch(API + '/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ device: deviceId(), kid: S.kid, cat: S.name, history: hist, text }) });
+      const r = await fetch(API + '/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ device: deviceId(), kid: S.kid, cat: S.name, code: S.cloudCode || '', history: hist, text }) });
       out = await r.json();
       if (!out.reply) throw 0;
     } catch (e) { out = { reply: 'Мур… связь с котиком потерялась. Проверь интернет и попробуй ещё раз!', mood: 'sad', flag: 'none' }; }
@@ -161,7 +161,7 @@ SCREENS.chat = () => {
     const hist = S.chatLog.slice(-10).map(m => ({ r: m.r, t: m.t }));
     let out;
     try {
-      const meta = encodeURIComponent(JSON.stringify({ device: deviceId(), kid: S.kid, cat: S.name, history: hist }));
+      const meta = encodeURIComponent(JSON.stringify({ device: deviceId(), kid: S.kid, cat: S.name, code: S.cloudCode || '', history: hist }));
       const r = await fetch(API + '/voice?m=' + meta, { method: 'POST', headers: { 'content-type': blob.type || 'application/octet-stream' }, body: blob });
       out = await r.json(); if (!out.reply) throw 0;
     } catch (e) { out = { heard: '', reply: 'Мур… связь с котиком потерялась. Проверь интернет и попробуй ещё раз!', mood: 'sad', flag: 'none' }; }

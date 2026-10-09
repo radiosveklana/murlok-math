@@ -74,7 +74,7 @@ const Extras = (() => {
     const draw = () => { $('#rpl').innerHTML = log.map(m => `<div class="msg ${m.r === 'u' ? 'me' : 'cat'}">${m.r === 'c' ? `<span class="rp-av">${sc.icon}</span>` : ''}<div class="bub">${esc(m.t)}</div></div>`).join('') + (busy ? `<div class="msg cat"><span class="rp-av">${sc.icon}</span><div class="bub">…</div></div>` : ''); const l = $('#rpl'); l.scrollTop = l.scrollHeight; };
     const speak = t => { if (typeof speakRemote === 'function') speakRemote(t); };
     draw(); speak(sc.opener);
-    const meta = () => ({ device: deviceId(), kid: S.kid, cat: S.name, scenario: id, history: log.slice(-12) });
+    const meta = () => ({ device: deviceId(), kid: S.kid, cat: S.name, code: S.cloudCode || '', scenario: id, history: log.slice(-12) });
     const got = out => { busy = false; if (out.heard) log.push({ r: 'u', t: out.heard }); log.push({ r: 'c', t: out.reply }); draw(); speak(out.reply); if (out.flag === 'distress') { S.chatLog = S.chatLog || []; S.chatLog.push({ r: 'c', t: '[тренажёр] ' + out.reply, ts: Date.now(), flag: 'distress' }); save(); } if (log.filter(m => m.r === 'u').length >= 6) $('#rpend').classList.add('pulse'); };
     const sendText = async () => {
       const t = $('#rpin').value.trim(); if (!t || busy) return; $('#rpin').value = ''; log.push({ r: 'u', t }); busy = true; draw();

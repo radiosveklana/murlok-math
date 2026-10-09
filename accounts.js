@@ -118,7 +118,7 @@ const Accounts = (() => {
   /* ---------- главная: начисления от админа, опрос, напоминание о кабинете ---------- */
   { const hm = SCREENS.home; SCREENS.home = arg => { const r = hm(arg); try {
     const A2 = child();
-    if (A2 && A2.needSurvey && !sessionStorage.getItem('svAsked')) { sessionStorage.setItem('svAsked', 1); setTimeout(() => { if (curScreen === 'home' && !$('.modal')) go('survey'); }, 2500); }
+    if (A2 && A2.needSurvey && !sessionStorage.getItem('svAsked')) { sessionStorage.setItem('svAsked', 1); const trySv = n => { if (curScreen !== 'home') return; if ($('.modal')) { if (n < 20) setTimeout(() => trySv(n + 1), 1500); return; } go('survey'); }; setTimeout(() => trySv(0), 2500); } // ждём, пока закроются окна (подарки, дипломы)
     if (A2 && S.cloudCode) api('pending', { code: S.cloudCode }).then(d => { (d.items || []).forEach(it => { if (it.type === 'grant') { S.candies += it.candies || 0; S.totalCandies += it.candies || 0; S.gems = (S.gems || 0) + (it.gems || 0); save(); updCandy(); setTimeout(() => { modal(`<div class="big-emoji">🎁</div><h2>Подарок от команды!</h2><p>${it.candies ? `+${it.candies} 🍬 ` : ''}${it.gems ? `+${it.gems} 💎` : ''}</p>${it.note ? `<p>${esc(it.note)}</p>` : ''}<button class="btn pink" data-close>Спасибо!</button>`); confetti(40); }, 1500); } if (it.type === 'restore') cloudRestore(S.cloudCode).catch(() => { }); }); }).catch(() => { });
     if (!A2 && S.kid && !$('.acc-nudge', app)) { const t = $('.tiles', app); if (t && (S.xp > 50)) t.insertAdjacentHTML('beforebegin', `<div class="acc-nudge" data-go="pauth">☁️ Попроси маму или папу открыть <b>личный кабинет</b> — тогда прогресс будет храниться в облаке и появятся друзья!</div>`); }
   } catch (e) { console.warn(e); } return r; }; }
