@@ -8,9 +8,9 @@ for f in "$ROOT"/*.js "$ROOT"/content/*.js; do node --check "$f" || { echo "СИ
 node "$ROOT/tools/validate-content.js" "$ROOT"/content/*.js >/dev/null || { echo "КОНТЕНТ ✖"; exit 1; }
 node "$ROOT/tools/test-accounts.mjs" | tail -1 | tee /dev/stderr | grep -q "ACC ALL OK" || { echo "СЕРВЕР КАБИНЕТОВ ✖"; exit 1; }
 curl -s -o /dev/null http://localhost:8765/ || { (node "$ROOT/tools/e2e/serve.js" 8765 >/dev/null 2>&1 &); sleep 2; }
-T="overflow.js;full.js|820 1180 E;academy.js;v19.js;v20.js;v22.js;v25.js;voice.js;games.js;house-touch.js;login.js;cloud.js;overflow-say.js"
+T="overflow.js;full.js|820 1180 E;academy.js;v19.js;v20.js;v22.js;v25.js;voice.js;games.js;house-touch.js;login.js;cloud.js;overflow-say.js;v26.js;sky.js"
 IFS=';' read -ra TESTS <<< "$T"
 for t in "${TESTS[@]}"; do n=${t%%|*}; a=""; [[ "$t" == *"|"* ]] && a=${t#*|}; ( timeout 600 node $n $a > "$OUT/$n.log" 2>&1 || echo "FAIL timeout/crash" >> "$OUT/$n.log" ) & sleep 3; done
 wait
-for t in "${TESTS[@]}"; do n=${t%%|*}; echo "== $n"; grep -E "ERRORS|errs|MISSES|VOICE|FAIL|cat class|water:|login modal|music-on|CLOUD|PHYSICS|INTERRO|COLLIDE|OVERFLOW|TALK|ACAD DONE|V19 DONE|V20 DONE|V22 DONE|V25 DONE|SAYFLOW|ACC ALL OK|ACC FAIL" "$OUT/$n.log" | grep -v "^sec"; grep -qE "FAIL|PAGEERR|errs: [^n]|OVERFLOW [0-9]" "$OUT/$n.log" && FAIL=1; done
+for t in "${TESTS[@]}"; do n=${t%%|*}; echo "== $n"; grep -E "ERRORS|errs|MISSES|VOICE|FAIL|cat class|water:|login modal|music-on|CLOUD|PHYSICS|INTERRO|COLLIDE|OVERFLOW|TALK|ACAD DONE|V19 DONE|V20 DONE|V22 DONE|V25 DONE|V26 DONE|SKY DONE|SAYFLOW|ACC ALL OK|ACC FAIL" "$OUT/$n.log" | grep -v "^sec"; grep -qE "FAIL|PAGEERR|errs: [^n]|OVERFLOW [0-9]" "$OUT/$n.log" && FAIL=1; done
 [ $FAIL = 0 ] && echo "ВСЁ ЗЕЛЁНОЕ ✔" || { echo "ЕСТЬ ОШИБКИ ✖ (логи: $OUT)"; exit 1; }

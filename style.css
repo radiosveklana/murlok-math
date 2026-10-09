@@ -1107,3 +1107,39 @@ html, body { overflow-x: hidden; } /* страховка: случайный в�
 .sv-opts { display: grid; gap: 6px; margin: 10px 0; }
 .acad-card.fav { outline: 3px solid var(--gold); } .favb { position: absolute; top: 6px; right: 6px; background: var(--gold); color: #5A3B00; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 8px; }
 @media (max-width: 380px) { .pinpick { grid-template-columns: repeat(4, 1fr); } }
+
+/* ---------- v26: выход из кабинета, вход для взрослых в ⚙️ ---------- */
+.acc-who { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; background: var(--plum-2); border-radius: 16px; padding: 10px 14px; margin-bottom: 12px; font-size: 15px; }
+.acc-who span { min-width: 0; overflow-wrap: anywhere; }
+.set-row.adult { background: var(--plum-2); }
+.btn.hold { position: relative; overflow: hidden; width: 100%; margin: 6px 0 10px; -webkit-touch-callout: none; }
+.btn.hold i { position: absolute; inset: 0; width: 0; background: rgba(255, 255, 255, .35); }
+.btn.hold.on i { width: 100%; transition: width 3s linear; }
+.btn.hold span { position: relative; }
+/* главная по разделам */
+.home-sec { margin-top: 22px; }
+.home-sec .tiles { margin-top: 10px; }
+.hs-title { font-size: 19px; margin: 0 4px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.hs-title::after { content: ''; flex: 1; height: 2px; background: var(--line); border-radius: 2px; }
+.home-sec + .coach, .home-sec + .thought, .home-sec + .acc-nudge { margin-top: 22px; }
+/* вкладки раздела для взрослых */
+.ptabs { position: sticky; top: 0; z-index: 5; display: flex; gap: 6px; padding: 8px 0 10px; margin: 0 0 6px; background: var(--bg); }
+.ptabs::-webkit-scrollbar { display: none; }
+.ptabs button { flex: 1 1 0; min-width: 0; padding: 10px 6px; line-height: 1.15; border-radius: 14px; background: #fff; box-shadow: var(--sh); font-weight: 800; font-size: 15px; }
+.ptabs button[aria-selected="true"] { background: var(--plum); color: #fff; box-shadow: 0 4px 0 #5d43b0; }
+.ptab-pane > * + * { margin-top: 14px; }
+/* картинки Академии: иллюстрации и фото */
+.art-fig { margin: 8px auto 12px; max-width: 520px; border-radius: 20px; overflow: hidden; background: var(--gold-2); box-shadow: var(--sh); position: relative; }
+.art-fig img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.art-fig.photo { background: #fff; padding: 8px 8px 0; transform: rotate(-.6deg); }
+.art-fig.photo img { border-radius: 12px; }
+.art-fig figcaption { padding: 6px 6px 8px; font-weight: 800; font-size: 15px; text-align: center; }
+.art-fig figcaption small { display: block; font-weight: 600; font-size: 11px; color: var(--muted); overflow-wrap: anywhere; }
+.unit:has(.ui-art) { grid-template-columns: 84px 1fr; }
+.unit .ui-art { position: relative; width: 84px; height: 63px; border-radius: 14px; overflow: hidden; display: block; }
+.unit .ui-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.unit .ui-art i { position: absolute; right: 2px; bottom: 0; font-size: 20px; font-style: normal; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+
+.home-sec .tiles { grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); }
+@media (max-width: 700px) { .home-sec .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .home-sec .tile b { overflow-wrap: anywhere; hyphens: auto; } }
+@media (max-width: 360px) { .home-sec .tile b { font-size: 16px; } .ptabs button { font-size: 13px; } }

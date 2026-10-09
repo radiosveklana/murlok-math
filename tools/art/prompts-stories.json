@@ -1,0 +1,375 @@
+{
+ "cover:scientists": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat in an old laboratory full of bubbling flasks, a microscope and a glowing light bulb"
+ },
+ "scientists:0": {
+  "type": "photo",
+  "q": "Ломоносов, Михаил Васильевич",
+  "alt": "Михаил Ломоносов"
+ },
+ "scientists:1": {
+  "type": "photo",
+  "q": "Менделеев, Дмитрий Иванович",
+  "alt": "Дмитрий Менделеев"
+ },
+ "scientists:2": {
+  "type": "photo",
+  "q": "Склодовская-Кюри, Мария",
+  "alt": "Мария Склодовская-Кюри"
+ },
+ "scientists:3": {
+  "type": "photo",
+  "q": "Эдисон, Томас",
+  "alt": "Томас Эдисон"
+ },
+ "scientists:4": {
+  "type": "photo",
+  "q": "Тесла, Никола",
+  "alt": "Никола Тесла"
+ },
+ "scientists:5": {
+  "type": "photo",
+  "q": "Циолковский, Константин Эдуардович",
+  "alt": "Константин Циолковский"
+ },
+ "scientists:6": {
+  "type": "photo",
+  "q": "Попов, Александр Степанович",
+  "alt": "Александр Попов"
+ },
+ "cover:space_travel": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat looking out of a round spaceship window at the blue Earth, a sailboat and a mountain map pinned nearby"
+ },
+ "space_travel:0": {
+  "type": "photo",
+  "q": "Гагарин, Юрий Алексеевич",
+  "alt": "Юрий Гагарин"
+ },
+ "space_travel:1": {
+  "type": "photo",
+  "q": "Терешкова, Валентина Владимировна",
+  "alt": "Валентина Терешкова"
+ },
+ "space_travel:2": {
+  "type": "photo",
+  "q": "Королёв, Сергей Павлович",
+  "alt": "Сергей Королёв"
+ },
+ "space_travel:3": {
+  "type": "photo",
+  "q": "Леонов, Алексей Архипович",
+  "alt": "Алексей Леонов"
+ },
+ "space_travel:4": {
+  "type": "photo",
+  "q": "Армстронг, Нил",
+  "alt": "Нил Армстронг"
+ },
+ "space_travel:5": {
+  "type": "photo",
+  "q": "Савицкая, Светлана Евгеньевна",
+  "alt": "Светлана Савицкая"
+ },
+ "space_travel:6": {
+  "type": "photo",
+  "q": "Конюхов, Фёдор Филиппович",
+  "alt": "Фёдор Конюхов"
+ },
+ "cover:kids_heroes": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat cheering on a group of inventive kids building gadgets and playing music in a bright workshop"
+ },
+ "kids_heroes:0": {
+  "type": "photo",
+  "q": "Моцарт, Вольфганг Амадей",
+  "alt": "Вольфганг Амадей Моцарт"
+ },
+ "kids_heroes:1": {
+  "type": "photo",
+  "q": "Брайль, Луи",
+  "alt": "Луи Брайль"
+ },
+ "kids_heroes:2": {
+  "type": "photo",
+  "q": "Паскаль, Блез",
+  "alt": "Блез Паскаль"
+ },
+ "kids_heroes:3": {
+  "type": "art",
+  "p": "A boy on a frosty porch in the morning discovering a glass of frozen soda with a stirring stick stuck inside, delighted surprise"
+ },
+ "kids_heroes:4": {
+  "type": "art",
+  "p": "A teenage boy on a frozen pond skating rink wearing homemade fluffy ear warmers on a bent wire band, rosy cheeks, snowy day"
+ },
+ "kids_heroes:5": {
+  "type": "art",
+  "p": "A teenage girl holding a small glowing flashlight powered by the warmth of her palm, lighting up a friend's homework in the evening"
+ },
+ "kids_heroes:6": {
+  "type": "art",
+  "p": "A teenage boy on a boat looking at a long floating barrier collecting plastic from a sparkling blue ocean, fish swimming happily below"
+ },
+ "cover:writers_artists": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat in a cozy study with an easel, piles of books, a quill pen and a seascape painting"
+ },
+ "writers_artists:0": {
+  "type": "photo",
+  "q": "Пушкин, Александр Сергеевич",
+  "alt": "Александр Пушкин"
+ },
+ "writers_artists:1": {
+  "type": "photo",
+  "q": "Толстой, Лев Николаевич",
+  "alt": "Лев Толстой"
+ },
+ "writers_artists:2": {
+  "type": "photo",
+  "q": "Барто, Агния Львовна",
+  "alt": "Агния Барто"
+ },
+ "writers_artists:3": {
+  "type": "photo",
+  "q": "Чуковский, Корней Иванович",
+  "alt": "Корней Чуковский"
+ },
+ "writers_artists:4": {
+  "type": "photo",
+  "q": "Ван Гог, Винсент",
+  "alt": "Винсент Ван Гог"
+ },
+ "writers_artists:5": {
+  "type": "photo",
+  "q": "Утро в сосновом лесу",
+  "alt": "«Утро в сосновом лесу»"
+ },
+ "writers_artists:6": {
+  "type": "photo",
+  "q": "Айвазовский, Иван Константинович",
+  "alt": "Иван Айвазовский"
+ },
+ "cover:sport_heroes": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat wearing a gold medal on a winners podium in a stadium with confetti"
+ },
+ "sport_heroes:0": {
+  "type": "photo",
+  "q": "Роднина, Ирина Константиновна",
+  "alt": "Ирина Роднина"
+ },
+ "sport_heroes:1": {
+  "type": "photo",
+  "q": "Яшин, Лев Иванович",
+  "alt": "Лев Яшин"
+ },
+ "sport_heroes:2": {
+  "type": "photo",
+  "q": "Болт, Усэйн",
+  "alt": "Усэйн Болт"
+ },
+ "sport_heroes:3": {
+  "type": "photo",
+  "q": "Рудольф, Вилма",
+  "alt": "Вилма Рудольф"
+ },
+ "sport_heroes:4": {
+  "type": "photo",
+  "q": "Фелпс, Майкл",
+  "alt": "Майкл Фелпс"
+ },
+ "sport_heroes:5": {
+  "type": "photo",
+  "q": "Владыкина, Олеся Олеговна",
+  "alt": "Олеся Владыкина"
+ },
+ "sport_heroes:6": {
+  "type": "art",
+  "p": "joyful athletes in wheelchairs and with running prosthetics racing on a stadium track, cheering crowd, confetti"
+ },
+ "cover:doctors_rescuers": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat and a little doctor coat with a stethoscope standing beside a rescue team in orange uniforms"
+ },
+ "doctors_rescuers:0": {
+  "type": "photo",
+  "q": "Пирогов, Николай Иванович",
+  "alt": "Николай Пирогов"
+ },
+ "doctors_rescuers:1": {
+  "type": "photo",
+  "q": "Найтингейл, Флоренс",
+  "alt": "Флоренс Найтингейл"
+ },
+ "doctors_rescuers:2": {
+  "type": "photo",
+  "q": "Дженнер, Эдвард",
+  "alt": "Эдвард Дженнер"
+ },
+ "doctors_rescuers:3": {
+  "type": "photo",
+  "q": "Пастер, Луи",
+  "alt": "Луи Пастер"
+ },
+ "doctors_rescuers:4": {
+  "type": "art",
+  "p": "A kind old doctor with a gentle smile visiting a poor family's small home, a little dog and a cat waiting by the door"
+ },
+ "doctors_rescuers:5": {
+  "type": "photo",
+  "q": "Апгар, Вирджиния",
+  "alt": "Вирджиния Апгар"
+ },
+ "doctors_rescuers:6": {
+  "type": "art",
+  "p": "A team of rescuers in orange uniforms and helmets helping people into a rescue boat on a flooded street, calm and brave"
+ },
+ "cover:animal_heroes": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat standing proudly with a loyal sled dog, a big Saint Bernard and a ship's cat"
+ },
+ "animal_heroes:0": {
+  "type": "photo",
+  "q": "Белка и Стрелка",
+  "alt": "Белка и Стрелка"
+ },
+ "animal_heroes:1": {
+  "type": "photo",
+  "q": "Лайка (собака)",
+  "alt": "Собака Лайка"
+ },
+ "animal_heroes:2": {
+  "type": "photo",
+  "q": "Хатико",
+  "alt": "Пёс Хатико"
+ },
+ "animal_heroes:3": {
+  "type": "photo",
+  "q": "Барри (собака)",
+  "alt": "Сенбернар Барри"
+ },
+ "animal_heroes:4": {
+  "type": "photo",
+  "q": "Балто",
+  "alt": "Пёс Балто"
+ },
+ "animal_heroes:5": {
+  "type": "art",
+  "p": "a brave german shepherd dog with a medal on a harness, standing proudly beside a soldier in an old green uniform, spring field"
+ },
+ "animal_heroes:6": {
+  "type": "art",
+  "p": "a black and white ship cat sitting proudly on the deck of an old navy ship, sailors smiling, sea and gulls"
+ },
+ "cover:fail_to_win": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat climbing a staircase made of crumpled paper drafts toward a shining golden star"
+ },
+ "fail_to_win:0": {
+  "type": "photo",
+  "q": "Дисней, Уолт",
+  "alt": "Уолт Дисней"
+ },
+ "fail_to_win:1": {
+  "type": "photo",
+  "q": "Роулинг, Джоан",
+  "alt": "Джоан Роулинг"
+ },
+ "fail_to_win:2": {
+  "type": "photo",
+  "q": "Джордан, Майкл",
+  "alt": "Майкл Джордан"
+ },
+ "fail_to_win:3": {
+  "type": "photo",
+  "q": "Флеминг, Александр",
+  "alt": "Александр Флеминг"
+ },
+ "fail_to_win:4": {
+  "type": "art",
+  "p": "A cheerful chemist in a lab coat sticking colorful paper notes all over a wall and a book, surprised and pleased"
+ },
+ "fail_to_win:5": {
+  "type": "photo",
+  "q": "Дайсон, Джеймс",
+  "alt": "Джеймс Дайсон"
+ },
+ "fail_to_win:6": {
+  "type": "photo",
+  "q": "Джобс, Стив",
+  "alt": "Стив Джобс"
+ },
+ "cover:kindness": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat handing a glowing heart-shaped lantern to a group of smiling volunteers at dusk"
+ },
+ "kindness:0": {
+  "type": "photo",
+  "q": "Гааз, Фёдор Петрович",
+  "alt": "Доктор Фёдор Гааз"
+ },
+ "kindness:1": {
+  "type": "photo",
+  "q": "Сендлер, Ирена",
+  "alt": "Ирена Сендлер"
+ },
+ "kindness:2": {
+  "type": "art",
+  "p": "A six-year-old boy doing chores at home and dropping coins into a jar, dreaming of a new water well in a sunny village"
+ },
+ "kindness:3": {
+  "type": "art",
+  "p": "A team of kids secretly stacking firewood and carrying water for an elderly neighbor's village house, summer evening"
+ },
+ "kindness:4": {
+  "type": "art",
+  "p": "Volunteers in bright reflective vests with flashlights walking calmly through a forest at dusk, searching together"
+ },
+ "kindness:5": {
+  "type": "art",
+  "p": "A kind smiling man resting in a comfy chair at a donation center, a friendly nurse beside him, heart decorations on the wall"
+ },
+ "kindness:6": {
+  "type": "photo",
+  "q": "Карапетян, Шаварш Владимирович",
+  "alt": "Шаварш Карапетян"
+ },
+ "cover:growth_mindset": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat lifting a tiny dumbbell next to a glowing brain-shaped plant growing new sprouts"
+ },
+ "growth_mindset:0": {
+  "type": "art",
+  "p": "Two kids at desks with the same hard puzzle, one frowning and giving up, the other smiling and trying again with determination"
+ },
+ "growth_mindset:1": {
+  "type": "art",
+  "p": "A girl standing at the start of a winding path up a hill toward a sunny summit, a backpack on her shoulders, hopeful look"
+ },
+ "growth_mindset:2": {
+  "type": "art",
+  "p": "A cute cartoon brain doing push-ups with tiny glowing threads connecting inside it, a cheerful gym setting"
+ },
+ "growth_mindset:3": {
+  "type": "art",
+  "p": "A cyclist team riding together while tiny improvements sparkle around them: a comfy pillow, clean hands, a better saddle"
+ },
+ "growth_mindset:4": {
+  "type": "art",
+  "p": "An inventor child surrounded by many failed little prototypes, holding up one that finally glows, delighted"
+ },
+ "growth_mindset:5": {
+  "type": "art",
+  "p": "A young swimmer on a starting block with eyes closed, imagining the whole race as a glowing dream above the pool"
+ },
+ "growth_mindset:6": {
+  "type": "art",
+  "p": "A child looking into a mirror where a slightly younger version of themselves waves back, proud smile, cozy room"
+ },
+ "growth_mindset:7": {
+  "type": "art",
+  "p": "A child sleeping peacefully in bed while tiny friendly helpers inside a dream bubble neatly stack books on shelves"
+ }
+}

@@ -1,22 +1,28 @@
-/* nav.js — кнопка «←» везде ведёт на предыдущий экран (история переходов).
-   Если истории нет (открыли сразу), работает прежний адрес кнопки. Служебные экраны (вход, концовки дел) пропускаются. */
+/* nav.js — кнопка «←» ведёт в меню, из которого пришли (история хранит только меню и разделы).
+   Экраны заданий, игр, уроков и дел в историю не попадают: из задания «назад» — сразу в меню раздела,
+   а не на прошлое (уже сданное) задание. Если истории нет, работает прежний адрес кнопки. */
 'use strict';
 const Nav = (() => {
   const H = []; let cur = null, back = false;
-  const SKIP = new Set(['hello', 'caseintro', 'casetask', 'accuse', 'solved', 'pauth', 'clogin', 'survey', 'mission']); // экраны дела и миссии — не возвращаемся в закрытые
+  // задания и одноразовые экраны: возвращаться в них нельзя
+  const TASK = new Set(['hello', 'caseintro', 'casetask', 'accuse', 'solved', 'pauth', 'clogin', 'survey', 'mission',
+    'aquiz', 'alesson', 'lesson', 'collesson', 'colwork', 'practice', 'game', 'drill', 'blitz', 'bugs', 'bugs2', 'rescue', 'solar',
+    'citywalk', 'fakenews', 'helpharm', 'bodybuild', 'rpchat', 'visit', 'chat']);
+  const isTask = s => TASK.has(s.n) || (/^(practice2|ideas)$/.test(s.n) && s.a != null && s.a !== '');
+  const eq = (a, b) => a && b && a.n === b.n && String(a.a ?? '') === String(b.a ?? '');
   const g0 = go;
   go = function (name, arg) {
-    const prev = cur, same = prev && prev.n === name && String(prev.a ?? '') === String(arg ?? '');
-    if (!back && prev && !same && !SKIP.has(prev.n)) { H.push(prev); if (H.length > 40) H.shift(); }
-    back = false; cur = { n: name, a: arg }; if (name === 'home') H.length = 0;
+    const prev = cur, next = { n: name, a: arg };
+    if (!back && prev && !eq(prev, next) && !isTask(prev)) { const i = H.findIndex(h => eq(h, prev)); if (i >= 0) H.splice(i); H.push(prev); if (H.length > 30) H.shift(); }
+    back = false; cur = next; if (name === 'home') H.length = 0;
     return g0.apply(this, arguments);
   };
   document.addEventListener('click', e => {
     const b = e.target.closest('.top .back'); if (!b) return;
-    while (H.length && H[H.length - 1].n === (cur && cur.n) && String(H[H.length - 1].a ?? '') === String(cur.a ?? '')) H.pop();
+    while (H.length && eq(H[H.length - 1], cur)) H.pop();
     if (!H.length) return; // нет истории — сработает обычный адрес кнопки
     e.stopImmediatePropagation(); e.preventDefault(); if (typeof SND !== 'undefined') SND.tap();
-    let p = H.pop(); if (/^(casetask|accuse|caseintro)$/.test(p.n) && (typeof CASE === 'undefined' || !CASE)) p = { n: 'newcase' }; back = true; go(p.n, p.a);
+    const p = H.pop(); back = true; go(p.n, p.a);
   }, true);
   return { history: () => H.slice(), current: () => cur };
 })();

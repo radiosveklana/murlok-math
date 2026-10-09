@@ -97,7 +97,7 @@ const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'AC
   ok('galaxy bought + gradient cat', await E(() => S.fur === 'galaxy' && S.furs.includes('galaxy') && myCat().includes('url(#fg-galaxy)') && myCat().includes('furfx')));
 
   /* ---------- отчёт для взрослых + ПИН ---------- */
-  await go('parents'); const ptxt = await E(() => document.querySelector('.page.parents').innerText);
+  await go('parents'); await E(() => UX.showAll()); const ptxt = await E(() => document.querySelector('.page.parents').innerText);
   ok('parents report', !!(await p.$('.coach-rep')) && !/NaN|undefined|\[object/.test(ptxt), (ptxt.match(/NaN|undefined|\[object/) || [''])[0]);
   ok('parents old cards kept', /Облачная копия|Резервная копия|Разговоры с котиком|Где ошибается/.test(ptxt) && !!(await p.$('#reset')) && !!(await p.$('#sndtest')));
   const teenUnits = await E(() => window.SUBJECTS.teen.units.map(u => u.title));

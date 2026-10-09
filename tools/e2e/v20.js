@@ -58,7 +58,7 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V20 OK ' : 'V20 FAIL ')
   for (let k = 0; k < 4; k++) { await p.mouse.move(cv.x + 40 + k * 30, cv.y + 60); await p.mouse.down(); await p.mouse.move(cv.x + 120 + k * 30, cv.y + 160, { steps: 5 }); await p.mouse.up(); }
   await p.type('#dname', 'Которобот'); await click('#dsave'); await sleep(800); ok('drawing saved + share', await E(() => S.ideas[0].mode === 'draw') && !!(await p.$('.ph-big')));
   await E(() => document.querySelectorAll('.modal').forEach(m => m.remove()));
-  await go('parents'); ok('parents see ideas', await E(() => /Идеи и истории ребёнка/.test(document.body.innerText)));
+  await go('parents'); ok('parents see ideas', await E(() => { UX.showAll(); return true; }) && await E(() => /Идеи и истории ребёнка/.test(document.body.innerText)));
 
   /* ---------- вещь на столике ---------- */
   await E(() => { S.furn = (S.furn || []).concat(['table', 'teddy']); S.place = S.place || {}; S.place.living = [{ id: 'table', x: 84, y: 3 }, { id: 'teddy', x: 52, y: 3 }]; S.catAt = S.catAt || {}; S.catAt.living = { x: 6, y: 3 }; save(); }); await go('house', 'living'); await sleep(800);

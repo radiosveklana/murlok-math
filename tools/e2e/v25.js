@@ -11,12 +11,12 @@ const SAVE = { v: 1, kid: 'Кэтика', name: 'Котофей', fur: 'galaxy',
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new' });
   const ctx = await b.createBrowserContext(); const p = await ctx.newPage(); await p.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
   p.on('pageerror', e => errors.push('PAGEERR ' + e.message)); p.on('console', m => { if (m.type() === 'error' && !/favicon|navigator.vibrate|Failed to load resource|CORS|murlok-api|404/.test(m.text())) errors.push('CONSOLE ' + m.text()); });
-  const calls = []; let pendingItems = [];
+  const calls = []; let pendingItems = []; await p.setBypassServiceWorker(true); // на https офлайн-кэш иначе уводит запросы мимо подмены
   await p.setRequestInterception(true);
   const handler = r => {
     const u = r.url(); const H = { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type, authorization' };
-    if (r.method() === 'OPTIONS' && /murlok-api/.test(u)) return r.respond({ status: 204, headers: { ...H, 'access-control-allow-methods': 'GET,POST,OPTIONS' } });
-    const m = u.match(/murlok-api\/(acc\/[a-z\/]+|save|load|tts|chat|friend\/\w+)/); if (!m) return r.continue();
+    if (r.method() === 'OPTIONS' && /murlok-api|tech-wave\.ru\/api/.test(u)) return r.respond({ status: 204, headers: { ...H, 'access-control-allow-methods': 'GET,POST,OPTIONS' } });
+    const m = u.match(/(?:murlok-api|tech-wave\.ru\/api)\/(acc\/[a-z\/]+|save|load|tts|chat|friend\/\w+)/); if (!m) return r.continue();
     const act = m[1], d = JSON.parse(r.postData() || '{}'); calls.push(act + ' ' + (r.postData() || '').slice(0, 80));
     const J = (o, st = 200) => r.respond({ status: st, contentType: 'application/json', headers: H, body: JSON.stringify(o) });
     if (act === 'acc/start') return J({ ok: true, isNew: true });
@@ -60,7 +60,7 @@ const SAVE = { v: 1, kid: 'Кэтика', name: 'Котофей', fur: 'galaxy',
   await E(() => document.querySelectorAll('.modal').forEach(m => m.remove()));
 
   /* ---------- новое устройство без кабинета: облако и друзья закрыты, родитель привязывает ---------- */
-  const ctx2 = await b.createBrowserContext(); const q = await ctx2.newPage(); await q.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true }); await q.setRequestInterception(true);
+  const ctx2 = await b.createBrowserContext(); const q = await ctx2.newPage(); await q.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true }); await q.setBypassServiceWorker(true); await q.setRequestInterception(true);
   q.on('request', handler); q.on('pageerror', e => errors.push('PAGEERR2 ' + e.message));
   await q.goto(URL); await q.waitForSelector('#kid');
   await q.evaluate(s => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), s, { cloudCode: 'DEVICE01' }))); }, SAVE); await q.goto(URL); await sleep(1500);

@@ -1,0 +1,730 @@
+{
+ "world/amazing_animals:0": {
+  "alt": "Гепард в беге",
+  "author": "Mukul2u",
+  "lic": "CC BY 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cheetah_Kruger.jpg",
+  "q": "Гепард"
+ },
+ "world/amazing_animals:1": {
+  "alt": "Сокол сапсан",
+  "author": "Carlos Delgado",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_01.jpg",
+  "q": "Сапсан"
+ },
+ "world/amazing_animals:2": {
+  "alt": "Синий кит",
+  "author": "NOAA Photo Library",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Anim1754_-_Flickr_-_NOAA_Photo_Library.jpg",
+  "q": "Синий кит"
+ },
+ "world/amazing_animals:3": {
+  "alt": "Осьминог",
+  "author": "albert kok",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Octopus2.jpg",
+  "q": "Осьминоги"
+ },
+ "world/amazing_animals:4": {
+  "alt": "Аксолотль",
+  "author": "Stan Shebs",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ambystoma_mexicanum_1.jpg",
+  "q": "Аксолотль"
+ },
+ "world/amazing_animals:5": {
+  "alt": "Африканский страус",
+  "author": "Yathin S Krishnappa",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Struthio_camelus_-_Etosha_2014_(1).jpg",
+  "q": "Африканский страус"
+ },
+ "world/amazing_animals:6": {
+  "alt": "Утконос",
+  "author": "Stefan Kraft",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Platypus.jpg",
+  "q": "Утконос"
+ },
+ "world/plants:2": {
+  "alt": "Гигантские секвойи",
+  "author": "NPS Photo",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Coastal_redwood.jpg",
+  "q": "Секвойя"
+ },
+ "world/plants:3": {
+  "alt": "Борщевик Сосновского",
+  "author": "Popadius",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%91%D0%BE%D1%80%D1%89%D0%B5%D0%B2%D0%B8%D0%BA_%D0%A1%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE.jpg",
+  "q": "Борщевик Сосновского"
+ },
+ "world/plants:4": {
+  "alt": "Бледная поганка",
+  "author": "Amanita_phalloides_1.JPG: User:Archenzo\nderivative work: Ak ccm",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2005-09_Amanita_phalloides_crop.jpg",
+  "q": "Бледная поганка"
+ },
+ "world/plants:5": {
+  "alt": "Одуванчик с парашютиками",
+  "author": "DidierFy",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Taraxacum_officinale_04.2026_(5).jpg",
+  "q": "Одуванчик лекарственный"
+ },
+ "world/weather:0": {
+  "alt": "Радуга над полем",
+  "author": "Guilherme Grudina",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2014_04_24_FOZ_006.jpg",
+  "q": "Радуга"
+ },
+ "world/weather:1": {
+  "alt": "Молния в небе",
+  "author": "U.S. Air Force photo by Edward Aspera Jr.",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Lightning3.jpg",
+  "q": "Молния"
+ },
+ "world/weather:3": {
+  "alt": "Снежинка крупным планом",
+  "author": "Wilson Bentley",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:SnowflakesWilsonBentley.jpg",
+  "q": "Снежинка"
+ },
+ "world/weather:4": {
+  "alt": "Отлив на берегу",
+  "author": "Tttrung",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bay_of_Fundy.jpg",
+  "q": "Приливы и отливы"
+ },
+ "world/weather:5": {
+  "alt": "Полярное сияние",
+  "author": "Ilya Dumin",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Arkhangelsk_Aurora_borealis.jpg",
+  "q": "Полярное сияние"
+ },
+ "world/inventions:1": {
+  "alt": "Александр Лодыгин",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Lodygin.jpg",
+  "q": "Лодыгин, Александр Николаевич"
+ },
+ "world/inventions:5": {
+  "alt": "Изобретатель радио Попов",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Alexander_Stepanovich_Popov.jpg",
+  "q": "Попов, Александр Степанович"
+ },
+ "world/russia_nature:0": {
+  "alt": "Озеро Байкал",
+  "author": "Svetlana Bazykina",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%9C%D1%8B%D1%81_%D0%9B%D1%83%D0%B4%D0%B0%D1%80%D1%8C,_17_%D0%B8%D1%8E%D0%BD%D1%8F_2013_%D0%B3%D0%BE%D0%B4%D0%B0.jpg",
+  "q": "Байкал"
+ },
+ "world/russia_nature:1": {
+  "alt": "Вулкан Ключевская Сопка",
+  "author": "Wikimedia Commons",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Klyuchevskoi.jpg",
+  "q": "Ключевская Сопка"
+ },
+ "world/russia_nature:2": {
+  "alt": "Гора Эльбрус",
+  "author": "JukoFF",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Mount_Elbrus_May_2008.jpg",
+  "q": "Эльбрус"
+ },
+ "world/russia_nature:3": {
+  "alt": "Тайга",
+  "author": "Diego Delso",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ca%C3%B1%C3%B3n_Miles,_Yuk%C3%B3n,_Canad%C3%A1,_2017-08-26,_DD_133.jpg",
+  "q": "Тайга"
+ },
+ "world/russia_nature:4": {
+  "alt": "Амурский тигр",
+  "author": "Appaloosa",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:P.t.altaica_Tomak_Male.jpg",
+  "q": "Амурский тигр"
+ },
+ "world/russia_nature:5": {
+  "alt": "Баргузинский заповедник",
+  "author": "Alphatetia",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%91%D0%B0%D1%80%D0%B3%D1%83%D0%B7%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%B7%D0%B0%D0%BF%D0%BE%D0%B2%D0%B5%D0%B4%D0%BD%D0%B8%D0%BA-2.jpg",
+  "q": "Баргузинский заповедник"
+ },
+ "space/sun_system:0": {
+  "alt": "Солнце — наша звезда",
+  "author": "Geoff Elston",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sun_white.jpg",
+  "q": "Солнце"
+ },
+ "space/sun_system:4": {
+  "alt": "Карликовая планета Плутон",
+  "author": "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Inst",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Pluto_in_True_Color_-_High-Res.jpg",
+  "q": "Плутон"
+ },
+ "space/rocky_planets:0": {
+  "alt": "Планеты земной группы",
+  "author": "wikipedia user Brian0918",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Terrestrial_planet_size_comparisons.jpg",
+  "q": "Планеты земной группы"
+ },
+ "space/rocky_planets:1": {
+  "alt": "Меркурий",
+  "author": "NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Mercury_in_color_-_Prockter07_centered.jpg",
+  "q": "Меркурий"
+ },
+ "space/rocky_planets:2": {
+  "alt": "Венера",
+  "author": "NASA/JPL-Caltech",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Venus_from_Mariner_10.jpg",
+  "q": "Венера"
+ },
+ "space/rocky_planets:3": {
+  "alt": "Земля из космоса",
+  "author": "EUMETSAT",
+  "lic": "Attribution",
+  "page": "https://commons.wikimedia.org/wiki/File:Meteosat-12-fci-march-equinox-2025-noon.jpg",
+  "q": "Земля"
+ },
+ "space/rocky_planets:4": {
+  "alt": "Красная планета Марс",
+  "author": "Mars_Valles_Marineris.jpeg: NASA picture\nderivative work: Lošmi (talk)",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Mars_Valles_Marineris_EDIT.jpg",
+  "q": "Марс"
+ },
+ "space/rocky_planets:5": {
+  "alt": "Спутник Марса Фобос",
+  "author": "NASA/JPL-Caltech/University of Arizona",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:221831main_PIA10368.png",
+  "q": "Фобос"
+ },
+ "space/giant_planets:0": {
+  "alt": "Планеты-гиганты",
+  "author": "NASA, ESA, and A. Simon (Goddard Space Flight Center)",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Jupiter_and_its_shrunken_Great_Red_Spot.jpg",
+  "q": "Планета-гигант"
+ },
+ "space/giant_planets:1": {
+  "alt": "Юпитер и Большое Красное Пятно",
+  "author": "NASA / JPL / Björn Jónsson",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Jupiter_from_Voyager_2.jpg",
+  "q": "Юпитер"
+ },
+ "space/giant_planets:2": {
+  "alt": "Ганимед, спутник Юпитера",
+  "author": "NASA/JPL-Caltech/SwRI/MSSS/Kevin M. Gill",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ganymede_-_Perijove_34_Composite.png",
+  "q": "Ганимед (спутник)"
+ },
+ "space/giant_planets:3": {
+  "alt": "Сатурн и его кольца",
+  "author": "NASA / JPL-Caltech / SSI / color composite by Gordan Ugarkovic",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Saturn_global_view_from_Cassini,_rings_open_Better_Colour.png",
+  "q": "Сатурн"
+ },
+ "space/giant_planets:5": {
+  "alt": "Планета Нептун",
+  "author": "NASA / Voyager 2 / PDS / OPUS / Ardenau4",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Neptune_Voyager2_color_calibrated.png",
+  "q": "Нептун"
+ },
+ "space/moon:0": {
+  "alt": "Полная Луна",
+  "author": "Gregory H. Revera",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:FullMoon2010.jpg",
+  "q": "Луна"
+ },
+ "space/moon:3": {
+  "alt": "Станция «Луна-3»",
+  "author": "Armael",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Luna-3_(Memorial_Museum_of_Astronautics).JPG",
+  "q": "Луна-3"
+ },
+ "space/moon:4": {
+  "alt": "Солнечное затмение",
+  "author": "Luc Viatour",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Solar_eclipse_1999_4.jpg",
+  "q": "Солнечное затмение"
+ },
+ "space/moon:6": {
+  "alt": "Нил Армстронг",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Neil_Armstrong_pose.jpg",
+  "q": "Армстронг, Нил"
+ },
+ "space/stars:5": {
+  "alt": "Полярная звезда",
+  "author": "NASA/HST",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Polaris_alpha_ursae_minoris.jpg",
+  "q": "Полярная звезда"
+ },
+ "space/comets:0": {
+  "alt": "Комета с хвостом",
+  "author": "NASA/JPL-Caltech/UMD",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Deep_Impact_HRI.jpeg",
+  "q": "Комета"
+ },
+ "space/comets:2": {
+  "alt": "Комета Галлея",
+  "author": "NASA/W. Liller",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Lspn_comet_halley.jpg",
+  "q": "Комета Галлея"
+ },
+ "space/comets:3": {
+  "alt": "Астероид",
+  "author": "NASA/JPL-Caltech/JAXA/ESA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Asteroidsscale.jpg",
+  "q": "Астероид"
+ },
+ "space/comets:5": {
+  "alt": "Челябинский метеорит",
+  "author": "Vsatinet",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%A7%D0%B5%D0%BB%D1%8F%D0%B1%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%BC%D0%B5%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%82_%D0%B2_%D0%AE%D0%A3_%D0%B8%D1%81%D1%82%D0%BE%D1%80._%D0%BC%D1%83%D0%B7%D0%B5%D0%B5_02.jpg",
+  "q": "Челябинский метеорит"
+ },
+ "space/cosmonauts:0": {
+  "alt": "Первый искусственный спутник",
+  "author": "Korolev",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Sputnik-1.jpg",
+  "q": "Спутник-1"
+ },
+ "space/cosmonauts:1": {
+  "alt": "Юрий Гагарин",
+  "author": "Александр Моклецов / СовИнформБюро",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Yuri_Gagarin_with_awards.jpg",
+  "q": "Гагарин, Юрий Алексеевич"
+ },
+ "space/cosmonauts:2": {
+  "alt": "Валентина Терешкова",
+  "author": "Mikhail Klimentev",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Valentina_Tereshkova_(2017-03-06).jpg",
+  "q": "Терешкова, Валентина Владимировна"
+ },
+ "space/cosmonauts:3": {
+  "alt": "Алексей Леонов",
+  "author": "This image or video was catalogued by Lyndon B. Johnson Space Center of the Unit",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Alexei_Leonov.jpg",
+  "q": "Леонов, Алексей Архипович"
+ },
+ "space/cosmonauts:4": {
+  "alt": "Луноход-1",
+  "author": "Petar Milošević",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Soviet_moonrover.JPG",
+  "q": "Луноход-1"
+ },
+ "space/cosmonauts:5": {
+  "alt": "МКС на орбите",
+  "author": "NASA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:The_station_pictured_from_the_SpaceX_Crew_Dragon_5_(cropped).jpg",
+  "q": "Международная космическая станция"
+ },
+ "space/universe:1": {
+  "alt": "Галактика Млечный Путь",
+  "author": "NASA/JPL-Caltech/ESO/R. Hurt",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Artist%E2%80%99s_impression_of_the_Milky_Way.jpg",
+  "q": "Млечный Путь"
+ },
+ "space/universe:5": {
+  "alt": "Галактика Андромеды",
+  "author": "Adam Evans",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Andromeda_Galaxy_(with_h-alpha).jpg",
+  "q": "Галактика Андромеды"
+ },
+ "stories/scientists:0": {
+  "alt": "Михаил Ломоносов",
+  "author": "Wortmann Christian-Albert, Fessard Etienne",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Mikhail_Lomonosov_(1757).jpg",
+  "q": "Ломоносов, Михаил Васильевич"
+ },
+ "stories/scientists:1": {
+  "alt": "Дмитрий Менделеев",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:DIMendeleevCab.jpg",
+  "q": "Менделеев, Дмитрий Иванович"
+ },
+ "stories/scientists:2": {
+  "alt": "Мария Склодовская-Кюри",
+  "author": "Fotograv. - Generalstabens Litografiska Anstalt Stockholm",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Curie-nobel-portrait-2-600.jpg",
+  "q": "Склодовская-Кюри, Мария"
+ },
+ "stories/scientists:3": {
+  "alt": "Томас Эдисон",
+  "author": "Louis Bachrach, Bachrach Studios, restored by Michel Vuijlsteke",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Thomas_Edison2.jpg",
+  "q": "Эдисон, Томас"
+ },
+ "stories/scientists:4": {
+  "alt": "Никола Тесла",
+  "author": "The Nikola Tesla Museum",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nikola_Tesla_1933.png",
+  "q": "Тесла, Никола"
+ },
+ "stories/scientists:5": {
+  "alt": "Константин Циолковский",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D0%B0%D0%BD%D1%82%D0%B8%D0%BD_%D0%A6%D0%B8%D0%BE%D0%BB%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9.jpg",
+  "q": "Циолковский, Константин Эдуардович"
+ },
+ "stories/scientists:6": {
+  "alt": "Александр Попов",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Alexander_Stepanovich_Popov.jpg",
+  "q": "Попов, Александр Степанович"
+ },
+ "stories/space_travel:0": {
+  "alt": "Юрий Гагарин",
+  "author": "Александр Моклецов / СовИнформБюро",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Yuri_Gagarin_with_awards.jpg",
+  "q": "Гагарин, Юрий Алексеевич"
+ },
+ "stories/space_travel:1": {
+  "alt": "Валентина Терешкова",
+  "author": "Mikhail Klimentev",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Valentina_Tereshkova_(2017-03-06).jpg",
+  "q": "Терешкова, Валентина Владимировна"
+ },
+ "stories/space_travel:2": {
+  "alt": "Сергей Королёв",
+  "author": "Unknown authorUnknown author",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%9D%D0%B8%D0%BD%D0%B0_%D0%B8_%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9_%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D0%B5%D0%B2%D1%8B_(cropped).jpg",
+  "q": "Королёв, Сергей Павлович"
+ },
+ "stories/space_travel:3": {
+  "alt": "Алексей Леонов",
+  "author": "This image or video was catalogued by Lyndon B. Johnson Space Center of the Unit",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Alexei_Leonov.jpg",
+  "q": "Леонов, Алексей Архипович"
+ },
+ "stories/space_travel:4": {
+  "alt": "Нил Армстронг",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Neil_Armstrong_pose.jpg",
+  "q": "Армстронг, Нил"
+ },
+ "stories/space_travel:5": {
+  "alt": "Светлана Савицкая",
+  "author": "Mikhail Klimentyev / Russian Presidential Press and Information Office",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Svetlana_Savitskaya,_7_December_2018.jpg",
+  "q": "Савицкая, Светлана Евгеньевна"
+ },
+ "stories/space_travel:6": {
+  "alt": "Фёдор Конюхов",
+  "author": "Dmitry Rozhkov",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fyodor_Konyukhov_2.jpg",
+  "q": "Конюхов, Фёдор Филиппович"
+ },
+ "stories/kids_heroes:0": {
+  "alt": "Вольфганг Амадей Моцарт",
+  "author": "Barbara Krafft",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Wolfgang-amadeus-mozart_1.jpg",
+  "q": "Моцарт, Вольфганг Амадей"
+ },
+ "stories/kids_heroes:1": {
+  "alt": "Луи Брайль",
+  "author": "Henri Thiriat",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Engraving_of_Louis_Braille_by_Henri_Thiriat_(cropped).jpg",
+  "q": "Брайль, Луи"
+ },
+ "stories/kids_heroes:2": {
+  "alt": "Блез Паскаль",
+  "author": "unknown; a copy of the painting of François II Quesnel, which was made for Gérar",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Blaise_Pascal_Versailles.JPG",
+  "q": "Паскаль, Блез"
+ },
+ "stories/writers_artists:0": {
+  "alt": "Александр Пушкин",
+  "author": "Orest Kiprensky",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Kiprensky_Pushkin.jpg",
+  "q": "Пушкин, Александр Сергеевич"
+ },
+ "stories/writers_artists:1": {
+  "alt": "Лев Толстой",
+  "author": "Sergei Prokudin-Gorskii",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:L.N.Tolstoy_Prokudin-Gorsky_(cropped).jpg",
+  "q": "Толстой, Лев Николаевич"
+ },
+ "stories/writers_artists:2": {
+  "alt": "Агния Барто",
+  "author": "Главархив Москвы",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Agniya_Barto_1969_(cropped).jpg",
+  "q": "Барто, Агния Львовна"
+ },
+ "stories/writers_artists:3": {
+  "alt": "Корней Чуковский",
+  "author": "mos.ru / Главархив Москвы",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chukovsky_1958_02_(cropped).jpg",
+  "q": "Чуковский, Корней Иванович"
+ },
+ "stories/writers_artists:4": {
+  "alt": "Винсент Ван Гог",
+  "author": "Vincent van Gogh",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:VanGogh_1887_Selbstbildnis.jpg",
+  "q": "Ван Гог, Винсент"
+ },
+ "stories/writers_artists:5": {
+  "alt": "«Утро в сосновом лесу»",
+  "author": "Ivan Shishkin / Konstantin Savitsky",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Shishkin,_Ivan_-_Morning_in_a_Pine_Forest.jpg",
+  "q": "Утро в сосновом лесу"
+ },
+ "stories/writers_artists:6": {
+  "alt": "Иван Айвазовский",
+  "author": "Ivan Aivazovsky",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Aivazovsky_-_Self-portrait_1874.jpg",
+  "q": "Айвазовский, Иван Константинович"
+ },
+ "stories/sport_heroes:0": {
+  "alt": "Ирина Роднина",
+  "author": "duma.gov.ru",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Irina_Rodnina_2018.jpg",
+  "q": "Роднина, Ирина Константиновна"
+ },
+ "stories/sport_heroes:1": {
+  "alt": "Лев Яшин",
+  "author": "Kroon, Ron for Anefo",
+  "lic": "CC BY-SA 3.0 nl",
+  "page": "https://commons.wikimedia.org/wiki/File:Lev_Yashin.jpg",
+  "q": "Яшин, Лев Иванович"
+ },
+ "stories/sport_heroes:2": {
+  "alt": "Усэйн Болт",
+  "author": "Fernando Frazão/Agência Brasil",
+  "lic": "CC BY 3.0 br",
+  "page": "https://commons.wikimedia.org/wiki/File:Bolt_conquista_tricampeonato_tamb%C3%A9m_nos_200_metros_1038888-18.08.2016_ffz-8336.jpg",
+  "q": "Болт, Усэйн"
+ },
+ "stories/sport_heroes:3": {
+  "alt": "Вилма Рудольф",
+  "author": "Henk Lindeboom / Anefo",
+  "lic": "CC BY-SA 3.0 nl",
+  "page": "https://commons.wikimedia.org/wiki/File:Wilma_Rudolph_(1960).jpg",
+  "q": "Рудольф, Вилма"
+ },
+ "stories/sport_heroes:4": {
+  "alt": "Майкл Фелпс",
+  "author": "Agência Brasil Fotografias",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Michael_Phelps_August_2016.jpg",
+  "q": "Фелпс, Майкл"
+ },
+ "stories/sport_heroes:5": {
+  "alt": "Олеся Владыкина",
+  "author": "BorgerAlexey",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%A0%D1%83%D1%82%D0%B1%D0%B5%D1%80%D0%B3_%D0%AE%D0%BB%D0%B8%D1%8F_%D0%98%D0%BB%D1%8C%D0%B8%D0%BD%D0%B8%D1%87%D0%BD%D0%B0.jpg",
+  "q": "Владыкина, Олеся Олеговна"
+ },
+ "stories/doctors_rescuers:0": {
+  "alt": "Николай Пирогов",
+  "author": "Ilya Repin",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Ilya_Repin_Portrait_of_the_Surgeon_Nikolay_Pirogov_1881.jpg",
+  "q": "Пирогов, Николай Иванович"
+ },
+ "stories/doctors_rescuers:1": {
+  "alt": "Флоренс Найтингейл",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Florence_Nightingale.jpg",
+  "q": "Найтингейл, Флоренс"
+ },
+ "stories/doctors_rescuers:2": {
+  "alt": "Эдвард Дженнер",
+  "author": "Wikimedia Commons",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Edward_Jenner._Oil_painting._Wellcome_V0023503.jpg",
+  "q": "Дженнер, Эдвард"
+ },
+ "stories/doctors_rescuers:3": {
+  "alt": "Луи Пастер",
+  "author": "Paul Nadar",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Louis_Pasteur_(1822_-_1895),_microbiologist_and_chemist_Wellcome_V0026980.jpg",
+  "q": "Пастер, Луи"
+ },
+ "stories/doctors_rescuers:5": {
+  "alt": "Вирджиния Апгар",
+  "author": "March of Dimes",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Virginia-Apgar-July-6-1959.jpg",
+  "q": "Апгар, Вирджиния"
+ },
+ "stories/animal_heroes:0": {
+  "alt": "Белка и Стрелка",
+  "author": "Музей космонавтики / Главархив Москвы",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Belka_and_Strelka.jpg",
+  "q": "Белка и Стрелка"
+ },
+ "stories/animal_heroes:1": {
+  "alt": "Собака Лайка",
+  "author": "Музей космонавтики / Главархив Москвы",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Laika_in_1957.jpg",
+  "q": "Лайка (собака)"
+ },
+ "stories/animal_heroes:2": {
+  "alt": "Пёс Хатико",
+  "author": "Unknown",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Faithful_Dog_Hachiko_Photo.png",
+  "q": "Хатико"
+ },
+ "stories/animal_heroes:3": {
+  "alt": "Сенбернар Барри",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Barry_the_rescue_dog.jpg",
+  "q": "Барри (собака)"
+ },
+ "stories/animal_heroes:4": {
+  "alt": "Пёс Балто",
+  "author": "Brown Brothers",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Gunnar_Kaasen_with_Balto.jpg",
+  "q": "Балто"
+ },
+ "stories/fail_to_win:0": {
+  "alt": "Уолт Дисней",
+  "author": "Boy Scouts of America",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Walt_Disney_1946.JPG",
+  "q": "Дисней, Уолт"
+ },
+ "stories/fail_to_win:1": {
+  "alt": "Джоан Роулинг",
+  "author": "Daniel Ogren",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:J._K._Rowling_2010.jpg",
+  "q": "Роулинг, Джоан"
+ },
+ "stories/fail_to_win:2": {
+  "alt": "Майкл Джордан",
+  "author": "DOD photo by D. Myles Cullen",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Michael_Jordan_in_2014.jpg",
+  "q": "Джордан, Майкл"
+ },
+ "stories/fail_to_win:3": {
+  "alt": "Александр Флеминг",
+  "author": "Official photographer",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Synthetic_Production_of_Penicillin_TR1468.jpg",
+  "q": "Флеминг, Александр"
+ },
+ "stories/fail_to_win:5": {
+  "alt": "Джеймс Дайсон",
+  "author": "Royal Society uploader",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sir_James_Dyson_CBE_FREng_FRS.jpg",
+  "q": "Дайсон, Джеймс"
+ },
+ "stories/fail_to_win:6": {
+  "alt": "Стив Джобс",
+  "author": "Matthew Yohe (talk)",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Steve_Jobs_Headshot_2010-CROP.jpg",
+  "q": "Джобс, Стив"
+ },
+ "stories/kindness:0": {
+  "alt": "Доктор Фёдор Гааз",
+  "author": "Кунилакис К.",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F._%D0%93%D0%B0%D0%B0%D0%B7_%D0%A4%D0%B5%D0%B4%D0%BE%D1%80_%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D0%B8%D1%87._%D0%B8%D0%B7%D0%B4.~%D0%BA%D0%BE%D0%BDXIX%D0%B2_%D0%93%D0%98%D0%9C_e2t3.jpg",
+  "q": "Гааз, Фёдор Петрович"
+ },
+ "stories/kindness:1": {
+  "alt": "Ирена Сендлер",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Irena_Sendlerowa_1942.jpg",
+  "q": "Сендлер, Ирена"
+ },
+ "stories/kindness:6": {
+  "alt": "Шаварш Карапетян",
+  "author": "Канал Люди",
+  "lic": "CC BY 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Shavarsh_Karapetyan_2014.jpg",
+  "q": "Карапетян, Шаварш Владимирович"
+ },
+ "space/giant_planets:4": {
+  "alt": "Планета Уран",
+  "author": "Ardenau4",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Uranus_Voyager2_color_calibrated.png",
+  "q": "Уран (планета)"
+ }
+}

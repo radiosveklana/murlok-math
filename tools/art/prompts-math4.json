@@ -1,0 +1,338 @@
+{
+ "cover:million_read": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat gazing at a gigantic heap of shiny round candies stretching to the horizon, amazed by how many there are"
+ },
+ "million_read:0": {
+  "type": "none"
+ },
+ "million_read:1": {
+  "type": "none"
+ },
+ "million_read:2": {
+  "type": "none"
+ },
+ "million_read:3": {
+  "type": "none"
+ },
+ "million_read:4": {
+  "type": "none"
+ },
+ "million_read:5": {
+  "type": "none"
+ },
+ "cover:million_compare": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat weighing two towers of wooden building blocks of different heights on a big balance scale"
+ },
+ "million_compare:0": {
+  "type": "none"
+ },
+ "million_compare:1": {
+  "type": "none"
+ },
+ "million_compare:2": {
+  "type": "none"
+ },
+ "million_compare:3": {
+  "type": "none"
+ },
+ "million_compare:4": {
+  "type": "none"
+ },
+ "cover:more_less": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat standing between a tiny stack of cookies and a huge stack of cookies, comparing them with a magnifying glass"
+ },
+ "more_less:0": {
+  "type": "none"
+ },
+ "more_less:1": {
+  "type": "none"
+ },
+ "more_less:2": {
+  "type": "none"
+ },
+ "more_less:3": {
+  "type": "none"
+ },
+ "cover:length_mass": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat measuring a long ribbon with a wooden ruler next to a kitchen scale holding a basket of apples"
+ },
+ "length_mass:0": {
+  "type": "none"
+ },
+ "length_mass:1": {
+  "type": "none"
+ },
+ "length_mass:2": {
+  "type": "none"
+ },
+ "length_mass:3": {
+  "type": "none"
+ },
+ "length_mass:4": {
+  "type": "none"
+ },
+ "cover:time": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding a pocket watch with blank face next to an hourglass and a big wall clock without any numbers"
+ },
+ "time:0": {
+  "type": "none"
+ },
+ "time:1": {
+  "type": "none"
+ },
+ "time:2": {
+  "type": "none"
+ },
+ "time:3": {
+  "type": "none"
+ },
+ "time:4": {
+  "type": "none"
+ },
+ "cover:area_units": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat covering a garden plot with square tiles of grass, laying them in neat rows"
+ },
+ "area_units:0": {
+  "type": "none"
+ },
+ "area_units:1": {
+  "type": "none"
+ },
+ "area_units:2": {
+  "type": "none"
+ },
+ "area_units:3": {
+  "type": "none"
+ },
+ "area_units:4": {
+  "type": "none"
+ },
+ "cover:part_qty": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat cutting a round cake into equal slices while an hourglass flows on the table"
+ },
+ "part_qty:0": {
+  "type": "none"
+ },
+ "part_qty:1": {
+  "type": "none"
+ },
+ "part_qty:2": {
+  "type": "none"
+ },
+ "part_qty:3": {
+  "type": "none"
+ },
+ "cover:round_mul": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat stacking crates of ten apples each into a big tidy pyramid in a market"
+ },
+ "round_mul:0": {
+  "type": "none"
+ },
+ "round_mul:1": {
+  "type": "none"
+ },
+ "round_mul:2": {
+  "type": "none"
+ },
+ "round_mul:3": {
+  "type": "none"
+ },
+ "round_mul:4": {
+  "type": "none"
+ },
+ "cover:remainder": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat packing cupcakes into boxes, with a couple of extra cupcakes left over on the table"
+ },
+ "remainder:0": {
+  "type": "none"
+ },
+ "remainder:1": {
+  "type": "none"
+ },
+ "remainder:2": {
+  "type": "none"
+ },
+ "remainder:3": {
+  "type": "none"
+ },
+ "remainder:4": {
+  "type": "none"
+ },
+ "cover:order_ops": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat directing small toy blocks through a traffic light, waiting in a neat line"
+ },
+ "order_ops:0": {
+  "type": "none"
+ },
+ "order_ops:1": {
+  "type": "none"
+ },
+ "order_ops:2": {
+  "type": "none"
+ },
+ "order_ops:3": {
+  "type": "none"
+ },
+ "order_ops:4": {
+  "type": "none"
+ },
+ "cover:props": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat swapping colorful candy jars on two shelves, rearranging them while the total stays the same"
+ },
+ "props:0": {
+  "type": "none"
+ },
+ "props:1": {
+  "type": "none"
+ },
+ "props:2": {
+  "type": "none"
+ },
+ "props:3": {
+  "type": "none"
+ },
+ "props:4": {
+  "type": "none"
+ },
+ "cover:motion": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat riding a red scooter along a winding road with milestones, a stopwatch hanging from the handlebar"
+ },
+ "motion:0": {
+  "type": "none"
+ },
+ "motion:1": {
+  "type": "none"
+ },
+ "motion:2": {
+  "type": "none"
+ },
+ "motion:3": {
+  "type": "none"
+ },
+ "motion:4": {
+  "type": "none"
+ },
+ "cover:motion_two": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat and a raccoon friend walking toward each other from two houses along a straight country road"
+ },
+ "motion_two:0": {
+  "type": "none"
+ },
+ "motion_two:1": {
+  "type": "none"
+ },
+ "motion_two:2": {
+  "type": "none"
+ },
+ "motion_two:3": {
+  "type": "none"
+ },
+ "motion_two:4": {
+  "type": "none"
+ },
+ "cover:work": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat and a raccoon baker making gingerbread cookies together in a busy cozy bakery"
+ },
+ "work:0": {
+  "type": "none"
+ },
+ "work:1": {
+  "type": "none"
+ },
+ "work:2": {
+  "type": "none"
+ },
+ "work:3": {
+  "type": "none"
+ },
+ "cover:buy": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat buying cupcakes at a sweet shop counter, paying with coins to a friendly bear shopkeeper"
+ },
+ "buy:0": {
+  "type": "none"
+ },
+ "buy:1": {
+  "type": "none"
+ },
+ "buy:2": {
+  "type": "none"
+ },
+ "buy:3": {
+  "type": "none"
+ },
+ "cover:part_num": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat dividing a big bowl of candies into equal piles for a group of animal friends"
+ },
+ "part_num:0": {
+  "type": "none"
+ },
+ "part_num:1": {
+  "type": "none"
+ },
+ "part_num:2": {
+  "type": "none"
+ },
+ "part_num:3": {
+  "type": "none"
+ },
+ "part_num:4": {
+  "type": "none"
+ },
+ "cover:shapes": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat surrounded by a ball, a cube, a cylinder can and an ice cream cone, studying them with a magnifying glass"
+ },
+ "shapes:0": {
+  "type": "none"
+ },
+ "shapes:1": {
+  "type": "none"
+ },
+ "shapes:2": {
+  "type": "none"
+ },
+ "shapes:3": {
+  "type": "none"
+ },
+ "shapes:4": {
+  "type": "none"
+ },
+ "shapes:5": {
+  "type": "none"
+ },
+ "cover:data_logic": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat at a detective board with colorful bar charts made of candy columns and suspect animal portraits connected by string"
+ },
+ "data_logic:0": {
+  "type": "none"
+ },
+ "data_logic:1": {
+  "type": "none"
+ },
+ "data_logic:2": {
+  "type": "none"
+ },
+ "data_logic:3": {
+  "type": "none"
+ },
+ "data_logic:4": {
+  "type": "none"
+ }
+}

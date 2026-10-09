@@ -31,13 +31,18 @@ SCREENS.academy = () => {
 };
 
 /* ================= предмет ================= */
+/* картинки Академии: иллюстрации и настоящие фото (content/extra/art.js); нет картинки — остаётся эмодзи */
+const ART = k => (window.ACAD_ART || {})[k];
+function artFig(k, pic) { const a = ART(k); if (!a) return pic ? `<div class="card-pic">${pic}</div>` : '';
+  return `<figure class="art-fig ${a.cr ? 'photo' : ''}"><img src="${a.f}" alt="${esc(a.alt || '')}" loading="lazy" decoding="async" onerror="this.parentNode.remove()">${a.cr ? `<figcaption>${esc(a.alt || '')}<small>${esc(a.cr)}</small></figcaption>` : ''}</figure>`; }
+function artCover(id, u) { const a = ART(id + '/cover:' + u.id); return a ? `<span class="ui ui-art"><img src="${a.f}" alt="" loading="lazy" decoding="async"><i>${u.icon}</i></span>` : `<span class="ui">${u.icon}</span>`; }
 SCREENS.subject = id => {
   const s = subj(id); if (!s) return go('academy'); const a = acad(id), due = dueMistakes(id).length;
   const anyRead = s.units.some(u => a.read[u.id]);
   app.innerHTML = `${topbar(s.icon + ' ' + s.name, id === 'math4' ? 'school' : 'academy')}<div class="page subj" style="--c:${s.color}">
     <div class="subj-intro">${s.intro}</div>
     <div class="row-btns">${due ? `<button class="btn pink" id="rev">🔁 Разбор ошибок (${due})</button>` : ''}${anyRead ? '<button class="btn" id="mix">🎲 Смешанная тренировка <small class="xbadge">🍬×2</small></button>' : ''}${s.search ? '<button class="btn" id="srch">🔎 Найти ответ</button>' : ''}${(s.extras || []).map(e => { let r = ''; try { r = e.badge ? e.badge() : ''; } catch (er) { } return `<button class="btn" data-x="${e.id}">${e.icon} ${e.name}${r ? ` <small class="xbadge">${r}</small>` : ''}</button>`; }).join('')}</div>
-    <div class="units">${s.units.map((u, i) => { const st = a.best[u.id] || 0; return `<div class="unit ${a.read[u.id] ? 'read' : ''}"><span class="ui">${u.icon}</span><div class="ut"><b>${i + 1}. ${u.title}</b><small>${u.sub || ''}</small><span class="stars">${'★'.repeat(st)}${'☆'.repeat(3 - st)}</span></div><div class="ub"><button class="btn sm" data-l="${u.id}">📖 Учебник${a.read[u.id] ? ' ✔' : ''}</button>${u.quiz && u.quiz.length ? `<button class="btn sm pink" data-q="${u.id}">🎯 Тренажёр</button>` : ''}</div></div>`; }).join('')}</div></div>`;
+    <div class="units">${s.units.map((u, i) => { const st = a.best[u.id] || 0; return `<div class="unit ${a.read[u.id] ? 'read' : ''}">${artCover(id, u)}<div class="ut"><b>${i + 1}. ${u.title}</b><small>${u.sub || ''}</small><span class="stars">${'★'.repeat(st)}${'☆'.repeat(3 - st)}</span></div><div class="ub"><button class="btn sm" data-l="${u.id}">📖 Учебник${a.read[u.id] ? ' ✔' : ''}</button>${u.quiz && u.quiz.length ? `<button class="btn sm pink" data-q="${u.id}">🎯 Тренажёр</button>` : ''}</div></div>`; }).join('')}</div></div>`;
   $$('[data-l]', app).forEach(b => b.addEventListener('click', () => { SND.tap(); go('alesson', id + ':' + b.dataset.l); }));
   $$('[data-q]', app).forEach(b => b.addEventListener('click', () => { SND.tap(); go('aquiz', id + ':' + b.dataset.q); }));
   $('#rev')?.addEventListener('click', () => { SND.tap(); go('aquiz', id + ':*review'); });
@@ -69,7 +74,7 @@ SCREENS.alesson = arg => {
   $('.back', app).dataset.go = 'subject'; $('.back', app).dataset.arg = id;
   const draw = () => {
     const c = u.cards[i];
-    $('#slide').innerHTML = `<div class="slide-head"><div class="mini-cat">${myCat({ cls: 'mini' })}</div><h2>${c.t}</h2></div>${c.pic ? `<div class="card-pic">${c.pic}</div>` : ''}<div class="story">${c.h}</div>${c.tip ? `<div class="rule">💡 ${c.tip}</div>` : ''}<div class="row-btns"><button class="btn sm ghost" id="readit">🔊 Прочитай мне</button></div>`;
+    $('#slide').innerHTML = `<div class="slide-head"><div class="mini-cat">${myCat({ cls: 'mini' })}</div><h2>${c.t}</h2></div>${artFig(id + '/' + uid + ':' + i, c.pic)}<div class="story">${c.h}</div>${c.tip ? `<div class="rule">💡 ${c.tip}</div>` : ''}<div class="row-btns"><button class="btn sm ghost" id="readit">🔊 Прочитай мне</button></div>`;
     $$('.dots i').forEach((d, k) => d.classList.toggle('on', k === i));
     $('#prev').style.visibility = i ? 'visible' : 'hidden';
     $('#next').textContent = i < u.cards.length - 1 ? 'Дальше →' : (u.quiz && u.quiz.length ? '🎯 К тренажёру!' : '✔ Понятно!');

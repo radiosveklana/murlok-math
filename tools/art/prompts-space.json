@@ -1,0 +1,297 @@
+{
+ "cover:sun_system": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat floating in a little spacesuit, watching colorful planets circle a glowing friendly Sun"
+ },
+ "sun_system:0": {
+  "type": "photo",
+  "q": "Солнце",
+  "alt": "Солнце — наша звезда"
+ },
+ "sun_system:1": {
+  "type": "art",
+  "p": "A gigantic glowing Sun beside a tiny blue Earth the size of a pea, showing how enormous our star is, deep starry space"
+ },
+ "sun_system:2": {
+  "type": "art",
+  "p": "the Sun in the center with eight colorful planets on glowing orbit rings around it, deep starry space, wide view"
+ },
+ "sun_system:3": {
+  "type": "art",
+  "p": "Eight planets lined up in a row from a blazing Sun outward, each with its own color, ringed Saturn standing out, starry background"
+ },
+ "sun_system:4": {
+  "type": "photo",
+  "q": "Плутон",
+  "alt": "Карликовая планета Плутон"
+ },
+ "sun_system:5": {
+  "type": "art",
+  "p": "A glowing beam of sunlight racing across dark space from the Sun toward a small blue Earth, a tiny stopwatch floating along"
+ },
+ "sun_system:6": {
+  "type": "art",
+  "p": "A child wearing special dark solar viewing glasses looking at the sky with a careful adult on a sunny rooftop"
+ },
+ "cover:rocky_planets": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat and spacesuit hopping between four rocky planets, the red one dusty, the blue one with clouds"
+ },
+ "rocky_planets:0": {
+  "type": "photo",
+  "q": "Планеты земной группы",
+  "alt": "Планеты земной группы"
+ },
+ "rocky_planets:1": {
+  "type": "photo",
+  "q": "Меркурий",
+  "alt": "Меркурий"
+ },
+ "rocky_planets:2": {
+  "type": "photo",
+  "q": "Венера",
+  "alt": "Венера"
+ },
+ "rocky_planets:3": {
+  "type": "photo",
+  "q": "Земля",
+  "alt": "Земля из космоса"
+ },
+ "rocky_planets:4": {
+  "type": "photo",
+  "q": "Марс",
+  "alt": "Красная планета Марс"
+ },
+ "rocky_planets:5": {
+  "type": "photo",
+  "q": "Фобос",
+  "alt": "Спутник Марса Фобос"
+ },
+ "cover:giant_planets": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat riding a little rocket past giant striped Jupiter and ringed Saturn, blue planets glowing far away"
+ },
+ "giant_planets:0": {
+  "type": "photo",
+  "q": "Планета-гигант",
+  "alt": "Планеты-гиганты"
+ },
+ "giant_planets:1": {
+  "type": "photo",
+  "q": "Юпитер",
+  "alt": "Юпитер и Большое Красное Пятно"
+ },
+ "giant_planets:2": {
+  "type": "photo",
+  "q": "Ганимед (спутник)",
+  "alt": "Ганимед, спутник Юпитера"
+ },
+ "giant_planets:3": {
+  "type": "photo",
+  "q": "Сатурн",
+  "alt": "Сатурн и его кольца"
+ },
+ "giant_planets:4": {
+  "type": "photo",
+  "q": "Уран (планета)",
+  "alt": "Планета Уран"
+ },
+ "giant_planets:5": {
+  "type": "photo",
+  "q": "Нептун",
+  "alt": "Планета Нептун"
+ },
+ "cover:moon": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat sitting on a rooftop at night with a telescope, gazing at a big silvery crescent moon"
+ },
+ "moon:0": {
+  "type": "photo",
+  "q": "Луна",
+  "alt": "Полная Луна"
+ },
+ "moon:1": {
+  "type": "art",
+  "p": "A row of moons across a night sky from dark new moon through crescent and half to bright full moon, above a quiet village"
+ },
+ "moon:2": {
+  "type": "art",
+  "p": "A child at a window pointing a small stick toward a thin crescent moon, comparing its curve, cozy bedroom at night"
+ },
+ "moon:3": {
+  "type": "photo",
+  "q": "Луна-3",
+  "alt": "Станция «Луна-3»"
+ },
+ "moon:4": {
+  "type": "photo",
+  "q": "Солнечное затмение",
+  "alt": "Солнечное затмение"
+ },
+ "moon:5": {
+  "type": "art",
+  "p": "a reddish copper full moon during a lunar eclipse above a quiet village, families watching from a hill"
+ },
+ "moon:6": {
+  "type": "photo",
+  "q": "Армстронг, Нил",
+  "alt": "Нил Армстронг"
+ },
+ "cover:stars": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat lying in a summer meadow at night, tracing glowing lines between bright stars with a paw"
+ },
+ "stars:0": {
+  "type": "art",
+  "p": "A child looking through a telescope at a sky full of stars, one star magnified into a glowing sun with its own little planets"
+ },
+ "stars:1": {
+  "type": "art",
+  "p": "Three glowing stars side by side in space, one hot blue, one warm yellow, one cool red, softly shining"
+ },
+ "stars:2": {
+  "type": "art",
+  "p": "A night sky where faint glowing outlines of a bear and other animals are drawn between bright stars, children watching from a hill"
+ },
+ "stars:3": {
+  "type": "art",
+  "p": "seven bright stars forming a big dipper ladle shape in a deep blue night sky above a pine forest, a child pointing up"
+ },
+ "stars:4": {
+  "type": "art",
+  "p": "A dotted glowing path running from the edge of a big star dipper up across the night sky to a single bright star"
+ },
+ "stars:5": {
+  "type": "photo",
+  "q": "Полярная звезда",
+  "alt": "Полярная звезда"
+ },
+ "cover:comets": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat waving at a bright comet with a long glowing tail streaking across a starry sky"
+ },
+ "comets:0": {
+  "type": "photo",
+  "q": "Комета",
+  "alt": "Комета с хвостом"
+ },
+ "comets:1": {
+  "type": "art",
+  "p": "A comet flying around a bright Sun, its glowing tail always streaming away from the Sun like hair in the wind"
+ },
+ "comets:2": {
+  "type": "photo",
+  "q": "Комета Галлея",
+  "alt": "Комета Галлея"
+ },
+ "comets:3": {
+  "type": "photo",
+  "q": "Астероид",
+  "alt": "Астероид"
+ },
+ "comets:4": {
+  "type": "art",
+  "p": "shooting stars streaking across a summer night sky, two kids lying on a blanket in a meadow making wishes"
+ },
+ "comets:5": {
+  "type": "photo",
+  "q": "Челябинский метеорит",
+  "alt": "Челябинский метеорит"
+ },
+ "cover:earth_motion": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat holding a tilted spinning globe next to a lamp, half of the globe lit in daylight"
+ },
+ "earth_motion:0": {
+  "type": "art",
+  "p": "An apple falling from a tree toward the ground while the Moon hangs in the sky, gentle glowing lines pulling everything together"
+ },
+ "earth_motion:1": {
+  "type": "art",
+  "p": "A child in a spacesuit leaping super high over the gray Moon surface with a huge happy smile, Earth glowing in the black sky"
+ },
+ "earth_motion:2": {
+  "type": "art",
+  "p": "The Earth spinning like a top in space, one side bright with sunlight and daytime, the other side dark with city lights"
+ },
+ "earth_motion:3": {
+  "type": "art",
+  "p": "The Earth traveling along a big glowing oval path around the Sun, small Earths showing its positions through the year"
+ },
+ "earth_motion:4": {
+  "type": "art",
+  "p": "A tilted Earth at four points around the Sun, with snowy, blooming, summery and autumn colors on the side facing us"
+ },
+ "earth_motion:5": {
+  "type": "art",
+  "p": "Split scene: kids building a snowman in a snowy Russian town while kids in Australia play on a sunny beach at the same moment"
+ },
+ "cover:cosmonauts": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat and a little spacesuit saluting beside a tall white rocket on a launch pad at dawn"
+ },
+ "cosmonauts:0": {
+  "type": "photo",
+  "q": "Спутник-1",
+  "alt": "Первый искусственный спутник"
+ },
+ "cosmonauts:1": {
+  "type": "photo",
+  "q": "Гагарин, Юрий Алексеевич",
+  "alt": "Юрий Гагарин"
+ },
+ "cosmonauts:2": {
+  "type": "photo",
+  "q": "Терешкова, Валентина Владимировна",
+  "alt": "Валентина Терешкова"
+ },
+ "cosmonauts:3": {
+  "type": "photo",
+  "q": "Леонов, Алексей Архипович",
+  "alt": "Алексей Леонов"
+ },
+ "cosmonauts:4": {
+  "type": "photo",
+  "q": "Луноход-1",
+  "alt": "Луноход-1"
+ },
+ "cosmonauts:5": {
+  "type": "photo",
+  "q": "Международная космическая станция",
+  "alt": "МКС на орбите"
+ },
+ "cosmonauts:6": {
+  "type": "art",
+  "p": "Smiling astronauts floating inside a space station cabin, a juice droplet and a pencil drifting in the air, Earth visible through a round window"
+ },
+ "cover:universe": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat floating in space in front of a huge glowing spiral galaxy full of stars"
+ },
+ "universe:0": {
+  "type": "art",
+  "p": "Nested views zooming out from a cozy house to a city, a country, the Earth, the planets and finally a spiral galaxy"
+ },
+ "universe:1": {
+  "type": "photo",
+  "q": "Млечный Путь",
+  "alt": "Галактика Млечный Путь"
+ },
+ "universe:2": {
+  "type": "art",
+  "p": "A family lying on blankets in a dark countryside field at night, a pale milky band of countless stars stretching across the sky"
+ },
+ "universe:3": {
+  "type": "art",
+  "p": "A bright beam of light zooming around the Earth in a glowing ring many times in a blink, a surprised child watching"
+ },
+ "universe:4": {
+  "type": "art",
+  "p": "A beam of light setting out on an enormous journey through space, passing planets and stars, with a tiny ruler floating along"
+ },
+ "universe:5": {
+  "type": "photo",
+  "q": "Галактика Андромеды",
+  "alt": "Галактика Андромеды"
+ }
+}
