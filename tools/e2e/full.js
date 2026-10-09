@@ -9,7 +9,8 @@ const errors = []; const misses = new Set();
   const p = await b.newPage();
   await p.setViewport({ width: +process.argv[2] || 820, height: +process.argv[3] || 1180, isMobile: true, hasTouch: true, deviceScaleFactor: 1 });
   p.on('pageerror', e => errors.push('PAGEERR ' + e.message));
-  p.on('console', m => { if (m.type() === 'error') errors.push('CONSOLE ' + m.text()); if (m.text().startsWith('VOICE-MISS')) misses.add(m.text()); });
+  p.on('response', r => { if (r.status() === 404) errors.push('404 ' + r.url().replace(URL, '')); });
+  p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errors.push('CONSOLE ' + m.text()); if (m.text().startsWith('VOICE-MISS')) misses.add(m.text()); });
   await p.evaluateOnNewDocument(() => { window.MURLOK_DEBUG = true; });
   const tag = process.argv[4] || 'p';
   const shot = async n => { await sleep(350); await p.screenshot({ path: __dirname + `/shots/${tag}-${n}.png`, fullPage: false }); };
@@ -18,6 +19,7 @@ const errors = []; const misses = new Set();
   const txt = sel => p.$eval(sel, e => e.innerText).catch(() => '');
   const key = async k => { await p.keyboard.press(k); await sleep(40); };
   const typeNum = async n => { for (const c of String(n)) await key(c); };
+  const passCheck = async () => { for (let i = 0; i < 4; i++) { await sleep(300); if (!(await p.$('.cp .opt'))) break; await p.click('.cp .opt'); await sleep(250); await p.click('#cpn'); } await sleep(300); };
   const ev = s => Function('return (' + s.replace(/×/g, '*').replace(/·/g, '*').replace(/:/g, '/').replace(/−/g, '-') + ')')();
 
   await p.goto(URL); await sleep(800);
@@ -33,7 +35,7 @@ const errors = []; const misses = new Set();
   await click('[data-go="school"]'); await shot('04-school');
   await click('[data-go="lesson"][data-arg="mul"]');
   for (let i = 0; i < 6; i++) { if (i === 2) { await click('#stp'); await click('#stp'); } await shot('05-slide' + i); if (i < 5) await click('#next'); }
-  await click('#next'); await sleep(300);
+  await click('#next'); await sleep(300); await passCheck();
   async function solveGuidedMul(name) {
     for (let g = 0; g < 80; g++) {
       if (await p.$('#more')) break;
@@ -65,7 +67,7 @@ const errors = []; const misses = new Set();
 
   await click('[data-go="school"]'); await click('[data-go="lesson"][data-arg="eq"]');
   for (let i = 0; i < 5; i++) { if (i === 2) { for (let k = 0; k < 3; k++) await click('#stp'); } await shot('14-eqslide' + i); if (i < 4) await click('#next'); }
-  await click('#next'); await sleep(300);
+  await click('#next'); await sleep(300); await passCheck();
   async function solveGuidedEq(scr) {
     for (let g = 0; g < 60; g++) {
       if (await p.$('#more')) return;

@@ -4,7 +4,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {
   const URL = process.env.URL || 'http://localhost:8765/';
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new' });
-  const screens = ['home', 'school', 'newcase', 'practice:mul', 'practice:eq', 'games', 'game:scales', 'game:interro', 'game:color', 'game:safe', 'game:logic', 'game:memo', 'game:chase', 'game:pattern', 'game:estimate', 'bugs', 'blitz', 'shop', 'house:bedroom', 'book', 'parents', 'chat', 'studio', 'lesson:mul', 'lesson:eq'];
+  const screens = ['home', 'school', 'newcase', 'practice:mul', 'practice:eq', 'games', 'game:scales', 'game:interro', 'game:color', 'game:safe', 'game:logic', 'game:memo', 'game:chase', 'game:pattern', 'game:estimate', 'bugs', 'blitz', 'shop', 'house:bedroom', 'book', 'parents', 'chat', 'studio', 'lesson:mul', 'lesson:eq', 'academy', 'subject:space', 'subject:safety', 'subject:teen', 'subject:think', 'subject:read', 'alesson:safety:personal_data', 'aquiz:safety:personal_data', 'aquiz:think:fact_opinion', 'asearch:teen', 'photo', 'schulte:5', 'flash', 'rtext:0', 'rgrowth', 'salon', 'fitting'];
   let bad = 0;
   for (const w of [320, 375, 390, 414]) {
     const ctx = await b.createBrowserContext(); const p = await ctx.newPage(); await p.setViewport({ width: w, height: 760, isMobile: true, hasTouch: true });
@@ -12,7 +12,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await p.evaluate(() => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), { name: 'Мурзик-Пушистик', kid: 'Александра', seenVersion: APP_VERSION, rankV: 2, xp: 2500, candies: 1234, gems: 12, login: { last: today(), day: 1 }, houseV: 2, st: { mul: { done: 40, perfect: 0 }, eq: { done: 12, perfect: 0 }, bug: { done: 0, perfect: 0 }, blitz: { games: 0, best: 0 } }, roomsSeen: ['kitchen', 'living', 'bedroom', 'play', 'bath'], care: { food: 90, water: 90, fun: 90, energy: 90, clean: 90, t: Date.now() } }))); });
     for (const sc of screens) {
       await p.goto(URL); await sleep(700);
-      const [n, a] = sc.split(':'); await p.evaluate((n, a) => go(n, a), n, a); await sleep(700);
+      const [n, a] = sc.split(':'); await p.evaluate((n, a) => { if (n === 'salon') { SHOP_TAB = 'salon'; go('shop'); } else go(n, a || undefined); }, n, sc.split(':').slice(1).join(':')); await sleep(700);
       const r = await p.evaluate(() => {
         const W = innerWidth, out = [];
         document.querySelectorAll('#app *').forEach(el => {

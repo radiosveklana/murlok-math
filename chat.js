@@ -18,6 +18,9 @@ function stopRemote() { speakTok++; if (speakSrc) { try { speakSrc.stop(); } cat
 /* запасной плеер (HTML audio): разблокируется первым касанием — iOS потом разрешает ему играть */
 const fallbackEl = new Audio(); fallbackEl.preload = 'auto'; fallbackEl.playsInline = true; fallbackEl.setAttribute('playsinline', '');
 document.addEventListener('pointerup', function unlockFb() { document.removeEventListener('pointerup', unlockFb, true); fallbackEl.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA='; fallbackEl.play().then(() => fallbackEl.pause()).catch(() => { }); }, true);
+/* ребёнку — только текст ответа котика, без служебного JSON и ```-блоков (даже если сервер ошибся) */
+function cleanReply(t) { return String(t || '').replace(/```[\s\S]*?(```|$)/g, ' ').replace(/\{\s*"(reply|mood|flag)"[\s\S]*$/, ' ').replace(/\s+/g, ' ').trim(); }
+try { (S.chatLog || []).forEach(m => { if (m.r === 'c' && /```|"reply"/.test(m.t)) m.t = cleanReply(m.t); }); } catch (e) { }
 function wakeAudio() { // после микрофона iPhone переключает звук в режим записи — возвращаем воспроизведение
   try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { }
   const ac = M.ctx(); if (ac && ac.state !== 'running') ac.resume().catch(() => { }); return ac;
@@ -102,6 +105,7 @@ SCREENS.chat = () => {
     answer(out);
   }
   function answer(out) {
+    out.reply = cleanReply(out.reply) || 'Мур… давай попробуем ещё раз?';
     S.chatLog.push({ r: 'c', t: out.reply, ts: Date.now(), flag: out.flag !== 'none' ? out.flag : undefined });
     if (out.flag && out.flag !== 'none') { const last = S.chatLog[S.chatLog.length - 2]; if (last) last.flag = out.flag; }
     if (S.chatLog.length > 300) S.chatLog = S.chatLog.slice(-300);

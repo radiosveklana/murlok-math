@@ -834,7 +834,7 @@ SCREENS.hello = () => {
     <label class="lbl" for="nm">А как зовут твоего котика-напарника?</label>
     <input id="nm" class="nmi" maxlength="16" placeholder="Например, Мурлок" value="${esc(S.name || '')}" autocomplete="off">
     <div class="lbl">Выбери окрас</div>
-    <div class="furs">${Object.entries(FURS).map(([k, f]) => `<button class="fur ${k === fur ? 'on' : ''}" data-f="${k}"><i style="background:${f.sw}"></i>${f.name}</button>`).join('')}</div>
+    <div class="furs">${Object.entries(FURS).filter(([k, f]) => !f.salon || (S.furs || []).includes(k)).map(([k, f]) => `<button class="fur ${k === fur ? 'on' : ''}" data-f="${k}"><i style="background:${f.sw}"></i>${f.name}</button>`).join('')}</div>
     <button class="btn big pink" id="start">Начать расследования →</button>
     <button class="link" id="restore">🔑 У меня уже есть код восстановления</button></div>`;
   $$('.fur').forEach(b => b.addEventListener('click', () => { fur = b.dataset.f; $$('.fur').forEach(x => x.classList.toggle('on', x === b)); $('#hcat').innerHTML = catSVG({ fur, wear: S.wear }); SND.meow(); M.voice(pick(PH.fur), {}); }));
@@ -1041,7 +1041,7 @@ SCREENS.casetask = () => {
   mountTask($('#task'), t, false, res => {
     CASE.mistakes += res.mistakes;
     const perfect = !res.mistakes && !res.helped, isEq = t.kind === 'eq', c = (perfect ? 3 : 1) * (isEq ? 2 : 1), xp = (perfect ? 15 : 10) + (isEq ? 5 : 0);
-    taskDone(statKind(t.kind), res); CASE.earned += c; CASE.xp += xp; award(c, xp);
+    taskDone(statKind(t.kind), res, { level: t.level }); CASE.earned += c; CASE.xp += xp; award(c, xp);
     { const hard = (t.kind === 'mul' && t.level >= 3) || (t.kind === 'eq' && t.level >= 3); if (hard && perfect) awardGems(1, 'за сложную задачу без ошибок'); }
     $('#after').innerHTML = `<button class="btn big pink" id="clue">🔎 Получить улику</button>`;
     $('#clue').addEventListener('click', revealClue);
@@ -1154,20 +1154,21 @@ const LESSONS = {
   ],
 };
 SCREENS.lesson = (topic = 'mul') => {
-  const L = LESSONS[topic]; let i = 0;
+  const L = LESSONS[topic]; let i = 0; const tm = window.Coach ? Coach.lessonTimer(L.length) : null;
   app.innerHTML = `${topbar(topic === 'mul' ? 'Урок: столбик' : 'Урок: уравнения', 'school')}<div class="page lesson"><div class="slide" id="slide"></div>
     <div class="slide-nav"><button class="btn" id="prev">←</button><div class="dots">${L.map((_, k) => `<i data-k="${k}"></i>`).join('')}</div><button class="btn pink" id="next">Дальше →</button></div></div>`;
   const draw = () => {
     const sl = L[i];
     $('#slide').innerHTML = `<div class="slide-head"><div class="mini-cat">${myCat({ cls: 'mini' })}</div><h2>${sl.t}</h2></div><div class="slide-body" id="sb">${sl.h ? sl.h() : ''}</div>`;
     if (sl.interactive) INTER[sl.interactive]($('#sb'));
+    if (tm) { tm.show(i, $('#sb').textContent); const k = i; $('#sb').addEventListener('click', () => tm.heard(k)); }
     $$('.dots i').forEach((d, k) => d.classList.toggle('on', k === i));
     $('#prev').style.visibility = i ? 'visible' : 'hidden';
     $('#next').textContent = i < L.length - 1 ? 'Дальше →' : '🐾 Решаем вместе!';
-    if (i === L.length - 1 && !S.lessons[topic]) { S.lessons[topic] = true; save(); award(5, 20); checkBadges(); later(() => { SND.win(); say(PH.lessonDone[0]); }, 400); }
+    if (i === L.length - 1 && !S.lessons[topic]) { S.lessons[topic] = true; save(); checkBadges(); } // награда за урок — после «Проверь себя» (coach.js)
   };
   $('#prev').addEventListener('click', () => { if (i > 0) { i--; SND.tap(); draw(); } });
-  $('#next').addEventListener('click', () => { SND.tap(); if (i < L.length - 1) { i++; draw(); } else go('practice', topic); });
+  $('#next').addEventListener('click', () => { SND.tap(); if (i < L.length - 1) { i++; draw(); } else if (tm) Coach.finishLesson('t:' + topic, tm, Coach.mathCheck(topic), ok => { go('practice', topic); if (ok) later(() => { SND.win(); say(PH.lessonDone[0]); }, 400); }); else go('practice', topic); });
   draw();
 };
 const INTER = {
@@ -1205,7 +1206,7 @@ SCREENS.practice = (topic = 'mul') => {
     $('#after').innerHTML = '';
     const t = makeTask(topic, S.prefs[key]), t0 = Date.now();
     mountTask($('#task'), t, guided, res => {
-      count++; taskDone(topic, res); if (!guided) trackPerf(topic, t.level, res, (Date.now() - t0) / 1000);
+      count++; taskDone(topic, res, { level: t.level, guided }); if (!guided) trackPerf(topic, t.level, res, (Date.now() - t0) / 1000);
       if (!guided && t.level >= 3 && !res.mistakes && !res.helped) awardGems(1, 'за сложную задачу без ошибок');
       const c = ((!res.mistakes && !res.helped) ? 2 : 1) * (topic === 'eq' ? 2 : 1); award(c, (guided ? 6 : 10) + (topic === 'eq' ? 4 : 0));
       if (topic === 'eq') { const q = nextQuest(); if (q && q.e) toast(`<span class="tb">📦</span><div>До комнаты «${q.r.name}»: ещё ${lockText(q.r)}</div>`); }
@@ -1271,7 +1272,7 @@ SCREENS.blitz = () => {
       back: () => { buf = buf.slice(0, -1); draw(); },
     });
     const end = () => {
-      keyHandler = null; const rec = score > S.st.blitz.best; S.st.blitz.games++; if (rec) S.st.blitz.best = score; markDay(1); save();
+      keyHandler = null; const rec = score > S.st.blitz.best; S.st.blitz.games++; if (rec) S.st.blitz.best = score; markDay(1); save(); window.Coach && Coach.track('blitz', Math.min(1, score / 25));
       const c = Math.floor(score / 3); award(c, score);
       if (rec) confetti(30);
       box.innerHTML = `<div class="big-emoji">${score >= 20 ? '🏆' : score >= 10 ? '🥈' : '🐾'}</div><h2>${esc(S.kid)}, верных ответов: ${score}!</h2>${rec ? '<div class="perfect">Новый рекорд! 🎉</div>' : `<p>Рекорд: ${S.st.blitz.best}</p>`}
@@ -1286,13 +1287,14 @@ SCREENS.blitz = () => {
 /* ================= ЭКРАН: Кондитерская ================= */
 SCREENS.shop = () => {
   let tab = SHOP_TAB; SHOP_TAB = 'wear';
-  app.innerHTML = `${topbar('Кондитерская')}<div class="seg tabs shoptabs"><button data-t="wear" class="${tab === 'wear' ? 'on' : ''}">👗 Наряды</button><button data-t="home" class="${tab === 'home' ? 'on' : ''}">🏠 Вещи для домика</button></div><div class="page shop"><div class="shop-cat" id="sc">${myCat()}</div><div class="shop-items" id="si"></div></div>`;
+  app.innerHTML = `${topbar('Кондитерская')}<div class="seg tabs shoptabs"><button data-t="wear" class="${tab === 'wear' ? 'on' : ''}">👗 Наряды</button><button data-t="home" class="${tab === 'home' ? 'on' : ''}">🏠 Вещи для домика</button><button data-t="salon" class="${tab === 'salon' ? 'on' : ''}">✨ Салон окрасов</button></div><div class="page shop"><div class="shop-cat" id="sc">${myCat()}</div><div class="shop-items" id="si"></div></div>`;
   $$('.shoptabs button').forEach(b => b.addEventListener('click', () => { tab = b.dataset.t; $$('.shoptabs button').forEach(x => x.classList.toggle('on', x === b)); SND.tap(); draw(); }));
   const draw = () => {
     if (tab === 'home') { $('#sc').innerHTML = myCat(); $('#si').innerHTML = furnShopHTML(); bindFurnShop($('#si'), draw); return; }
+    if (tab === 'salon' && window.Salon) { $('#sc').innerHTML = myCat(); $('#si').innerHTML = Salon.html(); Salon.bind($('#si'), draw); return; }
     $('#sc').innerHTML = myCat();
     $('#si').innerHTML = Object.entries(SLOTS).map(([slot, nm]) => `<h3>${nm}</h3><div class="items">${ITEMS.filter(it => it.slot === slot).map(it => { const own = S.owned.includes(it.id), on = S.wear[slot] === it.id; return `<button class="item ${own ? 'own' : ''} ${on ? 'on' : ''} ${it.gems ? 'gemitem' : ''}" data-id="${it.id}"><span class="ii">${it.icon}</span><span class="in">${it.name}</span><span class="ip">${on ? 'надето ✔' : own ? 'надеть' : it.gems ? it.gems + ' 💎' : it.price + ' 🍬'}</span></button>`; }).join('')}</div>`).join('')
-      + `<h3>Окрас котика</h3><div class="furs">${Object.entries(FURS).map(([k, f]) => `<button class="fur ${k === S.fur ? 'on' : ''}" data-f="${k}"><i style="background:${f.sw}"></i>${f.name}</button>`).join('')}</div>`;
+      + `<h3>Окрас котика</h3><div class="furs">${Object.entries(FURS).filter(([k, f]) => !f.salon || (S.furs || []).includes(k)).map(([k, f]) => `<button class="fur ${k === S.fur ? 'on' : ''}" data-f="${k}"><i style="background:${f.sw}"></i>${f.name}</button>`).join('')}</div>`;
     $$('.item', app).forEach(b => b.addEventListener('click', () => clickItem(ITEMS.find(x => x.id === b.dataset.id))));
     $$('.fur', app).forEach(b => b.addEventListener('click', () => { S.fur = b.dataset.f; save(); SND.meow(); draw(); }));
   };
@@ -1385,8 +1387,8 @@ SCREENS.parents = () => {
 };
 
 /* ================= обновления и резервная копия ================= */
-const APP_VERSION = '17';
-const NEWS = ['📞 Разговор с котиком голосом — без нажатий, как по телефону', '☁️ Прогресс сам находится по имени на новом устройстве', '⚙️ Звук, голос, вибрация и музыка — в настройках', '📱 Всё удобно и на телефоне', '😾 Подозреваемые сердятся и обижаются, если допрашивать их слишком часто', '🔊 У ответов котика есть кнопка «повторить голосом»', '☁️ Прогресс сохраняется в облаке — его можно восстановить по коду на любом устройстве', '🎖️ 16 званий — расти стало интереснее', '🏠 Вещи падают на пол, а котик ложится точно в кроватку и залезает в ванну', '💎 Кристаллы сыщика за сложные задачи — на них особые вещи!', '🎨 Новая игра: математическая раскраска', '🚀 Котик предлагает повысить уровень, когда уже всё получается', '🎨 Всё перерисовано в милом аниме-стиле: места происшествий, комнаты домика и все вещи!', '🎲 Детективные игры: волшебные весы, допрос свидетелей, сейф, прикидка, мемори, погоня, логика и закономерности!', '😺 Подозреваемые стали милыми аниме-персонажами — и обижаются, если их допрашивать слишком часто', '🗣️ Котик отвечает голосом быстрее', '📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
+const APP_VERSION = '18';
+const NEWS = ['🎓 Академия сыщика: космос, безопасность, критическое мышление, скорочтение и энциклопедия подростка', '🐾 Котик советует: задание роста и испытание мастера каждый день', '✨ Салон окрасов: модные окрасы шерсти за особые достижения', '📸 Фотостудия: сделай фото котика, сохрани и поделись', '📖 «Проверь себя» после уроков — награда за честно изученный урок', '👨‍👩‍👧 Новый раздел для взрослых: таланты, зоны роста и советы', '📞 Разговор с котиком голосом — без нажатий, как по телефону', '☁️ Прогресс сам находится по имени на новом устройстве', '⚙️ Звук, голос, вибрация и музыка — в настройках', '📱 Всё удобно и на телефоне', '😾 Подозреваемые сердятся и обижаются, если допрашивать их слишком часто', '🔊 У ответов котика есть кнопка «повторить голосом»', '☁️ Прогресс сохраняется в облаке — его можно восстановить по коду на любом устройстве', '🎖️ 16 званий — расти стало интереснее', '🏠 Вещи падают на пол, а котик ложится точно в кроватку и залезает в ванну', '💎 Кристаллы сыщика за сложные задачи — на них особые вещи!', '🎨 Новая игра: математическая раскраска', '🚀 Котик предлагает повысить уровень, когда уже всё получается', '🎨 Всё перерисовано в милом аниме-стиле: места происшествий, комнаты домика и все вещи!', '🎲 Детективные игры: волшебные весы, допрос свидетелей, сейф, прикидка, мемори, погоня, логика и закономерности!', '😺 Подозреваемые стали милыми аниме-персонажами — и обижаются, если их допрашивать слишком часто', '🗣️ Котик отвечает голосом быстрее', '📦 За уравнения — двойные конфеты, а новые комнаты и волшебные вещи открываются за уравнения!', '🎵 Музыка теперь играет по кругу', '🎙️ Студия звуков: запиши мяуканье, смех и другие звуки — персонажи будут говорить твоим голосом!', '🕵️ Подозреваемые ожили: у каждого свой голос и характер — их можно допрашивать!', '📸 Фото с места происшествия и свидетели в каждом деле', '💬 С котиком можно поболтать — голосом или текстом!', '🛁 Котик по-настоящему пользуется вещами: спит в кроватке, купается, играет', '👆 Вещи ставятся туда, куда нажмёшь, и перетаскиваются пальцем', '🏠 Новый большой домик: расставляй вещи пальцем, 8 комнат', '🐟 Ухаживай за котиком: корми, пои, играй, укладывай спать и купай', '🛍️ 65 вещей для домика: питомцы, волшебство, космос, карусель!', '🗣️ Котик говорит мультяшным голосом и зовёт тебя по имени', '🎁 Подарок за вход каждый день и сундуки за задание дня', '🏠 Домик котика: 7 комнат открываются за решённые задачи', '🛋️ Мебель и новые наряды в Кондитерской', '📖 Задачи-истории и примеры без повторов', '🎵 Музыка на выбор — теперь есть мистическая и таинственная'];
 function checkNews() {
   if (S.seenVersion === APP_VERSION) return;
   const first = !S.seenVersion && !S.cases && !solvedTotal(); S.seenVersion = APP_VERSION; save(); if (first) return;

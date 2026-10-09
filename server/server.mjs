@@ -73,17 +73,31 @@ function claude(payload) {
   });
 }
 const FALLBACK = { reply: 'Мур… я задумался и потерял мысль. Давай поговорим о чём-нибудь другом или решим пример?', mood: 'think', flag: 'none' };
+// ребёнку — только текст ответа: никаких ```json, фигурных скобок и полей, даже если ответ оборвался
+const stripJunk = s => String(s || '').replace(/```[\s\S]*?(```|$)/g, ' ').replace(/\{\s*"(reply|mood|flag)"[\s\S]*$/, ' ').replace(/\s+/g, ' ').trim();
+function parseReply(raw) {
+  const field = k => { const m = raw.match(new RegExp('"' + k + '"\\s*:\\s*"((?:[^"\\\\]|\\\\.)*)')); if (!m) return ''; try { return JSON.parse('"' + m[1] + '"'); } catch { return m[1]; } };
+  for (const cand of [raw, (raw.match(/\{[\s\S]*\}/) || [''])[0]]) { try { const o = JSON.parse(cand); if (o && typeof o.reply === 'string') return { ...o, reply: stripJunk(o.reply) }; } catch { } }
+  const reply = field('reply'); // обрезанный JSON: достаём текст ответа и флаг безопасности
+  if (reply) { // ответ оборвался: обрезаем до последнего законченного предложения, флаг узнаём по началу слова
+    let r = stripJunk(reply); const closed = /"reply"\s*:\s*"(?:[^"\\]|\\.)*"/.test(raw), end = Math.max(r.lastIndexOf('.'), r.lastIndexOf('!'), r.lastIndexOf('?'), r.lastIndexOf('…'));
+    if (!closed) r = end > 20 ? r.slice(0, end + 1) : r.replace(/\s*\S*$/, '') + '…';
+    const f = field('flag') || (/"flag"\s*:\s*"(\w*)/.exec(raw) || [])[1] || '';
+    return { reply: r, mood: field('mood') || 'happy', flag: ['distress', 'pii', 'offtopic'].find(x => f.length >= 2 && x.startsWith(f)) || 'none' };
+  }
+  return { reply: stripJunk(raw.replace(/^\{/, '')).slice(0, 300), mood: 'happy', flag: 'none' };
+}
 async function chat({ kid, cat, history, text }) {
-  const clean = s => maskPII(String(s || '').slice(0, 400));
+  const clean = s => maskPII(stripJunk(String(s || '').slice(0, 600)).slice(0, 400));
   const msgs = [];
   (Array.isArray(history) ? history.slice(-10) : []).forEach(h => { const role = h.r === 'u' ? 'user' : 'assistant'; const t = clean(h.t); if (!t) return; if (msgs.length && msgs[msgs.length - 1].role === role) msgs[msgs.length - 1].content += '\n' + t; else msgs.push({ role, content: t }); });
   while (msgs.length && msgs[0].role !== 'user') msgs.shift();
   if (msgs.length && msgs[msgs.length - 1].role === 'user') msgs.pop();
   msgs.push({ role: 'user', content: clean(text) });
   const nm = s => String(s || '').replace(/[^\p{L}\s-]/gu, '').slice(0, 20).trim();
-  const j = await claude({ model: MODEL, max_tokens: 220, temperature: 0.7, system: SYSTEM(nm(kid) || 'друг', nm(cat) || 'Мурлок'), messages: msgs });
-  const raw = (j.content || []).map(c => c.text || '').join('');
-  let out; try { out = JSON.parse(raw.match(/\{[\s\S]*\}/)[0]); } catch { out = { reply: raw.trim().slice(0, 300), mood: 'happy', flag: 'none' }; }
+  msgs.push({ role: 'assistant', content: '{' }); // ответ только в JSON — без текста до и после
+  const j = await claude({ model: MODEL, max_tokens: 400, temperature: 0.7, system: SYSTEM(nm(kid) || 'друг', nm(cat) || 'Мурлок'), messages: msgs });
+  const out = parseReply('{' + (j.content || []).map(c => c.text || '').join(''));
   out.reply = String(out.reply || '').slice(0, 400).trim();
   if (!out.reply || BAD_OUT.test(out.reply)) return FALLBACK;
   if (!['happy', 'sad', 'think', 'surprised', 'love'].includes(out.mood)) out.mood = 'happy';

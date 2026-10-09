@@ -50,20 +50,23 @@ const HAND = {
   cake: `<rect x="152" y="160" width="40" height="28" rx="5" fill="#FFE3EC" ${SW}/><path d="M152 170 q10 6 20 0 q10 -6 20 0" fill="none" stroke="#FF6F9C" stroke-width="4"/><path d="M172 160 v-12" stroke="${L}" stroke-width="3"/><path d="M172 146 q-4 -6 0 -10 q4 4 0 10" fill="#FFB938"/>`,
 };
 
+const FX = (kind, pts) => `<g class="furfx">${pts.map(([x, y], k) => kind === 'stars' ? `<path d="M${x} ${y - 5} l1.6 3.4 3.4 1.6 -3.4 1.6 -1.6 3.4 -1.6 -3.4 -3.4 -1.6 3.4 -1.6z" fill="${k % 2 ? '#FFE88A' : '#fff'}" opacity=".95"/>` : `<circle cx="${x}" cy="${y}" r="${k % 2 ? 2 : 2.8}" fill="#fff" opacity=".9"/>`).join('')}</g>`;
 function catSVG(o = {}) {
-  const f = FURS[o.fur] || FURS.ginger, w = o.wear || {}, happy = o.happy;
+  const fk = FURS[o.fur] ? o.fur : 'ginger', f = FURS[fk], w = o.wear || {}, happy = o.happy, B = f.grad ? `url(#fg-${fk})` : f.base;
   const outline = SW;
   let s = `<svg viewBox="0 -12 210 248" class="cat${o.cls ? ' ' + o.cls : ''}" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">`;
-  s += `<g class="tail"><path d="M146 198 C 200 192, 204 128, 174 110" fill="none" stroke="${L}" stroke-width="21"/><path d="M146 198 C 200 192, 204 128, 174 110" fill="none" stroke="${f.p2 || f.base}" stroke-width="14"/></g>`;
-  s += `<g class="body"><ellipse cx="100" cy="180" rx="54" ry="44" fill="${f.base}" ${outline}/>`;
+  if (f.grad) s += `<defs><linearGradient id="fg-${fk}" x1="0" y1="0" x2="1" y2="1">${f.grad.map((c, k) => `<stop offset="${Math.round(k / (f.grad.length - 1) * 100)}%" stop-color="${c}"/>`).join('')}</linearGradient></defs>`;
+  s += `<g class="tail"><path d="M146 198 C 200 192, 204 128, 174 110" fill="none" stroke="${L}" stroke-width="21"/><path d="M146 198 C 200 192, 204 128, 174 110" fill="none" stroke="${f.p2 || B}" stroke-width="14"/></g>`;
+  s += `<g class="body"><ellipse cx="100" cy="180" rx="54" ry="44" fill="${B}" ${outline}/>`;
   if (f.p1) s += `<circle cx="128" cy="172" r="17" fill="${f.p1}"/><circle cx="70" cy="196" r="11" fill="${f.p2}"/>`;
   s += `<ellipse cx="100" cy="190" rx="31" ry="29" fill="${f.light}"/>`;
-  s += `<ellipse cx="76" cy="221" rx="17" ry="9" fill="${f.base}" ${outline}/><ellipse cx="124" cy="221" rx="17" ry="9" fill="${f.base}" ${outline}/>`;
+  s += `<ellipse cx="76" cy="221" rx="17" ry="9" fill="${B}" ${outline}/><ellipse cx="124" cy="221" rx="17" ry="9" fill="${B}" ${outline}/>`;
+  if (f.fx) s += FX(f.fx, [[72, 168], [132, 196], [96, 206], [120, 162]]);
   s += '</g>';
   if (w.neck && ACC[w.neck]) s += ACC[w.neck];
-  s += `<g class="head"><g class="ear-l"><path d="M48 80 L54 22 L94 52 Z" fill="${f.p2 || f.base}" ${outline}/><path d="M59 66 L62 37 L84 54 Z" fill="#FFB3C7"/></g>`;
-  s += `<g class="ear-r"><path d="M152 80 L146 22 L106 52 Z" fill="${f.p1 || f.base}" ${outline}/><path d="M141 66 L138 37 L116 54 Z" fill="#FFB3C7"/></g>`;
-  s += `<ellipse cx="100" cy="98" rx="60" ry="52" fill="${f.base}" ${outline}/>`;
+  s += `<g class="head"><g class="ear-l"><path d="M48 80 L54 22 L94 52 Z" fill="${f.p2 || B}" ${outline}/><path d="M59 66 L62 37 L84 54 Z" fill="#FFB3C7"/></g>`;
+  s += `<g class="ear-r"><path d="M152 80 L146 22 L106 52 Z" fill="${f.p1 || B}" ${outline}/><path d="M141 66 L138 37 L116 54 Z" fill="#FFB3C7"/></g>`;
+  s += `<ellipse cx="100" cy="98" rx="60" ry="52" fill="${B}" ${outline}/>`;
   if (f.p1) s += `<path d="M58 72 Q70 56 88 62 Q86 82 66 84 Z" fill="${f.p2}"/><path d="M118 56 Q138 56 146 76 Q130 82 120 72 Z" fill="${f.p1}"/>`;
   if (f.stripe) s += `<path d="M100 50 v14 M86 52 l3 12 M114 52 l-3 12 M43 96 h10 M157 96 h-10" stroke="${f.stripe}" stroke-width="5"/>`;
   s += `<ellipse cx="100" cy="121" rx="27" ry="18" fill="${f.light}"/>`;
@@ -71,17 +74,19 @@ function catSVG(o = {}) {
   else if (o.sad) s += `<ellipse cx="78" cy="100" rx="8.5" ry="9" fill="${L}"/><ellipse cx="122" cy="100" rx="8.5" ry="9" fill="${L}"/><circle cx="80.5" cy="96" r="3" fill="#fff"/><circle cx="124.5" cy="96" r="3" fill="#fff"/><path d="M64 84 L88 90 M136 84 L112 90" stroke="${L}" stroke-width="4"/><path d="M84 112 q-3 8 0 12" fill="none" stroke="#7CC4FF" stroke-width="4" opacity=".8"/>`;
   else { // аниме-глаза: крупные, с цветной радужкой, бликами и ресничками
     const iris = f.ai || f.iris || '#3F9A4A';
-    s += `<g class="eyes">${[78, 122].map((x, i) => `<ellipse cx="${x}" cy="96" rx="13" ry="16" fill="#fff" stroke="${L}" stroke-width="3"/><ellipse cx="${x}" cy="98" rx="10.5" ry="13.5" fill="${iris}"/><ellipse cx="${x}" cy="101" rx="6" ry="8" fill="#1E1428"/><ellipse cx="${x - 4}" cy="91" rx="4.6" ry="5.6" fill="#fff"/><circle cx="${x + 4.5}" cy="104" r="2.4" fill="#fff"/><path d="M${x + (i ? 11 : -11)} ${84} l${i ? 6 : -6} -5" stroke="${L}" stroke-width="3"/>`).join('')}</g>`;
+    s += `<g class="eyes">${[78, 122].map((x, i) => o.wink && i === 1 ? `<path d="M111 99 q11 -14 22 0" fill="none" stroke="${L}" stroke-width="5"/><path d="M134 92 l6 -4" stroke="${L}" stroke-width="3"/>` : o.star ? `<ellipse cx="${x}" cy="96" rx="13" ry="16" fill="#fff" stroke="${L}" stroke-width="3"/><ellipse cx="${x}" cy="98" rx="10.5" ry="13.5" fill="${iris}"/><path d="M${x} ${88} l2.6 5.6 6 .9 -4.4 4.2 1 6 -5.2 -2.8 -5.2 2.8 1 -6 -4.4 -4.2 6 -.9z" fill="#fff"/>` : `<ellipse cx="${x}" cy="96" rx="13" ry="16" fill="#fff" stroke="${L}" stroke-width="3"/><ellipse cx="${x}" cy="98" rx="10.5" ry="13.5" fill="${iris}"/><ellipse cx="${x}" cy="101" rx="6" ry="8" fill="#1E1428"/><ellipse cx="${x - 4}" cy="91" rx="4.6" ry="5.6" fill="#fff"/><circle cx="${x + 4.5}" cy="104" r="2.4" fill="#fff"/><path d="M${x + (i ? 11 : -11)} ${84} l${i ? 6 : -6} -5" stroke="${L}" stroke-width="3"/>`).join('')}</g>`;
   }
   s += `<ellipse cx="60" cy="116" rx="10" ry="6" fill="#FF7FA6" opacity=".55"/><ellipse cx="140" cy="116" rx="10" ry="6" fill="#FF7FA6" opacity=".55"/>`;
   s += `<path d="M94 110 h12 l-6 7 z" fill="#FF7A9C" stroke="${L}" stroke-width="2"/>`;
-  s += happy ? `<path d="M88 120 q12 16 24 0 z" fill="#FF7A9C" stroke="${L}" stroke-width="2.5"/>` : o.sad ? `<path d="M100 117 v4 M90 128 q10 -8 20 0" fill="none" stroke="${L}" stroke-width="3"/>` : `<path d="M100 117 q-5 8 -12 4 M100 117 q5 8 12 4" fill="none" stroke="${L}" stroke-width="3"/>`;
+  s += happy || o.smile ? `<path d="M88 120 q12 16 24 0 z" fill="#FF7A9C" stroke="${L}" stroke-width="2.5"/>` : o.sad ? `<path d="M100 117 v4 M90 128 q10 -8 20 0" fill="none" stroke="${L}" stroke-width="3"/>` : `<path d="M100 117 q-5 8 -12 4 M100 117 q5 8 12 4" fill="none" stroke="${L}" stroke-width="3"/>`;
   s += `<ellipse class="mo" cx="100" cy="125" rx="7" ry="6" fill="#8A2E55" stroke="${L}" stroke-width="2"/>`;
   s += `<path d="M72 118 L42 112 M72 124 L42 129 M128 118 L158 112 M128 124 L158 129" stroke="${L}" stroke-width="2.2" opacity=".65"/>`;
+  if (f.fx) s += FX(f.fx, [[62, 70], [140, 74], [100, 60]]);
   if (w.face && ACC[w.face]) s += ACC[w.face];
   if (w.head && ACC[w.head]) s += ACC[w.head];
   s += '</g>';
-  if (w.hand && HAND[w.hand]) s += `<circle cx="150" cy="204" r="11" fill="${f.base}" ${outline}/>` + HAND[w.hand];
+  if (o.paw) s += `<g class="wave-paw"><ellipse cx="42" cy="140" rx="13" ry="15" fill="${B}" ${outline}/><path d="M36 131 v5 M42 129 v6 M48 131 v5" stroke="${L}" stroke-width="2"/><ellipse cx="42" cy="145" rx="5" ry="4" fill="#FFB3C7"/></g>`;
+  if (w.hand && HAND[w.hand]) s += `<circle cx="150" cy="204" r="11" fill="${B}" ${outline}/>` + HAND[w.hand];
   return s + '</svg>';
 }
 
