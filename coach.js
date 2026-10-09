@@ -214,7 +214,7 @@ const Coach = (() => {
       areas, grit: st.fail >= 5 ? Math.round(st.cont / st.fail * 100) : null, bestH: hrs.some(Boolean) ? bestH : -1, st,
     };
   }
-  function bar(p, cls = '') { return `<span class="cbar ${cls}"><i style="width:${Math.max(0, Math.min(100, p))}%"></i></span>`; }
+  function bar(p, cls = '') { return `<span class="pbar ${cls}"><i style="width:${Math.max(0, Math.min(100, p))}%"></i></span>`; }
   function parentsHTML() {
     const R = report(), sk = SK(), th = TH(), name = esc(S.kid || 'Ребёнок');
     const maxM = Math.max(10, ...R.mins), dd = d => new Date(d).toLocaleDateString('ru-RU', { weekday: 'short' });

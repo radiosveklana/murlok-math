@@ -160,9 +160,9 @@ const AcadGames = (() => {
       app.innerHTML = `${topbar('🧘 Практики', 'subject')}<div class="page"><p class="center">Короткие упражнения для спокойствия и бодрости. Котик подскажет каждый шаг.</p><div class="rp-list">${P.map(x => `<button class="rp-card" data-p="${x.id}"><span class="ri">${x.icon}</span><b>${x.title}</b><small>${x.minutes} мин</small><span class="stars">${(S.practices || {})[x.id] ? '✔ ' + S.practices[x.id] + ' раз' : ''}</span></button>`).join('')}</div></div>`;
       back('health'); $$('[data-p]').forEach(b => b.addEventListener('click', () => go('practice2', b.dataset.p))); return;
     }
-    let i = -1, tid = null;
+    let i = -1, tid = null, left = 0, t0 = 0, paused = false;
     const ready = /[аяь]$/i.test(S.kid || '') ? 'Готова' : 'Готов';
-    app.innerHTML = `${topbar(pr.icon + ' ' + pr.title, 'practice2')}<div class="page prac"><div class="prac-ring" id="pring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" class="pr-bg"/><circle cx="50" cy="50" r="45" class="pr-fg" id="pfg"/></svg><div class="prac-cat">${myCat({ smile: true })}</div></div><div class="prac-text" id="ptext">Устройся удобно. ${ready}?</div><div class="row-btns" style="justify-content:center"><button class="btn big pink" id="pgo">▶ Начать</button></div></div>`;
+    app.innerHTML = `${topbar(pr.icon + ' ' + pr.title, 'practice2')}<div class="page prac"><div class="prac-ring" id="pring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" class="pr-bg"/><circle cx="50" cy="50" r="45" class="pr-fg" id="pfg"/></svg><div class="prac-cat">${myCat({ smile: true })}</div></div><div class="prac-text" id="ptext">Устройся удобно. ${ready}?</div><div class="row-btns" style="justify-content:center"><button class="btn big pink" id="pgo">▶ Начать</button><button class="btn" id="ppause" hidden>⏸ Пауза</button><button class="btn" id="pnext" hidden>Дальше ⏭</button></div><p class="small center">Не спеши: делай каждый шаг спокойно. Можно поставить на паузу.</p></div>`;
     cleanups.push(() => clearTimeout(tid));
     const L = 2 * Math.PI * 45, fg = $('#pfg'); fg.style.strokeDasharray = L; fg.style.strokeDashoffset = L;
     const stepGo = () => {
@@ -171,14 +171,19 @@ const AcadGames = (() => {
         $('#ptext').innerHTML = '🌟 Готово! Как ты себя чувствуешь?'; $('#pring').className = 'prac-ring';
         S.practices = S.practices || {}; S.practices[pr.id] = (S.practices[pr.id] || 0) + 1; S.agames = S.agames || {}; S.agames.practices = Math.min(1, Object.keys(S.practices).length / (P.length || 1)); save();
         award(3, 8); if (window.Coach) Coach.track('a:health', 1); acadTask('health', { mistakes: 0 }); SND.win();
-        $('#pgo').hidden = false; $('#pgo').textContent = 'Ещё раз'; return;
+        $('#pgo').hidden = false; $('#pgo').textContent = 'Ещё раз'; $('#ppause').hidden = $('#pnext').hidden = true; return;
       }
-      const s = pr.steps[i]; $('#ptext').textContent = s.text;
-      fg.style.transition = 'none'; fg.style.strokeDashoffset = L; void fg.getBoundingClientRect(); fg.style.transition = `stroke-dashoffset ${s.sec}s linear`; fg.style.strokeDashoffset = 0;
+      const s = pr.steps[i], dur = Math.max(6, Math.round(s.sec * 1.8)); $('#ptext').textContent = s.text; left = dur; // спокойный темп: шаг не короче 6 секунд
+      fg.style.transition = 'none'; fg.style.strokeDashoffset = L; void fg.getBoundingClientRect(); fg.style.transition = `stroke-dashoffset ${dur}s linear`; fg.style.strokeDashoffset = 0;
       $('#pring').className = 'prac-ring ' + (/вдох/i.test(s.text) ? 'in' : /выдох/i.test(s.text) ? 'out' : '');
-      tid = setTimeout(stepGo, s.sec * 1000);
+      tid = setTimeout(stepGo, dur * 1000); t0 = Date.now();
     };
-    $('#pgo').addEventListener('click', () => { $('#pgo').hidden = true; i = -1; stepGo(); });
+    $('#pgo').addEventListener('click', () => { $('#pgo').hidden = true; $('#ppause').hidden = $('#pnext').hidden = false; i = -1; paused = false; stepGo(); });
+    $('#ppause').addEventListener('click', () => {
+      if (!paused) { paused = true; clearTimeout(tid); left = Math.max(1, left - (Date.now() - t0) / 1000); const cs = getComputedStyle(fg).strokeDashoffset; fg.style.transition = 'none'; fg.style.strokeDashoffset = cs; $('#ppause').textContent = '▶ Продолжить'; }
+      else { paused = false; fg.style.transition = `stroke-dashoffset ${left}s linear`; fg.style.strokeDashoffset = 0; tid = setTimeout(stepGo, left * 1000); t0 = Date.now(); $('#ppause').textContent = '⏸ Пауза'; }
+    });
+    $('#pnext').addEventListener('click', () => { clearTimeout(tid); paused = false; $('#ppause').textContent = '⏸ Пауза'; stepGo(); });
   };
 
   const add = (id, x) => { const s = (window.SUBJECTS || {})[id]; if (s) s.extras = [...(s.extras || []).filter(e => e.id !== x.id), x]; };

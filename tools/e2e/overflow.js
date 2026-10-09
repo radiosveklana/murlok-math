@@ -17,7 +17,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
         const W = innerWidth, out = [];
         document.querySelectorAll('#app *').forEach(el => {
           const st = getComputedStyle(el); if (st.display === 'none' || st.visibility === 'hidden' || st.position === 'fixed') return;
-          if (el.closest('.mgrid, .room, .scene, .track, .cgrid, svg, .chat-log, .room-tabs, .sc-tape')) return;
+          if (el.closest('.mgrid, .room, .scene, .track, .cgrid, svg, .chat-log, .room-tabs, .sc-tape, .sky-wrap')) return;
+          if (el.closest('header.top') && el.tagName === 'H1') return; // заголовок обрезается многоточием специально
           const rc = el.getBoundingClientRect(); if (!rc.width) return;
           const txt = (el.innerText || '').trim().slice(0, 40);
           if (rc.right > W + 1 || rc.left < -1) out.push(`за экраном: <${el.tagName.toLowerCase()} class="${el.className}"> ${txt}`);
