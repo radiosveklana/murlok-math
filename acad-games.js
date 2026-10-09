@@ -194,11 +194,15 @@ const AcadGames = (() => {
     app.innerHTML = `${topbar('⛑️ Скорая помощь котика', 'subject')}<div class="page"><div class="g-dots">${qs.map(() => '<i></i>').join('')}</div><p class="center small">Нажимай правильные шаги <b>по порядку</b>. Осторожно: среди них есть ошибки!</p><div id="rq"></div></div>`; back('obzh');
     const ask = () => {
       const q = qs[k], opts = shuffle(q.steps.map((t, i) => ({ t, i })).concat(q.wrong.map(t => ({ t, i: -1 })))); let next = 0, miss = 0;
-      $('#rq').innerHTML = `<div class="q-case">🚑 ${q.s}</div><div class="ord-ans" id="rdone"><span class="small">Шаги помощи появятся здесь 👇</span></div><div class="rs-opts">${opts.map((o, n) => `<button class="opt case-opt" data-n="${n}">${o.t}</button>`).join('')}</div><div id="rwhy"></div>`;
+      let missStep = 0; const hint = (t, bad) => { const h = $('#rhint'); if (h) { h.innerHTML = t; h.className = 'r-hint' + (bad ? ' bad' : ''); } };
+      $('#rq').innerHTML = `<div class="q-case">🚑 ${q.s}</div><div class="r-hint" id="rhint">Шаг 1 из ${q.steps.length}: что сделать <b>сначала</b>?</div><div class="ord-ans" id="rdone"><span class="small">Шаги помощи появятся здесь 👇</span></div><div class="rs-opts">${opts.map((o, n) => `<button class="opt case-opt" data-n="${n}">${o.t}</button>`).join('')}</div><div id="rwhy"></div>`;
       $$('#rq .rs-opts .opt').forEach(b => b.addEventListener('click', () => {
         if (b.disabled) return; const o = opts[+b.dataset.n];
-        if (o.i === next) { b.disabled = true; b.classList.add('right'); SND.ok(); if (!next) $('#rdone').innerHTML = ''; $('#rdone').insertAdjacentHTML('beforeend', `<span class="ord-in ok">${next + 1}. ${o.t}</span>`); next++; if (next === q.steps.length) done(miss === 0); }
-        else { miss++; SND.bad(); b.classList.add('wrong'); setTimeout(() => b.classList.remove('wrong'), 600); toast(o.i < 0 ? '❌ Так делать нельзя!' : 'Этот шаг — позже. Что нужно сделать сначала?'); }
+        if (o.i === next) { b.disabled = true; b.classList.add('right'); SND.ok(); if (!next) $('#rdone').innerHTML = ''; $('#rdone').insertAdjacentHTML('beforeend', `<span class="ord-in ok">${next + 1}. ${o.t}</span>`); next++; missStep = 0; $$('#rq .rs-opts .opt').forEach(x => x.classList.remove('pulse'));
+          if (next === q.steps.length) { hint('✔ Все шаги на месте!'); done(miss === 0); } else hint(`✔ Верно! Шаг ${next + 1} из ${q.steps.length}: что дальше?`); }
+        else { miss++; missStep++; SND.bad(); b.classList.add('wrong'); setTimeout(() => b.classList.remove('wrong'), 600);
+          hint(o.i < 0 ? `❌ «${o.t}» — так делать <b>нельзя</b>! Выбери другой шаг.` : `⏳ «${o.t}» — это правильный шаг, но <b>позже</b>. Что нужно сделать <b>сначала</b>?`, true);
+          if (missStep >= 2) { const nb = $$('#rq .rs-opts .opt').find(x => opts[+x.dataset.n].i === next); if (nb) nb.classList.add('pulse'); } }
       }));
       const done = clean => { $$('#rq .rs-opts .opt').forEach(x => { x.disabled = true; }); $$('.g-dots i')[k].className = clean ? 'ok' : 'bad'; if (clean) ok++;
         $('#rwhy').innerHTML = `<div class="${clean ? 'fb' : 'fb bad'}">${clean ? '✔ Ты всё сделал(а) правильно!' : 'Справились, но были ошибки.'}</div><p>${q.why}</p><p class="small">❌ Ошибки: ${q.wrong.join('; ')}</p><button class="btn big pink" id="rn">${k + 1 < qs.length ? 'Дальше →' : 'Итоги 🏆'}</button>`;

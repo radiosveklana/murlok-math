@@ -45,6 +45,9 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg }) {
     const day = new Date().toISOString().slice(0, 10), dir = path.join(SNAP, day); if (fs.existsSync(dir)) return;
     fs.mkdirSync(dir, { recursive: true }); for (const f of fs.readdirSync(SAVE_DIR)) if (f.endsWith('.json')) fs.copyFileSync(path.join(SAVE_DIR, f), path.join(dir, f));
     fs.readdirSync(SNAP).sort().slice(0, -14).forEach(d => fs.rmSync(path.join(SNAP, d), { recursive: true, force: true }));
+    // сохранения без кабинета родителя (без согласия) — удаляем через 90 дней неактивности
+    const linked = new Set(Object.values(A.children).map(c => c.cloudCode)), friendsFile = path.join(DIR, 'friends.json');
+    for (const f of fs.readdirSync(SAVE_DIR)) { if (!/^[A-Z0-9]{8}\.json$/.test(f) || linked.has(f.slice(0, 8))) continue; const st = fs.statSync(path.join(SAVE_DIR, f)); if (Date.now() - st.mtimeMs > 90 * 864e5) { try { fs.rmSync(path.join(SAVE_DIR, f)); } catch { } } }
   }
   setTimeout(snapshot, 5000); setInterval(snapshot, 36e5);
 
@@ -106,6 +109,10 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg }) {
       const d = await J(), ch = A.children[s.c]; if (!ch) return send(res, 404, { error: 'nf' }, origin);
       ch.survey = Object.fromEntries(Object.entries(d.answers || {}).slice(0, 20).map(([k, v]) => [String(k).slice(0, 30), Array.isArray(v) ? v.slice(0, 8).map(x => String(x).slice(0, 40)) : String(v).slice(0, 80)])); ch.surveyAt = now(); touch();
       return send(res, 200, { ok: true }, origin);
+    }
+    if (r === 'child/me' && req.method === 'GET') { // ребёнку — приоритеты семьи для подстройки программы
+      const s2 = auth(req, 'c'); if (!s2) return send(res, 401, { error: 'auth' }, origin); const f2 = A.families[s2.f], ch = A.children[s2.c]; if (!f2 || !ch) return send(res, 401, { error: 'auth' }, origin);
+      return send(res, 200, { name: ch.name, priorities: f2.priorities || [], survey: ch.survey || null, cloudCode: ch.cloudCode }, origin);
     }
     if (r === 'pending' && req.method === 'POST') { // начисления/восстановление от админа — ребёнок забирает при входе
       const d = await J(), code = String(d.code || '').toUpperCase(); const p = A.pending[code]; if (!p) return send(res, 200, { items: [] }, origin);

@@ -8,7 +8,7 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
 (async () => {
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new', args: ['--autoplay-policy=no-user-gesture-required'] });
   const p = await b.newPage(); await p.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
-  p.on('pageerror', e => errors.push('PAGEERR ' + e.message)); p.on('console', m => { if (m.type() === 'error' && !/favicon|Failed to load resource|CORS|murlok-api/.test(m.text())) errors.push('CONSOLE ' + m.text()); });
+  p.on('pageerror', e => errors.push('PAGEERR ' + e.message)); p.on('console', m => { if (m.type() === 'error' && !/favicon|navigator.vibrate|Failed to load resource|CORS|murlok-api/.test(m.text())) errors.push('CONSOLE ' + m.text()); });
   await p.goto(URL); await p.waitForSelector('#kid');
   await p.evaluate(() => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), { name: 'Мурзик', kid: 'Тест', seenVersion: APP_VERSION, rankV: 2, candies: 100, login: { last: today(), day: 1 } }))); });
   await p.goto(URL); for (let t = 0; t < 3 && !(await p.evaluate(() => typeof window.Coach === 'object' && typeof go === 'function').catch(() => false)); t++) { errors.length = 0; await p.reload(); await sleep(800); }
@@ -86,6 +86,15 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   /* ---------- звёздная карта в обсерватории открывает небо ---------- */
   await go('house', 'observ'); await sleep(900); { const t = await p.$('.fx[data-id="fx_starmap"]'); if (t) { const bb = await t.boundingBox(); await p.touchscreen.tap(bb.x + bb.width / 2, bb.y + bb.height / 2); await sleep(2200); } }
   ok('star map item opens sky', await E(() => curScreen === 'starmap'));
+  /* ---------- «←» ведёт на предыдущий экран ---------- */
+  await go('home'); await go('academy'); await go('subject', 'space'); await go('alesson', 'space:sun_system');
+  const backTo = async () => { await E(() => document.querySelectorAll('.modal,.toast').forEach(m => m.remove())); await p.click('.top .back'); await sleep(500); return E(() => curScreen); };
+  ok('back: lesson -> subject', (await backTo()) === 'subject'); ok('back: subject -> academy', (await backTo()) === 'academy'); ok('back: academy -> home', (await backTo()) === 'home');
+  await go('games'); await go('rescue'); ok('back: game -> games list', (await backTo()) === 'games');
+  await go('starmap'); await go('spacetrip'); ok('back: trip -> starmap', (await backTo()) === 'starmap');
+  /* ---------- «Скорая помощь»: шаг не в свою очередь — понятная подсказка ---------- */
+  await go('rescue'); await E(() => { const G = window.SUBJECTS.obzh.game, s = document.querySelector('.q-case').innerText.replace('🚑 ', '').trim(), q = G.find(g => s.includes(g.s.slice(0, 30))); [...document.querySelectorAll('.rs-opts .opt')].find(b => b.innerText === q.steps[q.steps.length - 1]).click(); });
+  ok('rescue: early step explained', await E(() => /позже/.test(document.querySelector('#rhint').innerText)));
   ok('no errors', !errors.length, errors.slice(0, 4).join(' | '));
   console.log('V22 DONE', n); await b.close();
 })().catch(e => { console.log('V22 FAIL crash', e.message); console.log(errors.join('\n')); process.exit(1); });

@@ -7,7 +7,7 @@ const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'AC
 (async () => {
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new', args: ['--autoplay-policy=no-user-gesture-required'] });
   const p = await b.newPage(); await p.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
-  p.on('pageerror', e => errors.push('PAGEERR ' + e.message)); p.on('console', m => { if (m.type() === 'error' && !/favicon|Failed to load resource/.test(m.text())) errors.push('CONSOLE ' + m.text()); });
+  p.on('pageerror', e => errors.push('PAGEERR ' + e.message)); p.on('console', m => { if (m.type() === 'error' && !/favicon|navigator.vibrate|Failed to load resource/.test(m.text())) errors.push('CONSOLE ' + m.text()); });
   await p.evaluateOnNewDocument(() => { const real = Date.now; window.__off = 0; Date.now = () => real() + window.__off; });
   await p.goto(URL); for (let t = 0; t < 3 && !(await p.evaluate(() => typeof window.Coach === 'object' && typeof go === 'function').catch(() => false)); t++) { errors.length = 0; await p.reload(); await new Promise(r => setTimeout(r, 800)); } await p.waitForSelector('#kid');
   await p.evaluate(() => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), { name: 'Мурзик', kid: 'Тест', seenVersion: APP_VERSION, rankV: 2, login: { last: today(), day: 1 } }))); });

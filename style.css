@@ -1094,3 +1094,16 @@ html, body { overflow-x: hidden; } /* страховка: случайный в�
 @keyframes thPulse { 50% { transform: scale(1.02); } }
 @media (max-width: 380px) { .th-cat { flex-basis: 50px; width: 50px; } .th-q { font-size: 17px; } }
 .racc-says { margin: 10px 0; padding: 8px 12px; background: #FFF3E0; border-radius: 12px; border-left: 4px solid #B07C45; }
+.r-hint { margin: 10px 0; padding: 10px 12px; border-radius: 14px; background: #EAF7F0; font-weight: 800; } .r-hint.bad { background: #FFEDED; color: #B3261E; } .rs-opts .opt.pulse { animation: glow 1s infinite; outline: 3px solid var(--gold); }
+/* личные кабинеты */
+.acc-entry { display: grid; gap: 8px; margin: 0 0 14px; } .acc-entry .btn { width: 100%; }
+.acc .card h2 { margin-top: 0; } .acc .err { color: var(--red); min-height: 18px; margin-top: 6px; } .acc .tgl a { color: var(--plum); }
+.acc .card.hl { border: 3px solid var(--gold); }
+.pinpick { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 8px 0; } .pp { font-size: 26px; background: #fff; border-radius: 12px; box-shadow: var(--sh); padding: 6px 0; } .pp:active { transform: scale(.9); }
+.kid-row { display: grid; grid-template-columns: 56px 1fr auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); } .kr-cat svg { width: 100%; height: auto; } .kr-info { display: flex; flex-direction: column; min-width: 0; } .kr-info small { color: var(--muted); }
+.prio { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; } .prio .chip { cursor: pointer; padding: 6px 10px; border-radius: 12px; background: #fff; box-shadow: var(--sh); font-size: 14px; } .prio .chip.on { background: var(--pink); color: #fff; }
+.acc code { background: #F5F0FB; padding: 2px 6px; border-radius: 6px; overflow-wrap: anywhere; }
+.acc-nudge { background: #EAF4FF; border-radius: 16px; padding: 10px 14px; margin: 10px 0; cursor: pointer; font-size: 15px; } .acc-card { border: 2px solid #E3D7FF; }
+.sv-opts { display: grid; gap: 6px; margin: 10px 0; }
+.acad-card.fav { outline: 3px solid var(--gold); } .favb { position: absolute; top: 6px; right: 6px; background: var(--gold); color: #5A3B00; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 8px; }
+@media (max-width: 380px) { .pinpick { grid-template-columns: repeat(4, 1fr); } }

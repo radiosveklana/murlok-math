@@ -9,7 +9,7 @@ const LIST = { me: 'MYCODE', friends: [{ pub: 'FRND22', cat: 'Пушок', kid: 
 (async () => {
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new', args: ['--autoplay-policy=no-user-gesture-required'] });
   const p = await b.newPage(); await p.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
-  p.on('pageerror', e => errors.push('PAGEERR ' + e.message)); p.on('console', m => { if (m.type() === 'error' && !/favicon|Failed to load resource/.test(m.text())) errors.push('CONSOLE ' + m.text()); });
+  p.on('pageerror', e => errors.push('PAGEERR ' + e.message)); p.on('console', m => { if (m.type() === 'error' && !/favicon|navigator.vibrate|Failed to load resource/.test(m.text())) errors.push('CONSOLE ' + m.text()); });
   const sent = [];
   await p.setRequestInterception(true);
   p.on('request', r => {
