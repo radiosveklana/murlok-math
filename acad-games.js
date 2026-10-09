@@ -53,7 +53,7 @@ const AcadGames = (() => {
     { at: '🔑 Дома один', s: 'Ты дома один. Звонят в дверь: «Откройте, это проверка газа!»', a: [['Не открою, позвоню родителям', 1, 'Верно! Дверь никому не открываем, когда дома один, даже «мастерам».'], ['Открою — это же газ', 0, 'Настоящие проверки договариваются со взрослыми заранее.'], ['Скажу, что дома никого нет из взрослых', 0, 'Не говорим, что дома один. Можно сказать «Мама сейчас не может подойти» и позвонить ей.']] },
   ];
   SCREENS.citywalk = () => {
-    const path = shuffle(WALK).slice(0, 6); let k = 0, hearts = 0;
+    const pool = WALK.concat(window.EXTRA_WALK || []), seenW = (S.agSeen = S.agSeen || {}).walk = S.agSeen.walk || {}, path = shuffle(pool).sort((x, y) => (seenW[x.at] || 0) - (seenW[y.at] || 0)).slice(0, 6); path.forEach(w => { seenW[w.at] = (seenW[w.at] || 0) + 1; }); save(); let k = 0, hearts = 0;
     app.innerHTML = `${topbar('🚶 Прогулка по городу', 'subject')}<div class="page walk"><div class="walk-map">${path.map((p, i) => `<span class="ws" data-i="${i}">${p.at.split(' ')[0]}</span>`).join('<i class="wl"></i>')}<div class="walk-cat" id="wcat">${myCat({ smile: true })}</div></div><div class="pill center-pill">🛡️ Безопасных решений: <b id="wh">0</b></div><div id="wq"></div></div>`;
     back('safety');
     const moveCat = () => { const s = $(`.ws[data-i="${k}"]`); if (s) { const m = $('.walk-map').getBoundingClientRect(), r = s.getBoundingClientRect(); $('#wcat').style.left = (r.left - m.left + r.width / 2) + 'px'; } $$('.ws').forEach((x, i) => x.classList.toggle('now', i === k)); };
@@ -95,7 +95,7 @@ const AcadGames = (() => {
     ['Новость без автора, даты и источника, зато с очень громким заголовком', 0, 'Фейк-признаки: нет автора, даты и источника. Такую новость надо проверить.'],
   ];
   SCREENS.fakenews = () => {
-    const qs = shuffle(CLAIMS).slice(0, 10); let k = 0, ok = 0, t0 = 0, tid = null;
+    const pool = CLAIMS.concat(window.EXTRA_CLAIMS || []), seenC = (S.agSeen = S.agSeen || {}).claims = S.agSeen.claims || {}, qs = shuffle(pool).sort((x, y) => (seenC[x[0]] || 0) - (seenC[y[0]] || 0)).slice(0, 10); qs.forEach(q => { seenC[q[0]] = (seenC[q[0]] || 0) + 1; }); save(); let k = 0, ok = 0, t0 = 0, tid = null;
     app.innerHTML = `${topbar('📰 Фейк или правда?', 'subject')}<div class="page fake"><div class="g-dots">${qs.map(() => '<i></i>').join('')}</div><p class="center small">Решай быстро, но с умом: на каждое утверждение — 12 секунд.</p><div id="fq"></div></div>`;
     back('think'); cleanups.push(() => clearInterval(tid));
     const ask = () => {
@@ -117,7 +117,7 @@ const AcadGames = (() => {
   const gb = g => (S.agames || {})[g], gbadge = g => () => gb(g) != null ? 'рекорд ' + Math.round(gb(g) * 100) + '%' : '';
   /* ================= 🌍 Помоги или навреди? ================= */
   SCREENS.helpharm = () => {
-    const G = ((window.SUBJECTS || {}).world || {}).game || []; if (!G.length) return go('subject', 'world');
+    const G = (((window.SUBJECTS || {}).world || {}).game || []).concat(window.EXTRA_HELPHARM || []); if (!G.length) return go('subject', 'world');
     const qs = shuffle(G).slice(0, 10); let k = 0, ok = 0;
     app.innerHTML = `${topbar('🌍 Помоги или навреди?', 'subject')}<div class="page fake"><div class="g-dots">${qs.map(() => '<i></i>').join('')}</div><div id="hq"></div></div>`; back('world');
     const fin = () => { best('helpharm', ok, qs.length); done('world', ok, qs.length, true); result($('#hq'), ok, qs.length, 'helpharm', 'world', '<p class="small">Каждое доброе дело делает мир чуточку лучше 💚</p>'); };
@@ -189,6 +189,6 @@ const AcadGames = (() => {
   add('body', { id: 'bodybuild', icon: '🧩', name: 'Собери тело', run: () => go('bodybuild'), badge: gbadge('bodybuild'), prog: () => gb('bodybuild') || 0 });
   add('health', { id: 'practice2', icon: '🧘', name: 'Практики с таймером', run: () => go('practice2'), badge: () => { const n = Object.keys(S.practices || {}).length; return n ? 'освоено: ' + n : ''; }, prog: () => gb('practices') || 0 });
   ['solar', 'citywalk', 'fakenews', 'helpharm', 'bodybuild', 'practice2'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
-  return { PLANETS, WALK, CLAIMS };
+  return { PLANETS, get WALK() { return WALK.concat(window.EXTRA_WALK || []); }, CLAIMS };
 })();
 window.AcadGames = AcadGames;

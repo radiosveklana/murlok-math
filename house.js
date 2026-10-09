@@ -62,6 +62,9 @@ const FSIZE = { fx_bed: 30, fx_sofa: 28, fx_tub: 27, fx_bowl: 8, fx_water: 8, fx
   fx_pool: 30, fx_ring: 9, fx_mic: 12, fx_notes: 14, fx_shelf: 22, fx_globe: 11, fx_window: 20, fx_panel: 18, lamp2: 10, vase: 10, rug: 18, hammock: 24, bookcase: 15, catwheel: 22, plush: 18, blocks: 10, puzzle: 10, dollhouse: 20, bubbles: 10, slide: 24, trampoline: 24, scooter: 13, macarons: 11, pancakes: 10, jelly: 9, candyhouse: 20, chocofountain: 20, kitten: 9, puppy: 10, owlet: 8, snail: 7, ladybug: 6, balloonarch: 26, garland: 22, partyhat: 20, mirrorball: 11, magicbook: 10, potion: 8, magichat: 11, phoenix: 15, comet: 14, astronaut: 16, satellite: 14, rainbowtree: 26, pond: 24, palm: 22, rainbowfox: 10, beanbag: 14,
   star: 8, moon: 12, planet: 15, rocket: 19, ufo: 17, alien: 12, sunflower: 13, cactus: 11, mushroom: 8, tree: 28, snowman: 17, fountain: 24 };
 const CAT_W = 15;
+// «полки»: у этих вещей есть верх, на который можно поставить небольшую вещь (полка на стене → на ней магический шар)
+const SURF = new Set(['wallshelf', 'table', 'dresser', 'bookcase', 'fx_desk', 'fx_shelf', 'piano', 'fx_stove', 'chair', 'tv', 'fx_panel', 'fx_mixer', 'safe2', 'fireplace', 'lego', 'dollhouse', 'console', 'fx_throne']);
+const SMALL = id => (FSIZE[id] || 10) <= 14; // ставить сверху можно только небольшие вещи
 SCREENS.house = (roomId) => {
   houseMigrate();
   const ROOMS = HL.ROOMS; let cur = ROOMS.find(r => r.id === roomId) || ROOMS[0], placing = null, busy = false;
@@ -94,7 +97,7 @@ SCREENS.house = (roomId) => {
     roomEl.style.backgroundImage = ROOM_IMG.has(cur.id) ? `url('img/rooms/${cur.id}.jpg')` : '';
     roomEl.style.setProperty('--wall', cur.wall); roomEl.style.setProperty('--floor', cur.floor); setUnit();
     const pl = roomPlace(cur), low = careLow(), cat = S.catAt[cur.id] || { x: 78, y: 3 };
-    pl.forEach(q => { if (!isWall(q.id) && q.y > FLOOR - 6) q.y = FLOOR - 6; if (isWall(q.id) && q.y < FLOOR + 4) q.y = FLOOR + 4; }); if (cat.y > FLOOR - 6) cat.y = FLOOR - 6;
+    pl.forEach(q => { if (q.on && !pl.some(z => z.id === q.on)) q.on = null; if (!q.on && !isWall(q.id) && q.y > FLOOR - 6) q.y = FLOOR - 6; if (isWall(q.id) && q.y < FLOOR + 4) q.y = FLOOR + 4; }); if (cat.y > FLOOR - 6) cat.y = FLOOR - 6;
     roomEl.innerHTML = `<div class="wall"><div class="window">${cur.dark ? '✨' : '☁️'}</div></div><div class="floor"></div>
       ${pl.map(p => itemHTML(p, low)).join('')}
       <div class="room-cat" id="rcat" style="left:${cat.x}%;bottom:${cat.y}%;z-index:${zOf(cat.y) + 1}">${myCat()}</div>
@@ -112,11 +115,20 @@ SCREENS.house = (roomId) => {
   function itemHTML(p, low) {
     const it = itemInfo(cur, p.id); if (!it) return '';
     const needK = { food: 'food', water: 'water', sleep: 'energy', play: 'fun', wash: 'clean' }[it.care];
-    return `<button class="fx ${it.fixed ? 'fixed' : ''} ${needK && low.includes(needK) ? 'needs' : ''}" data-id="${p.id}" style="left:${p.x}%;bottom:${p.y}%;z-index:${zOf(p.y)};--s:${FSIZE[p.id] || 10}">${icon(p.id, it.icon)}${it.care ? `<small class="ctag">${{ food: '🍽️', water: '💧', sleep: '💤', play: '🎾', wash: '🫧', rest: '🛋️' }[it.care]}</small>` : ''}</button>`;
+    const base = p.on && roomPlace(cur).find(z => z.id === p.on), zz = base ? zOf(base.y) + 2 : zOf(p.y);
+    return `<button class="fx ${it.fixed ? 'fixed' : ''} ${needK && low.includes(needK) ? 'needs' : ''} ${p.on ? 'onshelf' : ''}" data-id="${p.id}" data-on="${p.on || ''}" style="left:${p.x}%;bottom:${p.y}%;z-index:${zz};--s:${FSIZE[p.id] || 10}">${icon(p.id, it.icon)}${it.care ? `<small class="ctag">${{ food: '🍽️', water: '💧', sleep: '💤', play: '🎾', wash: '🫧', rest: '🛋️' }[it.care]}</small>` : ''}</button>`;
   }
   const FLOOR = 30; // верх пола в % высоты комнаты
   const isWall = id => { const c = catItem(id); if (c) return !!c[7]; const f = cur.fixed.find(x => x[0] === id); return f ? f[4] > FLOOR : false; };
-  function settle(el, id, y, isCat) { // «физика»: если отпустили в воздухе — плавно падает на пол
+  function surfaceUnder(el, id, y) { // самая высокая поверхность под вещью, на которую её отпустили сверху
+    if (!SMALL(id) || SURF.has(id)) return null; const me = boxOf(el), cx = (me.l + me.r) / 2; let best = null;
+    $$('.fx', roomEl).forEach(o => { if (o === el || !SURF.has(o.dataset.id)) return; const b = boxOf(o), R = roomEl.getBoundingClientRect(), top = b.y + o.getBoundingClientRect().height / R.height * 100 * 0.9;
+      if (cx > b.l + 1 && cx < b.r - 1 && y >= top - 6 && (!best || top > best.top)) best = { top, id: o.dataset.id, z: +o.style.zIndex || 0 }; });
+    return best;
+  }
+  function settle(el, id, y, isCat) { // «физика»: если отпустили в воздухе — плавно падает на пол (или встаёт на полку/столик)
+    const sf = !isCat && surfaceUnder(el, id, y); el.dataset.on = sf ? sf.id : '';
+    if (sf) { const ny = Math.min(86, sf.top); el.style.zIndex = sf.z + 2; if (Math.abs(ny - y) > 0.5) { el.classList.add('falling'); el.style.bottom = ny + '%'; setTimeout(() => { el.classList.remove('falling'); el.classList.add('landed'); M.sfx('pop'); setTimeout(() => el.classList.remove('landed'), 400); }, 380); } return ny; }
     const wall = !isCat && isWall(id), ny = wall ? Math.max(FLOOR + 4, Math.min(86, y)) : Math.min(y, FLOOR - 6);
     if (ny !== y) { el.classList.add('falling'); el.style.bottom = ny + '%'; setTimeout(() => { el.classList.remove('falling'); el.classList.add('landed'); M.sfx('bounce'); M.haptic(15); setTimeout(() => el.classList.remove('landed'), 400); }, 380); }
     return ny;
@@ -126,7 +138,7 @@ SCREENS.house = (roomId) => {
     if (!isCat && isWall(el.dataset.id)) return parseFloat(el.style.left);
     let x = parseFloat(el.style.left);
     for (let it = 0; it < 6; it++) {
-      const me = boxOf(el), hit = $$('.fx', roomEl).find(o => o !== el && !isWall(o.dataset.id) && (() => { const b = boxOf(o), ov = Math.min(me.r, b.r) - Math.max(me.l, b.l); return ov > Math.min(me.w, b.w) * 0.35 && Math.abs(me.y - b.y) < 9; })());
+      const me = boxOf(el), hit = $$('.fx', roomEl).find(o => o !== el && !isWall(o.dataset.id) && !o.dataset.on && o.dataset.id !== el.dataset.on && (() => { const b = boxOf(o), ov = Math.min(me.r, b.r) - Math.max(me.l, b.l); return ov > Math.min(me.w, b.w) * 0.35 && Math.abs(me.y - b.y) < 9; })());
       if (!hit) break;
       const b = boxOf(hit), toLeft = (me.l + me.r) / 2 < (b.l + b.r) / 2, nx = toLeft ? b.l - me.w / 2 - 1 : b.r + me.w / 2 + 1;
       x = Math.max(me.w / 2 + 1, Math.min(99 - me.w / 2, nx)); el.classList.add('nudge'); el.style.left = x + '%';
@@ -155,7 +167,9 @@ SCREENS.house = (roomId) => {
         if (isCat) { const y = settle(el, null, xy[1], true); setTimeout(() => { const x = unblock(el, true); S.catAt[cur.id] = { x, y }; save(); }, 420); el.style.zIndex = zOf(y) + 1; return; }
         const pl = roomPlace(cur), p = pl.find(q => q.id === el.dataset.id);
         if (over && !el.classList.contains('fixed')) { S.place[cur.id] = pl.filter(q => q !== p); save(); say(HL.HOUSE_PH[1]); M.sfx('pop'); drawRoom(); return; }
-        p.x = xy[0]; p.y = settle(el, p.id, xy[1]); el.style.zIndex = zOf(p.y); M.sfx('pop'); setTimeout(() => { p.x = unblock(el); save(); }, 420); save();
+        const ox = p.x, oy = p.y; p.x = xy[0]; p.y = settle(el, p.id, xy[1]); p.on = el.dataset.on || null; if (!p.on) el.style.zIndex = zOf(p.y); M.sfx('pop');
+        if (SURF.has(p.id)) roomPlace(cur).filter(z => z.on === p.id).forEach(z => { z.x += p.x - ox; z.y += p.y - oy; const ze = $(`.fx[data-id="${z.id}"]`, roomEl); if (ze) { ze.style.left = z.x + '%'; ze.style.bottom = z.y + '%'; } });
+        setTimeout(() => { if (!p.on) p.x = unblock(el); save(); }, 420); save();
       };
       el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
     });

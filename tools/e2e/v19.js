@@ -15,7 +15,7 @@ const LIST = { me: 'MYCODE', friends: [{ pub: 'FRND22', cat: 'Пушок', kid: 
   p.on('request', r => {
     const u = r.url();
     if (r.method() === 'OPTIONS' && /murlok-api/.test(u)) return r.respond({ status: 204, headers: { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET,POST,OPTIONS' } });
-    if (/murlok-api\/friend\//.test(u)) { const act = u.split('/friend/')[1]; sent.push(act + ' ' + (r.postData() || '')); const body = act === 'list' ? LIST : act === 'house' ? HOUSE : act === 'add' ? { status: 'mutual', friend: { pub: 'NEWF33', cat: 'Барсик', kid: 'Петя' } } : { ok: true }; return r.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(body) }); }
+    if (/murlok-api\/friend\//.test(u)) { const act = u.split('/friend/')[1]; sent.push(act + ' ' + (r.postData() || '')); const pd = JSON.parse(r.postData() || '{}'); const body = act === 'list' ? LIST : act === 'house' ? HOUSE : act === 'add' ? { status: 'mutual', friend: { pub: 'NEWF33', cat: 'Барсик', kid: 'Петя' } } : act === 'here' ? (pd.at === 'home' ? { guests: [{ pub: 'FRND22', cat: 'Пушок', kid: 'Маша', fur: 'galaxy', wear: {}, room: 'kitchen' }], unread: 0, last: null } : { host: { online: true, at: 'home', room: 'kitchen' }, conflict: !!global.CONFLICT, guests: [] }) : { ok: true }; return r.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(body) }); }
     if (/murlok-api\/roleplay/.test(u)) { const d = JSON.parse(r.postData() || '{}'); sent.push('rp ' + (d.end ? 'end' : d.text)); return r.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(d.end ? { good: ['Ты спросил(а) про чувства'], try: ['Скажи «я рядом»'], stars: 3, reply: 'Молодец!' } : { reply: 'Ой, привет! Я Рыжик.', mood: 'happy', flag: 'none' }) }); }
     if (/murlok-api\/(tts|tg|save|chat)/.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: '{}' });
     r.continue();
@@ -63,10 +63,17 @@ const LIST = { me: 'MYCODE', friends: [{ pub: 'FRND22', cat: 'Пушок', kid: 
   await click('[data-acc="NEWF33"]'); await sleep(400); ok('accept friend sends add', sent.some(s => s.startsWith('add') && s.includes('NEWF33')));
   await go('visit', 'FRND22'); await sleep(700);
   ok('visit renders guest house', await E(() => document.querySelectorAll('#vroom .fx').length >= 2 && document.querySelectorAll('#vroom .room-cat').length === 2 && /Пушок/.test(document.querySelector('.visit-head').innerText)));
+  await sleep(800); ok('host status shown', await E(() => /дома/.test(document.querySelector('#hostst').innerText)));
+  await E(() => { const c = document.querySelector('#vroom .friend-cat'); c.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); c.dispatchEvent(new PointerEvent('pointerup', { bubbles: true })); c.click(); catMood('happy', 100); }); await sleep(400);
+  ok('friend cat keeps its own fur', await E(() => document.querySelector('#vroom .friend-cat').innerHTML.includes('fg-galaxy') && !document.querySelector('#vroom .guest-cat').innerHTML.includes('fg-galaxy')));
   const before = await E(() => JSON.stringify({ kid: S.kid, place: S.place, fur: S.fur }));
   await click('#vlike'); await sleep(300); ok('like sent', sent.some(s => s.startsWith('react') && s.includes('"kind":"like"')));
   await click('#vsay'); await click('[data-p="0"]'); ok('phrase from list sent', sent.some(s => s.startsWith('react') && s.includes('"kind":"phrase"')));
   ok('guest view does not touch own state', (await E(() => JSON.stringify({ kid: S.kid, place: S.place, fur: S.fur }))) === before);
+  global.CONFLICT = true; await go('visit', 'FRND22'); await sleep(1500); ok('mutual visit -> go home prompt', !!(await p.$('#gohome'))); global.CONFLICT = false;
+  await click('#gohome'); await sleep(800); await E(() => { const t = document.querySelector('.rtab[data-r="kitchen"]'); t && t.click(); }); await sleep(6000);
+  ok('host sees guest in own house', await E(() => !!document.querySelector('#room .friend-cat.visitor') && /Пушок/.test(document.querySelector('#room .friend-cat.visitor').innerText)));
+  await E(() => document.querySelectorAll('.modal').forEach(m => m.remove()));
   await go('home'); ok('friends tile', !!(await p.$('.t-friends')));
   await go('parents'); await sleep(500); ok('parents friends card', !!(await p.$('#frOn')) && !!(await p.$('#tgcard')));
 

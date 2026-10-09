@@ -127,6 +127,7 @@ typeof SCREENS !== 'undefined' && (function () {
 
   /* ---- вспышки слов: увидел на миг — выбери, что было ---- */
   const WORDS = ['кот', 'сыр', 'дом', 'мяч', 'лупа', 'торт', 'след', 'вор', 'ключ', 'окно', 'сыщик', 'пончик', 'улика', 'конфета', 'загадка', 'детектив', 'карамель', 'шоколад', 'мармелад', 'следопыт', 'лабиринт', 'фонарик', 'котёнок', 'печенье', 'лимонад'];
+  (window.EXTRA_WORDS || []).forEach(w => { if (!WORDS.includes(w)) WORDS.push(w); }); // + слова из content/extra/games-extra.js
   const similar = w => shuffle(WORDS.filter(x => x !== w && Math.abs(x.length - w.length) <= 2)).slice(0, 3);
   SCREENS.flash = () => {
     let lvl = Math.max(1, R().flash || 1), round = 0, ok = 0; const ROUNDS = 10;

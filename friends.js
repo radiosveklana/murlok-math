@@ -60,7 +60,7 @@ const Friends = (() => {
     if (!cache) await load().catch(() => { });
     const gifts = (cache && cache.d.gifts) || [], phrases = (cache && cache.d.phrases) || [];
     const rooms = window.Lines.ROOMS.filter(r => h.rooms.includes(r.id)); let cur = rooms[0];
-    const liked = new Set();
+    const liked = new Set(); let hostOnline = false, hostRoom = '', warned = false;
     $('.visit').innerHTML = `<div class="visit-head"><div class="fr-cat sm">${catSVG({ fur: furSafe(h.fur), wear: h.wear, smile: true, paw: true })}</div><div><b>Домик котика ${esc(h.cat)}</b><small>${h.kid ? 'Хозяйка/хозяин: ' + esc(h.kid) : ''}</small></div></div>
       <div class="room-tabs" id="vrt"></div><div class="room big" id="vroom"></div>
       <div class="visit-act"><button class="btn" id="vlike">❤️ Нравится</button><button class="btn" id="vgift">🎁 Подарок</button><button class="btn" id="vsay">💬 Сказать</button></div><p class="small center">Ты в гостях — вещи можно рассматривать, но двигать их может только хозяин 🙂</p>`;
@@ -75,12 +75,24 @@ const Friends = (() => {
       roomEl.style.setProperty('--wall', cur.wall); roomEl.style.setProperty('--floor', cur.floor); setU();
       roomEl.innerHTML = `<div class="wall"><div class="window">${cur.dark ? '✨' : '☁️'}</div></div><div class="floor"></div>
         ${pl.map(p => { const it = itemInfo(cur, p.id); return it ? `<button class="fx" data-id="${esc(p.id)}" style="left:${p.x}%;bottom:${p.y}%;z-index:${zOf(p.y)};--s:${FSIZE[p.id] || 10}">${icon(p.id, it.icon)}</button>` : ''; }).join('')}
-        <div class="room-cat" style="left:${cat.x}%;bottom:${cat.y}%;z-index:${zOf(cat.y) + 1}">${catSVG({ fur: furSafe(h.fur), wear: h.wear, smile: true })}</div>
+        ${!hostOnline || hostRoom === cur.id ? `<div class="room-cat friend-cat" data-name="${esc(h.cat)}" style="left:${cat.x}%;bottom:${cat.y}%;z-index:${zOf(cat.y) + 1}">${catSVG({ fur: furSafe(h.fur), wear: h.wear, smile: true })}<span class="cat-tag">${esc(h.cat)}</span></div>` : ''}
         <div class="room-cat guest-cat" style="left:14%;bottom:3%;z-index:420">${myCat({ smile: true, paw: true })}</div>`;
+      $$('.friend-cat', roomEl).forEach(c => c.addEventListener('click', () => { c.classList.remove('wiggle'); void c.offsetWidth; c.classList.add('wiggle'); M.meow({ shape: 'happy' }); hearts(c, 2); floatText(`${c.dataset.name}: Мур! Рад тебя видеть!`); }));
       $$('.fx', roomEl).forEach(b => b.addEventListener('click', () => { b.classList.remove('wiggle'); void b.offsetWidth; b.classList.add('wiggle'); M.sfx('pop'); const it = itemInfo(cur, b.dataset.id); if (it) floatText(it.name); }));
       $('#vlike').classList.toggle('on', liked.has(cur.id));
     };
     draw();
+    $('.visit-head').insertAdjacentHTML('afterend', '<div class="host-st" id="hostst">…</div>');
+    const ping = async () => {
+      if (curScreen !== 'visit') return; let r; try { r = await call('here', { at: pub, room: cur.id }); } catch (e) { return; }
+      if (curScreen !== 'visit') return;
+      if (r.conflict && !warned) { warned = true; const m = modal(`<div class="big-emoji">🏃‍♀️🏠</div><h2>Котик ${esc(h.cat)} сейчас у тебя в гостях!</h2><p>Вы разминулись — беги домой встречать гостя!</p><div class="row-btns"><button class="btn pink" id="gohome">🏠 Домой встречать</button><button class="btn" data-close>Остаться</button></div>`); $('#gohome', m.el).addEventListener('click', () => { m.close(); go('house'); }); }
+      const H = r.host || {}, was = hostOnline + hostRoom; hostOnline = !!H.online && H.at === 'home'; hostRoom = H.room || '';
+      const st = $('#hostst'); if (st) st.innerHTML = H.online ? (H.at === 'home' ? `🟢 ${esc(h.cat)} дома${hostRoom ? ' — в комнате «' + esc(roomName(hostRoom)) + '»' : ''}. Хозяин видит, что ты в гостях!` : `🟡 ${esc(h.cat)} сейчас сам в гостях у друга`) : `⚪ Хозяина сейчас нет в игре — можно посмотреть домик, он узнает о твоём визите по ❤️ и подаркам`;
+      if (was !== hostOnline + hostRoom) draw();
+    };
+    ping(); const piv = setInterval(ping, 5000); cleanups.push(() => clearInterval(piv));
+    $('#vrt').addEventListener('click', () => setTimeout(ping, 50));
     const react = async (kind, val) => { try { const r = await call('react', { pub, kind, room: cur.id, val }); if (kind === 'like') { liked.add(cur.id); if (!r.dup) h.likes[cur.id] = (h.likes[cur.id] || 0) + 1; draw(); hearts($('#vroom'), 4); } SND.win(); toast(kind === 'like' ? '❤️ Хозяин узнает, что тебе понравилось!' : kind === 'gift' ? `🎁 Подарок ${gifts[val]} отправлен!` : '💬 Друг увидит твои слова!'); } catch (e) { toast(e.code === 'slow' ? 'На сегодня хватит — завтра можно ещё 🙂' : 'Не получилось отправить'); } };
     $('#vlike').addEventListener('click', () => { if (liked.has(cur.id)) return toast('Ты уже поставил(а) ❤️ этой комнате'); react('like', 0); });
     $('#vgift').addEventListener('click', () => { const m = modal(`<h2>🎁 Подарок другу</h2><div class="fr-pick">${gifts.map((g, i) => `<button class="ph-s" data-g="${i}">${g}</button>`).join('')}</div><button class="btn" data-close>Отмена</button>`); $$('[data-g]', m.el).forEach(b => b.addEventListener('click', () => { m.close(); react('gift', +b.dataset.g); })); });
@@ -96,7 +108,27 @@ const Friends = (() => {
     ph.insertAdjacentHTML('beforebegin', '<button class="tile t-friends" data-go="friends"><span class="ti">🤝</span><b>Друзья</b><small>Ходите в гости в домики</small><span class="tbadge" id="frbadge" hidden></span></button>');
     if (S.cloudAt && !cloudOff()) call('list').then(d => { cache = { d, t: Date.now() }; const b = $('#frbadge'); const n = d.unread + d.incoming.length; if (b && n) { b.hidden = false; b.textContent = n; } }).catch(() => { });
   });
-  wrap('house', () => { syncPub(); });
+  wrap('house', () => {
+    syncPub(); if (!on() || !S.cloudCode) return;
+    let guests = [], known = new Set(), lastTs = 0;
+    const curRoom = () => { const t = $('.rtab.on', app); return t ? t.dataset.r : ''; };
+    const paint = () => {
+      const room = $('#room', app); if (!room) return; $$('.friend-cat.visitor', room).forEach(x => x.remove());
+      guests.filter(g => g.room === curRoom()).forEach((g, i) => room.insertAdjacentHTML('beforeend', `<div class="room-cat friend-cat visitor" data-name="${esc(g.cat)}" style="left:${10 + i * 12}%;bottom:3%;z-index:440">${catSVG({ fur: furSafe(g.fur), wear: g.wear || {}, smile: true, paw: true })}<span class="cat-tag">${esc(g.cat)}${g.kid ? ' · ' + esc(g.kid) : ''}</span></div>`));
+      $$('.friend-cat.visitor', room).forEach(c => c.addEventListener('click', () => { M.meow({ shape: 'happy' }); hearts(c, 2); floatText(`${c.dataset.name}: Привет! Классный домик!`); }));
+      const tabs = $$('.rtab', app); tabs.forEach(t => { const here = guests.filter(g => g.room === t.dataset.r); let b = $('.gst', t); if (here.length) { if (!b) { t.insertAdjacentHTML('beforeend', '<i class="gst">👀</i>'); } } else if (b) b.remove(); });
+    };
+    const ping = async () => {
+      if (curScreen !== 'house') return; let r; try { r = await call('here', { at: 'home', room: curRoom() }); } catch (e) { return; }
+      if (curScreen !== 'house') return; guests = r.guests || [];
+      guests.forEach(g => { if (!known.has(g.pub)) { known.add(g.pub); M.meow({ shape: 'happy' }); toast(`<span class="tb">🚪</span><div><b>${esc(g.cat)}</b>${g.kid ? ' (' + esc(g.kid) + ')' : ''} пришёл к тебе в гости!${g.room && g.room !== curRoom() ? `<br><small>Сейчас в комнате «${esc(roomName(g.room))}»</small>` : ''}</div>`); } });
+      known.forEach(p => { if (!guests.some(g => g.pub === p)) known.delete(p); });
+      if (r.last && r.last.ts > lastTs) { if (lastTs) { const L = r.last; toast(`<span class="tb">${L.kind === 'like' ? '❤️' : L.kind === 'gift' ? (r.gifts || [])[L.val] || '🎁' : '💬'}</span><div><b>${esc(L.cat)}</b>: ${L.kind === 'like' ? 'нравится комната «' + esc(roomName(L.room)) + '»' : L.kind === 'gift' ? 'прислал(а) подарок!' : '«' + esc((r.phrases || [])[L.val] || '') + '»'}</div>`); } lastTs = r.last.ts; }
+      paint();
+    };
+    ping(); const iv = setInterval(ping, 5000); cleanups.push(() => clearInterval(iv));
+    const room = $('#room', app); if (room && window.MutationObserver) { const mo = new MutationObserver(() => { if (!$('.friend-cat.visitor', room) && guests.length) paint(); }); mo.observe(room, { childList: true }); cleanups.push(() => mo.disconnect()); }
+  });
   wrap('parents', () => {
     const pg = $('.page.parents', app); if (!pg || !$('#reset', pg)) return;
     $('#reset', pg).insertAdjacentHTML('beforebegin', `<div class="card"><h3>🤝 Друзья в игре</h3><label class="tgl"><input type="checkbox" id="frOn" ${on() ? 'checked' : ''}> Разрешить друзей и гостей в домике</label><p class="small">Дружба только взаимная: дети обмениваются кодами лично. Переписки нет — только ❤️, стикеры и готовые добрые фразы. Друзья видят имя котика, имя ребёнка, наряд и комнаты домика — и больше ничего.</p><div id="frpar" class="small">Загружаем список…</div></div>`);

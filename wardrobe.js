@@ -58,7 +58,7 @@ const Wardrobe = (() => {
   NEW.concat(LEGEND_ITEMS).forEach(it => { if (!ITEMS.some(x => x.id === it.id)) ITEMS.push(it); });
 
   if (typeof FSIZE !== 'undefined') Object.assign(FSIZE, { fx_skates: 12, fx_flake: 12, fx_mixer: 18, fx_belt: 26, fx_tscope: 22, fx_starmap: 22, fx_throne: 22, fx_banner: 14, fx_cup: 16, fx_stars: 24,
-    sofa2: 26, armchair: 16, chandelier: 14, fireplace: 22, aquarium2: 20, piggy: 9, owl: 8, hedgehog: 8, panda: 14, dino: 14, racecar: 12, lego: 18, console: 11, swing: 20, macatower: 10, waffles: 9, cottoncandy: 10, pancakes2: 9, bigcake: 14, chocoriver: 16,
+    wallshelf: 18, table: 16, dresser: 18, sofa2: 26, armchair: 16, chandelier: 14, fireplace: 22, aquarium2: 20, piggy: 9, owl: 8, hedgehog: 8, panda: 14, dino: 14, racecar: 12, lego: 18, console: 11, swing: 20, macatower: 10, waffles: 9, cottoncandy: 10, pancakes2: 9, bigcake: 14, chocoriver: 16,
     skis: 14, sled: 14, snowglobe: 9, igloo: 24, penguin: 10, scarfrack: 12, surf: 14, shell: 7, crab: 8, lighthouse: 18, harp: 12, violin: 11, sax: 11, disco: 12, detectiveboard: 20, safe2: 14, fingerprint: 10, walkie: 8, telescope2: 18, comet2: 14, galaxy: 12, crystal2: 22, firebird: 16, spellbook: 10, statue: 18, goldcat: 14 });
   /* ================= Легенда: уровни после высшего звания ================= */
   const TOP = 32000;

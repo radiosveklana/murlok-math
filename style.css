@@ -1028,3 +1028,9 @@ svg.chibi .ch-vein { animation: vein .5s ease-in-out infinite alternate; transfo
 .prac-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); } .pr-bg { fill: none; stroke: var(--line); stroke-width: 6; } .pr-fg { fill: none; stroke: var(--mint); stroke-width: 6; stroke-linecap: round; }
 .prac-cat { position: absolute; inset: 22%; } .prac-cat svg { width: 100%; height: auto; position: static; transform: none; }
 .prac-text { text-align: center; font-size: 22px; font-weight: 800; min-height: 70px; padding: 0 10px; }
+
+/* котики друзей: подпись и статус хозяина */
+.friend-cat { cursor: pointer; } .friend-cat .cat-tag { position: absolute; left: 50%; top: -6px; transform: translateX(-50%); background: rgba(255,255,255,.92); border-radius: 10px; padding: 1px 8px; font-size: 11px; font-weight: 900; white-space: nowrap; box-shadow: var(--sh); }
+.friend-cat.visitor svg.cat { transform: scaleX(-1); } .friend-cat.wiggle { animation: wiggle .5s; }
+.host-st { background: #fff; border-radius: 14px; padding: 8px 12px; box-shadow: var(--sh); font-size: 14px; margin: 6px 0 8px; }
+.rtab .gst { font-style: normal; margin-left: 4px; }

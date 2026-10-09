@@ -19,6 +19,7 @@ for (const f of files) {
       if (!Array.isArray(u.cards) || u.cards.length < 3) err(U, 'карточек меньше 3');
       (u.cards || []).forEach((c, ci) => { if (!c.t || !c.h) err(U, 'карточка ' + ci + ' без t/h'); if (c.h && c.h.replace(/<[^>]+>/g, '').length > 700) err(U, 'карточка ' + ci + ' длиннее 700 знаков'); nc++; });
       if (!Array.isArray(u.quiz) || u.quiz.length < 6) err(U, 'вопросов меньше 6');
+      if (typeof u.gen === 'function') { for (const lv of [1, 2, 3]) for (let t = 0; t < 40; t++) { let q; try { q = u.gen(lv); } catch (e) { err(U, 'gen упал: ' + e.message); break; } if (!q || !q.type) { err(U, 'gen вернул пусто'); break; } u.quiz.push(q); } }
       (u.quiz || []).forEach((q, qi) => {
         const Q = U + ' q' + qi + ' (' + q.type + ')'; nq++;
         if (!q.why && q.type !== 'case') err(Q, 'нет why');

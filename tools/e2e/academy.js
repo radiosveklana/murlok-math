@@ -16,6 +16,7 @@ const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'AC
   const go = async (n, a) => { await E((n, a) => go(n, a), n, a); await sleep(500); };
   const clickSel = async s => { await p.waitForSelector(s, { timeout: 5000 }); await E(() => document.querySelectorAll('.toast').forEach(t => t.remove())); await p.click(s); await sleep(250); };
 
+  await p.waitForSelector('.t-acad', { timeout: 30000 }).catch(() => { }); // под нагрузкой главная грузится дольше
   // главная: новые плитки
   ok('home tiles', await E(() => !!document.querySelector('.t-acad') && !!document.querySelector('.t-photo') && !!document.querySelector('.t-school')));
   // хаб Академии — все 5 предметов

@@ -24,6 +24,7 @@ export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseRe
   const card = pub => { const d = save(F.pub[pub]) || {}; return { pub, cat: String(d.name || 'Котик').slice(0, 20), kid: first(d.kid), fur: d.fur || 'ginger', wear: d.wear || {} }; };
   const mutual = (a, b) => (F.links[a] || []).includes(F.own[b]) && (F.links[b] || []).includes(F.own[a]);
   const friendsOn = c => (save(c) || {}).friendsOn !== false;
+  const HERE = new Map(); setInterval(() => { const now = Date.now(); for (const [k, v] of HERE) if (now - v.t > 60000) HERE.delete(k); }, 60000); // присутствие в памяти, без записи на диск
   const GIFTS = ['🍬', '🍩', '🌸', '⭐', '🎈', '🧶', '🐟', '🎁'];
   const PHRASES = ['Какой уютный домик!', 'Мне очень понравилось!', 'Красивая комната!', 'Твой котик — милашка!', 'Приходи ко мне в гости!', 'Классно расставлено!', 'Хочу такую же вещь!', 'Спасибо, что пригласил(а)!'];
 
@@ -32,7 +33,7 @@ export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseRe
     let body = ''; for await (const c of req) { body += c; if (body.length > 4000) return send(res, 413, { error: 'big' }, origin); }
     const d = JSON.parse(body || '{}'), code = String(d.code || '').toUpperCase(), act = url.pathname.slice(8);
     if (!okCode(code)) return send(res, 400, { error: 'nocloud' }, origin);
-    if (!limit('fr:' + code, 120, 6e5) || !limit('frip:' + ip, 400, 6e5)) return send(res, 429, { error: 'slow' }, origin);
+    if (act === 'here' ? !limit('frh:' + code, 400, 6e5) : (!limit('fr:' + code, 120, 6e5) || !limit('frip:' + ip, 400, 6e5))) return send(res, 429, { error: 'slow' }, origin);
     if (!F.own[code]) { const p = newPub(); F.pub[p] = code; F.own[code] = p; touch(); }
     const me = F.own[code];
     if (act === 'me') return send(res, 200, { pub: me }, origin);
@@ -73,6 +74,17 @@ export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseRe
       if (kind === 'like' && box.some(x => x.kind === 'like' && x.from === me && x.room === room)) return send(res, 200, { ok: true, dup: true }, origin);
       box.push({ from: me, cat: card(me).cat, kid: card(me).kid, kind, room, val: kind === 'like' ? 0 : val, ts: Date.now() }); if (box.length > 200) box.splice(0, box.length - 200); touch();
       return send(res, 200, { ok: true }, origin);
+    }
+    if (act === 'here') { // присутствие: где сейчас игрок (дома / в гостях у друга), кто сейчас у меня в гостях
+      const at = d.at === 'home' ? 'home' : String(d.at || '').toUpperCase(), room = String(d.room || '').replace(/[^a-z_]/g, '').slice(0, 16);
+      if (at !== 'home' && !(okPub(at) && mutual(code, F.pub[at]))) return send(res, 403, { error: 'notfriend' }, origin);
+      const c = card(me); HERE.set(me, { at, room, t: Date.now(), cat: c.cat, kid: c.kid, fur: c.fur, wear: c.wear, action: String(d.action || '').slice(0, 20) });
+      const fresh = x => x && Date.now() - x.t < 15000;
+      const guests = [...HERE.entries()].filter(([p2, x]) => p2 !== me && fresh(x) && x.at === me && (F.links[code] || []).includes(p2)).map(([p2, x]) => ({ pub: p2, cat: x.cat, kid: x.kid, fur: x.fur, wear: x.wear, room: x.room, action: x.action }));
+      let host = null, conflict = false;
+      if (at !== 'home') { const h = HERE.get(at); host = fresh(h) ? { online: true, at: h.at === 'home' ? 'home' : 'away', room: h.room } : { online: false }; conflict = !!(fresh(h) && h.at === me); }
+      const box = F.inbox[code] || [], unread = box.filter(x => !x.read).length, last = box.length ? box[box.length - 1] : null;
+      return send(res, 200, { guests, host, conflict, unread, last: last ? { cat: last.cat, kid: last.kid, kind: last.kind, val: last.val, room: last.room, ts: last.ts } : null, gifts: GIFTS, phrases: PHRASES }, origin);
     }
     if (act === 'seen') { (F.inbox[code] || []).forEach(x => { x.read = true; }); touch(); return send(res, 200, { ok: true }, origin); }
     if (act === 'remove') {

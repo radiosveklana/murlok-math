@@ -3,13 +3,15 @@
    Математика этим файлом не затрагивается. */
 'use strict';
 window.SUBJECTS = window.SUBJECTS || {};
-const ACAD_ORDER = ['world', 'space', 'body', 'health', 'safety', 'talk', 'think', 'read', 'teen'];
+const ACAD_ORDER = ['world', 'space', 'body', 'health', 'safety', 'talk', 'think', 'creative', 'read', 'teen'];
 const BOX_DAYS = [0, 1, 3, 7];
 const acad = id => { S.acad = S.acad || {}; const a = S.acad[id] = S.acad[id] || {}; a.read = a.read || {}; a.best = a.best || {}; a.box = a.box || {}; return a; };
-const subj = id => window.SUBJECTS[id];
+function mergeExtra() { if (mergeExtra.done) return; mergeExtra.done = true; Object.entries(window.QUIZ_EXTRA || {}).forEach(([sid, units]) => { const sb = window.SUBJECTS[sid]; if (!sb) return; Object.entries(units).forEach(([uid, qs]) => { const u = sb.units.find(x => x.id === uid); if (u && Array.isArray(qs)) u.quiz.push(...qs); }); }); }
+const subj = id => { mergeExtra(); return window.SUBJECTS[id]; };
 const daysSince = d => Math.floor((Date.now() - new Date(d).getTime()) / 864e5);
 function dueMistakes(id) { const a = acad(id), out = []; Object.entries(a.box).forEach(([qid, [b, d]]) => { if (daysSince(d) >= BOX_DAYS[b]) out.push(qid); }); return out; }
-function findQ(id, qid) { const [uid, n] = qid.split('#'), u = subj(id).units.find(x => x.id === uid); return u && u.quiz[+n] ? { u, q: u.quiz[+n], qid } : null; }
+function findQ(id, qid) { const [uid, n] = qid.split('#'), u = subj(id).units.find(x => x.id === uid), gq = acad(id).gq || {}; if (u && gq[qid]) return { u, q: gq[qid], qid }; return u && u.quiz[+n] ? { u, q: u.quiz[+n], qid } : null; }
+const genLv = (id, uid) => ((S.prefs.genLv = S.prefs.genLv || {})[id + ':' + uid] || 1);
 /* прогресс предмета: учебник + тренажёр; у предметов с упражнениями и играми (скорочтение, общение, игры Академии) они — половина прогресса */
 function subjProgress(id) {
   const s = subj(id), a = acad(id), n = s.units.length, theory = n ? s.units.reduce((t, u) => t + (a.read[u.id] ? 0.4 : 0) + Math.min(3, a.best[u.id] || 0) / 3 * 0.6, 0) / n : 0;
@@ -32,7 +34,7 @@ SCREENS.academy = () => {
 SCREENS.subject = id => {
   const s = subj(id); if (!s) return go('academy'); const a = acad(id), due = dueMistakes(id).length;
   const anyRead = s.units.some(u => a.read[u.id]);
-  app.innerHTML = `${topbar(s.icon + ' ' + s.name, 'academy')}<div class="page subj" style="--c:${s.color}">
+  app.innerHTML = `${topbar(s.icon + ' ' + s.name, id === 'math4' ? 'school' : 'academy')}<div class="page subj" style="--c:${s.color}">
     <div class="subj-intro">${s.intro}</div>
     <div class="row-btns">${due ? `<button class="btn pink" id="rev">🔁 Разбор ошибок (${due})</button>` : ''}${anyRead ? '<button class="btn" id="mix">🎲 Смешанная тренировка <small class="xbadge">🍬×2</small></button>' : ''}${s.search ? '<button class="btn" id="srch">🔎 Найти ответ</button>' : ''}${(s.extras || []).map(e => { let r = ''; try { r = e.badge ? e.badge() : ''; } catch (er) { } return `<button class="btn" data-x="${e.id}">${e.icon} ${e.name}${r ? ` <small class="xbadge">${r}</small>` : ''}</button>`; }).join('')}</div>
     <div class="units">${s.units.map((u, i) => { const st = a.best[u.id] || 0; return `<div class="unit ${a.read[u.id] ? 'read' : ''}"><span class="ui">${u.icon}</span><div class="ut"><b>${i + 1}. ${u.title}</b><small>${u.sub || ''}</small><span class="stars">${'★'.repeat(st)}${'☆'.repeat(3 - st)}</span></div><div class="ub"><button class="btn sm" data-l="${u.id}">📖 Учебник${a.read[u.id] ? ' ✔' : ''}</button>${u.quiz && u.quiz.length ? `<button class="btn sm pink" data-q="${u.id}">🎯 Тренажёр</button>` : ''}</div></div>`; }).join('')}</div></div>`;
@@ -91,18 +93,20 @@ SCREENS.aquiz = arg => {
   const a = acad(id); let items = [];
   if (uid === '*review') items = dueMistakes(id).map(q => findQ(id, q)).filter(Boolean);
   else if (uid === '*mix') { const seen = a.seen = a.seen || {}; items = shuffle(s.units.filter(u => a.read[u.id] && u.quiz).flatMap(u => u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n })))).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0)).slice(0, 10); }
+  else if ((s.units.find(x => x.id === uid) || {}).gen) { const u = s.units.find(x => x.id === uid), lv = genLv(id, uid), seen = a.seen = a.seen || {}; const st = shuffle(u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n }))).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0)).slice(0, 2); items = shuffle(Array.from({ length: (u.take || 8) - st.length }, (_, i) => { let q; try { q = u.gen(lv); } catch (e) { q = null; } return q ? { u, q, qid: u.id + '#g' + Date.now().toString(36) + i, gen: true } : null; }).filter(Boolean).concat(st)); } // темы с генератором: задачи не повторяются
   else { const u = s.units.find(x => x.id === uid); if (!u) return go('subject', id); const seen = a.seen = a.seen || {}; items = shuffle(u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n }))).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0)).slice(0, u.take || 8); } // сначала — вопросы, которые ребёнок видел реже всего: без повторов, пока не пройдены все
   if (!items.length) { toast('Пока нечего повторять — всё выучено! 🎉'); return go('subject', id); }
   const title = uid === '*review' ? '🔁 Разбор ошибок' : uid === '*mix' ? '🎲 Тренировка' : '🎯 ' + items[0].u.title;
   let k = 0, ok = 0;
   app.innerHTML = `${topbar(title, 'subject')}<div class="page aquiz" style="--c:${s.color}"><div class="g-head"><div class="g-dots">${items.map(() => '<i></i>').join('')}</div><div class="pill">⭐ <b id="qsc">0</b></div></div>${helperHTML('qbub')}<div id="qarea"></div><div id="qafter" class="after"></div></div>`;
   $('.back', app).dataset.go = 'subject'; $('.back', app).dataset.arg = id;
+  { const gu = s.units.find(x => x.id === uid); if (gu && gu.gen) { $('.g-head', app).insertAdjacentHTML('afterend', `<div class="seg genlv">${['🌱 Лёгкий', '🔥 Средний', '🏔️ Сложный'].map((n, i) => `<button data-v="${i + 1}" class="${genLv(id, uid) === i + 1 ? 'on' : ''}">${n}</button>`).join('')}</div>`); $$('.genlv button', app).forEach(b => b.addEventListener('click', () => { S.prefs.genLv[id + ':' + uid] = +b.dataset.v; save(); go('aquiz', arg); })); } }
   const bub = h => { const b = $('#qbub'); b.innerHTML = h; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); };
   function done(right, why) {
     { const sq = a.seen = a.seen || {}; sq[items[k].qid] = (sq[items[k].qid] || 0) + 1; }
     const it = items[k], dot = $$('.g-dots i')[k]; dot.className = right ? 'ok' : 'bad';
-    if (right) { ok++; $('#qsc').textContent = ok; SND.ok(); award(uid === '*mix' ? 2 : 1, uid === '*mix' ? 5 : 3); if (a.box[it.qid]) { const nb = a.box[it.qid][0] + 1; if (nb >= BOX_DAYS.length) { delete a.box[it.qid]; window.Coach && Coach.cured(); } else a.box[it.qid] = [nb, today()]; } }
-    else { SND.bad(); a.box[it.qid] = [0, today()]; }
+    if (right) { ok++; $('#qsc').textContent = ok; SND.ok(); award(uid === '*mix' ? 2 : 1, uid === '*mix' ? 5 : 3); if (a.box[it.qid]) { const nb = a.box[it.qid][0] + 1; if (nb >= BOX_DAYS.length) { delete a.box[it.qid]; if (a.gq) delete a.gq[it.qid]; window.Coach && Coach.cured(); } else a.box[it.qid] = [nb, today()]; } }
+    else { SND.bad(); a.box[it.qid] = [0, today()]; if (it.gen) { a.gq = a.gq || {}; a.gq[it.qid] = it.q; const ks = Object.keys(a.gq); if (ks.length > 40) ks.slice(0, ks.length - 40).forEach(k => { delete a.gq[k]; delete a.box[k]; }); } }
     save();
     bub(`${right ? '<div class="fb">✔ Верно!</div>' : '<div class="fb bad">Не совсем.</div>'}${why || ''}`);
     $('#qafter').innerHTML = `<button class="btn big pink" id="qn">${k + 1 < items.length ? 'Дальше →' : 'Итоги 🏆'}</button>`;
@@ -117,7 +121,7 @@ SCREENS.aquiz = arg => {
   function finish() {
     const n = items.length, stars = ok === n ? 3 : ok >= n * 0.7 ? 2 : ok >= n * 0.4 ? 1 : 0;
     if (uid !== '*review' && uid !== '*mix') { a.best[uid] = Math.max(a.best[uid] || 0, stars); }
-    save(); acadTask(id, { mistakes: n - ok }); if (uid === '*mix' && ok >= n * 0.8) award(5, 10); // смешанная тренировка труднее — награда больше
+    save(); acadTask(id, { mistakes: n - ok }); if (uid === '*mix' && ok >= n * 0.8) award(5, 10); { const gu = s.units.find(x => x.id === uid); if (gu && gu.gen && genLv(id, uid) === 3 && ok === n) awardGems(1, 'за сложный уровень без ошибок'); } // смешанная тренировка труднее — награда больше
     if (window.Coach && id !== 'teen') { if (uid !== '*review' && uid !== '*mix') Coach.track('a:' + id + ':' + uid, ok / n); Coach.track('a:' + id, ok / n); } if (ok === n && n >= 5) awardGems(1, 'за тренажёр без ошибок'); SND.win(); if (stars >= 2) confetti(30);
     $('#qarea').innerHTML = `<div class="center g-result"><div class="big-emoji">${['🐾', '🥉', '🥈', '🏆'][stars]}</div><h2>${esc(S.kid)}, ${ok} из ${n}!</h2><div class="stars big">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>${n - ok ? `<p>Ошибки попали в <b>🔁 Разбор ошибок</b> — повторим их завтра, и они запомнятся навсегда.</p>` : '<p>Без единой ошибки!</p>'}<div class="row-btns"><button class="btn big pink" id="again">Ещё раз</button><button class="btn" id="tosubj">К предмету</button></div></div>`;
     $('#again').addEventListener('click', () => go('aquiz', arg)); $('#tosubj').addEventListener('click', () => go('subject', id));
