@@ -804,3 +804,21 @@ svg.chibi .ch-vein { animation: vein .5s ease-in-out infinite alternate; transfo
   .chat-say { font-size: 17px; }
 }
 @supports (padding: max(0px)) { body { padding-bottom: env(safe-area-inset-bottom); } .top { padding-top: max(14px, env(safe-area-inset-top)); } }
+
+.set-list { display: grid; gap: 8px; margin: 10px 0; text-align: left; }
+.set-row { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 16px; padding: 12px 14px; box-shadow: var(--sh); font-size: 18px; }
+.set-row span { font-size: 26px; } .set-row b { flex: 1; } .set-row small { color: var(--muted); }
+.sw { width: 50px; height: 30px; border-radius: 15px; background: #E3D6C8; position: relative; transition: background .2s; flex: none; }
+.sw::after { content: ''; position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.2); transition: left .2s; }
+.sw.on { background: var(--mint); } .sw.on::after { left: 23px; }
+.home-top { flex-wrap: wrap; } .home-top .pill { padding: 7px 11px; }
+.xpn { display: inline-block; font-size: 13px; color: var(--muted); font-weight: 700; }
+@media (max-width: 360px) { .home-top .pill { font-size: 14px; padding: 6px 9px; } }
+
+.fx.nudge { transition: left .3s ease-out !important; }
+.room-cat.hopping svg.cat { animation: hopOver .75s ease-in-out; }
+@keyframes hopOver { 0% { transform: translateY(0); } 45% { transform: translateY(-38%) rotate(-6deg); } 70% { transform: translateY(-20%); } 100% { transform: translateY(0); } }
+
+.mic.talk { background: var(--mint-2); } .mic.talk.on { background: var(--red); color: #fff; animation: glow 1s infinite; }
+.sndres { margin-top: 8px; display: grid; gap: 4px; font-size: 15px; }
+@media (max-width: 420px) { .mic, .send { width: 50px; height: 50px; font-size: 24px; } .chat-bar { gap: 6px; } .chat-bar input { font-size: 16px; padding: 12px; } }

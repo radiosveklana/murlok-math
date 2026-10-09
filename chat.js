@@ -78,8 +78,8 @@ SCREENS.chat = () => {
     <div class="chat-top"><div class="chat-cat" id="ccat">${myCat()}</div><div class="chat-say" id="csay">Привет, ${esc(S.kid)}! Я ${esc(S.name)}. О чём поболтаем? Можно говорить в микрофон или писать 🐾</div></div>
     <div class="chat-log" id="clog"></div>
     <div class="chips" id="chips">${shuffle(CHAT_TIPS).slice(0, 4).map(t => `<button class="chip-b">${t}</button>`).join('')}</div>
-    <div class="chat-bar"><button class="mic" id="mic" aria-label="Говорить">🎤</button><input id="cin" maxlength="300" placeholder="${CAN_REC ? 'Нажми 🎤 и говори — или напиши тут' : 'Напиши котику…'}" autocomplete="off"><button class="send" id="csend" aria-label="Отправить">➤</button></div>
-    <p class="small center">Котик — персонаж игры. Не рассказывай ему секреты: фамилию, адрес, телефон и пароли 🤫</p></div>`;
+    <div class="chat-bar"><button class="mic talk" id="talk" aria-label="Разговор голосом">📞</button><button class="mic" id="mic" aria-label="Сказать одну фразу">🎤</button><input id="cin" maxlength="300" placeholder="${CAN_REC ? 'Нажми 🎤 и говори — или напиши тут' : 'Напиши котику…'}" autocomplete="off"><button class="send" id="csend" aria-label="Отправить">➤</button></div>
+    <p class="small center">📞 — разговор голосом без нажатий, 🎤 — сказать одну фразу. Котик — персонаж игры. Не рассказывай ему секреты: фамилию, адрес, телефон и пароли 🤫</p></div>`;
   const log = $('#clog'), cin = $('#cin'), csay = $('#csay'), ccat = $('#ccat');
   let busy = false;
   const draw = () => {
@@ -110,51 +110,80 @@ SCREENS.chat = () => {
     const typed = $('.typed', csay), ghost = $('.ghost-t', csay);
     const show = n => { typed.textContent = full.slice(0, n); ghost.textContent = full.slice(n); };
     let typer = 0; const tick = setInterval(() => { typer = Math.min(full.length, typer + 2); show(Math.max(typer, 0)); if (typer >= full.length) clearInterval(tick); }, 45);
-    speakRemote(full, n => { typer = Math.max(typer, n - 25); }).then(ok => { if (!ok) { clearInterval(tick); show(full.length); const rb = $$('.replay', log).pop(); if (rb) rb.classList.add('nudge'); } });
+    return speakRemote(full, n => { typer = Math.max(typer, n - 25); }).then(ok => { if (!ok) { clearInterval(tick); show(full.length); const rb = $$('.replay', log).pop(); if (rb) rb.classList.add('nudge'); } return ok; });
   }
   $('#csend').addEventListener('click', () => { wakeAudio(); send(cin.value); });
   cin.addEventListener('keydown', e => { if (e.key === 'Enter') send(cin.value); });
   $$('.chip-b').forEach(b => b.addEventListener('click', () => { wakeAudio(); send(b.textContent); }));
-  /* голос: записываем, сами останавливаемся, когда ребёнок замолчал, распознаём на сервере */
-  if (!CAN_REC) $('#mic').addEventListener('click', () => micHelp({ name: window.isSecureContext ? 'NoRecorder' : 'Insecure' }));
-  if (CAN_REC) {
-    let rec = null;
-    $('#mic').addEventListener('click', async () => {
-      const mic = $('#mic');
-      if (rec) { rec.stop(); return; }
-      if (busy) return;
-      let stream; try { stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }); } catch (e) { try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e2) { micHelp(e2); return; } }
-      M.hush(); Music.setDuck(true);
+  /* ===== голос: одна запись (сами останавливаемся, когда ребёнок замолчал) + режим «Разговор» без нажатий ===== */
+  let micStream = null, recNow = null, talkMode = false;
+  const releaseMic = () => { if (micStream) micStream.getTracks().forEach(t => t.stop()); micStream = null; };
+  cleanups.push(() => { talkMode = false; if (recNow) try { recNow.stop(); } catch (e) { } releaseMic(); stopRemote(); });
+  async function getMic() {
+    if (micStream && micStream.getTracks().some(t => t.readyState === 'live')) return micStream;
+    try { micStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }); }
+    catch (e) { try { micStream = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e2) { micHelp(e2); return null; } }
+    return micStream;
+  }
+  function listenOnce(stream) { // → Blob с речью или null
+    return new Promise(resolve => {
+      M.hush(); stopRemote(); Music.setDuck(true);
       const type = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/aac'].find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || '';
-      const mr = new MediaRecorder(stream, type ? { mimeType: type } : {}), chunks = []; rec = mr;
+      const mr = new MediaRecorder(stream, type ? { mimeType: type } : {}), chunks = []; recNow = mr;
       const ac = M.ctx(), src = ac.createMediaStreamSource(stream), an = ac.createAnalyser(); an.fftSize = 512; src.connect(an);
       const buf = new Uint8Array(an.fftSize); let spoke = false, quietFrom = 0; const t0 = Date.now();
-      mic.classList.add('on'); mic.textContent = '✔'; csay.innerHTML = 'Слушаю тебя… 👂 Говори спокойно. Когда договоришь — нажми <b>✔</b> или просто помолчи. <span class="lvl"><i id="lvl"></i></span>'; ccat.className = 'chat-cat m-think';
+      $('#mic').classList.add('on'); $('#mic').textContent = '✔';
+      csay.innerHTML = `${talkMode ? '📞 ' : ''}Слушаю тебя… 👂 ${talkMode ? 'Говори, я отвечу сам.' : 'Когда договоришь — нажми <b>✔</b> или просто помолчи.'} <span class="lvl"><i id="lvl"></i></span>`; ccat.className = 'chat-cat m-think';
       const iv = setInterval(() => {
         an.getByteTimeDomainData(buf); let pk = 0; for (const v of buf) pk = Math.max(pk, Math.abs(v - 128));
         const l = $('#lvl'); if (l) l.style.width = Math.min(100, pk * 1.4) + '%';
-        if (pk > 9) { spoke = true; quietFrom = 0; } else if (spoke) { quietFrom = quietFrom || Date.now(); if (Date.now() - quietFrom > 2600) mr.stop(); }
-        if (Date.now() - t0 > (spoke ? 25000 : 12000)) mr.stop();
+        if (pk > 9) { spoke = true; quietFrom = 0; } else if (spoke) { quietFrom = quietFrom || Date.now(); if (Date.now() - quietFrom > 1700) mr.state === 'recording' && mr.stop(); }
+        if (Date.now() - t0 > (spoke ? 25000 : 12000)) mr.state === 'recording' && mr.stop();
       }, 80);
       mr.ondataavailable = e => e.data.size && chunks.push(e.data);
-      mr.onstop = async () => {
-        clearInterval(iv); src.disconnect(); stream.getTracks().forEach(t => t.stop()); rec = null; mic.classList.remove('on'); mic.textContent = '🎤'; Music.setDuck(false); wakeAudio();
+      mr.onstop = () => {
+        clearInterval(iv); src.disconnect(); recNow = null; const mic = $('#mic'); if (mic) { mic.classList.remove('on'); mic.textContent = '🎤'; } Music.setDuck(false); wakeAudio();
+        if (!talkMode) releaseMic();
         const blob = new Blob(chunks, { type: mr.mimeType || type || 'audio/webm' });
-        if (!spoke || blob.size < 2000) { csay.textContent = 'Мур? Я ничего не услышал. Нажми 🎤 и скажи что-нибудь!'; ccat.className = 'chat-cat'; return; }
-        busy = true; $('#chips').innerHTML = '';
-        csay.innerHTML = 'Котик думает… <span class="dots"><i></i><i></i><i></i></span>'; ccat.className = 'chat-cat m-think'; M.purr(1.5);
-        const hist = S.chatLog.slice(-10).map(m => ({ r: m.r, t: m.t }));
-        let out;
-        try {
-          const meta = encodeURIComponent(JSON.stringify({ device: deviceId(), kid: S.kid, cat: S.name, history: hist }));
-          const r = await fetch(API + '/voice?m=' + meta, { method: 'POST', headers: { 'content-type': blob.type || 'application/octet-stream' }, body: blob });
-          out = await r.json(); if (!out.reply) throw 0;
-        } catch (e) { out = { heard: '', reply: 'Мур… связь с котиком потерялась. Проверь интернет и попробуй ещё раз!', mood: 'sad', flag: 'none' }; }
-        if (out.heard) { S.chatLog.push({ r: 'u', t: out.heard, ts: Date.now() }); draw(); }
-        answer(out);
+        resolve(spoke && blob.size > 2000 ? blob : null);
       };
       mr.start(250);
     });
+  }
+  async function sendVoice(blob) { // → обещание «котик договорил»
+    busy = true; $('#chips').innerHTML = '';
+    csay.innerHTML = 'Котик думает… <span class="dots"><i></i><i></i><i></i></span>'; ccat.className = 'chat-cat m-think'; M.purr(1.2);
+    const hist = S.chatLog.slice(-10).map(m => ({ r: m.r, t: m.t }));
+    let out;
+    try {
+      const meta = encodeURIComponent(JSON.stringify({ device: deviceId(), kid: S.kid, cat: S.name, history: hist }));
+      const r = await fetch(API + '/voice?m=' + meta, { method: 'POST', headers: { 'content-type': blob.type || 'application/octet-stream' }, body: blob });
+      out = await r.json(); if (!out.reply) throw 0;
+    } catch (e) { out = { heard: '', reply: 'Мур… связь с котиком потерялась. Проверь интернет и попробуй ещё раз!', mood: 'sad', flag: 'none' }; }
+    if (out.heard) { S.chatLog.push({ r: 'u', t: out.heard, ts: Date.now() }); draw(); }
+    return answer(out);
+  }
+  async function talkLoop() { // режим «Разговор»: слушаю → отвечаю голосом → снова слушаю
+    const stream = await getMic(); if (!stream) { setTalk(false); return; }
+    let misses = 0;
+    while (talkMode && curScreen === 'chat') {
+      const blob = await listenOnce(stream); if (!talkMode) break;
+      if (!blob) { if (++misses >= 2) { csay.textContent = 'Мур, ты здесь? Я подожду — нажми 📞, когда захочешь поболтать!'; setTalk(false); break; } continue; }
+      misses = 0; await sendVoice(blob); await new Promise(r => setTimeout(r, 350));
+    }
+    releaseMic();
+  }
+  function setTalk(on) { talkMode = on; const b = $('#talk'); if (b) { b.classList.toggle('on', on); b.textContent = on ? '⏹' : '📞'; } if (!on && recNow) try { recNow.stop(); } catch (e) { } }
+  if (!CAN_REC) { $('#mic').addEventListener('click', () => micHelp({ name: window.isSecureContext ? 'NoRecorder' : 'Insecure' })); $('#talk').addEventListener('click', () => micHelp({ name: 'NoRecorder' })); }
+  else {
+    $('#mic').addEventListener('click', async () => {
+      wakeAudio(); if (recNow) { recNow.stop(); return; } if (busy || talkMode) return;
+      const stream = await getMic(); if (!stream) return;
+      const blob = await listenOnce(stream);
+      if (!blob) { csay.textContent = 'Мур? Я ничего не услышал. Нажми 🎤 и скажи что-нибудь!'; ccat.className = 'chat-cat'; return; }
+      sendVoice(blob);
+    });
+    $('#talk').addEventListener('click', () => { wakeAudio(); if (talkMode) { setTalk(false); return; } setTalk(true); talkLoop(); });
   }
   draw();
   if (S.chatLog.length) { const last = S.chatLog.filter(m => m.r === 'c').pop(); if (last) csay.textContent = `С возвращением, ${S.kid}! О чём поговорим сегодня?`; }

@@ -121,6 +121,19 @@ SCREENS.house = (roomId) => {
     if (ny !== y) { el.classList.add('falling'); el.style.bottom = ny + '%'; setTimeout(() => { el.classList.remove('falling'); el.classList.add('landed'); M.sfx('bounce'); M.haptic(15); setTimeout(() => el.classList.remove('landed'), 400); }, 380); }
     return ny;
   }
+  function boxOf(el) { const R = roomEl.getBoundingClientRect(), B = el.getBoundingClientRect(); return { l: (B.left - R.left) / R.width * 100, r: (B.right - R.left) / R.width * 100, y: (R.bottom - B.bottom) / R.height * 100, w: B.width / R.width * 100 }; }
+  function unblock(el, isCat) { // «физика»: предметы не стоят друг в друге — отъезжаем в ближайшее свободное место
+    if (!isCat && isWall(el.dataset.id)) return parseFloat(el.style.left);
+    let x = parseFloat(el.style.left);
+    for (let it = 0; it < 6; it++) {
+      const me = boxOf(el), hit = $$('.fx', roomEl).find(o => o !== el && !isWall(o.dataset.id) && (() => { const b = boxOf(o), ov = Math.min(me.r, b.r) - Math.max(me.l, b.l); return ov > Math.min(me.w, b.w) * 0.35 && Math.abs(me.y - b.y) < 9; })());
+      if (!hit) break;
+      const b = boxOf(hit), toLeft = (me.l + me.r) / 2 < (b.l + b.r) / 2, nx = toLeft ? b.l - me.w / 2 - 1 : b.r + me.w / 2 + 1;
+      x = Math.max(me.w / 2 + 1, Math.min(99 - me.w / 2, nx)); el.classList.add('nudge'); el.style.left = x + '%';
+      setTimeout(() => el.classList.remove('nudge'), 350);
+    }
+    return x;
+  }
   /* одно касание = пользоваться, ведение пальцем = перетащить */
   function pointerItem(el, isCat) {
     el.addEventListener('pointerdown', e => {
@@ -139,10 +152,10 @@ SCREENS.house = (roomId) => {
         el.classList.remove('dragging'); trash.classList.remove('show');
         if (!drag) { isCat ? petRoomCat() : interact(el); return; }
         const over = trash.classList.contains('over'); trash.classList.remove('over'); M.haptic(10);
-        if (isCat) { const y = settle(el, null, xy[1], true); S.catAt[cur.id] = { x: xy[0], y }; save(); el.style.zIndex = zOf(y) + 1; return; }
+        if (isCat) { const y = settle(el, null, xy[1], true); setTimeout(() => { const x = unblock(el, true); S.catAt[cur.id] = { x, y }; save(); }, 420); el.style.zIndex = zOf(y) + 1; return; }
         const pl = roomPlace(cur), p = pl.find(q => q.id === el.dataset.id);
         if (over && !el.classList.contains('fixed')) { S.place[cur.id] = pl.filter(q => q !== p); save(); say(HL.HOUSE_PH[1]); M.sfx('pop'); drawRoom(); return; }
-        p.x = xy[0]; p.y = settle(el, p.id, xy[1]); save(); el.style.zIndex = zOf(p.y); M.sfx('pop');
+        p.x = xy[0]; p.y = settle(el, p.id, xy[1]); el.style.zIndex = zOf(p.y); M.sfx('pop'); setTimeout(() => { p.x = unblock(el); save(); }, 420); save();
       };
       el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
     });
@@ -160,7 +173,13 @@ SCREENS.house = (roomId) => {
   const catEl = () => $('#rcat');
   const geo = b => { const R = roomEl.getBoundingClientRect(), B = b.getBoundingClientRect(); return { x: (B.left + B.width / 2 - R.left) / R.width * 100, y: (R.bottom - B.bottom) / R.height * 100, w: B.width / R.width * 100, h: B.height / R.height * 100, z: +b.style.zIndex }; };
   const CATW = 7.5; // половина ширины кота в % комнаты
-  function catMoveTo(x, y, z, o = {}) { const c = catEl(); c.classList.add('walking'); c.style.left = x + '%'; c.style.bottom = y + '%'; if (z != null) c.style.zIndex = z; if (o.scale) c.style.setProperty('--cs', o.scale); return new Promise(r => setTimeout(() => { c.classList.remove('walking'); r(); }, 750)); }
+  function catMoveTo(x, y, z, o = {}) {
+    const c = catEl(), x0 = parseFloat(c.style.left), lo = Math.min(x0, x), hi = Math.max(x0, x);
+    const over = $$('.fx', roomEl).some(f => { if (isWall(f.dataset.id)) return false; const b = boxOf(f), cx = (b.l + b.r) / 2; return cx > lo + 4 && cx < hi - 4; });
+    c.classList.add('walking'); if (over) c.classList.add('hopping'); c.style.zIndex = 450; // по пути — перед мебелью, а не сквозь неё
+    c.style.left = x + '%'; c.style.bottom = y + '%'; if (o.scale) c.style.setProperty('--cs', o.scale);
+    return new Promise(r => setTimeout(() => { c.classList.remove('walking', 'hopping'); if (z != null) c.style.zIndex = z; r(); }, 750));
+  }
   function catBack() { const c = catEl(); if (!c) return; const at = S.catAt[cur.id] || { x: 78, y: 3 }; c.className = 'room-cat'; c.style.removeProperty('--cs'); c.innerHTML = myCat(); catMoveTo(at.x, at.y, zOf(at.y) + 1); }
   function catFace(o) { const c = catEl(); if (c) c.innerHTML = myCat(o); }
   function parts(b, chars, n = 8, spread = 90) { const R = b.getBoundingClientRect(); for (let i = 0; i < n; i++) { const p = document.createElement('div'); p.className = 'heart'; p.textContent = pick(chars); p.style.left = (R.left + R.width * Math.random()) + 'px'; p.style.top = (R.top + R.height * 0.2) + 'px'; p.style.setProperty('--dx', (Math.random() * spread - spread / 2) + 'px'); p.style.animationDelay = (i * 0.12) + 's'; document.body.appendChild(p); setTimeout(() => p.remove(), 2600); } }

@@ -175,6 +175,15 @@ http.createServer(async (req, res) => {
       fs.writeFileSync(path.join(SAVE_DIR, code + '.json'), JSON.stringify({ ...d.data, savedAt: Date.now() }));
       return send(res, 200, { ok: true }, origin);
     }
+    if (url.pathname === '/find' && req.method === 'GET') { // найти сохранение по имени ребёнка и котика (для нового устройства)
+      if (!limit('find:' + ip, 30, 6e5)) return send(res, 429, { error: 'slow' }, origin);
+      const nk = v => String(v || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я]/g, '');
+      const kid = nk(url.searchParams.get('kid')), cat = nk(url.searchParams.get('cat')); if (kid.length < 2) return send(res, 200, { found: [] }, origin);
+      const found = [];
+      for (const f of fs.readdirSync(SAVE_DIR)) { if (!f.endsWith('.json')) continue; try { const d = JSON.parse(fs.readFileSync(path.join(SAVE_DIR, f), 'utf8')); if (nk(d.kid) === kid && (!cat || nk(d.name) === cat)) found.push({ code: f.slice(0, 8), kid: d.kid, cat: d.name, xp: d.xp || 0, candies: d.candies || 0, cases: d.cases || 0, savedAt: d.savedAt || 0 }); } catch { } }
+      found.sort((x, y) => y.savedAt - x.savedAt);
+      return send(res, 200, { found: found.slice(0, 3) }, origin);
+    }
     if (url.pathname === '/load' && req.method === 'GET') {
       const code = String(url.searchParams.get('code') || '').toUpperCase();
       if (!/^[A-Z0-9]{8}$/.test(code) || !limit('load:' + ip, 60, 6e5)) return send(res, 400, { error: 'bad' }, origin);
