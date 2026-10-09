@@ -1,7 +1,9 @@
 {
  "cover:million_read": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat gazing at a gigantic heap of shiny round candies stretching to the horizon, amazed by how many there are"
+  "type": "photo",
+  "q": "crowd stadium",
+  "alt": "Тысячи зрителей",
+  "src": "commons"
  },
  "million_read:0": {
   "type": "none"
@@ -41,8 +43,10 @@
   "type": "none"
  },
  "cover:more_less": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat standing between a tiny stack of cookies and a huge stack of cookies, comparing them with a magnifying glass"
+  "type": "photo",
+  "q": "balance scale",
+  "alt": "Чашечные весы",
+  "src": "commons"
  },
  "more_less:0": {
   "type": "none"
@@ -57,8 +61,10 @@
   "type": "none"
  },
  "cover:length_mass": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat measuring a long ribbon with a wooden ruler next to a kitchen scale holding a basket of apples"
+  "type": "photo",
+  "q": "ruler and tape measure",
+  "alt": "Линейка и рулетка",
+  "src": "commons"
  },
  "length_mass:0": {
   "type": "none"
@@ -76,8 +82,10 @@
   "type": "none"
  },
  "cover:time": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding a pocket watch with blank face next to an hourglass and a big wall clock without any numbers"
+  "type": "photo",
+  "q": "wall clock",
+  "alt": "Настенные часы",
+  "src": "commons"
  },
  "time:0": {
   "type": "none"
@@ -95,8 +103,10 @@
   "type": "none"
  },
  "cover:area_units": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat covering a garden plot with square tiles of grass, laying them in neat rows"
+  "type": "photo",
+  "q": "floor tiles",
+  "alt": "Плитка на полу",
+  "src": "commons"
  },
  "area_units:0": {
   "type": "none"
@@ -114,8 +124,10 @@
   "type": "none"
  },
  "cover:part_qty": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat cutting a round cake into equal slices while an hourglass flows on the table"
+  "type": "photo",
+  "q": "pie slices",
+  "alt": "Пирог на кусочки",
+  "src": "commons"
  },
  "part_qty:0": {
   "type": "none"
@@ -130,8 +142,10 @@
   "type": "none"
  },
  "cover:round_mul": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat stacking crates of ten apples each into a big tidy pyramid in a market"
+  "type": "photo",
+  "q": "egg cartons",
+  "alt": "Яйца в коробках",
+  "src": "commons"
  },
  "round_mul:0": {
   "type": "none"
@@ -149,8 +163,10 @@
   "type": "none"
  },
  "cover:remainder": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat packing cupcakes into boxes, with a couple of extra cupcakes left over on the table"
+  "type": "photo",
+  "q": "cookies on plates",
+  "alt": "Печенье на тарелках",
+  "src": "commons"
  },
  "remainder:0": {
   "type": "none"
@@ -187,8 +203,10 @@
   "type": "none"
  },
  "cover:props": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat swapping colorful candy jars on two shelves, rearranging them while the total stays the same"
+  "type": "photo",
+  "q": "colorful beads",
+  "alt": "Разноцветные бусины",
+  "src": "commons"
  },
  "props:0": {
   "type": "none"
@@ -206,8 +224,10 @@
   "type": "none"
  },
  "cover:motion": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat riding a red scooter along a winding road with milestones, a stopwatch hanging from the handlebar"
+  "type": "photo",
+  "q": "train on railway",
+  "alt": "Поезд в пути",
+  "src": "commons"
  },
  "motion:0": {
   "type": "none"
@@ -225,8 +245,10 @@
   "type": "none"
  },
  "cover:motion_two": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat and a raccoon friend walking toward each other from two houses along a straight country road"
+  "type": "photo",
+  "q": "two trains passing",
+  "alt": "Встречные поезда",
+  "src": "commons"
  },
  "motion_two:0": {
   "type": "none"
@@ -260,8 +282,10 @@
   "type": "none"
  },
  "cover:buy": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat buying cupcakes at a sweet shop counter, paying with coins to a friendly bear shopkeeper"
+  "type": "photo",
+  "q": "market fruit stall",
+  "alt": "Фруктовый прилавок",
+  "src": "commons"
  },
  "buy:0": {
   "type": "none"
@@ -276,8 +300,10 @@
   "type": "none"
  },
  "cover:part_num": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat dividing a big bowl of candies into equal piles for a group of animal friends"
+  "type": "photo",
+  "q": "orange slices",
+  "alt": "Дольки апельсина",
+  "src": "commons"
  },
  "part_num:0": {
   "type": "none"
@@ -295,8 +321,10 @@
   "type": "none"
  },
  "cover:shapes": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat surrounded by a ball, a cube, a cylinder can and an ice cream cone, studying them with a magnifying glass"
+  "type": "photo",
+  "q": "geometric solids",
+  "alt": "Геометрические тела",
+  "src": "commons"
  },
  "shapes:0": {
   "type": "none"
@@ -317,8 +345,10 @@
   "type": "none"
  },
  "cover:data_logic": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat at a detective board with colorful bar charts made of candy columns and suspect animal portraits connected by string"
+  "type": "photo",
+  "q": "chess board",
+  "alt": "Шахматная доска",
+  "src": "commons"
  },
  "data_logic:0": {
   "type": "none"

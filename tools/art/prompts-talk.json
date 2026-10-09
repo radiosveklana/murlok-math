@@ -1,72 +1,394 @@
 {
-"cover:meet": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat waving hello with a big smile to a shy bunny in a sunny schoolyard"},
-"meet:0": {"type":"art","p":"An anime girl making eye contact, smiling warmly and waving at a new classmate in a bright school corridor, cheerful first moment"},
-"meet:1": {"type":"art","p":"A ginger kitten detective shaking paws with a small ginger puppy on a playground, both beaming, pleasant introduction"},
-"meet:2": {"type":"art","p":"Two anime kids sitting on a bench, one leaning in with curious eyes asking a question, the other excitedly gesturing about a hobby"},
-"meet:3": {"type":"art","p":"An anime boy noticing a little dragon keychain on a classmate's backpack and pointing at it with delight, both laughing"},
-"meet:4": {"type":"art","p":"An anime girl watching a group of kids playing ball from the side, then stepping forward and raising her hand to join during a pause"},
-"meet:5": {"type":"art","p":"Two shy anime kids peeking at each other from behind a tree, blushing and smiling, soft pastel hearts floating"},
-"cover:listen": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat with big perked ears listening closely to a little bird telling a story on a branch"},
-"listen:0": {"type":"art","p":"Two cats side by side: one with sound waves bouncing off its head looking bored, the other with sparkly attentive eyes understanding a friend"},
-"listen:1": {"type":"art","p":"An anime girl turned fully toward her friend, phone face-down on the table, nodding and smiling as the friend talks"},
-"listen:2": {"type":"art","p":"An anime boy waiting patiently with lips pressed together and a finger bent to remember a thought, while his friend finishes speaking"},
-"listen:3": {"type":"art","p":"An anime girl tilting her head and raising her hand gently to ask a question, a magnifying glass floating beside her, friend explaining"},
-"listen:4": {"type":"art","p":"A kitten detective repeating back to a sad hedgehog friend, two matching thought bubbles with the same tiny picture floating above both"},
-"listen:5": {"type":"art","p":"An anime boy simply sitting next to an upset friend, his open palms resting calmly, a warm yellow glow around them, quiet support"},
-"cover:empathy": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat gently offering a cookie to a teary little bunny, warm afternoon light"},
-"empathy:0": {"type":"art","p":"Four cute round candy characters in a row showing clear emotions: happy, sad, angry and scared, expressive faces, playful arrangement"},
-"empathy:1": {"type":"art","p":"A hunched little fox sitting alone on stairs turned away from others, an observant kitten detective noticing from across the hallway"},
-"empathy:2": {"type":"art","p":"An anime girl looking at a friend's torn drawing and imagining herself in that place, a soft mirror reflection showing her own sad face"},
-"empathy:3": {"type":"art","p":"An anime boy putting his arm around a crying friend's shoulder on a school bench, gentle warm colors"},
-"empathy:4": {"type":"art","p":"An anime girl silently handing a cookie and a hand-drawn card to a sad friend sitting by a window, rainy day outside"},
-"empathy:5": {"type":"art","p":"A worried anime boy leading his gloomy friend by the hand toward a kind school teacher who welcomes them with open arms"},
-"cover:i_message": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat holding a glowing heart up to its chest, calmly speaking to a surprised raccoon friend"},
-"i_message:0": {"type":"art","p":"An angry anime boy pointing an accusing finger, his friend raising arms defensively, little lightning bolts between them"},
-"i_message:1": {"type":"art","p":"An anime girl calmly placing her hand on her heart while speaking to a friend, a golden key shape glowing between them"},
-"i_message:2": {"type":"art","p":"A cute kitten detective picking emotion candies from a jar, each candy with a different little face: angry, worried, sad, scared"},
-"i_message:3": {"type":"art","p":"A kitten detective with a magnifying glass looking at a drawing held up in class while classmates giggle, focusing on what happened"},
-"i_message:4": {"type":"art","p":"An anime boy politely asking a friend to return a book, holding out his hand, the friend nodding and handing it back"},
-"i_message:5": {"type":"art","p":"An anime girl taking three deep breaths with eyes closed, steam leaving her head and turning into a cool little ice cube"},
-"cover:ask_refuse": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat politely asking a hedgehog for a ruler, while gently refusing a pushy crow's offer"},
-"ask_refuse:0": {"type":"art","p":"A polite little kitten asking a hedgehog classmate for a ruler with a smile and paws together, the hedgehog happily sharing"},
-"ask_refuse:1": {"type":"art","p":"An anime boy shrugging calmly after being told no, then cheerfully turning toward another friend, relaxed expression"},
-"ask_refuse:2": {"type":"art","p":"An anime girl standing firm with a calm stop gesture, kindly declining something offered, confident posture"},
-"ask_refuse:3": {"type":"art","p":"An anime boy declining one toy but offering another to a friend with a warm smile, both happy"},
-"ask_refuse:4": {"type":"art","p":"A group of pushy cartoon crows flapping around an anime girl who stands calm inside a glowing shield bubble, repeating herself"},
-"ask_refuse:5": {"type":"art","p":"An anime boy shaking his head and walking away from kids daring him to climb a fence, heading back to the safe playground"},
-"cover:compromise": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat holding a balance scale level between a bunny and a puppy who both smile"},
-"compromise:0": {"type":"art","p":"Two anime kids debating at a table with a map and magnifying glass like detectives, animated but friendly, solving together"},
-"compromise:1": {"type":"art","p":"An anime girl explaining her idea with a lightbulb glowing above her head, friends listening and nodding"},
-"compromise:2": {"type":"art","p":"An anime boy listening carefully to a friend who imagines running happily, a thought bubble showing running through a field"},
-"compromise:3": {"type":"art","p":"Two anime kids sculpting clay heroes and then drawing a comic about them together, both holding up little trophies"},
-"compromise:4": {"type":"art","p":"Two cute animal friends playing rock-paper-scissors with paws, a coin spinning in the air, fair and playful mood"},
-"compromise:5": {"type":"art","p":"Kids taking a calm break sitting on cushions with cups of cocoa, a wise owl friend sitting in the middle as a fair judge"},
-"cover:make_up": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat handing a white dove-shaped cookie to a pouting puppy friend, reconciliation"},
-"make_up:0": {"type":"art","p":"Two anime best friends standing back to back with arms crossed and grumpy faces, a tiny lightning bolt above, a peace dove fluttering nearby"},
-"make_up:1": {"type":"art","p":"An anime boy holding a slightly deflated ball, apologizing sincerely to a friend with head bowed, the friend softening"},
-"make_up:2": {"type":"art","p":"A grumpy anime kid mumbling a half-hearted apology with rolled eyes and hands in pockets, friend looking unconvinced"},
-"make_up:3": {"type":"art","p":"Two anime kids shaking hands and smiling after a sincere apology, golden warm light behind them"},
-"make_up:4": {"type":"art","p":"An anime girl sitting by a window with a cup of tea, thinking quietly, an hourglass on the sill, gentle reflective mood"},
-"make_up:5": {"type":"art","p":"An anime boy slipping a hand-drawn colorful card with a heart into a friend's desk, the friend discovering it with a smile"},
-"cover:speech": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat standing confidently in front of a class of cute animal students, paw raised"},
-"speech:0": {"type":"art","p":"An anime girl waiting behind a classroom door before her presentation, hand on her fast-beating heart, little sparks of energy around her"},
-"speech:1": {"type":"art","p":"An anime boy holding three paper origami cranes in a row like a plan: a small one, a big one, and a final bowing one"},
-"speech:2": {"type":"art","p":"An anime girl breathing slowly with eyes closed, a soft glowing square path of light tracing around her"},
-"speech:3": {"type":"art","p":"An anime boy at the front of a classroom looking at friendly smiling classmates in different corners, confident and speaking clearly"},
-"speech:4": {"type":"art","p":"An anime girl rehearsing her speech at home in front of a mirror while a fluffy cat listens attentively on the sofa"},
-"speech:5": {"type":"art","p":"An anime boy pausing calmly mid-presentation and glancing at a small picture card in his hand, classmates waiting kindly"},
-"cover:online": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat surrounded by floating colorful chat bubbles filled with little smiley faces"},
-"online:0": {"type":"art","p":"Two anime kids each looking at their phones in different rooms, one smiling, the other puzzled, a floating blank chat bubble between them"},
-"online:1": {"type":"art","p":"A giant cheerful smiley face and a thumbs-up floating out of a glowing phone held by a grinning anime girl"},
-"online:2": {"type":"art","p":"A phone shooting out huge loud shouting sound waves that blow a small anime boy's hair back, comic surprised expression"},
-"online:3": {"type":"art","p":"An anime girl holding a sealed glowing envelope with a little padlock, asking her friend for permission before sharing"},
-"online:4": {"type":"art","p":"Many cute animal classmates sitting around a big round table with tiny speech-free chat bubbles taking turns politely"},
-"online:5": {"type":"art","p":"An anime boy covering his mouth like the speak-no-evil monkey and putting his phone away instead of writing about a classmate"},
-"cover:teamwork": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat high-fiving a team of animal friends around a finished model castle"},
-"teamwork:0": {"type":"art","p":"An anime girl admiring a classmate's painting of fluffy clouds with sparkling eyes, the classmate blushing proudly"},
-"teamwork:1": {"type":"art","p":"An anime boy receiving praise and smiling happily with hands together in thanks, a small star glowing over his head"},
-"teamwork:2": {"type":"art","p":"An anime girl giving a bouquet of flowers to a friend who helped her carry boxes, both smiling gratefully"},
-"teamwork:3": {"type":"art","p":"A team of four animal kids building a treehouse: one holding a plan, one with an idea lightbulb, one hammering, one checking with a magnifying glass"},
-"teamwork:4": {"type":"art","p":"A friendly anime boy patting a teammate on the shoulder after a spilled paint jar, both laughing and cleaning it up together"},
-"teamwork:5": {"type":"art","p":"A team of cute anime kids jumping and cheering together holding a shiny golden trophy, confetti falling"}
+ "cover:meet": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat waving hello with a big smile to a shy bunny in a sunny schoolyard"
+ },
+ "meet:0": {
+  "type": "photo",
+  "q": "two dogs meeting",
+  "alt": "Первая встреча",
+  "src": "commons"
+ },
+ "meet:1": {
+  "type": "photo",
+  "q": "handshake",
+  "alt": "Рукопожатие",
+  "src": "commons"
+ },
+ "meet:2": {
+  "type": "photo",
+  "q": "question mark sculpture",
+  "alt": "Знак вопроса",
+  "src": "commons"
+ },
+ "meet:3": {
+  "type": "art",
+  "p": "An anime boy noticing a little dragon keychain on a classmate's backpack and pointing at it with delight, both laughing"
+ },
+ "meet:4": {
+  "type": "photo",
+  "q": "children playing ball",
+  "alt": "Игра в мяч",
+  "src": "commons"
+ },
+ "meet:5": {
+  "type": "photo",
+  "q": "shy kitten",
+  "alt": "Стеснительный котёнок",
+  "src": "commons"
+ },
+ "cover:listen": {
+  "type": "photo",
+  "q": "tin can telephone",
+  "alt": "Телефон из банок",
+  "src": "commons"
+ },
+ "listen:0": {
+  "type": "photo",
+  "q": "ear trumpet",
+  "alt": "Слуховая трубка",
+  "src": "commons"
+ },
+ "listen:1": {
+  "type": "photo",
+  "q": "cat ears",
+  "alt": "Кошка слушает",
+  "src": "commons"
+ },
+ "listen:2": {
+  "type": "art",
+  "p": "An anime boy waiting patiently with lips pressed together and a finger bent to remember a thought, while his friend finishes speaking"
+ },
+ "listen:3": {
+  "type": "photo",
+  "q": "question mark",
+  "alt": "Вопрос",
+  "src": "commons"
+ },
+ "listen:4": {
+  "type": "photo",
+  "q": "parrot",
+  "alt": "Попугай повторяет",
+  "src": "commons"
+ },
+ "listen:5": {
+  "type": "photo",
+  "q": "owl",
+  "alt": "Мудрая сова",
+  "src": "commons"
+ },
+ "cover:empathy": {
+  "type": "photo",
+  "q": "two cats cuddling",
+  "alt": "Два котика рядом",
+  "src": "commons"
+ },
+ "empathy:0": {
+  "type": "art",
+  "p": "Four cute round candy characters in a row showing clear emotions: happy, sad, angry and scared, expressive faces, playful arrangement"
+ },
+ "empathy:1": {
+  "type": "photo",
+  "q": "dog body language",
+  "alt": "Поза собаки",
+  "src": "commons"
+ },
+ "empathy:2": {
+  "type": "photo",
+  "q": "pair of shoes",
+  "alt": "Побыть на месте другого",
+  "src": "commons"
+ },
+ "empathy:3": {
+  "type": "photo",
+  "q": "helping hand",
+  "alt": "Рука помощи",
+  "src": "commons"
+ },
+ "empathy:4": {
+  "type": "photo",
+  "q": "park bench",
+  "alt": "Скамейка в парке",
+  "src": "commons"
+ },
+ "empathy:5": {
+  "type": "art",
+  "p": "A worried anime boy leading his gloomy friend by the hand toward a kind school teacher who welcomes them with open arms"
+ },
+ "cover:i_message": {
+  "type": "photo",
+  "q": "heart shaped stone",
+  "alt": "Сердце из камня",
+  "src": "commons"
+ },
+ "i_message:0": {
+  "type": "photo",
+  "q": "pointing finger",
+  "alt": "Указательный палец",
+  "src": "commons"
+ },
+ "i_message:1": {
+  "type": "photo",
+  "q": "hand on heart",
+  "alt": "Рука на сердце",
+  "src": "commons"
+ },
+ "i_message:2": {
+  "type": "photo",
+  "q": "color palette",
+  "alt": "Краски чувств",
+  "src": "commons"
+ },
+ "i_message:3": {
+  "type": "art",
+  "p": "A kitten detective with a magnifying glass looking at a drawing held up in class while classmates giggle, focusing on what happened"
+ },
+ "i_message:4": {
+  "type": "photo",
+  "q": "envelope letter",
+  "alt": "Письмо с просьбой",
+  "src": "commons"
+ },
+ "i_message:5": {
+  "type": "photo",
+  "q": "calm lake",
+  "alt": "Спокойное озеро",
+  "src": "commons"
+ },
+ "cover:ask_refuse": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat politely asking a hedgehog for a ruler, while gently refusing a pushy crow's offer"
+ },
+ "ask_refuse:0": {
+  "type": "art",
+  "p": "A polite little kitten asking a hedgehog classmate for a ruler with a smile and paws together, the hedgehog happily sharing"
+ },
+ "ask_refuse:1": {
+  "type": "photo",
+  "q": "closed door",
+  "alt": "Закрытая дверь",
+  "src": "commons"
+ },
+ "ask_refuse:2": {
+  "type": "photo",
+  "q": "stop sign",
+  "alt": "Знак «стоп»",
+  "src": "commons"
+ },
+ "ask_refuse:3": {
+  "type": "photo",
+  "q": "cup of tea",
+  "alt": "Мягкий отказ",
+  "src": "commons"
+ },
+ "ask_refuse:4": {
+  "type": "photo",
+  "q": "tug of war",
+  "alt": "Перетягивание каната",
+  "src": "commons"
+ },
+ "ask_refuse:5": {
+  "type": "photo",
+  "q": "wooden fence gate",
+  "alt": "Твёрдая граница",
+  "src": "commons"
+ },
+ "cover:compromise": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat holding a balance scale level between a bunny and a puppy who both smile"
+ },
+ "compromise:0": {
+  "type": "art",
+  "p": "Two anime kids debating at a table with a map and magnifying glass like detectives, animated but friendly, solving together"
+ },
+ "compromise:1": {
+  "type": "photo",
+  "q": "building blocks",
+  "alt": "Кирпичики аргументов",
+  "src": "commons"
+ },
+ "compromise:2": {
+  "type": "photo",
+  "q": "rotary telephone",
+  "alt": "Выслушать другого",
+  "src": "commons"
+ },
+ "compromise:3": {
+  "type": "photo",
+  "q": "pizza slices",
+  "alt": "Поделить поровну",
+  "src": "commons"
+ },
+ "compromise:4": {
+  "type": "art",
+  "p": "Two cute animal friends playing rock-paper-scissors with paws, a coin spinning in the air, fair and playful mood"
+ },
+ "compromise:5": {
+  "type": "art",
+  "p": "Kids taking a calm break sitting on cushions with cups of cocoa, a wise owl friend sitting in the middle as a fair judge"
+ },
+ "cover:make_up": {
+  "type": "photo",
+  "q": "two kittens",
+  "alt": "Котята помирились",
+  "src": "commons"
+ },
+ "make_up:0": {
+  "type": "photo",
+  "q": "storm clouds",
+  "alt": "Туча ссоры",
+  "src": "commons"
+ },
+ "make_up:1": {
+  "type": "photo",
+  "q": "flower bouquet",
+  "alt": "Букет в знак мира",
+  "src": "commons"
+ },
+ "make_up:2": {
+  "type": "photo",
+  "q": "crossed fingers",
+  "alt": "Скрещённые пальцы",
+  "src": "commons"
+ },
+ "make_up:3": {
+  "type": "photo",
+  "q": "handshake",
+  "alt": "Пожать руки",
+  "src": "commons"
+ },
+ "make_up:4": {
+  "type": "photo",
+  "q": "snail",
+  "alt": "Не торопиться",
+  "src": "commons"
+ },
+ "make_up:5": {
+  "type": "photo",
+  "q": "paper airplane",
+  "alt": "Записка другу",
+  "src": "commons"
+ },
+ "cover:speech": {
+  "type": "photo",
+  "q": "microphone stage",
+  "alt": "Микрофон на сцене",
+  "src": "commons"
+ },
+ "speech:0": {
+  "type": "photo",
+  "q": "butterflies",
+  "alt": "Бабочки в животе",
+  "src": "commons"
+ },
+ "speech:1": {
+  "type": "photo",
+  "q": "staircase",
+  "alt": "Шаги плана",
+  "src": "commons"
+ },
+ "speech:2": {
+  "type": "photo",
+  "q": "soap bubbles",
+  "alt": "Ровное дыхание",
+  "src": "commons"
+ },
+ "speech:3": {
+  "type": "photo",
+  "q": "lecture hall audience",
+  "alt": "Слушатели в зале",
+  "src": "commons"
+ },
+ "speech:4": {
+  "type": "photo",
+  "q": "theatre rehearsal",
+  "alt": "Репетиция",
+  "src": "commons"
+ },
+ "speech:5": {
+  "type": "photo",
+  "q": "lighthouse",
+  "alt": "Найти опору",
+  "src": "commons"
+ },
+ "cover:online": {
+  "type": "photo",
+  "q": "laptop keyboard",
+  "alt": "Клавиатура",
+  "src": "commons"
+ },
+ "online:0": {
+  "type": "photo",
+  "q": "smartphone",
+  "alt": "Сообщение в телефоне",
+  "src": "commons"
+ },
+ "online:1": {
+  "type": "photo",
+  "q": "smiley face",
+  "alt": "Смайлик",
+  "src": "commons"
+ },
+ "online:2": {
+  "type": "photo",
+  "q": "megaphone",
+  "alt": "Громкий крик",
+  "src": "commons"
+ },
+ "online:3": {
+  "type": "photo",
+  "q": "padlock",
+  "alt": "Чужое — под замком",
+  "src": "commons"
+ },
+ "online:4": {
+  "type": "photo",
+  "q": "school classroom",
+  "alt": "Весь класс",
+  "src": "commons"
+ },
+ "online:5": {
+  "type": "art",
+  "p": "An anime boy covering his mouth like the speak-no-evil monkey and putting his phone away instead of writing about a classmate"
+ },
+ "cover:teamwork": {
+  "type": "photo",
+  "q": "rowing team",
+  "alt": "Команда гребцов",
+  "src": "commons"
+ },
+ "teamwork:0": {
+  "type": "photo",
+  "q": "sunflower",
+  "alt": "Подсолнух",
+  "src": "commons"
+ },
+ "teamwork:1": {
+  "type": "photo",
+  "q": "gold medal",
+  "alt": "Медаль",
+  "src": "commons"
+ },
+ "teamwork:2": {
+  "type": "photo",
+  "q": "bouquet of tulips",
+  "alt": "Цветы в благодарность",
+  "src": "commons"
+ },
+ "teamwork:3": {
+  "type": "art",
+  "p": "A team of four animal kids building a treehouse: one holding a plan, one with an idea lightbulb, one hammering, one checking with a magnifying glass"
+ },
+ "teamwork:4": {
+  "type": "photo",
+  "q": "ants working together",
+  "alt": "Муравьи помогают",
+  "src": "commons"
+ },
+ "teamwork:5": {
+  "type": "photo",
+  "q": "relay race baton",
+  "alt": "Эстафета",
+  "src": "commons"
+ }
 }

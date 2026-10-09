@@ -1,7 +1,9 @@
 {
  "cover:growing_up": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat watching a small sapling grow into a young tree, a gentle sunrise behind, symbolizing growing up"
+  "type": "photo",
+  "q": "sunflower field",
+  "alt": "Поле подсолнухов",
+  "src": "commons"
  },
  "growing_up:0": {
   "type": "art",
@@ -121,32 +123,42 @@
   "type": "none"
  },
  "cover:hygiene": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat in a cozy bathroom with a fluffy towel, a toothbrush cup and a shelf of tidy bottles, all clothed and fresh"
+  "type": "photo",
+  "q": "soap and towel",
+  "alt": "Мыло и полотенце",
+  "src": "commons"
  },
  "hygiene:0": {
-  "type": "art",
-  "p": "a steamy bathroom with a shower curtain drawn, a fluffy towel and fresh folded clothes on a stool"
+  "type": "photo",
+  "q": "shower head",
+  "alt": "Душ",
+  "src": "commons"
  },
  "hygiene:1": {
   "type": "art",
   "p": "a deodorant bottle on a neat shelf next to a sports bag and a clean folded t-shirt"
  },
  "hygiene:2": {
-  "type": "art",
-  "p": "a laundry basket with colorful socks and t-shirts, a fresh folded stack beside it"
+  "type": "photo",
+  "q": "socks",
+  "alt": "Чистые носки",
+  "src": "commons"
  },
  "hygiene:3": {
   "type": "art",
   "p": "a fully clothed anime tween boy brushing teeth in front of a bathroom mirror, smiling with foam"
  },
  "hygiene:4": {
-  "type": "art",
-  "p": "a pair of sneakers airing on a sunny balcony next to clean cotton socks on a line"
+  "type": "photo",
+  "q": "sneakers",
+  "alt": "Кроссовки",
+  "src": "commons"
  },
  "hygiene:5": {
-  "type": "art",
-  "p": "a fully clothed anime tween girl washing her face at a sink with gentle foam, a soft towel ready"
+  "type": "photo",
+  "q": "soap bar",
+  "alt": "Мыло для умывания",
+  "src": "commons"
  },
  "hygiene:6": {
   "type": "art",
@@ -157,40 +169,52 @@
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding an umbrella under a sky that is half sunny and half rainy, a small rainbow in between"
  },
  "emotions:0": {
-  "type": "art",
-  "p": "a fully clothed anime tween on a swing whose mood is shown by the sky changing from sunny to cloudy to sunny"
+  "type": "photo",
+  "q": "sun and clouds",
+  "alt": "Солнце и тучи",
+  "src": "commons"
  },
  "emotions:1": {
-  "type": "art",
-  "p": "a fully clothed anime tween punching a soft pillow on a bed, steam puffs fading away, calming down"
+  "type": "photo",
+  "q": "stress ball",
+  "alt": "Мячик-антистресс",
+  "src": "commons"
  },
  "emotions:2": {
   "type": "art",
   "p": "a fully clothed anime tween sitting by a window breathing slowly, a glowing square of light tracing in the air"
  },
  "emotions:3": {
-  "type": "art",
-  "p": "a fully clothed anime tween resting under a blanket with a cup of cocoa, a gentle rain outside the window"
+  "type": "photo",
+  "q": "rain on window",
+  "alt": "Дождь за окном",
+  "src": "commons"
  },
  "emotions:4": {
   "type": "art",
   "p": "a fully clothed anime tween with little swirling thought clouds, a cat curled on the lap helping them calm down"
  },
  "emotions:5": {
-  "type": "art",
-  "p": "a fully clothed anime tween reading alone in a cozy reading nook with headphones, door slightly closed"
+  "type": "photo",
+  "q": "reading nook",
+  "alt": "Уютный уголок",
+  "src": "commons"
  },
  "emotions:6": {
-  "type": "art",
-  "p": "a fully clothed anime tween talking to a caring school counselor on a sofa, warm afternoon light"
+  "type": "photo",
+  "q": "telephone",
+  "alt": "Телефон доверия",
+  "src": "commons"
  },
  "cover:friendship": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sharing a picnic blanket with two fully clothed anime tween friends in a sunny park, laughing together"
  },
  "friendship:0": {
-  "type": "art",
-  "p": "two fully clothed anime tweens waving goodbye at a crossroads, each walking toward a different group of friends"
+  "type": "photo",
+  "q": "friendship bracelets",
+  "alt": "Браслеты дружбы",
+  "src": "commons"
  },
  "friendship:1": {
   "type": "art",
@@ -201,36 +225,50 @@
   "p": "a fully clothed anime tween joining a small friendly group drawing at an art club table"
  },
  "friendship:3": {
-  "type": "art",
-  "p": "a fully clothed anime tween calmly walking away from a group pointing toward a fence, choosing their own path"
+  "type": "photo",
+  "q": "crowd of people",
+  "alt": "Толпа",
+  "src": "commons"
  },
  "friendship:4": {
-  "type": "art",
-  "p": "a fully clothed anime tween standing beside a lonely classmate in a corridor while a teacher approaches"
+  "type": "photo",
+  "q": "school corridor",
+  "alt": "Школьный коридор",
+  "src": "commons"
  },
  "friendship:5": {
-  "type": "art",
-  "p": "two fully clothed anime tweens sharing an umbrella in the rain, laughing"
+  "type": "photo",
+  "q": "two dogs playing",
+  "alt": "Два друга",
+  "src": "commons"
  },
  "friendship:6": {
   "type": "art",
   "p": "a fully clothed anime tween calmly raising a palm in a polite no gesture while a friend nods in understanding"
  },
  "cover:crush": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting on a bench under a tree with floating pink hearts and leaves drifting in a warm breeze"
+  "type": "photo",
+  "q": "red tulips",
+  "alt": "Красные тюльпаны",
+  "src": "commons"
  },
  "crush:0": {
-  "type": "art",
-  "p": "a fully clothed anime tween daydreaming at a school desk with tiny pink hearts floating above"
+  "type": "photo",
+  "q": "heart shaped balloon",
+  "alt": "Шарик-сердечко",
+  "src": "commons"
  },
  "crush:1": {
-  "type": "art",
-  "p": "a fully clothed anime tween happily skateboarding alone in a park, carefree and smiling"
+  "type": "photo",
+  "q": "daisy flower",
+  "alt": "Ромашка",
+  "src": "commons"
  },
  "crush:2": {
-  "type": "art",
-  "p": "a fully clothed anime tween blushing while looking at a sunset, clutching a notebook to the chest"
+  "type": "photo",
+  "q": "butterflies",
+  "alt": "Бабочки",
+  "src": "commons"
  },
  "crush:3": {
   "type": "art",
@@ -241,16 +279,22 @@
   "p": "a fully clothed anime tween comforted by a best friend with a hug on a bench, autumn leaves falling"
  },
  "crush:5": {
-  "type": "art",
-  "p": "two fully clothed anime tweens talking kindly and respectfully on a school staircase"
+  "type": "photo",
+  "q": "two swans",
+  "alt": "Пара лебедей",
+  "src": "commons"
  },
  "crush:6": {
-  "type": "art",
-  "p": "a fully clothed anime tween calmly speaking up to a group of giggling classmates in the schoolyard"
+  "type": "photo",
+  "q": "paper airplane",
+  "alt": "Бумажный самолётик",
+  "src": "commons"
  },
  "cover:confidence": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat standing tall on top of a small hill with a cape fluttering, arms raised, sunny sky behind"
+  "type": "photo",
+  "q": "sunflower",
+  "alt": "Подсолнух",
+  "src": "commons"
  },
  "confidence:0": {
   "type": "art",
@@ -261,24 +305,32 @@
   "p": "a phone screen frame with a perfect sunny photo, and behind it a messy behind-the-scenes setup with lamps"
  },
  "confidence:2": {
-  "type": "art",
-  "p": "a group of fully clothed anime tweens of all different heights and builds posing together for a photo, cheerful"
+  "type": "photo",
+  "q": "different trees",
+  "alt": "Все деревья разные",
+  "src": "commons"
  },
  "confidence:3": {
   "type": "art",
   "p": "a fully clothed anime tween eating a balanced lunch with vegetables, rice and fish, happy and energetic"
  },
  "confidence:4": {
-  "type": "art",
-  "p": "a fully clothed anime tween playing basketball outdoors, smiling with energy"
+  "type": "photo",
+  "q": "basketball",
+  "alt": "Баскетбольный мяч",
+  "src": "commons"
  },
  "confidence:5": {
-  "type": "art",
-  "p": "a fully clothed anime tween waking up refreshed with sunlight streaming into a tidy bedroom"
+  "type": "photo",
+  "q": "alarm clock",
+  "alt": "Будильник",
+  "src": "commons"
  },
  "confidence:6": {
-  "type": "art",
-  "p": "a fully clothed anime tween holding a finished clay pot proudly in an art class"
+  "type": "photo",
+  "q": "mountain summit",
+  "alt": "Вершина горы",
+  "src": "commons"
  },
  "cover:boundaries": {
   "type": "art",
@@ -297,8 +349,10 @@
   "p": "two fully clothed anime tweens, one offering a high five and the other happily accepting it"
  },
  "boundaries:3": {
-  "type": "art",
-  "p": "a fully clothed anime tween happily hiding a wrapped birthday present for mom behind their back"
+  "type": "photo",
+  "q": "gift box",
+  "alt": "Подарок-сюрприз",
+  "src": "commons"
  },
  "boundaries:4": {
   "type": "art",
@@ -313,36 +367,50 @@
   "p": "a fully clothed anime tween walking away quickly toward a trusted teacher in a school hallway"
  },
  "boundaries:7": {
-  "type": "art",
-  "p": "a fully clothed anime tween talking to a warm grandma on a sofa, she listens with a hand on their shoulder"
+  "type": "photo",
+  "q": "telephone",
+  "alt": "Телефон доверия",
+  "src": "commons"
  },
  "cover:online": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding a smartphone with a padlock shield glowing above it, cozy bedroom with a night lamp"
  },
  "online:0": {
-  "type": "art",
-  "p": "a fully clothed anime tween in bed glowing blue from a phone, a sleepy moon outside the window"
+  "type": "photo",
+  "q": "night sky stars",
+  "alt": "Ночное небо",
+  "src": "commons"
  },
  "online:1": {
-  "type": "art",
-  "p": "a fully clothed anime tween and a parent making a family agreement together at the kitchen table, phone in a basket"
+  "type": "photo",
+  "q": "hourglass",
+  "alt": "Песочные часы",
+  "src": "commons"
  },
  "online:2": {
-  "type": "art",
-  "p": "a fully clothed anime tween swiping an endless stream of glowing video cards that loop in a spiral"
+  "type": "photo",
+  "q": "smartphone",
+  "alt": "Смартфон",
+  "src": "commons"
  },
  "online:3": {
-  "type": "art",
-  "p": "a fully clothed anime tween guarding a phone with a shield and padlock, a sly fox shadow outside the window"
+  "type": "photo",
+  "q": "padlock",
+  "alt": "Замок",
+  "src": "commons"
  },
  "online:4": {
-  "type": "art",
-  "p": "a fully clothed anime tween showing a phone to a parent on the sofa, the parent hugging them reassuringly"
+  "type": "photo",
+  "q": "laptop",
+  "alt": "Ноутбук",
+  "src": "commons"
  },
  "online:5": {
-  "type": "art",
-  "p": "a fully clothed anime tween and a parent meeting a new friend together in a bright public cafe"
+  "type": "photo",
+  "q": "park bench",
+  "alt": "Скамейка в парке",
+  "src": "commons"
  },
  "cover:is_it_normal": {
   "type": "art",
@@ -370,24 +438,32 @@
   "p": "a fully clothed anime tween boy crying softly while a friend offers a tissue and a gentle smile"
  },
  "is_it_normal:6": {
-  "type": "art",
-  "p": "a fully clothed anime tween tripping over their own long legs while carrying books, laughing about it"
+  "type": "photo",
+  "q": "foal",
+  "alt": "Жеребёнок",
+  "src": "commons"
  },
  "is_it_normal:7": {
-  "type": "art",
-  "p": "a fully clothed anime tween waving hello to a parent from across the room, giving a warm smile instead of a hug"
+  "type": "photo",
+  "q": "teddy bear",
+  "alt": "Плюшевый мишка",
+  "src": "commons"
  },
  "is_it_normal:8": {
   "type": "art",
   "p": "a group of fully clothed anime tweens of different heights standing in a line, all relaxed and happy"
  },
  "is_it_normal:9": {
-  "type": "art",
-  "p": "a fully clothed anime tween with a big curious face asking a smiling mom a question over tea"
+  "type": "photo",
+  "q": "question mark",
+  "alt": "Знак вопроса",
+  "src": "commons"
  },
  "is_it_normal:10": {
-  "type": "art",
-  "p": "a fully clothed anime tween brushing teeth and drinking a glass of water in a bright bathroom"
+  "type": "photo",
+  "q": "toothbrush",
+  "alt": "Зубная щётка",
+  "src": "commons"
  },
  "is_it_normal:11": {
   "type": "none"

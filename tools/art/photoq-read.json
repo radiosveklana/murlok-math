@@ -1,0 +1,74 @@
+{
+ "cover:how": {
+  "q": "open book",
+  "alt": "Раскрытая книга"
+ },
+ "how:0": {
+  "q": "frog jumping",
+  "alt": "Прыжки лягушки"
+ },
+ "how:1": {
+  "q": "camera lens",
+  "alt": "Объектив"
+ },
+ "how:2": {
+  "q": "library reading room",
+  "alt": "Читальный зал"
+ },
+ "how:3": {
+  "q": "railway tracks",
+  "alt": "Только вперёд"
+ },
+ "how:4": {
+  "q": "cheetah running",
+  "alt": "Быстрый гепард"
+ },
+ "cover:understand": {
+  "q": "library shelves",
+  "alt": "Книжные полки"
+ },
+ "understand:0": {
+  "q": "question mark",
+  "alt": "Вопрос перед чтением"
+ },
+ "understand:1": {
+  "q": "highlighter pen",
+  "alt": "Маркер"
+ },
+ "understand:2": {
+  "q": "compass",
+  "alt": "Компас"
+ },
+ "understand:3": {
+  "q": "film projector",
+  "alt": "Кинопроектор"
+ },
+ "understand:4": {
+  "q": "cat on book",
+  "alt": "Котик и книга"
+ },
+ "cover:focus": {
+  "q": "reading lamp",
+  "alt": "Лампа для чтения"
+ },
+ "focus:0": {
+  "q": "television",
+  "alt": "Отвлекалка"
+ },
+ "focus:1": {
+  "q": "desk lamp",
+  "alt": "Настольная лампа"
+ },
+ "focus:2": {
+  "q": "window view",
+  "alt": "Посмотри вдаль"
+ },
+ "focus:3": {
+  "q": "bookmark",
+  "alt": "Закладка"
+ },
+ "focus:4": {
+  "q": "calendar",
+  "alt": "Каждый день"
+ }
+}

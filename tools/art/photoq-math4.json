@@ -1,0 +1,74 @@
+{
+ "cover:million_read": {
+  "q": "crowd stadium",
+  "alt": "Тысячи зрителей"
+ },
+ "cover:million_compare": {
+  "q": "abacus",
+  "alt": "Счёты"
+ },
+ "cover:more_less": {
+  "q": "balance scale",
+  "alt": "Чашечные весы"
+ },
+ "cover:length_mass": {
+  "q": "ruler and tape measure",
+  "alt": "Линейка и рулетка"
+ },
+ "cover:time": {
+  "q": "wall clock",
+  "alt": "Настенные часы"
+ },
+ "cover:area_units": {
+  "q": "floor tiles",
+  "alt": "Плитка на полу"
+ },
+ "cover:part_qty": {
+  "q": "pie slices",
+  "alt": "Пирог на кусочки"
+ },
+ "cover:round_mul": {
+  "q": "egg cartons",
+  "alt": "Яйца в коробках"
+ },
+ "cover:remainder": {
+  "q": "cookies on plates",
+  "alt": "Печенье на тарелках"
+ },
+ "cover:order_ops": {
+  "q": "stacked building blocks",
+  "alt": "Кубики друг на друге"
+ },
+ "cover:props": {
+  "q": "colorful beads",
+  "alt": "Разноцветные бусины"
+ },
+ "cover:motion": {
+  "q": "train on railway",
+  "alt": "Поезд в пути"
+ },
+ "cover:motion_two": {
+  "q": "two trains passing",
+  "alt": "Встречные поезда"
+ },
+ "cover:work": {
+  "q": "bricklayer building wall",
+  "alt": "Каменщик кладёт стену"
+ },
+ "cover:buy": {
+  "q": "market fruit stall",
+  "alt": "Фруктовый прилавок"
+ },
+ "cover:part_num": {
+  "q": "orange slices",
+  "alt": "Дольки апельсина"
+ },
+ "cover:shapes": {
+  "q": "geometric solids",
+  "alt": "Геометрические тела"
+ },
+ "cover:data_logic": {
+  "q": "chess board",
+  "alt": "Шахматная доска"
+ }
+}

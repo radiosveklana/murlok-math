@@ -1,0 +1,282 @@
+{
+ "cover:help_rule": {
+  "q": "ambulance",
+  "alt": "Скорая помощь"
+ },
+ "help_rule:0": {
+  "q": "first aid kit",
+  "alt": "Аптечка"
+ },
+ "help_rule:1": {
+  "q": "safety vest",
+  "alt": "Жилет спасателя"
+ },
+ "help_rule:2": {
+  "q": "112 emergency number sign",
+  "alt": "Номер 112"
+ },
+ "help_rule:3": {
+  "q": "emergency call centre",
+  "alt": "Диспетчер на связи"
+ },
+ "help_rule:4": {
+  "q": "mobile phone",
+  "alt": "Телефон"
+ },
+ "help_rule:5": {
+  "q": "house number sign",
+  "alt": "Табличка с адресом"
+ },
+ "cover:first_aid_kit": {
+  "q": "first aid kit",
+  "alt": "Аптечка"
+ },
+ "first_aid_kit:0": {
+  "q": "first aid kit wall",
+  "alt": "Аптечка на стене"
+ },
+ "first_aid_kit:1": {
+  "q": "adhesive bandage",
+  "alt": "Пластырь"
+ },
+ "first_aid_kit:2": {
+  "q": "instant cold pack",
+  "alt": "Холодовой пакет"
+ },
+ "first_aid_kit:3": {
+  "q": "antiseptic bottle",
+  "alt": "Антисептик"
+ },
+ "first_aid_kit:4": {
+  "q": "medicine bottles",
+  "alt": "Лекарства"
+ },
+ "first_aid_kit:5": {
+  "q": "notebook phone numbers",
+  "alt": "Список телефонов"
+ },
+ "cover:wounds": {
+  "q": "adhesive bandage",
+  "alt": "Пластырь"
+ },
+ "wounds:0": {
+  "q": "knee pads",
+  "alt": "Наколенники"
+ },
+ "wounds:1": {
+  "q": "adhesive bandages",
+  "alt": "Пластыри"
+ },
+ "wounds:2": {
+  "q": "gauze bandage roll",
+  "alt": "Бинт"
+ },
+ "wounds:3": {
+  "q": "paper tissues",
+  "alt": "Салфетки"
+ },
+ "wounds:4": {
+  "q": "gauze pads",
+  "alt": "Стерильные салфетки"
+ },
+ "wounds:5": {
+  "q": "doctor office",
+  "alt": "Кабинет врача"
+ },
+ "cover:burns": {
+  "q": "cold water tap",
+  "alt": "Прохладная вода"
+ },
+ "burns:0": {
+  "q": "kettle",
+  "alt": "Горячий чайник"
+ },
+ "burns:1": {
+  "q": "running water tap",
+  "alt": "Струя воды"
+ },
+ "burns:2": {
+  "q": "butter",
+  "alt": "Масло — нельзя"
+ },
+ "burns:3": {
+  "q": "gauze bandage roll",
+  "alt": "Чистая повязка"
+ },
+ "burns:4": {
+  "q": "ambulance",
+  "alt": "Скорая помощь"
+ },
+ "burns:5": {
+  "q": "sunscreen",
+  "alt": "Солнцезащитный крем"
+ },
+ "cover:injuries": {
+  "q": "ice pack",
+  "alt": "Пакет со льдом"
+ },
+ "injuries:0": {
+  "q": "ice pack",
+  "alt": "Холод на ушиб"
+ },
+ "injuries:1": {
+  "q": "elastic bandage",
+  "alt": "Эластичный бинт"
+ },
+ "injuries:2": {
+  "q": "x-ray hand",
+  "alt": "Рентген руки"
+ },
+ "injuries:3": {
+  "q": "arm sling",
+  "alt": "Косынка для руки"
+ },
+ "injuries:4": {
+  "q": "bicycle helmet",
+  "alt": "Шлем"
+ },
+ "injuries:5": {
+  "q": "skating protective gear",
+  "alt": "Защита для роликов"
+ },
+ "cover:bites": {
+  "q": "honey bee flower",
+  "alt": "Пчела на цветке"
+ },
+ "bites:0": {
+  "q": "honey bee",
+  "alt": "Пчела"
+ },
+ "bites:1": {
+  "q": "epinephrine autoinjector",
+  "alt": "Автоинъектор"
+ },
+ "bites:2": {
+  "q": "tick insect",
+  "alt": "Клещ"
+ },
+ "bites:3": {
+  "q": "dog",
+  "alt": "Собака"
+ },
+ "bites:4": {
+  "q": "grass snake",
+  "alt": "Уж"
+ },
+ "bites:5": {
+  "q": "forest path",
+  "alt": "Тропинка в лесу"
+ },
+ "cover:choking": {
+  "q": "family dinner table",
+  "alt": "Обед за столом"
+ },
+ "choking:0": {
+  "q": "apple slices",
+  "alt": "Кусочки яблока"
+ },
+ "choking:1": {
+  "q": "ambulance",
+  "alt": "Скорая помощь"
+ },
+ "choking:2": {
+  "q": "first aid training",
+  "alt": "Курсы первой помощи"
+ },
+ "choking:3": {
+  "q": "first aid training mannequin",
+  "alt": "Учебный манекен"
+ },
+ "choking:4": {
+  "q": "family meal",
+  "alt": "Едим не спеша"
+ },
+ "choking:5": {
+  "q": "button cell batteries",
+  "alt": "Батарейки-таблетки"
+ },
+ "cover:weather_water": {
+  "q": "life jacket",
+  "alt": "Спасательный жилет"
+ },
+ "weather_water:0": {
+  "q": "sun hat",
+  "alt": "Панама от солнца"
+ },
+ "weather_water:1": {
+  "q": "water bottle",
+  "alt": "Бутылка воды"
+ },
+ "weather_water:2": {
+  "q": "winter mittens",
+  "alt": "Тёплые варежки"
+ },
+ "weather_water:3": {
+  "q": "lifeguard tower",
+  "alt": "Вышка спасателя"
+ },
+ "weather_water:4": {
+  "q": "swimming float",
+  "alt": "Плавательный круг"
+ },
+ "weather_water:5": {
+  "q": "lifebuoy",
+  "alt": "Спасательный круг"
+ },
+ "cover:fire_emergency": {
+  "q": "fire extinguisher",
+  "alt": "Огнетушитель"
+ },
+ "fire_emergency:0": {
+  "q": "fire truck",
+  "alt": "Пожарная машина"
+ },
+ "fire_emergency:1": {
+  "q": "smoke detector",
+  "alt": "Датчик дыма"
+ },
+ "fire_emergency:2": {
+  "q": "emergency exit sign",
+  "alt": "Знак выхода"
+ },
+ "fire_emergency:3": {
+  "q": "firefighters",
+  "alt": "Пожарные"
+ },
+ "fire_emergency:4": {
+  "q": "lightning storm",
+  "alt": "Гроза"
+ },
+ "fire_emergency:5": {
+  "q": "gas stove",
+  "alt": "Газовая плита"
+ },
+ "cover:feeling_unwell": {
+  "q": "ambulance",
+  "alt": "Скорая помощь"
+ },
+ "feeling_unwell:0": {
+  "q": "pillow",
+  "alt": "Подушка"
+ },
+ "feeling_unwell:1": {
+  "q": "glass of water",
+  "alt": "Стакан воды"
+ },
+ "feeling_unwell:2": {
+  "q": "pillow",
+  "alt": "Мягкая подушка"
+ },
+ "feeling_unwell:3": {
+  "q": "wristwatch",
+  "alt": "Засекаем время"
+ },
+ "feeling_unwell:4": {
+  "q": "ambulance",
+  "alt": "Звоним 112"
+ },
+ "feeling_unwell:5": {
+  "q": "blanket",
+  "alt": "Тёплый плед"
+ }
+}

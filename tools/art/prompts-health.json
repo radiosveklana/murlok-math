@@ -1,211 +1,303 @@
 {
  "cover:plate": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat proudly holding a big round plate filled with colorful vegetables, rice and baked fish, sitting at a sunny kitchen table"
+  "type": "photo",
+  "q": "healthy food plate",
+  "alt": "Тарелка здоровья",
+  "src": "commons"
  },
  "plate:0": {
   "type": "art",
   "p": "a round plate divided into sections: half colorful vegetables and fruit, a quarter buckwheat, a quarter chicken, seen from above on a wooden table"
  },
  "plate:1": {
-  "type": "art",
-  "p": "a rainbow arc made of real foods: tomatoes, carrots, bananas, broccoli, blueberries and plums arranged on a white tablecloth"
+  "type": "photo",
+  "q": "colorful vegetables",
+  "alt": "Разноцветные овощи",
+  "src": "commons"
  },
  "plate:2": {
-  "type": "art",
-  "p": "a cheerful kid lifting a light dumbbell next to a table with eggs, fish, beans and cottage cheese"
+  "type": "photo",
+  "q": "eggs",
+  "alt": "Яйца — белок",
+  "src": "commons"
  },
  "plate:3": {
-  "type": "art",
-  "p": "a cozy bowl of buckwheat porridge with butter on a wooden table, glass of milk and a spoon, morning light"
+  "type": "photo",
+  "q": "buckwheat",
+  "alt": "Гречка",
+  "src": "commons"
  },
  "plate:4": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat happily nibbling a small slice of cake on a saucer, next to a bowl of apples"
+  "type": "photo",
+  "q": "chocolate cake",
+  "alt": "Кусочек торта",
+  "src": "commons"
  },
  "plate:5": {
-  "type": "art",
-  "p": "a small sprout growing into a young tree beside a kid measuring height against a door frame, sunny and cheerful"
+  "type": "photo",
+  "q": "fruit basket",
+  "alt": "Корзина фруктов",
+  "src": "commons"
  },
  "plate:6": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting at a dinner table with a half-eaten bowl of soup, paw on tummy, looking content and full"
+  "type": "photo",
+  "q": "family dinner table",
+  "alt": "Обед за столом",
+  "src": "commons"
  },
  "cover:water": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat drinking from a clear glass of water beside a sparkling water jug on a sunny windowsill, tiny droplets glittering around"
+  "type": "photo",
+  "q": "glass of water",
+  "alt": "Стакан воды",
+  "src": "commons"
  },
  "water:0": {
-  "type": "art",
-  "p": "a cute anime child shaped like a glass of water, with gentle waves inside, smiling, surrounded by floating water droplets"
+  "type": "photo",
+  "q": "water drop",
+  "alt": "Капля воды",
+  "src": "commons"
  },
  "water:1": {
-  "type": "art",
-  "p": "a row of colorful cups and glasses on a school desk next to a refillable water bottle"
+  "type": "photo",
+  "q": "water bottle",
+  "alt": "Бутылка воды",
+  "src": "commons"
  },
  "water:2": {
   "type": "art",
   "p": "a sweaty anime kid in sportswear taking a big sip from a water bottle on a sunny playground"
  },
  "water:3": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat looking tired with a dry tongue, holding an empty cup in the shade, a full water jug waiting nearby"
+  "type": "photo",
+  "q": "water jug",
+  "alt": "Кувшин воды",
+  "src": "commons"
  },
  "water:4": {
-  "type": "art",
-  "p": "a kitchen tap pouring clean water into a glass, a jug of berry fruit drink and a glass of milk beside it"
+  "type": "photo",
+  "q": "glass of water",
+  "alt": "Лучший напиток — вода",
+  "src": "commons"
  },
  "water:5": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat pushing away a tall can with a lightning bolt picture and choosing a glass of milk instead"
  },
  "cover:breakfast": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat at a cozy morning table with a bowl of porridge, banana slices and a boiled egg, sunrise glowing through the window"
+  "type": "photo",
+  "q": "porridge with berries",
+  "alt": "Каша с ягодами",
+  "src": "commons"
  },
  "breakfast:0": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat filling a tiny toy car with a bowl of porridge instead of fuel, morning sun shining"
  },
  "breakfast:1": {
-  "type": "art",
-  "p": "a breakfast tray with oatmeal porridge, a boiled egg, a slice of cheese on bread and a banana"
+  "type": "photo",
+  "q": "oatmeal with fruit",
+  "alt": "Овсянка с фруктами",
+  "src": "commons"
  },
  "breakfast:2": {
-  "type": "art",
-  "p": "a cozy kitchen at different times of day shown as four small windows: sunrise, noon, afternoon, evening, a family table below"
+  "type": "photo",
+  "q": "alarm clock",
+  "alt": "Будильник",
+  "src": "commons"
  },
  "breakfast:3": {
-  "type": "art",
-  "p": "a lunchbox with an apple, carrot sticks, a banana, a small yogurt and a handful of nuts on a school bench"
+  "type": "photo",
+  "q": "apple",
+  "alt": "Яблоко на перекус",
+  "src": "commons"
  },
  "breakfast:4": {
-  "type": "art",
-  "p": "an anime family eating soup together at a warm dinner table in the evening, cozy lamp light"
+  "type": "photo",
+  "q": "family dinner",
+  "alt": "Семейный ужин",
+  "src": "commons"
  },
  "breakfast:5": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sleepily sipping a glass of milk with a banana in the other paw at dawn"
+  "type": "photo",
+  "q": "fruit smoothie",
+  "alt": "Фруктовый смузи",
+  "src": "commons"
  },
  "cover:hygiene": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat washing paws with foamy soap bubbles at a small bathroom sink, a toothbrush cup and fluffy towel nearby"
+  "type": "photo",
+  "q": "soap bar",
+  "alt": "Кусок мыла",
+  "src": "commons"
  },
  "hygiene:0": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat looking through a big microscope at tiny cute cartoon germs dancing on a glass slide"
+  "type": "photo",
+  "q": "bacteria microscope",
+  "alt": "Микробы под микроскопом",
+  "src": "commons"
  },
  "hygiene:1": {
-  "type": "art",
-  "p": "two anime child hands covered in soap foam scrubbing between the fingers under a running tap, bubbles floating up"
+  "type": "photo",
+  "q": "washing hands soap",
+  "alt": "Моем руки с мылом",
+  "src": "commons"
  },
  "hygiene:2": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat washing paws at a sink after coming in from the street, muddy boots by the door and a puppy waiting"
+  "type": "photo",
+  "q": "hand washing sink",
+  "alt": "Раковина с мылом",
+  "src": "commons"
  },
  "hygiene:3": {
-  "type": "art",
-  "p": "a smiling anime kid brushing teeth in front of a bathroom mirror, a pea-sized dab of toothpaste on the brush"
+  "type": "photo",
+  "q": "toothbrush toothpaste",
+  "alt": "Щётка и паста",
+  "src": "commons"
  },
  "hygiene:4": {
-  "type": "art",
-  "p": "a neat pile of fresh folded clothes next to a steamy shower curtain and a fluffy towel on a hook"
+  "type": "photo",
+  "q": "shower head",
+  "alt": "Душ",
+  "src": "commons"
  },
  "hygiene:5": {
-  "type": "art",
-  "p": "a bathroom shelf with several different colored toothbrushes and towels, each in its own separate cup and hook"
+  "type": "photo",
+  "q": "towels",
+  "alt": "Свои полотенца",
+  "src": "commons"
  },
  "hygiene:6": {
-  "type": "art",
-  "p": "an anime kid sneezing into the bend of the elbow, a tissue box nearby on the table"
+  "type": "photo",
+  "q": "paper tissues",
+  "alt": "Бумажные салфетки",
+  "src": "commons"
  },
  "cover:sport": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat jogging happily through a green park with a skipping rope over the shoulder, kids playing ball in the background"
+  "type": "photo",
+  "q": "children playing football",
+  "alt": "Дети играют в футбол",
+  "src": "commons"
  },
  "sport:0": {
-  "type": "art",
-  "p": "anime kids running, jumping rope and riding bikes in a sunny park, a big sun shining in the sky"
+  "type": "photo",
+  "q": "children playing park",
+  "alt": "Игры на улице",
+  "src": "commons"
  },
  "sport:1": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat flexing a tiny paw muscle with a happy glowing heart floating beside, on a sports field"
+  "type": "photo",
+  "q": "running shoes",
+  "alt": "Кроссовки",
+  "src": "commons"
  },
  "sport:2": {
   "type": "art",
   "p": "anime children playing tag and jumping on a playground, one climbing a rope wall"
  },
  "sport:3": {
-  "type": "art",
-  "p": "an anime kid doing arm circles and side bends before a run on a green stadium track"
+  "type": "photo",
+  "q": "stretching exercise",
+  "alt": "Разминка",
+  "src": "commons"
  },
  "sport:4": {
-  "type": "art",
-  "p": "a collage of cute animal kids: one swimming, one dancing, one doing karate, one skiing, one rock climbing"
+  "type": "photo",
+  "q": "swimming pool",
+  "alt": "Бассейн",
+  "src": "commons"
  },
  "sport:5": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat riding a small bicycle wearing a bright helmet, knee pads and elbow pads"
+  "type": "photo",
+  "q": "bicycle helmet",
+  "alt": "Велошлем",
+  "src": "commons"
  },
  "sport:6": {
-  "type": "art",
-  "p": "an anime kid standing up from a desk and stretching arms high toward the ceiling, books left on the chair"
+  "type": "photo",
+  "q": "bicycle",
+  "alt": "Велосипед",
+  "src": "commons"
  },
  "cover:sleep": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat curled up in a cozy bed under a starry quilt, moonlight through the window, a small night lamp glowing softly"
+  "type": "photo",
+  "q": "sleeping cat",
+  "alt": "Спящий котик",
+  "src": "commons"
  },
  "sleep:0": {
-  "type": "art",
-  "p": "a sleeping anime kid in bed while tiny cute elves tidy shelves of glowing memories above the pillow"
+  "type": "photo",
+  "q": "sleeping dog",
+  "alt": "Сладкий сон",
+  "src": "commons"
  },
  "sleep:1": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat snuggled under a blanket with a crescent moon and stars outside, an alarm clock without a face on the nightstand"
+  "type": "photo",
+  "q": "alarm clock",
+  "alt": "Будильник",
+  "src": "commons"
  },
  "sleep:2": {
-  "type": "art",
-  "p": "a phone and tablet tucked into a basket on a shelf, while an anime kid reads a paper book in bed by lamp light"
+  "type": "photo",
+  "q": "smartphone",
+  "alt": "Телефон откладываем",
+  "src": "commons"
  },
  "sleep:3": {
-  "type": "art",
-  "p": "an evening routine: anime kid washing face, then brushing teeth, then reading a book, then switching off the lamp"
+  "type": "photo",
+  "q": "bedtime book",
+  "alt": "Книга перед сном",
+  "src": "commons"
  },
  "sleep:4": {
-  "type": "art",
-  "p": "a dark cozy bedroom with an open window letting in cool air, blackout curtains and a quiet sleeping cat"
+  "type": "photo",
+  "q": "bedroom",
+  "alt": "Уютная спальня",
+  "src": "commons"
  },
  "sleep:5": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat lying in bed breathing slowly, limbs floppy like cooked noodles, soft moonlight on the blanket"
+  "type": "photo",
+  "q": "glass of warm milk",
+  "alt": "Тёплое молоко",
+  "src": "commons"
  },
  "cover:screens": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting upright at a desk with a tablet at arm's length, looking out of the window at distant green trees"
+  "type": "photo",
+  "q": "tablet computer",
+  "alt": "Планшет",
+  "src": "commons"
  },
  "screens:0": {
-  "type": "art",
-  "p": "a tired anime kid rubbing eyes in front of a glowing laptop late in the afternoon"
+  "type": "photo",
+  "q": "human eye macro",
+  "alt": "Глаз крупно",
+  "src": "commons"
  },
  "screens:1": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat looking away from a tablet out of a window at a tall tree far away"
+  "type": "photo",
+  "q": "window view trees",
+  "alt": "Смотрим вдаль",
+  "src": "commons"
  },
  "screens:2": {
   "type": "art",
   "p": "an anime kid holding a tablet at arm's length in a bright room with a lamp on, sitting on a sofa"
  },
  "screens:3": {
-  "type": "art",
-  "p": "an anime kid sitting with a straight back at a desk, feet flat on the floor, monitor at eye level"
+  "type": "photo",
+  "q": "school desk chair",
+  "alt": "Парта и стул",
+  "src": "commons"
  },
  "screens:4": {
-  "type": "art",
-  "p": "anime kids taking a break from a computer, stretching and looking out the open window at a sunny sky"
+  "type": "photo",
+  "q": "children playing outdoors",
+  "alt": "Перерыв на улице",
+  "src": "commons"
  },
  "screens:5": {
-  "type": "art",
-  "p": "a balance scale holding a tablet on one side and a ball, a book and a pillow on the other side, perfectly even"
+  "type": "photo",
+  "q": "hourglass",
+  "alt": "Песочные часы",
+  "src": "commons"
  },
  "cover:emotions": {
   "type": "art",
@@ -216,72 +308,102 @@
   "p": "four cute round creatures representing joy, sadness, anger and fear sitting together on a bench as friends"
  },
  "emotions:1": {
-  "type": "art",
-  "p": "an anime kid at a school desk before a test, butterflies fluttering around the tummy, heart pounding"
+  "type": "photo",
+  "q": "storm clouds",
+  "alt": "Тучи — стресс",
+  "src": "commons"
  },
  "emotions:2": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat with a magnifying glass looking at a kid whose clenched fists glow warm red and shoulders glow sad blue"
+  "type": "photo",
+  "q": "heart shaped stone",
+  "alt": "Чувства в теле",
+  "src": "commons"
  },
  "emotions:3": {
-  "type": "art",
-  "p": "an anime kid hugging a fluffy puppy, crayons and drawing paper nearby, calm afternoon light"
+  "type": "photo",
+  "q": "teddy bear",
+  "alt": "Плюшевый мишка",
+  "src": "commons"
  },
  "emotions:4": {
-  "type": "art",
-  "p": "an anime kid talking to a kind teacher sitting at eye level in a quiet classroom"
+  "type": "photo",
+  "q": "mother and child talking",
+  "alt": "Разговор со взрослым",
+  "src": "commons"
  },
  "emotions:5": {
-  "type": "art",
-  "p": "an anime kid holding a phone to the ear, a warm yellow heart glowing above, cozy room"
+  "type": "photo",
+  "q": "telephone",
+  "alt": "Телефон доверия",
+  "src": "commons"
  },
  "cover:calm": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting cross-legged on a soft cushion in a meadow, eyes closed, breathing calmly while fluffy clouds drift by"
+  "type": "photo",
+  "q": "calm lake",
+  "alt": "Спокойное озеро",
+  "src": "commons"
  },
  "calm:0": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat tracing a glowing square path in the air with a paw while breathing slowly"
  },
  "calm:1": {
-  "type": "art",
-  "p": "an anime kid lying on a rug with hands on tummy, a balloon floating above that inflates and deflates"
+  "type": "photo",
+  "q": "balloon",
+  "alt": "Воздушный шарик",
+  "src": "commons"
  },
  "calm:2": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat in a garden noticing things: looking at flowers, touching soft grass, listening to a bird, sniffing a rose"
+  "type": "photo",
+  "q": "pebbles",
+  "alt": "Камешки",
+  "src": "commons"
  },
  "calm:3": {
-  "type": "art",
-  "p": "an anime kid standing stiff like uncooked spaghetti, then relaxed and floppy like cooked spaghetti, side by side"
+  "type": "photo",
+  "q": "spaghetti",
+  "alt": "Спагетти",
+  "src": "commons"
  },
  "calm:4": {
-  "type": "art",
-  "p": "an anime kid sitting with eyes closed on a hill while fluffy thought clouds drift across a blue sky"
+  "type": "photo",
+  "q": "clouds sky",
+  "alt": "Облака",
+  "src": "commons"
  },
  "calm:5": {
-  "type": "art",
-  "p": "an anime kid in pajamas writing in a diary in bed, three little glowing stars floating above"
+  "type": "photo",
+  "q": "sunset",
+  "alt": "Закат",
+  "src": "commons"
  },
  "calm:6": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat doing light stretching exercises next to a small brain character also stretching"
+  "type": "photo",
+  "q": "meditation cushion",
+  "alt": "Подушка для отдыха",
+  "src": "commons"
  },
  "cover:habits": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat building a tall staircase of small wooden blocks, climbing step by step toward a sunny hilltop"
  },
  "habits:0": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat brushing teeth half-asleep with eyes closed, moving on autopilot, a sunrise behind the window"
+  "type": "photo",
+  "q": "path in forest",
+  "alt": "Тропинка",
+  "src": "commons"
  },
  "habits:1": {
-  "type": "art",
-  "p": "a tiny paw print on a path leading up to a big mountain peak, footprints growing larger along the way"
+  "type": "photo",
+  "q": "seedling",
+  "alt": "Росток",
+  "src": "commons"
  },
  "habits:2": {
-  "type": "art",
-  "p": "an anime kid ticking boxes on a wall chart with a big marker, a row of happy check marks"
+  "type": "photo",
+  "q": "checklist",
+  "alt": "Список с галочками",
+  "src": "commons"
  },
  "habits:3": {
   "type": "art",
@@ -292,11 +414,15 @@
   "p": "a daily circle showing sunrise, breakfast, school, homework, play, dinner and moon, as small pictures in a ring"
  },
  "habits:5": {
-  "type": "art",
-  "p": "anime kids walking a dog in a sunny autumn park, leaves falling, fresh air feeling"
+  "type": "photo",
+  "q": "park walk",
+  "alt": "Прогулка в парке",
+  "src": "commons"
  },
  "habits:6": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat wearing a sun hat and applying sunscreen on a beach towel in the shade of an umbrella"
+  "type": "photo",
+  "q": "sunshine",
+  "alt": "Солнце",
+  "src": "commons"
  }
 }

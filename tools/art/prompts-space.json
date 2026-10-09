@@ -1,7 +1,9 @@
 {
  "cover:sun_system": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat floating in a little spacesuit, watching colorful planets circle a glowing friendly Sun"
+  "type": "photo",
+  "q": "Sun SDO solar disk",
+  "alt": "Солнце из космоса",
+  "src": "commons"
  },
  "sun_system:0": {
   "type": "photo",
@@ -9,16 +11,22 @@
   "alt": "Солнце — наша звезда"
  },
  "sun_system:1": {
-  "type": "art",
-  "p": "A gigantic glowing Sun beside a tiny blue Earth the size of a pea, showing how enormous our star is, deep starry space"
+  "type": "photo",
+  "q": "solar prominence SDO",
+  "alt": "Протуберанец на Солнце",
+  "src": "commons"
  },
  "sun_system:2": {
-  "type": "art",
-  "p": "the Sun in the center with eight colorful planets on glowing orbit rings around it, deep starry space, wide view"
+  "type": "photo",
+  "q": "Jupiter Juno",
+  "alt": "Юпитер",
+  "src": "commons"
  },
  "sun_system:3": {
-  "type": "art",
-  "p": "Eight planets lined up in a row from a blazing Sun outward, each with its own color, ringed Saturn standing out, starry background"
+  "type": "photo",
+  "q": "Mars Viking orbiter",
+  "alt": "Марс",
+  "src": "commons"
  },
  "sun_system:4": {
   "type": "photo",
@@ -26,16 +34,22 @@
   "alt": "Карликовая планета Плутон"
  },
  "sun_system:5": {
-  "type": "art",
-  "p": "A glowing beam of sunlight racing across dark space from the Sun toward a small blue Earth, a tiny stopwatch floating along"
+  "type": "photo",
+  "q": "sunrise from orbit ISS",
+  "alt": "Восход Солнца с орбиты",
+  "src": "commons"
  },
  "sun_system:6": {
-  "type": "art",
-  "p": "A child wearing special dark solar viewing glasses looking at the sky with a careful adult on a sunny rooftop"
+  "type": "photo",
+  "q": "solar eclipse glasses",
+  "alt": "Очки для наблюдения Солнца",
+  "src": "commons"
  },
  "cover:rocky_planets": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat and spacesuit hopping between four rocky planets, the red one dusty, the blue one with clouds"
+  "type": "photo",
+  "q": "The Blue Marble Earth",
+  "alt": "Земля из космоса",
+  "src": "commons"
  },
  "rocky_planets:0": {
   "type": "photo",
@@ -68,8 +82,10 @@
   "alt": "Спутник Марса Фобос"
  },
  "cover:giant_planets": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat riding a little rocket past giant striped Jupiter and ringed Saturn, blue planets glowing far away"
+  "type": "photo",
+  "q": "Saturn Cassini rings",
+  "alt": "Кольца Сатурна",
+  "src": "commons"
  },
  "giant_planets:0": {
   "type": "photo",
@@ -102,8 +118,10 @@
   "alt": "Планета Нептун"
  },
  "cover:moon": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat sitting on a rooftop at night with a telescope, gazing at a big silvery crescent moon"
+  "type": "photo",
+  "q": "full moon",
+  "alt": "Полная Луна",
+  "src": "commons"
  },
  "moon:0": {
   "type": "photo",
@@ -115,8 +133,10 @@
   "p": "A row of moons across a night sky from dark new moon through crescent and half to bright full moon, above a quiet village"
  },
  "moon:2": {
-  "type": "art",
-  "p": "A child at a window pointing a small stick toward a thin crescent moon, comparing its curve, cozy bedroom at night"
+  "type": "photo",
+  "q": "waxing crescent moon",
+  "alt": "Растущий серп Луны",
+  "src": "commons"
  },
  "moon:3": {
   "type": "photo",
@@ -129,8 +149,10 @@
   "alt": "Солнечное затмение"
  },
  "moon:5": {
-  "type": "art",
-  "p": "a reddish copper full moon during a lunar eclipse above a quiet village, families watching from a hill"
+  "type": "photo",
+  "q": "total lunar eclipse",
+  "alt": "Красная Луна в затмении",
+  "src": "commons"
  },
  "moon:6": {
   "type": "photo",
@@ -138,28 +160,40 @@
   "alt": "Нил Армстронг"
  },
  "cover:stars": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat lying in a summer meadow at night, tracing glowing lines between bright stars with a paw"
+  "type": "photo",
+  "q": "starry night sky",
+  "alt": "Звёздное небо",
+  "src": "commons"
  },
  "stars:0": {
-  "type": "art",
-  "p": "A child looking through a telescope at a sky full of stars, one star magnified into a glowing sun with its own little planets"
+  "type": "photo",
+  "q": "Pleiades star cluster",
+  "alt": "Звёздное скопление Плеяды",
+  "src": "commons"
  },
  "stars:1": {
-  "type": "art",
-  "p": "Three glowing stars side by side in space, one hot blue, one warm yellow, one cool red, softly shining"
+  "type": "photo",
+  "q": "Orion Betelgeuse Rigel",
+  "alt": "Красные и голубые звёзды",
+  "src": "commons"
  },
  "stars:2": {
-  "type": "art",
-  "p": "A night sky where faint glowing outlines of a bear and other animals are drawn between bright stars, children watching from a hill"
+  "type": "photo",
+  "q": "Orion constellation sky",
+  "alt": "Созвездие Орион",
+  "src": "commons"
  },
  "stars:3": {
-  "type": "art",
-  "p": "seven bright stars forming a big dipper ladle shape in a deep blue night sky above a pine forest, a child pointing up"
+  "type": "photo",
+  "q": "Big Dipper night sky",
+  "alt": "Ковш Большой Медведицы",
+  "src": "commons"
  },
  "stars:4": {
-  "type": "art",
-  "p": "A dotted glowing path running from the edge of a big star dipper up across the night sky to a single bright star"
+  "type": "photo",
+  "q": "Polaris star trails",
+  "alt": "Звёзды кружат вокруг Полярной",
+  "src": "commons"
  },
  "stars:5": {
   "type": "photo",
@@ -167,8 +201,10 @@
   "alt": "Полярная звезда"
  },
  "cover:comets": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat waving at a bright comet with a long glowing tail streaking across a starry sky"
+  "type": "photo",
+  "q": "Comet Hale-Bopp",
+  "alt": "Комета Хейла — Боппа",
+  "src": "commons"
  },
  "comets:0": {
   "type": "photo",
@@ -176,8 +212,10 @@
   "alt": "Комета с хвостом"
  },
  "comets:1": {
-  "type": "art",
-  "p": "A comet flying around a bright Sun, its glowing tail always streaming away from the Sun like hair in the wind"
+  "type": "photo",
+  "q": "Comet NEOWISE",
+  "alt": "Комета с хвостом",
+  "src": "commons"
  },
  "comets:2": {
   "type": "photo",
@@ -190,8 +228,10 @@
   "alt": "Астероид"
  },
  "comets:4": {
-  "type": "art",
-  "p": "shooting stars streaking across a summer night sky, two kids lying on a blanket in a meadow making wishes"
+  "type": "photo",
+  "q": "Perseid meteor",
+  "alt": "Метеор в небе",
+  "src": "commons"
  },
  "comets:5": {
   "type": "photo",
@@ -199,36 +239,52 @@
   "alt": "Челябинский метеорит"
  },
  "cover:earth_motion": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat holding a tilted spinning globe next to a lamp, half of the globe lit in daylight"
+  "type": "photo",
+  "q": "Earth from space",
+  "alt": "Земля из космоса",
+  "src": "commons"
  },
  "earth_motion:0": {
-  "type": "art",
-  "p": "An apple falling from a tree toward the ground while the Moon hangs in the sky, gentle glowing lines pulling everything together"
+  "type": "photo",
+  "q": "apple falling from tree",
+  "alt": "Яблоко падает",
+  "src": "commons"
  },
  "earth_motion:1": {
-  "type": "art",
-  "p": "A child in a spacesuit leaping super high over the gray Moon surface with a huge happy smile, Earth glowing in the black sky"
+  "type": "photo",
+  "q": "Apollo astronaut jumping Moon",
+  "alt": "Прыжок на Луне",
+  "src": "commons"
  },
  "earth_motion:2": {
-  "type": "art",
-  "p": "The Earth spinning like a top in space, one side bright with sunlight and daytime, the other side dark with city lights"
+  "type": "photo",
+  "q": "Earth day night terminator",
+  "alt": "День и ночь на Земле",
+  "src": "commons"
  },
  "earth_motion:3": {
-  "type": "art",
-  "p": "The Earth traveling along a big glowing oval path around the Sun, small Earths showing its positions through the year"
+  "type": "photo",
+  "q": "Earthrise Apollo 8",
+  "alt": "Восход Земли",
+  "src": "commons"
  },
  "earth_motion:4": {
-  "type": "art",
-  "p": "A tilted Earth at four points around the Sun, with snowy, blooming, summery and autumn colors on the side facing us"
+  "type": "photo",
+  "q": "winter snowy forest",
+  "alt": "Зимний лес",
+  "src": "commons"
  },
  "earth_motion:5": {
-  "type": "art",
-  "p": "Split scene: kids building a snowman in a snowy Russian town while kids in Australia play on a sunny beach at the same moment"
+  "type": "photo",
+  "q": "summer meadow sunny",
+  "alt": "Летний луг",
+  "src": "commons"
  },
  "cover:cosmonauts": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat and a little spacesuit saluting beside a tall white rocket on a launch pad at dawn"
+  "type": "photo",
+  "q": "Soyuz rocket launch",
+  "alt": "Старт ракеты «Союз»",
+  "src": "commons"
  },
  "cosmonauts:0": {
   "type": "photo",
@@ -261,16 +317,22 @@
   "alt": "МКС на орбите"
  },
  "cosmonauts:6": {
-  "type": "art",
-  "p": "Smiling astronauts floating inside a space station cabin, a juice droplet and a pencil drifting in the air, Earth visible through a round window"
+  "type": "photo",
+  "q": "astronauts floating ISS",
+  "alt": "Космонавты парят на МКС",
+  "src": "commons"
  },
  "cover:universe": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat floating in space in front of a huge glowing spiral galaxy full of stars"
+  "type": "photo",
+  "q": "Milky Way night sky",
+  "alt": "Млечный Путь",
+  "src": "commons"
  },
  "universe:0": {
-  "type": "art",
-  "p": "Nested views zooming out from a cozy house to a city, a country, the Earth, the planets and finally a spiral galaxy"
+  "type": "photo",
+  "q": "Andromeda Galaxy",
+  "alt": "Галактика Андромеды",
+  "src": "commons"
  },
  "universe:1": {
   "type": "photo",
@@ -278,16 +340,22 @@
   "alt": "Галактика Млечный Путь"
  },
  "universe:2": {
-  "type": "art",
-  "p": "A family lying on blankets in a dark countryside field at night, a pale milky band of countless stars stretching across the sky"
+  "type": "photo",
+  "q": "Milky Way over mountains",
+  "alt": "Млечный Путь над горами",
+  "src": "commons"
  },
  "universe:3": {
-  "type": "art",
-  "p": "A bright beam of light zooming around the Earth in a glowing ring many times in a blink, a surprised child watching"
+  "type": "photo",
+  "q": "laser beam light",
+  "alt": "Луч света",
+  "src": "commons"
  },
  "universe:4": {
-  "type": "art",
-  "p": "A beam of light setting out on an enormous journey through space, passing planets and stars, with a tiny ruler floating along"
+  "type": "photo",
+  "q": "Hubble Deep Field",
+  "alt": "Далёкие галактики",
+  "src": "commons"
  },
  "universe:5": {
   "type": "photo",

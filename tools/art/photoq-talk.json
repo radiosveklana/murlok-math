@@ -1,0 +1,282 @@
+{
+ "cover:meet": {
+  "q": "children playing playground",
+  "alt": "Дети играют вместе"
+ },
+ "meet:0": {
+  "q": "two dogs meeting",
+  "alt": "Первая встреча"
+ },
+ "meet:1": {
+  "q": "handshake",
+  "alt": "Рукопожатие"
+ },
+ "meet:2": {
+  "q": "question mark sculpture",
+  "alt": "Знак вопроса"
+ },
+ "meet:3": {
+  "q": "magnifying glass",
+  "alt": "Лупа детектива"
+ },
+ "meet:4": {
+  "q": "children playing ball",
+  "alt": "Игра в мяч"
+ },
+ "meet:5": {
+  "q": "shy kitten",
+  "alt": "Стеснительный котёнок"
+ },
+ "cover:listen": {
+  "q": "tin can telephone",
+  "alt": "Телефон из банок"
+ },
+ "listen:0": {
+  "q": "ear trumpet",
+  "alt": "Слуховая трубка"
+ },
+ "listen:1": {
+  "q": "cat ears",
+  "alt": "Кошка слушает"
+ },
+ "listen:2": {
+  "q": "red traffic light",
+  "alt": "Красный — подожди"
+ },
+ "listen:3": {
+  "q": "question mark",
+  "alt": "Вопрос"
+ },
+ "listen:4": {
+  "q": "parrot",
+  "alt": "Попугай повторяет"
+ },
+ "listen:5": {
+  "q": "owl",
+  "alt": "Мудрая сова"
+ },
+ "cover:empathy": {
+  "q": "two cats cuddling",
+  "alt": "Два котика рядом"
+ },
+ "empathy:0": {
+  "q": "theatre masks",
+  "alt": "Маски эмоций"
+ },
+ "empathy:1": {
+  "q": "dog body language",
+  "alt": "Поза собаки"
+ },
+ "empathy:2": {
+  "q": "pair of shoes",
+  "alt": "Побыть на месте другого"
+ },
+ "empathy:3": {
+  "q": "helping hand",
+  "alt": "Рука помощи"
+ },
+ "empathy:4": {
+  "q": "park bench",
+  "alt": "Скамейка в парке"
+ },
+ "empathy:5": {
+  "q": "teacher classroom",
+  "alt": "Взрослый рядом"
+ },
+ "cover:i_message": {
+  "q": "heart shaped stone",
+  "alt": "Сердце из камня"
+ },
+ "i_message:0": {
+  "q": "pointing finger",
+  "alt": "Указательный палец"
+ },
+ "i_message:1": {
+  "q": "hand on heart",
+  "alt": "Рука на сердце"
+ },
+ "i_message:2": {
+  "q": "color palette",
+  "alt": "Краски чувств"
+ },
+ "i_message:3": {
+  "q": "vintage camera",
+  "alt": "Только факты"
+ },
+ "i_message:4": {
+  "q": "envelope letter",
+  "alt": "Письмо с просьбой"
+ },
+ "i_message:5": {
+  "q": "calm lake",
+  "alt": "Спокойное озеро"
+ },
+ "cover:ask_refuse": {
+  "q": "stop hand gesture",
+  "alt": "Жест «стоп»"
+ },
+ "ask_refuse:0": {
+  "q": "gift box",
+  "alt": "Вежливая просьба"
+ },
+ "ask_refuse:1": {
+  "q": "closed door",
+  "alt": "Закрытая дверь"
+ },
+ "ask_refuse:2": {
+  "q": "stop sign",
+  "alt": "Знак «стоп»"
+ },
+ "ask_refuse:3": {
+  "q": "cup of tea",
+  "alt": "Мягкий отказ"
+ },
+ "ask_refuse:4": {
+  "q": "tug of war",
+  "alt": "Перетягивание каната"
+ },
+ "ask_refuse:5": {
+  "q": "wooden fence gate",
+  "alt": "Твёрдая граница"
+ },
+ "cover:compromise": {
+  "q": "balance scale",
+  "alt": "Весы"
+ },
+ "compromise:0": {
+  "q": "two goats",
+  "alt": "Два упрямых козла"
+ },
+ "compromise:1": {
+  "q": "building blocks",
+  "alt": "Кирпичики аргументов"
+ },
+ "compromise:2": {
+  "q": "rotary telephone",
+  "alt": "Выслушать другого"
+ },
+ "compromise:3": {
+  "q": "pizza slices",
+  "alt": "Поделить поровну"
+ },
+ "compromise:4": {
+  "q": "coin toss",
+  "alt": "Подбросить монетку"
+ },
+ "compromise:5": {
+  "q": "hourglass",
+  "alt": "Пауза"
+ },
+ "cover:make_up": {
+  "q": "two kittens",
+  "alt": "Котята помирились"
+ },
+ "make_up:0": {
+  "q": "storm clouds",
+  "alt": "Туча ссоры"
+ },
+ "make_up:1": {
+  "q": "flower bouquet",
+  "alt": "Букет в знак мира"
+ },
+ "make_up:2": {
+  "q": "crossed fingers",
+  "alt": "Скрещённые пальцы"
+ },
+ "make_up:3": {
+  "q": "handshake",
+  "alt": "Пожать руки"
+ },
+ "make_up:4": {
+  "q": "snail",
+  "alt": "Не торопиться"
+ },
+ "make_up:5": {
+  "q": "paper airplane",
+  "alt": "Записка другу"
+ },
+ "cover:speech": {
+  "q": "microphone stage",
+  "alt": "Микрофон на сцене"
+ },
+ "speech:0": {
+  "q": "butterflies",
+  "alt": "Бабочки в животе"
+ },
+ "speech:1": {
+  "q": "staircase",
+  "alt": "Шаги плана"
+ },
+ "speech:2": {
+  "q": "soap bubbles",
+  "alt": "Ровное дыхание"
+ },
+ "speech:3": {
+  "q": "lecture hall audience",
+  "alt": "Слушатели в зале"
+ },
+ "speech:4": {
+  "q": "theatre rehearsal",
+  "alt": "Репетиция"
+ },
+ "speech:5": {
+  "q": "lighthouse",
+  "alt": "Найти опору"
+ },
+ "cover:online": {
+  "q": "laptop keyboard",
+  "alt": "Клавиатура"
+ },
+ "online:0": {
+  "q": "smartphone",
+  "alt": "Сообщение в телефоне"
+ },
+ "online:1": {
+  "q": "smiley face",
+  "alt": "Смайлик"
+ },
+ "online:2": {
+  "q": "megaphone",
+  "alt": "Громкий крик"
+ },
+ "online:3": {
+  "q": "padlock",
+  "alt": "Чужое — под замком"
+ },
+ "online:4": {
+  "q": "school classroom",
+  "alt": "Весь класс"
+ },
+ "online:5": {
+  "q": "whispering statue",
+  "alt": "Шёпот за спиной"
+ },
+ "cover:teamwork": {
+  "q": "rowing team",
+  "alt": "Команда гребцов"
+ },
+ "teamwork:0": {
+  "q": "sunflower",
+  "alt": "Подсолнух"
+ },
+ "teamwork:1": {
+  "q": "gold medal",
+  "alt": "Медаль"
+ },
+ "teamwork:2": {
+  "q": "bouquet of tulips",
+  "alt": "Цветы в благодарность"
+ },
+ "teamwork:3": {
+  "q": "orchestra",
+  "alt": "Оркестр"
+ },
+ "teamwork:4": {
+  "q": "ants working together",
+  "alt": "Муравьи помогают"
+ },
+ "teamwork:5": {
+  "q": "relay race baton",
+  "alt": "Эстафета"
+ }
+}

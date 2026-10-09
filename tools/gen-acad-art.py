@@ -87,6 +87,11 @@ def run_art(kind, subjects):
 # ---------- фото ----------
 def jget(url):
     return json.loads(urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': UA}), timeout=40).read())
+import re
+def lic_ok(lic):  # только лицензии, разрешающие коммерческое использование: CC0, общественное достояние, CC BY, CC BY-SA
+    l = lic.lower()
+    if any(x in l for x in ('nc', 'nd', 'fair', 'non-free', 'gfdl')): return False
+    return bool(re.search(r'cc0|public domain|^pd|cc by(-sa)?( |$)|^attribution$', l))
 def strip_html(s):
     import re; return re.sub(r'<[^>]+>', '', s or '').strip()
 def find_photo(q):
@@ -101,8 +106,61 @@ def find_photo(q):
     p = next(iter(ii['query']['pages'].values())); info = (p.get('imageinfo') or [None])[0]
     if not info: return None
     md = info.get('extmetadata', {}); lic = strip_html(md.get('LicenseShortName', {}).get('value', ''))
-    if not lic or 'fair' in lic.lower() or 'non-free' in lic.lower(): return None
+    if not lic_ok(lic): return None
     return {'url': info.get('thumburl') or info['url'], 'author': strip_html(md.get('Artist', {}).get('value', ''))[:80] or 'Wikimedia Commons', 'lic': lic, 'page': info.get('descriptionurl', '')}
+BAD_TITLE = re.compile(r'map|diagram|logo|flag|coat of arms|poster|chart|scheme|svg|text|sign|screenshot|cover|stamp|banknote|coin|nude|naked|blood|wound|injur|surgery|dead|corpse|tattoo|cigar|beer|wine|vodka|weapon|gun|military', re.I)
+def search_commons(q, skip=()):
+    r = jget('https://commons.wikimedia.org/w/api.php?' + urllib.parse.urlencode({'action': 'query', 'format': 'json', 'generator': 'search', 'gsrnamespace': 6, 'gsrsearch': q + ' filetype:bitmap', 'gsrlimit': 20, 'prop': 'imageinfo', 'iiprop': 'url|extmetadata|size|mime', 'iiurlwidth': 1000}))
+    pages = sorted(r.get('query', {}).get('pages', {}).values(), key=lambda p: p.get('index', 99))
+    for pg in pages:
+        info = (pg.get('imageinfo') or [None])[0]
+        if not info or info.get('mime') not in ('image/jpeg', 'image/png') or info.get('width', 0) < 800 or info.get('height', 0) < 500: continue
+        if BAD_TITLE.search(pg['title']) or pg['title'] in skip: continue
+        md = info.get('extmetadata', {}); lic = strip_html(md.get('LicenseShortName', {}).get('value', ''))
+        if not lic_ok(lic): continue
+        if md.get('Restrictions', {}).get('value'): continue  # personality rights и пр. ограничения — не берём
+        return {'url': info.get('thumburl') or info['url'], 'author': strip_html(md.get('Artist', {}).get('value', ''))[:80] or 'Wikimedia Commons', 'lic': lic, 'page': info.get('descriptionurl', ''), 'title': pg['title']}
+    return None
+def run_photoq(subjects):
+    # настоящие фото вместо иллюстраций: tools/art/photoq-<subject>.json {key: {q, alt} | null}; картинку берём, только если её ещё нет
+    cr = json.loads(CREDITS.read_text(encoding='utf-8')) if CREDITS.exists() else {}; n = miss = 0
+    bad = json.loads(BADF.read_text(encoding='utf-8')) if BADF.exists() else {}; used = {v.get('file') for v in cr.values() if v.get('file')}  # одно фото — одна карточка
+    for s in (subjects or ORDER):
+        f = ART / f'photoq-{s}.json'
+        if not f.exists(): continue
+        pq = json.loads(f.read_text(encoding='utf-8')); sp = json.loads((ART / f'prompts-{s}.json').read_text(encoding='utf-8'))
+        for key, v in pq.items():
+            if not v: continue
+            out = out_path(s, key)
+            if out.exists(): continue
+            try:
+                ph = search_commons(v['q'], set(bad.get(f'{s}/{key}', [])) | used)
+                if not ph: miss += 1; print('нет фото', s, key, v['q']); continue
+                used.add(ph['title'])
+                data = urllib.request.urlopen(urllib.request.Request(ph['url'], headers={'User-Agent': UA}), timeout=60).read()
+                save_webp(data, out); sp[key] = {'type': 'photo', 'q': v['q'], 'alt': v.get('alt', ''), 'src': 'commons'}
+                cr[f'{s}/{key}'] = {'alt': v.get('alt', v['q']), 'author': ph['author'], 'lic': ph['lic'], 'page': ph['page'], 'q': v['q'], 'file': ph['title']}; n += 1
+                print('ok', s, key, '←', ph['title'][:70], flush=True); time.sleep(0.3)
+            except Exception as e: miss += 1; print('ошибка', key, str(e)[:120])
+        (ART / f'prompts-{s}.json').write_text(json.dumps(sp, ensure_ascii=False, indent=1), encoding='utf-8')
+        CREDITS.write_text(json.dumps(cr, ensure_ascii=False, indent=1), encoding='utf-8')
+    print('фото:', n, 'не найдено:', miss); manifest()
+BADF = ART / 'badfiles.json'
+def reject(listfile):
+    # отбраковка после ручной проверки: файл в «чёрный список» карточки, картинку удалить, вернуть описание иллюстрации из git
+    import subprocess
+    cr = json.loads(CREDITS.read_text(encoding='utf-8')); bad = json.loads(BADF.read_text(encoding='utf-8')) if BADF.exists() else {}
+    keys = pathlib.Path(listfile).read_text(encoding='utf-8').split(); orig = {}
+    for ck in keys:
+        s, key = ck.split('/', 1)
+        if s not in orig: orig[s] = json.loads(subprocess.run(['git', 'show', f'HEAD:tools/art/prompts-{s}.json'], cwd=ROOT, capture_output=True).stdout.decode('utf-8'))
+        c = cr.pop(ck, None)
+        if c and c.get('file'): bad.setdefault(ck, []).append(c['file'])
+        out = out_path(s, key)
+        if out.exists(): out.unlink()
+        f = ART / f'prompts-{s}.json'; sp = json.loads(f.read_text(encoding='utf-8')); sp[key] = orig[s].get(key, sp[key]); f.write_text(json.dumps(sp, ensure_ascii=False, indent=1), encoding='utf-8')
+    CREDITS.write_text(json.dumps(cr, ensure_ascii=False, indent=1), encoding='utf-8'); BADF.write_text(json.dumps(bad, ensure_ascii=False, indent=1), encoding='utf-8')
+    print('отбраковано', len(keys)); manifest()
 def run_photos(subjects):
     cr = json.loads(CREDITS.read_text(encoding='utf-8')) if CREDITS.exists() else {}; n = miss = 0
     for subj, sp in specs(subjects):
@@ -139,5 +197,7 @@ def manifest():
 if __name__ == '__main__':
     cmd, rest = (sys.argv[1] if len(sys.argv) > 1 else 'manifest'), sys.argv[2:]
     if cmd == 'photos': run_photos(rest)
+    elif cmd == 'photoq': run_photoq(rest)
+    elif cmd == 'reject': reject(rest[0])
     elif cmd in ('covers', 'cards'): run_art(cmd, rest)
     else: manifest()

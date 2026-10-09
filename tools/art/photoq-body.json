@@ -1,0 +1,282 @@
+{
+ "cover:cells": {
+  "q": "microscope cells",
+  "alt": "Клетки под микроскопом"
+ },
+ "cells:0": {
+  "q": "brick wall",
+  "alt": "Стена из кирпичиков"
+ },
+ "cells:1": {
+  "q": "Hooke microscope",
+  "alt": "Микроскоп Роберта Гука"
+ },
+ "cells:2": {
+  "q": "plant cells microscope",
+  "alt": "Клетки растения"
+ },
+ "cells:3": {
+  "q": "neuron culture microscope",
+  "alt": "Нервные клетки"
+ },
+ "cells:4": {
+  "q": "onion root mitosis",
+  "alt": "Клетки делятся"
+ },
+ "cells:5": {
+  "q": "cheek cells microscope",
+  "alt": "Клетки кожи щеки"
+ },
+ "cover:skeleton": {
+  "q": "skeleton model",
+  "alt": "Модель скелета"
+ },
+ "skeleton:0": {
+  "q": "skeleton model",
+  "alt": "Скелет человека"
+ },
+ "skeleton:1": {
+  "q": "human skull model",
+  "alt": "Череп защищает мозг"
+ },
+ "skeleton:2": {
+  "q": "femur bone model",
+  "alt": "Бедренная кость"
+ },
+ "skeleton:3": {
+  "q": "bone cross section",
+  "alt": "Кость в разрезе"
+ },
+ "skeleton:4": {
+  "q": "x-ray knee",
+  "alt": "Рентген колена"
+ },
+ "skeleton:5": {
+  "q": "glass of milk",
+  "alt": "Стакан молока"
+ },
+ "cover:muscles": {
+  "q": "children running race",
+  "alt": "Дети бегут"
+ },
+ "muscles:0": {
+  "q": "gymnast",
+  "alt": "Гимнастка в движении"
+ },
+ "muscles:1": {
+  "q": "anatomical model muscles",
+  "alt": "Модель мышц"
+ },
+ "muscles:2": {
+  "q": "arm wrestling",
+  "alt": "Бицепс тянет"
+ },
+ "muscles:3": {
+  "q": "rock climbing",
+  "alt": "Сильные мышцы"
+ },
+ "muscles:4": {
+  "q": "children doing push-ups",
+  "alt": "Тренировка"
+ },
+ "muscles:5": {
+  "q": "anatomical heart model",
+  "alt": "Модель сердца"
+ },
+ "cover:heart_blood": {
+  "q": "anatomical heart model",
+  "alt": "Модель сердца"
+ },
+ "heart_blood:0": {
+  "q": "clenched fist",
+  "alt": "Сердце размером с кулак"
+ },
+ "heart_blood:1": {
+  "q": "stethoscope",
+  "alt": "Стетоскоп"
+ },
+ "heart_blood:2": {
+  "q": "veins on hand",
+  "alt": "Вены на руке"
+ },
+ "heart_blood:3": {
+  "q": "red blood cells microscope",
+  "alt": "Клетки крови"
+ },
+ "heart_blood:4": {
+  "q": "horseshoe crab",
+  "alt": "Мечехвост с голубой кровью"
+ },
+ "heart_blood:5": {
+  "q": "pulse oximeter",
+  "alt": "Измеряем пульс"
+ },
+ "cover:lungs": {
+  "q": "soap bubbles",
+  "alt": "Мыльные пузыри"
+ },
+ "lungs:0": {
+  "q": "dandelion seeds blowing",
+  "alt": "Вдох и выдох"
+ },
+ "lungs:1": {
+  "q": "lungs anatomical model",
+  "alt": "Модель лёгких"
+ },
+ "lungs:2": {
+  "q": "bunch of grapes",
+  "alt": "Как гроздь винограда"
+ },
+ "lungs:3": {
+  "q": "balloon",
+  "alt": "Воздушный шарик"
+ },
+ "lungs:4": {
+  "q": "chest x-ray",
+  "alt": "Рентген грудной клетки"
+ },
+ "lungs:5": {
+  "q": "forest fresh air",
+  "alt": "Свежий воздух леса"
+ },
+ "cover:digestion": {
+  "q": "sandwich",
+  "alt": "Бутерброд"
+ },
+ "digestion:0": {
+  "q": "healthy food plate",
+  "alt": "Тарелка с едой"
+ },
+ "digestion:1": {
+  "q": "apple",
+  "alt": "Хрустящее яблоко"
+ },
+ "digestion:2": {
+  "q": "digestive system model",
+  "alt": "Модель пищеварения"
+ },
+ "digestion:3": {
+  "q": "torso anatomical model",
+  "alt": "Анатомическая модель"
+ },
+ "digestion:4": {
+  "q": "chemistry laboratory flasks",
+  "alt": "Лаборатория"
+ },
+ "digestion:5": {
+  "q": "glass of water",
+  "alt": "Стакан воды"
+ },
+ "cover:brain": {
+  "q": "brain model",
+  "alt": "Модель мозга"
+ },
+ "brain:0": {
+  "q": "brain model",
+  "alt": "Мозг — главный штаб"
+ },
+ "brain:1": {
+  "q": "neuron microscope",
+  "alt": "Нейроны"
+ },
+ "brain:2": {
+  "q": "brain model",
+  "alt": "Части мозга"
+ },
+ "brain:3": {
+  "q": "chess game",
+  "alt": "Мозг работает целиком"
+ },
+ "brain:4": {
+  "q": "reflex hammer",
+  "alt": "Молоточек для рефлекса"
+ },
+ "brain:5": {
+  "q": "sleeping cat",
+  "alt": "Сон помогает памяти"
+ },
+ "cover:senses": {
+  "q": "magnifying glass",
+  "alt": "Лупа сыщика"
+ },
+ "senses:0": {
+  "q": "dog nose",
+  "alt": "Нос собаки"
+ },
+ "senses:1": {
+  "q": "human eye macro",
+  "alt": "Глаз крупно"
+ },
+ "senses:2": {
+  "q": "ear anatomical model",
+  "alt": "Модель уха"
+ },
+ "senses:3": {
+  "q": "strawberries",
+  "alt": "Вкусная клубника"
+ },
+ "senses:4": {
+  "q": "braille reading",
+  "alt": "Чтение пальцами"
+ },
+ "senses:5": {
+  "q": "ear defenders",
+  "alt": "Защитные наушники"
+ },
+ "cover:skin_teeth": {
+  "q": "toothbrush",
+  "alt": "Зубная щётка"
+ },
+ "skin_teeth:0": {
+  "q": "hand macro skin",
+  "alt": "Кожа руки"
+ },
+ "skin_teeth:1": {
+  "q": "drinking water bottle sport",
+  "alt": "Жара и пот"
+ },
+ "skin_teeth:2": {
+  "q": "fingerprint",
+  "alt": "Отпечаток пальца"
+ },
+ "skin_teeth:3": {
+  "q": "hair comb",
+  "alt": "Расчёска"
+ },
+ "skin_teeth:4": {
+  "q": "dental model",
+  "alt": "Модель зубов"
+ },
+ "skin_teeth:5": {
+  "q": "toothbrush toothpaste",
+  "alt": "Щётка и паста"
+ },
+ "cover:immunity": {
+  "q": "bacteria petri dish",
+  "alt": "Микробы в чашке"
+ },
+ "immunity:0": {
+  "q": "petri dish bacteria colonies",
+  "alt": "Колонии бактерий"
+ },
+ "immunity:1": {
+  "q": "castle wall",
+  "alt": "Стены крепости"
+ },
+ "immunity:2": {
+  "q": "white blood cell microscope",
+  "alt": "Лейкоцит"
+ },
+ "immunity:3": {
+  "q": "digital thermometer",
+  "alt": "Градусник"
+ },
+ "immunity:4": {
+  "q": "vaccine vial",
+  "alt": "Вакцина"
+ },
+ "immunity:5": {
+  "q": "washing hands soap",
+  "alt": "Моем руки с мылом"
+ }
+}

@@ -1,0 +1,130 @@
+{
+ "cover:scientists": {
+  "q": "microscope laboratory",
+  "alt": "Микроскоп учёного"
+ },
+ "cover:space_travel": {
+  "q": "Yuri Gagarin",
+  "alt": "Юрий Гагарин"
+ },
+ "cover:kids_heroes": {
+  "q": "children science fair",
+  "alt": "Юные изобретатели"
+ },
+ "kids_heroes:3": {
+  "q": "popsicle",
+  "alt": "Мороженое на палочке"
+ },
+ "kids_heroes:4": {
+  "q": "earmuffs",
+  "alt": "Наушники от холода"
+ },
+ "kids_heroes:5": {
+  "q": "Ann Makosinski",
+  "alt": "Энн Макосински"
+ },
+ "kids_heroes:6": {
+  "q": "Boyan Slat Ocean Cleanup",
+  "alt": "Боян Слат"
+ },
+ "cover:writers_artists": {
+  "q": "paint palette brushes",
+  "alt": "Палитра и кисти"
+ },
+ "cover:sport_heroes": {
+  "q": "running track athletes",
+  "alt": "Беговая дорожка"
+ },
+ "sport_heroes:6": {
+  "q": "wheelchair archery",
+  "alt": "Стрельба из лука на коляске"
+ },
+ "cover:doctors_rescuers": {
+  "q": "ambulance",
+  "alt": "Скорая помощь"
+ },
+ "doctors_rescuers:4": {
+  "q": "Tsemakh Shabad monument Vilnius",
+  "alt": "Памятник доктору Шабаду"
+ },
+ "doctors_rescuers:6": {
+  "q": "EMERCOM rescuers",
+  "alt": "Спасатели МЧС"
+ },
+ "cover:animal_heroes": {
+  "q": "German Shepherd dog",
+  "alt": "Овчарка"
+ },
+ "animal_heroes:5": {
+  "q": "German Shepherd detection dog",
+  "alt": "Пёс-сапёр"
+ },
+ "animal_heroes:6": {
+  "q": "Simon ship cat Amethyst",
+  "alt": "Кот Саймон"
+ },
+ "cover:fail_to_win": {
+  "q": "Thomas Edison",
+  "alt": "Томас Эдисон"
+ },
+ "fail_to_win:4": {
+  "q": "sticky notes",
+  "alt": "Стикеры"
+ },
+ "cover:kindness": {
+  "q": "volunteers helping",
+  "alt": "Волонтёры помогают"
+ },
+ "kindness:2": {
+  "q": "water well Africa children",
+  "alt": "Колодец с чистой водой"
+ },
+ "kindness:3": {
+  "q": "children helping garden",
+  "alt": "Дети помогают в саду"
+ },
+ "kindness:4": {
+  "q": "search and rescue volunteers forest",
+  "alt": "Поисковики в лесу"
+ },
+ "kindness:5": {
+  "q": "James Harrison blood donor",
+  "alt": "Джеймс Харрисон"
+ },
+ "cover:growth_mindset": {
+  "q": "mountain climber summit",
+  "alt": "Восхождение на вершину"
+ },
+ "growth_mindset:0": {
+  "q": "child doing homework",
+  "alt": "Ученик за уроками"
+ },
+ "growth_mindset:1": {
+  "q": "child learning to ride bicycle",
+  "alt": "Учимся кататься"
+ },
+ "growth_mindset:2": {
+  "q": "neurons microscope",
+  "alt": "Нейроны мозга"
+ },
+ "growth_mindset:3": {
+  "q": "track cycling team",
+  "alt": "Велогонщики на треке"
+ },
+ "growth_mindset:4": {
+  "q": "Dyson vacuum cleaner",
+  "alt": "Пылесос Дайсон"
+ },
+ "growth_mindset:5": {
+  "q": "Michael Phelps",
+  "alt": "Майкл Фелпс"
+ },
+ "growth_mindset:6": {
+  "q": "child measuring height",
+  "alt": "Сравни себя с собой"
+ },
+ "growth_mindset:7": {
+  "q": "sleeping child",
+  "alt": "Сладкий сон"
+ }
+}

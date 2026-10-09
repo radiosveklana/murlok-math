@@ -1,7 +1,9 @@
 {
  "cover:scientists": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat in an old laboratory full of bubbling flasks, a microscope and a glowing light bulb"
+  "type": "photo",
+  "q": "microscope laboratory",
+  "alt": "Микроскоп учёного",
+  "src": "commons"
  },
  "scientists:0": {
   "type": "photo",
@@ -39,8 +41,10 @@
   "alt": "Александр Попов"
  },
  "cover:space_travel": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat looking out of a round spaceship window at the blue Earth, a sailboat and a mountain map pinned nearby"
+  "type": "photo",
+  "q": "Yuri Gagarin",
+  "alt": "Юрий Гагарин",
+  "src": "commons"
  },
  "space_travel:0": {
   "type": "photo",
@@ -97,24 +101,32 @@
   "alt": "Блез Паскаль"
  },
  "kids_heroes:3": {
-  "type": "art",
-  "p": "A boy on a frosty porch in the morning discovering a glass of frozen soda with a stirring stick stuck inside, delighted surprise"
+  "type": "photo",
+  "q": "popsicle",
+  "alt": "Мороженое на палочке",
+  "src": "commons"
  },
  "kids_heroes:4": {
-  "type": "art",
-  "p": "A teenage boy on a frozen pond skating rink wearing homemade fluffy ear warmers on a bent wire band, rosy cheeks, snowy day"
+  "type": "photo",
+  "q": "earmuffs",
+  "alt": "Наушники от холода",
+  "src": "commons"
  },
  "kids_heroes:5": {
-  "type": "art",
-  "p": "A teenage girl holding a small glowing flashlight powered by the warmth of her palm, lighting up a friend's homework in the evening"
+  "type": "photo",
+  "q": "Ann Makosinski",
+  "alt": "Энн Макосински",
+  "src": "commons"
  },
  "kids_heroes:6": {
   "type": "art",
   "p": "A teenage boy on a boat looking at a long floating barrier collecting plastic from a sparkling blue ocean, fish swimming happily below"
  },
  "cover:writers_artists": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat in a cozy study with an easel, piles of books, a quill pen and a seascape painting"
+  "type": "photo",
+  "q": "paint palette brushes",
+  "alt": "Палитра и кисти",
+  "src": "commons"
  },
  "writers_artists:0": {
   "type": "photo",
@@ -152,8 +164,10 @@
   "alt": "Иван Айвазовский"
  },
  "cover:sport_heroes": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat wearing a gold medal on a winners podium in a stadium with confetti"
+  "type": "photo",
+  "q": "running track athletes",
+  "alt": "Беговая дорожка",
+  "src": "commons"
  },
  "sport_heroes:0": {
   "type": "photo",
@@ -186,8 +200,10 @@
   "alt": "Олеся Владыкина"
  },
  "sport_heroes:6": {
-  "type": "art",
-  "p": "joyful athletes in wheelchairs and with running prosthetics racing on a stadium track, cheering crowd, confetti"
+  "type": "photo",
+  "q": "wheelchair archery",
+  "alt": "Стрельба из лука на коляске",
+  "src": "commons"
  },
  "cover:doctors_rescuers": {
   "type": "art",
@@ -223,12 +239,16 @@
   "alt": "Вирджиния Апгар"
  },
  "doctors_rescuers:6": {
-  "type": "art",
-  "p": "A team of rescuers in orange uniforms and helmets helping people into a rescue boat on a flooded street, calm and brave"
+  "type": "photo",
+  "q": "EMERCOM rescuers",
+  "alt": "Спасатели МЧС",
+  "src": "commons"
  },
  "cover:animal_heroes": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat standing proudly with a loyal sled dog, a big Saint Bernard and a ship's cat"
+  "type": "photo",
+  "q": "German Shepherd dog",
+  "alt": "Овчарка",
+  "src": "commons"
  },
  "animal_heroes:0": {
   "type": "photo",
@@ -264,8 +284,10 @@
   "p": "a black and white ship cat sitting proudly on the deck of an old navy ship, sailors smiling, sea and gulls"
  },
  "cover:fail_to_win": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat climbing a staircase made of crumpled paper drafts toward a shining golden star"
+  "type": "photo",
+  "q": "Thomas Edison",
+  "alt": "Томас Эдисон",
+  "src": "commons"
  },
  "fail_to_win:0": {
   "type": "photo",
@@ -288,8 +310,10 @@
   "alt": "Александр Флеминг"
  },
  "fail_to_win:4": {
-  "type": "art",
-  "p": "A cheerful chemist in a lab coat sticking colorful paper notes all over a wall and a book, surprised and pleased"
+  "type": "photo",
+  "q": "sticky notes",
+  "alt": "Стикеры",
+  "src": "commons"
  },
  "fail_to_win:5": {
   "type": "photo",
@@ -316,12 +340,16 @@
   "alt": "Ирена Сендлер"
  },
  "kindness:2": {
-  "type": "art",
-  "p": "A six-year-old boy doing chores at home and dropping coins into a jar, dreaming of a new water well in a sunny village"
+  "type": "photo",
+  "q": "water well Africa children",
+  "alt": "Колодец с чистой водой",
+  "src": "commons"
  },
  "kindness:3": {
-  "type": "art",
-  "p": "A team of kids secretly stacking firewood and carrying water for an elderly neighbor's village house, summer evening"
+  "type": "photo",
+  "q": "children helping garden",
+  "alt": "Дети помогают в саду",
+  "src": "commons"
  },
  "kindness:4": {
   "type": "art",
@@ -337,20 +365,28 @@
   "alt": "Шаварш Карапетян"
  },
  "cover:growth_mindset": {
-  "type": "art",
-  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat lifting a tiny dumbbell next to a glowing brain-shaped plant growing new sprouts"
+  "type": "photo",
+  "q": "mountain climber summit",
+  "alt": "Восхождение на вершину",
+  "src": "commons"
  },
  "growth_mindset:0": {
-  "type": "art",
-  "p": "Two kids at desks with the same hard puzzle, one frowning and giving up, the other smiling and trying again with determination"
+  "type": "photo",
+  "q": "child doing homework",
+  "alt": "Ученик за уроками",
+  "src": "commons"
  },
  "growth_mindset:1": {
-  "type": "art",
-  "p": "A girl standing at the start of a winding path up a hill toward a sunny summit, a backpack on her shoulders, hopeful look"
+  "type": "photo",
+  "q": "child learning to ride bicycle",
+  "alt": "Учимся кататься",
+  "src": "commons"
  },
  "growth_mindset:2": {
-  "type": "art",
-  "p": "A cute cartoon brain doing push-ups with tiny glowing threads connecting inside it, a cheerful gym setting"
+  "type": "photo",
+  "q": "neurons microscope",
+  "alt": "Нейроны мозга",
+  "src": "commons"
  },
  "growth_mindset:3": {
   "type": "art",
@@ -361,15 +397,19 @@
   "p": "An inventor child surrounded by many failed little prototypes, holding up one that finally glows, delighted"
  },
  "growth_mindset:5": {
-  "type": "art",
-  "p": "A young swimmer on a starting block with eyes closed, imagining the whole race as a glowing dream above the pool"
+  "type": "photo",
+  "q": "Michael Phelps",
+  "alt": "Майкл Фелпс",
+  "src": "commons"
  },
  "growth_mindset:6": {
   "type": "art",
   "p": "A child looking into a mirror where a slightly younger version of themselves waves back, proud smile, cozy room"
  },
  "growth_mindset:7": {
-  "type": "art",
-  "p": "A child sleeping peacefully in bed while tiny friendly helpers inside a dream bubble neatly stack books on shelves"
+  "type": "photo",
+  "q": "sleeping child",
+  "alt": "Сладкий сон",
+  "src": "commons"
  }
 }

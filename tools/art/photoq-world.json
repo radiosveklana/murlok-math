@@ -1,0 +1,158 @@
+{
+ "pet_care:0": {
+  "q": "cat and dog together",
+  "alt": "Кошка и собака"
+ },
+ "pet_care:1": {
+  "q": "cat drinking water bowl",
+  "alt": "Котик пьёт воду"
+ },
+ "pet_care:2": {
+  "q": "dog looking at food",
+  "alt": "Собака и еда"
+ },
+ "pet_care:3": {
+  "q": "Syrian hamster",
+  "alt": "Сирийский хомяк"
+ },
+ "pet_care:4": {
+  "q": "child walking dog leash",
+  "alt": "Прогулка с собакой"
+ },
+ "pet_care:5": {
+  "q": "veterinarian examining dog",
+  "alt": "Ветеринар осматривает собаку"
+ },
+ "wild_help:0": {
+  "q": "bird feeder winter titmouse",
+  "alt": "Синица у кормушки"
+ },
+ "wild_help:1": {
+  "q": "sunflower seeds bird feeder",
+  "alt": "Семечки для птиц"
+ },
+ "wild_help:2": {
+  "q": "fledgling sparrow on ground",
+  "alt": "Слёток на земле"
+ },
+ "wild_help:3": {
+  "q": "European hedgehog",
+  "alt": "Ёжик"
+ },
+ "wild_help:4": {
+  "q": "red fox in forest",
+  "alt": "Лиса в лесу"
+ },
+ "wild_help:5": {
+  "q": "starling nest box",
+  "alt": "Скворечник"
+ },
+ "eco_care:0": {
+  "q": "plastic bottles litter beach",
+  "alt": "Мусор на берегу"
+ },
+ "eco_care:1": {
+  "q": "recycled paper bales",
+  "alt": "Макулатура на переработку"
+ },
+ "eco_care:2": {
+  "q": "recycling bins",
+  "alt": "Контейнеры для сортировки"
+ },
+ "eco_care:3": {
+  "q": "used batteries AA",
+  "alt": "Старые батарейки"
+ },
+ "eco_care:4": {
+  "q": "dripping water tap",
+  "alt": "Капающий кран"
+ },
+ "eco_care:5": {
+  "q": "campfire stone ring",
+  "alt": "Костёр в каменном круге"
+ },
+ "plants:0": {
+  "q": "bean seedling sprouting",
+  "alt": "Росток из семени"
+ },
+ "plants:1": {
+  "q": "green leaves sunlight",
+  "alt": "Листья на солнце"
+ },
+ "weather:2": {
+  "q": "thunderstorm clouds lightning",
+  "alt": "Гроза и молния"
+ },
+ "world_peoples:0": {
+  "q": "crowd of people city street",
+  "alt": "Много людей"
+ },
+ "world_peoples:1": {
+  "q": "Japanese bow greeting",
+  "alt": "Поклон в Японии"
+ },
+ "world_peoples:2": {
+  "q": "pelmeni dumplings",
+  "alt": "Пельмени"
+ },
+ "world_peoples:3": {
+  "q": "Chinese New Year lanterns",
+  "alt": "Фонарики Нового года"
+ },
+ "world_peoples:4": {
+  "q": "traditional yurt",
+  "alt": "Юрта"
+ },
+ "world_peoples:5": {
+  "q": "Trans-Siberian railway train landscape",
+  "alt": "Поезд по Транссибу"
+ },
+ "kindness:0": {
+  "q": "helping elderly woman street",
+  "alt": "Помощь пожилой женщине"
+ },
+ "kindness:1": {
+  "q": "grandmother and grandchild",
+  "alt": "Бабушка и внук"
+ },
+ "kindness:2": {
+  "q": "wheelchair ramp",
+  "alt": "Пандус для коляски"
+ },
+ "kindness:3": {
+  "q": "sister reading to little brother",
+  "alt": "Старшая читает младшему"
+ },
+ "kindness:4": {
+  "q": "volunteers planting trees",
+  "alt": "Волонтёры сажают деревья"
+ },
+ "kindness:5": {
+  "q": "children hugging friends",
+  "alt": "Дружеские объятия"
+ },
+ "cover:inventions": {
+  "q": "Edison light bulb",
+  "alt": "Лампочка Эдисона"
+ },
+ "inventions:0": {
+  "q": "power lines pylon",
+  "alt": "Линия электропередачи"
+ },
+ "inventions:2": {
+  "q": "vintage refrigerator",
+  "alt": "Старинный холодильник"
+ },
+ "inventions:3": {
+  "q": "airplane wing takeoff",
+  "alt": "Самолёт на взлёте"
+ },
+ "inventions:4": {
+  "q": "server room data center",
+  "alt": "Серверная комната"
+ },
+ "cover:russia_nature": {
+  "q": "Lake Baikal",
+  "alt": "Озеро Байкал"
+ }
+}

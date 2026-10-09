@@ -8,8 +8,10 @@
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat in a reflective vest looking around carefully, then waving to call an adult, then holding a phone"
  },
  "help_rule:1": {
-  "type": "art",
-  "p": "a calm rescuer anime adult checking the road both ways before crossing to help someone sitting on the curb"
+  "type": "photo",
+  "q": "safety vest",
+  "alt": "Жилет спасателя",
+  "src": "commons"
  },
  "help_rule:2": {
   "type": "art",
@@ -20,28 +22,36 @@
   "p": "an anime kid speaking calmly into a phone while looking at a house number plate, an adult nearby"
  },
  "help_rule:4": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat patiently holding a phone to the ear, waiting and listening carefully"
+  "type": "photo",
+  "q": "mobile phone",
+  "alt": "Телефон",
+  "src": "commons"
  },
  "help_rule:5": {
-  "type": "art",
-  "p": "an anime kid pointing at a building wall plate and street sign, memorizing the address with a parent"
+  "type": "photo",
+  "q": "house number sign",
+  "alt": "Табличка с адресом",
+  "src": "commons"
  },
  "cover:first_aid_kit": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat opening a white first aid box with a red cross symbol, neatly packed rolls of bandage and plasters inside"
  },
  "first_aid_kit:0": {
-  "type": "art",
-  "p": "a white box with a red cross symbol sitting on a high kitchen shelf, an anime kid pointing to it with a parent"
+  "type": "photo",
+  "q": "first aid kit wall",
+  "alt": "Аптечка на стене",
+  "src": "commons"
  },
  "first_aid_kit:1": {
   "type": "art",
   "p": "neatly arranged rolls of bandage, sterile gauze pads and colorful plasters on a clean table"
  },
  "first_aid_kit:2": {
-  "type": "art",
-  "p": "an instant cold pack, round-tipped scissors and disposable gloves laid out on a white towel"
+  "type": "photo",
+  "q": "instant cold pack",
+  "alt": "Холодовой пакет",
+  "src": "commons"
  },
  "first_aid_kit:3": {
   "type": "art",
@@ -56,16 +66,22 @@
   "p": "a paper sheet with little phone icons taped inside the lid of a first aid box"
  },
  "cover:wounds": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat gently sticking a colorful plaster on a friend puppy's paw, both smiling on a park bench"
+  "type": "photo",
+  "q": "adhesive bandage",
+  "alt": "Пластырь",
+  "src": "commons"
  },
  "wounds:0": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat putting a plaster on a puppy friend's knee after rinsing it with water from a bottle"
+  "type": "photo",
+  "q": "knee pads",
+  "alt": "Наколенники",
+  "src": "commons"
  },
  "wounds:1": {
-  "type": "art",
-  "p": "an anime kid helping in the kitchen holding a finger wrapped in a clean plaster, an adult smiling nearby"
+  "type": "photo",
+  "q": "adhesive bandages",
+  "alt": "Пластыри",
+  "src": "commons"
  },
  "wounds:2": {
   "type": "art",
@@ -80,24 +96,32 @@
   "p": "two anime kids side by side: one leaning head forward with a happy check mark glow, one tilting head back looking unsure"
  },
  "wounds:5": {
-  "type": "art",
-  "p": "a kind anime doctor in a white coat showing a kid a plaster on the arm in a bright clinic room"
+  "type": "photo",
+  "q": "doctor office",
+  "alt": "Кабинет врача",
+  "src": "commons"
  },
  "cover:burns": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding a paw under cool running tap water at a kitchen sink, looking calm and relieved"
  },
  "burns:0": {
-  "type": "art",
-  "p": "a cozy kitchen with a steaming teapot, an iron and a stove, a cautious kitten keeping a careful distance"
+  "type": "photo",
+  "q": "kettle",
+  "alt": "Горячий чайник",
+  "src": "commons"
  },
  "burns:1": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding a paw under a stream of cool tap water, an hourglass beside the sink"
+  "type": "photo",
+  "q": "running water tap",
+  "alt": "Струя воды",
+  "src": "commons"
  },
  "burns:2": {
-  "type": "art",
-  "p": "a stick of butter, a jar of sour cream and an ice cube crossed out with a big red X shape, a tap with water nearby"
+  "type": "photo",
+  "q": "butter",
+  "alt": "Масло — нельзя",
+  "src": "commons"
  },
  "burns:3": {
   "type": "art",
@@ -120,148 +144,212 @@
   "p": "an anime kid holding a cold pack wrapped in a towel against a knee, sitting on a sofa"
  },
  "injuries:1": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat resting with a raised paw on a pillow, a cold pack on top, looking calm"
+  "type": "photo",
+  "q": "elastic bandage",
+  "alt": "Эластичный бинт",
+  "src": "commons"
  },
  "injuries:2": {
-  "type": "art",
-  "p": "a kind anime doctor looking at an x-ray picture of a bunny arm bone on a light board"
+  "type": "photo",
+  "q": "x-ray hand",
+  "alt": "Рентген руки",
+  "src": "commons"
  },
  "injuries:3": {
-  "type": "art",
-  "p": "an anime kid sitting still on a bench while a friend calls on the phone and an adult comes running"
+  "type": "photo",
+  "q": "arm sling",
+  "alt": "Косынка для руки",
+  "src": "commons"
  },
  "injuries:4": {
-  "type": "art",
-  "p": "an anime adult kneeling and talking gently to a kid sitting on a playground mat, holding a cold pack"
+  "type": "photo",
+  "q": "bicycle helmet",
+  "alt": "Шлем",
+  "src": "commons"
  },
  "injuries:5": {
   "type": "art",
   "p": "anime kids on scooters and bikes wearing helmets, knee pads and elbow pads in a park"
  },
  "cover:bites": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat looking through a magnifying glass at a buzzing bee on a flower in a summer meadow, keeping a safe distance"
+  "type": "photo",
+  "q": "honey bee flower",
+  "alt": "Пчела на цветке",
+  "src": "commons"
  },
  "bites:0": {
   "type": "art",
   "p": "a cute fuzzy bee on a dandelion, an anime adult holding a cold pack ready nearby"
  },
  "bites:1": {
-  "type": "art",
-  "p": "an anime adult speaking urgently on a phone while sitting next to a kid on a bench, calm and caring"
+  "type": "photo",
+  "q": "epinephrine autoinjector",
+  "alt": "Автоинъектор",
+  "src": "commons"
  },
  "bites:2": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat checking behind ears with a magnifying glass after a forest walk, wearing long sleeves"
+  "type": "photo",
+  "q": "tick insect",
+  "alt": "Клещ",
+  "src": "commons"
  },
  "bites:3": {
-  "type": "art",
-  "p": "an anime kid washing hands with soap at a sink, a sleepy dog lying calmly in the background"
+  "type": "photo",
+  "q": "dog",
+  "alt": "Собака",
+  "src": "commons"
  },
  "bites:4": {
-  "type": "art",
-  "p": "a cute shy snake curled under a rock in tall grass, hiking boots stepping on a clear path far away"
+  "type": "photo",
+  "q": "grass snake",
+  "alt": "Уж",
+  "src": "commons"
  },
  "bites:5": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat dressed for a forest walk in light clothes, long sleeves and trousers tucked into socks"
+  "type": "photo",
+  "q": "forest path",
+  "alt": "Тропинка в лесу",
+  "src": "commons"
  },
  "cover:choking": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting calmly at a dinner table chewing slowly, an apple cut into small pieces on a plate"
+  "type": "photo",
+  "q": "family dinner table",
+  "alt": "Обед за столом",
+  "src": "commons"
  },
  "choking:0": {
-  "type": "art",
-  "p": "an anime kid coughing at a lunch table while a friend watches attentively, glass of water nearby"
+  "type": "photo",
+  "q": "apple slices",
+  "alt": "Кусочки яблока",
+  "src": "commons"
  },
  "choking:1": {
-  "type": "art",
-  "p": "an anime kid at a table with both hands at the throat, a friend immediately calling for an adult"
+  "type": "photo",
+  "q": "ambulance",
+  "alt": "Скорая помощь",
+  "src": "commons"
  },
  "choking:2": {
-  "type": "art",
-  "p": "a trained anime adult helping a child lean forward, guiding with a supportive hand on the back"
+  "type": "photo",
+  "q": "first aid training",
+  "alt": "Курсы первой помощи",
+  "src": "commons"
  },
  "choking:3": {
-  "type": "art",
-  "p": "an anime kid demonstrating a gesture with both hands crossed at the throat, a teacher nodding"
+  "type": "photo",
+  "q": "first aid training mannequin",
+  "alt": "Учебный манекен",
+  "src": "commons"
  },
  "choking:4": {
-  "type": "art",
-  "p": "anime kids sitting calmly at a table eating small apple pieces, no running or talking with full mouths"
+  "type": "photo",
+  "q": "family meal",
+  "alt": "Едим не спеша",
+  "src": "commons"
  },
  "choking:5": {
-  "type": "art",
-  "p": "a toddler on a rug with a coin and a toy, an anime parent quickly picking the coin up"
+  "type": "photo",
+  "q": "button cell batteries",
+  "alt": "Батарейки-таблетки",
+  "src": "commons"
  },
  "cover:weather_water": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat in a sun hat sitting in the shade with a water bottle, a calm beach with a lifeguard tower behind"
+  "type": "photo",
+  "q": "life jacket",
+  "alt": "Спасательный жилет",
+  "src": "commons"
  },
  "weather_water:0": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat moved into the shade of a big tree, resting with a wet towel and sipping water"
+  "type": "photo",
+  "q": "sun hat",
+  "alt": "Панама от солнца",
+  "src": "commons"
  },
  "weather_water:1": {
-  "type": "art",
-  "p": "an anime kid in a cap with a water bottle, walking in shade on a bright summer street"
+  "type": "photo",
+  "q": "water bottle",
+  "alt": "Бутылка воды",
+  "src": "commons"
  },
  "weather_water:2": {
   "type": "art",
   "p": "an anime kid coming in from snowy cold into a warm room, wrapped in a blanket with a mug of warm tea"
  },
  "weather_water:3": {
-  "type": "art",
-  "p": "anime kids swimming in a safe roped area with a lifeguard watching and a parent on the shore"
+  "type": "photo",
+  "q": "lifeguard tower",
+  "alt": "Вышка спасателя",
+  "src": "commons"
  },
  "weather_water:4": {
-  "type": "art",
-  "p": "an anime kid floating calmly on the back like a star in calm blue water, arms and legs spread"
+  "type": "photo",
+  "q": "swimming float",
+  "alt": "Плавательный круг",
+  "src": "commons"
  },
  "weather_water:5": {
-  "type": "art",
-  "p": "an anime kid on a pier throwing a bright lifebuoy ring while shouting for help, adult running over"
+  "type": "photo",
+  "q": "lifebuoy",
+  "alt": "Спасательный круг",
+  "src": "commons"
  },
  "cover:fire_emergency": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat in a tiny firefighter helmet pointing to a green emergency exit door in a school corridor"
+  "type": "photo",
+  "q": "fire extinguisher",
+  "alt": "Огнетушитель",
+  "src": "commons"
  },
  "fire_emergency:0": {
-  "type": "art",
-  "p": "an anime kid walking quickly out of an apartment door, phone in hand, a faint wisp of grey smoke behind"
+  "type": "photo",
+  "q": "fire truck",
+  "alt": "Пожарная машина",
+  "src": "commons"
  },
  "fire_emergency:1": {
-  "type": "art",
-  "p": "an anime kid crouching low and moving along a corridor holding a damp cloth over nose and mouth"
+  "type": "photo",
+  "q": "smoke detector",
+  "alt": "Датчик дыма",
+  "src": "commons"
  },
  "fire_emergency:2": {
-  "type": "art",
-  "p": "an anime kid walking down stairs toward an exit sign instead of hiding under a bed or using an elevator"
+  "type": "photo",
+  "q": "emergency exit sign",
+  "alt": "Знак выхода",
+  "src": "commons"
  },
  "fire_emergency:3": {
   "type": "art",
   "p": "an anime kid at an open window waving a bright towel to firefighters below, door closed behind"
  },
  "fire_emergency:4": {
-  "type": "art",
-  "p": "a cozy house during a thunderstorm, lightning far away, an anime kid safely watching from indoors"
+  "type": "photo",
+  "q": "lightning storm",
+  "alt": "Гроза",
+  "src": "commons"
  },
  "fire_emergency:5": {
-  "type": "art",
-  "p": "an anime kid opening a window and leaving an apartment calmly with a parent, light switches untouched"
+  "type": "photo",
+  "q": "gas stove",
+  "alt": "Газовая плита",
+  "src": "commons"
  },
  "cover:feeling_unwell": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting beside a resting friend on a sofa, holding their paw kindly while an adult makes a phone call"
+  "type": "photo",
+  "q": "ambulance",
+  "alt": "Скорая помощь",
+  "src": "commons"
  },
  "feeling_unwell:0": {
-  "type": "art",
-  "p": "an anime kid looking pale and sitting down on a bench, a friend holding their hand"
+  "type": "photo",
+  "q": "pillow",
+  "alt": "Подушка",
+  "src": "commons"
  },
  "feeling_unwell:1": {
-  "type": "art",
-  "p": "an anime kid lying on a mat with legs raised on a backpack, a friend opening a window for fresh air"
+  "type": "photo",
+  "q": "glass of water",
+  "alt": "Стакан воды",
+  "src": "commons"
  },
  "feeling_unwell:2": {
   "type": "art",
@@ -276,7 +364,9 @@
   "p": "an anime kid calling loudly to a passing adult who rushes over, phone already in hand"
  },
  "feeling_unwell:5": {
-  "type": "art",
-  "p": "an anime kid sitting beside an elderly grandma on a park bench, holding her hand and speaking kindly"
+  "type": "photo",
+  "q": "blanket",
+  "alt": "Тёплый плед",
+  "src": "commons"
  }
 }

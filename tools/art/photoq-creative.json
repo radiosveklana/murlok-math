@@ -1,0 +1,262 @@
+{
+ "cover:what_creative": {
+  "q": "light bulb",
+  "alt": "Лампочка-идея"
+ },
+ "what_creative:0": {
+  "q": "lego bricks",
+  "alt": "Кубики конструктора"
+ },
+ "what_creative:1": {
+  "q": "seedling",
+  "alt": "Росток"
+ },
+ "what_creative:2": {
+  "q": "fountain",
+  "alt": "Фонтан идей"
+ },
+ "what_creative:3": {
+  "q": "swiss army knife",
+  "alt": "Многофункциональный нож"
+ },
+ "what_creative:4": {
+  "q": "white peacock",
+  "alt": "Белый павлин"
+ },
+ "what_creative:5": {
+  "q": "architect sketch",
+  "alt": "Чертёж"
+ },
+ "what_creative:6": {
+  "q": "padlock chain",
+  "alt": "Замок на цепи"
+ },
+ "cover:brainstorm": {
+  "q": "lightning",
+  "alt": "Молния"
+ },
+ "brainstorm:0": {
+  "q": "sticky notes",
+  "alt": "Листочки с идеями"
+ },
+ "brainstorm:1": {
+  "q": "green traffic light",
+  "alt": "Зелёный свет"
+ },
+ "brainstorm:2": {
+  "q": "popcorn",
+  "alt": "Много-много попкорна"
+ },
+ "brainstorm:3": {
+  "q": "hot air balloons",
+  "alt": "Воздушные шары"
+ },
+ "brainstorm:4": {
+  "q": "relay race",
+  "alt": "Эстафета"
+ },
+ "brainstorm:5": {
+  "q": "whiteboard",
+  "alt": "Доска для штурма"
+ },
+ "cover:unusual_uses": {
+  "q": "paper clips",
+  "alt": "Скрепки"
+ },
+ "unusual_uses:0": {
+  "q": "brick",
+  "alt": "Кирпич"
+ },
+ "unusual_uses:1": {
+  "q": "spoon",
+  "alt": "Ложка"
+ },
+ "unusual_uses:2": {
+  "q": "paper clip",
+  "alt": "Скрепка"
+ },
+ "unusual_uses:3": {
+  "q": "giant chair",
+  "alt": "Огромный стул"
+ },
+ "unusual_uses:4": {
+  "q": "plastic bottle greenhouse",
+  "alt": "Теплица из бутылок"
+ },
+ "unusual_uses:5": {
+  "q": "safety goggles",
+  "alt": "Защитные очки"
+ },
+ "cover:what_if": {
+  "q": "pig",
+  "alt": "Если бы свиньи летали"
+ },
+ "what_if:0": {
+  "q": "crystal ball",
+  "alt": "Хрустальный шар"
+ },
+ "what_if:1": {
+  "q": "floating island",
+  "alt": "Остров в облаках"
+ },
+ "what_if:2": {
+  "q": "dominoes falling",
+  "alt": "Падают домино"
+ },
+ "what_if:3": {
+  "q": "coin",
+  "alt": "Две стороны монеты"
+ },
+ "what_if:4": {
+  "q": "earth from space",
+  "alt": "Земля из космоса"
+ },
+ "what_if:5": {
+  "q": "submarine",
+  "alt": "Подводная лодка"
+ },
+ "cover:combine": {
+  "q": "platypus",
+  "alt": "Утконос — смесь зверей"
+ },
+ "combine:0": {
+  "q": "pencil eraser",
+  "alt": "Карандаш с ластиком"
+ },
+ "combine:1": {
+  "q": "armchair",
+  "alt": "Кресло"
+ },
+ "combine:2": {
+  "q": "cat on chair",
+  "alt": "Кот на стуле"
+ },
+ "combine:3": {
+  "q": "dictionary",
+  "alt": "Открытый словарь"
+ },
+ "combine:4": {
+  "q": "amphibious vehicle",
+  "alt": "Машина-лодка"
+ },
+ "combine:5": {
+  "q": "sieve",
+  "alt": "Сито"
+ },
+ "cover:new_view": {
+  "q": "optical illusion",
+  "alt": "Оптическая иллюзия"
+ },
+ "new_view:0": {
+  "q": "upside down house",
+  "alt": "Дом вверх ногами"
+ },
+ "new_view:1": {
+  "q": "cat window",
+  "alt": "Кот у окна"
+ },
+ "new_view:2": {
+  "q": "ant on leaf",
+  "alt": "Муравей на листке"
+ },
+ "new_view:3": {
+  "q": "firefighter",
+  "alt": "Пожарный"
+ },
+ "new_view:4": {
+  "q": "hats",
+  "alt": "Разные шляпы"
+ },
+ "new_view:5": {
+  "q": "petri dish",
+  "alt": "Чашка Петри"
+ },
+ "cover:inventor": {
+  "q": "workshop tools",
+  "alt": "Мастерская"
+ },
+ "inventor:0": {
+  "q": "gears",
+  "alt": "Шестерёнки"
+ },
+ "inventor:1": {
+  "q": "target bullseye",
+  "alt": "Мишень"
+ },
+ "inventor:2": {
+  "q": "umbrella",
+  "alt": "Зонт"
+ },
+ "inventor:3": {
+  "q": "drawbridge",
+  "alt": "Разводной мост"
+ },
+ "inventor:4": {
+  "q": "escalator",
+  "alt": "Эскалатор"
+ },
+ "inventor:5": {
+  "q": "adhesive bandage",
+  "alt": "Пластырь"
+ },
+ "inventor:6": {
+  "q": "toolbox",
+  "alt": "Ящик с инструментами"
+ },
+ "cover:stories": {
+  "q": "dice",
+  "alt": "Игральные кубики"
+ },
+ "stories:0": {
+  "q": "open book",
+  "alt": "Раскрытая книга"
+ },
+ "stories:1": {
+  "q": "ginger cat",
+  "alt": "Рыжий кот"
+ },
+ "stories:2": {
+  "q": "mountain path",
+  "alt": "Трудная тропа"
+ },
+ "stories:3": {
+  "q": "board game dice",
+  "alt": "Бросок кубиков"
+ },
+ "stories:4": {
+  "q": "roller coaster",
+  "alt": "Американские горки"
+ },
+ "stories:5": {
+  "q": "frightened cat",
+  "alt": "Шерсть дыбом"
+ },
+ "cover:team_life": {
+  "q": "paint brushes",
+  "alt": "Кисти"
+ },
+ "team_life:0": {
+  "q": "light bulb",
+  "alt": "Есть идея!"
+ },
+ "team_life:1": {
+  "q": "jigsaw puzzle",
+  "alt": "Пазл"
+ },
+ "team_life:2": {
+  "q": "incandescent light bulb filament",
+  "alt": "Нить лампы накаливания"
+ },
+ "team_life:3": {
+  "q": "cardboard model",
+  "alt": "Макет из картона"
+ },
+ "team_life:4": {
+  "q": "orchestra",
+  "alt": "Оркестр"
+ },
+ "team_life:5": {
+  "q": "kitchen cooking",
+  "alt": "Кухня"
+ }
+}

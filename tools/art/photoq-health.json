@@ -1,0 +1,302 @@
+{
+ "cover:plate": {
+  "q": "healthy food plate",
+  "alt": "Тарелка здоровья"
+ },
+ "plate:0": {
+  "q": "vegetables on plate",
+  "alt": "Овощи на тарелке"
+ },
+ "plate:1": {
+  "q": "colorful vegetables",
+  "alt": "Разноцветные овощи"
+ },
+ "plate:2": {
+  "q": "eggs",
+  "alt": "Яйца — белок"
+ },
+ "plate:3": {
+  "q": "buckwheat",
+  "alt": "Гречка"
+ },
+ "plate:4": {
+  "q": "chocolate cake",
+  "alt": "Кусочек торта"
+ },
+ "plate:5": {
+  "q": "fruit basket",
+  "alt": "Корзина фруктов"
+ },
+ "plate:6": {
+  "q": "family dinner table",
+  "alt": "Обед за столом"
+ },
+ "cover:water": {
+  "q": "glass of water",
+  "alt": "Стакан воды"
+ },
+ "water:0": {
+  "q": "water drop",
+  "alt": "Капля воды"
+ },
+ "water:1": {
+  "q": "water bottle",
+  "alt": "Бутылка воды"
+ },
+ "water:2": {
+  "q": "drinking water bottle sport",
+  "alt": "Пьём после спорта"
+ },
+ "water:3": {
+  "q": "water jug",
+  "alt": "Кувшин воды"
+ },
+ "water:4": {
+  "q": "glass of water",
+  "alt": "Лучший напиток — вода"
+ },
+ "water:5": {
+  "q": "energy drink cans",
+  "alt": "Банки энергетиков"
+ },
+ "cover:breakfast": {
+  "q": "porridge with berries",
+  "alt": "Каша с ягодами"
+ },
+ "breakfast:0": {
+  "q": "breakfast table",
+  "alt": "Завтрак"
+ },
+ "breakfast:1": {
+  "q": "oatmeal with fruit",
+  "alt": "Овсянка с фруктами"
+ },
+ "breakfast:2": {
+  "q": "alarm clock",
+  "alt": "Будильник"
+ },
+ "breakfast:3": {
+  "q": "apple",
+  "alt": "Яблоко на перекус"
+ },
+ "breakfast:4": {
+  "q": "family dinner",
+  "alt": "Семейный ужин"
+ },
+ "breakfast:5": {
+  "q": "fruit smoothie",
+  "alt": "Фруктовый смузи"
+ },
+ "cover:hygiene": {
+  "q": "soap bar",
+  "alt": "Кусок мыла"
+ },
+ "hygiene:0": {
+  "q": "bacteria microscope",
+  "alt": "Микробы под микроскопом"
+ },
+ "hygiene:1": {
+  "q": "washing hands soap",
+  "alt": "Моем руки с мылом"
+ },
+ "hygiene:2": {
+  "q": "hand washing sink",
+  "alt": "Раковина с мылом"
+ },
+ "hygiene:3": {
+  "q": "toothbrush toothpaste",
+  "alt": "Щётка и паста"
+ },
+ "hygiene:4": {
+  "q": "shower head",
+  "alt": "Душ"
+ },
+ "hygiene:5": {
+  "q": "towels",
+  "alt": "Свои полотенца"
+ },
+ "hygiene:6": {
+  "q": "paper tissues",
+  "alt": "Бумажные салфетки"
+ },
+ "cover:sport": {
+  "q": "children playing football",
+  "alt": "Дети играют в футбол"
+ },
+ "sport:0": {
+  "q": "children playing park",
+  "alt": "Игры на улице"
+ },
+ "sport:1": {
+  "q": "running shoes",
+  "alt": "Кроссовки"
+ },
+ "sport:2": {
+  "q": "jump rope",
+  "alt": "Скакалка"
+ },
+ "sport:3": {
+  "q": "stretching exercise",
+  "alt": "Разминка"
+ },
+ "sport:4": {
+  "q": "swimming pool",
+  "alt": "Бассейн"
+ },
+ "sport:5": {
+  "q": "bicycle helmet",
+  "alt": "Велошлем"
+ },
+ "sport:6": {
+  "q": "bicycle",
+  "alt": "Велосипед"
+ },
+ "cover:sleep": {
+  "q": "sleeping cat",
+  "alt": "Спящий котик"
+ },
+ "sleep:0": {
+  "q": "sleeping dog",
+  "alt": "Сладкий сон"
+ },
+ "sleep:1": {
+  "q": "alarm clock",
+  "alt": "Будильник"
+ },
+ "sleep:2": {
+  "q": "smartphone",
+  "alt": "Телефон откладываем"
+ },
+ "sleep:3": {
+  "q": "bedtime book",
+  "alt": "Книга перед сном"
+ },
+ "sleep:4": {
+  "q": "bedroom",
+  "alt": "Уютная спальня"
+ },
+ "sleep:5": {
+  "q": "glass of warm milk",
+  "alt": "Тёплое молоко"
+ },
+ "cover:screens": {
+  "q": "tablet computer",
+  "alt": "Планшет"
+ },
+ "screens:0": {
+  "q": "human eye macro",
+  "alt": "Глаз крупно"
+ },
+ "screens:1": {
+  "q": "window view trees",
+  "alt": "Смотрим вдаль"
+ },
+ "screens:2": {
+  "q": "desk lamp",
+  "alt": "Настольная лампа"
+ },
+ "screens:3": {
+  "q": "school desk chair",
+  "alt": "Парта и стул"
+ },
+ "screens:4": {
+  "q": "children playing outdoors",
+  "alt": "Перерыв на улице"
+ },
+ "screens:5": {
+  "q": "hourglass",
+  "alt": "Песочные часы"
+ },
+ "cover:emotions": {
+  "q": "emoticons",
+  "alt": "Смайлики-эмоции"
+ },
+ "emotions:0": {
+  "q": "emoticons",
+  "alt": "Разные чувства"
+ },
+ "emotions:1": {
+  "q": "storm clouds",
+  "alt": "Тучи — стресс"
+ },
+ "emotions:2": {
+  "q": "heart shaped stone",
+  "alt": "Чувства в теле"
+ },
+ "emotions:3": {
+  "q": "teddy bear",
+  "alt": "Плюшевый мишка"
+ },
+ "emotions:4": {
+  "q": "mother and child talking",
+  "alt": "Разговор со взрослым"
+ },
+ "emotions:5": {
+  "q": "telephone",
+  "alt": "Телефон доверия"
+ },
+ "cover:calm": {
+  "q": "calm lake",
+  "alt": "Спокойное озеро"
+ },
+ "calm:0": {
+  "q": "square window",
+  "alt": "Квадрат для дыхания"
+ },
+ "calm:1": {
+  "q": "balloon",
+  "alt": "Воздушный шарик"
+ },
+ "calm:2": {
+  "q": "pebbles",
+  "alt": "Камешки"
+ },
+ "calm:3": {
+  "q": "spaghetti",
+  "alt": "Спагетти"
+ },
+ "calm:4": {
+  "q": "clouds sky",
+  "alt": "Облака"
+ },
+ "calm:5": {
+  "q": "sunset",
+  "alt": "Закат"
+ },
+ "calm:6": {
+  "q": "meditation cushion",
+  "alt": "Подушка для отдыха"
+ },
+ "cover:habits": {
+  "q": "calendar",
+  "alt": "Календарь"
+ },
+ "habits:0": {
+  "q": "path in forest",
+  "alt": "Тропинка"
+ },
+ "habits:1": {
+  "q": "seedling",
+  "alt": "Росток"
+ },
+ "habits:2": {
+  "q": "checklist",
+  "alt": "Список с галочками"
+ },
+ "habits:3": {
+  "q": "calendar",
+  "alt": "Календарь"
+ },
+ "habits:4": {
+  "q": "wall clock",
+  "alt": "Часы"
+ },
+ "habits:5": {
+  "q": "park walk",
+  "alt": "Прогулка в парке"
+ },
+ "habits:6": {
+  "q": "sunshine",
+  "alt": "Солнце"
+ }
+}

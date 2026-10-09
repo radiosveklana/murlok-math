@@ -1,0 +1,257 @@
+{
+ "cover:growing_up": {
+  "q": "sunflower field",
+  "alt": "Поле подсолнухов"
+ },
+ "growing_up:0": null,
+ "growing_up:1": null,
+ "growing_up:2": null,
+ "growing_up:3": null,
+ "growing_up:5": null,
+ "growing_up:6": null,
+ "cover:girls_body": null,
+ "cover:boys_body": null,
+ "cover:for_everyone": null,
+ "cover:hygiene": {
+  "q": "soap and towel",
+  "alt": "Мыло и полотенце"
+ },
+ "hygiene:0": {
+  "q": "shower head",
+  "alt": "Душ"
+ },
+ "hygiene:1": {
+  "q": "deodorant stick",
+  "alt": "Дезодорант"
+ },
+ "hygiene:2": {
+  "q": "socks",
+  "alt": "Чистые носки"
+ },
+ "hygiene:3": {
+  "q": "toothbrush toothpaste",
+  "alt": "Щётка и паста"
+ },
+ "hygiene:4": {
+  "q": "sneakers",
+  "alt": "Кроссовки"
+ },
+ "hygiene:5": {
+  "q": "soap bar",
+  "alt": "Мыло для умывания"
+ },
+ "hygiene:6": {
+  "q": "hair comb",
+  "alt": "Своя расчёска"
+ },
+ "cover:emotions": {
+  "q": "emoticons",
+  "alt": "Смайлики-эмоции"
+ },
+ "emotions:0": {
+  "q": "sun and clouds",
+  "alt": "Солнце и тучи"
+ },
+ "emotions:1": {
+  "q": "stress ball",
+  "alt": "Мячик-антистресс"
+ },
+ "emotions:2": {
+  "q": "calm lake",
+  "alt": "Спокойное озеро"
+ },
+ "emotions:3": {
+  "q": "rain on window",
+  "alt": "Дождь за окном"
+ },
+ "emotions:4": {
+  "q": "teddy bear",
+  "alt": "Плюшевый мишка"
+ },
+ "emotions:5": {
+  "q": "reading nook",
+  "alt": "Уютный уголок"
+ },
+ "emotions:6": {
+  "q": "telephone",
+  "alt": "Телефон доверия"
+ },
+ "cover:friendship": {
+  "q": "friends laughing",
+  "alt": "Друзья смеются"
+ },
+ "friendship:0": {
+  "q": "friendship bracelets",
+  "alt": "Браслеты дружбы"
+ },
+ "friendship:1": {
+  "q": "handshake",
+  "alt": "Рукопожатие"
+ },
+ "friendship:2": {
+  "q": "board game",
+  "alt": "Настольная игра"
+ },
+ "friendship:3": {
+  "q": "crowd of people",
+  "alt": "Толпа"
+ },
+ "friendship:4": {
+  "q": "school corridor",
+  "alt": "Школьный коридор"
+ },
+ "friendship:5": {
+  "q": "two dogs playing",
+  "alt": "Два друга"
+ },
+ "friendship:6": {
+  "q": "stop sign",
+  "alt": "Знак «Стоп»"
+ },
+ "cover:crush": {
+  "q": "red tulips",
+  "alt": "Красные тюльпаны"
+ },
+ "crush:0": {
+  "q": "heart shaped balloon",
+  "alt": "Шарик-сердечко"
+ },
+ "crush:1": {
+  "q": "daisy flower",
+  "alt": "Ромашка"
+ },
+ "crush:2": {
+  "q": "butterflies",
+  "alt": "Бабочки"
+ },
+ "crush:3": {
+  "q": "greeting card",
+  "alt": "Открытка"
+ },
+ "crush:4": {
+  "q": "rain on window",
+  "alt": "Дождь за окном"
+ },
+ "crush:5": {
+  "q": "two swans",
+  "alt": "Пара лебедей"
+ },
+ "crush:6": {
+  "q": "paper airplane",
+  "alt": "Бумажный самолётик"
+ },
+ "cover:confidence": {
+  "q": "sunflower",
+  "alt": "Подсолнух"
+ },
+ "confidence:0": {
+  "q": "mirror",
+  "alt": "Зеркало"
+ },
+ "confidence:1": {
+  "q": "smartphone",
+  "alt": "Смартфон"
+ },
+ "confidence:2": {
+  "q": "different trees",
+  "alt": "Все деревья разные"
+ },
+ "confidence:3": {
+  "q": "fruit basket",
+  "alt": "Корзина фруктов"
+ },
+ "confidence:4": {
+  "q": "basketball",
+  "alt": "Баскетбольный мяч"
+ },
+ "confidence:5": {
+  "q": "alarm clock",
+  "alt": "Будильник"
+ },
+ "confidence:6": {
+  "q": "mountain summit",
+  "alt": "Вершина горы"
+ },
+ "cover:boundaries": {
+  "q": "garden fence",
+  "alt": "Садовый забор"
+ },
+ "boundaries:0": {
+  "q": "garden fence",
+  "alt": "Невидимая граница"
+ },
+ "boundaries:1": null,
+ "boundaries:2": null,
+ "boundaries:3": {
+  "q": "gift box",
+  "alt": "Подарок-сюрприз"
+ },
+ "boundaries:4": null,
+ "boundaries:5": null,
+ "boundaries:6": {
+  "q": "stop sign",
+  "alt": "Знак «Стоп»"
+ },
+ "boundaries:7": {
+  "q": "telephone",
+  "alt": "Телефон доверия"
+ },
+ "cover:online": {
+  "q": "smartphone",
+  "alt": "Смартфон"
+ },
+ "online:0": {
+  "q": "night sky stars",
+  "alt": "Ночное небо"
+ },
+ "online:1": {
+  "q": "hourglass",
+  "alt": "Песочные часы"
+ },
+ "online:2": {
+  "q": "smartphone",
+  "alt": "Смартфон"
+ },
+ "online:3": {
+  "q": "padlock",
+  "alt": "Замок"
+ },
+ "online:4": {
+  "q": "laptop",
+  "alt": "Ноутбук"
+ },
+ "online:5": {
+  "q": "park bench",
+  "alt": "Скамейка в парке"
+ },
+ "cover:is_it_normal": {
+  "q": "diary and pen",
+  "alt": "Дневник и ручка"
+ },
+ "is_it_normal:0": null,
+ "is_it_normal:3": {
+  "q": "deodorant stick",
+  "alt": "Дезодорант"
+ },
+ "is_it_normal:5": {
+  "q": "tissues box",
+  "alt": "Салфетки"
+ },
+ "is_it_normal:6": {
+  "q": "foal",
+  "alt": "Жеребёнок"
+ },
+ "is_it_normal:7": {
+  "q": "teddy bear",
+  "alt": "Плюшевый мишка"
+ },
+ "is_it_normal:8": null,
+ "is_it_normal:9": {
+  "q": "question mark",
+  "alt": "Знак вопроса"
+ },
+ "is_it_normal:10": {
+  "q": "toothbrush",
+  "alt": "Зубная щётка"
+ }
+}

@@ -1,0 +1,142 @@
+{
+ "cover:sun_system": {
+  "q": "Sun SDO solar disk",
+  "alt": "Солнце из космоса"
+ },
+ "sun_system:1": {
+  "q": "solar prominence SDO",
+  "alt": "Протуберанец на Солнце"
+ },
+ "sun_system:2": {
+  "q": "Jupiter Juno",
+  "alt": "Юпитер"
+ },
+ "sun_system:3": {
+  "q": "Mars Viking orbiter",
+  "alt": "Марс"
+ },
+ "sun_system:5": {
+  "q": "sunrise from orbit ISS",
+  "alt": "Восход Солнца с орбиты"
+ },
+ "sun_system:6": {
+  "q": "solar eclipse glasses",
+  "alt": "Очки для наблюдения Солнца"
+ },
+ "cover:rocky_planets": {
+  "q": "The Blue Marble Earth",
+  "alt": "Земля из космоса"
+ },
+ "cover:giant_planets": {
+  "q": "Saturn Cassini rings",
+  "alt": "Кольца Сатурна"
+ },
+ "cover:moon": {
+  "q": "full moon",
+  "alt": "Полная Луна"
+ },
+ "moon:1": {
+  "q": "lunar phases",
+  "alt": "Фазы Луны"
+ },
+ "moon:2": {
+  "q": "waxing crescent moon",
+  "alt": "Растущий серп Луны"
+ },
+ "moon:5": {
+  "q": "total lunar eclipse",
+  "alt": "Красная Луна в затмении"
+ },
+ "cover:stars": {
+  "q": "starry night sky",
+  "alt": "Звёздное небо"
+ },
+ "stars:0": {
+  "q": "Pleiades star cluster",
+  "alt": "Звёздное скопление Плеяды"
+ },
+ "stars:1": {
+  "q": "Orion Betelgeuse Rigel",
+  "alt": "Красные и голубые звёзды"
+ },
+ "stars:2": {
+  "q": "Orion constellation sky",
+  "alt": "Созвездие Орион"
+ },
+ "stars:3": {
+  "q": "Big Dipper night sky",
+  "alt": "Ковш Большой Медведицы"
+ },
+ "stars:4": {
+  "q": "Polaris star trails",
+  "alt": "Звёзды кружат вокруг Полярной"
+ },
+ "cover:comets": {
+  "q": "Comet Hale-Bopp",
+  "alt": "Комета Хейла — Боппа"
+ },
+ "comets:1": {
+  "q": "Comet NEOWISE",
+  "alt": "Комета с хвостом"
+ },
+ "comets:4": {
+  "q": "Perseid meteor",
+  "alt": "Метеор в небе"
+ },
+ "cover:earth_motion": {
+  "q": "Earth from space",
+  "alt": "Земля из космоса"
+ },
+ "earth_motion:0": {
+  "q": "apple falling from tree",
+  "alt": "Яблоко падает"
+ },
+ "earth_motion:1": {
+  "q": "Apollo astronaut jumping Moon",
+  "alt": "Прыжок на Луне"
+ },
+ "earth_motion:2": {
+  "q": "Earth day night terminator",
+  "alt": "День и ночь на Земле"
+ },
+ "earth_motion:3": {
+  "q": "Earthrise Apollo 8",
+  "alt": "Восход Земли"
+ },
+ "earth_motion:4": {
+  "q": "winter snowy forest",
+  "alt": "Зимний лес"
+ },
+ "earth_motion:5": {
+  "q": "summer meadow sunny",
+  "alt": "Летний луг"
+ },
+ "cover:cosmonauts": {
+  "q": "Soyuz rocket launch",
+  "alt": "Старт ракеты «Союз»"
+ },
+ "cosmonauts:6": {
+  "q": "astronauts floating ISS",
+  "alt": "Космонавты парят на МКС"
+ },
+ "cover:universe": {
+  "q": "Milky Way night sky",
+  "alt": "Млечный Путь"
+ },
+ "universe:0": {
+  "q": "Andromeda Galaxy",
+  "alt": "Галактика Андромеды"
+ },
+ "universe:2": {
+  "q": "Milky Way over mountains",
+  "alt": "Млечный Путь над горами"
+ },
+ "universe:3": {
+  "q": "laser beam light",
+  "alt": "Луч света"
+ },
+ "universe:4": {
+  "q": "Hubble Deep Field",
+  "alt": "Далёкие галактики"
+ }
+}

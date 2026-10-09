@@ -1,0 +1,278 @@
+{
+ "cover:fact_opinion": {
+  "q": "measuring tape",
+  "alt": "Сантиметр — проверка"
+ },
+ "fact_opinion:0": {
+  "q": "ruler measurement",
+  "alt": "Линейка"
+ },
+ "fact_opinion:1": {
+  "q": "ice cream cones",
+  "alt": "Дело вкуса"
+ },
+ "fact_opinion:2": {
+  "q": "thinking statue",
+  "alt": "Я думаю…"
+ },
+ "fact_opinion:3": {
+  "q": "optical illusion",
+  "alt": "Оптическая иллюзия"
+ },
+ "fact_opinion:4": {
+  "q": "fruit bowl",
+  "alt": "Смесь в миске"
+ },
+ "fact_opinion:5": {
+  "q": "balance scale",
+  "alt": "Взвесить причины"
+ },
+ "cover:cause_effect": {
+  "q": "dominoes falling",
+  "alt": "Падают домино"
+ },
+ "cause_effect:0": {
+  "q": "rain puddle",
+  "alt": "Дождь и лужа"
+ },
+ "cause_effect:1": {
+  "q": "black cat",
+  "alt": "Чёрная кошка"
+ },
+ "cause_effect:2": {
+  "q": "four leaf clover",
+  "alt": "Клевер на удачу"
+ },
+ "cause_effect:3": {
+  "q": "ice cream summer",
+  "alt": "Мороженое летом"
+ },
+ "cause_effect:4": {
+  "q": "baking cake",
+  "alt": "Торт в духовке"
+ },
+ "cause_effect:5": {
+  "q": "dominoes",
+  "alt": "Цепочка домино"
+ },
+ "cover:evidence": {
+  "q": "magnifying glass",
+  "alt": "Лупа сыщика"
+ },
+ "evidence:0": {
+  "q": "animal footprints snow",
+  "alt": "Следы на снегу"
+ },
+ "evidence:1": {
+  "q": "binoculars",
+  "alt": "Бинокль"
+ },
+ "evidence:2": {
+  "q": "newspaper stack",
+  "alt": "Стопка газет"
+ },
+ "evidence:3": {
+  "q": "red fox",
+  "alt": "Хитрая лиса"
+ },
+ "evidence:4": {
+  "q": "microscope",
+  "alt": "Микроскоп"
+ },
+ "evidence:5": {
+  "q": "paw print mud",
+  "alt": "След лапы"
+ },
+ "cover:traps": {
+  "q": "maze garden",
+  "alt": "Лабиринт"
+ },
+ "traps:0": {
+  "q": "flock of sheep",
+  "alt": "Стадо овец"
+ },
+ "traps:1": {
+  "q": "raccoon",
+  "alt": "Енот"
+ },
+ "traps:2": {
+  "q": "fork in road",
+  "alt": "Развилка"
+ },
+ "traps:3": {
+  "q": "squirrel",
+  "alt": "Белка"
+ },
+ "traps:4": {
+  "q": "crown",
+  "alt": "Корона"
+ },
+ "traps:5": {
+  "q": "apple pie",
+  "alt": "Пирог"
+ },
+ "cover:ads": {
+  "q": "billboard city",
+  "alt": "Рекламный щит"
+ },
+ "ads:0": {
+  "q": "shopping cart",
+  "alt": "Тележка в магазине"
+ },
+ "ads:1": {
+  "q": "lemonade glass",
+  "alt": "Лимонад"
+ },
+ "ads:2": {
+  "q": "alarm clock",
+  "alt": "Будильник торопит"
+ },
+ "ads:3": {
+  "q": "football stadium",
+  "alt": "Стадион"
+ },
+ "ads:4": {
+  "q": "magnifying glass paper",
+  "alt": "Читаем мелкий шрифт"
+ },
+ "ads:5": {
+  "q": "mousetrap cheese",
+  "alt": "Сыр в мышеловке"
+ },
+ "cover:news_fakes": {
+  "q": "newspapers",
+  "alt": "Газеты"
+ },
+ "news_fakes:0": {
+  "q": "carnival mask",
+  "alt": "Маска"
+ },
+ "news_fakes:1": {
+  "q": "detective hat",
+  "alt": "Шляпа детектива"
+ },
+ "news_fakes:2": {
+  "q": "megaphone",
+  "alt": "Громкий заголовок"
+ },
+ "news_fakes:3": {
+  "q": "old photographs",
+  "alt": "Старые фотографии"
+ },
+ "news_fakes:4": {
+  "q": "robot",
+  "alt": "Робот"
+ },
+ "news_fakes:5": {
+  "q": "checklist pencil",
+  "alt": "Сначала проверь"
+ },
+ "cover:logic": {
+  "q": "chess game",
+  "alt": "Шахматы"
+ },
+ "logic:0": {
+  "q": "wet asphalt",
+  "alt": "Мокрый асфальт"
+ },
+ "logic:1": {
+  "q": "umbrella rain",
+  "alt": "Зонт под дождём"
+ },
+ "logic:2": {
+  "q": "cat eating fish",
+  "alt": "Кот и рыба"
+ },
+ "logic:3": {
+  "q": "gears",
+  "alt": "Шестерёнки"
+ },
+ "logic:4": {
+  "q": "fog landscape",
+  "alt": "Туман — не видно"
+ },
+ "logic:5": {
+  "q": "nesting dolls",
+  "alt": "Матрёшки по росту"
+ },
+ "cover:patterns": {
+  "q": "honeycomb",
+  "alt": "Пчелиные соты"
+ },
+ "patterns:0": {
+  "q": "carrots",
+  "alt": "Морковь среди фруктов"
+ },
+ "patterns:1": {
+  "q": "colored pencils",
+  "alt": "Цветные карандаши"
+ },
+ "patterns:2": {
+  "q": "abacus",
+  "alt": "Счёты"
+ },
+ "patterns:3": {
+  "q": "stairs",
+  "alt": "Лесенка чисел"
+ },
+ "patterns:4": {
+  "q": "mosaic tiles",
+  "alt": "Мозаика"
+ },
+ "patterns:5": {
+  "q": "animal tracks",
+  "alt": "Повторяющиеся следы"
+ },
+ "cover:cases": {
+  "q": "detective hat pipe",
+  "alt": "Шляпа и трубка"
+ },
+ "cases:0": {
+  "q": "puzzle pieces",
+  "alt": "Кусочки пазла"
+ },
+ "cases:1": {
+  "q": "wall clock",
+  "alt": "Часы"
+ },
+ "cases:2": {
+  "q": "notebook pencil",
+  "alt": "Блокнот сыщика"
+ },
+ "cases:3": {
+  "q": "chess pieces",
+  "alt": "Шахматные фигуры"
+ },
+ "cases:4": {
+  "q": "tortoise",
+  "alt": "Черепаха не спешит"
+ },
+ "cover:kind_debate": {
+  "q": "school debate",
+  "alt": "Школьные дебаты"
+ },
+ "kind_debate:0": {
+  "q": "handshake",
+  "alt": "Рукопожатие"
+ },
+ "kind_debate:1": {
+  "q": "brick wall",
+  "alt": "Кирпичи доводов"
+ },
+ "kind_debate:2": {
+  "q": "question mark",
+  "alt": "Почему?"
+ },
+ "kind_debate:3": {
+  "q": "hourglass",
+  "alt": "Дослушать до конца"
+ },
+ "kind_debate:4": {
+  "q": "weather vane",
+  "alt": "Флюгер меняет курс"
+ },
+ "kind_debate:5": {
+  "q": "ice cream flavors",
+  "alt": "Разные вкусы"
+ }
+}

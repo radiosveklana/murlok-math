@@ -1,81 +1,384 @@
 {
-"cover:cells": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat peering into a big brass microscope while cute round cell characters wave from a glowing slide"},
-"cells:0": {"type":"art","p":"A child-shaped outline built from thousands of tiny colorful round bricks, like a cheerful toy construction, soft pastel background"},
-"cells:1": {"type":"art","p":"An old-fashioned scientist in a curly wig looking into an antique microscope at a thin slice of cork, candlelight in a wooden study"},
-"cells:2": {"type":"art","p":"A cute cartoon cell like a round house with little doors in its wall, a friendly nucleus in the middle and tiny workers inside"},
-"cells:3": {"type":"art","p":"A lineup of cute cell characters: a long stretchy nerve cell, a flat red disc cell and a round muscle cell, all smiling"},
-"cells:4": {"type":"art","p":"A cute round cell character splitting into two identical smiling twin cells that high-five each other"},
-"cells:5": {"type":"art","p":"A cheerful staircase of growing pictures: tiny cells, then a patch of fabric-like tissue, then a heart shape, then a happy child"},
-
-"cover:skeleton": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat measuring a friendly cartoon toy skeleton model in a bright classroom, both smiling"},
-"skeleton:0": {"type":"art","p":"A friendly smiling cartoon skeleton waving next to a tiny baby skeleton holding a rattle, bright playful classroom"},
-"skeleton:1": {"type":"art","p":"A cute cartoon skeleton standing tall like a sturdy tent frame, with a soft rounded helmet-like skull and curved ribs gently hugging a red heart"},
-"skeleton:2": {"type":"art","p":"A long cartoon thigh bone lying next to a child for size, and a magnifying glass revealing a teeny tiny bone"},
-"skeleton:3": {"type":"art","p":"A cutaway of a friendly cartoon bone showing soft tubes and little glowing threads inside, with tiny builders patching it"},
-"skeleton:4": {"type":"art","p":"A cheerful cartoon knee joint bending smoothly with a glossy cushion between bones, and a flexible cartoon spine like a stack of rings"},
-"skeleton:5": {"type":"art","p":"A child with a colorful cast on one arm drinking a glass of milk, a plate of cottage cheese and fish nearby, playing outside in the sun"},
-
-"cover:muscles": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat flexing a paw muscle proudly on a playground, a jump rope at its feet"},
-"muscles:0": {"type":"art","p":"A child blinking, smiling and stepping forward, with tiny glowing springs showing working muscles in the face and legs, playful style"},
-"muscles:1": {"type":"art","p":"Three cute cartoon muscle characters: a strong striped one lifting a bone, a calm smooth one in a tummy, and a heart-shaped one beating"},
-"muscles:2": {"type":"art","p":"A cartoon arm bending at the elbow with two rope-like muscles taking turns pulling, like a friendly tug of war team"},
-"muscles:3": {"type":"art","p":"A child happily climbing a staircase two steps at a time, glowing highlight on the legs, sunny stairway"},
-"muscles:4": {"type":"art","p":"A child exercising on a sports mat, then sleeping peacefully while tiny cartoon builders reinforce glowing muscle fibers"},
-"muscles:5": {"type":"art","p":"A cute cartoon heart with little arms jogging alongside a running child in a park, both cheerful"},
-
-"cover:heart_blood": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat listening to a cute smiling cartoon heart with a toy stethoscope"},
-"heart_blood:0": {"type":"art","p":"A child holding up a fist next to a cute cartoon heart of the same size, the heart having four cozy little rooms inside"},
-"heart_blood:1": {"type":"art","p":"A child running fast across a playground while a cute cartoon heart bounces energetically beside them"},
-"heart_blood:2": {"type":"art","p":"A cartoon map of rivers and roads of red and blue tubes branching into tiny threads, little delivery trucks traveling along"},
-"heart_blood:3": {"type":"art","p":"Cute cartoon blood cells: red disc trucks carrying oxygen bubbles, white guards with shields and tiny platelet builders, floating in a golden stream"},
-"heart_blood:4": {"type":"art","p":"A cute red cell character holding a magnet that grabs small bubbles, waving next to a puzzled cartoon blue crayon"},
-"heart_blood:5": {"type":"art","p":"A child sitting calmly touching their wrist with two fingers while looking at a wall clock, soft cozy room"},
-
-"cover:lungs": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat blowing a big soap bubble on a fresh mountain meadow, taking a deep breath"},
-"lungs:0": {"type":"art","p":"A child breathing in fresh air in a forest while tiny glowing bubbles of air flow in and rest to every little cell"},
-"lungs:1": {"type":"art","p":"A tiny cartoon air bubble character sliding down a slide shaped like a tube, past a friendly nose gate catching dust bunnies"},
-"lungs:2": {"type":"art","p":"An upside-down cartoon tree of pink branches ending in clusters of cute tiny balloons, little bubbles hopping between them"},
-"lungs:3": {"type":"art","p":"A cute cartoon dome-shaped muscle under two balloon-like lungs, pushing down like a trampoline as the balloons puff up"},
-"lungs:4": {"type":"art","p":"Two cute cartoon lungs side by side, one slightly smaller to leave room for a little heart snuggled next to it"},
-"lungs:5": {"type":"art","p":"A child jogging happily through a clean green park breathing fresh air, a no-smoking zone with clear blue sky"},
-
-"cover:digestion": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat following a tiny sandwich character on a waterslide adventure through a cartoon tummy theme park"},
-"digestion:0": {"type":"art","p":"A child eating a healthy lunch while glowing energy sparks travel from the plate into arms, legs and head"},
-"digestion:1": {"type":"art","p":"A cute cartoon mouth with shiny teeth chewing an apple slice, a friendly saliva splash helping out"},
-"digestion:2": {"type":"art","p":"A bite of food riding a wavy tube slide down into a round cartoon stomach that churns like a gentle washing machine"},
-"digestion:3": {"type":"art","p":"A long winding cartoon tube like a twisty water park slide, tiny food bits releasing glowing nutrients into nearby streams"},
-"digestion:4": {"type":"art","p":"A cute cartoon liver character in a lab coat mixing potions in flasks and filtering out grumpy little germs"},
-"digestion:5": {"type":"art","p":"A child drinking a glass of water after playing outdoors, a big refreshing water bottle beside a soccer ball"},
-
-"cover:brain": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat sitting at a control panel inside a cute cartoon brain headquarters full of glowing buttons"},
-"brain:0": {"type":"art","p":"A cute cartoon brain character as a captain at a ship wheel, guiding a child who runs, laughs and reads at the same time"},
-"brain:1": {"type":"art","p":"Cute cartoon nerve cells holding hands with long branchy arms, passing tiny lightning sparks along a chain"},
-"brain:2": {"type":"art","p":"A cartoon brain divided into colorful rooms where little workers paint, balance on a tightrope and keep a heart drum beating"},
-"brain:3": {"type":"art","p":"A cartoon brain lit up all over with twinkling lights like a city at night, every neighborhood glowing"},
-"brain:4": {"type":"art","p":"A child quickly pulling a hand back from a hot teapot steam, a fast lightning bolt zipping through the arm, surprised face"},
-"brain:5": {"type":"art","p":"A child sleeping under a starry blanket while a cute cartoon brain sorts glowing memory cards into a tidy cabinet"},
-
-"cover:senses": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat sniffing a flower, listening with big ears and tasting a strawberry in a garden"},
-"senses:0": {"type":"art","p":"A child in a garden looking at a butterfly, listening to a bird, smelling a rose, tasting a berry and touching soft moss"},
-"senses:1": {"type":"art","p":"A cartoon cutaway of a friendly eye with light rays entering and making a tiny upside-down picture of a tree inside"},
-"senses:2": {"type":"art","p":"Sound waves from a drum rippling into a cartoon ear and wiggling a tiny drum and three teeny bones inside like a chain"},
-"senses:3": {"type":"art","p":"A child with a pinched nose tasting soup with a puzzled face, a cute tongue and nose characters high-fiving"},
-"senses:4": {"type":"art","p":"A child touching a fluffy kitten, a cold snowball and a warm mug, tiny sparkles at the fingertips"},
-"senses:5": {"type":"art","p":"A child looking away from a tablet out a window at distant trees, wearing small headphones with a low volume dial"},
-
-"cover:skin_teeth": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat brushing its shiny teeth in front of a mirror with a big foamy smile"},
-"skin_teeth:0": {"type":"art","p":"A child wearing a glowing protective bubble suit that bounces away sunbeams, raindrops and tiny cartoon germs"},
-"skin_teeth:1": {"type":"art","p":"Split scene: a child sweating cheerfully on a hot beach and the same child with goosebumps on a snowy day"},
-"skin_teeth:2": {"type":"art","p":"A magnifying glass over a fingertip showing swirly loops and whorls, two smiling twins comparing fingerprints on glass"},
-"skin_teeth:3": {"type":"art","p":"A girl brushing her long hair and trimming her nails with a gentle smile, cozy bathroom morning"},
-"skin_teeth:4": {"type":"art","p":"A smiling child with a gap in the front teeth holding a tiny lost baby tooth, a grown-up tooth peeking in"},
-"skin_teeth:5": {"type":"art","p":"A child brushing teeth while cartoon sugar-loving germs run away from a big foamy toothbrush, sparkly clean teeth"},
-
-"cover:immunity": {"type":"art","p":"A small fluffy ginger kitten detective in a tiny deerstalker hat leading a cute army of white blood cell knights against goofy cartoon germs"},
-"immunity:0": {"type":"art","p":"A magnifying glass revealing cute tiny cartoon microbes on a kitchen counter, most friendly and waving, one grumpy"},
-"immunity:1": {"type":"art","p":"A castle shaped like a cheerful child with strong walls, guards at nose and mouth gates keeping silly germs out"},
-"immunity:2": {"type":"art","p":"Brave white blood cell knights with shields chasing goofy cartoon germs, one knight gobbling a germ like a snack"},
-"immunity:3": {"type":"art","p":"A child resting in bed with a blanket and a cup of tea, a cartoon thermometer warming a room where germs melt away"},
-"immunity:4": {"type":"art","p":"White blood cell trainees practicing on a harmless germ dummy in a training gym, a friendly nurse with a sticker nearby"},
-"immunity:5": {"type":"art","p":"A child washing hands with lots of soap foam at a sink, bubbles carrying away tiny cartoon germs"}
+ "cover:cells": {
+  "type": "photo",
+  "q": "microscope cells",
+  "alt": "Клетки под микроскопом",
+  "src": "commons"
+ },
+ "cells:0": {
+  "type": "photo",
+  "q": "brick wall",
+  "alt": "Стена из кирпичиков",
+  "src": "commons"
+ },
+ "cells:1": {
+  "type": "photo",
+  "q": "Hooke microscope",
+  "alt": "Микроскоп Роберта Гука",
+  "src": "commons"
+ },
+ "cells:2": {
+  "type": "photo",
+  "q": "plant cells microscope",
+  "alt": "Клетки растения",
+  "src": "commons"
+ },
+ "cells:3": {
+  "type": "photo",
+  "q": "neuron culture microscope",
+  "alt": "Нервные клетки",
+  "src": "commons"
+ },
+ "cells:4": {
+  "type": "photo",
+  "q": "onion root mitosis",
+  "alt": "Клетки делятся",
+  "src": "commons"
+ },
+ "cells:5": {
+  "type": "art",
+  "p": "A cheerful staircase of growing pictures: tiny cells, then a patch of fabric-like tissue, then a heart shape, then a happy child"
+ },
+ "cover:skeleton": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat measuring a friendly cartoon toy skeleton model in a bright classroom, both smiling"
+ },
+ "skeleton:0": {
+  "type": "art",
+  "p": "A friendly smiling cartoon skeleton waving next to a tiny baby skeleton holding a rattle, bright playful classroom"
+ },
+ "skeleton:1": {
+  "type": "photo",
+  "q": "human skull model",
+  "alt": "Череп защищает мозг",
+  "src": "commons"
+ },
+ "skeleton:2": {
+  "type": "art",
+  "p": "A long cartoon thigh bone lying next to a child for size, and a magnifying glass revealing a teeny tiny bone"
+ },
+ "skeleton:3": {
+  "type": "photo",
+  "q": "bone cross section",
+  "alt": "Кость в разрезе",
+  "src": "commons"
+ },
+ "skeleton:4": {
+  "type": "photo",
+  "q": "x-ray knee",
+  "alt": "Рентген колена",
+  "src": "commons"
+ },
+ "skeleton:5": {
+  "type": "art",
+  "p": "A child with a colorful cast on one arm drinking a glass of milk, a plate of cottage cheese and fish nearby, playing outside in the sun"
+ },
+ "cover:muscles": {
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat flexing a paw muscle proudly on a playground, a jump rope at its feet"
+ },
+ "muscles:0": {
+  "type": "photo",
+  "q": "gymnast",
+  "alt": "Гимнастка в движении",
+  "src": "commons"
+ },
+ "muscles:1": {
+  "type": "art",
+  "p": "Three cute cartoon muscle characters: a strong striped one lifting a bone, a calm smooth one in a tummy, and a heart-shaped one beating"
+ },
+ "muscles:2": {
+  "type": "art",
+  "p": "A cartoon arm bending at the elbow with two rope-like muscles taking turns pulling, like a friendly tug of war team"
+ },
+ "muscles:3": {
+  "type": "art",
+  "p": "A child happily climbing a staircase two steps at a time, glowing highlight on the legs, sunny stairway"
+ },
+ "muscles:4": {
+  "type": "art",
+  "p": "A child exercising on a sports mat, then sleeping peacefully while tiny cartoon builders reinforce glowing muscle fibers"
+ },
+ "muscles:5": {
+  "type": "art",
+  "p": "A cute cartoon heart with little arms jogging alongside a running child in a park, both cheerful"
+ },
+ "cover:heart_blood": {
+  "type": "photo",
+  "q": "anatomical heart model",
+  "alt": "Модель сердца",
+  "src": "commons"
+ },
+ "heart_blood:0": {
+  "type": "art",
+  "p": "A child holding up a fist next to a cute cartoon heart of the same size, the heart having four cozy little rooms inside"
+ },
+ "heart_blood:1": {
+  "type": "photo",
+  "q": "stethoscope",
+  "alt": "Стетоскоп",
+  "src": "commons"
+ },
+ "heart_blood:2": {
+  "type": "photo",
+  "q": "veins on hand",
+  "alt": "Вены на руке",
+  "src": "commons"
+ },
+ "heart_blood:3": {
+  "type": "photo",
+  "q": "red blood cells microscope",
+  "alt": "Клетки крови",
+  "src": "commons"
+ },
+ "heart_blood:4": {
+  "type": "photo",
+  "q": "horseshoe crab",
+  "alt": "Мечехвост с голубой кровью",
+  "src": "commons"
+ },
+ "heart_blood:5": {
+  "type": "photo",
+  "q": "pulse oximeter",
+  "alt": "Измеряем пульс",
+  "src": "commons"
+ },
+ "cover:lungs": {
+  "type": "photo",
+  "q": "soap bubbles",
+  "alt": "Мыльные пузыри",
+  "src": "commons"
+ },
+ "lungs:0": {
+  "type": "photo",
+  "q": "dandelion seeds blowing",
+  "alt": "Вдох и выдох",
+  "src": "commons"
+ },
+ "lungs:1": {
+  "type": "art",
+  "p": "A tiny cartoon air bubble character sliding down a slide shaped like a tube, past a friendly nose gate catching dust bunnies"
+ },
+ "lungs:2": {
+  "type": "art",
+  "p": "An upside-down cartoon tree of pink branches ending in clusters of cute tiny balloons, little bubbles hopping between them"
+ },
+ "lungs:3": {
+  "type": "photo",
+  "q": "balloon",
+  "alt": "Воздушный шарик",
+  "src": "commons"
+ },
+ "lungs:4": {
+  "type": "photo",
+  "q": "chest x-ray",
+  "alt": "Рентген грудной клетки",
+  "src": "commons"
+ },
+ "lungs:5": {
+  "type": "photo",
+  "q": "forest fresh air",
+  "alt": "Свежий воздух леса",
+  "src": "commons"
+ },
+ "cover:digestion": {
+  "type": "photo",
+  "q": "sandwich",
+  "alt": "Бутерброд",
+  "src": "commons"
+ },
+ "digestion:0": {
+  "type": "photo",
+  "q": "healthy food plate",
+  "alt": "Тарелка с едой",
+  "src": "commons"
+ },
+ "digestion:1": {
+  "type": "photo",
+  "q": "apple",
+  "alt": "Хрустящее яблоко",
+  "src": "commons"
+ },
+ "digestion:2": {
+  "type": "art",
+  "p": "A bite of food riding a wavy tube slide down into a round cartoon stomach that churns like a gentle washing machine"
+ },
+ "digestion:3": {
+  "type": "photo",
+  "q": "torso anatomical model",
+  "alt": "Анатомическая модель",
+  "src": "commons"
+ },
+ "digestion:4": {
+  "type": "photo",
+  "q": "chemistry laboratory flasks",
+  "alt": "Лаборатория",
+  "src": "commons"
+ },
+ "digestion:5": {
+  "type": "art",
+  "p": "A child drinking a glass of water after playing outdoors, a big refreshing water bottle beside a soccer ball"
+ },
+ "cover:brain": {
+  "type": "photo",
+  "q": "brain model",
+  "alt": "Модель мозга",
+  "src": "commons"
+ },
+ "brain:0": {
+  "type": "photo",
+  "q": "brain model",
+  "alt": "Мозг — главный штаб",
+  "src": "commons"
+ },
+ "brain:1": {
+  "type": "photo",
+  "q": "neuron microscope",
+  "alt": "Нейроны",
+  "src": "commons"
+ },
+ "brain:2": {
+  "type": "photo",
+  "q": "brain model",
+  "alt": "Части мозга",
+  "src": "commons"
+ },
+ "brain:3": {
+  "type": "photo",
+  "q": "chess game",
+  "alt": "Мозг работает целиком",
+  "src": "commons"
+ },
+ "brain:4": {
+  "type": "photo",
+  "q": "reflex hammer",
+  "alt": "Молоточек для рефлекса",
+  "src": "commons"
+ },
+ "brain:5": {
+  "type": "photo",
+  "q": "sleeping cat",
+  "alt": "Сон помогает памяти",
+  "src": "commons"
+ },
+ "cover:senses": {
+  "type": "photo",
+  "q": "magnifying glass",
+  "alt": "Лупа сыщика",
+  "src": "commons"
+ },
+ "senses:0": {
+  "type": "photo",
+  "q": "dog nose",
+  "alt": "Нос собаки",
+  "src": "commons"
+ },
+ "senses:1": {
+  "type": "photo",
+  "q": "human eye macro",
+  "alt": "Глаз крупно",
+  "src": "commons"
+ },
+ "senses:2": {
+  "type": "photo",
+  "q": "ear anatomical model",
+  "alt": "Модель уха",
+  "src": "commons"
+ },
+ "senses:3": {
+  "type": "photo",
+  "q": "strawberries",
+  "alt": "Вкусная клубника",
+  "src": "commons"
+ },
+ "senses:4": {
+  "type": "photo",
+  "q": "braille reading",
+  "alt": "Чтение пальцами",
+  "src": "commons"
+ },
+ "senses:5": {
+  "type": "art",
+  "p": "A child looking away from a tablet out a window at distant trees, wearing small headphones with a low volume dial"
+ },
+ "cover:skin_teeth": {
+  "type": "photo",
+  "q": "toothbrush",
+  "alt": "Зубная щётка",
+  "src": "commons"
+ },
+ "skin_teeth:0": {
+  "type": "photo",
+  "q": "hand macro skin",
+  "alt": "Кожа руки",
+  "src": "commons"
+ },
+ "skin_teeth:1": {
+  "type": "art",
+  "p": "Split scene: a child sweating cheerfully on a hot beach and the same child with goosebumps on a snowy day"
+ },
+ "skin_teeth:2": {
+  "type": "photo",
+  "q": "fingerprint",
+  "alt": "Отпечаток пальца",
+  "src": "commons"
+ },
+ "skin_teeth:3": {
+  "type": "photo",
+  "q": "hair comb",
+  "alt": "Расчёска",
+  "src": "commons"
+ },
+ "skin_teeth:4": {
+  "type": "art",
+  "p": "A smiling child with a gap in the front teeth holding a tiny lost baby tooth, a grown-up tooth peeking in"
+ },
+ "skin_teeth:5": {
+  "type": "photo",
+  "q": "toothbrush toothpaste",
+  "alt": "Щётка и паста",
+  "src": "commons"
+ },
+ "cover:immunity": {
+  "type": "photo",
+  "q": "bacteria petri dish",
+  "alt": "Микробы в чашке",
+  "src": "commons"
+ },
+ "immunity:0": {
+  "type": "photo",
+  "q": "petri dish bacteria colonies",
+  "alt": "Колонии бактерий",
+  "src": "commons"
+ },
+ "immunity:1": {
+  "type": "photo",
+  "q": "castle wall",
+  "alt": "Стены крепости",
+  "src": "commons"
+ },
+ "immunity:2": {
+  "type": "photo",
+  "q": "white blood cell microscope",
+  "alt": "Лейкоцит",
+  "src": "commons"
+ },
+ "immunity:3": {
+  "type": "photo",
+  "q": "digital thermometer",
+  "alt": "Градусник",
+  "src": "commons"
+ },
+ "immunity:4": {
+  "type": "photo",
+  "q": "vaccine vial",
+  "alt": "Вакцина",
+  "src": "commons"
+ },
+ "immunity:5": {
+  "type": "photo",
+  "q": "washing hands soap",
+  "alt": "Моем руки с мылом",
+  "src": "commons"
+ }
 }
