@@ -8,6 +8,7 @@ import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { makeExtra } from './extra.mjs';
 
 const PORT = +process.env.PORT || 3016;
 const KEY = process.env.ANTHROPIC_API_KEY || '';
@@ -160,6 +161,7 @@ function send(res, code, obj, origin) {
 }
 function cors(origin) { return ORIGINS.includes(origin) ? { 'access-control-allow-origin': origin, 'vary': 'Origin', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET,POST,OPTIONS', 'access-control-max-age': '86400' } : {}; }
 function ipOf(req) { return String(req.headers['x-real-ip'] || req.socket.remoteAddress || ''); }
+const extra = makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk }); // друзья, тренажёр разговора, Telegram
 http.createServer(async (req, res) => {
   const origin = req.headers.origin || '', url = new URL(req.url, 'http://x'), ip = ipOf(req);
   res.setHeader('x-content-type-options', 'nosniff');
@@ -212,6 +214,7 @@ http.createServer(async (req, res) => {
       if (!limit('v:' + dev, 30, 6e5) || !limit('d:' + dev, 150, 864e5)) return send(res, 429, { error: 'limit', heard: '', reply: 'Мур, я немного устал болтать! Давай отдохнём и решим пару примеров?', mood: 'sad', flag: 'none' }, origin);
       const heard = await stt(Buffer.concat(chunks)).catch(e => { console.error('stt', e.message); return ''; });
       if (!heard || heard.length < 2) return send(res, 200, { heard: '', reply: 'Мур? Я не расслышал. Скажи ещё раз, чуть громче!', mood: 'think', flag: 'none' }, origin);
+      if (d.scenario && extra.hasRp(d.scenario)) return extra.rp({ ...d, text: heard, heard }, res, origin, ip); // тренажёр разговора
       if (!dayOk()) return send(res, 429, { error: 'cap', heard, reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat({ ...d, text: heard }); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
       if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1;
@@ -230,6 +233,7 @@ http.createServer(async (req, res) => {
       startSay(out.reply);
       return send(res, 200, out, origin);
     }
+    if (await extra(req, res, url, origin, ip)) return;
     send(res, 404, { error: 'not found' }, origin);
   } catch (e) { console.error(e.message); send(res, 500, { error: 'server' }, origin); }
 }).listen(PORT, '127.0.0.1', () => console.log('murlok-api on', PORT, 'model', MODEL));

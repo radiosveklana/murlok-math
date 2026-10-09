@@ -61,7 +61,7 @@ window.SUBJECTS.read = {
 
 /* ================= особые упражнения скорочтения ================= */
 typeof SCREENS !== 'undefined' && (function () {
-  const R = () => (S.read = S.read || { wpm: [], schulte: {}, flash: 0 });
+  const R = () => { S.read = S.read || { wpm: [], schulte: {}, flash: 0 }; if (S.read.wpm && S.read.wpm.some(x => x.wpm > 400)) { S.read.wpm = S.read.wpm.filter(x => x.wpm <= 400); save(); } return S.read; };
   const back = () => { $('.back', app).dataset.go = 'subject'; $('.back', app).dataset.arg = 'read'; };
   const tr = v => { if (window.Coach) Coach.track('a:read', v); };
   const TEXTS = [
@@ -98,6 +98,8 @@ typeof SCREENS !== 'undefined' && (function () {
       { type: 'tf', q: 'Гепард может бежать с огромной скоростью целый час.', c: false },
       { type: 'one', q: 'Какие звуки издаёт гепард?', a: ['Мурлычет и чирикает', 'Только рычит', 'Лает', 'Молчит всегда'], c: 0 } ] },
   ];
+
+  (window.READ_TEXTS || []).forEach(x => { if (x && x.t && x.w && !TEXTS.some(y => y.t === x.t)) TEXTS.push(x); }); // + тексты из content/extra/read-texts.js
 
   /* ---- таблицы Шульте ---- */
   SCREENS.schulte = (n = 3) => {
@@ -142,10 +144,12 @@ typeof SCREENS !== 'undefined' && (function () {
 
   /* ---- чтение на время с вопросами на понимание ---- */
   SCREENS.rtext = idx => {
-    const done = R().wpm.map(x => x.t), i = idx != null && idx !== '' ? +idx : (TEXTS.findIndex(x => !done.includes(x.t)) + TEXTS.length) % TEXTS.length, T = TEXTS[i];
+    const readT = R().readT = R().readT || R().wpm.map(x => x.t); // какие тексты уже читали (вопросы к ним ребёнок помнит)
+    const fresh = TEXTS.map((x, k) => k).filter(k => !readT.includes(TEXTS[k].t));
+    const i = idx != null && idx !== '' ? +idx : fresh.length ? fresh[Math.floor(Math.random() * fresh.length)] : Math.floor(Math.random() * TEXTS.length), T = TEXTS[i], repeat = readT.includes(T.t);
     const words = T.w.split(/\s+/), last = R().wpm.slice(-1)[0], pace = last ? Math.round(last.wpm * 1.1) : 110;
     app.innerHTML = `${topbar('📖 Читаем на время', 'subject')}<div class="page"><div class="seg" id="mode"><button data-m="0" class="on">👀 Сам</button><button data-m="1">🐾 С указкой (${pace} сл/мин)</button></div>
-      <p class="center small">Нажми «Начать» и читай <b>про себя</b>. Дочитал — жми «Прочитал!». Потом будут вопросы: важно не только быстро, но и понять.</p>
+      <p class="center small">Нажми «Начать» и читай <b>про себя</b>. Дочитал — жми «Прочитал!». Потом будут вопросы: важно не только быстро, но и понять.</p>${repeat ? '<p class="center small rp-warn">🔁 Этот текст ты уже читал(а) — это тренировка: скорость не пойдёт в рекорды, ведь ответы ты уже знаешь. Новые тексты закончились — скоро будут ещё!</p>' : `<p class="center small">Новых текстов осталось: <b>${fresh.length}</b></p>`}
       <div class="rtext" id="rt"><h3>${T.t}</h3><p class="rhide">Текст появится, когда нажмёшь «Начать».</p></div><div class="row-btns"><button class="btn big pink" id="rgo">▶ Начать</button></div><div id="rq"></div></div>`;
     back(); let mode = 0, t0 = 0, piv = null; cleanups.push(() => clearInterval(piv));
     $$('#mode button').forEach(b => b.addEventListener('click', () => { if (t0) return; mode = +b.dataset.m; $$('#mode button').forEach(x => x.classList.toggle('on', x === b)); }));
@@ -155,18 +159,23 @@ typeof SCREENS !== 'undefined' && (function () {
         if (mode) { let k = 0; piv = setInterval(() => { const s = $(`#rt span[data-k="${k}"]`); $$('#rt span.pt').forEach(x => x.classList.remove('pt')); if (s) s.classList.add('pt'); if (++k > words.length) clearInterval(piv); }, 60000 / pace); }
         return;
       }
-      clearInterval(piv); const sec = (Date.now() - t0) / 1000, wpm = Math.round(words.length / sec * 60); $('#rgo').remove(); $('#rt').innerHTML = `<h3>${T.t}</h3><p class="small center">Текст спрятан — отвечай по памяти, как настоящий сыщик 🕵️</p>`;
+      clearInterval(piv); const sec = (Date.now() - t0) / 1000, wpm = Math.round(words.length / sec * 60);
+      if (wpm > 400) { // так быстро дети не читают — текст пролистан
+        $('#rgo').remove(); $('#rt').innerHTML = `<h3>${T.t}</h3>`;
+        $('#rq').innerHTML = `<div class="center g-result"><div class="big-emoji">🐾</div><h2>Ого, ${wpm} слов в минуту?</h2><p>Так быстро не читает никто — даже котики-сыщики 🙂 Похоже, текст просто пролистан. Прочитай его по-настоящему — тогда скорость засчитается.</p><div class="row-btns"><button class="btn pink" id="rre">Прочитать ещё раз</button></div></div>`;
+        $('#rre').addEventListener('click', () => go('rtext', i)); SND.bad(); return;
+      } $('#rgo').remove(); $('#rt').innerHTML = `<h3>${T.t}</h3><p class="small center">Текст спрятан — отвечай по памяти, как настоящий сыщик 🕵️</p>`;
       let k = 0, ok = 0;
       const ask = () => {
         const q = T.q[k], Q = ACAD_Q[q.type]; $('#rq').innerHTML = `<div class="q-text small">Вопрос ${k + 1} из ${T.q.length}</div>` + Q.render(q);
         Q.bind($('#rq'), q, r => { if (r) { ok++; SND.ok(); } else SND.bad(); setTimeout(() => { k++; k < T.q.length ? ask() : fin(); }, 900); });
       };
       const fin = () => {
-        const comp = ok / T.q.length, eff = Math.round(wpm * comp); R().wpm.push({ d: today(), t: T.t, wpm, comp: Math.round(comp * 100) }); if (R().wpm.length > 60) R().wpm.shift(); save();
-        tr(comp >= 0.67 ? Math.min(1, 0.5 + wpm / 300) : comp * 0.6); award(2 + ok, 5 + ok * 3); acadTask('read', { mistakes: T.q.length - ok });
+        const comp = ok / T.q.length, eff = Math.round(wpm * comp); if (!readT.includes(T.t)) readT.push(T.t); if (!repeat) { R().wpm.push({ d: today(), t: T.t, wpm, comp: Math.round(comp * 100) }); if (R().wpm.length > 60) R().wpm.shift(); } save();
+        if (!repeat) { tr(comp >= 0.67 ? Math.min(1, 0.5 + wpm / 300) : comp * 0.6); award(2 + ok, 5 + ok * 3); acadTask('read', { mistakes: T.q.length - ok }); } else award(1, 2);
         const tooFast = wpm > 350 && comp < 0.67;
-        $('#rq').innerHTML = `<div class="center g-result"><div class="big-emoji">${comp === 1 ? '🏆' : comp >= 0.67 ? '🥈' : '🐾'}</div><h2>${wpm} слов в минуту</h2><p>Понимание: <b>${ok} из ${T.q.length}</b> · Скорость с пониманием: <b>${eff}</b> сл/мин</p><p class="small">${tooFast ? 'Очень быстро, но улики потерялись. Попробуй чуть медленнее — понимание важнее!' : comp === 1 ? 'Быстро и всё понял — вот это сыщик!' : 'Хорошо! В следующий раз лови ключевые слова: кто, что, где, когда.'}</p><div class="row-btns"><button class="btn pink" id="rn">Следующий текст →</button><button class="btn" id="rg">📈 Мой рост</button></div></div>`;
-        $('#rn').addEventListener('click', () => go('rtext', (i + 1) % TEXTS.length)); $('#rg').addEventListener('click', () => go('rgrowth'));
+        $('#rq').innerHTML = `<div class="center g-result"><div class="big-emoji">${comp === 1 ? '🏆' : comp >= 0.67 ? '🥈' : '🐾'}</div><h2>${wpm} слов в минуту${repeat ? ' <small>(тренировка)</small>' : ''}</h2><p>Понимание: <b>${ok} из ${T.q.length}</b> · Скорость с пониманием: <b>${eff}</b> сл/мин</p><p class="small">${tooFast ? 'Очень быстро, но улики потерялись. Попробуй чуть медленнее — понимание важнее!' : comp === 1 ? 'Быстро и всё понял — вот это сыщик!' : 'Хорошо! В следующий раз лови ключевые слова: кто, что, где, когда.'}</p><div class="row-btns"><button class="btn pink" id="rn">Следующий текст →</button><button class="btn" id="rg">📈 Мой рост</button></div></div>`;
+        $('#rn').addEventListener('click', () => go('rtext')); $('#rg').addEventListener('click', () => go('rgrowth'));
         SND.win(); if (comp === 1) confetti(25);
       };
       ask();
@@ -180,11 +189,12 @@ typeof SCREENS !== 'undefined' && (function () {
       <div class="card"><h3>Рекорды</h3><p>🔢 Шульте 3×3: <b>${sch[3] ? sch[3] + ' с' : '—'}</b> · 4×4: <b>${sch[4] ? sch[4] + ' с' : '—'}</b> · 5×5: <b>${sch[5] ? sch[5] + ' с' : '—'}</b></p><p>⚡ Вспышки: уровень <b>${R().flash || 1}</b></p></div></div>`;
     back();
   };
+  const sch = () => R().schulte || {}, wl = () => (R().wpm || []);
   window.SUBJECTS.read.extras = [
-    { id: 'schulte', icon: '🔢', name: 'Таблица Шульте', run: () => go('schulte', 3) },
-    { id: 'flash', icon: '⚡', name: 'Вспышки слов', run: () => go('flash') },
-    { id: 'rtext', icon: '📖', name: 'Читаем на время', run: () => go('rtext') },
-    { id: 'rgrowth', icon: '📈', name: 'Мой рост', run: () => go('rgrowth') },
+    { id: 'schulte', icon: '🔢', name: 'Таблица Шульте', run: () => go('schulte', 3), badge: () => { const b = [3, 4, 5].filter(k => sch()[k]).map(k => `${k}×${k}: ${sch()[k]} с`); return b.join(' · '); }, prog: () => [3, 4, 5].reduce((t, k) => t + (sch()[k] ? Math.min(1, ({ 3: 15, 4: 30, 5: 45 })[k] / sch()[k]) : 0), 0) / 3 },
+    { id: 'flash', icon: '⚡', name: 'Вспышки слов', run: () => go('flash'), badge: () => R().flash ? 'уровень ' + R().flash : '', prog: () => Math.min(1, (R().flash || 0) / 8) },
+    { id: 'rtext', icon: '📖', name: 'Читаем на время', run: () => go('rtext'), badge: () => { const L = wl().slice(-1)[0]; return L ? L.wpm + ' сл/мин' : ''; }, prog: () => Math.min(1, new Set(wl().filter(x => x.comp >= 67).map(x => x.t)).size / 6) },
+    { id: 'rgrowth', icon: '📈', name: 'Мой рост', run: () => go('rgrowth'), badge: () => wl().length ? wl().length + ' замеров' : '' },
   ];
   window.readParentsHTML = () => { const r = S.read; if (!r || !r.wpm || !r.wpm.length) return ''; const L = r.wpm.slice(-5), first = r.wpm[0]; return `<p>⚡ Скорочтение: последние замеры — ${L.map(x => `<b>${x.wpm}</b> сл/мин (понимание ${x.comp}%)`).join(', ')}. Первый замер: ${first.wpm} сл/мин.</p>`; };
   ['schulte', 'flash', 'rtext', 'rgrowth'].forEach(x => { NO_FLOAT.includes(x) || NO_FLOAT.push(x); });

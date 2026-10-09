@@ -15,6 +15,7 @@ const Coach = (() => {
   function info(id) {
     let m;
     if ((m = id.match(/^(mul|eq)(\d)$/))) { const mul = m[1] === 'mul', L = (mul ? E.MUL_LEVELS : E.EQ_LEVELS)[m[2]]; if (!L) return null; return { name: (mul ? 'Столбик' : 'Уравнения') + ' · ' + L.name, short: mul ? 'умножение столбиком' : 'уравнения', icon: mul ? '✖️' : '📦', area: 'math', need: 3, go: () => { S.prefs[m[1] + 'Lv'] = +m[2]; S.prefs[m[1] + 'LvChosen'] = true; save(); go('practice', m[1]); } }; }
+    if ((m = id.match(/^(div|add)(\d)$/))) { const dv = m[1] === 'div', nm = (dv ? ['На однозначное', 'С нулём и остатком', 'На двузначное', 'Большие числа'] : ['3–4 знака', '5 знаков', 'Миллион'])[m[2] - 1]; if (!nm) return null; return { name: (dv ? 'Деление столбиком' : 'Сложение и вычитание') + ' · ' + nm, short: dv ? 'деление столбиком' : 'сложение и вычитание столбиком', icon: dv ? '➗' : '➕', area: 'math', need: 3, go: () => { S.prefs[dv ? 'divLv' : 'addLv'] = +m[2]; save(); go('colwork', m[1]); } }; }
     if (id === 'blitz') return { name: 'Таблица умножения (блиц)', short: 'таблица умножения', icon: '⚡', area: 'math', need: 1, go: () => go('blitz') };
     if (id === 'bug') return { name: 'Поиск ошибок', short: 'поиск ошибок', icon: '🦝', area: 'math', need: 3, go: () => go('bugs') };
     if ((m = id.match(/^g:(\w+)$/))) { const g = (window.GAMES_LIST || []).find(x => x.id === m[1]); if (!g) return null; return { name: g.name, short: g.skill ? g.skill.toLowerCase() : g.name, icon: g.icon, area: 'games', need: 1, go: () => go('game', g.id) }; }
@@ -85,7 +86,7 @@ const Coach = (() => {
   }
   function tick(id, v) {
     const c = C(); if (c.date !== today()) return;
-    const g = c.grow; if (g && !g.done && g.id === id) { g.got++; if (g.got >= g.need) { g.done = true; c.stats.growDone++; setTimeout(() => { award(6, 20); awardGems(1, 'за задание котика — ты справился с трудным!'); confetti(35); say('Задание котика выполнено! Ты молодец, {n}!', 0, { prio: 1 }); }, 1700); } }
+    const g = c.grow; if (g && !g.done && g.id === id) { g.got++; if (g.got >= g.need) { g.done = true; c.stats.growDone++; setTimeout(() => { award(6, 20); awardGems(1, 'за задание котика — ты справился с трудным!'); confetti(35); say(PH.coachDone[0], 0, { prio: 1 }); }, 1700); } }
     const m = c.master; if (m && !m.done && m.id === id && v >= 1) { m.got++; if (m.got >= m.need) { m.done = true; c.stats.masterDone++; setTimeout(() => { awardGems(2, 'за испытание мастера — вот это талант!'); confetti(45); }, 2000); } }
   }
   const WHY = { hard: 'Пока трудно — раскроем эту тайну вместе!', avoid: 'Давно не тренировались — котик соскучился!', next: 'Новая ступенька — ты уже готов(а)!', base: 'Потренируем лапки!' };
@@ -116,6 +117,7 @@ const Coach = (() => {
       if (scr === 'games' && (m = id.match(/^g:(\w+)$/))) mark($(`.game-card[data-g="${m[1]}"]`, app));
       if (scr === 'academy' && (m = id.match(/^a:(\w+)/))) mark($(`.acad-card[data-s="${m[1]}"]`, app));
       if (scr === 'school' && isCore(id)) mark($(`.school-card.${id.replace(/\d/, '')}`, app));
+      if (scr === 'subject' && (m = id.match(/^a:(\w+):(\w+)$/))) { const b = $(`[data-q="${m[2]}"]`, app); if (b) mark(b.closest('.unit')); }
     });
   }
 
@@ -188,6 +190,8 @@ const Coach = (() => {
 
   /* ---------- отчёт для взрослых ---------- */
   const TIPS = {
+    div: 'В делении столбиком главное — подобрать цифру частного и помнить: остаток меньше делителя. Потренируйте таблицу умножения: на ней держится деление.',
+    add: 'Попросите проговаривать «пишу, запоминаю» и «занимаю десяток». Проверка обратным действием ловит почти все ошибки.',
     mul: 'Попросите проговаривать шаги вслух: «умножаю, пишу единицы, десятки запоминаю». 5 минут «Быстрых лапок» в день укрепят таблицу — на ней держится весь столбик.',
     eq: 'Помогает «метод коробки»: закройте часть уравнения ладонью и спросите «какое число здесь спрятано?». Хвалите за проверку ответа — это главная привычка.',
     blitz: 'Таблица умножения закрепляется короткими частыми повторами: лучше 3 раза по 3 минуты, чем полчаса подряд.',
@@ -278,14 +282,14 @@ const Coach = (() => {
       const sch = $('.t-school', app); if (sch) sch.insertAdjacentHTML('afterend', '<button class="tile t-acad" data-go="academy"><span class="ti">📚</span><b>Академия сыщика</b><small>Космос, безопасность, мышление…</small></button>');
       const shop = $('.t-shop', app); if (shop) shop.insertAdjacentHTML('afterend', '<button class="tile t-photo" data-go="photo"><span class="ti">📸</span><b>Фотостудия</b><small>Фото котика на память</small></button><button class="tile t-fit" data-go="fitting"><span class="ti">👗</span><b>Примерочная</b><small>Примеряй наряды у зеркала</small></button>');
     });
-    ['games', 'academy', 'school'].forEach(n => wrap(n, () => decorate(n)));
+    ['games', 'academy', 'school', 'subject'].forEach(n => wrap(n, () => decorate(n)));
     const par = SCREENS.parents;
     SCREENS.parents = arg => {
       if (S.pin && !pinOk) return pinGate(() => go('parents'));
       par(arg); const pg = $('.page.parents', app); if (!pg) return;
       pg.insertAdjacentHTML('afterbegin', parentsHTML()); const reset = $('#reset', pg); if (reset) reset.insertAdjacentHTML('beforebegin', settingsHTML()); bindSettings();
     };
-    Object.keys(SCREENS).forEach(n => { if (!['home', 'games', 'academy', 'school', 'parents'].includes(n)) { const f = SCREENS[n]; SCREENS[n] = arg => { scrAt = Date.now(); return f(arg); }; } });
+    Object.keys(SCREENS).forEach(n => { if (!['home', 'games', 'academy', 'school', 'subject', 'parents'].includes(n)) { const f = SCREENS[n]; SCREENS[n] = arg => { scrAt = Date.now(); return f(arg); }; } });
   }
   return { install, track, info, status, talents, plan, homeHTML, parentsHTML, report, lessonTimer, finishLesson, checkpoint, mathCheck, cured() { C().stats.cured++; save(); }, stats: () => C().stats, sk: SK, theory: TH };
 })();

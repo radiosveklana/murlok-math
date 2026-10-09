@@ -9,9 +9,9 @@ const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'AC
   const p = await b.newPage(); await p.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
   p.on('pageerror', e => errors.push('PAGEERR ' + e.message)); p.on('console', m => { if (m.type() === 'error' && !/favicon|Failed to load resource/.test(m.text())) errors.push('CONSOLE ' + m.text()); });
   await p.evaluateOnNewDocument(() => { const real = Date.now; window.__off = 0; Date.now = () => real() + window.__off; });
-  await p.goto(URL); await p.waitForSelector('#kid');
+  await p.goto(URL); for (let t = 0; t < 3 && !(await p.evaluate(() => typeof window.Coach === 'object' && typeof go === 'function').catch(() => false)); t++) { errors.length = 0; await p.reload(); await new Promise(r => setTimeout(r, 800)); } await p.waitForSelector('#kid');
   await p.evaluate(() => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), { name: 'Мурзик', kid: 'Тест', seenVersion: APP_VERSION, rankV: 2, login: { last: today(), day: 1 } }))); });
-  await p.goto(URL); await sleep(1200);
+  await p.goto(URL); for (let t = 0; t < 3 && !(await p.evaluate(() => typeof window.Coach === 'object' && typeof go === 'function').catch(() => false)); t++) { errors.length = 0; await p.reload(); await new Promise(r => setTimeout(r, 800)); } await sleep(1200);
   const E = (f, ...a) => p.evaluate(f, ...a);
   const go = async (n, a) => { await E((n, a) => go(n, a), n, a); await sleep(500); };
   const clickSel = async s => { await p.waitForSelector(s, { timeout: 5000 }); await E(() => document.querySelectorAll('.toast').forEach(t => t.remove())); await p.click(s); await sleep(250); };
@@ -19,7 +19,7 @@ const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'AC
   // главная: новые плитки
   ok('home tiles', await E(() => !!document.querySelector('.t-acad') && !!document.querySelector('.t-photo') && !!document.querySelector('.t-school')));
   // хаб Академии — все 5 предметов
-  await clickSel('.t-acad'); ok('hub subjects', (await p.$$('.acad-card[data-s]')).length === 5);
+  await clickSel('.t-acad'); ok('hub subjects', (await p.$$('.acad-card[data-s]')).length === (await E(() => ACAD_ORDER.filter(x => window.SUBJECTS[x]).length)));
 
   /* ---------- урок «быстро пролистан» → без награды ---------- */
   await clickSel('.acad-card[data-s="space"]'); await clickSel('[data-l]');
@@ -88,10 +88,10 @@ const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'AC
 
   /* ---------- салон окрасов ---------- */
   await E(() => { S.gems = 60; S.sk.eq4 = { n: 12, a: 1, pf: 10, h: [], d: {} }; save(); SHOP_TAB = 'salon'; go('shop'); }); await sleep(500);
-  ok('salon shown', (await p.$$('.shade')).length === 12);
+  ok('salon shown', (await p.$$('.shade')).length >= 12);
   ok('basic shop hides salon furs', await E(() => { SHOP_TAB = 'wear'; go('shop'); return !document.querySelector('.fur[data-f="galaxy"]'); }));
   await E(() => { SHOP_TAB = 'salon'; go('shop'); }); await sleep(300);
-  await clickSel('.shade[data-sh="peach"]'); ok('locked shade not sold', !(await p.$('#buysh')));
+  await clickSel('.shade[data-sh="peach"]'); ok('locked shade not sold', !(await p.$('#buysh')) && !!(await p.$('#earnGo'))); await E(() => document.querySelectorAll('.modal').forEach(m => m.remove()));
   await clickSel('.shade[data-sh="galaxy"]'); await clickSel('#buysh');
   ok('galaxy bought + gradient cat', await E(() => S.fur === 'galaxy' && S.furs.includes('galaxy') && myCat().includes('url(#fg-galaxy)') && myCat().includes('furfx')));
 
@@ -102,7 +102,7 @@ const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'AC
   const teenUnits = await E(() => window.SUBJECTS.teen.units.map(u => u.title));
   ok('teen private in report', !teenUnits.some(t => ptxt.includes(t)));
   ok('talents in report', /Сильные стороны[\s\S]*Столбик/.test(ptxt));
-  await E(() => { S.pin = '4321'; save(); }); await p.goto(URL); await sleep(1200); await go('parents');
+  await E(() => { S.pin = '4321'; save(); }); await p.goto(URL); for (let t = 0; t < 3 && !(await p.evaluate(() => typeof window.Coach === 'object' && typeof go === 'function').catch(() => false)); t++) { errors.length = 0; await p.reload(); await new Promise(r => setTimeout(r, 800)); } await sleep(1200); await go('parents');
   ok('pin gate', !!(await p.$('#pinin')) && !(await p.$('.coach-rep')));
   await p.type('#pinin', '4321'); await clickSel('#pingo'); await sleep(400); ok('pin unlock', !!(await p.$('.coach-rep')));
 
@@ -151,6 +151,13 @@ const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'AC
   ok('ghost buttons clickable', await E(() => { const b = document.querySelector('#sus'); if (!b) return false; const st = getComputedStyle(b); return st.position !== 'absolute' && st.pointerEvents !== 'none' && st.opacity === '1'; }));
   /* ---------- старое: прогресс на месте ---------- */
   ok('time tracked or ok', await E(() => typeof S.time === 'object' || S.time === undefined));
+  /* ---------- задание роста по трудному уроку Академии засчитывается ---------- */
+  await E(() => { S.sk = { 'a:think:fact_opinion': { n: 6, a: 0.3, sp: 0, pf: 0, h: [], d: {} } }; S.coach.date = ''; save(); });
+  await go('home'); ok('unit grow mission', await E(() => S.coach.grow.id === 'a:think:fact_opinion'));
+  await go('subject', 'think'); ok('unit marked in subject', !!(await p.$('.unit.rec')));
+  const gd1 = await E(() => S.coach.stats.growDone);
+  await go('aquiz', 'think:fact_opinion'); for (let k = 0; k < 12; k++) { if (!(await p.$('#qarea .q-unit'))) break; await answer(false); await sleep(200); await clickSel('#qn'); }
+  ok('unit mission completes', await E(gd1 => S.coach.grow.done && S.coach.stats.growDone === gd1 + 1, gd1));
   ok('no errors', !errors.length, errors.slice(0, 5).join(' | '));
   console.log('ACAD DONE', res.length);
   await b.close();

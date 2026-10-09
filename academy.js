@@ -3,19 +3,22 @@
    Математика этим файлом не затрагивается. */
 'use strict';
 window.SUBJECTS = window.SUBJECTS || {};
-const ACAD_ORDER = ['space', 'safety', 'teen', 'think', 'read'];
+const ACAD_ORDER = ['world', 'space', 'body', 'health', 'safety', 'talk', 'think', 'read', 'teen'];
 const BOX_DAYS = [0, 1, 3, 7];
 const acad = id => { S.acad = S.acad || {}; const a = S.acad[id] = S.acad[id] || {}; a.read = a.read || {}; a.best = a.best || {}; a.box = a.box || {}; return a; };
 const subj = id => window.SUBJECTS[id];
 const daysSince = d => Math.floor((Date.now() - new Date(d).getTime()) / 864e5);
 function dueMistakes(id) { const a = acad(id), out = []; Object.entries(a.box).forEach(([qid, [b, d]]) => { if (daysSince(d) >= BOX_DAYS[b]) out.push(qid); }); return out; }
 function findQ(id, qid) { const [uid, n] = qid.split('#'), u = subj(id).units.find(x => x.id === uid); return u && u.quiz[+n] ? { u, q: u.quiz[+n], qid } : null; }
-function subjProgress(id) { const s = subj(id), a = acad(id), n = s.units.length; if (!n) return 0; return Math.round(s.units.reduce((t, u) => t + (a.read[u.id] ? 0.4 : 0) + Math.min(3, a.best[u.id] || 0) / 3 * 0.6, 0) / n * 100); }
+/* прогресс предмета: учебник + тренажёр; у предметов с упражнениями и играми (скорочтение, общение, игры Академии) они — половина прогресса */
+function subjProgress(id) {
+  const s = subj(id), a = acad(id), n = s.units.length, theory = n ? s.units.reduce((t, u) => t + (a.read[u.id] ? 0.4 : 0) + Math.min(3, a.best[u.id] || 0) / 3 * 0.6, 0) / n : 0;
+  const ex = (s.extras || []).filter(e => e.prog).map(e => { try { return Math.max(0, Math.min(1, e.prog())); } catch (er) { return 0; } });
+  return Math.round((ex.length ? theory * 0.5 + ex.reduce((x, y) => x + y, 0) / ex.length * 0.5 : theory) * 100);
+}
 function acadTask(id, res) { S.st[id] = S.st[id] || { done: 0, perfect: 0 }; taskDone(id, res, { academy: true }); }
 
 /* ================= хаб ================= */
-PH.academy = ['Выбирай предмет, {n}! Настоящему сыщику пригодится всё.', 'Знания — лучшие улики, {n}!'];
-PH.aquiz = PH.alesson = PH.subject = PH.asearch = ['Учимся вместе, {n}!'];
 ['alesson', 'aquiz', 'asearch'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
 SCREENS.academy = () => {
   const list = ACAD_ORDER.filter(subj);
@@ -31,7 +34,7 @@ SCREENS.subject = id => {
   const anyRead = s.units.some(u => a.read[u.id]);
   app.innerHTML = `${topbar(s.icon + ' ' + s.name, 'academy')}<div class="page subj" style="--c:${s.color}">
     <div class="subj-intro">${s.intro}</div>
-    <div class="row-btns">${due ? `<button class="btn pink" id="rev">🔁 Разбор ошибок (${due})</button>` : ''}${anyRead ? '<button class="btn" id="mix">🎲 Смешанная тренировка</button>' : ''}${s.search ? '<button class="btn" id="srch">🔎 Найти ответ</button>' : ''}${(s.extras || []).map(e => `<button class="btn" data-x="${e.id}">${e.icon} ${e.name}</button>`).join('')}</div>
+    <div class="row-btns">${due ? `<button class="btn pink" id="rev">🔁 Разбор ошибок (${due})</button>` : ''}${anyRead ? '<button class="btn" id="mix">🎲 Смешанная тренировка <small class="xbadge">🍬×2</small></button>' : ''}${s.search ? '<button class="btn" id="srch">🔎 Найти ответ</button>' : ''}${(s.extras || []).map(e => { let r = ''; try { r = e.badge ? e.badge() : ''; } catch (er) { } return `<button class="btn" data-x="${e.id}">${e.icon} ${e.name}${r ? ` <small class="xbadge">${r}</small>` : ''}</button>`; }).join('')}</div>
     <div class="units">${s.units.map((u, i) => { const st = a.best[u.id] || 0; return `<div class="unit ${a.read[u.id] ? 'read' : ''}"><span class="ui">${u.icon}</span><div class="ut"><b>${i + 1}. ${u.title}</b><small>${u.sub || ''}</small><span class="stars">${'★'.repeat(st)}${'☆'.repeat(3 - st)}</span></div><div class="ub"><button class="btn sm" data-l="${u.id}">📖 Учебник${a.read[u.id] ? ' ✔' : ''}</button>${u.quiz && u.quiz.length ? `<button class="btn sm pink" data-q="${u.id}">🎯 Тренажёр</button>` : ''}</div></div>`; }).join('')}</div></div>`;
   $$('[data-l]', app).forEach(b => b.addEventListener('click', () => { SND.tap(); go('alesson', id + ':' + b.dataset.l); }));
   $$('[data-q]', app).forEach(b => b.addEventListener('click', () => { SND.tap(); go('aquiz', id + ':' + b.dataset.q); }));
@@ -41,6 +44,19 @@ SCREENS.subject = id => {
   $$('[data-x]', app).forEach(b => b.addEventListener('click', () => { SND.tap(); const e = s.extras.find(x => x.id === b.dataset.x); e.run(); }));
   if (s.hello) setTimeout(() => curScreen === 'subject' && say(s.hello, 0, { prio: 0, silent: true }), 900);
 };
+
+/* озвучка карточек: заранее записанный голос (voice/a, tools/gen-acad-voice.js) — мгновенно и офлайн; иначе — сервер */
+let ACAD_VOICE = null, cardAudio = null;
+const cardText = c => (c.t + '. ' + c.h + (c.tip ? '. ' + c.tip : '')).replace(/<br\s*\/?>/gi, '. ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+function readCard(c) {
+  const t = cardText(c);
+  return (ACAD_VOICE || (ACAD_VOICE = fetch('voice/a/index.json').then(r => r.json()).then(a => new Set(a)).catch(() => new Set()))).then(set => {
+    const k = window.Lines.key(t);
+    if (!set.has(k) || !S.sound || S.voice === false) return speakRemote(t);
+    if (cardAudio) { cardAudio.pause(); cardAudio = null; } if (typeof stopRemote === 'function') stopRemote(); M.hush();
+    return new Promise(res => { const a = cardAudio = new Audio('voice/a/' + k + '.mp3'); a.onended = () => { Music.setDuck(false); res(true); }; a.onerror = () => { Music.setDuck(false); speakRemote(t).then(res); }; Music.setDuck(true); a.play().then(() => M.setBusy(a.duration || 8, 2)).catch(() => { Music.setDuck(false); speakRemote(t).then(res); }); cleanups.push(() => { a.pause(); Music.setDuck(false); }); });
+  });
+}
 
 /* ================= учебник: карточки ================= */
 SCREENS.alesson = arg => {
@@ -56,7 +72,7 @@ SCREENS.alesson = arg => {
     $('#prev').style.visibility = i ? 'visible' : 'hidden';
     $('#next').textContent = i < u.cards.length - 1 ? 'Дальше →' : (u.quiz && u.quiz.length ? '🎯 К тренажёру!' : '✔ Понятно!');
     const k = i; if (tm) tm.show(i, $('#slide').textContent);
-    $('#readit').addEventListener('click', () => { wakeAudio && wakeAudio(); speakRemote((c.t + '. ' + c.h + (c.tip ? '. ' + c.tip : '')).replace(/<[^>]+>/g, ' ')).then(ok => { if (ok && tm) tm.heard(k); }); catMood('happy', 800); });
+    $('#readit').addEventListener('click', () => { wakeAudio && wakeAudio(); readCard(c).then(ok => { if (ok && tm) tm.heard(k); }); catMood('happy', 800); });
   };
   $('#prev').addEventListener('click', () => { if (i > 0) { i--; SND.tap(); draw(); } });
   $('#next').addEventListener('click', () => {
@@ -74,8 +90,8 @@ SCREENS.aquiz = arg => {
   const [id, uid] = String(arg).split(':'), s = subj(id); if (!s) return go('academy');
   const a = acad(id); let items = [];
   if (uid === '*review') items = dueMistakes(id).map(q => findQ(id, q)).filter(Boolean);
-  else if (uid === '*mix') items = shuffle(s.units.filter(u => a.read[u.id] && u.quiz).flatMap(u => u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n })))).slice(0, 10);
-  else { const u = s.units.find(x => x.id === uid); if (!u) return go('subject', id); items = shuffle(u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n }))).slice(0, u.take || 8); }
+  else if (uid === '*mix') { const seen = a.seen = a.seen || {}; items = shuffle(s.units.filter(u => a.read[u.id] && u.quiz).flatMap(u => u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n })))).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0)).slice(0, 10); }
+  else { const u = s.units.find(x => x.id === uid); if (!u) return go('subject', id); const seen = a.seen = a.seen || {}; items = shuffle(u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n }))).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0)).slice(0, u.take || 8); } // сначала — вопросы, которые ребёнок видел реже всего: без повторов, пока не пройдены все
   if (!items.length) { toast('Пока нечего повторять — всё выучено! 🎉'); return go('subject', id); }
   const title = uid === '*review' ? '🔁 Разбор ошибок' : uid === '*mix' ? '🎲 Тренировка' : '🎯 ' + items[0].u.title;
   let k = 0, ok = 0;
@@ -83,8 +99,9 @@ SCREENS.aquiz = arg => {
   $('.back', app).dataset.go = 'subject'; $('.back', app).dataset.arg = id;
   const bub = h => { const b = $('#qbub'); b.innerHTML = h; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); };
   function done(right, why) {
+    { const sq = a.seen = a.seen || {}; sq[items[k].qid] = (sq[items[k].qid] || 0) + 1; }
     const it = items[k], dot = $$('.g-dots i')[k]; dot.className = right ? 'ok' : 'bad';
-    if (right) { ok++; $('#qsc').textContent = ok; SND.ok(); award(1, 3); if (a.box[it.qid]) { const nb = a.box[it.qid][0] + 1; if (nb >= BOX_DAYS.length) { delete a.box[it.qid]; window.Coach && Coach.cured(); } else a.box[it.qid] = [nb, today()]; } }
+    if (right) { ok++; $('#qsc').textContent = ok; SND.ok(); award(uid === '*mix' ? 2 : 1, uid === '*mix' ? 5 : 3); if (a.box[it.qid]) { const nb = a.box[it.qid][0] + 1; if (nb >= BOX_DAYS.length) { delete a.box[it.qid]; window.Coach && Coach.cured(); } else a.box[it.qid] = [nb, today()]; } }
     else { SND.bad(); a.box[it.qid] = [0, today()]; }
     save();
     bub(`${right ? '<div class="fb">✔ Верно!</div>' : '<div class="fb bad">Не совсем.</div>'}${why || ''}`);
@@ -100,8 +117,8 @@ SCREENS.aquiz = arg => {
   function finish() {
     const n = items.length, stars = ok === n ? 3 : ok >= n * 0.7 ? 2 : ok >= n * 0.4 ? 1 : 0;
     if (uid !== '*review' && uid !== '*mix') { a.best[uid] = Math.max(a.best[uid] || 0, stars); }
-    save(); acadTask(id, { mistakes: n - ok });
-    if (window.Coach && id !== 'teen') { if (uid !== '*review' && uid !== '*mix') Coach.track('a:' + id + ':' + uid, ok / n, { count: false }); Coach.track('a:' + id, ok / n); } if (ok === n && n >= 5) awardGems(1, 'за тренажёр без ошибок'); SND.win(); if (stars >= 2) confetti(30);
+    save(); acadTask(id, { mistakes: n - ok }); if (uid === '*mix' && ok >= n * 0.8) award(5, 10); // смешанная тренировка труднее — награда больше
+    if (window.Coach && id !== 'teen') { if (uid !== '*review' && uid !== '*mix') Coach.track('a:' + id + ':' + uid, ok / n); Coach.track('a:' + id, ok / n); } if (ok === n && n >= 5) awardGems(1, 'за тренажёр без ошибок'); SND.win(); if (stars >= 2) confetti(30);
     $('#qarea').innerHTML = `<div class="center g-result"><div class="big-emoji">${['🐾', '🥉', '🥈', '🏆'][stars]}</div><h2>${esc(S.kid)}, ${ok} из ${n}!</h2><div class="stars big">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>${n - ok ? `<p>Ошибки попали в <b>🔁 Разбор ошибок</b> — повторим их завтра, и они запомнятся навсегда.</p>` : '<p>Без единой ошибки!</p>'}<div class="row-btns"><button class="btn big pink" id="again">Ещё раз</button><button class="btn" id="tosubj">К предмету</button></div></div>`;
     $('#again').addEventListener('click', () => go('aquiz', arg)); $('#tosubj').addEventListener('click', () => go('subject', id));
     say(stars >= 2 ? pick(PH.done) : pick(PH.cheerBad));

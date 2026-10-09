@@ -941,3 +941,90 @@ svg.chibi .ch-vein { animation: vein .5s ease-in-out infinite alternate; transfo
 .fit-link { width: 100%; margin-bottom: 10px; }
 .st-cat.tilt svg { transform: rotate(-6deg); transform-origin: 50% 100%; }
 @media (max-width: 420px) { .fit-say { font-size: 13px; max-width: 56%; } .poses button { font-size: 13px; padding: 7px 8px; } }
+
+/* ================= v19: друзья, гости, тренажёр разговора, профили, игры Академии ================= */
+.t-friends .ti { background: #D8F5E6; } .tile { position: relative; }
+.tbadge { position: absolute; top: 8px; right: 8px; background: var(--red); color: #fff; font-weight: 900; font-size: 13px; min-width: 22px; height: 22px; border-radius: 11px; display: grid; place-items: center; padding: 0 6px; }
+.badge { background: var(--red); color: #fff; border-radius: 10px; padding: 1px 8px; font-size: 13px; }
+.fr-me .ccode { letter-spacing: 6px; }
+.fr-add { display: flex; gap: 8px; } .fr-add input { flex: 1; min-width: 0; text-transform: uppercase; letter-spacing: 3px; text-align: center; font-weight: 900; }
+.fr-req { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.fr-inbox { display: grid; gap: 6px; } .fr-msg { font-size: 15px; padding: 6px 8px; border-radius: 10px; } .fr-msg.new { background: #FFF4CC; }
+.fr-list { display: grid; gap: 10px; margin-bottom: 10px; }
+.fr-card { position: relative; display: grid; grid-template-columns: 64px 1fr auto; gap: 10px; align-items: center; background: #fff; border-radius: 18px; padding: 10px 34px 10px 10px; box-shadow: var(--sh); }
+.fr-cat svg { width: 100%; height: auto; display: block; } .fr-cat.sm { width: 56px; flex: 0 0 56px; }
+.fr-info { display: flex; flex-direction: column; min-width: 0; } .fr-info small { color: var(--muted); font-size: 13px; }
+.fr-x { position: absolute; top: 6px; right: 8px; color: var(--muted); font-size: 16px; padding: 4px; }
+.visit-head { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; } .visit-head div:last-child { display: flex; flex-direction: column; } .visit-head small { color: var(--muted); }
+.room.guest .fx { cursor: default; } .guest-cat svg.cat { transform: scaleX(-1); }
+.visit-act { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0 4px; } #vlike.on { background: #FFD0DC; }
+.fr-pick { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0; } .fr-phr { display: grid; gap: 6px; margin: 10px 0; }
+.fx.wiggle { animation: wiggle .5s; }
+/* профили */
+.profs { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin: 10px 0; }
+.prof { background: #fff; border-radius: 16px; box-shadow: var(--sh); padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; } .prof.on { outline: 3px solid var(--pink); }
+.prof .pc { width: 64px; height: 70px; display: grid; place-items: center; font-size: 34px; color: var(--muted); } .prof .pc svg { width: 100%; height: auto; }
+.prof b { overflow-wrap: anywhere; } .prof small { font-size: 12px; color: var(--muted); }
+.prof-back { margin: 0 auto 10px; display: block; } .set-row .arr { margin-left: auto; font-style: normal; font-size: 22px; color: var(--muted); }
+/* тренажёр разговора */
+.rp-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.rp-card { background: #fff; border-radius: 18px; box-shadow: var(--sh); padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; min-width: 0; }
+.rp-card .ri { font-size: 36px; } .rp-card small { color: var(--muted); font-size: 12px; } .rp-card .stars { color: var(--gold); }
+.rp-role { background: #FFF0F6; border-radius: 16px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; } .rp-role small { color: var(--muted); } .rp-role ul { margin: 4px 0 0; padding-left: 20px; }
+.rp-log { min-height: 220px; max-height: 46vh; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 6px 2px; margin-bottom: 8px; }
+.rp-log .msg { display: flex; gap: 6px; align-items: flex-end; } .rp-log .msg.me { justify-content: flex-end; }
+.rp-log .bub { background: #fff; border-radius: 16px; padding: 8px 12px; box-shadow: var(--sh); max-width: 78%; } .rp-log .msg.me .bub { background: var(--pink); color: #fff; }
+.rp-av { font-size: 26px; } .btn.pulse { animation: glow 1s infinite; }
+/* игры Академии */
+.orbit { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px; padding: 10px 4px; background: radial-gradient(circle at 0 50%, #FFE79A 0 40px, transparent 41px), linear-gradient(90deg, #1E1650, #2E2378); border-radius: 20px; min-height: 96px; }
+.orbit .sun { font-size: 44px; flex: 0 0 auto; } .slot { flex: 0 0 auto; width: 54px; min-height: 72px; border: 2px dashed rgba(255,255,255,.35); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; }
+.slot.fill { border-style: solid; border-color: rgba(255,255,255,.6); animation: bpop .3s; } .slot small, .pl small { font-size: 10px; font-weight: 800; } .slot svg { max-width: 50px; height: auto; }
+.pl-pool { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 12px 0; }
+.pl { background: #fff; border-radius: 14px; box-shadow: var(--sh); padding: 6px 8px; display: flex; flex-direction: column; align-items: center; min-width: 70px; } .pl.used { opacity: .25; } .pl svg { max-width: 80px; height: auto; }
+.pl-opt { display: flex; align-items: center; gap: 6px; justify-content: center; font-size: 16px; } .pl-opt svg { max-height: 30px; width: auto; }
+.walk-map { position: relative; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(#D9F5E4, #C3EBD3); border-radius: 20px; padding: 46px 10px 12px; margin-bottom: 10px; }
+.ws { font-size: 24px; background: #fff; border-radius: 50%; width: 40px; height: 40px; display: grid; place-items: center; box-shadow: var(--sh); flex: 0 0 auto; } .ws.now { outline: 3px solid var(--gold); } .ws.ok { background: #C9F2DE; } .ws.no { background: #FFD0D0; }
+.wl { flex: 1; height: 4px; background: repeating-linear-gradient(90deg, #fff 0 8px, transparent 8px 14px); margin: 0 2px; }
+.walk-cat { position: absolute; top: 2px; left: 30px; width: 44px; transform: translateX(-50%); transition: left .6s ease; } .walk-cat svg { width: 100%; height: auto; }
+.center-pill { display: block; width: max-content; margin: 0 auto 8px; }
+.fake-card { background: #fff; border-radius: 20px; box-shadow: var(--sh2); padding: 16px; margin: 10px 0; } .fake-text { font-size: 21px; font-weight: 800; line-height: 1.35; text-align: center; }
+.fake-timer { height: 8px; background: var(--line); border-radius: 6px; overflow: hidden; margin-bottom: 12px; } .fake-timer i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--red), var(--gold), var(--mint)); transition: width .1s linear; }
+@media (max-width: 420px) { .fr-card { grid-template-columns: 52px 1fr; } .fr-card .btn { grid-column: 1 / -1; } .ws { width: 32px; height: 32px; font-size: 18px; } .walk-cat { width: 36px; } .fake-text { font-size: 18px; } }
+
+/* ================= v19: заработать, коллекция, легенда ================= */
+.earn-head { text-align: center; margin-bottom: 10px; } .earn-head h2 { margin: 4px 0; }
+.earn-list { display: grid; gap: 10px; }
+.earn-row { display: grid; grid-template-columns: 40px 1fr auto; gap: 10px; align-items: center; background: #fff; border-radius: 18px; padding: 12px; box-shadow: var(--sh); }
+.earn-row .ei { font-size: 28px; text-align: center; } .earn-row .eb { display: flex; flex-direction: column; gap: 3px; min-width: 0; } .earn-row .eb small { color: var(--muted); font-size: 13px; }
+.earn-row .bar { display: block; height: 8px; background: var(--line); border-radius: 6px; overflow: hidden; } .earn-row .bar i { display: block; height: 100%; background: var(--mint); }
+.edone { font-size: 22px; color: #1E9E62; font-weight: 900; }
+.collect { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; background: #fff; border-radius: 16px; padding: 8px 10px; box-shadow: var(--sh); margin-bottom: 8px; font-size: 15px; }
+.item.legend { background: linear-gradient(135deg, #FFF6D6, #F3E8FF); border: 2px solid #FFD34D; }
+.earn-room { margin-top: 8px; }
+.lbl { display: block; font-weight: 800; margin: 8px 0 4px; }
+@media (max-width: 420px) { .earn-row { grid-template-columns: 34px 1fr; } .earn-row .btn, .earn-row .edone { grid-column: 2; justify-self: start; } }
+/* дипломы */
+.t-diploma .ti { background: #FFF0C2; }
+.dp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 10px 0 16px; }
+.dp { background: linear-gradient(160deg, #FFF9EC, #FFEFD9); border: 3px solid #E8B23A; border-radius: 16px; padding: 12px 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; box-shadow: var(--sh); min-width: 0; }
+.dp .dpi { font-size: 34px; } .dp b { font-size: 14px; line-height: 1.2; overflow-wrap: anywhere; } .dp small { color: var(--muted); font-size: 12px; }
+.dp-next { display: grid; gap: 8px; } .dp-n { display: flex; gap: 10px; align-items: center; background: #fff; border-radius: 14px; padding: 8px 12px; box-shadow: var(--sh); opacity: .8; } .dp-n span { font-size: 26px; filter: grayscale(.6); } .dp-n div { display: flex; flex-direction: column; } .dp-n small { color: var(--muted); }
+.xbadge { display: block; font-size: 11px; color: var(--muted); font-weight: 700; }
+/* деление и сложение столбиком */
+.col-page .ops button { font-size: 20px; padding: 6px 14px; }
+.divbox { display: flex; justify-content: center; gap: 0; margin: 10px auto; background: #fff; border-radius: 18px; padding: 14px 16px; box-shadow: var(--sh); width: max-content; max-width: 100%; overflow-x: auto; }
+.dgrid { display: grid; grid-template-columns: repeat(var(--n), 34px); grid-auto-rows: 38px; padding-right: 8px; }
+.dc { position: relative; display: grid; place-items: center; font-size: 26px; font-weight: 800; color: var(--ink); } .dc.cur { color: var(--pink-d); background: #FFF0F6; border-radius: 6px; }
+.dc.ul { border-bottom: 3px solid var(--ink); } .dc.rem { color: #1E9E62; } .dc .mn { position: absolute; left: -16px; font-style: normal; font-size: 22px; color: var(--muted); }
+.dright { border-left: 3px solid var(--ink); display: flex; flex-direction: column; min-width: 90px; } .dvs { height: 38px; display: grid; place-items: center start; padding-left: 10px; font-size: 26px; font-weight: 800; border-bottom: 3px solid var(--ink); } .dq { padding: 4px 10px; font-size: 26px; font-weight: 900; color: var(--pink-d); letter-spacing: 6px; }
+.agrid { display: grid; grid-template-columns: repeat(var(--w), 36px); grid-auto-rows: 40px; justify-content: center; }
+.ac { display: grid; place-items: center; font-size: 26px; font-weight: 800; } .ac.carry { font-size: 15px; color: var(--pink-d); align-self: end; } .ac.ul { border-bottom: 3px solid var(--ink); } .ac.hl { background: #FFF6D6; } .ac.res { color: #1E9E62; } .ac.now { background: #FFF0F6; border-radius: 6px; }
+.school-card.div .sc-ic, .school-card.add .sc-ic, .school-card.m4 .sc-ic { font-size: 40px; }
+@media (max-width: 420px) { .dgrid { grid-template-columns: repeat(var(--n), 26px); grid-auto-rows: 32px; } .dc, .dvs, .dq, .ac { font-size: 21px; } .agrid { grid-template-columns: repeat(var(--w), 28px); } .dright { min-width: 70px; } }
+
+/* практики ЗОЖ */
+.prac-ring { position: relative; width: 240px; height: 240px; margin: 14px auto; transition: transform 4s ease-in-out; }
+.prac-ring.in { transform: scale(1.12); } .prac-ring.out { transform: scale(.9); }
+.prac-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); } .pr-bg { fill: none; stroke: var(--line); stroke-width: 6; } .pr-fg { fill: none; stroke: var(--mint); stroke-width: 6; stroke-linecap: round; }
+.prac-cat { position: absolute; inset: 22%; } .prac-cat svg { width: 100%; height: auto; position: static; transform: none; }
+.prac-text { text-align: center; font-size: 22px; font-weight: 800; min-height: 70px; padding: 0 10px; }

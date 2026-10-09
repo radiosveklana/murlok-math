@@ -31,6 +31,7 @@ def gen_cf(prompt, out, w, h, seed):
                 im = Image.open(f); W, H = im.size; nh = int(W * h / w); top = max(0, (H - nh) // 2); im.crop((0, top, W, top + nh)).save(f)
             return str(f)
         except Exception as e:
+            if '429' in str(e) and a >= 1: print('QUOTA: дневной лимит Cloudflare исчерпан — запустите после 03:00 МСК'); sys.exit(2)
             print('retry cf', pathlib.Path(out).name, str(e)[:200]); time.sleep(8 * (a + 1))
     return None
 

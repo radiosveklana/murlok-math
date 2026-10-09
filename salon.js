@@ -39,7 +39,7 @@ const Salon = (() => {
       if (!p.ok) { SND.tap(); toast(`<span class="tb">🔒</span><div><b>${x.name}</b><br>${x.cond}. Сейчас: ${p.a} из ${p.b}.</div>`); return; }
       if ((S.gems || 0) < x.gems) { SND.bad(); toast(`<span class="tb">💎</span><div>Окрас открыт! Нужно <b>${x.gems} 💎</b>, у тебя ${S.gems || 0}.<br>Кристаллы — за сложные задачи и задания котика.</div>`); return; }
       const m = modal(`<div class="m-cat">${catSVG({ fur: x.id, wear: S.wear, happy: true })}</div><h2>${x.name}</h2><p>Купить окрас за <b>${x.gems} 💎</b>?</p><div class="row-btns"><button class="btn pink" id="buysh">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`);
-      $('#buysh', m.el).addEventListener('click', () => { S.gems -= x.gems; own.push(x.id); S.fur = x.id; save(); updCandy(); m.close(); confetti(40); M.sfx('magic'); SND.win(); say('Новый окрас! Я теперь самый модный котик, {n}!', 0, { prio: 1 }); redraw(); });
+      $('#buysh', m.el).addEventListener('click', () => { S.gems -= x.gems; own.push(x.id); S.fur = x.id; save(); updCandy(); m.close(); confetti(40); M.sfx('magic'); SND.win(); say(PH.salonNew[0], 0, { prio: 1 }); redraw(); });
     }));
   }
   return { html, bind, list: SH, prog };

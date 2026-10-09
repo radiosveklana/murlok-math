@@ -120,5 +120,5 @@ const ITEMS = [
   { id: 'cake', slot: 'hand', name: 'Тортик', icon: '🎂', price: 60 },
 ];
 const SLOTS = { head: 'На голову', face: 'На мордочку', neck: 'На шею', hand: 'В лапку' };
-root.Cat = { FURS, catSVG, ITEMS, SLOTS };
+root.Cat = { FURS, catSVG, ITEMS, SLOTS, ACC, HAND };
 })(this);

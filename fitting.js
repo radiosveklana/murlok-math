@@ -42,7 +42,7 @@ const Fitting = (() => {
     $('#fsave').addEventListener('click', () => {
       const t = tried(); if (t.length) { toast(`<span class="tb">🛍️</span><div>Сначала купи: <b>${t.map(x => x.name).join(', ')}</b> — или сними эти вещи.</div>`); SND.bad(); return; }
       if (!furOwned(fur)) { toast('Этот окрас ещё не открыт — загляни в «Салон окрасов» ✨'); return; }
-      S.wear = { ...look }; S.fur = fur; save(); SND.win(); confetti(25); bubble('Образ готов! Я неотразим, {n}!');
+      S.wear = { ...look }; S.fur = fur; save(); SND.win(); confetti(25); bubble(PH.lookSaved[0]); speakT(PH.lookSaved[0]);
     });
     $('#fphoto').addEventListener('click', () => {
       const w = { ...look }; let stripped = false; Object.keys(w).forEach(k => { if (w[k] && !owned(w[k])) { w[k] = S.wear[k]; stripped = true; } });
@@ -84,7 +84,6 @@ const Fitting = (() => {
   };
   { const sh = SCREENS.shop; SCREENS.shop = arg => { sh(arg); const pg = $('.page.shop', app); if (pg) pg.insertAdjacentHTML('beforebegin', '<div class="page fit-wrap"><button class="btn mint fit-link" data-go="fitting">👗 В примерочную — примерить всё перед зеркалом</button></div>'); }; }
   if (!NO_FLOAT.includes('fitting')) NO_FLOAT.push('fitting');
-  PH.fitting = ['Примерим что-нибудь модное, {n}?', 'Посмотри, какой я в зеркале!'];
   return { POSES, poseOf };
 })();
 window.Fitting = Fitting;

@@ -27,7 +27,7 @@ const Photo = (() => {
     app.innerHTML = `${topbar('📸 Фотостудия')}<div class="page photo">
       <div class="stage" id="stage"><div class="st-cat" id="stc"></div><div class="st-badge" id="stb"></div><div class="st-cap" id="stcap"></div></div>
       <div class="ph-row"><b>Фон:</b><div class="ph-bgs" id="bgs">${bgs().map(([b, n]) => `<button class="ph-bg ${b === st.bg ? 'on' : ''}" data-b="${b}" title="${n}" style="background:${bgCSS(b)}"></button>`).join('')}</div></div>
-      <div class="ph-row"><b>Стикеры:</b><div class="ph-st">${STICK.map(e => `<button class="ph-s" data-e="${e}">${e}</button>`).join('')}<button class="ph-s" id="stclr" title="Убрать стикеры">🧽</button></div></div>
+      <div class="ph-row"><b>Стикеры:</b> <small class="small">нажми на стикер на фото — он исчезнет, веди пальцем — переедет</small><div class="ph-st">${STICK.map(e => `<button class="ph-s" data-e="${e}">${e}</button>`).join('')}<button class="ph-s" id="stclr" title="Убрать стикеры">🧽</button></div></div>
       <div class="ph-row seg-wrap"><div class="seg poses" id="mood">${(window.Fitting ? Fitting.POSES : []).map(p => `<button data-v="${p.id}" class="${p.id === st.pose ? 'on' : ''}">${p.name}</button>`).join('')}</div>
         <div class="seg" id="badge">${[['rank', '🎖️ Звание'], ['cases', '🔍 Дела'], ['talent', '⭐ Талант'], ['', 'Без плашки']].map(([v, n]) => `<button data-v="${v}" class="${st.badge === v ? 'on' : ''}">${n}</button>`).join('')}</div>
         <label class="tgl"><input type="checkbox" id="phname" ${st.name ? 'checked' : ''}> Моё имя на фото</label></div>
@@ -51,10 +51,10 @@ const Photo = (() => {
     st.stickers.forEach((k, i) => {
       const el = document.createElement('span'); el.className = 'st-stk'; el.textContent = k.e; el.style.left = k.x + '%'; el.style.top = k.y + '%'; stg.appendChild(el);
       el.addEventListener('pointerdown', e => { // перетаскивание пальцем; короткое касание — удалить
-        e.preventDefault(); const R = stg.getBoundingClientRect(), t0 = Date.now(); let moved = false; el.setPointerCapture(e.pointerId);
-        const mv = ev => { moved = true; k.x = Math.max(0, Math.min(92, (ev.clientX - R.left) / R.width * 100 - 4)); k.y = Math.max(0, Math.min(90, (ev.clientY - R.top) / R.height * 100 - 4)); el.style.left = k.x + '%'; el.style.top = k.y + '%'; };
-        const up = () => { el.removeEventListener('pointermove', mv); el.removeEventListener('pointerup', up); if (!moved && Date.now() - t0 < 300) { st.stickers.splice(i, 1); draw(); } };
-        el.addEventListener('pointermove', mv); el.addEventListener('pointerup', up);
+        e.preventDefault(); const R = stg.getBoundingClientRect(), t0 = Date.now(), x0 = e.clientX, y0 = e.clientY; let moved = false; try { el.setPointerCapture(e.pointerId); } catch (er) { }
+        const mv = ev => { if (!moved && Math.hypot(ev.clientX - x0, ev.clientY - y0) < 10) return; moved = true; k.x = Math.max(0, Math.min(92, (ev.clientX - R.left) / R.width * 100 - 4)); k.y = Math.max(0, Math.min(90, (ev.clientY - R.top) / R.height * 100 - 4)); el.style.left = k.x + '%'; el.style.top = k.y + '%'; };
+        const up = () => { el.removeEventListener('pointermove', mv); el.removeEventListener('pointerup', up); if (!moved && Date.now() - t0 < 600) { st.stickers.splice(i, 1); SND.tap(); draw(); } };
+        el.addEventListener('pointermove', mv); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
       });
     });
   }
@@ -127,7 +127,6 @@ const Photo = (() => {
   wrap('house', () => { const r = $('#room'), m = r && getComputedStyle(r).backgroundImage.match(/img\/rooms\/(\w+)\.jpg/); return m ? 'img/rooms/' + m[1] + '.jpg' : ''; });
   wrap('shop', () => 'g:candy');
   if (!NO_FLOAT.includes('photo')) NO_FLOAT.push('photo');
-  PH.photo = ['Улыбочку! Сделаем самое милое фото, {n}!'];
-  return { render, state: st, list };
+  return { render, state: st, list, view, saveIt, shareIt };
 })();
 window.Photo = Photo;
