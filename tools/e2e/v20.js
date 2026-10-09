@@ -25,11 +25,11 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V20 OK ' : 'V20 FAIL ')
   }, wrong);
 
   /* ---------- математика 4 класса ---------- */
-  await go('school'); ok('school: 4th grade card', !!(await p.$('#m4go')));
-  await click('#m4go'); ok('math4 subject: 18 topics', (await p.$$('.unit')).length === 18);
+  await go('school'); ok('school: 4th grade section', !!(await p.$('.school-head')));
+  await go('subject', 'math4'); ok('math4 subject: 18 topics', (await p.$$('.unit')).length === 18);
   ok('math4 back goes to school', await E(() => document.querySelector('.back').dataset.go === 'school'));
   await go('aquiz', 'math4:remainder'); ok('level selector', (await p.$$('.genlv button')).length === 3);
-  const qs = []; for (let k = 0; k < 12; k++) { if (!(await p.$('#qarea .q-unit'))) break; qs.push(await E(() => JSON.stringify(window.__aq).slice(0, 80))); await answer(k === 0); await sleep(200); await click('#qn'); }
+  const qs = []; let wrongDone = false; for (let k = 0; k < 12; k++) { if (!(await p.$('#qarea .q-unit'))) break; qs.push(await E(() => JSON.stringify(window.__aq).slice(0, 80))); const g = await E(() => window.__aqGen); const w = g && !wrongDone; if (w) wrongDone = true; await answer(w); await sleep(200); await click('#qn'); } // ошибаемся ровно на одном сгенерированном вопросе
   ok('generated quiz finished', !!(await p.$('.g-result')), 'answered ' + qs.length);
   ok('generated questions vary', new Set(qs).size >= qs.length - 1);
   ok('generated mistake stored for review', await E(() => { const a = S.acad.math4; return Object.keys(a.gq || {}).length === 1 && Object.keys(a.box).some(k => a.gq[k]); }));

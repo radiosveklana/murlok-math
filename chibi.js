@@ -32,6 +32,7 @@ const SP = {
   'Попугай Кеша': { c: '#4CC27E', l: '#FFF6C8', eye: '#3B2A4A', ears: 'none', parrot: 1 },
   'Крокодильчик Тото': { c: '#5FB45A', l: '#DFF5C8', eye: '#C49A00', ears: 'none', croc: 1 },
 };
+Object.entries((root.CASES_EXTRA || {}).sp || {}).forEach(([k, v]) => { if (!SP[k]) SP[k] = v; }); // + новые персонажи
 let uid = 0;
 function ears(s) {
   const c = s.c, e = s.earC || c, o = `stroke="${L}" stroke-width="2.4"`, pink = '#FFB3C7';

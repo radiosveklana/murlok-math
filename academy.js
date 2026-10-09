@@ -3,7 +3,7 @@
    Математика этим файлом не затрагивается. */
 'use strict';
 window.SUBJECTS = window.SUBJECTS || {};
-const ACAD_ORDER = ['world', 'space', 'body', 'health', 'safety', 'talk', 'think', 'creative', 'read', 'teen'];
+const ACAD_ORDER = ['world', 'space', 'body', 'health', 'stories', 'safety', 'obzh', 'talk', 'think', 'creative', 'read', 'teen'];
 const BOX_DAYS = [0, 1, 3, 7];
 const acad = id => { S.acad = S.acad || {}; const a = S.acad[id] = S.acad[id] || {}; a.read = a.read || {}; a.best = a.best || {}; a.box = a.box || {}; return a; };
 function mergeExtra() { if (mergeExtra.done) return; mergeExtra.done = true; Object.entries(window.QUIZ_EXTRA || {}).forEach(([sid, units]) => { const sb = window.SUBJECTS[sid]; if (!sb) return; Object.entries(units).forEach(([uid, qs]) => { const u = sb.units.find(x => x.id === uid); if (u && Array.isArray(qs)) u.quiz.push(...qs); }); }); }
@@ -113,7 +113,7 @@ SCREENS.aquiz = arg => {
     $('#qn').addEventListener('click', () => { $('#qafter').innerHTML = ''; k++; k < items.length ? show() : finish(); });
   }
   function show() {
-    const it = items[k], q = it.q, area = $('#qarea'); window.__aq = q;
+    const it = items[k], q = it.q, area = $('#qarea'); window.__aq = q; window.__aqGen = !!it.gen;
     bub(q.hint || pick(['Подумай как сыщик 🔍', 'Не спеши — прочитай внимательно!', 'Ты справишься, {n}!'.replace('{n}', esc(S.kid || 'сыщик'))]));
     area.innerHTML = `<div class="q-unit">${it.u.icon} ${it.u.title}</div>` + (ACAD_Q[q.type] || ACAD_Q.one).render(q);
     (ACAD_Q[q.type] || ACAD_Q.one).bind(area, q, done);

@@ -1070,3 +1070,7 @@ html, body { overflow-x: hidden; } /* страховка: случайный в�
 .slide-nav .dots { min-width: 0; overflow: hidden; } .slide-nav .dots i { margin: 0; animation: none; flex-shrink: 1; min-width: 6px; }
 .slide-nav .btn { flex-shrink: 0; } @media (max-width: 360px) { .slide-nav { gap: 6px; } .slide-nav .btn { padding-left: 12px; padding-right: 12px; } }
 #bq .opts { grid-template-columns: 1fr; } .opts .opt { min-width: 0; overflow-wrap: anywhere; }
+.news-sheet .news-list { max-height: 55vh; overflow-y: auto; text-align: left; } .news-list li { margin-bottom: 6px; }
+/* раздел для взрослых: таблицы на узком экране */
+.parents .tbl { table-layout: fixed; width: 100%; } .parents .tbl td, .parents .tbl th { overflow-wrap: anywhere; word-break: break-word; }
+@media (max-width: 420px) { .parents .tbl td { font-size: 13px; padding: 6px 4px; } .pbar { width: 54px; } }

@@ -219,6 +219,6 @@ const Column = (() => {
   }; }
   const sv = solvedTotal; solvedTotal = function () { return sv() + ((S.st.div || {}).done || 0) + ((S.st.add || {}).done || 0); }; // деление и сложение тоже открывают комнаты
   ['colwork', 'collesson'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
-  return { divPlan, addPlan, genDiv, genAdd };
+  return { divPlan, addPlan, genDiv, genAdd, runDiv, runAdd };
 })();
 window.Column = Column;

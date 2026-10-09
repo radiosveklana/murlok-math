@@ -26,7 +26,7 @@ const errors = []; const misses = new Set();
   await shot('01-hello');
   await p.type('#kid', 'Василиса'); await p.type('#nm', 'Мурзик'); await click('.fur[data-f="calico"]'); await click('#start'); await sleep(600);
   await shot('02-welcome'); await click('.modal [data-close]'); await shot('03-home');
-  await click('#cfg'); await sleep(300); await click('#mus'); await sleep(400); await shot('03b-music'); await click('.mcard[data-m="mystic"]'); await sleep(1500);
+  await sleep(2500); await dismiss(); await click('#cfg'); await sleep(300); await click('#mus'); // ждём очередь окон на главной (подарок за вход), чтобы не закрыть настройки await sleep(400); await shot('03b-music'); await click('.mcard[data-m="mystic"]'); await sleep(1500);
   console.log('music-on:', await p.evaluate(() => document.body.classList.contains('music-on')), await p.$eval('#nowp', e => e.innerText));
   await click('.mcard[data-m="focus"]'); await sleep(800); await click('#mnext'); await sleep(800); await shot('03c-music2'); await click('.modal [data-close]');
   await click('.hero-cat'); await sleep(300);
@@ -113,7 +113,7 @@ const errors = []; const misses = new Set();
   await p.evaluate(() => { S.candies = 200; save(); }); await click('.back'); await click('[data-go="shop"]');
   for (const id of ['crown', 'glasses', 'scarf']) { await click(`.item[data-id="${id}"]`); await click('#buy'); await sleep(300); }
   await shot('31-shop-bought');
-  await click('.back'); await click('[data-go="book"]'); await shot('32-book'); await click('.tabs [data-t="table"]'); await shot('33-table'); await click('.tabs [data-t="awards"]'); await shot('34-awards');
+  await click('.back'); await click('[data-go="diplomas"]'); await click('[data-go="book"]'); await shot('32-book'); await click('.tabs [data-t="table"]'); await shot('33-table'); await click('.tabs [data-t="awards"]'); await shot('34-awards');
   await click('.back'); await click('[data-go="parents"]'); await shot('35-parents');
   await p.screenshot({ path: __dirname + `/shots/${tag}-36-parents-full.png`, fullPage: true });
   await click('.back'); await click('[data-go="house"]'); await sleep(600); await dismiss(); if (await p.$('.modal [data-close]')) await click('.modal [data-close]'); await shot('37-house');

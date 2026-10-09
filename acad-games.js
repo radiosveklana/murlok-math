@@ -186,6 +186,28 @@ const AcadGames = (() => {
     $('#pnext').addEventListener('click', () => { clearTimeout(tid); paused = false; $('#ppause').textContent = '⏸ Пауза'; stepGo(); });
   };
 
+  /* ================= ⛑️ Скорая помощь котика (ОБЖ) ================= */
+  SCREENS.rescue = () => {
+    const G = ((window.SUBJECTS || {}).obzh || {}).game || []; if (!G.length) return go('subject', 'obzh');
+    const seenR = (S.agSeen = S.agSeen || {}).rescue = S.agSeen.rescue || {}, qs = shuffle(G).sort((x, y) => (seenR[x.s] || 0) - (seenR[y.s] || 0)).slice(0, 5); qs.forEach(q => { seenR[q.s] = (seenR[q.s] || 0) + 1; }); save();
+    let k = 0, ok = 0;
+    app.innerHTML = `${topbar('⛑️ Скорая помощь котика', 'subject')}<div class="page"><div class="g-dots">${qs.map(() => '<i></i>').join('')}</div><p class="center small">Нажимай правильные шаги <b>по порядку</b>. Осторожно: среди них есть ошибки!</p><div id="rq"></div></div>`; back('obzh');
+    const ask = () => {
+      const q = qs[k], opts = shuffle(q.steps.map((t, i) => ({ t, i })).concat(q.wrong.map(t => ({ t, i: -1 })))); let next = 0, miss = 0;
+      $('#rq').innerHTML = `<div class="q-case">🚑 ${q.s}</div><div class="ord-ans" id="rdone"><span class="small">Шаги помощи появятся здесь 👇</span></div><div class="rs-opts">${opts.map((o, n) => `<button class="opt case-opt" data-n="${n}">${o.t}</button>`).join('')}</div><div id="rwhy"></div>`;
+      $$('#rq .rs-opts .opt').forEach(b => b.addEventListener('click', () => {
+        if (b.disabled) return; const o = opts[+b.dataset.n];
+        if (o.i === next) { b.disabled = true; b.classList.add('right'); SND.ok(); if (!next) $('#rdone').innerHTML = ''; $('#rdone').insertAdjacentHTML('beforeend', `<span class="ord-in ok">${next + 1}. ${o.t}</span>`); next++; if (next === q.steps.length) done(miss === 0); }
+        else { miss++; SND.bad(); b.classList.add('wrong'); setTimeout(() => b.classList.remove('wrong'), 600); toast(o.i < 0 ? '❌ Так делать нельзя!' : 'Этот шаг — позже. Что нужно сделать сначала?'); }
+      }));
+      const done = clean => { $$('#rq .rs-opts .opt').forEach(x => { x.disabled = true; }); $$('.g-dots i')[k].className = clean ? 'ok' : 'bad'; if (clean) ok++;
+        $('#rwhy').innerHTML = `<div class="${clean ? 'fb' : 'fb bad'}">${clean ? '✔ Ты всё сделал(а) правильно!' : 'Справились, но были ошибки.'}</div><p>${q.why}</p><p class="small">❌ Ошибки: ${q.wrong.join('; ')}</p><button class="btn big pink" id="rn">${k + 1 < qs.length ? 'Дальше →' : 'Итоги 🏆'}</button>`;
+        $('#rn').addEventListener('click', () => { k++; k < qs.length ? ask() : (best('rescue', ok, qs.length), done2()); }); };
+    };
+    const done2 = () => { done('obzh', ok, qs.length, true); result($('#rq'), ok, qs.length, 'rescue', 'obzh', '<p class="small">Главное правило: <b>сначала безопасность — позови взрослого — звони 112</b>.</p>'); };
+    ask();
+  };
+
   const add = (id, x) => { const s = (window.SUBJECTS || {})[id]; if (s) s.extras = [...(s.extras || []).filter(e => e.id !== x.id), x]; };
   add('space', { id: 'solar', icon: '🪐', name: 'Собери Солнечную систему', run: () => go('solar'), badge: gbadge('solar'), prog: () => gb('solar') || 0 });
   add('safety', { id: 'citywalk', icon: '🚶', name: 'Прогулка по городу', run: () => go('citywalk'), badge: gbadge('citywalk'), prog: () => gb('citywalk') || 0 });
@@ -193,7 +215,8 @@ const AcadGames = (() => {
   add('world', { id: 'helpharm', icon: '💚', name: 'Помоги или навреди?', run: () => go('helpharm'), badge: gbadge('helpharm'), prog: () => gb('helpharm') || 0 });
   add('body', { id: 'bodybuild', icon: '🧩', name: 'Собери тело', run: () => go('bodybuild'), badge: gbadge('bodybuild'), prog: () => gb('bodybuild') || 0 });
   add('health', { id: 'practice2', icon: '🧘', name: 'Практики с таймером', run: () => go('practice2'), badge: () => { const n = Object.keys(S.practices || {}).length; return n ? 'освоено: ' + n : ''; }, prog: () => gb('practices') || 0 });
-  ['solar', 'citywalk', 'fakenews', 'helpharm', 'bodybuild', 'practice2'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
+  add('obzh', { id: 'rescue', icon: '🚑', name: 'Скорая помощь котика', run: () => go('rescue'), badge: gbadge('rescue'), prog: () => gb('rescue') || 0 });
+  ['solar', 'citywalk', 'fakenews', 'helpharm', 'bodybuild', 'practice2', 'rescue'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
   return { PLANETS, get WALK() { return WALK.concat(window.EXTRA_WALK || []); }, CLAIMS };
 })();
 window.AcadGames = AcadGames;

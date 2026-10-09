@@ -3,6 +3,7 @@
    любая фраза, которую говорит котик, должна быть здесь, иначе для неё нет аудио. */
 (function (root) {
 'use strict';
+if (typeof module !== 'undefined' && typeof global !== 'undefined' && !global.CASES_EXTRA) { try { require('./content/extra/cases-extra.js'); } catch (e) { } } // до engine.js — чтобы озвучились новые дела и персонажи
 const E = root.Engine || (typeof require !== 'undefined' ? require('./engine.js') : null);
 
 /* ---------- нормализация и ключи аудиофайлов ---------- */
@@ -231,6 +232,8 @@ const ROOM_LINES = ROOMS.flatMap(r => [`${r.name}!`, ...r.fixed.map(i => i[6])])
 
 /* ---------- подозреваемые-персонажи: характер, голос, фразы ---------- */
 // голос: m|f, сдвиг тона (Гц), скорость (%), «мультяшность» тембра (×100)
+if (typeof module !== 'undefined' && typeof global !== 'undefined' && !global.CASES_EXTRA) { try { require('./content/extra/cases-extra.js'); } catch (e) { } } // озвучка новых персонажей (tools/gen-voice.js)
+const CXL = (typeof window !== 'undefined' && window.CASES_EXTRA) || (typeof global !== 'undefined' && global.CASES_EXTRA) || {};
 const PERSONA = {
   'Енот Тимоша': { g: 'm', v: 'm_5_10_106', who: 'хитрый енот-фокусник', quirk: 'Я фокусник! Сладости исчезают сами — я тут ни при чём!' },
   'Лиса Алиса': { g: 'f', v: 'f_-5_-5_100', who: 'модная лисичка', quirk: 'Я весь день выбирала новый шарфик. Мне некогда воровать!' },
@@ -259,11 +262,14 @@ const PERSONA = {
   'Попугай Кеша': { g: 'm', v: 'm_30_20_118', who: 'болтливый попугай', quirk: 'Кеша не брал! Кеша хороший! Кеша умный!' },
   'Крокодильчик Тото': { g: 'm', v: 'm_-20_-5_92', who: 'улыбчивый крокодильчик', quirk: 'Я только улыбаюсь, а не кусаюсь. И не ворую!' },
 };
+Object.entries(CXL.persona || {}).forEach(([k, v]) => { if (!PERSONA[k]) PERSONA[k] = v; });
+const QUIRKS = CXL.quirks || {};
+
 function personaLines(name) {
   const P = PERSONA[name]; if (!P) return null; const f = P.g === 'f', V = '@v:' + P.v + ' ';
   return {
     hi: V + `Я ${name}, ${P.who}. Я тут ни при чём!`,
-    quirk: V + P.quirk,
+    quirk: V + (Math.random() < 0.5 || !(QUIRKS[name] || []).length ? P.quirk : QUIRKS[name][Math.floor(Math.random() * QUIRKS[name].length)]), // реплики не повторяются одна и та же
     nervous: V + (f ? 'Э-э… Я просто мимо проходила!' : 'Э-э… Я просто мимо проходил!'),
     free: V + 'Фух! Спасибо, что во всём разобрались!',
     alibi: V + 'Пфф! Это не я! У меня алиби!',
@@ -284,6 +290,7 @@ function allTexts() {
   const out = new Set();
   const add = tpl => parts(tpl).forEach(p => { if (p.text) out.add((p.voice === 'cat' ? '' : p.voice === 'sus' ? '@s ' : '@v:' + p.voice + ' ') + p.text); });
   Object.keys(PERSONA).forEach(n => Object.values(personaLines(n)).forEach(add));
+  Object.keys(PERSONA).forEach(n => { const V = '@v:' + PERSONA[n].v + ' '; add(V + PERSONA[n].quirk); (QUIRKS[n] || []).forEach(q => add(V + q)); });
   Object.values(PH).flat().forEach(add);
   ROOM_LINES.forEach(add);
   if (E) {
