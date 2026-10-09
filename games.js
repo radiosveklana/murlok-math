@@ -56,7 +56,7 @@ function mountCaseInterro(el, { eqMode, witnesses, onDone }) {
 
 SCREENS.games = () => {
   const B = gBest();
-  app.innerHTML = `${topbar('Детективные игры')}<div class="page"><p class="center">Мини-игры для настоящих сыщиков: каждая прокачивает свой навык. За победы — конфеты 🍬, а за весы и допрос засчитываются уравнения 📦</p>
+  app.innerHTML = `${topbar('Детективные игры')}<div class="page games-page"><p class="center small">За победы — конфеты 🍬, а весы и допрос засчитываются как уравнения 📦</p><h3>🕵️ Игры сыщика</h3>
     <div class="games-grid">${GAMES.map(g => `<button class="game-card" data-g="${g.id}"><span class="gi">${g.icon}</span><b>${g.name}</b><small>${g.desc}</small><span class="gs">🧠 ${g.skill}${B[g.id] ? ` · 🏆 ${B[g.id]}` : ''}</span></button>`).join('')}</div></div>`;
   $$('.game-card', app).forEach(b => b.addEventListener('click', () => { SND.tap(); go('game', b.dataset.g); }));
   say(pick(['Выбирай игру, {n}! Все они делают тебя сильнее в математике.', 'Весы — самый простой путь к уравнениям!', 'Допрос учит проверять ответы — как настоящий сыщик!']), 0, { silent: true });

@@ -208,15 +208,7 @@ const Column = (() => {
     add: [{ type: 'one', q: '7 + 8 в разряде единиц. Что пишем?', a: ['5, а 1 запоминаем', '15', '1, а 5 запоминаем', '0'], c: 0, why: '7 + 8 = 15: пишем 5, а десяток запоминаем.' }, { type: 'tf', q: 'Если сверху цифра меньше, чем снизу, при вычитании занимаем десяток у соседа.', c: true, why: 'Да! А над соседом ставим точку.' }],
   };
 
-  /* ================= подключение: Школа сыщика ================= */
-  { const sch = SCREENS.school; SCREENS.school = arg => { sch(arg); const pg = $('.page', app); if (!pg) return;
-    const card = (cls, ic, title, txt, kind) => `<div class="school-card ${cls}"><div class="sc-ic">${ic}</div><div class="sc-body"><h2>${title}</h2><p>${txt}</p><div class="row-btns"><button class="btn pink" data-go="collesson" data-arg="${kind}">📖 Урок ${((S.theory || {})['t:' + kind] || {}).verified ? '✔' : ''}</button><button class="btn" data-go="colwork" data-arg="${kind}">🐾 Решаем</button></div></div></div>`;
-    const tip = $('p.small.center', pg);
-    const html = card('div', '➗', 'Деление столбиком', 'На одно- и двузначное число, с нулём в частном и с остатком — шаг за шагом.', 'div') + card('add', '➕', 'Сложение и вычитание столбиком', 'Многозначные числа до миллиона: переход через разряд и «занимаем десяток».', 'add')
-      + (window.SUBJECTS && window.SUBJECTS.math4 ? `<div class="school-card m4"><div class="sc-ic">📐</div><div class="sc-body"><h2>Вся программа 4 класса</h2><p>Числа до миллиона, величины, деление с остатком, порядок действий, задачи на движение, работу и покупки, доли, геометрия, диаграммы.</p><div class="row-btns"><button class="btn pink" id="m4go">📚 Открыть темы</button><span class="small">${typeof subjProgress === 'function' ? subjProgress('math4') + '%' : ''}</span></div></div></div>` : '');
-    if (tip) tip.insertAdjacentHTML('beforebegin', html); else pg.insertAdjacentHTML('beforeend', html);
-    $('#m4go')?.addEventListener('click', () => { SND.tap(); go('subject', 'math4'); });
-  }; }
+  /* Школа сыщика (school4.js) сама показывает деление и сложение столбиком — отдельные карточки больше не дорисовываем */
   const sv = solvedTotal; solvedTotal = function () { return sv() + ((S.st.div || {}).done || 0) + ((S.st.add || {}).done || 0); }; // деление и сложение тоже открывают комнаты
   ['colwork', 'collesson'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
   return { divPlan, addPlan, genDiv, genAdd, runDiv, runAdd };

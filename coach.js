@@ -251,24 +251,12 @@ const Coach = (() => {
     return `<div class="card"><h3>🔐 Настройки для взрослых</h3>
       <label class="tgl"><input type="checkbox" id="shareOn" ${S.shareOn !== false ? 'checked' : ''}> Разрешить кнопку «Поделиться» в фотостудии (ВКонтакте и др.)</label>
       <p class="small">На фото — только котик, наряд и (по желанию) имя ребёнка. Камера не используется. Сохранить фото на устройство можно всегда.</p>
-      <div class="row-btns">${S.pin ? '<button class="btn" id="pinoff">Убрать ПИН</button>' : '<button class="btn" id="pinset">🔢 Поставить ПИН на этот раздел</button>'}</div></div>`;
+      <div class="row-btns"><button class="btn" id="pinset">🔢 ${S.pin ? 'Сменить ПИН' : 'Поставить ПИН на этот раздел'}</button></div></div>`;
   }
   function bindSettings() {
     $('#shareOn')?.addEventListener('change', e => { S.shareOn = e.target.checked; save(); });
-    $('#pinoff')?.addEventListener('click', () => { delete S.pin; save(); toast('ПИН убран'); go('parents'); });
-    $('#pinset')?.addEventListener('click', () => {
-      const m = modal(`<h2>ПИН для раздела взрослых</h2><p>4 цифры. Запишите их — если забудете, раздел откроется по коду облачной копии: <b>${cloudCode()}</b>.</p><input id="pin1" class="nmi" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off"><div class="row-btns"><button class="btn pink" id="pinok">Сохранить</button><button class="btn" data-close>Отмена</button></div>`);
-      $('#pinok', m.el).addEventListener('click', () => { const v = $('#pin1', m.el).value.trim(); if (!/^\d{4}$/.test(v)) { toast('Нужно ровно 4 цифры'); return; } S.pin = v; save(); m.close(); toast('ПИН сохранён'); go('parents'); });
-    });
+    $('#pinset')?.addEventListener('click', () => go('pinset', 'parents')); // экран ПИНа — accounts.js
   }
-  let pinOk = false;
-  function pinGate(next) {
-    app.innerHTML = `${topbar('Для взрослых')}<div class="page center"><div class="big-emoji">🔐</div><h2>Раздел для взрослых</h2><p>Введите ПИН</p><input id="pinin" class="nmi" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="off" style="text-align:center;max-width:220px"><div class="row-btns" style="justify-content:center"><button class="btn pink" id="pingo">Войти</button></div><p class="small"><button class="link" id="pinforgot">Забыли ПИН?</button></p></div>`;
-    const tryIt = () => { const v = $('#pinin').value.trim().toUpperCase(); if (v === S.pin || v === cloudCode()) { pinOk = true; next(); } else { SND.bad(); shake($('#pinin')); $('#pinin').value = ''; } };
-    $('#pingo').addEventListener('click', tryIt); $('#pinin').addEventListener('keydown', e => { if (e.key === 'Enter') tryIt(); });
-    $('#pinforgot').addEventListener('click', () => toast('Введите вместо ПИНа код облачной копии (8 символов) — его видно в этом разделе и в резервной копии.'));
-  }
-
   /* ---------- подключение ---------- */
   function install() {
     window.GAMES_LIST = typeof GAMES !== 'undefined' ? GAMES : [];
@@ -285,7 +273,7 @@ const Coach = (() => {
     ['games', 'academy', 'school', 'subject'].forEach(n => wrap(n, () => decorate(n)));
     const par = SCREENS.parents;
     SCREENS.parents = arg => {
-      if (S.pin && !pinOk) return pinGate(() => go('parents'));
+      if (window.Accounts && !Accounts.adultOk()) return Accounts.gate('parents'); // замок: ПИН или код из почты (accounts.js)
       par(arg); const pg = $('.page.parents', app); if (!pg) return;
       pg.insertAdjacentHTML('afterbegin', parentsHTML()); const reset = $('#reset', pg); if (reset) reset.insertAdjacentHTML('beforebegin', settingsHTML()); bindSettings();
     };

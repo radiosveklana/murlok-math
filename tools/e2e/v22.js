@@ -27,6 +27,8 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   await go('school');
   ok('school: one section, all topics', await E(() => /Математика 4 класс/.test(document.querySelector('.school-head').innerText) && document.querySelectorAll('.page.school4 .unit').length === 22));
   ok('school: old lessons kept', !!(await p.$('[data-go="lesson"][data-arg="mul"]')) && !!(await p.$('[data-go="practice"][data-arg="eq"]')) && !!(await p.$('[data-go="colwork"][data-arg="div"]')) && !!(await p.$('[data-go="collesson"][data-arg="add"]')));
+  ok('school: groups collapsible', await E(() => document.querySelectorAll('details.sgroup').length === 7 && !document.querySelector('details.sgroup [data-aq="motion"]').closest('details').open));
+  await E(() => { document.querySelector('[data-aq="motion"]').closest('details').open = true; }); await sleep(200);
   await click('[data-aq="motion"]'); ok('school topic opens trainer', await E(() => curScreen === 'aquiz' && !!document.querySelector('.genlv')));
 
   /* ---------- «Новое дело» из копилки ---------- */

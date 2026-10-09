@@ -72,6 +72,8 @@ const SAVE = { v: 1, kid: 'Кэтика', name: 'Котофей', fur: 'galaxy',
   await E2(() => go('pauth')); await sleep(500); await q.type('#aem', 'mama@test.ru'); await click2('#asend'); ok('consent checkboxes for new parent', await E2(() => !document.querySelector('#acons').hidden));
   await q.type('#acode', '123456'); await click2('#averify'); ok('consent is required', await E2(() => /согласие/.test(document.querySelector('#aerr').innerText)));
   await click2('#ac1'); await click2('#ac2'); await click2('#averify'); await sleep(1200);
+  ok('after code: parent creates adult PIN', await E2(() => curScreen === 'pinset'));
+  await E2(() => { pin1.value = '2580'; pin2.value = '2580'; pinok.click(); }); await sleep(1500);
   ok('parent cabinet opened', await E2(() => curScreen === 'pcab' && /FAM123/.test(document.body.innerText)));
   ok('referral counters shown', await E2(() => /Переходы: 3/.test(document.body.innerText) && /регистрации: 1/.test(document.body.innerText)));
   ok('link-this-device card', !!(await q.$('#linkhere')));

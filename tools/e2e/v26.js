@@ -13,6 +13,8 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V26 OK
   p.on('request', r => { const u = r.url(), H = { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type, authorization' };
     if (r.method() === 'OPTIONS' && /murlok-api|\/api\//.test(u)) return r.respond({ status: 204, headers: { ...H, 'access-control-allow-methods': 'GET,POST,OPTIONS' } });
     if (/(murlok-api|\/api)\/save/.test(u)) { saves.push(r.postData()); return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"ok":true}' }); }
+    if (/acc\/start/.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"ok":true,"isNew":false}' });
+    if (/acc\/verify/.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"token":"PT","family":{}}' });
     if (/(murlok-api|\/api)\/acc\//.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"ok":true,"items":[]}' });
     r.continue(); });
   await p.goto(URL); await p.waitForSelector('#kid');
@@ -41,21 +43,33 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V26 OK
   await go('home'); await go('subject', 'creative'); await go('ideas'); await go('ideas', 'story'); await back();
   ok('back from idea task → ideas menu', (await cur()) === 'ideas:', await cur());
 
-  /* ---------- вход для взрослых из ⚙️ ---------- */
+  /* ---------- замок раздела для взрослых: ПИН или код из почты ---------- */
+  await E(() => localStorage.setItem('murlok-strict-gate', '1'));
   await go('home'); await E(() => document.querySelector('#cfg').click()); await sleep(300);
   ok('settings: adult entry', !!(await p.$('.modal #set-adult')));
-  await E(() => document.querySelector('.modal #set-adult').click()); await sleep(300);
-  const hb = await (await p.waitForSelector('.modal #ghold')).boundingBox(), mid = [hb.x + hb.width / 2, hb.y + hb.height / 2];
-  await p.mouse.move(...mid); await p.mouse.down(); await sleep(800); await p.mouse.up(); await sleep(400);
-  ok('short tap does not open adult section', await E(() => curScreen === 'home'));
-  await p.mouse.move(...mid); await p.mouse.down(); await sleep(3300); await p.mouse.up(); await sleep(500);
-  ok('hold 3s opens adult section', await E(() => curScreen === 'parents'));
+  await E(() => document.querySelector('.modal #set-adult').click()); await sleep(500);
+  ok('no PIN: gate asks for email code, not a simple tap', await E(() => curScreen === 'agate') && !!(await p.$('#gmail')) && !(await p.$('.coach-rep')));
+  await go('parents'); ok('direct jump to adult section is locked', await E(() => curScreen === 'agate'));
+  await go('pcab'); ok('cabinet is locked too', await E(() => curScreen === 'agate' || curScreen === 'pauth'));
+  await go('agate', 'parents'); await E(() => document.querySelector('#gmail').click()); await sleep(500);
+  await E(() => { document.querySelector('#aem').value = 'mama@test.ru'; document.querySelector('#asend').click(); }); await sleep(800);
+  await E(() => { document.querySelector('#acode').value = '123456'; document.querySelector('#averify').click(); }); await sleep(900);
+  ok('after email code: create PIN', await E(() => curScreen === 'pinset'));
+  await E(() => { pin1.value = '1111'; pin2.value = '1111'; pinok.click(); }); await sleep(300);
+  ok('too simple PIN rejected', await E(() => curScreen === 'pinset' && /простой/.test(perr.textContent)));
+  await E(() => { pin1.value = '2580'; pin2.value = '2580'; pinok.click(); }); await sleep(700);
+  ok('PIN saved and section opens', await E(() => curScreen === 'parents' && S.pin === '2580'));
+  await go('home'); await go('parents'); ok('leaving locks again: PIN asked', await E(() => curScreen === 'agate') && !!(await p.$('#pinin')));
+  for (let k = 0; k < 5; k++) { await E(() => { pinin.value = '0000'; pingo.click(); }); await sleep(120); }
+  await E(() => { pinin.value = '2580'; pingo.click(); }); await sleep(400);
+  ok('5 wrong PINs → pause, even the right one waits', await E(() => curScreen === 'agate' && /попыток/.test(pinerr.textContent)));
+  await E(() => { S.pinLock = { n: 0, until: 0 }; save(); }); await go('home'); await go('parents');
+  await E(() => { pinin.value = '2580'; pingo.click(); }); await sleep(600);
+  ok('right PIN opens', await E(() => curScreen === 'parents'));
   ok('adult section has tabs', await E(() => document.querySelectorAll('.ptabs [role=tab]').length === 3 && document.querySelectorAll('.ptab-pane:not([hidden])').length === 1));
   await E(() => document.querySelector('.ptabs [data-tab="acc"]').click()); await sleep(300);
   ok('cabinet tab shows account + settings', await E(() => { const v = document.querySelector('.ptab-pane:not([hidden])'); return !!v.querySelector('.acc-card') && !!v.querySelector('#reset'); }));
-  await E(() => { S.pin = '4321'; save(); }); await go('home'); await E(() => { document.querySelector('#cfg').click(); document.querySelector('.modal #set-adult').click(); }); await sleep(500);
-  ok('with PIN: settings entry asks PIN', !!(await p.$('#pinin')));
-  await E(() => { delete S.pin; save(); });
+  await E(() => { delete S.pin; save(); localStorage.removeItem('murlok-strict-gate'); });
 
   /* ---------- выход родителя ---------- */
   await E(() => localStorage.setItem('murlok-parent', JSON.stringify({ token: 'T', email: 'mama@test.ru' })));

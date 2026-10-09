@@ -20,7 +20,7 @@ const Awards = (() => {
   /* ---------- детективные игры: игры по темам Академии ---------- */
   { const gm = SCREENS.games; SCREENS.games = arg => { gm(arg); const pg = $('.page', app); if (!pg) return;
     const subs = Object.values(window.SUBJECTS || {}).filter(s => s.id !== 'teen' && s.id !== 'math4' && (s.extras || []).length);
-    const items = subs.flatMap(s => (s.extras || []).filter(e => !/growth|rgrowth/.test(e.id)).map(e => ({ s, e })));
+    const items = subs.flatMap(s => (s.extras || []).filter(e => !/growth|rgrowth|^starmap$/.test(e.id)).map(e => ({ s, e })));
     if (window.SpaceTrip) items.unshift({ s: { icon: '🚀', name: 'Бонус' }, e: { id: 'spacetrip', icon: '🚀', name: 'Полёт в космос', run: () => go('spacetrip') } });
     pg.insertAdjacentHTML('beforeend', `<h3>🎓 Игры Академии</h3><div class="games-grid">${items.map(({ s, e }, i) => `<button class="game-card agame" data-ai="${i}"><span class="gi">${e.icon}</span><b>${e.name}</b><small>${s.icon} ${s.name}</small></button>`).join('')}</div>`);
     $$('.agame', pg).forEach(b => b.addEventListener('click', () => { SND.tap(); items[+b.dataset.ai].e.run(); }));

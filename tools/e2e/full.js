@@ -115,7 +115,7 @@ const errors = []; const misses = new Set();
   for (const id of ['crown', 'glasses', 'scarf']) { await click(`.item[data-id="${id}"]`); await click('#buy'); await sleep(300); }
   await shot('31-shop-bought');
   await toHome(); await click('[data-go="diplomas"]'); await click('[data-go="book"]'); await shot('32-book'); await click('.tabs [data-t="table"]'); await shot('33-table'); await click('.tabs [data-t="awards"]'); await shot('34-awards');
-  await toHome(); await click('#cfg'); await click('.modal #set-adult'); { const hb = await (await p.waitForSelector('.modal #ghold')).boundingBox(); await p.mouse.move(hb.x + hb.width / 2, hb.y + hb.height / 2); await p.mouse.down(); await sleep(3300); await p.mouse.up(); } await sleep(500); await shot('35-parents');
+  await p.evaluate(() => { S.pin = '2580'; save(); }); await toHome(); await click('#cfg'); await click('.modal #set-adult'); await p.waitForSelector('#pinin'); await p.type('#pinin', '2580'); await click('#pingo'); await sleep(500); await shot('35-parents');
   await p.evaluate(() => UX.showAll());
   await p.screenshot({ path: __dirname + `/shots/${tag}-36-parents-full.png`, fullPage: true });
   await toHome(); await click('[data-go="house"]'); await sleep(600); await dismiss(); if (await p.$('.modal [data-close]')) await click('.modal [data-close]'); await shot('37-house');

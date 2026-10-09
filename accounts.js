@@ -28,10 +28,11 @@ const Accounts = (() => {
   { const h = SCREENS.hello; SCREENS.hello = arg => { h(arg); const pg = $('.page', app) || app; pg.insertAdjacentHTML('afterbegin', `<div class="acc-entry"><button class="btn" id="aparent">👨‍👩‍👧 Я взрослый: вход и регистрация</button><button class="btn" id="achild">🧒 У меня есть семейный код</button><a class="link small" href="about/">Что это за игра? Рассказ для родителей</a></div>`); $('#aparent').addEventListener('click', () => go('pauth')); $('#achild').addEventListener('click', () => go('clogin')); }; }
 
   /* ---------- вход родителя ---------- */
-  SCREENS.pauth = () => {
-    if (parent()) return go('pcab');
-    app.innerHTML = `${topbar('👨‍👩‍👧 Вход для взрослых', S.kid ? 'parents' : 'hello')}<div class="page acc"><div class="card"><h2>Личный кабинет родителя</h2><p class="small">Кабинет нужен, чтобы прогресс ребёнка хранился в облаке и переносился между устройствами, были доступны друзья, отчёты и подстройка программы. Вход — по почте, без пароля.</p>
-      <div id="st1"><input id="aem" class="nmi" type="email" placeholder="Ваша почта" autocomplete="email"><button class="btn pink big" id="asend">Получить код на почту</button></div>
+  SCREENS.pauth = arg => {
+    const gateNext = /^gate:/.test(arg || '') ? arg.slice(5) : '';
+    if (parent() && !gateNext) return go('pcab');
+    app.innerHTML = `${topbar('👨‍👩‍👧 Вход для взрослых', S.kid ? 'home' : 'hello')}<div class="page acc"><div class="card"><h2>Личный кабинет родителя</h2><p class="small">Кабинет нужен, чтобы прогресс ребёнка хранился в облаке и переносился между устройствами, были доступны друзья, отчёты и подстройка программы. Вход — по почте, без пароля.</p>
+      <div id="st1"><input id="aem" class="nmi" type="email" placeholder="Ваша почта" autocomplete="email" value="${esc((parent() || {}).email || '')}">${gateNext ? '<p class="small">Пришлём код на почту взрослого — так ребёнок не откроет раздел сам.</p>' : ''}<button class="btn pink big" id="asend">Получить код на почту</button></div>
       <div id="st2" hidden><p>Мы отправили 6-значный код на <b id="aemail"></b>. Проверьте папку «Спам», если письма нет.</p><input id="acode" class="nmi" inputmode="numeric" maxlength="6" placeholder="Код из письма" autocomplete="one-time-code">
         <div id="acons" hidden><label class="tgl"><input type="checkbox" id="ac1"> Я — родитель (законный представитель) ребёнка и даю <a href="/consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> ребёнка и моих</label><label class="tgl"><input type="checkbox" id="ac2"> Я ознакомлен(а) с <a href="/privacy.html" target="_blank" rel="noopener">Политикой обработки персональных данных</a>, включая передачу текста сообщений нейросети для ответов котика</label></div>
         <button class="btn pink big" id="averify">Войти</button><button class="link" id="aback">Изменить почту</button></div>
@@ -42,7 +43,7 @@ const Accounts = (() => {
       catch (e) { err({ slow: 'Слишком много попыток — попробуйте через час', mail: 'Не удалось отправить письмо, попробуйте позже', email: 'Проверьте адрес почты' }[e.code] || 'Нет связи с сервером'); } $('#asend').disabled = false; });
     $('#aback').addEventListener('click', () => { $('#st1').hidden = false; $('#st2').hidden = true; });
     $('#averify').addEventListener('click', async () => { const code = $('#acode').value.trim(); if (!/^\d{6}$/.test(code)) return err('Код — 6 цифр'); if (isNew && !($('#ac1').checked && $('#ac2').checked)) return err('Чтобы зарегистрироваться, нужно согласие (обе галочки)');
-      try { const r = await api('verify', { email, code, consent: isNew ? true : undefined }); ls.set(PK, { token: r.token, email }); SND.win(); go('pcab', 'new'); }
+      try { const r = await api('verify', { email, code, consent: isNew ? true : undefined }); ls.set(PK, { token: r.token, email }); SND.win(); unlock(); if (S.kid && !S.pin) go('pinset', gateNext || 'pcab'); else if (gateNext) go(gateNext); else go('pcab', 'new'); }
       catch (e) { err({ code: 'Неверный код' + (e.d && e.d.left != null ? ` (осталось попыток: ${e.d.left})` : ''), expired: 'Код устарел — запросите новый', tries: 'Слишком много попыток — запросите новый код', consent: 'Нужно согласие' }[e.code] || 'Не получилось войти'); } });
   };
 
@@ -51,7 +52,7 @@ const Accounts = (() => {
   const bindPick = el => { const sel = []; $$('.pp', el).forEach(b => b.addEventListener('click', () => { if (sel.length >= 3) sel.length = 0; sel.push(+b.dataset.i); $('.pinshow', el.parentElement).textContent = sel.map(i => PICS[i]).join(' ') || '—'; SND.tap(); })); return () => sel.slice(); };
   const share = (url, title) => { if (navigator.share) navigator.share({ title, url }).catch(() => { }); else { navigator.clipboard && navigator.clipboard.writeText(url); toast('Ссылка скопирована'); } };
   SCREENS.pcab = async arg => {
-    const P = parent(); if (!P) return go('pauth');
+    const P = parent(); if (!P) return go('pauth'); if (!adultOk()) return gate('pcab');
     app.innerHTML = `${topbar('👨‍👩‍👧 Личный кабинет', 'parents')}<div class="page acc"><p class="center small">Загрузка…</p></div>`;
     let F; try { F = (await api('family', null, P.token)).family; } catch (e) { if (e.code === 'auth') { ls.set(PK, null); return go('pauth'); } $('.acc').innerHTML = '<div class="card"><p>Нет связи с сервером.</p></div>'; return; }
     if (curScreen !== 'pcab') return;
@@ -144,24 +145,50 @@ const Accounts = (() => {
       catch (e) { $('#cout', m.el).disabled = false; $('#cout', m.el).textContent = 'Сохранить и выйти'; toast('Нет связи — прогресс не сохранился, попробуй позже'); return; }
       ls.set(AK, null); try { localStorage.removeItem(KEY); } catch (e) { } location.reload(); });
   }
-  /* ---------- вход для взрослых только из ⚙️: за ПИНом или «удержанием» 3 секунды (детям неинтересно) ---------- */
-  function adultGate() {
-    if (S.pin) return go('parents'); // ПИН спросит сам раздел
-    const m = modal(`<div class="big-emoji">👨‍👩‍👧</div><h2>Для взрослых</h2><p class="small">Отчёты, настройки и личный кабинет. Нажмите и удерживайте кнопку 3 секунды.</p><button class="btn pink big hold" id="ghold"><i></i><span>Удерживайте</span></button><button class="btn" data-close>Отмена</button>`);
-    const b = $('#ghold', m.el); let t = 0;
-    const stop = () => { clearTimeout(t); b.classList.remove('on'); };
-    b.addEventListener('pointerdown', e => { e.preventDefault(); b.classList.add('on'); t = setTimeout(() => { m.close(); go('parents'); }, 3000); });
-    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, stop));
-    b.addEventListener('contextmenu', e => e.preventDefault());
-  }
+  /* ---------- замок раздела для взрослых ----------
+     Есть ПИН → только ПИН (5 ошибок — пауза 10 минут). Нет ПИНа или забыли → код из почты родителя, затем новый ПИН.
+     Ребёнку не пройти: у него нет ни ПИНа, ни доступа к маминой почте. Ушли из раздела — замок снова закрыт. */
+  const ADULT = new Set(['parents', 'pcab', 'pauth', 'agate', 'pinset']);
+  let adultUntil = 0;
+  const devOpen = () => location.hostname === 'localhost' && !S.pin && !localStorage.getItem('murlok-strict-gate'); // автотесты на своём компьютере
+  const adultOk = () => devOpen() || Date.now() < adultUntil;
+  const unlock = () => { adultUntil = Date.now() + 20 * 60 * 1000; };
+  { const g0 = go; go = function (name) { if (!ADULT.has(name)) adultUntil = 0; return g0.apply(this, arguments); }; }
+  const gate = next => go('agate', next || 'parents');
+  SCREENS.agate = next => {
+    next = next || 'parents'; if (adultOk()) return go(next);
+    const back = S.kid ? 'home' : 'hello', lock = S.pinLock || {}, waitMin = Math.ceil(((lock.until || 0) - Date.now()) / 60000);
+    if (!S.pin) {
+      app.innerHTML = `${topbar('🔐 Для взрослых', back)}<div class="page acc"><div class="card center"><div class="big-emoji">🔐</div><h2>Раздел для взрослых</h2><p>Здесь отчёты, настройки и личный кабинет. Чтобы ребёнок не зашёл сюда сам, подтвердите, что вы взрослый: пришлём код на вашу почту. Потом придумаете ПИН — дальше будете входить по нему.</p><button class="btn pink big" id="gmail">📧 Получить код на почту</button><p class="small">Ребёнок? Позови маму или папу 🐾</p></div></div>`;
+      $('#gmail').addEventListener('click', () => go('pauth', 'gate:' + next)); return;
+    }
+    app.innerHTML = `${topbar('🔐 Для взрослых', back)}<div class="page center acc"><div class="big-emoji">🔐</div><h2>Раздел для взрослых</h2><p>Введите ПИН</p><input id="pinin" class="nmi" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off" style="text-align:center;max-width:220px"><div class="row-btns" style="justify-content:center"><button class="btn pink" id="pingo">Войти</button></div><p class="small err" id="pinerr">${waitMin > 0 ? `Слишком много попыток. Попробуйте через ${waitMin} мин.` : ''}</p><p class="small"><button class="link" id="pinforgot">Забыли ПИН? Войти по коду из почты</button></p></div>`;
+    const tryIt = () => {
+      const L = S.pinLock = S.pinLock || { n: 0, until: 0 };
+      if (Date.now() < L.until) { $('#pinerr').textContent = `Слишком много попыток. Попробуйте через ${Math.ceil((L.until - Date.now()) / 60000)} мин.`; return; }
+      if ($('#pinin').value.trim() === S.pin) { L.n = 0; save(); unlock(); go(next); return; }
+      L.n++; if (L.n >= 5) { L.n = 0; L.until = Date.now() + 10 * 60 * 1000; } save();
+      SND.bad(); shake($('#pinin')); $('#pinin').value = ''; $('#pinerr').textContent = L.until > Date.now() ? 'Слишком много попыток. Попробуйте через 10 мин.' : 'Неверный ПИН';
+    };
+    $('#pingo').addEventListener('click', tryIt); $('#pinin').addEventListener('keydown', e => { if (e.key === 'Enter') tryIt(); });
+    $('#pinforgot').addEventListener('click', () => go('pauth', 'gate:' + next));
+  };
+  SCREENS.pinset = next => {
+    next = next || 'parents'; if (!adultOk()) return gate(next);
+    app.innerHTML = `${topbar('🔐 ПИН для взрослых', 'home')}<div class="page center acc"><div class="card"><div class="big-emoji">🔢</div><h2>Придумайте ПИН</h2><p class="small">4 цифры. По ним вы будете входить в раздел для взрослых на этом устройстве. Не показывайте их ребёнку. Забудете — войдёте снова по коду из почты.</p><input id="pin1" class="nmi" type="password" inputmode="numeric" maxlength="4" placeholder="ПИН" autocomplete="off" style="text-align:center;max-width:220px"><input id="pin2" class="nmi" type="password" inputmode="numeric" maxlength="4" placeholder="Ещё раз" autocomplete="off" style="text-align:center;max-width:220px"><p class="small err" id="perr"></p><button class="btn pink big" id="pinok">Сохранить</button></div></div>`;
+    $('#pinok').addEventListener('click', () => { const a = $('#pin1').value.trim(), b = $('#pin2').value.trim();
+      if (!/^\d{4}$/.test(a)) { $('#perr').textContent = 'Нужно ровно 4 цифры'; return; } if (/^(\d)\1{3}$|^(1234|4321|0123)$/.test(a)) { $('#perr').textContent = 'Слишком простой ПИН — ребёнок угадает'; return; }
+      if (a !== b) { $('#perr').textContent = 'ПИНы не совпадают'; return; }
+      S.pin = a; S.pinLock = { n: 0, until: 0 }; save(); SND.win(); toast('ПИН сохранён'); go(next); });
+  };
   { const os = openSettings; openSettings = function () { const r = os.apply(this, arguments); const L = $$('.modal .set-list').pop(); if (L && !$('#set-adult', L)) {
     L.insertAdjacentHTML('beforeend', `${linked() ? '<button class="set-row" id="set-out"><span>🚪</span><b>Выйти из игры</b><i class="arr">›</i></button>' : ''}${parent() ? '<button class="set-row" id="set-pout"><span>🔓</span><b>Выйти из кабинета взрослого</b><i class="arr">›</i></button>' : ''}<button class="set-row adult" id="set-adult"><span>👨‍👩‍👧</span><b>Для взрослых</b><i class="arr">›</i></button>`);
     const close = () => $$('.modal').forEach(x => x.remove());
-    $('#set-adult', L).addEventListener('click', () => { close(); adultGate(); });
+    $('#set-adult', L).addEventListener('click', () => { close(); gate('parents'); });
     $('#set-out', L)?.addEventListener('click', () => { close(); childOut(); });
     $('#set-pout', L)?.addEventListener('click', () => { close(); parentOut(); });
   } return r; }; }
-  ['pauth', 'pcab', 'clogin', 'survey'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
-  return { parent, child, linked, api, SURVEY, adultGate, parentOut, childOut };
+  ['pauth', 'pcab', 'clogin', 'survey', 'agate', 'pinset'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
+  return { parent, child, linked, api, SURVEY, gate, adultOk, parentOut, childOut };
 })();
 window.Accounts = Accounts;

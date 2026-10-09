@@ -18,6 +18,9 @@ const School4 = (() => {
     div: { icon: '➗', title: 'Деление столбиком', sub: 'На одно- и двузначное, с нулём в частном и с остатком', lesson: ['collesson', 'div'], prac: ['colwork', 'div'], done: () => (S.st.div || {}).done || 0, th: 't:div' },
     add: { icon: '➕', title: 'Сложение и вычитание столбиком', sub: 'Числа до миллиона: переход через разряд, «занимаем десяток»', lesson: ['collesson', 'add'], prac: ['colwork', 'add'], done: () => (S.st.add || {}).done || 0, th: 't:add' },
   };
+  // какие группы раскрыты (по умолчанию — письменные вычисления и уравнения); помним в пределах сеанса
+  const openSet = () => { try { return JSON.parse(sessionStorage.getItem('school-open') || '[0,1]'); } catch (e) { return [0, 1]; } };
+  const openG = i => openSet().includes(i);
   SCREENS.school = () => {
     const s = (window.SUBJECTS || {}).math4, a = s && typeof acad === 'function' ? acad('math4') : { read: {}, best: {} }, due = s && typeof dueMistakes === 'function' ? dueMistakes('math4').length : 0;
     const coreRow = k => { const c = CORE[k], th = ((S.theory || {})[c.th] || {}).verified, n = c.done(); return `<div class="unit school-card ${k}"><span class="ui">${c.icon}</span><div class="ut"><b>${c.title}</b><small>${c.sub}</small><span class="small">${n ? `решено: ${n}` : 'ещё не начинали'}</span></div><div class="ub"><button class="btn sm" data-go="${c.lesson[0]}" data-arg="${c.lesson[1]}">📖 Урок${th || S.lessons[k] ? ' ✔' : ''}</button><button class="btn sm pink" data-go="${c.prac[0]}" data-arg="${c.prac[1]}">🐾 Решаем вместе</button></div></div>`; };
@@ -26,8 +29,10 @@ const School4 = (() => {
     app.innerHTML = `${topbar('Школа сыщика')}<div class="page school4">
       <div class="school-head"><div class="sc-ic">📐</div><div><h2>Математика 4 класс</h2><p class="small">Вся программа 4 класса по федеральной программе. Сначала урок, потом «Решаем вместе» с подсказками, а когда получается — дела и тренажёр самостоятельно!</p><span class="bar"><i style="width:${prog}%"></i></span><small>${prog}% программы</small></div></div>
       <div class="row-btns">${due ? `<button class="btn pink" data-go="aquiz" data-arg="math4:*review">🔁 Разбор ошибок (${due})</button>` : ''}<button class="btn" data-go="newcase">🔍 Решать в деле</button></div>
-      ${GROUPS.map(g => `<h3 class="sg-title">${g.t}</h3><div class="units">${g.items.map(x => x[0] === '@' ? coreRow(x.slice(1)) : unitRow(x)).join('')}</div>`).join('')}
+      ${GROUPS.map((g, gi) => { const n = g.items.length, done = g.items.filter(x => x[0] === '@' ? CORE[x.slice(1)].done() > 0 : (a.read || {})[x]).length;
+        return `<details class="sgroup" data-g="${gi}" ${openG(gi) ? 'open' : ''}><summary><h3 class="sg-title">${g.t}</h3><span class="sg-n">${done} из ${n}</span></summary><div class="units">${g.items.map(x => x[0] === '@' ? coreRow(x.slice(1)) : unitRow(x)).join('')}</div></details>`; }).join('')}
     </div>`;
+    $$('details.sgroup', app).forEach(d => d.addEventListener('toggle', () => { try { sessionStorage.setItem('school-open', JSON.stringify($$('details.sgroup', app).filter(x => x.open).map(x => +x.dataset.g))); } catch (e) { } }));
     $$('[data-al]', app).forEach(b => b.addEventListener('click', () => { SND.tap(); go('alesson', 'math4:' + b.dataset.al); }));
     $$('[data-aq]', app).forEach(b => b.addEventListener('click', () => { SND.tap(); go('aquiz', 'math4:' + b.dataset.aq); }));
   };
