@@ -59,3 +59,41 @@ window.UX = UX;
 document.addEventListener('click', e => { const st = e.target.closest('.task-page .story-card'); if (st) st.classList.toggle('open'); });
 new MutationObserver(() => { document.querySelectorAll('.task-page .ctrl-col .helper .bubble').forEach(b => { if (b.scrollHeight > b.clientHeight) b.scrollTop = b.scrollHeight; }); })
   .observe(document.getElementById('app'), { childList: true, subtree: true, characterData: true });
+/* v30: клавиатура/варианты ответа прижаты к низу экрана (.v30-dock), поле ответа над ними (.v30-askdock), а выделенная клетка
+   столбика сама прокручивается в видимую часть над панелью. Только классы и прокрутка — логика заданий не меняется. */
+(() => {
+  const appEl = document.getElementById('app'); let raf = 0, lastTarget = null;
+  const DOCK_IN = '#garea, #qarea, #bz, #rq, #cwork, #b2q', DOCK = '.pad, .opts, .rs-opts, #sq, #cin', ASK = '.ask-eq, .bz-q, .eqline, .ask';
+  const tog = (el, c, on) => { if (el.classList.contains(c) !== on) el.classList.toggle(c, on); }; // без лишних мутаций — иначе наблюдатель зациклится
+  function docks() {
+    appEl.querySelectorAll(DOCK_IN).forEach(box => {
+      [...box.children].forEach(el => {
+        const docked = el.classList.contains('v30-dock');
+        let on = el.matches('.pad') || (el.matches(DOCK) && !!el.querySelector('button'));
+        if (on && el.offsetHeight + (docked ? 0 : 14) > innerHeight * 0.5) on = false; // огромная сетка вариантов — остаётся в потоке
+        tog(el, 'v30-dock', on);
+        const prev = el.previousElementSibling, askOn = on && !!prev && prev.matches(ASK);
+        if (prev && (askOn || prev.classList.contains('v30-askdock'))) tog(prev, 'v30-askdock', askOn);
+        if (on) { const h = el.offsetHeight + 'px'; if (box.style.getPropertyValue('--dock-h') !== h) box.style.setProperty('--dock-h', h); }
+      });
+    });
+  }
+  let changedAt = 0;
+  function keepTarget() {
+    const t = appEl.querySelector('.task-page .cell.target'); if (!t) { lastTarget = null; return; }
+    if (t !== lastTarget) { lastTarget = t; changedAt = Date.now(); setTimeout(kick, 300); setTimeout(kick, 1000); } // панель ещё дорастает: подсказка, вопрос
+    else if (Date.now() - changedAt > 1600) return; // дальше не мешаем ребёнку листать самому
+    const cc = t.closest('.task-page') && t.closest('.task-page').querySelector('.ctrl-col'); if (!cc || getComputedStyle(cc).position !== 'sticky') return;
+    const r = t.getBoundingClientRect(), cr = cc.getBoundingClientRect(), top = appEl.querySelector(':scope > .top');
+    const minY = (top ? top.getBoundingClientRect().bottom : 0) + 6;
+    let maxY = innerHeight - 6;
+    if (cr.left < r.right && cr.right > r.left && cr.bottom >= innerHeight - 2 && cr.top > minY) maxY = cr.top - 8; // панель снизу перекрывает лист
+    if (r.top >= minY && r.bottom <= maxY) return;
+    const d = (r.top + r.bottom) / 2 - (minY + Math.max(minY + r.height, maxY)) / 2;
+    window.scrollBy(0, Math.round(d)); // мгновенно: плавная прокрутка срывается, пока котик дописывает подсказку
+  }
+  const run = () => { raf = 0; try { docks(); keepTarget(); } catch (e) { console.warn(e); } };
+  const kick = () => { if (!raf) raf = requestAnimationFrame(run); };
+  new MutationObserver(kick).observe(appEl, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+  addEventListener('resize', kick);
+})();
