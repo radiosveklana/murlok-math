@@ -24,7 +24,7 @@ const Column = (() => {
       else if (lv === 3) { b = R(12, 48); a = R(1000, 99999); if (Math.random() < 0.5) a = a - a % b; }
       else { b = R(12, 98); a = R(10000, 99999); }
       const P = divPlan(a, b); if (P.q < 10 || P.q > 99999) continue;
-      const key = a + ':' + b; if ((S.recent || []).includes('d' + key)) continue;
+      const key = a + ':' + b; if ((S.recent || []).includes('d' + key) || (window.Mistakes && Mistakes.isSolved('d:' + key))) continue; // решённые без ошибок не повторяем (mistakes.js)
       S.recent = S.recent || []; S.recent.push('d' + key); if (S.recent.length > 300) S.recent.splice(0, S.recent.length - 300);
       return P;
     }
@@ -47,7 +47,7 @@ const Column = (() => {
       const n = lv === 1 ? R(3, 4) : lv === 2 ? 5 : 6, lo = 10 ** (n - 1), hi = 10 ** n - 1;
       let a = R(lo, hi), b = R(Math.floor(lo / (lv === 1 ? 1 : 10)), op === '-' ? a - 1 : hi);
       if (op === '-' && lv === 3 && Math.random() < 0.5) { a = R(1, 9) * 10 ** (n - 1) + R(0, 9) * (Math.random() < 0.5 ? 1 : 0); b = R(lo / 10, a - 1); } // 50003 − 2768: занимаем через нули
-      if (op === '+' && a + b > 999999) continue; if (op === '-' && b >= a) continue;
+      if (op === '+' && a + b > 999999) continue; if (op === '-' && b >= a) continue; if (window.Mistakes && Mistakes.isSolved('a:' + a + op + b)) continue;
       const P = addPlan(a, b, op); if (!P.cols.some(c => c.carryOut) && Math.random() < 0.8) continue; // хотим переходы через разряд
       return P;
     }
@@ -93,12 +93,13 @@ const Column = (() => {
   }
   function runDiv(el, P, guided, bub, finish) {
     let s = 0, phase = guided ? 'first' : 'q', mistakes = 0, helped = false, tries = 0; const t0 = Date.now(), lv = S.prefs.divLv;
+    if (window.Mistakes) Mistakes.begin({ kind: 'div', a: P.a, b: P.b }); // работа над ошибками: какая задача решается
     const draw = (part) => { el.innerHTML = `<div class="task-title">${P.a} : ${P.b}</div>${divGrid(P, Math.max(1, s + 1), part)}<div class="ask" id="cask"></div><div id="cin"></div>`; };
     const pad = (label, check) => {
       let buf = ''; $('#cask').innerHTML = `${label} <span class="inp" id="cv">?</span>`; $('#cin').innerHTML = numpad(true);
       bindPad($('#cin'), { digit: x => { if (buf.length < 6) { buf += x; $('#cv').textContent = buf; } }, back: () => { buf = buf.slice(0, -1); $('#cv').textContent = buf || '?'; }, ok: () => { if (!buf) return; const v = +buf; buf = ''; $('#cv').textContent = '?'; check(v); } });
     };
-    const wrong = (h, show) => { mistakes++; tries++; SND.bad(); noteErr('div'); bub(`<div class="fb bad">Не совсем.</div>${tries >= 2 && show != null ? `${h}<br>Ответ: <b>${show}</b>` : h}`); if (tries >= 3) { helped = true; return true; } return false; };
+    const wrong = (h, show) => { mistakes++; tries++; SND.bad(); noteErr('div', null, 'div:' + phase); bub(`<div class="fb bad">Не совсем.</div>${tries >= 2 && show != null ? `${h}<br>Ответ: <b>${show}</b>` : h}`); if (tries >= 3) { helped = true; return true; } return false; };
     const ok = (h) => { tries = 0; SND.ok(); if (h) bub(`<div class="fb">✔ Верно!</div>${h}`); };
     function step() {
       if (!el.isConnected) return; // ушли с экрана — отложенный шаг не рисуем
@@ -149,6 +150,7 @@ const Column = (() => {
   /* ---------- сложение / вычитание столбиком ---------- */
   function runAdd(el, P, guided, bub, finish) {
     const W = Math.max(String(P.a).length, String(P.b).length, String(P.res).length) + 1, got = [], marks = {}; let k = 0, mistakes = 0, helped = false, tries = 0; const t0 = Date.now();
+    if (window.Mistakes) Mistakes.begin({ kind: 'add', a: P.a, b: P.b, op: P.op });
     const cell = (s, c) => { const i = s.length - (W - c); return i >= 0 && i < s.length ? s[i] : ''; };
     const draw = () => {
       const res = String(P.res), resShown = got.slice().reverse().join('');
@@ -171,7 +173,7 @@ const Column = (() => {
       bindPad($('#cin'), { digit: x => { buf = String(x); $('#cv').textContent = buf; }, back: () => { buf = ''; $('#cv').textContent = '?'; }, ok: () => {
         if (buf === '') return; const v = +buf;
         if (v === c.d) { tries = 0; SND.ok(); got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; if (guided && c.carryOut) bub(P.op === '+' ? `✔ Пишем <b>${c.d}</b>, а <b>1</b> запоминаем — пишем сверху над следующим разрядом.` : `✔ Пишем <b>${c.d}</b>. Над соседом ставим точку — у него заняли единицу.`); k++; setTimeout(next, guided && c.carryOut ? 1100 : 200); }
-        else { mistakes++; tries++; SND.bad(); noteErr(P.op === '+' ? 'add' : 'sub'); const h = P.op === '+' ? `${c.da} + ${c.db}${c.carryIn ? ' + 1' : ''} = ${c.sum}. Пишем последнюю цифру.` : (c.carryOut ? `Заняли десяток: ${c.x} − ${c.db} = ${c.d}.` : `${c.top} − ${c.db} = ${c.d}.`); bub(`<div class="fb bad">Не совсем.</div>${tries >= 2 ? h : (P.op === '+' ? 'Не забудь про запомненную единицу!' : 'Хватает ли цифры сверху? Если нет — занимай десяток.')}`); if (tries >= 3) { helped = true; got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; k++; setTimeout(next, 1400); } }
+        else { mistakes++; tries++; SND.bad(); noteErr(P.op === '+' ? 'add' : 'sub', null, P.op === '+' ? (c.carryIn ? 'add:carry' : 'add:calc') : (c.carryIn || c.carryOut ? 'sub:borrow' : 'sub:calc')); const h = P.op === '+' ? `${c.da} + ${c.db}${c.carryIn ? ' + 1' : ''} = ${c.sum}. Пишем последнюю цифру.` : (c.carryOut ? `Заняли десяток: ${c.x} − ${c.db} = ${c.d}.` : `${c.top} − ${c.db} = ${c.d}.`); bub(`<div class="fb bad">Не совсем.</div>${tries >= 2 ? h : (P.op === '+' ? 'Не забудь про запомненную единицу!' : 'Хватает ли цифры сверху? Если нет — занимай десяток.')}`); if (tries >= 3) { helped = true; got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; k++; setTimeout(next, 1400); } }
       } });
     };
     next();
@@ -211,6 +213,6 @@ const Column = (() => {
   /* Школа сыщика (school4.js) сама показывает деление и сложение столбиком — отдельные карточки больше не дорисовываем */
   const sv = solvedTotal; solvedTotal = function () { return sv() + ((S.st.div || {}).done || 0) + ((S.st.add || {}).done || 0); }; // деление и сложение тоже открывают комнаты
   ['colwork', 'collesson'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
-  return { divPlan, addPlan, genDiv, genAdd, runDiv, runAdd };
+  return { divPlan, addPlan, genDiv, genAdd, runDiv, runAdd, divGrid };
 })();
 window.Column = Column;

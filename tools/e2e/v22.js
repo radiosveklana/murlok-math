@@ -24,6 +24,7 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   });
 
   /* ---------- Школа = «Математика 4 класс» ---------- */
+  await E(() => { S.unlockAll = true; save(); }); // v30: уроки открываются по порядку — здесь проверяем все темы, открываем всё (как «Открыть все уроки» у взрослых)
   await go('school');
   ok('school: one section, all topics', await E(() => /Математика 4 класс/.test(document.querySelector('.school-head').innerText) && document.querySelectorAll('.page.school4 .unit').length === 22));
   ok('school: old lessons kept', !!(await p.$('[data-go="lesson"][data-arg="mul"]')) && !!(await p.$('[data-go="practice"][data-arg="eq"]')) && !!(await p.$('[data-go="colwork"][data-arg="div"]')) && !!(await p.$('[data-go="collesson"][data-arg="add"]')));
