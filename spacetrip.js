@@ -12,7 +12,7 @@ const SpaceTrip = (() => {
     { id: 'mars', name: 'Марс', c: '#D2603A', r: 30, theme: 'Задачи на движение', src: ['math4:motion', 'math4:motion_two'], fact: 'На Марсе самый высокий вулкан Солнечной системы — Олимп.' },
     { id: 'jupiter', name: 'Юпитер', c: '#D9A66B', r: 56, theme: 'Числа-гиганты: до миллиона', src: ['math4:million_read', 'math4:million_compare', 'math4:more_less'], fact: 'Внутри Юпитера поместилось бы больше тысячи планет размером с Землю.' },
     { id: 'saturn', name: 'Сатурн', c: '#E6CB8A', r: 48, ring: true, theme: 'Доли и части — как кольца Сатурна', src: ['math4:part_qty', 'math4:part_num'], fact: 'Кольца Сатурна состоят из льда и камней.' },
-    { id: 'uranus', name: 'Уран', c: '#8FD8E0', r: 40, theme: 'Логика и таблицы', src: ['math4:data_logic', '@think'], fact: 'Уран вращается «лёжа на боку».' },
+    { id: 'uranus', name: 'Уран', c: '#8FD8E0', r: 40, theme: 'Логика и таблицы', src: ['math4:data_logic', '@think', 'think:logic_grids', 'think:probability'], fact: 'Уран вращается «лёжа на боку».' },
     { id: 'neptune', name: 'Нептун', c: '#4B6FE0', r: 40, theme: 'Фигуры, работа и покупки', src: ['math4:shapes', 'math4:work', 'math4:buy', '@space'], fact: 'На Нептуне дуют самые сильные ветры в Солнечной системе.' },
   ];
   const st = () => (S.trip = S.trip || { done: {} });

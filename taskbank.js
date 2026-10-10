@@ -15,10 +15,13 @@ const TaskBank = (() => {
     const groupOf = (sid, uid) => { const G = window.School4 && sid === 'math4' ? School4.GROUPS.find(g => g.items.includes(uid)) : null; return G ? G.t : '📚 ' + (window.SUBJECTS[sid] || {}).name; };
     Object.values(window.SUBJECTS || {}).filter(s => s.id === 'math4' || s.school).forEach(s => s.units.filter(u => typeof u.gen === 'function').forEach(u => reg({ id: s.id + ':' + u.id, subject: s.id, unit: u.id, group: groupOf(s.id, u.id), name: u.title, icon: u.icon,
       make: d => ({ kind: 'aq', level: d, src: s.id + ':' + u.id, title: u.title, icon: u.icon, q: u.gen(d), regen: () => u.gen(d) }) })));
+    // темы Академии с генераторами (мышление, безопасность, общение…): только в «Выбрать темы», в «Вся программа» не попадают; энциклопедия подростка — никогда
+    Object.values(window.SUBJECTS || {}).filter(s => !(s.id === 'math4' || s.school) && s.id !== 'teen').forEach(s => s.units.filter(u => typeof u.gen === 'function').forEach(u => reg({ id: s.id + ':' + u.id, subject: s.id, unit: u.id, acad: true, group: '📚 Академия: ' + s.name, name: u.title, icon: u.icon,
+      make: d => ({ kind: 'aq', level: d, src: s.id + ':' + u.id, title: u.title, icon: u.icon, q: u.gen(d), regen: () => u.gen(d) }) })));
   }
   const list = () => { scan(); return P.slice(); };
   function pick(ids, n, d) { // n задач из разных тем (если тем меньше — повторяем)
-    const pool = list().filter(p => !ids || !ids.length || ids.includes(p.id)), out = []; if (!pool.length) return out;
+    const pool = list().filter(p => ids && ids.length ? ids.includes(p.id) : !p.acad), out = []; if (!pool.length) return out;
     let bag = shuffle(pool);
     for (let i = 0; i < n; i++) { if (!bag.length) bag = shuffle(pool); const p = bag.shift(); try { const t = p.make(d); t.pid = p.id; t.title = t.title || p.name; t.icon = t.icon || p.icon; out.push(t); } catch (e) { console.warn(e); i--; if (out.length + bag.length === 0) break; } }
     return out;

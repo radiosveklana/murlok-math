@@ -32,9 +32,9 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   await click('[data-aq="motion"]'); ok('school topic opens trainer', await E(() => curScreen === 'aquiz' && !!document.querySelector('.genlv')));
 
   /* ---------- «Новое дело» из копилки ---------- */
-  ok('taskbank has all school topics', await E(() => TaskBank.list().length === 22));
+  ok('taskbank has all school topics', await E(() => TaskBank.list().filter(p => !p.acad).length === 22 && TaskBank.list().filter(p => p.acad).every(p => p.subject !== 'teen')));
   await go('newcase'); ok('newcase: all + pick', !!(await p.$('.choice[data-t="all"]')) && !!(await p.$('.choice[data-t="pick"]')));
-  await click('.choice[data-t="pick"]'); ok('pick topics modal', (await p.$$('.tb-pick input')).length === 22);
+  await click('.choice[data-t="pick"]'); ok('pick topics modal', await E(() => [...document.querySelectorAll('.tb-pick input')].filter(i => !(TaskBank.list().find(p => p.id === i.value) || {}).acad).length === 22));
   await E(() => { document.querySelectorAll('.tb-pick input').forEach(i => { i.checked = /^math4:(motion|buy|remainder)$/.test(i.value); }); }); await click('#tbok');
   ok('picked saved', await E(() => S.prefs.caseTopics.length === 3));
   await click('#go'); await sleep(800);

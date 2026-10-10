@@ -36,5 +36,27 @@ for (const f of files) {
     });
     console.log('✔ ' + P + ': уроков ' + s.units.length + ', карточек ' + nc + ', вопросов ' + nq);
   }
+  /* банки дополнительных вопросов (content/extra/q-*.js): window.QUIZ_EXTRA[предмет][урок] = [вопросы] */
+  for (const [sid, units] of Object.entries(ctx.window.QUIZ_EXTRA || {})) {
+    let nq = 0;
+    for (const [uid, qs] of Object.entries(units || {})) {
+      if (!Array.isArray(qs)) { err(f, 'QUIZ_EXTRA.' + sid + '.' + uid + ' — не массив'); continue; }
+      qs.forEach((q, qi) => { nq++; const e = checkQ(q); if (e) err(f + ' [' + sid + '.' + uid + '] q' + qi + ' (' + q.type + ')', e); });
+    }
+    console.log('✔ ' + f + ' [доп. вопросы ' + sid + ']: ' + nq);
+  }
+}
+function checkQ(q) {
+  if (!q || !q.type) return 'нет type';
+  if (!q.why && q.type !== 'case') return 'нет why';
+  switch (q.type) {
+    case 'one': return (!q.q || !Array.isArray(q.a) || q.a.length < 2 || !(q.c >= 0 && q.c < q.a.length)) ? 'нужно q, a[], c-индекс' : '';
+    case 'tf': return (!q.q || typeof q.c !== 'boolean') ? 'нужно q и c: true/false' : '';
+    case 'order': return (!q.q || !Array.isArray(q.items) || q.items.length < 3 || q.items.length > 8) ? 'нужно q и 3–8 items' : '';
+    case 'case': return (!q.story || !Array.isArray(q.a) || q.a.length < 2 || !q.a.some(o => o.ok === true) || q.a.some(o => !o.t || !o.why)) ? 'нужно story и a[{t,ok,why}] с хотя бы одним ok:true' : '';
+    case 'sort': return (!q.q || !Array.isArray(q.groups) || q.groups.length < 2 || q.groups.length > 3 || !Array.isArray(q.items) || q.items.some(it => !Array.isArray(it) || !(it[1] >= 0 && it[1] < q.groups.length))) ? 'нужно q, 2–3 groups, items [[текст, индекс]]' : '';
+    case 'input': return (!q.q || !/^\d{1,6}$/.test(String(q.c))) ? 'нужно q и c — целое число' : '';
+    default: return 'неизвестный тип';
+  }
 }
 process.exit(bad ? 1 : 0);
