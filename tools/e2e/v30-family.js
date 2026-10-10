@@ -60,7 +60,7 @@ const FAMCHAL = { id: 'HFAMCHAL01', tpl: 'fam_tasks', kind: 'family', mode: '', 
   await q.type('#kid', 'Тося'); await q.type('#nm', 'Пушок'); await E2(() => document.querySelector('#start').click()); await sleep(1500);
   ok('local play still works', await E2(() => S.kid === 'Тося' && curScreen === 'home'));
   await E2(() => { document.querySelectorAll('.modal').forEach(m => m.remove()); go('home'); }); await sleep(600);
-  ok('unlinked kid: nudge to ask an adult', await E2(() => /зарегистрироваться/.test((document.querySelector('.acc-nudge') || {}).innerText || '')));
+  ok('unlinked kid: nudge to ask an adult', await E2(() => /Позвать взрослого/.test((document.querySelector('.acc-nudge') || {}).innerText || '')));
   await E2(() => go('board')); await sleep(500); ok('board locked without family cabinet', await E2(() => /Вместе со взрослым/.test(document.body.innerText)));
   await E2(() => { award(0, 50); }); ok('daily XP tracked', await E2(() => S.daily[today()].x === 50));
   /* приглашённый взрослый: другое согласие */

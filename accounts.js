@@ -182,8 +182,24 @@ const Accounts = (() => {
     const A2 = child();
     if (A2 && A2.needSurvey && !sessionStorage.getItem('svAsked')) { sessionStorage.setItem('svAsked', 1); const trySv = n => { if (curScreen !== 'home') return; if ($('.modal')) { if (n < 20) setTimeout(() => trySv(n + 1), 1500); return; } go('survey'); }; setTimeout(() => trySv(0), 2500); } // ждём, пока закроются окна (подарки, дипломы)
     if (A2 && S.cloudCode) api('pending', { code: S.cloudCode }).then(d => { (d.items || []).forEach(it => { if (it.type === 'grant') { S.candies += it.candies || 0; S.totalCandies += it.candies || 0; S.gems = (S.gems || 0) + (it.gems || 0); save(); updCandy(); setTimeout(() => { modal(`<div class="big-emoji">🎁</div><h2>Подарок от команды!</h2><p>${it.candies ? `+${it.candies} 🍬 ` : ''}${it.gems ? `+${it.gems} 💎` : ''}</p>${it.note ? `<p>${esc(it.note)}</p>` : ''}<button class="btn pink" data-close>Спасибо!</button>`); confetti(40); }, 1500); } if (it.type === 'restore') cloudRestore(S.cloudCode).catch(() => { }); }); }).catch(() => { });
-    if (!A2 && S.kid && !$('.acc-nudge', app)) { const t = $('.tiles', app); if (t) t.insertAdjacentHTML('beforebegin', `<div class="acc-nudge" data-go="pauth">☁️ Попроси маму или папу <b>зарегистрироваться</b> — тогда прогресс не потеряется, а ещё появятся друзья, таблица успехов семьи, вызовы и челленджи!</div>`); }
+    if (!A2 && S.kid) nudge(); // ребёнок играет без семьи — время от времени зовём взрослого (не чаще раза в 2 часа, можно закрыть)
   } catch (e) { console.warn(e); } return r; }; }
+  // приглашение взрослого в команду: польза для ребёнка, без слова «привязать»; варианты сменяют друг друга
+  const NUDGES = ['🐾 Позови маму или папу в свою команду — у котика появится облачный домик, и он не потеряется, даже если сменить планшет.',
+    '🤝 Хочешь дружить с другими сыщиками и бросать вызовы? Позови взрослого — пусть откроет семейный кабинет.',
+    '🏆 Кто быстрее решит таблицу Шульте — ты или папа? Позови взрослого, и устроим семейное соревнование!',
+    '📬 Покажи маме свои победы! Когда взрослый откроет кабинет, он будет получать отчёт о твоих успехах.'];
+  function nudge() {
+    if ($('.acc-nudge', app)) return; const t = $('.tiles', app); if (!t) return;
+    let last = 0; try { last = +localStorage.getItem('murlok-nudge-at') || 0; } catch (e) { }
+    if (Date.now() - last < 2 * 36e5) return;
+    const i = (S.nudgeI || 0) % NUDGES.length;
+    t.insertAdjacentHTML('beforebegin', `<div class="acc-nudge"><span>${NUDGES[i]}</span><button class="btn sm pink" id="nudgeGo">Позвать взрослого</button><button class="nudge-x" id="nudgeX" aria-label="Закрыть">✕</button></div>`);
+    const seen = () => { S.nudgeI = i + 1; save(); try { localStorage.setItem('murlok-nudge-at', Date.now()); } catch (e) { } };
+    $('#nudgeGo').addEventListener('click', () => { seen(); go('pauth'); });
+    $('#nudgeX').addEventListener('click', () => { seen(); $('.acc-nudge', app)?.remove(); });
+    if (!document.getElementById('nudge-css')) { const st = document.createElement('style'); st.id = 'nudge-css'; st.textContent = '.acc-nudge{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative;padding-right:40px}.acc-nudge span{flex:1 1 220px}.nudge-x{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.7);font-size:15px}'; document.head.appendChild(st); }
+  }
   /* ---------- раздел для взрослых: вход в кабинет ---------- */
   { const pr = SCREENS.parents; SCREENS.parents = arg => { pr(arg); const pg = $('.page.parents', app); if (!pg) return; const P = parent();
     pg.insertAdjacentHTML('afterbegin', `<div class="card acc-card"><h3>👨‍👩‍👧 Личный кабинет</h3>${P ? `<p>Вы вошли как <b>${esc(P.email)}</b>.</p><div class="row-btns"><button class="btn pink" data-go="pcab">Открыть кабинет</button><button class="btn" id="aout3">🚪 Выйти</button></div>` : `<p class="small">Регистрация родителя: облачное хранение прогресса, вход на любом устройстве, друзья, отчёты, подстройка программы. ${linked() ? '' : 'Сейчас прогресс хранится только на этом устройстве.'}</p><button class="btn pink" data-go="pauth">Войти или зарегистрироваться</button>`}</div>`); $('#aout3', pg)?.addEventListener('click', () => parentOut()); }; }

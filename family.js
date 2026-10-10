@@ -205,12 +205,16 @@ const Family = (() => {
     if (fr && !$('.t-board', app)) fr.insertAdjacentHTML('afterend', `<button class="tile t-board" data-go="board"><span class="ti">🏆</span><b>Успехи и вызовы</b><small>Таблица недели, вызовы, челленджи</small><span class="tbadge" id="fmbadge" hidden></span></button>`);
     if (!linked()) return r;
     const paint = n => { const b = $('#fmbadge'); const c = n.incoming.length + n.unclaimedDuels + n.claimableChals; if (b && c) { b.hidden = false; b.textContent = c; } };
-    const offer = n => { const L = n.incoming.filter(d => !shown().includes(d.id)); if (!L.length) return; const d = L[0];
+    let offer = n => { const L = n.incoming.filter(d => !shown().includes(d.id)); if (!L.length) return; const d = L[0];
       const tryIt = k => { if (curScreen !== 'home') return; if ($('.modal')) { if (k < 20) setTimeout(() => tryIt(k + 1), 1500); return; }
         try { sessionStorage.setItem('duelShown', JSON.stringify([...shown(), d.id])); } catch (e) { }
         const m = modal(`<div class="fm-vs">${ava(d.other)}<b>⚔️</b>${ava({ fur: S.fur, wear: S.wear })}</div><h2>${esc(d.other.name)} бросил${girl(d.other.name) ? 'а' : ''} тебе вызов!</h2><p>${d.icon} <b>${esc(plain(gameName(d)))}</b></p>${d.theirs ? `<p>Результат: <b>${resText(d.game, d.theirs)}</b>. Сможешь лучше?</p>` : ''}<div class="row-btns"><button class="btn pink" id="dacc">Принять вызов!</button><button class="btn" data-close>Позже</button></div>`);
         $('#dacc', m.el).addEventListener('click', () => { duelCache[d.id] = d; m.close(); go('duelplay', d.id); }); M.meow({ shape: 'happy' }); };
       setTimeout(() => tryIt(0), 3000); };
+    // котик сам напоминает о вызове, который уже видели, но ещё не приняли (раз в 20 минут, чтобы не надоедать)
+    const remind = n => { const L = n.incoming.filter(d => shown().includes(d.id)); if (!L.length) return; let at = 0; try { at = +sessionStorage.getItem('duelRemindAt') || 0; } catch (e) { } if (Date.now() - at < 20 * 6e4) return;
+      setTimeout(() => { if (curScreen !== 'home' || $('.modal')) return; const d = L[0]; try { sessionStorage.setItem('duelRemindAt', Date.now()); } catch (e) { } say(`⚔️ ${esc(d.other.name)} ждёт твой ответ на вызов «${esc(plain(gameName(d)))}»! Загляни в «Успехи и вызовы» 🏆`, 0, { prio: 1 }); }, 6000); };
+    const offer0 = offer; offer = n => { offer0(n); remind(n); };
     if (news && Date.now() - newsAt < 60000) { paint(news); offer(news); }
     else api('social/news').then(n => { news = n; newsAt = Date.now(); if (curScreen === 'home') { paint(n); offer(n); } }).catch(() => { });
   } catch (e) { console.warn(e); } return r; }; }
