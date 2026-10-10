@@ -278,5 +278,237 @@
  "feeling_unwell:5": {
   "q": "blanket",
   "alt": "Тёплый плед"
+ },
+ "help_rule:6": {
+  "q": "mobile phone hand",
+  "alt": "Телефон в руке"
+ },
+ "help_rule:8": {
+  "q": "ambulance car street",
+  "alt": "Машина скорой помощи"
+ },
+ "first_aid_kit:6": {
+  "q": "medicine box expiry first aid",
+  "alt": "Домашняя аптечка"
+ },
+ "first_aid_kit:7": {
+  "q": "hiking first aid kit",
+  "alt": "Походная аптечка"
+ },
+ "first_aid_kit:8": {
+  "q": "digital thermometer",
+  "alt": "Градусник"
+ },
+ "first_aid_kit:9": {
+  "q": "school nurse office",
+  "alt": "Медкабинет"
+ },
+ "wounds:6": {
+  "q": "tweezers magnifying glass",
+  "alt": "Пинцет и лупа"
+ },
+ "wounds:7": {
+  "q": "new sneakers socks",
+  "alt": "Кроссовки и носки"
+ },
+ "wounds:8": {
+  "q": "plantain leaf",
+  "alt": "Подорожник"
+ },
+ "wounds:9": {
+  "q": "adhesive bandage",
+  "alt": "Пластырь"
+ },
+ "burns:6": {
+  "q": "kettle steam kitchen",
+  "alt": "Пар от чайника"
+ },
+ "burns:7": {
+  "q": "cleaning products high shelf",
+  "alt": "Бытовая химия"
+ },
+ "burns:8": {
+  "q": "cold water tap sink",
+  "alt": "Холодная вода из крана"
+ },
+ "burns:9": {
+  "q": "fire blanket",
+  "alt": "Противопожарное покрывало"
+ },
+ "injuries:6": {
+  "q": "ice pack towel",
+  "alt": "Холод в полотенце"
+ },
+ "injuries:7": {
+  "q": "X-ray hand bones",
+  "alt": "Рентгеновский снимок"
+ },
+ "injuries:8": {
+  "q": "door stopper",
+  "alt": "Ограничитель двери"
+ },
+ "injuries:9": {
+  "q": "clinic entrance building",
+  "alt": "Здание поликлиники"
+ },
+ "bites:6": {
+  "q": "mosquito net window",
+  "alt": "Москитная сетка"
+ },
+ "bites:7": {
+  "q": "paper wasp nest",
+  "alt": "Гнездо ос"
+ },
+ "choking:6": {
+  "q": "grapes cut halves",
+  "alt": "Разрезанный виноград"
+ },
+ "choking:8": {
+  "q": "small toys out of reach",
+  "alt": "Мелкие детали"
+ },
+ "choking:9": {
+  "q": "first aid training mannequin",
+  "alt": "Курсы первой помощи"
+ },
+ "weather_water:6": {
+  "q": "hot tea blanket",
+  "alt": "Тёплый чай и плед"
+ },
+ "weather_water:7": {
+  "q": "winter clothes layers",
+  "alt": "Одежда слоями"
+ },
+ "weather_water:8": {
+  "q": "water bottle summer",
+  "alt": "Вода в жару"
+ },
+ "fire_emergency:6": {
+  "q": "frying pan lid",
+  "alt": "Крышка для сковороды"
+ },
+ "fire_emergency:7": {
+  "q": "smoke detector ceiling",
+  "alt": "Датчик дыма"
+ },
+ "fire_emergency:8": {
+  "q": "emergency exit school corridor",
+  "alt": "Школьный коридор"
+ },
+ "fire_emergency:9": {
+  "q": "siren loudspeaker pole",
+  "alt": "Сирена оповещения"
+ },
+ "feeling_unwell:7": {
+  "q": "asthma inhaler",
+  "alt": "Ингалятор"
+ },
+ "feeling_unwell:8": {
+  "q": "glass of juice sugar cubes",
+  "alt": "Сок и сахар"
+ },
+ "feeling_unwell:9": {
+  "q": "fly agaric mushroom forest",
+  "alt": "Мухомор в лесу"
+ },
+ "electric_gas:0": {
+  "q": "electrical outlet safety cover",
+  "alt": "Розетка с заглушкой"
+ },
+ "electric_gas:1": {
+  "q": "hand towel dry hands",
+  "alt": "Сухие руки"
+ },
+ "electric_gas:2": {
+  "q": "plug socket hand",
+  "alt": "Вилка и розетка"
+ },
+ "electric_gas:4": {
+  "q": "power strip extension cord",
+  "alt": "Удлинитель"
+ },
+ "electric_gas:6": {
+  "q": "power lines poles field",
+  "alt": "Линия электропередачи"
+ },
+ "electric_gas:7": {
+  "q": "gas stove kitchen",
+  "alt": "Газовая плита"
+ },
+ "water_ice:0": {
+  "q": "beach lifeguard tower",
+  "alt": "Спасательная вышка"
+ },
+ "water_ice:1": {
+  "q": "clear shallow water stones",
+  "alt": "Дно у берега"
+ },
+ "water_ice:2": {
+  "q": "life jacket",
+  "alt": "Спасательный жилет"
+ },
+ "water_ice:3": {
+  "q": "lifeguard rescue buoy",
+  "alt": "Спасательный круг"
+ },
+ "water_ice:5": {
+  "q": "frozen lake reeds winter",
+  "alt": "Лёд у камышей"
+ },
+ "water_ice:6": {
+  "q": "ice safety picks",
+  "alt": "Спасалки для льда"
+ },
+ "water_ice:7": {
+  "q": "rescue rope coiled",
+  "alt": "Спасательная верёвка"
+ },
+ "lost:1": {
+  "q": "mobile phone hand",
+  "alt": "Звонок маме"
+ },
+ "lost:2": {
+  "q": "information desk shopping mall",
+  "alt": "Стойка информации"
+ },
+ "lost:4": {
+  "q": "meeting point fountain",
+  "alt": "Место встречи"
+ },
+ "lost:5": {
+  "q": "big tree forest",
+  "alt": "Обними дерево"
+ },
+ "lost:6": {
+  "q": "whistle",
+  "alt": "Свисток"
+ },
+ "lost:7": {
+  "q": "search volunteers forest",
+  "alt": "Поисковые отряды"
+ },
+ "ticks_forest:1": {
+  "q": "hiking boots long trousers",
+  "alt": "Одежда для леса"
+ },
+ "ticks_forest:2": {
+  "q": "forest path trail",
+  "alt": "Лесная тропинка"
+ },
+ "ticks_forest:4": {
+  "q": "tick removal tool",
+  "alt": "Приспособление для клеща"
+ },
+ "ticks_forest:5": {
+  "q": "small glass jar cotton",
+  "alt": "Баночка с ваткой"
+ },
+ "ticks_forest:6": {
+  "q": "digital thermometer",
+  "alt": "Следим за самочувствием"
+ },
+ "ticks_forest:7": {
+  "q": "vaccine vial syringe",
+  "alt": "Прививка"
  }
 }

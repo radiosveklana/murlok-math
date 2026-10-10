@@ -22,8 +22,10 @@
   "src": "commons"
  },
  "meet:3": {
-  "type": "art",
-  "p": "An anime boy noticing a little dragon keychain on a classmate's backpack and pointing at it with delight, both laughing"
+  "type": "photo",
+  "q": "magnifying glass",
+  "alt": "Лупа детектива",
+  "src": "commons"
  },
  "meet:4": {
   "type": "photo",
@@ -56,8 +58,10 @@
   "src": "commons"
  },
  "listen:2": {
-  "type": "art",
-  "p": "An anime boy waiting patiently with lips pressed together and a finger bent to remember a thought, while his friend finishes speaking"
+  "type": "photo",
+  "q": "red traffic light",
+  "alt": "Красный — подожди",
+  "src": "commons"
  },
  "listen:3": {
   "type": "photo",
@@ -84,8 +88,10 @@
   "src": "commons"
  },
  "empathy:0": {
-  "type": "art",
-  "p": "Four cute round candy characters in a row showing clear emotions: happy, sad, angry and scared, expressive faces, playful arrangement"
+  "type": "photo",
+  "q": "theatre masks",
+  "alt": "Маски эмоций",
+  "src": "commons"
  },
  "empathy:1": {
   "type": "photo",
@@ -112,8 +118,10 @@
   "src": "commons"
  },
  "empathy:5": {
-  "type": "art",
-  "p": "A worried anime boy leading his gloomy friend by the hand toward a kind school teacher who welcomes them with open arms"
+  "type": "photo",
+  "q": "teacher classroom",
+  "alt": "Взрослый рядом",
+  "src": "commons"
  },
  "cover:i_message": {
   "type": "photo",
@@ -140,8 +148,10 @@
   "src": "commons"
  },
  "i_message:3": {
-  "type": "art",
-  "p": "A kitten detective with a magnifying glass looking at a drawing held up in class while classmates giggle, focusing on what happened"
+  "type": "photo",
+  "q": "vintage camera",
+  "alt": "Только факты",
+  "src": "commons"
  },
  "i_message:4": {
   "type": "photo",
@@ -160,8 +170,10 @@
   "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat politely asking a hedgehog for a ruler, while gently refusing a pushy crow's offer"
  },
  "ask_refuse:0": {
-  "type": "art",
-  "p": "A polite little kitten asking a hedgehog classmate for a ruler with a smile and paws together, the hedgehog happily sharing"
+  "type": "photo",
+  "q": "gift box",
+  "alt": "Вежливая просьба",
+  "src": "commons"
  },
  "ask_refuse:1": {
   "type": "photo",
@@ -198,8 +210,10 @@
   "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat holding a balance scale level between a bunny and a puppy who both smile"
  },
  "compromise:0": {
-  "type": "art",
-  "p": "Two anime kids debating at a table with a map and magnifying glass like detectives, animated but friendly, solving together"
+  "type": "photo",
+  "q": "two goats",
+  "alt": "Два упрямых козла",
+  "src": "commons"
  },
  "compromise:1": {
   "type": "photo",
@@ -224,8 +238,10 @@
   "p": "Two cute animal friends playing rock-paper-scissors with paws, a coin spinning in the air, fair and playful mood"
  },
  "compromise:5": {
-  "type": "art",
-  "p": "Kids taking a calm break sitting on cushions with cups of cocoa, a wise owl friend sitting in the middle as a fair judge"
+  "type": "photo",
+  "q": "hourglass",
+  "alt": "Пауза",
+  "src": "commons"
  },
  "cover:make_up": {
   "type": "photo",
@@ -348,8 +364,10 @@
   "src": "commons"
  },
  "online:5": {
-  "type": "art",
-  "p": "An anime boy covering his mouth like the speak-no-evil monkey and putting his phone away instead of writing about a classmate"
+  "type": "photo",
+  "q": "whispering statue",
+  "alt": "Шёпот за спиной",
+  "src": "commons"
  },
  "cover:teamwork": {
   "type": "photo",
@@ -376,8 +394,10 @@
   "src": "commons"
  },
  "teamwork:3": {
-  "type": "art",
-  "p": "A team of four animal kids building a treehouse: one holding a plan, one with an idea lightbulb, one hammering, one checking with a magnifying glass"
+  "type": "photo",
+  "q": "orchestra",
+  "alt": "Оркестр",
+  "src": "commons"
  },
  "teamwork:4": {
   "type": "photo",
@@ -390,5 +410,283 @@
   "q": "relay race baton",
   "alt": "Эстафета",
   "src": "commons"
+ },
+ "meet:6": {
+  "type": "art",
+  "p": "two children chatting happily while a glowing ping-pong ball bounces between their speech bubbles, sunny schoolyard"
+ },
+ "meet:7": {
+  "type": "art",
+  "p": "two children standing on either side of a small stream, a colorful bridge made of speech bubbles connecting them, both smiling"
+ },
+ "meet:8": {
+  "type": "art",
+  "p": "a group of kids playing ball in a park, one child waving warmly to invite a shy kid standing by a tree"
+ },
+ "meet:9": {
+  "type": "art",
+  "p": "two children waving goodbye to each other with big smiles at a school gate, warm evening light"
+ },
+ "listen:6": {
+  "type": "photo",
+  "q": "notebook magnifying glass",
+  "alt": "Запомни детали",
+  "src": "commons"
+ },
+ "listen:7": {
+  "type": "art",
+  "p": "two children sitting on a bench, one telling a story with gestures, the other listening attentively with a gentle nod"
+ },
+ "listen:8": {
+  "type": "art",
+  "p": "a child listening patiently with hands folded while a friend explains an idea with a glowing light bulb, calm classroom"
+ },
+ "listen:9": {
+  "type": "art",
+  "p": "two children sitting quietly together on a park bench watching leaves fall, a calm peaceful silence, soft autumn colors"
+ },
+ "empathy:6": {
+  "type": "art",
+  "p": "a child curiously trying on a pair of oversized sneakers belonging to a friend, both laughing, a thought bubble with a heart"
+ },
+ "empathy:7": {
+  "type": "art",
+  "p": "a girl standing among moving boxes holding a box of toys, half smiling and half sad, a friend hugging her goodbye"
+ },
+ "empathy:8": {
+  "type": "art",
+  "p": "a rainy day split into three scenes: a sad child at a window, a happy grandma in a garden, a toddler splashing puddles"
+ },
+ "empathy:9": {
+  "type": "art",
+  "p": "a child putting down a heavy backpack full of gray clouds and resting with a cup of cocoa and a cat, cozy blanket"
+ },
+ "i_message:6": {
+  "type": "art",
+  "p": "a speech bubble wearing a cute disguise mask being gently unmasked by a child detective, a wise owl watching"
+ },
+ "i_message:7": {
+  "type": "art",
+  "p": "a child telling a friend something kind, a glowing heart floating from the speech bubble, the friend blushing happily"
+ },
+ "i_message:8": {
+  "type": "art",
+  "p": "two children talking calmly in a quiet library corner away from a busy hallway, soft afternoon light"
+ },
+ "i_message:9": {
+  "type": "art",
+  "p": "a child listening calmly with open hands while a frustrated friend explains, a little calm cloud between them clearing up"
+ },
+ "ask_refuse:6": {
+  "type": "art",
+  "p": "a child confidently raising a hand in a bright classroom, a friendly teacher walking over, a light bulb above the child"
+ },
+ "ask_refuse:7": {
+  "type": "photo",
+  "q": "pen pencil",
+  "alt": "Просьба с «потому что»",
+  "src": "commons"
+ },
+ "ask_refuse:8": {
+  "type": "art",
+  "p": "a child holding a pen they need while offering a friend a spare pencil instead, both satisfied, school desk"
+ },
+ "ask_refuse:9": {
+  "type": "art",
+  "p": "a child confidently stepping back with a hand raised and walking toward a trusted parent, a protective glowing shield around"
+ },
+ "compromise:6": {
+  "type": "art",
+  "p": "two children surrounded by many colorful sticky notes with doodles, finding a new idea together with a glowing light bulb"
+ },
+ "compromise:7": {
+  "type": "art",
+  "p": "a child saying sorry and shaking a friend hand after a debate, a small white flag on the table, both relieved"
+ },
+ "compromise:8": {
+  "type": "art",
+  "p": "two children making a pinky promise over a board game, a little scroll of agreement floating between them"
+ },
+ "compromise:9": {
+  "type": "art",
+  "p": "a child pointing at a glowing red traffic light while friends wait patiently at the curb, safety comes first"
+ },
+ "make_up:6": {
+  "type": "art",
+  "p": "a shy child holding out a small flower to a friend, cheeks pink, the friend turning around with a surprised smile"
+ },
+ "make_up:7": {
+  "type": "art",
+  "p": "two children hugging after a quarrel, a little storm cloud above them turning into a rainbow"
+ },
+ "make_up:8": {
+  "type": "art",
+  "p": "two children tying a ribbon on a box labeled with a cloud doodle and putting it away, then playing together"
+ },
+ "make_up:9": {
+  "type": "art",
+  "p": "a child shaking hands with a friend while drawing a gentle chalk line on the ground, both nodding seriously"
+ },
+ "speech:6": {
+  "type": "photo",
+  "q": "microphone stand",
+  "alt": "Голос и паузы",
+  "src": "commons"
+ },
+ "speech:7": {
+  "type": "art",
+  "p": "a child standing tall in front of the class with feet apart and open gestures, confident smile, chalkboard behind"
+ },
+ "speech:8": {
+  "type": "art",
+  "p": "a child presenting a handmade volcano model to curious classmates, everyone leaning forward with great interest"
+ },
+ "speech:9": {
+  "type": "art",
+  "p": "a child bowing at the end of a talk while classmates clap, confetti and stars in the air"
+ },
+ "online:6": {
+  "type": "photo",
+  "q": "hourglass",
+  "alt": "Правило 10 секунд",
+  "src": "commons"
+ },
+ "online:7": {
+  "type": "art",
+  "p": "a child calmly closing a laptop with a gray cloud chat bubble and walking to a parent, sunlight in the room"
+ },
+ "online:8": {
+  "type": "art",
+  "p": "a child typing on a tablet, a glowing chat bubble with a heart and a small bandage flying to a friend"
+ },
+ "online:9": {
+  "type": "art",
+  "p": "a child holding a phone and politely asking with a smile, a speech bubble with a clock icon, cozy room"
+ },
+ "teamwork:6": {
+  "type": "art",
+  "p": "a child listening to a friend pointing at a drawing, then adding a missing detail with a pencil, both smiling"
+ },
+ "teamwork:7": {
+  "type": "art",
+  "p": "a cute three-layer sandwich with a heart on top and bottom, two children laughing next to it with a drawing"
+ },
+ "teamwork:8": {
+  "type": "art",
+  "p": "a child kneeling beside a classmate and pointing at a puzzle while the classmate places a piece themselves"
+ },
+ "teamwork:9": {
+  "type": "art",
+  "p": "two children in different colored sports jerseys shaking hands after a soccer match, sunny field"
+ },
+ "cover:group_work": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat leading a small team of children around a table with a big poster project, a stopwatch and notebook nearby"
+ },
+ "group_work:0": {
+  "type": "art",
+  "p": "four children around a table each wearing a different colored badge with a simple icon, working calmly together"
+ },
+ "group_work:1": {
+  "type": "art",
+  "p": "a child holding a stopwatch while another child guides the group discussion, a classroom table with papers"
+ },
+ "group_work:2": {
+  "type": "art",
+  "p": "a child writing notes in a notebook and another child standing ready to present with a poster, classroom scene"
+ },
+ "group_work:3": {
+  "type": "art",
+  "p": "children drawing a step-by-step plan with arrows and checkmarks on a big paper before starting, colorful markers"
+ },
+ "group_work:4": {
+  "type": "art",
+  "p": "children sitting in a circle passing a soft toy, each speaking in turn, little speech bubbles going around"
+ },
+ "group_work:5": {
+  "type": "art",
+  "p": "two children comparing two glowing light bulbs on a table, discussing which is brighter, both friendly"
+ },
+ "group_work:6": {
+  "type": "art",
+  "p": "two children dividing a poster task, one drawing pictures and the other writing captions, working side by side"
+ },
+ "group_work:7": {
+  "type": "art",
+  "p": "a group of children presenting a poster together to the class, one speaking while others smile, classmates clapping"
+ },
+ "cover:say_no_friends": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat calmly holding up a paw to say no while friends gesture toward a tall garage, a friendly shield glowing behind"
+ },
+ "say_no_friends:0": {
+  "type": "art",
+  "p": "a child standing calmly apart from a group of friends who are pointing at a tall fence, thinking it over"
+ },
+ "say_no_friends:1": {
+  "type": "art",
+  "p": "a child detective with a magnifying glass examining floating speech bubbles shaped like hooks and arrows"
+ },
+ "say_no_friends:2": {
+  "type": "art",
+  "p": "a child looking a friend in the eye and shaking head calmly, standing straight, sunny schoolyard"
+ },
+ "say_no_friends:3": {
+  "type": "photo",
+  "q": "vinyl record player",
+  "alt": "Заезженная пластинка",
+  "src": "commons"
+ },
+ "say_no_friends:4": {
+  "type": "art",
+  "p": "a child pointing friends toward a fun soccer game in the park instead of climbing, everyone running happily"
+ },
+ "say_no_friends:5": {
+  "type": "art",
+  "p": "a child calmly walking away from a group toward home along a sunny tree-lined path, head held high"
+ },
+ "say_no_friends:6": {
+  "type": "art",
+  "p": "two friends still laughing together on a bench after a disagreement, a sturdy little bridge drawn between them"
+ },
+ "say_no_friends:7": {
+  "type": "art",
+  "p": "a child talking to a kind dad at home, dad listening seriously with a hand on the child shoulder, warm lamp light"
+ },
+ "cover:support_friend": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting next to a sad child on a bench, offering a warm cup of cocoa and a gentle smile"
+ },
+ "support_friend:0": {
+  "type": "art",
+  "p": "a child noticing a classmate sitting alone at the edge of the playground, a small magnifying glass highlighting the lonely kid"
+ },
+ "support_friend:1": {
+  "type": "art",
+  "p": "a child kneeling beside a sad friend and asking gently, a soft speech bubble with a heart"
+ },
+ "support_friend:2": {
+  "type": "art",
+  "p": "a child listening closely with full attention while a friend talks and wipes a tear, cozy corner"
+ },
+ "support_friend:3": {
+  "type": "art",
+  "p": "warm glowing speech bubbles with hearts and stars floating from one child to a sad friend, who starts to smile"
+ },
+ "support_friend:4": {
+  "type": "art",
+  "p": "a child catching prickly gray speech bubbles in a net before they reach a friend, replacing them with soft hearts"
+ },
+ "support_friend:5": {
+  "type": "art",
+  "p": "a child sharing an apple with a friend on a school bench during break, both sitting close together"
+ },
+ "support_friend:6": {
+  "type": "art",
+  "p": "a child talking to a kind school counselor in a cozy office with plants, the counselor listening carefully"
+ },
+ "support_friend:7": {
+  "type": "art",
+  "p": "a child holding a friend hand and explaining kindly before walking together to a teacher, warm hallway"
  }
 }

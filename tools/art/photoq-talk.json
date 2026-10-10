@@ -278,5 +278,57 @@
  "teamwork:5": {
   "q": "relay race baton",
   "alt": "Эстафета"
+ },
+ "meet:6": {
+  "q": "table tennis ball paddle",
+  "alt": "Пинг-понг в разговоре"
+ },
+ "listen:6": {
+  "q": "notebook magnifying glass",
+  "alt": "Запомни детали"
+ },
+ "empathy:6": {
+  "q": "pair of shoes",
+  "alt": "Чужие ботинки"
+ },
+ "ask_refuse:6": {
+  "q": "raised hand classroom",
+  "alt": "Просить помощи"
+ },
+ "ask_refuse:7": {
+  "q": "pen pencil",
+  "alt": "Просьба с «потому что»"
+ },
+ "compromise:9": {
+  "q": "traffic light",
+  "alt": "Без компромиссов"
+ },
+ "speech:6": {
+  "q": "microphone stand",
+  "alt": "Голос и паузы"
+ },
+ "online:6": {
+  "q": "hourglass",
+  "alt": "Правило 10 секунд"
+ },
+ "group_work:1": {
+  "q": "stopwatch",
+  "alt": "Ведущий и хронометрист"
+ },
+ "say_no_friends:1": {
+  "q": "magnifying glass",
+  "alt": "Распознай приёмы"
+ },
+ "say_no_friends:3": {
+  "q": "vinyl record player",
+  "alt": "Заезженная пластинка"
+ },
+ "support_friend:0": {
+  "q": "magnifying glass",
+  "alt": "Заметь"
+ },
+ "support_friend:5": {
+  "q": "apple sharing",
+  "alt": "Маленькая забота"
  }
 }

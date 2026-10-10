@@ -253,5 +253,89 @@
  "is_it_normal:10": {
   "q": "toothbrush",
   "alt": "Зубная щётка"
+ },
+ "for_everyone:11": {
+  "q": "glass of water",
+  "alt": "Стакан воды"
+ },
+ "hygiene:8": {
+  "q": "nail clipper",
+  "alt": "Кусачки для ногтей"
+ },
+ "hygiene:9": {
+  "q": "toothbrush",
+  "alt": "Зубная щётка"
+ },
+ "hygiene:10": {
+  "q": "folded t-shirt",
+  "alt": "Сменная футболка"
+ },
+ "confidence:9": {
+  "q": "apple and pear",
+  "alt": "Яблоко и груша"
+ },
+ "boundaries:8": {
+  "q": "closed wooden door",
+  "alt": "Закрытая дверь"
+ },
+ "boundaries:10": {
+  "q": "smartphone padlock",
+  "alt": "Телефон под замком"
+ },
+ "online:6": {
+  "q": "padlock",
+  "alt": "Навесной замок"
+ },
+ "online:7": {
+  "q": "footprints in sand",
+  "alt": "Следы на песке"
+ },
+ "online:9": {
+  "q": "phone on nightstand",
+  "alt": "Телефон на тумбочке"
+ },
+ "is_it_normal:13": {
+  "q": "alarm clock",
+  "alt": "Будильник"
+ },
+ "online_friends:4": {
+  "q": "smartphone on desk",
+  "alt": "Смартфон"
+ },
+ "online_friends:7": {
+  "q": "ring light",
+  "alt": "Кольцевая лампа"
+ },
+ "money:0": {
+  "q": "coins and notebook",
+  "alt": "Монеты"
+ },
+ "money:1": {
+  "q": "piggy bank",
+  "alt": "Копилка"
+ },
+ "money:4": {
+  "q": "cereal boxes shop shelf",
+  "alt": "Сравнение цен"
+ },
+ "money:5": {
+  "q": "cash register receipt",
+  "alt": "Чек"
+ },
+ "money:6": {
+  "q": "payment card chip",
+  "alt": "Банковская карта"
+ },
+ "exam_stress:2": {
+  "q": "planner notebook",
+  "alt": "Ежедневник"
+ },
+ "exam_stress:4": {
+  "q": "school backpack",
+  "alt": "Школьный рюкзак"
+ },
+ "talk_parents:7": {
+  "q": "folded paper note",
+  "alt": "Записка"
  }
 }

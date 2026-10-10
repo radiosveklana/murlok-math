@@ -411,5 +411,387 @@
   "q": "sleeping child",
   "alt": "Сладкий сон",
   "src": "commons"
+ },
+ "scientists:7": {
+  "type": "photo",
+  "q": "Archimedes portrait",
+  "alt": "Архимед",
+  "src": "commons"
+ },
+ "scientists:8": {
+  "type": "art",
+  "p": "a telescope on a rooftop pointing at Jupiter with four tiny moons, starry night over an old Italian town"
+ },
+ "scientists:9": {
+  "type": "photo",
+  "q": "Ivan Pavlov portrait",
+  "alt": "Иван Павлов",
+  "src": "commons"
+ },
+ "scientists:10": {
+  "type": "photo",
+  "q": "Albert Einstein portrait",
+  "alt": "Альберт Эйнштейн",
+  "src": "commons"
+ },
+ "scientists:11": {
+  "type": "photo",
+  "q": "Ivan Kulibin portrait",
+  "alt": "Иван Кулибин",
+  "src": "commons"
+ },
+ "space_travel:7": {
+  "type": "art",
+  "p": "a Vostok spacecraft orbiting Earth with a sunrise over the planet horizon, a full day in space"
+ },
+ "space_travel:8": {
+  "type": "art",
+  "p": "the Mir space station orbiting blue Earth, a long space flight, bright stars in the dark background"
+ },
+ "space_travel:9": {
+  "type": "photo",
+  "q": "International Space Station",
+  "alt": "МКС",
+  "src": "commons"
+ },
+ "space_travel:10": {
+  "type": "photo",
+  "q": "Afanasy Nikitin monument Tver",
+  "alt": "Памятник Афанасию Никитину",
+  "src": "commons"
+ },
+ "kids_heroes:7": {
+  "type": "photo",
+  "q": "Carl Friedrich Gauss portrait",
+  "alt": "Карл Гаусс",
+  "src": "commons"
+ },
+ "kids_heroes:8": {
+  "type": "photo",
+  "q": "Sergey Karjakin chess",
+  "alt": "Сергей Карякин",
+  "src": "commons"
+ },
+ "kids_heroes:9": {
+  "type": "photo",
+  "q": "Lev Landau physicist",
+  "alt": "Лев Ландау",
+  "src": "commons"
+ },
+ "kids_heroes:10": {
+  "type": "photo",
+  "q": "Gitanjali Rao",
+  "alt": "Гитанджали Рао",
+  "src": "commons"
+ },
+ "writers_artists:7": {
+  "type": "photo",
+  "q": "Hans Christian Andersen portrait",
+  "alt": "Ханс Кристиан Андерсен",
+  "src": "commons"
+ },
+ "writers_artists:8": {
+  "type": "photo",
+  "q": "Beatrix Potter portrait",
+  "alt": "Беатрис Поттер",
+  "src": "commons"
+ },
+ "writers_artists:9": {
+  "type": "photo",
+  "q": "Leonardo da Vinci flying machine drawing",
+  "alt": "Тетради Леонардо",
+  "src": "commons"
+ },
+ "writers_artists:10": {
+  "type": "photo",
+  "q": "Ivan Fyodorov monument Moscow",
+  "alt": "Памятник Ивану Фёдорову",
+  "src": "commons"
+ },
+ "writers_artists:11": {
+  "type": "art",
+  "p": "a little boy in a huge blue hat and yellow trousers among giant flowers in a fairy tale town"
+ },
+ "sport_heroes:7": {
+  "type": "photo",
+  "q": "Larisa Latynina gymnast",
+  "alt": "Лариса Латынина",
+  "src": "commons"
+ },
+ "sport_heroes:8": {
+  "type": "photo",
+  "q": "Yelena Isinbayeva pole vault",
+  "alt": "Елена Исинбаева",
+  "src": "commons"
+ },
+ "sport_heroes:9": {
+  "type": "art",
+  "p": "a runner with a bandaged leg crossing a finish line helped by his father, a cheering stadium crowd"
+ },
+ "sport_heroes:10": {
+  "type": "photo",
+  "q": "Fosbury flop high jump",
+  "alt": "Прыжок фосбери-флоп",
+  "src": "commons"
+ },
+ "sport_heroes:11": {
+  "type": "photo",
+  "q": "Jesse Owens 1936",
+  "alt": "Джесси Оуэнс",
+  "src": "commons"
+ },
+ "doctors_rescuers:7": {
+  "type": "art",
+  "p": "an old wooden stethoscope tube next to a rolled paper tube on a doctor desk, 19th century study"
+ },
+ "doctors_rescuers:8": {
+  "type": "photo",
+  "q": "Wilhelm Rontgen portrait",
+  "alt": "Вильгельм Рентген",
+  "src": "commons"
+ },
+ "doctors_rescuers:9": {
+  "type": "art",
+  "p": "a scientist in a white coat holding a vaccine vial in a laboratory, hopeful light, happy healthy children outside"
+ },
+ "doctors_rescuers:10": {
+  "type": "art",
+  "p": "a lonely polar station in the snowy Antarctic night with a glowing window and green aurora in the sky"
+ },
+ "doctors_rescuers:11": {
+  "type": "photo",
+  "q": "Henry Dunant portrait",
+  "alt": "Анри Дюнан",
+  "src": "commons"
+ },
+ "animal_heroes:7": {
+  "type": "photo",
+  "q": "Vostok spacecraft capsule",
+  "alt": "Корабль «Восток»",
+  "src": "commons"
+ },
+ "animal_heroes:8": {
+  "type": "art",
+  "p": "a brave carrier pigeon flying over a green forest with a tiny message tube on its leg"
+ },
+ "animal_heroes:9": {
+  "type": "art",
+  "p": "a big friendly African rat with a little harness sniffing the ground in a grassy field, sunny day"
+ },
+ "animal_heroes:10": {
+  "type": "art",
+  "p": "a calm labrador guide dog in a harness waiting patiently at a pedestrian crossing on a sunny street"
+ },
+ "animal_heroes:11": {
+  "type": "art",
+  "p": "a small loyal Skye terrier sitting on an old stone street in Edinburgh, soft morning light"
+ },
+ "fail_to_win:7": {
+  "type": "photo",
+  "q": "Ludwig van Beethoven portrait",
+  "alt": "Людвиг ван Бетховен",
+  "src": "commons"
+ },
+ "fail_to_win:8": {
+  "type": "photo",
+  "q": "Wright Flyer first flight 1903",
+  "alt": "Первый полёт братьев Райт",
+  "src": "commons"
+ },
+ "fail_to_win:9": {
+  "type": "photo",
+  "q": "ETH Zurich main building",
+  "alt": "Политехникум в Цюрихе",
+  "src": "commons"
+ },
+ "fail_to_win:10": {
+  "type": "photo",
+  "q": "Charles Goodyear portrait",
+  "alt": "Чарльз Гудьир",
+  "src": "commons"
+ },
+ "fail_to_win:11": {
+  "type": "art",
+  "p": "a melted chocolate bar next to a big old radar machine, a surprised engineer in a laboratory"
+ },
+ "kindness:7": {
+  "type": "photo",
+  "q": "Nicholas Winton",
+  "alt": "Николас Уинтон",
+  "src": "commons"
+ },
+ "kindness:8": {
+  "type": "photo",
+  "q": "Anne Sullivan Helen Keller",
+  "alt": "Энн Салливан и Хелен Келлер",
+  "src": "commons"
+ },
+ "kindness:9": {
+  "type": "art",
+  "p": "a brave young nurse with a cart of bandages and water in an old seaside town"
+ },
+ "kindness:10": {
+  "type": "photo",
+  "q": "Wangari Maathai",
+  "alt": "Вангари Маатаи",
+  "src": "commons"
+ },
+ "growth_mindset:8": {
+  "type": "art",
+  "p": "a child steadily climbing a staircase of books toward a little flag at the top, perseverance"
+ },
+ "growth_mindset:9": {
+  "type": "art",
+  "p": "a tomato-shaped kitchen timer on a study desk with a notebook and pencils, focused work time"
+ },
+ "growth_mindset:10": {
+  "type": "photo",
+  "q": "Hermann Ebbinghaus portrait",
+  "alt": "Герман Эббингауз",
+  "src": "commons"
+ },
+ "growth_mindset:11": {
+  "type": "art",
+  "p": "a child sitting at a table looking at one fluffy marshmallow on a plate, patiently waiting"
+ },
+ "growth_mindset:12": {
+  "type": "art",
+  "p": "a child explaining a drawing on a small chalkboard to a younger sibling and a cat, cozy room"
+ },
+ "cover:explorers": {
+  "type": "art",
+  "p": "a tiny sailing ship, a hot air balloon and a mountain flag heading toward a glowing unknown map horizon"
+ },
+ "explorers:0": {
+  "type": "art",
+  "p": "two wooden sailing ships among huge icebergs near a snowy continent, penguins on the ice"
+ },
+ "explorers:1": {
+  "type": "photo",
+  "q": "Roald Amundsen",
+  "alt": "Руаль Амундсен",
+  "src": "commons"
+ },
+ "explorers:2": {
+  "type": "photo",
+  "q": "Hillary Tenzing Everest 1953",
+  "alt": "Хиллари и Тенцинг",
+  "src": "commons"
+ },
+ "explorers:3": {
+  "type": "photo",
+  "q": "Nicholas Miklouho-Maclay",
+  "alt": "Миклухо-Маклай",
+  "src": "commons"
+ },
+ "explorers:4": {
+  "type": "art",
+  "p": "a balsa wood raft with a square sail crossing the wide blue Pacific ocean under a sunny sky"
+ },
+ "explorers:5": {
+  "type": "photo",
+  "q": "Jacques-Yves Cousteau",
+  "alt": "Жак-Ив Кусто",
+  "src": "commons"
+ },
+ "explorers:6": {
+  "type": "photo",
+  "q": "Nao Victoria replica Magellan",
+  "alt": "Корабль Магеллана",
+  "src": "commons"
+ },
+ "explorers:7": {
+  "type": "photo",
+  "q": "Przewalski horse",
+  "alt": "Лошадь Пржевальского",
+  "src": "commons"
+ },
+ "cover:women_science": {
+  "type": "art",
+  "p": "a glowing laboratory with a microscope, a telescope and math formulas floating like stars, inspiring bright atmosphere, no faces"
+ },
+ "women_science:0": {
+  "type": "photo",
+  "q": "Sofia Kovalevskaya",
+  "alt": "Софья Ковалевская",
+  "src": "commons"
+ },
+ "women_science:1": {
+  "type": "photo",
+  "q": "Ada Lovelace portrait",
+  "alt": "Ада Лавлейс",
+  "src": "commons"
+ },
+ "women_science:2": {
+  "type": "art",
+  "p": "petri dishes with green mold in a laboratory next to a microscope, hopeful warm light"
+ },
+ "women_science:3": {
+  "type": "photo",
+  "q": "Lise Meitner",
+  "alt": "Лиза Мейтнер",
+  "src": "commons"
+ },
+ "women_science:4": {
+  "type": "photo",
+  "q": "Rosalind Franklin",
+  "alt": "Розалинд Франклин",
+  "src": "commons"
+ },
+ "women_science:5": {
+  "type": "photo",
+  "q": "Katherine Johnson NASA",
+  "alt": "Кэтрин Джонсон",
+  "src": "commons"
+ },
+ "women_science:6": {
+  "type": "art",
+  "p": "a glowing friendly brain model with sparkling paths in a modern research laboratory, warm soft light, cozy mood"
+ },
+ "women_science:7": {
+  "type": "photo",
+  "q": "Mary Anning",
+  "alt": "Мэри Эннинг",
+  "src": "commons"
+ },
+ "cover:young_inventors": {
+  "type": "art",
+  "p": "a workshop with a kid-made rocket, a trophy cup and blueprints, gears and lightbulbs glowing, no faces"
+ },
+ "young_inventors:0": {
+  "type": "photo",
+  "q": "Philo Farnsworth",
+  "alt": "Фило Фарнсворт",
+  "src": "commons"
+ },
+ "young_inventors:1": {
+  "type": "photo",
+  "q": "Nadia Comaneci",
+  "alt": "Надя Команечи",
+  "src": "commons"
+ },
+ "young_inventors:2": {
+  "type": "art",
+  "p": "an old textile loom with a safety guard in a factory, flat bottom paper bags nearby"
+ },
+ "young_inventors:3": {
+  "type": "art",
+  "p": "a big trampoline in a sunny backyard, a child jumping high joyfully into the blue sky"
+ },
+ "young_inventors:4": {
+  "type": "photo",
+  "q": "water skiing",
+  "alt": "Водные лыжи",
+  "src": "commons"
+ },
+ "young_inventors:5": {
+  "type": "photo",
+  "q": "Pele 1958",
+  "alt": "Пеле",
+  "src": "commons"
+ },
+ "young_inventors:6": {
+  "type": "art",
+  "p": "an early helicopter hovering over a green field, a boy with a toy rotor dreaming nearby"
  }
 }

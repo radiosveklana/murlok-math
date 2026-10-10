@@ -110,8 +110,10 @@
   "src": "commons"
  },
  "heart_blood:0": {
-  "type": "art",
-  "p": "a smiling cartoon heart character with tiny arms happily pumping, two fully clothed kids playing tag in a sunny park behind it"
+  "type": "photo",
+  "q": "clenched fist",
+  "alt": "Сердце размером с кулак",
+  "src": "commons"
  },
  "heart_blood:1": {
   "type": "photo",
@@ -380,5 +382,311 @@
   "q": "washing hands soap",
   "alt": "Моем руки с мылом",
   "src": "commons"
+ },
+ "cells:6": {
+  "type": "art",
+  "p": "Friendly cartoon teams of tiny workers representing body systems: bone builders, muscle movers, heart pumpers and brain messengers working together"
+ },
+ "cells:7": {
+  "type": "photo",
+  "q": "plant cells microscope",
+  "alt": "Клетки растения под микроскопом",
+  "src": "commons"
+ },
+ "cells:8": {
+  "type": "art",
+  "p": "A colorful twisted DNA ladder model spiraling upward, glowing softly inside a round cell nucleus, like a magical instruction ribbon"
+ },
+ "skeleton:6": {
+  "type": "photo",
+  "q": "giraffe neck",
+  "alt": "Шея жирафа",
+  "src": "commons"
+ },
+ "skeleton:7": {
+  "type": "art",
+  "p": "A colorful school backpack with two padded straps worn properly by a cute anime child walking to school, seen from behind"
+ },
+ "skeleton:8": {
+  "type": "art",
+  "p": "A cute anime child measuring height against a door frame in the morning with pencil marks, sunrise in the window"
+ },
+ "muscles:6": {
+  "type": "art",
+  "p": "A cute anime child in a warm winter jacket jogging through snow, rosy cheeks, little puffs of steam, cozy village behind"
+ },
+ "muscles:7": {
+  "type": "art",
+  "p": "A row of cute anime faces showing happy, surprised, thinking and laughing expressions, soft pastel background"
+ },
+ "muscles:8": {
+  "type": "art",
+  "p": "A cute anime child in sportswear sitting on a mat gently stretching the leg by pulling the toes, calm face, gym background"
+ },
+ "heart_blood:6": {
+  "type": "art",
+  "p": "Two glowing loops of tiny red and blue cartoon cells traveling along tubes, one loop to fluffy lung clouds and one around the body"
+ },
+ "heart_blood:7": {
+  "type": "photo",
+  "q": "stethoscope",
+  "alt": "Стетоскоп",
+  "src": "commons"
+ },
+ "heart_blood:8": {
+  "type": "photo",
+  "q": "red blood cells microscope",
+  "alt": "Клетки крови под микроскопом",
+  "src": "commons"
+ },
+ "lungs:6": {
+  "type": "art",
+  "p": "A cute anime child singing happily with music notes floating out like colorful bubbles, a small piano behind"
+ },
+ "lungs:7": {
+  "type": "art",
+  "p": "A cute anime child sneezing politely into a tissue, tiny dust sparkles flying away, a box of tissues on the table"
+ },
+ "lungs:8": {
+  "type": "art",
+  "p": "A cute anime child taking a deep breath and blowing up a big colorful balloon in a bright room"
+ },
+ "digestion:6": {
+  "type": "photo",
+  "q": "healthy plate vegetables",
+  "alt": "Полезный обед",
+  "src": "commons"
+ },
+ "digestion:7": {
+  "type": "photo",
+  "q": "yogurt bacteria microscope",
+  "alt": "Полезные бактерии",
+  "src": "commons"
+ },
+ "digestion:8": {
+  "type": "art",
+  "p": "A cute anime child holding a tummy with a funny surprised face, little musical wiggle lines around, lunch box on the table"
+ },
+ "brain:6": {
+  "type": "photo",
+  "q": "child riding bicycle park",
+  "alt": "Учимся кататься",
+  "src": "commons"
+ },
+ "brain:7": {
+  "type": "art",
+  "p": "A colorful bicycle helmet hanging on the handlebar of a bike parked near a green park path"
+ },
+ "brain:8": {
+  "type": "art",
+  "p": "Four cute anime characters showing joy, fear, anger and sadness as colorful glowing clouds around them, friendly and gentle"
+ },
+ "senses:6": {
+  "type": "art",
+  "p": "A cute anime child walking carefully along a balance beam with arms outstretched, a spinning top and a feather nearby"
+ },
+ "senses:7": {
+  "type": "art",
+  "p": "A cute anime child closing eyes and smelling a warm loaf of fresh bread, steamy aroma swirls rising, cozy kitchen"
+ },
+ "senses:8": {
+  "type": "art",
+  "p": "Three bowls of water on a kitchen table: one with ice cubes, one gently steaming warm, one plain, two small hands nearby"
+ },
+ "skin_teeth:6": {
+  "type": "photo",
+  "q": "dental model teeth",
+  "alt": "Модель зубов",
+  "src": "commons"
+ },
+ "skin_teeth:7": {
+  "type": "art",
+  "p": "A box of colorful children bandages with cute patterns and a small first aid kit on a table"
+ },
+ "skin_teeth:8": {
+  "type": "art",
+  "p": "A bathtub full of bubbles with a yellow rubber duck and a cute anime child holding up wrinkly fingertips, laughing"
+ },
+ "immunity:6": {
+  "type": "art",
+  "p": "Fluffy dandelion seeds drifting in the air in a sunny meadow, a cute anime child sneezing with a tissue"
+ },
+ "immunity:7": {
+  "type": "art",
+  "p": "Tiny cartoon guard cells in little helmets standing at cozy watch posts along glowing paths, catching gray cartoon germs"
+ },
+ "immunity:8": {
+  "type": "photo",
+  "q": "antique brass microscope",
+  "alt": "Старинный микроскоп",
+  "src": "commons"
+ },
+ "cover:vitamins": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat with a magnifying glass inspecting a colorful pile of oranges, carrots, berries and green vegetables"
+ },
+ "vitamins:0": {
+  "type": "photo",
+  "q": "fruits vegetables assortment",
+  "alt": "Фрукты и овощи",
+  "src": "commons"
+ },
+ "vitamins:1": {
+  "type": "art",
+  "p": "Bright orange carrots and a pumpkin with green tops in a basket on a garden table at sunset"
+ },
+ "vitamins:2": {
+  "type": "art",
+  "p": "Red rose hips, black currants, bell peppers and orange slices in small bowls on a sunny kitchen table"
+ },
+ "vitamins:3": {
+  "type": "art",
+  "p": "A cute anime child playing outside on a sunny day in a meadow, golden sunlight shining, a glass of milk on a picnic blanket"
+ },
+ "vitamins:4": {
+  "type": "art",
+  "p": "A bowl of buckwheat porridge, whole grain bread, eggs and nuts on a breakfast table"
+ },
+ "vitamins:5": {
+  "type": "art",
+  "p": "Milk, cottage cheese and yogurt on one side of a table, buckwheat, beans and an apple on the other"
+ },
+ "vitamins:6": {
+  "type": "art",
+  "p": "A cut apple turning slightly brown next to a fresh one on a cutting board, a magnifying glass beside them"
+ },
+ "vitamins:7": {
+  "type": "art",
+  "p": "A jar of vitamins placed safely on a high kitchen shelf out of reach while a bowl of fresh fruit sits on the table below"
+ },
+ "vitamins:8": {
+  "type": "photo",
+  "q": "rainbow vegetables plate",
+  "alt": "Радуга на тарелке",
+  "src": "commons"
+ },
+ "cover:growth": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat measuring a sunflower sprout with a tiny tape measure next to a growth chart on a colorful wall"
+ },
+ "growth:0": {
+  "type": "art",
+  "p": "Tiny friendly cartoon builders with cranes and bricks building a tall tower inside a glowing outline of a child"
+ },
+ "growth:1": {
+  "type": "art",
+  "p": "A soft blue X-ray image of a child hand bones glowing on a lightbox, gentle highlights at the ends of the finger bones"
+ },
+ "growth:2": {
+  "type": "art",
+  "p": "A cute anime child sleeping peacefully in a cozy bed under the moonlight, tiny stars and a growing plant on the windowsill"
+ },
+ "growth:3": {
+  "type": "art",
+  "p": "Pencil height marks on a white door frame at different heights with a tape measure hanging beside them"
+ },
+ "growth:4": {
+  "type": "photo",
+  "q": "healthy breakfast milk",
+  "alt": "Секреты роста",
+  "src": "commons"
+ },
+ "growth:5": {
+  "type": "art",
+  "p": "A row of cute anime schoolchildren of many different heights standing together and smiling in a sunny classroom"
+ },
+ "growth:6": {
+  "type": "art",
+  "p": "A cute baby, a child and a grown-up anime characters standing side by side, showing how head size changes with age"
+ },
+ "growth:7": {
+  "type": "art",
+  "p": "A white height measuring stand and a floor scale in a bright friendly doctor office with plants on the window"
+ },
+ "cover:eyes_ears": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat wearing big round glasses and tiny earmuffs, peering through a magnifying glass in a cozy library"
+ },
+ "eyes_ears:0": {
+  "type": "art",
+  "p": "A large plastic eyeball model on a science classroom desk, split open to show the lens and colorful parts"
+ },
+ "eyes_ears:1": {
+  "type": "photo",
+  "q": "eye iris pupil close-up",
+  "alt": "Зрачок крупно",
+  "src": "commons"
+ },
+ "eyes_ears:2": {
+  "type": "art",
+  "p": "A cute anime child looking up from a tablet out of the window at distant trees and clouds, a little timer on the desk"
+ },
+ "eyes_ears:3": {
+  "type": "photo",
+  "q": "desk lamp book reading",
+  "alt": "Свет для чтения",
+  "src": "commons"
+ },
+ "eyes_ears:4": {
+  "type": "art",
+  "p": "A cute anime child doing eye exercises, looking at a fingertip and then far at a tree outside, cozy room"
+ },
+ "eyes_ears:5": {
+  "type": "photo",
+  "q": "eye chart ophthalmologist",
+  "alt": "Кабинет окулиста",
+  "src": "commons"
+ },
+ "eyes_ears:6": {
+  "type": "art",
+  "p": "A large colorful plastic ear model on a classroom desk showing the outer ear, the eardrum and the tiny spiral snail"
+ },
+ "eyes_ears:7": {
+  "type": "art",
+  "p": "A pair of soft over-ear headphones on a desk next to a phone showing a volume bar, a calm green plant nearby"
+ },
+ "eyes_ears:8": {
+  "type": "art",
+  "p": "A cute anime child gently drying the outer ear with a soft towel after a bath, cozy bathroom with fluffy towels"
+ },
+ "cover:kidneys_water": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sipping water from a tiny glass next to a big jug and a watermelon slice on a sunny table"
+ },
+ "kidneys_water:0": {
+  "type": "photo",
+  "q": "watermelon slice",
+  "alt": "Арбуз",
+  "src": "commons"
+ },
+ "kidneys_water:1": {
+  "type": "art",
+  "p": "A misty breath spot on a cold window glass with a small smiley drawn in it, snowy trees outside"
+ },
+ "kidneys_water:2": {
+  "type": "photo",
+  "q": "kidney beans",
+  "alt": "Фасоль",
+  "src": "commons"
+ },
+ "kidneys_water:3": {
+  "type": "art",
+  "p": "A glass water filter jug with water flowing through a filter and coming out sparkling clean, gentle bubbles"
+ },
+ "kidneys_water:4": {
+  "type": "art",
+  "p": "A plastic anatomy torso model on a school science desk with colorful removable parts, a textbook beside it"
+ },
+ "kidneys_water:5": {
+  "type": "art",
+  "p": "A cute balance scale with a glass of water on one side and a little sun on the other, perfectly balanced"
+ },
+ "kidneys_water:6": {
+  "type": "art",
+  "p": "A row of glasses with drinks from pale lemon yellow to amber on a sunny kitchen table, a lemon slice beside them"
+ },
+ "kidneys_water:7": {
+  "type": "art",
+  "p": "Five clear glasses of fresh water lined up on a wooden table next to a carafe, cucumbers and oranges"
  }
 }

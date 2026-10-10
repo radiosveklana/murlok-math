@@ -1,0 +1,78 @@
+{
+ "passwords:7": {
+  "q": "padlock",
+  "alt": "Замок на экране"
+ },
+ "passwords:10": {
+  "q": "patch fabric sewing",
+  "alt": "Обновления — заплатки"
+ },
+ "online_strangers:8": {
+  "q": "magnifying glass",
+  "alt": "Проверка профиля"
+ },
+ "street_stranger:8": {
+  "q": "elevator doors",
+  "alt": "Лифт и подъезд"
+ },
+ "home_alone:6": {
+  "q": "house keys",
+  "alt": "Ключи под присмотром"
+ },
+ "bullying:7": {
+  "q": "diary notebook pen",
+  "alt": "Дневник фактов"
+ },
+ "bullying:10": {
+  "q": "paint brushes watercolor",
+  "alt": "Восстановить силы"
+ },
+ "my_body:7": {
+  "q": "traffic light",
+  "alt": "Внутренний светофор"
+ },
+ "games_chats:3": {
+  "q": "gaming headset",
+  "alt": "Голосовой чат"
+ },
+ "games_chats:7": {
+  "q": "hourglass",
+  "alt": "Время в игре"
+ },
+ "digital_footprint:0": {
+  "q": "footprints sand beach",
+  "alt": "Цифровой след"
+ },
+ "digital_footprint:2": {
+  "q": "magnifying glass",
+  "alt": "Поиск по имени"
+ },
+ "digital_footprint:5": {
+  "q": "padlock",
+  "alt": "Настройки приватности"
+ },
+ "transport:0": {
+  "q": "bus stop shelter",
+  "alt": "На остановке"
+ },
+ "transport:1": {
+  "q": "bus interior handrails empty",
+  "alt": "В салоне"
+ },
+ "transport:3": {
+  "q": "metro escalator handrail",
+  "alt": "Метро и эскалатор"
+ },
+ "transport:4": {
+  "q": "railway pedestrian bridge",
+  "alt": "Переход через пути"
+ },
+ "transport:6": {
+  "q": "child car seat",
+  "alt": "В машине"
+ },
+ "transport:7": {
+  "q": "bicycle helmet",
+  "alt": "Шлем и самокат"
+ }
+}

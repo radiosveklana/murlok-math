@@ -138,5 +138,241 @@
  "universe:4": {
   "q": "Hubble Deep Field",
   "alt": "Далёкие галактики"
+ },
+ "sun_system:8": {
+  "q": "Sun surface plasma",
+  "alt": "Поверхность Солнца"
+ },
+ "sun_system:9": {
+  "q": "aurora borealis night sky",
+  "alt": "Северное сияние"
+ },
+ "rocky_planets:6": {
+  "q": "Mercury planet MESSENGER",
+  "alt": "Планета Меркурий"
+ },
+ "rocky_planets:7": {
+  "q": "Venus evening sky twilight",
+  "alt": "Венера на вечернем небе"
+ },
+ "rocky_planets:8": {
+  "q": "Mars polar ice cap",
+  "alt": "Ледяная шапка Марса"
+ },
+ "rocky_planets:9": {
+  "q": "Mars sunset Gale crater",
+  "alt": "Закат на Марсе"
+ },
+ "giant_planets:6": {
+  "q": "Jupiter Great Red Spot",
+  "alt": "Юпитер и Красное пятно"
+ },
+ "giant_planets:7": {
+  "q": "Europa moon ice surface",
+  "alt": "Ледяной спутник Европа"
+ },
+ "giant_planets:8": {
+  "q": "Saturn rings Cassini",
+  "alt": "Сатурн и его кольца"
+ },
+ "giant_planets:9": {
+  "q": "Neptune planet Voyager",
+  "alt": "Планета Нептун"
+ },
+ "moon:7": {
+  "q": "Moon craters surface",
+  "alt": "Кратеры на Луне"
+ },
+ "moon:8": {
+  "q": "low tide beach boats",
+  "alt": "Отлив на берегу"
+ },
+ "moon:10": {
+  "q": "lunar laser ranging observatory",
+  "alt": "Лазер до Луны"
+ },
+ "stars:6": {
+  "q": "starry night sky",
+  "alt": "Звёздное небо"
+ },
+ "stars:7": {
+  "q": "Orion constellation night sky",
+  "alt": "Созвездие Орион"
+ },
+ "stars:8": {
+  "q": "Cassiopeia constellation sky",
+  "alt": "Созвездие Кассиопея"
+ },
+ "stars:9": {
+  "q": "nebula Pillars of Creation",
+  "alt": "Туманность — колыбель звёзд"
+ },
+ "comets:6": {
+  "q": "Perseid meteor shower",
+  "alt": "Звездопад Персеиды"
+ },
+ "comets:7": {
+  "q": "meteor shower night meadow",
+  "alt": "Ночь звездопада"
+ },
+ "comets:8": {
+  "q": "Pluto New Horizons",
+  "alt": "Плутон"
+ },
+ "comets:9": {
+  "q": "DART spacecraft asteroid",
+  "alt": "Аппарат DART"
+ },
+ "earth_motion:6": {
+  "q": "Earth from space blue marble",
+  "alt": "Земля из космоса"
+ },
+ "earth_motion:7": {
+  "q": "summer solstice evening meadow",
+  "alt": "Летний длинный день"
+ },
+ "earth_motion:9": {
+  "q": "midnight sun Arctic",
+  "alt": "Полярный день"
+ },
+ "cosmonauts:7": {
+  "q": "Konstantin Tsiolkovsky",
+  "alt": "Константин Циолковский"
+ },
+ "cosmonauts:8": {
+  "q": "Vostok spacecraft capsule museum",
+  "alt": "Корабль «Восток»"
+ },
+ "cosmonauts:9": {
+  "q": "cosmonaut training centrifuge",
+  "alt": "Центрифуга для тренировок"
+ },
+ "cosmonauts:10": {
+  "q": "Soyuz rocket launch Baikonur",
+  "alt": "Запуск «Союза»"
+ },
+ "universe:7": {
+  "q": "Hubble Ultra Deep Field galaxies",
+  "alt": "Множество галактик"
+ },
+ "universe:8": {
+  "q": "black hole M87",
+  "alt": "Чёрная дыра"
+ },
+ "universe:9": {
+  "q": "Milky Way spiral galaxy",
+  "alt": "Галактика Млечный Путь"
+ },
+ "telescopes:0": {
+  "q": "refracting telescope tripod",
+  "alt": "Телескоп на треноге"
+ },
+ "telescopes:1": {
+  "q": "Galileo telescope museum",
+  "alt": "Телескоп Галилея"
+ },
+ "telescopes:2": {
+  "q": "mountain observatory domes",
+  "alt": "Обсерватория в горах"
+ },
+ "telescopes:3": {
+  "q": "BTA-6 telescope Zelenchukskaya",
+  "alt": "Большой телескоп БТА"
+ },
+ "telescopes:4": {
+  "q": "RATAN-600 radio telescope",
+  "alt": "Радиотелескоп РАТАН-600"
+ },
+ "telescopes:5": {
+  "q": "Pulkovo Observatory",
+  "alt": "Пулковская обсерватория"
+ },
+ "telescopes:6": {
+  "q": "Hubble Space Telescope orbit",
+  "alt": "Телескоп «Хаббл»"
+ },
+ "telescopes:7": {
+  "q": "James Webb Space Telescope mirror",
+  "alt": "Зеркало «Джеймса Уэбба»"
+ },
+ "telescopes:8": {
+  "q": "planetarium dome projector",
+  "alt": "Планетарий"
+ },
+ "telescopes:9": {
+  "q": "binoculars star map",
+  "alt": "Бинокль и карта неба"
+ },
+ "iss_life:0": {
+  "q": "International Space Station",
+  "alt": "МКС на орбите"
+ },
+ "iss_life:1": {
+  "q": "ISS over Earth night",
+  "alt": "МКС над Землёй"
+ },
+ "iss_life:2": {
+  "q": "sunrise from orbit Earth",
+  "alt": "Рассвет с орбиты"
+ },
+ "iss_life:3": {
+  "q": "space food tubes packets",
+  "alt": "Космическая еда"
+ },
+ "iss_life:4": {
+  "q": "ISS crew quarters sleeping bag",
+  "alt": "Спальник на МКС"
+ },
+ "iss_life:6": {
+  "q": "ISS treadmill exercise",
+  "alt": "Тренажёр на МКС"
+ },
+ "iss_life:8": {
+  "q": "mission control center screens",
+  "alt": "Центр управления полётами"
+ },
+ "exoplanets:1": {
+  "q": "Kepler space telescope",
+  "alt": "Телескоп «Кеплер»"
+ },
+ "exoplanets:3": {
+  "q": "transit of Venus Sun",
+  "alt": "Транзит планеты"
+ },
+ "exoplanets:7": {
+  "q": "TRAPPIST-1 planets",
+  "alt": "Система TRAPPIST-1"
+ },
+ "probes:0": {
+  "q": "space probe Voyager",
+  "alt": "Космический зонд"
+ },
+ "probes:1": {
+  "q": "Lunokhod 1 rover",
+  "alt": "«Луноход-1»"
+ },
+ "probes:2": {
+  "q": "Venera lander model",
+  "alt": "Станция «Венера»"
+ },
+ "probes:3": {
+  "q": "Curiosity rover Mars",
+  "alt": "Марсоход Curiosity"
+ },
+ "probes:4": {
+  "q": "Ingenuity helicopter Mars",
+  "alt": "Вертолёт на Марсе"
+ },
+ "probes:5": {
+  "q": "Voyager spacecraft",
+  "alt": "Зонд «Вояджер»"
+ },
+ "probes:6": {
+  "q": "Saturn Cassini spacecraft",
+  "alt": "Сатурн глазами «Кассини»"
+ },
+ "probes:8": {
+  "q": "Luna 16 lander",
+  "alt": "Станция «Луна-16»"
  }
 }

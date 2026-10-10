@@ -4518,5 +4518,2397 @@
   "page": "https://commons.wikimedia.org/wiki/File:Tape_measure_colored.jpeg",
   "q": "ruler and tape measure",
   "file": "File:Tape measure colored.jpeg"
+ },
+ "space/sun_system:8": {
+  "alt": "Поверхность Солнца",
+  "author": "European Space Agency",
+  "lic": "CC BY-SA 3.0 igo",
+  "page": "https://commons.wikimedia.org/wiki/File:Solar_Orbiter%E2%80%99s_widest_high-res_view_of_the_Sun_ESA508430.jpg",
+  "q": "Sun surface plasma",
+  "file": "File:Solar Orbiter’s widest high-res view of the Sun ESA508430.jpg"
+ },
+ "space/sun_system:9": {
+  "alt": "Северное сияние",
+  "author": "Ximonic (Simo Räsänen)",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Aurora_borealis_above_Storfjorden_and_the_Lyngen_Alps_in_moonlight,_2012_March.jpg",
+  "q": "aurora borealis night sky",
+  "file": "File:Aurora borealis above Storfjorden and the Lyngen Alps in moonlight, 2012 March.jpg"
+ },
+ "space/rocky_planets:6": {
+  "alt": "Планета Меркурий",
+  "author": "NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Mercury_in_color_-_Prockter07_centered.jpg",
+  "q": "Mercury planet MESSENGER",
+  "file": "File:Mercury in color - Prockter07 centered.jpg"
+ },
+ "space/rocky_planets:8": {
+  "alt": "Ледяная шапка Марса",
+  "author": "NASA/JPL/MSSS",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:South_Polar_Cap_of_Mars_during_Martian_South_summer_2000.jpg",
+  "q": "Mars polar ice cap",
+  "file": "File:South Polar Cap of Mars during Martian South summer 2000.jpg"
+ },
+ "space/giant_planets:6": {
+  "alt": "Юпитер и Красное пятно",
+  "author": "NASA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Great_Red_Spot_From_Voyager_1.jpg",
+  "q": "Jupiter Great Red Spot",
+  "file": "File:Great Red Spot From Voyager 1.jpg"
+ },
+ "space/giant_planets:7": {
+  "alt": "Ледяной спутник Европа",
+  "author": "NASA / Jet Propulsion Lab-Caltech / SETI Institute",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:PIA19048_realistic_color_Europa_mosaic_edited.jpg",
+  "q": "Europa moon ice surface",
+  "file": "File:PIA19048 realistic color Europa mosaic edited.jpg"
+ },
+ "space/giant_planets:8": {
+  "alt": "Сатурн и его кольца",
+  "author": "NASA/JPL/Space Science Institute",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Saturn_from_Cassini_Orbiter_(2004-10-06).jpg",
+  "q": "Saturn rings Cassini",
+  "file": "File:Saturn from Cassini Orbiter (2004-10-06).jpg"
+ },
+ "space/giant_planets:9": {
+  "alt": "Планета Нептун",
+  "author": "NASA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Neptune_Full.jpg",
+  "q": "Neptune planet Voyager",
+  "file": "File:Neptune Full.jpg"
+ },
+ "space/moon:7": {
+  "alt": "Кратеры на Луне",
+  "author": "NASA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Earthset_(art002e009288).jpg",
+  "q": "Moon craters surface",
+  "file": "File:Earthset (art002e009288).jpg"
+ },
+ "space/moon:8": {
+  "alt": "Отлив на берегу",
+  "author": "Ввласенко",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Low_tide_at_Tenby,_United_Kingdom.jpg",
+  "q": "low tide beach boats",
+  "file": "File:Low tide at Tenby, United Kingdom.jpg"
+ },
+ "space/moon:10": {
+  "alt": "Лазер до Луны",
+  "author": "Melirius",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lunar_Laser_Ranging_at_the_Observatoire_de_la_C%C3%B4te_d%27Azur_DSC_0729_(10782460465).jpg",
+  "q": "lunar laser ranging observatory",
+  "file": "File:Lunar Laser Ranging at the Observatoire de la Côte d'Azur DSC 0729 (10782460465).jpg"
+ },
+ "space/stars:6": {
+  "alt": "Звёздное небо",
+  "author": "ESO/B. Tafreshi (twanight.org)",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:ALMA_and_a_Starry_Night.jpg",
+  "q": "starry night sky",
+  "file": "File:ALMA and a Starry Night.jpg"
+ },
+ "space/stars:9": {
+  "alt": "Туманность — колыбель звёзд",
+  "author": "NASA, ESA, and the Hubble Heritage Team (STScI/AURA)",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg",
+  "q": "nebula Pillars of Creation",
+  "file": "File:Pillars of creation 2014 HST WFC3-UVIS full-res denoised.jpg"
+ },
+ "space/comets:6": {
+  "alt": "Звездопад Персеиды",
+  "author": "Stephan Sprinz",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Aurora_and_perseids.jpg",
+  "q": "Perseid meteor shower",
+  "file": "File:Aurora and perseids.jpg"
+ },
+ "space/comets:8": {
+  "alt": "Плутон",
+  "author": "NASA / Johns Hopkins University Applied Physics Laboratory / Southwest Research ",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Pluto-01_Stern_03_Pluto_Color_TXT.jpg",
+  "q": "Pluto New Horizons",
+  "file": "File:Pluto-01 Stern 03 Pluto Color TXT.jpg"
+ },
+ "space/comets:9": {
+  "alt": "Аппарат DART",
+  "author": "ESA – Science Office",
+  "lic": "CC BY-SA 3.0 igo",
+  "page": "https://commons.wikimedia.org/wiki/File:Hera_in_orbit.jpg",
+  "q": "DART spacecraft asteroid",
+  "file": "File:Hera in orbit.jpg"
+ },
+ "space/earth_motion:6": {
+  "alt": "Земля из космоса",
+  "author": "NASA images by Reto Stöckli, based on data from NASA and NOAA. Instrument: Terra",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Blue_Marble_Western_Hemisphere.jpg",
+  "q": "Earth from space blue marble",
+  "file": "File:Blue Marble Western Hemisphere.jpg"
+ },
+ "space/cosmonauts:10": {
+  "alt": "Запуск «Союза»",
+  "author": "Bill Ingalls",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Soyuz_TMA-13_Edit.jpg",
+  "q": "Soyuz rocket launch Baikonur",
+  "file": "File:Soyuz TMA-13 Edit.jpg"
+ },
+ "space/universe:7": {
+  "alt": "Множество галактик",
+  "author": "NASA and the European Space Agency. Edited by Noodle snacks",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Hubble_ultra_deep_field_high_rez_edit1.jpg",
+  "q": "Hubble Ultra Deep Field galaxies",
+  "file": "File:Hubble ultra deep field high rez edit1.jpg"
+ },
+ "space/universe:8": {
+  "alt": "Чёрная дыра",
+  "author": "Event Horizon Telescope",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87.jpg",
+  "q": "black hole M87",
+  "file": "File:Black hole - Messier 87.jpg"
+ },
+ "space/universe:9": {
+  "alt": "Галактика Млечный Путь",
+  "author": "Credit: NASA/JPL-Caltech/S. Stolovy (Spitzer Science Center/Caltech)",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Milky_Way_IR_Spitzer.jpg",
+  "q": "Milky Way spiral galaxy",
+  "file": "File:Milky Way IR Spitzer.jpg"
+ },
+ "space/telescopes:0": {
+  "alt": "Телескоп на треноге",
+  "author": "Science Museum Photo Studio",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Large_SMG00030733.jpg",
+  "q": "refracting telescope tripod",
+  "file": "File:Large SMG00030733.jpg"
+ },
+ "space/telescopes:1": {
+  "alt": "Телескоп Галилея",
+  "author": "C messier",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:18th_century_telescopes_in_Galileo_Museum_0669.jpg",
+  "q": "Galileo telescope museum",
+  "file": "File:18th century telescopes in Galileo Museum 0669.jpg"
+ },
+ "space/telescopes:2": {
+  "alt": "Обсерватория в горах",
+  "author": "Orygun",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pine_Mountain_Observatory,_Oregon.JPG",
+  "q": "mountain observatory domes",
+  "file": "File:Pine Mountain Observatory, Oregon.JPG"
+ },
+ "space/telescopes:5": {
+  "alt": "Пулковская обсерватория",
+  "author": "MBH",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pulkovo_Observatory_50.jpg",
+  "q": "Pulkovo Observatory",
+  "file": "File:Pulkovo Observatory 50.jpg"
+ },
+ "space/telescopes:7": {
+  "alt": "Зеркало «Джеймса Уэбба»",
+  "author": "Chris Gunn",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:James_Webb_Space_Telescope_Mirrors_Will_Piece_Together_Cosmic_Puzzles_(30108124923).jpg",
+  "q": "James Webb Space Telescope mirror",
+  "file": "File:James Webb Space Telescope Mirrors Will Piece Together Cosmic Puzzles (30108124923).jpg"
+ },
+ "space/telescopes:8": {
+  "alt": "Планетарий",
+  "author": "TMMCommunications",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Manitoba_Museum_Planetarium.jpg",
+  "q": "planetarium dome projector",
+  "file": "File:Manitoba Museum Planetarium.jpg"
+ },
+ "space/iss_life:0": {
+  "alt": "МКС на орбите",
+  "author": "NASA/Goddard Space Flight Center",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dramatic_Views_of_Hurricane_Florence_from_the_International_Space_Station_From_9_12_(42828603210)_(cropped).jpg",
+  "q": "International Space Station",
+  "file": "File:Dramatic Views of Hurricane Florence from the International Space Station From 9 12 (42828603210) (cropped).jpg"
+ },
+ "space/iss_life:1": {
+  "alt": "МКС над Землёй",
+  "author": "NASA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:ISS-65_Starry_night_sky_over_southeastern_African_coast.jpg",
+  "q": "ISS over Earth night",
+  "file": "File:ISS-65 Starry night sky over southeastern African coast.jpg"
+ },
+ "space/iss_life:2": {
+  "alt": "Рассвет с орбиты",
+  "author": "ESA/Alexander Gerst",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sunrise_from_ISS_5.jpg",
+  "q": "sunrise from orbit Earth",
+  "file": "File:Sunrise from ISS 5.jpg"
+ },
+ "space/iss_life:3": {
+  "alt": "Космическая еда",
+  "author": "NASA Marshall Space Flight Center",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Skylab_(7026024).jpg",
+  "q": "space food tubes packets",
+  "file": "File:Skylab (7026024).jpg"
+ },
+ "space/iss_life:4": {
+  "alt": "Спальник на МКС",
+  "author": "NASA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:ISS-42_Samantha_Cristoforetti_in_her_personal_crew_quarters.jpg",
+  "q": "ISS crew quarters sleeping bag",
+  "file": "File:ISS-42 Samantha Cristoforetti in her personal crew quarters.jpg"
+ },
+ "space/iss_life:6": {
+  "alt": "Тренажёр на МКС",
+  "author": "NASA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:ISS-38_Mike_Hopkins_works_on_the_COLBERT_treadmill_in_the_Unity_node.jpg",
+  "q": "ISS treadmill exercise",
+  "file": "File:ISS-38 Mike Hopkins works on the COLBERT treadmill in the Unity node.jpg"
+ },
+ "space/iss_life:8": {
+  "alt": "Центр управления полётами",
+  "author": "NASA Johnson Space Center",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Wide_angle_view_of_Mission_Control_Center_during_Apollo_14_transmission_(S71-17122).jpg",
+  "q": "mission control center screens",
+  "file": "File:Wide angle view of Mission Control Center during Apollo 14 transmission (S71-17122).jpg"
+ },
+ "space/exoplanets:3": {
+  "alt": "Транзит планеты",
+  "author": "NASA/SDO, AIA",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:SDO%27s_Ultra-high_Definition_View_of_2012_Venus_Transit_--_Path_Sequence.jpg",
+  "q": "transit of Venus Sun",
+  "file": "File:SDO's Ultra-high Definition View of 2012 Venus Transit -- Path Sequence.jpg"
+ },
+ "space/exoplanets:7": {
+  "alt": "Система TRAPPIST-1",
+  "author": "NASA/JPL-CalTech",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:TRAPPIST-1e_Const_CMYK_Print.png",
+  "q": "TRAPPIST-1 planets",
+  "file": "File:TRAPPIST-1e Const CMYK Print.png"
+ },
+ "space/probes:3": {
+  "alt": "Марсоход Curiosity",
+  "author": "NASA/JPL-Caltech",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Curiosity_-_Robot_Geologist_and_Chemist_in_One!.jpg",
+  "q": "Curiosity rover Mars",
+  "file": "File:Curiosity - Robot Geologist and Chemist in One!.jpg"
+ },
+ "space/probes:4": {
+  "alt": "Вертолёт на Марсе",
+  "author": "semeion.photo Credit: NASA/JPL-Caltech/ASU/Simeon Schmauß",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:NASA%27s_Ingenuity_helicopter_on_Mars_by_Perseverance_Mastcam-Z,_Sol_768_(53475637956).jpg",
+  "q": "Ingenuity helicopter Mars",
+  "file": "File:NASA's Ingenuity helicopter on Mars by Perseverance Mastcam-Z, Sol 768 (53475637956).jpg"
+ },
+ "space/probes:5": {
+  "alt": "Зонд «Вояджер»",
+  "author": "NASA/JPL",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Voyager_spacecraft.jpg",
+  "q": "Voyager spacecraft",
+  "file": "File:Voyager spacecraft.jpg"
+ },
+ "space/probes:6": {
+  "alt": "Сатурн глазами «Кассини»",
+  "author": "NASA / JPL-Caltech / Space Science Institute",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:PIA17218_%E2%80%93_A_Farewell_to_Saturn,_Brightened_Version.jpg",
+  "q": "Saturn Cassini spacecraft",
+  "file": "File:PIA17218 – A Farewell to Saturn, Brightened Version.jpg"
+ },
+ "space/probes:8": {
+  "alt": "Станция «Луна-16»",
+  "author": "NASA/NSSDCA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Luna_16_20_24_2_render.jpg",
+  "q": "Luna 16 lander",
+  "file": "File:Luna 16 20 24 2 render.jpg"
+ },
+ "world/amazing_animals:8": {
+  "alt": "Гренландская акула",
+  "author": "NOAA Okeanos Explorer Program",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Somniosus_microcephalus_okeanos.jpg",
+  "q": "Greenland shark",
+  "file": "File:Somniosus microcephalus okeanos.jpg"
+ },
+ "world/amazing_animals:9": {
+  "alt": "Муравей несёт лист",
+  "author": "Charles J. Sharp",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Leaf-cutter_ant_(Atta_cephalotes)_Belize.jpg",
+  "q": "ant carrying leaf",
+  "file": "File:Leaf-cutter ant (Atta cephalotes) Belize.jpg"
+ },
+ "world/pet_care:6": {
+  "alt": "Кошка с хвостом трубой",
+  "author": "Biblio-pencil",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Curled_tabby_cat_holding_its_tail.jpg",
+  "q": "cat tail up",
+  "file": "File:Curled tabby cat holding its tail.jpg"
+ },
+ "world/pet_care:7": {
+  "alt": "Нос собаки",
+  "author": "Pittigrilli",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Close-up_portrait_of_dog_nose.jpg",
+  "q": "dog nose close-up",
+  "file": "File:Close-up portrait of dog nose.jpg"
+ },
+ "world/pet_care:8": {
+  "alt": "Собака пьёт воду",
+  "author": "Slyronit",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:A_Beagle_drinking_water_from_a_bowl.jpg",
+  "q": "dog drinking water bowl",
+  "file": "File:A Beagle drinking water from a bowl.jpg"
+ },
+ "world/eco_care:7": {
+  "alt": "Контейнер для пластика",
+  "author": "Jaggery",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Biffa_plastic_bottle_recycling_dumpster_bins,_Cinderford,_Gloustershire,_March_1st_2015.jpg",
+  "q": "plastic bottle recycling bin",
+  "file": "File:Biffa plastic bottle recycling dumpster bins, Cinderford, Gloustershire, March 1st 2015.jpg"
+ },
+ "world/eco_care:8": {
+  "alt": "Посадка дерева",
+  "author": "USDA NRCS South Dakota",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Tree_Sapling_(6969599012).jpg",
+  "q": "planting tree sapling hands",
+  "file": "File:Tree Sapling (6969599012).jpg"
+ },
+ "world/plants:6": {
+  "alt": "Корни растения",
+  "author": "Diego Delso",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ta_Phrom,_Angkor,_Camboya,_2013-08-16,_DD_41.JPG",
+  "q": "plant roots soil",
+  "file": "File:Ta Phrom, Angkor, Camboya, 2013-08-16, DD 41.JPG"
+ },
+ "world/plants:7": {
+  "alt": "Помидоры и огурцы",
+  "author": "Pascal Kings",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Harvested_vegetables(Tomatoes_and_Cucumbers).jpg",
+  "q": "tomato cucumber vegetables",
+  "file": "File:Harvested vegetables(Tomatoes and Cucumbers).jpg"
+ },
+ "world/plants:8": {
+  "alt": "Поле подсолнухов",
+  "author": "Björn S.",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sunflower_field_-_panoramio_(11).jpg",
+  "q": "sunflower field",
+  "file": "File:Sunflower field - panoramio (11).jpg"
+ },
+ "world/weather:7": {
+  "alt": "Кучевые облака",
+  "author": "Jakec",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Clouds_in_the_sky_in_August_2014.JPG",
+  "q": "cumulus clouds blue sky",
+  "file": "File:Clouds in the sky in August 2014.JPG"
+ },
+ "world/world_peoples:8": {
+  "alt": "Перо и чернильница",
+  "author": "Tool Dude8mm",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bird_Feather_Feather_Paper_pen_Bird_feather_made_into_dipping_pen,_inkwell,_paper,_handwritten_letter,_inkblots,_etc._2505306_Edited_2020.jpg",
+  "q": "quill pen inkwell",
+  "file": "File:Bird Feather Feather Paper pen Bird feather made into dipping pen, inkwell, paper, handwritten letter, inkblots, etc. 2505306 Edited 2020.jpg"
+ },
+ "world/inventions:6": {
+  "alt": "Гончарный круг",
+  "author": "Gannu03",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Potter_shaping_clay_on_a_traditional_manual_potter%E2%80%99s_wheel_in_India_01.jpg",
+  "q": "potter wheel clay",
+  "file": "File:Potter shaping clay on a traditional manual potter’s wheel in India 01.jpg"
+ },
+ "world/inventions:7": {
+  "alt": "Старинный телефон",
+  "author": "Masssly",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Antique_telephone_at_Trademark_hotel,_Nairobi_-_Kenya.jpg",
+  "q": "antique telephone",
+  "file": "File:Antique telephone at Trademark hotel, Nairobi - Kenya.jpg"
+ },
+ "world/russia_nature:7": {
+  "alt": "Тундра и олени",
+  "author": "Alexandre Buisse (Nattfodd)",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:20070818-0001-strolling_reindeer.jpg",
+  "q": "tundra reindeer",
+  "file": "File:20070818-0001-strolling reindeer.jpg"
+ },
+ "world/food_chains:0": {
+  "alt": "Лесной пруд",
+  "author": "Kai3952",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Forest_by_the_pond_at_ESRI_Marsh_Plant_and_Pond_Ecosystem_Area,_looking_south,_as_taken_on_13_March_2021.jpg",
+  "q": "forest pond ecosystem",
+  "file": "File:Forest by the pond at ESRI Marsh Plant and Pond Ecosystem Area, looking south, as taken on 13 March 2021.jpg"
+ },
+ "world/food_chains:1": {
+  "alt": "Листья на солнце",
+  "author": "Joselodos",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Green_leaf_with_sunlight.jpg",
+  "q": "green leaves sunlight",
+  "file": "File:Green leaf with sunlight.jpg"
+ },
+ "world/food_chains:2": {
+  "alt": "Заяц ест траву",
+  "author": "U.S. Fish and Wildlife Service",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Snowshoe_hare_eating_grass.jpg",
+  "q": "hare eating grass",
+  "file": "File:Snowshoe hare eating grass.jpg"
+ },
+ "world/food_chains:8": {
+  "alt": "Паутина в росе",
+  "author": "Luc Viatour",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Spider_web_Luc_Viatour.jpg",
+  "q": "spider web dew",
+  "file": "File:Spider web Luc Viatour.jpg"
+ },
+ "world/water_cycle:0": {
+  "alt": "Лёд и вода",
+  "author": "Cleiton Andrade Andrade from Alfenas, Brasil",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ice_cubes_on_water.jpg",
+  "q": "ice cubes water glass",
+  "file": "File:Ice cubes on water.jpg"
+ },
+ "world/water_cycle:1": {
+  "alt": "Кипящая вода",
+  "author": "W.carter",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Steam-boiling_green_asparagus.jpg",
+  "q": "boiling water pot",
+  "file": "File:Steam-boiling green asparagus.jpg"
+ },
+ "world/water_cycle:3": {
+  "alt": "Облака над горами",
+  "author": "Vyacheslav Argenberg",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Zagedan_Ridge,_Zagedan_Valley,_Caucasus_Mountains,_Karachay-Cherkessia.jpg",
+  "q": "clouds forming mountains",
+  "file": "File:Zagedan Ridge, Zagedan Valley, Caucasus Mountains, Karachay-Cherkessia.jpg"
+ },
+ "world/water_cycle:4": {
+  "alt": "Дождь",
+  "author": "Tarasna0922",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mini_puddles;_Drops_of_water_on_the_window_pane_after_heavy_rain.jpg",
+  "q": "rain drops puddle",
+  "file": "File:Mini puddles; Drops of water on the window pane after heavy rain.jpg"
+ },
+ "world/water_cycle:5": {
+  "alt": "Горный ручей",
+  "author": "D Gore",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Clady_River_(mountain_stream)_-_geograph.org.uk_-_3448114.jpg",
+  "q": "mountain stream river",
+  "file": "File:The Clady River (mountain stream) - geograph.org.uk - 3448114.jpg"
+ },
+ "world/water_cycle:7": {
+  "alt": "Озеро Байкал",
+  "author": "amanderson2",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Clear_water_of_Lake_Baikal_Russia_(14541523476).jpg",
+  "q": "Lake Baikal clear water",
+  "file": "File:Clear water of Lake Baikal Russia (14541523476).jpg"
+ },
+ "world/water_cycle:8": {
+  "alt": "Облака из капель",
+  "author": "Kristian Pikner",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Riiulpilv_-_Shelf_cloud_(2)_copy.jpg",
+  "q": "cloud droplets sky",
+  "file": "File:Riiulpilv - Shelf cloud (2) copy.jpg"
+ },
+ "world/minerals:0": {
+  "alt": "Коллекция минералов",
+  "author": "Alan Hughes",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mineral_Rocks_-_geograph.org.uk_-_4842840.jpg",
+  "q": "mineral collection rocks",
+  "file": "File:Mineral Rocks - geograph.org.uk - 4842840.jpg"
+ },
+ "world/minerals:2": {
+  "alt": "Нефтяная качалка",
+  "author": "Greg Goebel from Loveland CO, USA",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Oil_well_pump_jack,_NE_Colo_(7632673158).jpg",
+  "q": "oil pump jack",
+  "file": "File:Oil well pump jack, NE Colo (7632673158).jpg"
+ },
+ "world/minerals:3": {
+  "alt": "Газовая плита",
+  "author": "Lisafern",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Gas_stove_burner_flame.jpg",
+  "q": "gas stove burner flame",
+  "file": "File:Gas stove burner flame.jpg"
+ },
+ "world/minerals:4": {
+  "alt": "Железная руда",
+  "author": "Myotus",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ore_cars_carrying_iron_ore_through_Iron_Junction,_Minnesota.jpg",
+  "q": "iron ore",
+  "file": "File:Ore cars carrying iron ore through Iron Junction, Minnesota.jpg"
+ },
+ "world/minerals:6": {
+  "alt": "Соляное озеро",
+  "author": "Ted.ns",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%97%D0%B0%D0%BA%D0%B0%D1%82_%D0%BD%D0%B0_%D0%BE%D0%B7%D0%B5%D1%80%D0%B5_%D0%91%D0%B0%D1%81%D0%BA%D1%83%D0%BD%D1%87%D0%B0%D0%BA.jpg",
+  "q": "salt lake Baskunchak",
+  "file": "File:Закат на озере Баскунчак.jpg"
+ },
+ "world/minerals:8": {
+  "alt": "Пористый камень",
+  "author": "Karelj",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Marlite_Geopark_Prague_2014_1.jpg",
+  "q": "sandstone porous rock",
+  "file": "File:Marlite Geopark Prague 2014 1.jpg"
+ },
+ "world/red_book:0": {
+  "alt": "Дальневосточный леопард",
+  "author": "Colin Hines www.ColinHinesPhotography.com",
+  "lic": "CC BY 2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Amur_Leopard_Pittsburgh_Zoo.jpg",
+  "q": "Amur leopard",
+  "file": "File:Amur Leopard Pittsburgh Zoo.jpg"
+ },
+ "world/red_book:1": {
+  "alt": "Снежный барс",
+  "author": "Eric Kilby from Somerville, MA, USA",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Snow_Leopard_on_Snowy_Rocks_(23966719139).jpg",
+  "q": "snow leopard rocks",
+  "file": "File:Snow Leopard on Snowy Rocks (23966719139).jpg"
+ },
+ "world/red_book:3": {
+  "alt": "Амурский тигр",
+  "author": "Dave Pape",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Panthera_tigris_altaica_13_-_Buffalo_Zoo.jpg",
+  "q": "Amur tiger snow",
+  "file": "File:Panthera tigris altaica 13 - Buffalo Zoo.jpg"
+ },
+ "world/red_book:4": {
+  "alt": "Стерх",
+  "author": "A Dim Light Chaser",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Full-body_Portrait_of_an_Adult_Siberian_Crane_at_Poyang_Lake.jpg",
+  "q": "Siberian crane",
+  "file": "File:Full-body Portrait of an Adult Siberian Crane at Poyang Lake.jpg"
+ },
+ "world/red_book:5": {
+  "alt": "Зубр",
+  "author": "Michael Gäbler",
+  "lic": "CC BY 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bison_bonasus_(Linnaeus_1758).jpg",
+  "q": "European bison",
+  "file": "File:Bison bonasus (Linnaeus 1758).jpg"
+ },
+ "world/red_book:7": {
+  "alt": "Подснежники",
+  "author": "Ida Marie Margrethe Heerfordt (Danish, 1834 - 1887)",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Ida_Heerfordt_Spring_flowers_on_the_forest_floor.jpg",
+  "q": "snowdrops spring forest",
+  "file": "File:Ida Heerfordt Spring flowers on the forest floor.jpg"
+ },
+ "body/heart_blood:0": {
+  "alt": "Сердце размером с кулак",
+  "author": "BiblioteKarin",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Raised_Fist,_Hultsfred_2008.jpg",
+  "q": "clenched fist",
+  "file": "File:Raised Fist, Hultsfred 2008.jpg"
+ },
+ "body/cells:7": {
+  "alt": "Клетки растения под микроскопом",
+  "author": "Edmund Beecher Wilson",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Wilson1900Fig2.jpg",
+  "q": "plant cells microscope",
+  "file": "File:Wilson1900Fig2.jpg"
+ },
+ "body/skeleton:6": {
+  "alt": "Шея жирафа",
+  "author": "Brocken Inaglory",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Two_male_giraffes_are_necking_in_San_Francisco_Zoo.jpg",
+  "q": "giraffe neck",
+  "file": "File:Two male giraffes are necking in San Francisco Zoo.jpg"
+ },
+ "body/heart_blood:7": {
+  "alt": "Стетоскоп",
+  "author": "Ivan2010",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Instrumentos_medicos_de_uso_en_Cardiolog%C3%ADa.jpg",
+  "q": "stethoscope",
+  "file": "File:Instrumentos medicos de uso en Cardiología.jpg"
+ },
+ "body/heart_blood:8": {
+  "alt": "Клетки крови под микроскопом",
+  "author": "Ajay Kumar Chaurasiya",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bacterial_UTI_picture_of_urine_microscopy_showing_plenty_of_pus_cells_and_bacteria.jpg",
+  "q": "red blood cells microscope",
+  "file": "File:Bacterial UTI picture of urine microscopy showing plenty of pus cells and bacteria.jpg"
+ },
+ "body/digestion:6": {
+  "alt": "Полезный обед",
+  "author": "Shixart1985",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Healthy_meal_planning_with_fresh_fruits_and_vegetables_in_a_bright_kitchen_setting.jpg",
+  "q": "healthy plate vegetables",
+  "file": "File:Healthy meal planning with fresh fruits and vegetables in a bright kitchen setting.jpg"
+ },
+ "body/digestion:7": {
+  "alt": "Полезные бактерии",
+  "author": "Andreacise",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Yogurt_Bacteria.jpg",
+  "q": "yogurt bacteria microscope",
+  "file": "File:Yogurt Bacteria.jpg"
+ },
+ "body/brain:6": {
+  "alt": "Учимся кататься",
+  "author": "Saimmx",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dali-Slides-And-Bicycle-20241229.jpg",
+  "q": "child riding bicycle park",
+  "file": "File:Dali-Slides-And-Bicycle-20241229.jpg"
+ },
+ "body/skin_teeth:6": {
+  "alt": "Модель зубов",
+  "author": "Shixart1985",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dental_model_demonstrating_oral_anatomy_with_detailed_teeth_and_gum_structure_in_clear_display.jpg",
+  "q": "dental model teeth",
+  "file": "File:Dental model demonstrating oral anatomy with detailed teeth and gum structure in clear display.jpg"
+ },
+ "body/immunity:8": {
+  "alt": "Старинный микроскоп",
+  "author": "Daderot",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:1750_circa,_brass_compound_microscope,_Francis_Watkins,_England_-_Golub_Collection_of_Antique_Microscopes_-_DSC04748.JPG",
+  "q": "antique brass microscope",
+  "file": "File:1750 circa, brass compound microscope, Francis Watkins, England - Golub Collection of Antique Microscopes - DSC04748.JPG"
+ },
+ "body/vitamins:0": {
+  "alt": "Фрукты и овощи",
+  "author": "SUNILREPALE",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Top-view-assortment-exotic-fruits-table.jpg",
+  "q": "fruits vegetables assortment",
+  "file": "File:Top-view-assortment-exotic-fruits-table.jpg"
+ },
+ "body/vitamins:8": {
+  "alt": "Радуга на тарелке",
+  "author": "Winniepix",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Healthy_eating_the_rainbow_on_a_plate_(52249826052).jpg",
+  "q": "rainbow vegetables plate",
+  "file": "File:Healthy eating the rainbow on a plate (52249826052).jpg"
+ },
+ "body/growth:4": {
+  "alt": "Секреты роста",
+  "author": "Carissa Gan carissagan",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Healthy_Breakfast_1_(Unsplash).jpg",
+  "q": "healthy breakfast milk",
+  "file": "File:Healthy Breakfast 1 (Unsplash).jpg"
+ },
+ "body/eyes_ears:1": {
+  "alt": "Зрачок крупно",
+  "author": "Rapidreflex",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Human_eye_close_up,_anterior_view.jpg",
+  "q": "eye iris pupil close-up",
+  "file": "File:Human eye close up, anterior view.jpg"
+ },
+ "body/eyes_ears:3": {
+  "alt": "Свет для чтения",
+  "author": "Sherm for Disabled And Here",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Figurine_painting_art_night_-_Sherm_for_Disabled_And_Here.jpg",
+  "q": "desk lamp book reading",
+  "file": "File:Figurine painting art night - Sherm for Disabled And Here.jpg"
+ },
+ "body/eyes_ears:5": {
+  "alt": "Кабинет окулиста",
+  "author": "Wikimedia Commons",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Test_type_to_test_eyesight,_England,_1920-1960_Wellcome_L0058205.jpg",
+  "q": "eye chart ophthalmologist",
+  "file": "File:Test type to test eyesight, England, 1920-1960 Wellcome L0058205.jpg"
+ },
+ "body/kidneys_water:0": {
+  "alt": "Арбуз",
+  "author": "Ralff Nestor Nacor",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Watermelon_slice,_May_2024.jpg",
+  "q": "watermelon slice",
+  "file": "File:Watermelon slice, May 2024.jpg"
+ },
+ "body/kidneys_water:2": {
+  "alt": "Фасоль",
+  "author": "Sanjay Acharya",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Red_Speckled_Kidney_Beans.jpg",
+  "q": "kidney beans",
+  "file": "File:Red Speckled Kidney Beans.jpg"
+ },
+ "health/plate:8": {
+  "alt": "Плов",
+  "author": "Mizu basyo at Japanese Wikipedia",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Polu.jpg",
+  "q": "pilaf plov dish",
+  "file": "File:Polu.jpg"
+ },
+ "health/plate:9": {
+  "alt": "Брокколи на тарелке",
+  "author": "재연",
+  "lic": "CC BY 2.0 kr",
+  "page": "https://commons.wikimedia.org/wiki/File:%ED%94%84%EB%A0%88%ED%8D%BC%EC%8A%A4_%EB%8B%A4%EC%9D%B4%EC%96%B4%ED%8A%B8_%ED%91%B8%EB%93%9C_%EC%84%B1%EC%8B%A0%EC%97%AC%EB%8C%80%EC%A0%90_%EC%B9%98%ED%82%A8_%ED%94%8C%EB%A0%88%EC%9D%B4%ED%8A%B8_3.jpg",
+  "q": "broccoli plate fork",
+  "file": "File:프레퍼스 다이어트 푸드 성신여대점 치킨 플레이트 3.jpg"
+ },
+ "health/water:6": {
+  "alt": "Кубики сахара",
+  "author": "Shixart1985",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nurse_holding_a_glass_jar_of_white_sugar_cubes_closeup.jpg",
+  "q": "sugar cubes glass",
+  "file": "File:Nurse holding a glass jar of white sugar cubes closeup.jpg"
+ },
+ "health/water:7": {
+  "alt": "Своя бутылка воды",
+  "author": "Worlds Direction",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Multiple_reusable_water_bottles.jpg",
+  "q": "reusable water bottle",
+  "file": "File:Multiple reusable water bottles.jpg"
+ },
+ "health/breakfast:6": {
+  "alt": "Второй завтрак",
+  "author": "Melissa",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Heart_shaped_sandwich_lunch_box_with_cumcumbers_and_hummus_(8459976360).jpg",
+  "q": "school lunch box sandwich",
+  "file": "File:Heart shaped sandwich lunch box with cumcumbers and hummus (8459976360).jpg"
+ },
+ "health/breakfast:7": {
+  "alt": "Овсянка с ягодами",
+  "author": "Clarissa Savel",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Oatmeal_with_Berries.jpg",
+  "q": "oatmeal porridge berries",
+  "file": "File:Oatmeal with Berries.jpg"
+ },
+ "health/hygiene:7": {
+  "alt": "Мытьё рук с мылом",
+  "author": "Beat Ruest",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Washing_hands_with_soap_(4).jpg",
+  "q": "hands washing soap",
+  "file": "File:Washing hands with soap (4).jpg"
+ },
+ "health/sport:9": {
+  "alt": "Спорт для всех",
+  "author": "John Boyd",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Children_playing_street_hockey_outside_High_Park_(I0003452).jpg",
+  "q": "children playing sports park",
+  "file": "File:Children playing street hockey outside High Park (I0003452).jpg"
+ },
+ "health/sleep:6": {
+  "alt": "Ночь за окном",
+  "author": "xlibber",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Crescent_Moon_(2558144570).jpg",
+  "q": "moon night window bedroom",
+  "file": "File:Crescent Moon (2558144570).jpg"
+ },
+ "health/sleep:7": {
+  "alt": "Будильник",
+  "author": "anagoria",
+  "lic": "CC BY 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:20260210_Radiowecker_Kuba_Sweet-clock_R27_(1970)_Deutsches_Technikmuseum_Berlin_anagoria.jpg",
+  "q": "alarm clock bedside",
+  "file": "File:20260210 Radiowecker Kuba Sweet-clock R27 (1970) Deutsches Technikmuseum Berlin anagoria.jpg"
+ },
+ "health/calm:8": {
+  "alt": "Летний луг",
+  "author": "Anders Andersen-Lundby",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Anders_Andersen-Lundby_-_Sommereng_med_b%C3%B8rn,_der_plukker_blomster.png",
+  "q": "summer meadow flowers",
+  "file": "File:Anders Andersen-Lundby - Sommereng med børn, der plukker blomster.png"
+ },
+ "health/habits:8": {
+  "alt": "Коврик для зарядки",
+  "author": "Shixart1985",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:A_woman_prepares_for_her_yoga_routine.jpg",
+  "q": "yoga mat rolled",
+  "file": "File:A woman prepares for her yoga routine.jpg"
+ },
+ "health/school_day:3": {
+  "alt": "Школьный класс",
+  "author": "Michael Coghlan from Adelaide, Australia",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Classroom_-_Basic_Desks_-_Loxton_Historical_Village_(2020-10-22_09.30.20_by_Michael_Coghlan).jpg",
+  "q": "classroom desks school",
+  "file": "File:Classroom - Basic Desks - Loxton Historical Village (2020-10-22 09.30.20 by Michael Coghlan).jpg"
+ },
+ "health/school_day:6": {
+  "alt": "Час движения",
+  "author": "Rudolph.A.furtado",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Children_and_their_coach_cycling_in_Hyde_Park_in_London..jpg",
+  "q": "children bicycles park",
+  "file": "File:Children and their coach cycling in Hyde Park in London..jpg"
+ },
+ "health/fresh_air:0": {
+  "alt": "Прогулка в парке",
+  "author": "Jonathan Hutchins",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Late_autumn_sun_on_Park_Walk_-_geograph.org.uk_-_5675005.jpg",
+  "q": "park walk autumn path",
+  "file": "File:Late autumn sun on Park Walk - geograph.org.uk - 5675005.jpg"
+ },
+ "health/fresh_air:8": {
+  "alt": "Флюгер",
+  "author": "Nevit Dilmen",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Wind_vane_05643.jpg",
+  "q": "weather vane wind",
+  "file": "File:Wind vane 05643.jpg"
+ },
+ "health/food_label:5": {
+  "alt": "Арахис, молоко, яйца",
+  "author": "NIAID",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Peanuts,_Egg,_and_Milk_(33000737773).jpg",
+  "q": "peanuts milk eggs",
+  "file": "File:Peanuts, Egg, and Milk (33000737773).jpg"
+ },
+ "health/food_label:8": {
+  "alt": "Праздничный торт",
+  "author": "Francesca Cesa Bianchi, Milano",
+  "lic": "CC BY-SA 3.0 it",
+  "page": "https://commons.wikimedia.org/wiki/File:Italy_-_birthday_cake_with_candles_2.jpg",
+  "q": "birthday cake candles",
+  "file": "File:Italy - birthday cake with candles 2.jpg"
+ },
+ "read/how:1": {
+  "alt": "Объектив",
+  "author": "Carlos Valenzuela Montuy",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Photographic_lenses_and_tubes_2025.jpg",
+  "q": "camera lens",
+  "file": "File:Photographic lenses and tubes 2025.jpg"
+ },
+ "read/understand:1": {
+  "alt": "Маркер",
+  "author": "Gausanchennai",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Highlighting_pens.jpg",
+  "q": "highlighter pen",
+  "file": "File:Highlighting pens.jpg"
+ },
+ "read/focus:0": {
+  "alt": "Отвлекалка",
+  "author": "grmwnr (homewiki)",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:CRT_color_enhanced.png",
+  "q": "television",
+  "file": "File:CRT color enhanced.png"
+ },
+ "read/focus:1": {
+  "alt": "Настольная лампа",
+  "author": "Bart Lumber",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Staircase_of_the_BGK_Building_(26620981474).jpg",
+  "q": "desk lamp",
+  "file": "File:Staircase of the BGK Building (26620981474).jpg"
+ },
+ "read/focus:4": {
+  "alt": "Каждый день",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:1914-julian-gregorian-calendar-Greek-French.jpg",
+  "q": "calendar",
+  "file": "File:1914-julian-gregorian-calendar-Greek-French.jpg"
+ },
+ "read/how:5": {
+  "alt": "Секундомер",
+  "author": "Ansgar Koreng",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Stopwatch,_1810201155,_ako.jpg",
+  "q": "stopwatch",
+  "file": "File:Stopwatch, 1810201155, ako.jpg"
+ },
+ "read/understand:5": {
+  "alt": "Лупа над книгой",
+  "author": "Auckland Museum  Collections from Auckland, Aotearoa New Zealand",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Miniature_Book,_%27The_English_Lion%27,_In_Leather_Case_With_Magnifying_Glass_(48708075908).jpg",
+  "q": "magnifying glass on book",
+  "file": "File:Miniature Book, 'The English Lion', In Leather Case With Magnifying Glass (48708075908).jpg"
+ },
+ "read/understand:8": {
+  "alt": "Озеро Байкал",
+  "author": "Sergey Pesterev",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lake_Baikal_in_winter.jpg",
+  "q": "Lake Baikal",
+  "file": "File:Lake Baikal in winter.jpg"
+ },
+ "read/focus:7": {
+  "alt": "Кухонный таймер",
+  "author": "Retro00064",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Lux_Minute_Minder_timer.jpg",
+  "q": "kitchen timer",
+  "file": "File:Lux Minute Minder timer.jpg"
+ },
+ "read/techniques:0": {
+  "alt": "Полки библиотеки",
+  "author": "UCLA Library University Archives",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Music_Library_Shelves_in_the_Powell_Library_Building.jpg",
+  "q": "library shelves",
+  "file": "File:Music Library Shelves in the Powell Library Building.jpg"
+ },
+ "read/memory_retell:5": {
+  "alt": "Календарь",
+  "author": "Claudio Elias",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:WallCalendar.jpg",
+  "q": "wall calendar",
+  "file": "File:WallCalendar.jpg"
+ },
+ "stories/scientists:7": {
+  "alt": "Архимед",
+  "author": "Domenico Fetti",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Domenico-Fetti_Archimedes_1620.jpg",
+  "q": "Archimedes portrait",
+  "file": "File:Domenico-Fetti Archimedes 1620.jpg"
+ },
+ "stories/scientists:9": {
+  "alt": "Иван Павлов",
+  "author": "Françoise Foliot",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fran%C3%A7oise_Foliot_-_Portrait_du_professeur_Pavlov.jpg",
+  "q": "Ivan Pavlov portrait",
+  "file": "File:Françoise Foliot - Portrait du professeur Pavlov.jpg"
+ },
+ "stories/scientists:10": {
+  "alt": "Альберт Эйнштейн",
+  "author": "Oren Jack Turner",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Albert_Einstein_Head_cleaned.jpg",
+  "q": "Albert Einstein portrait",
+  "file": "File:Albert Einstein Head cleaned.jpg"
+ },
+ "stories/scientists:11": {
+  "alt": "Иван Кулибин",
+  "author": "Веденецкий, Пётр Афанасьевич",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Kulibin_I_P.jpg",
+  "q": "Ivan Kulibin portrait",
+  "file": "File:Kulibin I P.jpg"
+ },
+ "stories/space_travel:9": {
+  "alt": "МКС",
+  "author": "NASA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:STS-134_International_Space_Station_after_undocking.jpg",
+  "q": "International Space Station",
+  "file": "File:STS-134 International Space Station after undocking.jpg"
+ },
+ "stories/space_travel:10": {
+  "alt": "Памятник Афанасию Никитину",
+  "author": "Alexxx1979",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tver._Monument_to_Afanasy_Nikitin_P7221267_2350.jpg",
+  "q": "Afanasy Nikitin monument Tver",
+  "file": "File:Tver. Monument to Afanasy Nikitin P7221267 2350.jpg"
+ },
+ "stories/kids_heroes:7": {
+  "alt": "Карл Гаусс",
+  "author": "Christian Albrecht Jensen",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss_1840_by_Jensen.jpg",
+  "q": "Carl Friedrich Gauss portrait",
+  "file": "File:Carl Friedrich Gauss 1840 by Jensen.jpg"
+ },
+ "stories/kids_heroes:8": {
+  "alt": "Сергей Карякин",
+  "author": "Andreas Kontokanis from Piraeus, Greece",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Karjakin_Sergey_(30334667736)_(cropped_v2).jpg",
+  "q": "Sergey Karjakin chess",
+  "file": "File:Karjakin Sergey (30334667736) (cropped v2).jpg"
+ },
+ "stories/kids_heroes:9": {
+  "alt": "Лев Ландау",
+  "author": "Nobel foundation",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Landau.jpg",
+  "q": "Lev Landau physicist",
+  "file": "File:Landau.jpg"
+ },
+ "stories/kids_heroes:10": {
+  "alt": "Гитанджали Рао",
+  "author": "Ramachb",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Gitanjali_Headshot.jpg",
+  "q": "Gitanjali Rao",
+  "file": "File:Gitanjali Headshot.jpg"
+ },
+ "stories/writers_artists:7": {
+  "alt": "Ханс Кристиан Андерсен",
+  "author": "Thora Hallager",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Hans_Christian_Andersen_by_Thora_Hallager_1869.jpg",
+  "q": "Hans Christian Andersen portrait",
+  "file": "File:Hans Christian Andersen by Thora Hallager 1869.jpg"
+ },
+ "stories/writers_artists:8": {
+  "alt": "Беатрис Поттер",
+  "author": "Charles G.Y. King (1854-1937)",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Beatrix_Potter_by_King.jpg",
+  "q": "Beatrix Potter portrait",
+  "file": "File:Beatrix Potter by King.jpg"
+ },
+ "stories/writers_artists:9": {
+  "alt": "Тетради Леонардо",
+  "author": "Leonardo da Vinci",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Leonardo_da_vinci,_Drawing_of_a_flying_machine.jpg",
+  "q": "Leonardo da Vinci flying machine drawing",
+  "file": "File:Leonardo da vinci, Drawing of a flying machine.jpg"
+ },
+ "stories/writers_artists:10": {
+  "alt": "Памятник Ивану Фёдорову",
+  "author": "Perituss",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Moscow_2026-07-17_133.jpg",
+  "q": "Ivan Fyodorov monument Moscow",
+  "file": "File:Moscow 2026-07-17 133.jpg"
+ },
+ "stories/sport_heroes:7": {
+  "alt": "Лариса Латынина",
+  "author": "Пресс-служба Президента России",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Larisa_Latynina,_2010.jpg",
+  "q": "Larisa Latynina gymnast",
+  "file": "File:Larisa Latynina, 2010.jpg"
+ },
+ "stories/sport_heroes:8": {
+  "alt": "Елена Исинбаева",
+  "author": "Eckhard Pecher (Arcimboldo)",
+  "lic": "CC BY 2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Osaka07_D4A_Isinbayeva_4m80_jump.jpg",
+  "q": "Yelena Isinbayeva pole vault",
+  "file": "File:Osaka07 D4A Isinbayeva 4m80 jump.jpg"
+ },
+ "stories/sport_heroes:10": {
+  "alt": "Прыжок фосбери-флоп",
+  "author": "Respublika Narodnaya",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:FosburyFlop.jpg",
+  "q": "Fosbury flop high jump",
+  "file": "File:FosburyFlop.jpg"
+ },
+ "stories/sport_heroes:11": {
+  "alt": "Джесси Оуэнс",
+  "author": "N.N.",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Jesse_Owens_1936_Summer_Olympics.png",
+  "q": "Jesse Owens 1936",
+  "file": "File:Jesse Owens 1936 Summer Olympics.png"
+ },
+ "stories/doctors_rescuers:8": {
+  "alt": "Вильгельм Рентген",
+  "author": "Erwin Hanfstaengl",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Wilhelm_Conrad_R%C3%B6ntgen_(1888-1900),_88374_p.jpg",
+  "q": "Wilhelm Rontgen portrait",
+  "file": "File:Wilhelm Conrad Röntgen (1888-1900), 88374 p.jpg"
+ },
+ "stories/doctors_rescuers:11": {
+  "alt": "Анри Дюнан",
+  "author": "Wikimedia Commons",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Henry_Dunant._Photograph._Wellcome_M0017054.jpg",
+  "q": "Henry Dunant portrait",
+  "file": "File:Henry Dunant. Photograph. Wellcome M0017054.jpg"
+ },
+ "stories/animal_heroes:7": {
+  "alt": "Корабль «Восток»",
+  "author": "Stolbovsky",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Vostok_5_reentry_capsule_01.jpg",
+  "q": "Vostok spacecraft capsule",
+  "file": "File:Vostok 5 reentry capsule 01.jpg"
+ },
+ "stories/fail_to_win:7": {
+  "alt": "Людвиг ван Бетховен",
+  "author": "Joseph Karl Stieler",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Joseph_Karl_Stieler%27s_Beethoven_mit_dem_Manuskript_der_Missa_solemnis.jpg",
+  "q": "Ludwig van Beethoven portrait",
+  "file": "File:Joseph Karl Stieler's Beethoven mit dem Manuskript der Missa solemnis.jpg"
+ },
+ "stories/fail_to_win:8": {
+  "alt": "Первый полёт братьев Райт",
+  "author": "John T. Daniels",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:First_flight3.jpg",
+  "q": "Wright Flyer first flight 1903",
+  "file": "File:First flight3.jpg"
+ },
+ "stories/fail_to_win:9": {
+  "alt": "Политехникум в Цюрихе",
+  "author": "Ximeg",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Main_building_of_ETH_Z%C3%BCrich_interior.JPG",
+  "q": "ETH Zurich main building",
+  "file": "File:Main building of ETH Zürich interior.JPG"
+ },
+ "stories/fail_to_win:10": {
+  "alt": "Чарльз Гудьир",
+  "author": "Southworth &amp; Hawes",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Southworth_and_Hawes_-_Charles_Goodyear_(Zeno_Fotografie)_crop.png",
+  "q": "Charles Goodyear portrait",
+  "file": "File:Southworth and Hawes - Charles Goodyear (Zeno Fotografie) crop.png"
+ },
+ "stories/kindness:7": {
+  "alt": "Николас Уинтон",
+  "author": "cs:User:Li-sung",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nicholas_Winton_in_Prague_(cropped).jpg",
+  "q": "Nicholas Winton",
+  "file": "File:Nicholas Winton in Prague (cropped).jpg"
+ },
+ "stories/kindness:8": {
+  "alt": "Энн Салливан и Хелен Келлер",
+  "author": "Daderot",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Anne_Sullivan_-_Helen_Keller_memorial_-_Tewksbury,_Massachusetts_-_DSC00072.JPG",
+  "q": "Anne Sullivan Helen Keller",
+  "file": "File:Anne Sullivan - Helen Keller memorial - Tewksbury, Massachusetts - DSC00072.JPG"
+ },
+ "stories/kindness:10": {
+  "alt": "Вангари Маатаи",
+  "author": "Kadee Angie Barbie",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Wangari_Maathai_portrait.jpg",
+  "q": "Wangari Maathai",
+  "file": "File:Wangari Maathai portrait.jpg"
+ },
+ "stories/growth_mindset:10": {
+  "alt": "Герман Эббингауз",
+  "author": "Wikimedia Commons",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Zeitschrift_fur_Psychologie,_1909;_Herman_Ebbinghaus._Wellcome_L0003734.jpg",
+  "q": "Hermann Ebbinghaus portrait",
+  "file": "File:Zeitschrift fur Psychologie, 1909; Herman Ebbinghaus. Wellcome L0003734.jpg"
+ },
+ "stories/explorers:1": {
+  "alt": "Руаль Амундсен",
+  "author": "Anders Beer Wilse",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Amundsen-in-ice.jpg",
+  "q": "Roald Amundsen",
+  "file": "File:Amundsen-in-ice.jpg"
+ },
+ "stories/explorers:2": {
+  "alt": "Хиллари и Тенцинг",
+  "author": "Vyacheslav Argenberg",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Everest,_Himalayas.jpg",
+  "q": "Hillary Tenzing Everest 1953",
+  "file": "File:Everest, Himalayas.jpg"
+ },
+ "stories/explorers:3": {
+  "alt": "Миклухо-Маклай",
+  "author": "Unknown authorUnknown author",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Nicholas_Miklouho-Maclay_1876.png",
+  "q": "Nicholas Miklouho-Maclay",
+  "file": "File:Nicholas Miklouho-Maclay 1876.png"
+ },
+ "stories/explorers:5": {
+  "alt": "Жак-Ив Кусто",
+  "author": "Weaver Tripp",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Jacques-Yves_Cousteau_1975.jpg",
+  "q": "Jacques-Yves Cousteau",
+  "file": "File:Jacques-Yves Cousteau 1975.jpg"
+ },
+ "stories/explorers:6": {
+  "alt": "Корабль Магеллана",
+  "author": "Christian Ferrer",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nao_Victoria_moored_in_S%C3%A8te_01.jpg",
+  "q": "Nao Victoria replica Magellan",
+  "file": "File:Nao Victoria moored in Sète 01.jpg"
+ },
+ "stories/explorers:7": {
+  "alt": "Лошадь Пржевальского",
+  "author": "PtrQs",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:20150429_Schoeningen_PrzewalskiPferd_DSC05760_PtrQs.jpg",
+  "q": "Przewalski horse",
+  "file": "File:20150429 Schoeningen PrzewalskiPferd DSC05760 PtrQs.jpg"
+ },
+ "stories/women_science:0": {
+  "alt": "Софья Ковалевская",
+  "author": "Petri Krohn",
+  "lic": "CC BY 2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Sofia_Kovalevskaya_by_W_Runeberg.jpg",
+  "q": "Sofia Kovalevskaya",
+  "file": "File:Sofia Kovalevskaya by W Runeberg.jpg"
+ },
+ "stories/women_science:1": {
+  "alt": "Ада Лавлейс",
+  "author": "Alfred Edward Chalon",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Ada_Lovelace_portrait.jpg",
+  "q": "Ada Lovelace portrait",
+  "file": "File:Ada Lovelace portrait.jpg"
+ },
+ "stories/women_science:3": {
+  "alt": "Лиза Мейтнер",
+  "author": "Smithsonian Institution",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Lise_Meitner_(1878-1968),_lecturing_at_Catholic_University,_Washington,_D.C.,_1946.jpg",
+  "q": "Lise Meitner",
+  "file": "File:Lise Meitner (1878-1968), lecturing at Catholic University, Washington, D.C., 1946.jpg"
+ },
+ "stories/women_science:4": {
+  "alt": "Розалинд Франклин",
+  "author": "CSHL",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rosalind-franklin-in-paris.jpg",
+  "q": "Rosalind Franklin",
+  "file": "File:Rosalind-franklin-in-paris.jpg"
+ },
+ "stories/women_science:5": {
+  "alt": "Кэтрин Джонсон",
+  "author": "Adam Cuerden",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Katherine_Johnson_at_NASA,_in_1966.jpg",
+  "q": "Katherine Johnson NASA",
+  "file": "File:Katherine Johnson at NASA, in 1966.jpg"
+ },
+ "stories/women_science:7": {
+  "alt": "Мэри Эннинг",
+  "author": "Credited to 'Mr. Grey' in Crispin Tickell's book 'Mary Anning of Lyme Regis' (19",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Mary_Anning_painting.jpg",
+  "q": "Mary Anning",
+  "file": "File:Mary Anning painting.jpg"
+ },
+ "stories/young_inventors:0": {
+  "alt": "Фило Фарнсворт",
+  "author": "Harris &amp; Ewing",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Philo_T_Farnsworth.jpg",
+  "q": "Philo Farnsworth",
+  "file": "File:Philo T Farnsworth.jpg"
+ },
+ "stories/young_inventors:1": {
+  "alt": "Надя Команечи",
+  "author": "Unknown (Comitetul Olimpic si Sportiv Roman)",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Nadia_Com%C4%83neci_2.jpg",
+  "q": "Nadia Comaneci",
+  "file": "File:Nadia Comăneci 2.jpg"
+ },
+ "stories/young_inventors:4": {
+  "alt": "Водные лыжи",
+  "author": "Isiwal",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fischlham_Mevisto_Cup_2017_Trickski_Theresa_Schmidberger1-1.jpg",
+  "q": "water skiing",
+  "file": "File:Fischlham Mevisto Cup 2017 Trickski Theresa Schmidberger1-1.jpg"
+ },
+ "stories/young_inventors:5": {
+  "alt": "Пеле",
+  "author": "Unknown photographer",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:1958-06-01_Stockholm_Saab_92_Pele_Zito.jpg",
+  "q": "Pele 1958",
+  "file": "File:1958-06-01 Stockholm Saab 92 Pele Zito.jpg"
+ },
+ "teen/hygiene:1": {
+  "alt": "Дезодорант",
+  "author": "Id1337x",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Irish_Spring_Speed_Stick.JPG",
+  "q": "deodorant stick",
+  "file": "File:Irish Spring Speed Stick.JPG"
+ },
+ "teen/hygiene:3": {
+  "alt": "Щётка и паста",
+  "author": "Ivan Radic",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Close-up_of_a_toothbrush_with_toothpaste_(49842101773).jpg",
+  "q": "toothbrush toothpaste",
+  "file": "File:Close-up of a toothbrush with toothpaste (49842101773).jpg"
+ },
+ "teen/hygiene:6": {
+  "alt": "Своя расчёска",
+  "author": "Jebulon",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Olive_harvest_combs._Anthidona._Greece.jpg",
+  "q": "hair comb",
+  "file": "File:Olive harvest combs. Anthidona. Greece.jpg"
+ },
+ "teen/emotions:2": {
+  "alt": "Спокойное озеро",
+  "author": "Julian Herzog (Website)",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Friars%27_Crag_Derwentwater_Lake_District_2022_01.jpg",
+  "q": "calm lake",
+  "file": "File:Friars' Crag Derwentwater Lake District 2022 01.jpg"
+ },
+ "teen/emotions:4": {
+  "alt": "Плюшевый мишка",
+  "author": "Clément Bucco-Lechat",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Handmade_teddy_bear.jpg",
+  "q": "teddy bear",
+  "file": "File:Handmade teddy bear.jpg"
+ },
+ "teen/friendship:1": {
+  "alt": "Рукопожатие",
+  "author": "Moshe Milner",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Barthelemy_Lambony_shaking_hands_with_Haim_Lior._D656-078.jpg",
+  "q": "handshake",
+  "file": "File:Barthelemy Lambony shaking hands with Haim Lior. D656-078.jpg"
+ },
+ "teen/friendship:2": {
+  "alt": "Настольная игра",
+  "author": "Harrison Keely",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Balderdash_board_game_and_pieces_02.jpg",
+  "q": "board game",
+  "file": "File:The Balderdash board game and pieces 02.jpg"
+ },
+ "teen/crush:3": {
+  "alt": "Открытка",
+  "author": "Creator:Johannes Endletzberger",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Greeting_Card_Met_DP887803.jpg",
+  "q": "greeting card",
+  "file": "File:Greeting Card Met DP887803.jpg"
+ },
+ "teen/crush:4": {
+  "alt": "Дождь за окном",
+  "author": "Tomascastelazo",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rain_on_glass_from_below.jpg",
+  "q": "rain on window",
+  "file": "File:Rain on glass from below.jpg"
+ },
+ "teen/confidence:0": {
+  "alt": "Зеркало",
+  "author": "Basile Morin",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Washbasins_of_the_restrooms_in_Crowne_Plaza_Vientiane.jpg",
+  "q": "mirror",
+  "file": "File:Washbasins of the restrooms in Crowne Plaza Vientiane.jpg"
+ },
+ "teen/confidence:1": {
+  "alt": "Смартфон",
+  "author": "Syced",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Leaflet_at_Narita_arrival._Requirement_to_have_a_smartphone_to_enter_Japan_during_COVID-19_pandemic.jpg",
+  "q": "smartphone",
+  "file": "File:Leaflet at Narita arrival. Requirement to have a smartphone to enter Japan during COVID-19 pandemic.jpg"
+ },
+ "teen/confidence:3": {
+  "alt": "Корзина фруктов",
+  "author": "Dirk Ingo Franke",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fruit_basket_alessi.JPG",
+  "q": "fruit basket",
+  "file": "File:Fruit basket alessi.JPG"
+ },
+ "teen/boundaries:0": {
+  "alt": "Невидимая граница",
+  "author": "Evgav",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%9C%D0%B5%D0%B6%D0%B4%D1%83_%D0%BB%D0%B5%D1%82%D0%BE%D0%BC_%D0%B8_%D0%BE%D1%81%D0%B5%D0%BD%D1%8C%D1%8E.jpg",
+  "q": "garden fence",
+  "file": "File:Между летом и осенью.jpg"
+ },
+ "teen/boundaries:6": {
+  "alt": "Знак «Стоп»",
+  "author": "Tuxyso",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Letterboxes_Ocotillo_Wells_2013_Crop.jpg",
+  "q": "stop sign",
+  "file": "File:Letterboxes Ocotillo Wells 2013 Crop.jpg"
+ },
+ "teen/is_it_normal:3": {
+  "alt": "Дезодорант",
+  "author": "Zach Catanzareti",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cole_Whitt_Homestead_2015.jpg",
+  "q": "deodorant stick",
+  "file": "File:Cole Whitt Homestead 2015.jpg"
+ },
+ "teen/is_it_normal:5": {
+  "alt": "Салфетки",
+  "author": "Wiki.cullin",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chrome_Kleenex_Tissues_Box_-_Matane,_Quebec_-_July_2022.jpg",
+  "q": "tissues box",
+  "file": "File:Chrome Kleenex Tissues Box - Matane, Quebec - July 2022.jpg"
+ },
+ "teen/hygiene:8": {
+  "alt": "Кусачки для ногтей",
+  "author": "Evan-Amos",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Nail-clippers-variety.jpg",
+  "q": "nail clipper",
+  "file": "File:Nail-clippers-variety.jpg"
+ },
+ "teen/hygiene:9": {
+  "alt": "Зубная щётка",
+  "author": "Jonas Bergsten",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Toothbrush_20050716_004.jpg",
+  "q": "toothbrush",
+  "file": "File:Toothbrush 20050716 004.jpg"
+ },
+ "teen/hygiene:10": {
+  "alt": "Сменная футболка",
+  "author": "Christian Heilmann",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:T-Shirt_folding_skills_(4111373509).jpg",
+  "q": "folded t-shirt",
+  "file": "File:T-Shirt folding skills (4111373509).jpg"
+ },
+ "teen/boundaries:8": {
+  "alt": "Закрытая дверь",
+  "author": "Radomianin",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dorfkirche_Sanitz_(main_door),_2025-04-20.jpg",
+  "q": "closed wooden door",
+  "file": "File:Dorfkirche Sanitz (main door), 2025-04-20.jpg"
+ },
+ "teen/online:6": {
+  "alt": "Навесной замок",
+  "author": "Superbass",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Love_padlocks_brooklyn_bridge.jpg",
+  "q": "padlock",
+  "file": "File:Love padlocks brooklyn bridge.jpg"
+ },
+ "teen/online:7": {
+  "alt": "Следы на песке",
+  "author": "Kritzolina",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Human_footprint.jpg",
+  "q": "footprints in sand",
+  "file": "File:Human footprint.jpg"
+ },
+ "teen/online:9": {
+  "alt": "Телефон на тумбочке",
+  "author": "Jonathan Haeber from Richmond, CA",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nightstand_and_Phone_(8354651498).jpg",
+  "q": "phone on nightstand",
+  "file": "File:Nightstand and Phone (8354651498).jpg"
+ },
+ "teen/is_it_normal:13": {
+  "alt": "Будильник",
+  "author": "Wilfredor",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Alarm_Clock_crossed_out.jpg",
+  "q": "alarm clock",
+  "file": "File:Alarm Clock crossed out.jpg"
+ },
+ "teen/online_friends:4": {
+  "alt": "Смартфон",
+  "author": "Dienthoaiquangcao12",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:HP_Elite_X3.png",
+  "q": "smartphone on desk",
+  "file": "File:HP Elite X3.png"
+ },
+ "teen/exam_stress:2": {
+  "alt": "Ежедневник",
+  "author": "Gpkp",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Personal_organizer_book_(India,_2026).jpg",
+  "q": "planner notebook",
+  "file": "File:Personal organizer book (India, 2026).jpg"
+ },
+ "safety/passwords:7": {
+  "alt": "Замок на экране",
+  "author": "Tomasz Sienicki [user: tsca, mail: tomasz.sienicki at gmail.com]",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Padlock_kl%C3%B3dka_ubt.JPG",
+  "q": "padlock",
+  "file": "File:Padlock klódka ubt.JPG"
+ },
+ "safety/street_stranger:8": {
+  "alt": "Лифт и подъезд",
+  "author": "Wmpearl",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Elevator_doors,_Marines%27_Memorial_Hotel.JPG",
+  "q": "elevator doors",
+  "file": "File:Elevator doors, Marines' Memorial Hotel.JPG"
+ },
+ "safety/bullying:10": {
+  "alt": "Восстановить силы",
+  "author": "Michal Klajban",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Watercolors_with_a_brush.jpg",
+  "q": "paint brushes watercolor",
+  "file": "File:Watercolors with a brush.jpg"
+ },
+ "safety/digital_footprint:0": {
+  "alt": "Цифровой след",
+  "author": "Annatsach",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Footprints_on_the_beach_-_Nea_Peramos.jpg",
+  "q": "footprints sand beach",
+  "file": "File:Footprints on the beach - Nea Peramos.jpg"
+ },
+ "safety/digital_footprint:2": {
+  "alt": "Поиск по имени",
+  "author": "Niabot",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Magnifying_glass_with_infinite_focus.png",
+  "q": "magnifying glass",
+  "file": "File:Magnifying glass with infinite focus.png"
+ },
+ "safety/digital_footprint:5": {
+  "alt": "Настройки приватности",
+  "author": "Schlurcher",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Liebesschloss.jpg",
+  "q": "padlock",
+  "file": "File:Liebesschloss.jpg"
+ },
+ "safety/transport:0": {
+  "alt": "На остановке",
+  "author": "Dmitry Ivanov.",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bus_shelter_at_VDNKh_in_Moscow.jpg",
+  "q": "bus stop shelter",
+  "file": "File:Bus shelter at VDNKh in Moscow.jpg"
+ },
+ "safety/transport:1": {
+  "alt": "В салоне",
+  "author": "Lukas Beck",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Berlin_Alexander_Dennis_Enviro500_lub_2024-01-20_img02_Interieur.jpg",
+  "q": "bus interior handrails empty",
+  "file": "File:Berlin Alexander Dennis Enviro500 lub 2024-01-20 img02 Interieur.jpg"
+ },
+ "safety/transport:3": {
+  "alt": "Метро и эскалатор",
+  "author": "Andrew Nash from Vienna, Austria",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Red_Handrail_U1_Vienna_(8220852717).jpg",
+  "q": "metro escalator handrail",
+  "file": "File:Red Handrail U1 Vienna (8220852717).jpg"
+ },
+ "safety/transport:7": {
+  "alt": "Шлем и самокат",
+  "author": "Afifa Afrin",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bicycle_white_helmet_from_bikemate_3.jpg",
+  "q": "bicycle helmet",
+  "file": "File:Bicycle white helmet from bikemate 3.jpg"
+ },
+ "talk/meet:3": {
+  "alt": "Лупа детектива",
+  "author": "PLBechly",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:A_magnifying_glass.jpg",
+  "q": "magnifying glass",
+  "file": "File:A magnifying glass.jpg"
+ },
+ "talk/listen:2": {
+  "alt": "Красный — подожди",
+  "author": "Tolerant-21",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Traffic_Light_in_New_Configuration_-_Figure_2.png",
+  "q": "red traffic light",
+  "file": "File:Traffic Light in New Configuration - Figure 2.png"
+ },
+ "talk/empathy:0": {
+  "alt": "Маски эмоций",
+  "author": "Dennis G. Jarvis",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Theatre_Masks_in_the_Octagonal_Court_(5378936350).jpg",
+  "q": "theatre masks",
+  "file": "File:Theatre Masks in the Octagonal Court (5378936350).jpg"
+ },
+ "talk/empathy:5": {
+  "alt": "Взрослый рядом",
+  "author": "Harrison Keely",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Students_and_teacher_in_a_high_school_classroom_in_North_Carolina_07.jpg",
+  "q": "teacher classroom",
+  "file": "File:Students and teacher in a high school classroom in North Carolina 07.jpg"
+ },
+ "talk/i_message:3": {
+  "alt": "Только факты",
+  "author": "Alexdarek",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ansco_Vintage_camera_-_1903.jpg",
+  "q": "vintage camera",
+  "file": "File:Ansco Vintage camera - 1903.jpg"
+ },
+ "talk/ask_refuse:0": {
+  "alt": "Вежливая просьба",
+  "author": "Jonathan Schilling",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Small_gift_box_for_Novell_employees.jpg",
+  "q": "gift box",
+  "file": "File:Small gift box for Novell employees.jpg"
+ },
+ "talk/compromise:0": {
+  "alt": "Два упрямых козла",
+  "author": "Rama",
+  "lic": "CC BY-SA 3.0 fr",
+  "page": "https://commons.wikimedia.org/wiki/File:Earring_ornated_with_Bes_mastering_two_goats-AO_3171-P5280910-white.jpg",
+  "q": "two goats",
+  "file": "File:Earring ornated with Bes mastering two goats-AO 3171-P5280910-white.jpg"
+ },
+ "talk/compromise:5": {
+  "alt": "Пауза",
+  "author": "Wikimedia Commons",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:3_Hourglasses_Wellcome_L0011331.jpg",
+  "q": "hourglass",
+  "file": "File:3 Hourglasses Wellcome L0011331.jpg"
+ },
+ "talk/online:5": {
+  "alt": "Шёпот за спиной",
+  "author": "Bohemian Baltimore",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ocean_City_-_Trail_of_the_Whispering_Giants_07.jpg",
+  "q": "whispering statue",
+  "file": "File:Ocean City - Trail of the Whispering Giants 07.jpg"
+ },
+ "talk/teamwork:3": {
+  "alt": "Оркестр",
+  "author": "Geoff Charles",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Anglesey_Youth_Orchestra_rehearsing_with_their_conductor_Arthur_Hefin_Jones,_director_ofthe_county%27s_orchestra_(1514629).jpg",
+  "q": "orchestra",
+  "file": "File:Anglesey Youth Orchestra rehearsing with their conductor Arthur Hefin Jones, director ofthe county's orchestra (1514629).jpg"
+ },
+ "talk/listen:6": {
+  "alt": "Запомни детали",
+  "author": "Bill Abbott",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Computer_lab_tool_kit_phase_3_IMG_2136_(1)_(26093095008).jpg",
+  "q": "notebook magnifying glass",
+  "file": "File:Computer lab tool kit phase 3 IMG 2136 (1) (26093095008).jpg"
+ },
+ "talk/ask_refuse:7": {
+  "alt": "Просьба с «потому что»",
+  "author": "ABX",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:School_pencil_cases.jpg",
+  "q": "pen pencil",
+  "file": "File:School pencil cases.jpg"
+ },
+ "talk/speech:6": {
+  "alt": "Голос и паузы",
+  "author": "Carsten Stiller",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2013-09-28_Jena_Waiting_2_(10001985445).jpg",
+  "q": "microphone stand",
+  "file": "File:2013-09-28 Jena Waiting 2 (10001985445).jpg"
+ },
+ "talk/online:6": {
+  "alt": "Правило 10 секунд",
+  "author": "John Morgan",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Hourglass_with_sand.jpg",
+  "q": "hourglass",
+  "file": "File:Hourglass with sand.jpg"
+ },
+ "talk/say_no_friends:3": {
+  "alt": "Заезженная пластинка",
+  "author": "Franz van Duns",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Groove_and_needle_in_close_embrace_from_beginning_to_end.jpg",
+  "q": "vinyl record player",
+  "file": "File:Groove and needle in close embrace from beginning to end.jpg"
+ },
+ "think/fact_opinion:2": {
+  "alt": "Я думаю…",
+  "author": "Արմինե Ավագյան",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%D5%84%D5%BF%D5%B8%D6%80%D5%B8%D6%82%D5%B4-1_(%D5%B0%D5%A5%D5%B2%D5%AB%D5%B6%D5%A1%D5%AF%60_%D5%8D%D5%BF%D5%A5%D6%83%D5%A1%D5%B6_%D4%B4%D5%A1%D5%BE%D5%A9%D5%B5%D5%A1%D5%B6,_%D5%BF%D5%A5%D5%B2%D5%A1%D5%A4%D6%80%D5%BE%D5%A1%D5%AE_%D4%BC%D5%A5%D5%BC%D5%B6%D5%A1%D5%A3%D5%B8%D6%80%D5%AE_%D5%B0%D5%B5%D5%B8%D6%82%D6%80%D5%A1%D5%B6%D5%B8%D6%81%D5%AB_%D5%A4%D5%AB%D5%B4%D5%A1%D6%81).jpg",
+  "q": "thinking statue",
+  "file": "File:Մտորում-1 (հեղինակ` Ստեփան Դավթյան, տեղադրված Լեռնագործ հյուրանոցի դիմաց).jpg"
+ },
+ "think/cause_effect:1": {
+  "alt": "Чёрная кошка",
+  "author": "AdinaVoicu",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tabby_cat_with_blue_eyes-3336579.jpg",
+  "q": "black cat",
+  "file": "File:Tabby cat with blue eyes-3336579.jpg"
+ },
+ "think/cause_effect:4": {
+  "alt": "Торт в духовке",
+  "author": "Yemi festus",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Wikipedia_@25_Cake_baking_contest_93.jpg",
+  "q": "baking cake",
+  "file": "File:Wikipedia @25 Cake baking contest 93.jpg"
+ },
+ "think/ads:5": {
+  "alt": "Сыр в мышеловке",
+  "author": "Микола Василечко",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%9C%D0%B8%D1%88%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B0,_%D1%81%D0%B8%D1%80_%D1%96_%D0%BC%D0%B8%D1%88%D0%B0_-_20250531_065533.jpg",
+  "q": "mousetrap cheese",
+  "file": "File:Мишоловка, сир і миша - 20250531 065533.jpg"
+ },
+ "think/news_fakes:1": {
+  "alt": "Шляпа детектива",
+  "author": "Miscellaneous Items in High Demand, PPOC, Library of Congress",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Jesse_Linsley,_a_member_of_the_Wild_Bunch_gang,_head-and-shoulders_portrait,_wearing_a_hat_LCCN2006680239.jpg",
+  "q": "detective hat",
+  "file": "File:Jesse Linsley, a member of the Wild Bunch gang, head-and-shoulders portrait, wearing a hat LCCN2006680239.jpg"
+ },
+ "think/news_fakes:2": {
+  "alt": "Громкий заголовок",
+  "author": "Wikimedia Commons",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Megaphone_MET_C4491_89.4.3323.jpg",
+  "q": "megaphone",
+  "file": "File:Megaphone MET C4491 89.4.3323.jpg"
+ },
+ "think/news_fakes:3": {
+  "alt": "Старые фотографии",
+  "author": "Bijay Chaurasia",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Old_man_reading_newspaper_early_in_the_morning_at_Basantapur-IMG_6800.jpg",
+  "q": "old photographs",
+  "file": "File:Old man reading newspaper early in the morning at Basantapur-IMG 6800.jpg"
+ },
+ "think/patterns:2": {
+  "alt": "Счёты",
+  "author": "Syced",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Abacus_actually_in_use_at_kimono_shop_in_Otaru.jpg",
+  "q": "abacus",
+  "file": "File:Abacus actually in use at kimono shop in Otaru.jpg"
+ },
+ "think/kind_debate:0": {
+  "alt": "Рукопожатие",
+  "author": "https://www.flickr.com/people/69061470@N05",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_Government_Press_Office_(GPO)_-_Pres._Katzir_Shaking_hands_with_one_of_the_Bedouin_sheikhs.jpg",
+  "q": "handshake",
+  "file": "File:Flickr - Government Press Office (GPO) - Pres. Katzir Shaking hands with one of the Bedouin sheikhs.jpg"
+ },
+ "think/fact_opinion:6": {
+  "alt": "Эверест — самая высокая",
+  "author": "Mount_Everest_as_seen_from_Drukair2.jpg: shrimpo1967\nderivative work: Papa Lima ",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mount_Everest_as_seen_from_Drukair2_PLW_edit_Cropped.jpg",
+  "q": "Mount Everest summit",
+  "file": "File:Mount Everest as seen from Drukair2 PLW edit Cropped.jpg"
+ },
+ "think/fact_opinion:9": {
+  "alt": "Прогноз — не факт",
+  "author": "inkknife_2000 (7.5 million views +)",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Weather_Vane,_Sisters,_OR_9-1-13zy_(9880211054).jpg",
+  "q": "weather vane clouds",
+  "file": "File:Weather Vane, Sisters, OR 9-1-13zy (9880211054).jpg"
+ },
+ "think/cause_effect:7": {
+  "alt": "Опыт-проверка",
+  "author": "Eiku en exil",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Unidentified_seedlings_in_a_pot,_April_2020_(1).jpg",
+  "q": "seedlings pots",
+  "file": "File:Unidentified seedlings in a pot, April 2020 (1).jpg"
+ },
+ "think/logic:7": {
+  "alt": "«И» и «или»",
+  "author": "PumpkinSky",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pyrus_pyrifolia_fruit_on_tree_PS_2z_LR.jpg",
+  "q": "apple pear",
+  "file": "File:Pyrus pyrifolia fruit on tree PS 2z LR.jpg"
+ },
+ "think/patterns:9": {
+  "alt": "Проверь правило",
+  "author": "Dietmar Rabich",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Domino_--_2021_--_6759.jpg",
+  "q": "dominoes",
+  "file": "File:Domino -- 2021 -- 6759.jpg"
+ },
+ "think/cases:8": {
+  "alt": "Подставь ответ",
+  "author": "Patafisik",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Puzzle_pieces_1.JPG",
+  "q": "puzzle pieces",
+  "file": "File:Puzzle pieces 1.JPG"
+ },
+ "think/probability:2": {
+  "alt": "Монетка",
+  "author": "Unknown authorUnknown author",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Drachme_en_or,_Bruttium.jpg",
+  "q": "coin",
+  "file": "File:Drachme en or, Bruttium.jpg"
+ },
+ "think/probability:3": {
+  "alt": "Кубик",
+  "author": "Schlurcher",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Spielw%C3%BCrfel.jpg",
+  "q": "dice",
+  "file": "File:Spielwürfel.jpg"
+ },
+ "think/check_source:3": {
+  "alt": "Сравни источники",
+  "author": "Kai3952",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Stack_of_journals_and_books_in_the_Central_Geological_Survey_Library,_MOEA.jpg",
+  "q": "books stack",
+  "file": "File:Stack of journals and books in the Central Geological Survey Library, MOEA.jpg"
+ },
+ "think/logic_grids:1": {
+  "alt": "Рисуем таблицу",
+  "author": "Mikus",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Graph-paper-10sqsm-5sqin-4sqin.jpg",
+  "q": "graph paper grid",
+  "file": "File:Graph-paper-10sqsm-5sqin-4sqin.jpg"
+ },
+ "creative/brainstorm:4": {
+  "alt": "Эстафета",
+  "author": "褒忠國中 雲端網",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Relay_race_at_the_Baozhong_Junior_High_School_20191211.jpg",
+  "q": "relay race",
+  "file": "File:Relay race at the Baozhong Junior High School 20191211.jpg"
+ },
+ "creative/what_if:1": {
+  "alt": "Остров в облаках",
+  "author": "RipleyTheDog",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lake_Titicaka_floating_island.jpg",
+  "q": "floating island",
+  "file": "File:Lake Titicaka floating island.jpg"
+ },
+ "creative/combine:4": {
+  "alt": "Машина-лодка",
+  "author": "Ogidya",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:BeTRITON_amphibious_vehicle_(Fully_Charged_2022)_boat_front.jpg",
+  "q": "amphibious vehicle",
+  "file": "File:BeTRITON amphibious vehicle (Fully Charged 2022) boat front.jpg"
+ },
+ "creative/inventor:5": {
+  "alt": "Пластырь",
+  "author": "Foto: Jonn Leffmann",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pl%C3%A5ster_-_Adhesive_bandage_-_2025.jpg",
+  "q": "adhesive bandage",
+  "file": "File:Plåster - Adhesive bandage - 2025.jpg"
+ },
+ "creative/stories:0": {
+  "alt": "Раскрытая книга",
+  "author": "HonysTorresArt",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Open_Internal_Pages_of_the_Book_Diario_de_Incertidumbre_pandemia_(Honys_Torres)_03.png",
+  "q": "open book",
+  "file": "File:Open Internal Pages of the Book Diario de Incertidumbre pandemia (Honys Torres) 03.png"
+ },
+ "creative/stories:5": {
+  "alt": "Шерсть дыбом",
+  "author": "Anders Zorn",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Frightened_MET_DP878414.jpg",
+  "q": "frightened cat",
+  "file": "File:Frightened MET DP878414.jpg"
+ },
+ "creative/team_life:0": {
+  "alt": "Есть идея!",
+  "author": "Thomas Edison (reprinted by the Norris Peters Co.)",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Light_bulb_Edison_2.jpg",
+  "q": "light bulb",
+  "file": "File:Light bulb Edison 2.jpg"
+ },
+ "creative/team_life:2": {
+  "alt": "Нить лампы накаливания",
+  "author": "Adrian Tync",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%C5%81aziska_G%C3%B3rne_museum_10000_W_light_bulb.jpg",
+  "q": "incandescent light bulb filament",
+  "file": "File:Łaziska Górne museum 10000 W light bulb.jpg"
+ },
+ "creative/team_life:3": {
+  "alt": "Макет из картона",
+  "author": "Kim Traynor",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cardboard_model_of_the_Scott_Monument,_Edinburgh.JPG",
+  "q": "cardboard model",
+  "file": "File:Cardboard model of the Scott Monument, Edinburgh.JPG"
+ },
+ "creative/brainstorm:6": {
+  "alt": "Письменный штурм",
+  "author": "J.P. C.",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Stack_of_four_sticky_notes.jpg",
+  "q": "sticky notes",
+  "file": "File:Stack of four sticky notes.jpg"
+ },
+ "creative/brainstorm:7": {
+  "alt": "Штурм в одиночку",
+  "author": "Carnby",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Egg_timer_digital.jpg",
+  "q": "kitchen timer",
+  "file": "File:Egg timer digital.jpg"
+ },
+ "creative/new_view:6": {
+  "alt": "Подсмотри у природы",
+  "author": "Famberhorst",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Grote_klit_of_grote_klis_(Arctium_lappa)_19-01-2026._(d.j.b.).jpg",
+  "q": "burdock burrs",
+  "file": "File:Grote klit of grote klis (Arctium lappa) 19-01-2026. (d.j.b.).jpg"
+ },
+ "creative/inventor:7": {
+  "alt": "Приём «матрёшка»",
+  "author": "LR0725",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Many_matryoshka_dolls.jpg",
+  "q": "matryoshka dolls",
+  "file": "File:Many matryoshka dolls.jpg"
+ },
+ "creative/inventor:8": {
+  "alt": "Приём «посредник»",
+  "author": "Shixart1985",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Person_using_oven_mitts_to_remove_a_pot_from_the_stove_in_a_kitchen.jpg",
+  "q": "oven mitt pot",
+  "file": "File:Person using oven mitts to remove a pot from the stove in a kitchen.jpg"
+ },
+ "creative/inventor:9": {
+  "alt": "Вред в пользу",
+  "author": "Michal Klajban",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Richmond_Community_Garden_-_compost_bins,_Richmond,_Christchurch,_New_Zealand.jpg",
+  "q": "compost bin garden",
+  "file": "File:Richmond Community Garden - compost bins, Richmond, Christchurch, New Zealand.jpg"
+ },
+ "creative/make_game:0": {
+  "alt": "Из чего состоит игра",
+  "author": "Aaaatu",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chess_board_with_pieces.jpg",
+  "q": "chess pieces board",
+  "file": "File:Chess board with pieces.jpg"
+ },
+ "creative/make_game:2": {
+  "alt": "Баланс",
+  "author": "Roger Culos",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Akan_MHNT.ETH.2010.25.009.jpg",
+  "q": "balance scale",
+  "file": "File:Akan MHNT.ETH.2010.25.009.jpg"
+ },
+ "creative/junk_inventions:5": {
+  "alt": "Кормушка для птиц",
+  "author": "E961",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:DIY_Winter_Bird_Feeder_Jar_20230218.jpg",
+  "q": "bird feeder winter",
+  "file": "File:DIY Winter Bird Feeder Jar 20230218.jpg"
+ },
+ "obzh/first_aid_kit:1": {
+  "alt": "Пластырь",
+  "author": "Hank61bpos",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bandage-cleaned.jpg",
+  "q": "adhesive bandage",
+  "file": "File:Bandage-cleaned.jpg"
+ },
+ "obzh/first_aid_kit:3": {
+  "alt": "Антисептик",
+  "author": "Wikimedia Commons",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dequadin_Oral_Paint2.jpg",
+  "q": "antiseptic bottle",
+  "file": "File:Dequadin Oral Paint2.jpg"
+ },
+ "obzh/first_aid_kit:4": {
+  "alt": "Лекарства",
+  "author": "Deror_avi",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Medicine_Bottles_IMG_9732.JPG",
+  "q": "medicine bottles",
+  "file": "File:Medicine Bottles IMG 9732.JPG"
+ },
+ "obzh/first_aid_kit:5": {
+  "alt": "Список телефонов",
+  "author": "brewbooks from near Seattle, USA",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:What%27s_in_My_Bag%5E_UnPacked_-_Flickr_-_brewbooks.jpg",
+  "q": "notebook phone numbers",
+  "file": "File:What's in My Bag^ UnPacked - Flickr - brewbooks.jpg"
+ },
+ "obzh/wounds:2": {
+  "alt": "Бинт",
+  "author": "German military, WW1",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bandages_(41)_(AM_650760-28).jpg",
+  "q": "gauze bandage roll",
+  "file": "File:Bandages (41) (AM 650760-28).jpg"
+ },
+ "obzh/wounds:3": {
+  "alt": "Салфетки",
+  "author": "Dineshkumar Nallaveerappan",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tissue_paper_white.jpg",
+  "q": "paper tissues",
+  "file": "File:Tissue paper white.jpg"
+ },
+ "obzh/wounds:4": {
+  "alt": "Стерильные салфетки",
+  "author": "NZALLI MAMBOU Freddy",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Jeux_sur_la_plage.jpg",
+  "q": "gauze pads",
+  "file": "File:Jeux sur la plage.jpg"
+ },
+ "obzh/burns:3": {
+  "alt": "Чистая повязка",
+  "author": "German military, WW1",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bandages_(41)_(AM_650760-13).jpg",
+  "q": "gauze bandage roll",
+  "file": "File:Bandages (41) (AM 650760-13).jpg"
+ },
+ "obzh/burns:4": {
+  "alt": "Скорая помощь",
+  "author": "DeFacto",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Austin_18_Six_Cylinder_Ambulance_1938.jpg",
+  "q": "ambulance",
+  "file": "File:Austin 18 Six Cylinder Ambulance 1938.jpg"
+ },
+ "obzh/burns:5": {
+  "alt": "Солнцезащитный крем",
+  "author": "Yiting",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Japanese_sunscreen.jpg",
+  "q": "sunscreen",
+  "file": "File:Japanese sunscreen.jpg"
+ },
+ "obzh/injuries:0": {
+  "alt": "Холод на ушиб",
+  "author": "Michael Barera",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Milwaukee_Public_Museum_December_2022_14_(Arctic--Polar_Ice_Pack-_Walruses).jpg",
+  "q": "ice pack",
+  "file": "File:Milwaukee Public Museum December 2022 14 (Arctic--Polar Ice Pack- Walruses).jpg"
+ },
+ "obzh/bites:0": {
+  "alt": "Пчела",
+  "author": "Ivar Leidus",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Apis_mellifera_-_Melilotus_albus_-_Keila.jpg",
+  "q": "honey bee",
+  "file": "File:Apis mellifera - Melilotus albus - Keila.jpg"
+ },
+ "obzh/weather_water:2": {
+  "alt": "Тёплые варежки",
+  "author": "Unknown authorUnknown author",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Canadian_soldiers_in_Afghanistan_share_in_celebrating_the_2010_winter_Olympics.jpg",
+  "q": "winter mittens",
+  "file": "File:Canadian soldiers in Afghanistan share in celebrating the 2010 winter Olympics.jpg"
+ },
+ "obzh/fire_emergency:3": {
+  "alt": "Пожарные",
+  "author": "Manuel F. Guerrero, U.S. Marine Corps",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Aircraft_Rescue_Firefighting_training.jpg",
+  "q": "firefighters",
+  "file": "File:Aircraft Rescue Firefighting training.jpg"
+ },
+ "obzh/feeling_unwell:2": {
+  "alt": "Мягкая подушка",
+  "author": "Shuvaev",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mulberry_Alley,_Pillow_PA.JPG",
+  "q": "pillow",
+  "file": "File:Mulberry Alley, Pillow PA.JPG"
+ },
+ "obzh/feeling_unwell:3": {
+  "alt": "Засекаем время",
+  "author": "J. Lunau",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Junghans_Mega.jpg",
+  "q": "wristwatch",
+  "file": "File:Junghans Mega.jpg"
+ },
+ "obzh/feeling_unwell:4": {
+  "alt": "Звоним 112",
+  "author": "High Contrast",
+  "lic": "CC BY 3.0 de",
+  "page": "https://commons.wikimedia.org/wiki/File:Krankentransportwagen_in_Passau.JPG",
+  "q": "ambulance",
+  "file": "File:Krankentransportwagen in Passau.JPG"
+ },
+ "obzh/help_rule:6": {
+  "alt": "Телефон в руке",
+  "author": "Ed Poor at English Wikipedia",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Hand_held_phone_in_car.JPG",
+  "q": "mobile phone hand",
+  "file": "File:Hand held phone in car.JPG"
+ },
+ "obzh/first_aid_kit:8": {
+  "alt": "Градусник",
+  "author": "Franz van Duns",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Medical_mercury_thermometer_with_velvet-lined_cardboard_box_-_focus_stack_(2020-05-25).jpg",
+  "q": "digital thermometer",
+  "file": "File:Medical mercury thermometer with velvet-lined cardboard box - focus stack (2020-05-25).jpg"
+ },
+ "obzh/first_aid_kit:9": {
+  "alt": "Медкабинет",
+  "author": "PCHS-NJROTC",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pirate_Nurse_Office_2.jpg",
+  "q": "school nurse office",
+  "file": "File:Pirate Nurse Office 2.jpg"
+ },
+ "obzh/wounds:6": {
+  "alt": "Пинцет и лупа",
+  "author": "Pixabay",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Magnifying-glass_diamonds.jpg",
+  "q": "tweezers magnifying glass",
+  "file": "File:Magnifying-glass diamonds.jpg"
+ },
+ "obzh/injuries:8": {
+  "alt": "Ограничитель двери",
+  "author": "flickr - Howard Dickins",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Elephant_in_the_doorway.jpg",
+  "q": "door stopper",
+  "file": "File:Elephant in the doorway.jpg"
+ },
+ "obzh/injuries:9": {
+  "alt": "Здание поликлиники",
+  "author": "D. Benjamin Miller",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Clinic_entrance,_Brown_Building,_McGill_University,_Oct_29_2022.jpg",
+  "q": "clinic entrance building",
+  "file": "File:Clinic entrance, Brown Building, McGill University, Oct 29 2022.jpg"
+ },
+ "obzh/fire_emergency:6": {
+  "alt": "Крышка для сковороды",
+  "author": "TheLewisRepublic",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Splatter_guard_on_frying_pan.JPG",
+  "q": "frying pan lid",
+  "file": "File:Splatter guard on frying pan.JPG"
+ },
+ "obzh/fire_emergency:7": {
+  "alt": "Датчик дыма",
+  "author": "Georg Pik",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Smoke_detector_on_the_stretch_ceiling_(02).jpg",
+  "q": "smoke detector ceiling",
+  "file": "File:Smoke detector on the stretch ceiling (02).jpg"
+ },
+ "obzh/feeling_unwell:9": {
+  "alt": "Мухомор в лесу",
+  "author": "Tony Wills",
+  "lic": "CC BY 2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Fly_Agaric_mushroom_2.jpg",
+  "q": "fly agaric mushroom forest",
+  "file": "File:Fly Agaric mushroom 2.jpg"
+ },
+ "obzh/electric_gas:0": {
+  "alt": "Розетка с заглушкой",
+  "author": "Swpb",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Protected_outlet.jpg",
+  "q": "electrical outlet safety cover",
+  "file": "File:Protected outlet.jpg"
+ },
+ "obzh/electric_gas:1": {
+  "alt": "Сухие руки",
+  "author": "nickgraywfu",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dry_your_Hands_with_Cloth_Towels_in_PALEXPO.jpg",
+  "q": "hand towel dry hands",
+  "file": "File:Dry your Hands with Cloth Towels in PALEXPO.jpg"
+ },
+ "obzh/electric_gas:4": {
+  "alt": "Удлинитель",
+  "author": "Dmitry Makeev",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Power_strips_with_extension_cord.jpg",
+  "q": "power strip extension cord",
+  "file": "File:Power strips with extension cord.jpg"
+ },
+ "obzh/electric_gas:6": {
+  "alt": "Линия электропередачи",
+  "author": "JThomas",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Power_lines_over_crop_field_(geograph_6376373).jpg",
+  "q": "power lines poles field",
+  "file": "File:Power lines over crop field (geograph 6376373).jpg"
+ },
+ "obzh/electric_gas:7": {
+  "alt": "Газовая плита",
+  "author": "GioRan",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Gas_kitchen,_Kenya.jpg",
+  "q": "gas stove kitchen",
+  "file": "File:Gas kitchen, Kenya.jpg"
+ },
+ "obzh/water_ice:0": {
+  "alt": "Спасательная вышка",
+  "author": "Ianaré Sévi",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lifeguard_tower,_Miami_Beach,_FL.jpg",
+  "q": "beach lifeguard tower",
+  "file": "File:Lifeguard tower, Miami Beach, FL.jpg"
+ },
+ "obzh/water_ice:1": {
+  "alt": "Дно у берега",
+  "author": "NPS",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Sable_Falls_Beach_2_(9abbbc01-930a-4f09-96f1-5dabaa7bc65d).JPG",
+  "q": "clear shallow water stones",
+  "file": "File:Sable Falls Beach 2 (9abbbc01-930a-4f09-96f1-5dabaa7bc65d).JPG"
+ },
+ "obzh/water_ice:5": {
+  "alt": "Лёд у камышей",
+  "author": "Shane Smith",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Frozen_Reeds_-_panoramio.jpg",
+  "q": "frozen lake reeds winter",
+  "file": "File:Frozen Reeds - panoramio.jpg"
+ },
+ "obzh/water_ice:6": {
+  "alt": "Спасалки для льда",
+  "author": "Jonas Bergsten",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Ice_Picks_20070128_001.jpg",
+  "q": "ice safety picks",
+  "file": "File:Ice Picks 20070128 001.jpg"
+ },
+ "obzh/water_ice:7": {
+  "alt": "Спасательная верёвка",
+  "author": "BrettA343",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mountaineering_in_Canada;_Mount_Forbes%27_summit.jpg",
+  "q": "rescue rope coiled",
+  "file": "File:Mountaineering in Canada; Mount Forbes' summit.jpg"
+ },
+ "obzh/lost:4": {
+  "alt": "Место встречи",
+  "author": "Elliott Brown from Birmingham, United Kingdom",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Place_Mirabeau,_Chinon_-_fountain_(3727066975).jpg",
+  "q": "meeting point fountain",
+  "file": "File:Place Mirabeau, Chinon - fountain (3727066975).jpg"
+ },
+ "obzh/lost:5": {
+  "alt": "Обними дерево",
+  "author": "tonyrebelo",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Khaya_anthotheca_%27Big_Tree%27,_Chirinda_Forest,_Zimbabwe_07.jpg",
+  "q": "big tree forest",
+  "file": "File:Khaya anthotheca 'Big Tree', Chirinda Forest, Zimbabwe 07.jpg"
+ },
+ "obzh/lost:6": {
+  "alt": "Свисток",
+  "author": "Melissa Ursula Dawn Goldsmith",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Warbler_Whistle_(Plastic).jpg",
+  "q": "whistle",
+  "file": "File:Warbler Whistle (Plastic).jpg"
+ },
+ "obzh/ticks_forest:2": {
+  "alt": "Лесная тропинка",
+  "author": "Alexkom000",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2026-07-11_Forest_path_at_Pragan%C3%A7a,_Cadaval.jpg",
+  "q": "forest path trail",
+  "file": "File:2026-07-11 Forest path at Pragança, Cadaval.jpg"
  }
 }

@@ -1,0 +1,446 @@
+{
+ "help_rule:6": {
+  "type": "photo",
+  "q": "mobile phone hand",
+  "alt": "Телефон в руке",
+  "p": "A cute anime child calmly holding a simple mobile phone to the ear, standing in a bright hallway, a friendly confident face"
+ },
+ "help_rule:7": {
+  "type": "art",
+  "q": "child deep breath calm",
+  "alt": "Медленный вдох",
+  "p": "A cute anime child taking a slow calm breath with hand on chest, soft blue swirls around, a phone resting on the table"
+ },
+ "help_rule:8": {
+  "type": "photo",
+  "q": "ambulance car street",
+  "alt": "Машина скорой помощи",
+  "p": "A white ambulance van parked by a tidy apartment building entrance, a grown-up waiting by the door to meet it, calm daylight"
+ },
+ "help_rule:9": {
+  "type": "art",
+  "q": "child playing phone game mother",
+  "alt": "Тренировка понарошку",
+  "p": "A cute anime child and mom playing a pretend phone call game with toy phones on a sofa, both smiling"
+ },
+ "first_aid_kit:6": {
+  "type": "photo",
+  "q": "medicine box expiry first aid",
+  "alt": "Домашняя аптечка",
+  "p": "A tidy home first aid box with bandages, plasters and a thermometer neatly sorted, a calendar page beside it"
+ },
+ "first_aid_kit:7": {
+  "type": "photo",
+  "q": "hiking first aid kit",
+  "alt": "Походная аптечка",
+  "p": "A small waterproof first aid pouch next to a hiking backpack, a water bottle and a map on a forest log"
+ },
+ "first_aid_kit:8": {
+  "type": "photo",
+  "q": "digital thermometer",
+  "alt": "Градусник",
+  "p": "A digital thermometer lying on a soft towel next to a cup of tea and a teddy bear on a bedside table"
+ },
+ "first_aid_kit:9": {
+  "type": "photo",
+  "q": "school nurse office",
+  "alt": "Медкабинет",
+  "p": "A clean bright school medical room with a couch, a white cabinet and a first aid kit on the wall, no people"
+ },
+ "wounds:6": {
+  "type": "photo",
+  "q": "tweezers magnifying glass",
+  "alt": "Пинцет и лупа",
+  "p": "Tweezers, a magnifying glass and a plaster on a clean white cloth next to a smooth wooden bench plank"
+ },
+ "wounds:7": {
+  "type": "photo",
+  "q": "new sneakers socks",
+  "alt": "Кроссовки и носки",
+  "p": "A pair of new sneakers with comfortable soft socks and a box of plasters on a bench in a hallway"
+ },
+ "wounds:8": {
+  "type": "photo",
+  "q": "plantain leaf",
+  "alt": "Подорожник",
+  "p": "A green plantain leaf growing by a dusty country road next to a clean first aid kit with fresh plasters"
+ },
+ "wounds:9": {
+  "type": "photo",
+  "q": "adhesive bandage",
+  "alt": "Пластырь",
+  "p": "A colorful children plaster with a cute pattern placed on a soft towel, next to a tube of cream"
+ },
+ "burns:6": {
+  "type": "photo",
+  "q": "kettle steam kitchen",
+  "alt": "Пар от чайника",
+  "p": "A kettle on a stove with a soft cloud of steam rising, oven mitts hanging safely nearby in a tidy kitchen"
+ },
+ "burns:7": {
+  "type": "photo",
+  "q": "cleaning products high shelf",
+  "alt": "Бытовая химия",
+  "p": "Cleaning bottles placed on a high closed cabinet shelf in a laundry room, out of reach, plain unlabeled bottles"
+ },
+ "burns:8": {
+  "type": "photo",
+  "q": "cold water tap sink",
+  "alt": "Холодная вода из крана",
+  "p": "A stream of cool clear water flowing from a kitchen tap into a clean sink, water droplets sparkling"
+ },
+ "burns:9": {
+  "type": "photo",
+  "q": "fire blanket",
+  "alt": "Противопожарное покрывало",
+  "p": "A friendly firefighter character teaching a class of cute anime children a safety lesson in a bright gym, mats on the floor"
+ },
+ "injuries:6": {
+  "type": "photo",
+  "q": "ice pack towel",
+  "alt": "Холод в полотенце",
+  "p": "A cold pack wrapped in a soft towel lying on a sofa next to a pillow and a glass of water"
+ },
+ "injuries:7": {
+  "type": "photo",
+  "q": "X-ray hand bones",
+  "alt": "Рентгеновский снимок",
+  "p": "A soft blue X-ray image of hand bones glowing on a light box in a calm doctor office"
+ },
+ "injuries:8": {
+  "type": "photo",
+  "q": "door stopper",
+  "alt": "Ограничитель двери",
+  "p": "A soft door stopper placed on a white door edge in a bright hallway, a cold pack in a towel on a shelf nearby"
+ },
+ "injuries:9": {
+  "type": "photo",
+  "q": "clinic entrance building",
+  "alt": "Здание поликлиники",
+  "p": "A friendly clinic building entrance with glass doors and green trees on a calm sunny day, no people"
+ },
+ "bites:6": {
+  "type": "photo",
+  "q": "mosquito net window",
+  "alt": "Москитная сетка",
+  "p": "A window with a fine mosquito net on a summer evening, a garden behind, a small lamp glowing inside"
+ },
+ "bites:7": {
+  "type": "photo",
+  "q": "paper wasp nest",
+  "alt": "Гнездо ос",
+  "p": "A gray paper wasp nest hanging under a wooden gazebo roof seen from a safe distance, summer garden around"
+ },
+ "bites:8": {
+  "type": "art",
+  "q": "child standing calm dog",
+  "alt": "Стой спокойно",
+  "p": "A cute anime child standing still and calm with arms close to the body while a curious dog sniffs nearby, sunny park"
+ },
+ "choking:6": {
+  "type": "photo",
+  "q": "grapes cut halves",
+  "alt": "Разрезанный виноград",
+  "p": "Grapes cut into small halves on a little plate next to soft fruit pieces, ready for a toddler snack"
+ },
+ "choking:7": {
+  "type": "art",
+  "q": "doctor visit child",
+  "alt": "Визит к врачу",
+  "p": "A cute anime child with a parent sitting calmly in a friendly doctor office, the doctor holding a stethoscope and smiling"
+ },
+ "choking:8": {
+  "type": "photo",
+  "q": "small toys out of reach",
+  "alt": "Мелкие детали",
+  "p": "Small building pieces and beads stored in a closed box on a high shelf, a toddler playing with big soft blocks below"
+ },
+ "choking:9": {
+  "type": "photo",
+  "q": "first aid training mannequin",
+  "alt": "Курсы первой помощи",
+  "p": "A first aid training class room with practice mannequins on mats and a first aid kit, bright and calm"
+ },
+ "weather_water:6": {
+  "type": "photo",
+  "q": "hot tea blanket",
+  "alt": "Тёплый чай и плед",
+  "p": "A cup of hot tea, a warm plaid blanket and wool socks on a cozy sofa, snow falling outside the window"
+ },
+ "weather_water:7": {
+  "type": "photo",
+  "q": "winter clothes layers",
+  "alt": "Одежда слоями",
+  "p": "Winter clothes laid out in layers: a thin shirt, a fleece sweater, a puffy jacket, a hat, a scarf and mittens"
+ },
+ "weather_water:8": {
+  "type": "photo",
+  "q": "water bottle summer",
+  "alt": "Вода в жару",
+  "p": "A water bottle and a sun hat on a picnic blanket in the shade of a tree on a hot summer day"
+ },
+ "fire_emergency:6": {
+  "type": "photo",
+  "q": "frying pan lid",
+  "alt": "Крышка для сковороды",
+  "p": "A frying pan with a metal lid on a stove in a tidy kitchen, the stove knob turned off, calm and safe"
+ },
+ "fire_emergency:7": {
+  "type": "photo",
+  "q": "smoke detector ceiling",
+  "alt": "Датчик дыма",
+  "p": "A small round white smoke detector mounted on a clean ceiling with a tiny green light"
+ },
+ "fire_emergency:8": {
+  "type": "photo",
+  "q": "emergency exit school corridor",
+  "alt": "Школьный коридор",
+  "p": "A cute anime class walking calmly in a line down a bright school corridor with their teacher during a practice drill"
+ },
+ "fire_emergency:9": {
+  "type": "photo",
+  "q": "siren loudspeaker pole",
+  "alt": "Сирена оповещения",
+  "p": "A loudspeaker siren on a tall pole against a blue sky above city rooftops"
+ },
+ "feeling_unwell:6": {
+  "type": "art",
+  "q": "first aid training class",
+  "alt": "Обучение первой помощи",
+  "p": "A friendly instructor showing cute anime students how to help on a practice mannequin lying on a mat in a bright classroom"
+ },
+ "feeling_unwell:7": {
+  "type": "photo",
+  "q": "asthma inhaler",
+  "alt": "Ингалятор",
+  "p": "A blue asthma inhaler in an open school backpack pocket next to a water bottle"
+ },
+ "feeling_unwell:8": {
+  "type": "photo",
+  "q": "glass of juice sugar cubes",
+  "alt": "Сок и сахар",
+  "p": "A glass of orange juice and a few sugar cubes on a plate on a school desk next to a small glucose meter"
+ },
+ "feeling_unwell:9": {
+  "type": "photo",
+  "q": "fly agaric mushroom forest",
+  "alt": "Мухомор в лесу",
+  "p": "A red fly agaric mushroom with white spots growing on moss in a forest, a small basket set aside far from it"
+ },
+ "cover:electric_gas": {
+  "type": "art",
+  "q": "electric socket safety",
+  "alt": "Электричество дома",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat with a magnifying glass inspecting a wall socket with a safety cap, a charger and a lamp in a cozy room"
+ },
+ "electric_gas:0": {
+  "type": "photo",
+  "q": "electrical outlet safety cover",
+  "alt": "Розетка с заглушкой",
+  "p": "A white wall socket with child safety caps in a bright room, a lamp and a plant nearby"
+ },
+ "electric_gas:1": {
+  "type": "photo",
+  "q": "hand towel dry hands",
+  "alt": "Сухие руки",
+  "p": "Hands drying on a fluffy towel in a bathroom, the light switch on the wall outside away from the sink"
+ },
+ "electric_gas:2": {
+  "type": "photo",
+  "q": "plug socket hand",
+  "alt": "Вилка и розетка",
+  "p": "A hand pulling a plug out of a wall socket by holding the plug body, a lamp cable neatly behind"
+ },
+ "electric_gas:3": {
+  "type": "art",
+  "q": "child noticing broken cable",
+  "alt": "Детектив замечает поломку",
+  "p": "A cute anime child pointing at a lamp with a damaged cable and calling a grown-up, not touching it, cozy room"
+ },
+ "electric_gas:4": {
+  "type": "photo",
+  "q": "power strip extension cord",
+  "alt": "Удлинитель",
+  "p": "A power strip with only a phone charger plugged in, lying neatly on the floor next to a desk"
+ },
+ "electric_gas:5": {
+  "type": "art",
+  "q": "child calling adult help",
+  "alt": "Зови взрослого",
+  "p": "A cute anime child running to call a grown-up from another room, the grown-up turning to listen attentively, calm home scene"
+ },
+ "electric_gas:6": {
+  "type": "photo",
+  "q": "power lines poles field",
+  "alt": "Линия электропередачи",
+  "p": "Tall power line poles with wires stretching across a green field under a clear sky, seen from far away"
+ },
+ "electric_gas:7": {
+  "type": "photo",
+  "q": "gas stove kitchen",
+  "alt": "Газовая плита",
+  "p": "A clean gas stove with all knobs turned off in a tidy bright kitchen, a kettle standing on it"
+ },
+ "cover:water_ice": {
+  "type": "art",
+  "q": "lifebuoy beach",
+  "alt": "Вода и лёд",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat wearing a tiny life vest standing on a sunny beach next to a lifebuoy, a frozen lake in the distance"
+ },
+ "water_ice:0": {
+  "type": "photo",
+  "q": "beach lifeguard tower",
+  "alt": "Спасательная вышка",
+  "p": "A lifeguard tower on a calm sunny beach with buoys marking the swimming area, gentle waves"
+ },
+ "water_ice:1": {
+  "type": "photo",
+  "q": "clear shallow water stones",
+  "alt": "Дно у берега",
+  "p": "Clear shallow lake water with stones and sand visible on the bottom near a quiet green shore"
+ },
+ "water_ice:2": {
+  "type": "photo",
+  "q": "life jacket",
+  "alt": "Спасательный жилет",
+  "p": "A bright orange life jacket and an inflatable ring lying on a wooden pier by a calm lake"
+ },
+ "water_ice:3": {
+  "type": "photo",
+  "q": "lifeguard rescue buoy",
+  "alt": "Спасательный круг",
+  "p": "A red and white lifebuoy with a rope hanging on a post by a calm beach, sunny sky"
+ },
+ "water_ice:4": {
+  "type": "art",
+  "q": "child floating on back",
+  "alt": "Отдых на спине",
+  "p": "A cute anime child calmly floating on the back in a shallow pool wearing a swim cap, an instructor nearby, sunny day"
+ },
+ "water_ice:5": {
+  "type": "photo",
+  "q": "frozen lake reeds winter",
+  "alt": "Лёд у камышей",
+  "p": "A frozen lake shore with dry reeds sticking out of the ice and snow, a calm gray winter sky"
+ },
+ "water_ice:6": {
+  "type": "photo",
+  "q": "ice safety picks",
+  "alt": "Спасалки для льда",
+  "p": "A pair of ice safety picks with bright handles and a rope lying on snow by a winter shore"
+ },
+ "water_ice:7": {
+  "type": "photo",
+  "q": "rescue rope coiled",
+  "alt": "Спасательная верёвка",
+  "p": "A coiled rescue rope and a long wooden pole lying on snow near a calm frozen lake shore"
+ },
+ "cover:lost": {
+  "type": "art",
+  "q": "city map compass",
+  "alt": "Если потерялся",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding a map and a whistle, standing calmly by a tall tree in a park with a mall in the distance"
+ },
+ "lost:0": {
+  "type": "art",
+  "q": "child standing still park",
+  "alt": "Стоп! Оставайся на месте",
+  "p": "A cute anime child standing calmly in place in a busy park holding a backpack strap, looking around confidently"
+ },
+ "lost:1": {
+  "type": "photo",
+  "q": "mobile phone hand",
+  "alt": "Звонок маме",
+  "p": "A hand holding a simple mobile phone with a cute case against a blurry colorful park background"
+ },
+ "lost:2": {
+  "type": "photo",
+  "q": "information desk shopping mall",
+  "alt": "Стойка информации",
+  "p": "An information desk in a bright shopping mall with a friendly security staff member seen from behind"
+ },
+ "lost:3": {
+  "type": "art",
+  "q": "child remembering address",
+  "alt": "Знай наизусть",
+  "p": "A cute anime child with eyes closed remembering home, a glowing picture of the house and family in a thought bubble"
+ },
+ "lost:4": {
+  "type": "photo",
+  "q": "meeting point fountain",
+  "alt": "Место встречи",
+  "p": "A bright fountain in the middle of a park plaza with benches around, a perfect meeting place"
+ },
+ "lost:5": {
+  "type": "photo",
+  "q": "big tree forest",
+  "alt": "Обними дерево",
+  "p": "A big old tree with thick roots standing in a sunny forest clearing, ferns and moss around it"
+ },
+ "lost:6": {
+  "type": "photo",
+  "q": "whistle",
+  "alt": "Свисток",
+  "p": "A bright orange plastic whistle on a cord hanging from a backpack zipper, forest trail behind"
+ },
+ "lost:7": {
+  "type": "photo",
+  "q": "search volunteers forest",
+  "alt": "Поисковые отряды",
+  "p": "Volunteers in bright vests walking in a line through a sunny forest seen from behind, flashlights and backpacks"
+ },
+ "cover:ticks_forest": {
+  "type": "art",
+  "q": "forest walk",
+  "alt": "Лесная прогулка",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat in light long clothes and tiny boots walking along a forest path, magnifying glass in paw"
+ },
+ "ticks_forest:0": {
+  "type": "art",
+  "q": "tick grass blade",
+  "alt": "Клещ",
+  "p": "A tiny cartoon tick with eight little legs sitting on a tall grass blade, simple and not scary, sunny meadow behind"
+ },
+ "ticks_forest:1": {
+  "type": "photo",
+  "q": "hiking boots long trousers",
+  "alt": "Одежда для леса",
+  "p": "Light-colored long trousers tucked into socks, a hat and hiking boots laid out on a bench before a forest walk"
+ },
+ "ticks_forest:2": {
+  "type": "photo",
+  "q": "forest path trail",
+  "alt": "Лесная тропинка",
+  "p": "A wide sunny forest path with short grass and tall trees, a dry clearing ahead for a picnic"
+ },
+ "ticks_forest:3": {
+  "type": "art",
+  "q": "children checking clothes",
+  "alt": "Осмотр после прогулки",
+  "p": "Two cute anime friends in light clothes checking each other sleeves and collars after a forest walk, smiling"
+ },
+ "ticks_forest:4": {
+  "type": "photo",
+  "q": "tick removal tool",
+  "alt": "Приспособление для клеща",
+  "p": "A small tick removal hook tool and a cotton pad on a clean white cloth in a calm home setting"
+ },
+ "ticks_forest:5": {
+  "type": "photo",
+  "q": "small glass jar cotton",
+  "alt": "Баночка с ваткой",
+  "p": "A small glass jar with a lid and a piece of damp cotton inside on a table, ready to take to a lab"
+ },
+ "ticks_forest:6": {
+  "type": "photo",
+  "q": "digital thermometer",
+  "alt": "Следим за самочувствием",
+  "p": "A digital thermometer and a calendar on a bedside table with a cup of tea, soft morning light"
+ },
+ "ticks_forest:7": {
+  "type": "photo",
+  "q": "vaccine vial syringe",
+  "alt": "Прививка",
+  "p": "A small vaccine vial and a bandage on a doctor tray in a clean friendly clinic, a plush toy nearby"
+ }
+}

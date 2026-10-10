@@ -274,5 +274,109 @@
  "kind_debate:5": {
   "q": "ice cream flavors",
   "alt": "Разные вкусы"
+ },
+ "fact_opinion:6": {
+  "q": "Mount Everest summit",
+  "alt": "Эверест — самая высокая"
+ },
+ "fact_opinion:7": {
+  "q": "clock school",
+  "alt": "Число и мнение"
+ },
+ "fact_opinion:9": {
+  "q": "weather vane clouds",
+  "alt": "Прогноз — не факт"
+ },
+ "cause_effect:6": {
+  "q": "fire truck",
+  "alt": "Не перепутай причину"
+ },
+ "cause_effect:7": {
+  "q": "seedlings pots",
+  "alt": "Опыт-проверка"
+ },
+ "cause_effect:9": {
+  "q": "bicycle chain rust",
+  "alt": "Думай наперёд"
+ },
+ "traps:6": {
+  "q": "scarecrow straw",
+  "alt": "Соломенное чучело"
+ },
+ "ads:6": {
+  "q": "price tag",
+  "alt": "Цена с девятками"
+ },
+ "ads:7": {
+  "q": "juice carton glass",
+  "alt": "На 30% больше — чем что?"
+ },
+ "news_fakes:8": {
+  "q": "stop sign",
+  "alt": "Сигнал «стоп»"
+ },
+ "news_fakes:9": {
+  "q": "magnifying glass photograph",
+  "alt": "Поиск по картинке"
+ },
+ "logic:6": {
+  "q": "grey cat",
+  "alt": "Один серый кот"
+ },
+ "logic:7": {
+  "q": "apple pear",
+  "alt": "«И» и «или»"
+ },
+ "patterns:9": {
+  "q": "dominoes",
+  "alt": "Проверь правило"
+ },
+ "cases:8": {
+  "q": "puzzle pieces",
+  "alt": "Подставь ответ"
+ },
+ "kind_debate:6": {
+  "q": "felt tip markers",
+  "alt": "Я-сообщение"
+ },
+ "probability:2": {
+  "q": "coin",
+  "alt": "Монетка"
+ },
+ "probability:3": {
+  "q": "dice",
+  "alt": "Кубик"
+ },
+ "probability:4": {
+  "q": "marbles bag",
+  "alt": "Мешок с шариками"
+ },
+ "probability:7": {
+  "q": "coins pile",
+  "alt": "Много попыток"
+ },
+ "arguments:1": {
+  "q": "trees yard",
+  "alt": "Аргумент"
+ },
+ "arguments:3": {
+  "q": "balance scale",
+  "alt": "Сильный и слабый"
+ },
+ "check_source:1": {
+  "q": "calendar",
+  "alt": "Когда опубликовано?"
+ },
+ "check_source:3": {
+  "q": "books stack",
+  "alt": "Сравни источники"
+ },
+ "check_source:4": {
+  "q": "encyclopedia library shelf",
+  "alt": "Надёжные места"
+ },
+ "logic_grids:1": {
+  "q": "graph paper grid",
+  "alt": "Рисуем таблицу"
  }
 }

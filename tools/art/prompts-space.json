@@ -361,5 +361,399 @@
   "type": "photo",
   "q": "Галактика Андромеды",
   "alt": "Галактика Андромеды"
+ },
+ "sun_system:7": {
+  "type": "art",
+  "p": "A huge glowing sun beside a small blue Earth inside a swirling cloud of golden gas and dust, a newborn solar system forming in deep space"
+ },
+ "sun_system:8": {
+  "type": "photo",
+  "q": "Sun surface plasma",
+  "alt": "Поверхность Солнца",
+  "src": "commons"
+ },
+ "sun_system:9": {
+  "type": "photo",
+  "q": "aurora borealis night sky",
+  "alt": "Северное сияние",
+  "src": "commons"
+ },
+ "sun_system:10": {
+  "type": "art",
+  "p": "Eight colorful planets racing around a bright sun on flat glowing orbit tracks like lanes of a giant round stadium in space"
+ },
+ "rocky_planets:6": {
+  "type": "photo",
+  "q": "Mercury planet MESSENGER",
+  "alt": "Планета Меркурий",
+  "src": "commons"
+ },
+ "rocky_planets:7": {
+  "type": "art",
+  "p": "A very bright single star low over a calm sunset horizon with silhouetted hills, twilight sky fading from orange to deep blue"
+ },
+ "rocky_planets:8": {
+  "type": "photo",
+  "q": "Mars polar ice cap",
+  "alt": "Ледяная шапка Марса",
+  "src": "commons"
+ },
+ "rocky_planets:9": {
+  "type": "art",
+  "p": "A small rover on a rusty red Martian desert watching a pale blue sunset, a paper wall calendar floating in the dusty sky"
+ },
+ "giant_planets:6": {
+  "type": "photo",
+  "q": "Jupiter Great Red Spot",
+  "alt": "Юпитер и Красное пятно",
+  "src": "commons"
+ },
+ "giant_planets:7": {
+  "type": "photo",
+  "q": "Europa moon ice surface",
+  "alt": "Ледяной спутник Европа",
+  "src": "commons"
+ },
+ "giant_planets:8": {
+  "type": "photo",
+  "q": "Saturn rings Cassini",
+  "alt": "Сатурн и его кольца",
+  "src": "commons"
+ },
+ "giant_planets:9": {
+  "type": "photo",
+  "q": "Neptune planet Voyager",
+  "alt": "Планета Нептун",
+  "src": "commons"
+ },
+ "moon:7": {
+  "type": "photo",
+  "q": "Moon craters surface",
+  "alt": "Кратеры на Луне",
+  "src": "commons"
+ },
+ "moon:8": {
+  "type": "photo",
+  "q": "low tide beach boats",
+  "alt": "Отлив на берегу",
+  "src": "commons"
+ },
+ "moon:9": {
+  "type": "art",
+  "p": "A big blue Earth the size of a football next to a much smaller gray Moon the size of a tennis ball, floating side by side in space"
+ },
+ "moon:10": {
+  "type": "photo",
+  "q": "lunar laser ranging observatory",
+  "alt": "Лазер до Луны",
+  "src": "commons"
+ },
+ "stars:6": {
+  "type": "photo",
+  "q": "starry night sky",
+  "alt": "Звёздное небо",
+  "src": "commons"
+ },
+ "stars:7": {
+  "type": "art",
+  "p": "A winter night sky over snowy pines with the Orion constellation drawn as a glowing hunter outline connecting bright stars"
+ },
+ "stars:8": {
+  "type": "art",
+  "p": "Five bright stars forming a zigzag shape in a deep blue night sky above a quiet countryside with a wooden house"
+ },
+ "stars:9": {
+  "type": "photo",
+  "q": "nebula Pillars of Creation",
+  "alt": "Туманность — колыбель звёзд",
+  "src": "commons"
+ },
+ "comets:6": {
+  "type": "photo",
+  "q": "Perseid meteor shower",
+  "alt": "Звездопад Персеиды",
+  "src": "commons"
+ },
+ "comets:7": {
+  "type": "art",
+  "p": "A child in a warm jacket lying on a blanket in a dark field watching shooting stars, seen from behind, a thermos nearby"
+ },
+ "comets:8": {
+  "type": "photo",
+  "q": "Pluto New Horizons",
+  "alt": "Плутон",
+  "src": "commons"
+ },
+ "comets:9": {
+  "type": "photo",
+  "q": "DART spacecraft asteroid",
+  "alt": "Аппарат DART",
+  "src": "commons"
+ },
+ "earth_motion:6": {
+  "type": "photo",
+  "q": "Earth from space blue marble",
+  "alt": "Земля из космоса",
+  "src": "commons"
+ },
+ "earth_motion:7": {
+  "type": "art",
+  "p": "A long golden summer evening over a flower meadow, the sun still high late in the day, a round clock on a fence post"
+ },
+ "earth_motion:8": {
+  "type": "art",
+  "p": "Planet Earth split exactly in half between day and night, one side sunny and the other starry, balanced like scales"
+ },
+ "earth_motion:9": {
+  "type": "art",
+  "p": "The sun shining low above a northern sea harbor at midnight, small boats and snowy hills glowing in soft golden light"
+ },
+ "cosmonauts:7": {
+  "type": "art",
+  "p": "An old-fashioned study with a wooden desk, rocket sketches pinned to the wall and a small brass rocket model on the windowsill"
+ },
+ "cosmonauts:8": {
+  "type": "art",
+  "p": "A round spherical spacecraft orbiting Earth for a whole day, sunrise and sunset glowing on the planet edge below"
+ },
+ "cosmonauts:9": {
+  "type": "art",
+  "p": "A huge training centrifuge with a long spinning arm and a capsule at its end inside a large bright hall"
+ },
+ "cosmonauts:10": {
+  "type": "photo",
+  "q": "Soyuz rocket launch Baikonur",
+  "alt": "Запуск «Союза»",
+  "src": "commons"
+ },
+ "universe:6": {
+  "type": "art",
+  "p": "A tiny dazzling point of light bursting outward into swirling clouds of colorful gas and the first sparkling galaxies"
+ },
+ "universe:7": {
+  "type": "photo",
+  "q": "Hubble Ultra Deep Field galaxies",
+  "alt": "Множество галактик",
+  "src": "commons"
+ },
+ "universe:8": {
+  "type": "photo",
+  "q": "black hole M87",
+  "alt": "Чёрная дыра",
+  "src": "commons"
+ },
+ "universe:9": {
+  "type": "photo",
+  "q": "Milky Way spiral galaxy",
+  "alt": "Галактика Млечный Путь",
+  "src": "commons"
+ },
+ "cover:telescopes": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat looking through a big brass telescope inside a mountain observatory dome open to a starry night sky"
+ },
+ "telescopes:0": {
+  "type": "photo",
+  "q": "refracting telescope tripod",
+  "alt": "Телескоп на треноге",
+  "src": "commons"
+ },
+ "telescopes:1": {
+  "type": "photo",
+  "q": "Galileo telescope museum",
+  "alt": "Телескоп Галилея",
+  "src": "commons"
+ },
+ "telescopes:2": {
+  "type": "photo",
+  "q": "mountain observatory domes",
+  "alt": "Обсерватория в горах",
+  "src": "commons"
+ },
+ "telescopes:3": {
+  "type": "art",
+  "p": "A huge white observatory dome on a green Caucasus mountain slope at dusk, its slit open to the first evening stars"
+ },
+ "telescopes:4": {
+  "type": "art",
+  "p": "A giant ring of tall metal reflector panels in a mountain valley listening to radio waves from space, gentle wave lines in the sky"
+ },
+ "telescopes:5": {
+  "type": "photo",
+  "q": "Pulkovo Observatory",
+  "alt": "Пулковская обсерватория",
+  "src": "commons"
+ },
+ "telescopes:6": {
+  "type": "art",
+  "p": "A silver cylinder-shaped space telescope with solar panels floating high above the clouds of Earth, the stars sharp and clear"
+ },
+ "telescopes:7": {
+  "type": "photo",
+  "q": "James Webb Space Telescope mirror",
+  "alt": "Зеркало «Джеймса Уэбба»",
+  "src": "commons"
+ },
+ "telescopes:8": {
+  "type": "photo",
+  "q": "planetarium dome projector",
+  "alt": "Планетарий",
+  "src": "commons"
+ },
+ "telescopes:9": {
+  "type": "art",
+  "p": "A pair of binoculars and a star map on a picnic blanket under the night sky, the Moon and stars shining above"
+ },
+ "cover:iss_life": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat floating happily inside a cozy space station module, a round window showing the blue Earth below"
+ },
+ "iss_life:0": {
+  "type": "photo",
+  "q": "International Space Station",
+  "alt": "МКС на орбите",
+  "src": "commons"
+ },
+ "iss_life:1": {
+  "type": "photo",
+  "q": "ISS over Earth night",
+  "alt": "МКС над Землёй",
+  "src": "commons"
+ },
+ "iss_life:2": {
+  "type": "photo",
+  "q": "sunrise from orbit Earth",
+  "alt": "Рассвет с орбиты",
+  "src": "commons"
+ },
+ "iss_life:3": {
+  "type": "photo",
+  "q": "space food tubes packets",
+  "alt": "Космическая еда",
+  "src": "commons"
+ },
+ "iss_life:4": {
+  "type": "photo",
+  "q": "ISS crew quarters sleeping bag",
+  "alt": "Спальник на МКС",
+  "src": "commons"
+ },
+ "iss_life:5": {
+  "type": "art",
+  "p": "A cute astronaut character in a cozy suit wiping face with a wet towel in a space station, little water bubbles floating around"
+ },
+ "iss_life:6": {
+  "type": "photo",
+  "q": "ISS treadmill exercise",
+  "alt": "Тренажёр на МКС",
+  "src": "commons"
+ },
+ "iss_life:7": {
+  "type": "art",
+  "p": "Water droplets flowing in a cheerful circle through pipes and filters inside a space station, coming out clean and sparkling"
+ },
+ "iss_life:8": {
+  "type": "photo",
+  "q": "mission control center screens",
+  "alt": "Центр управления полётами",
+  "src": "commons"
+ },
+ "iss_life:9": {
+  "type": "art",
+  "p": "An old space station gently descending over Earth while a shiny new space station glows in orbit, sunrise on the horizon"
+ },
+ "cover:exoplanets": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat with a magnifying glass studying colorful alien planets orbiting distant stars in deep space"
+ },
+ "exoplanets:0": {
+  "type": "art",
+  "p": "A colorful alien planet orbiting a distant orange star, with our small yellow Sun far away among other stars"
+ },
+ "exoplanets:1": {
+  "type": "art",
+  "p": "Thousands of tiny colorful planets scattered around many glowing stars across the Milky Way, like a sparkling treasure map"
+ },
+ "exoplanets:2": {
+  "type": "art",
+  "p": "A blazing bright lighthouse at night on a rocky shore with a tiny firefly next to its lamp, barely visible in the glare"
+ },
+ "exoplanets:3": {
+  "type": "photo",
+  "q": "transit of Venus Sun",
+  "alt": "Транзит планеты",
+  "src": "commons"
+ },
+ "exoplanets:4": {
+  "type": "art",
+  "p": "A bright star gently wobbling back and forth as a planet circles it, light waves around it turning slightly blue and red"
+ },
+ "exoplanets:5": {
+  "type": "art",
+  "p": "A star surrounded by three rings: a red hot zone, a green comfortable zone with a blue ocean planet, and a frosty blue cold zone"
+ },
+ "exoplanets:6": {
+  "type": "art",
+  "p": "A rocky planet orbiting a small red star, the red light washing over its hills and sky, distant stars twinkling"
+ },
+ "exoplanets:7": {
+  "type": "photo",
+  "q": "TRAPPIST-1 planets",
+  "alt": "Система TRAPPIST-1",
+  "src": "commons"
+ },
+ "exoplanets:8": {
+  "type": "art",
+  "p": "A gallery of strange alien worlds: a hot glowing gas giant near its star, an ocean planet, a ringed ice world and a rocky desert planet"
+ },
+ "cover:probes": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat riding on top of a small six-wheeled rover across a rusty red Martian desert under a pink sky"
+ },
+ "probes:0": {
+  "type": "art",
+  "p": "A small space probe with a big dish antenna flying past a ringed planet, while a rover drives on a red planet below"
+ },
+ "probes:1": {
+  "type": "art",
+  "p": "An eight-wheeled tub-shaped lunar rover with a round lid rolling across the gray cratered Moon surface, Earth in the black sky"
+ },
+ "probes:2": {
+  "type": "art",
+  "p": "A round sturdy lander with a ring around it standing on hot orange rocky ground of Venus under a thick yellow cloudy sky"
+ },
+ "probes:3": {
+  "type": "photo",
+  "q": "Curiosity rover Mars",
+  "alt": "Марсоход Curiosity",
+  "src": "commons"
+ },
+ "probes:4": {
+  "type": "photo",
+  "q": "Ingenuity helicopter Mars",
+  "alt": "Вертолёт на Марсе",
+  "src": "commons"
+ },
+ "probes:5": {
+  "type": "photo",
+  "q": "Voyager spacecraft",
+  "alt": "Зонд «Вояджер»",
+  "src": "commons"
+ },
+ "probes:6": {
+  "type": "photo",
+  "q": "Saturn Cassini spacecraft",
+  "alt": "Сатурн глазами «Кассини»",
+  "src": "commons"
+ },
+ "probes:7": {
+  "type": "art",
+  "p": "A glowing radio wave traveling slowly along a long dotted path from Earth to Mars, a stopwatch floating beside it"
+ },
+ "probes:8": {
+  "type": "photo",
+  "q": "Luna 16 lander",
+  "alt": "Станция «Луна-16»",
+  "src": "commons"
  }
 }

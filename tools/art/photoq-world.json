@@ -154,5 +154,225 @@
  "cover:russia_nature": {
   "q": "Lake Baikal",
   "alt": "Озеро Байкал"
+ },
+ "amazing_animals:7": {
+  "q": "chameleon branch",
+  "alt": "Хамелеон на ветке"
+ },
+ "amazing_animals:8": {
+  "q": "Greenland shark",
+  "alt": "Гренландская акула"
+ },
+ "amazing_animals:9": {
+  "q": "ant carrying leaf",
+  "alt": "Муравей несёт лист"
+ },
+ "pet_care:6": {
+  "q": "cat tail up",
+  "alt": "Кошка с хвостом трубой"
+ },
+ "pet_care:7": {
+  "q": "dog nose close-up",
+  "alt": "Нос собаки"
+ },
+ "pet_care:8": {
+  "q": "dog drinking water bowl",
+  "alt": "Собака пьёт воду"
+ },
+ "wild_help:6": {
+  "q": "great tit bird feeder",
+  "alt": "Синица у кормушки"
+ },
+ "wild_help:7": {
+  "q": "cranes flying flock autumn",
+  "alt": "Перелётные птицы"
+ },
+ "wild_help:8": {
+  "q": "small bird cardboard box",
+  "alt": "Птица в коробке"
+ },
+ "eco_care:6": {
+  "q": "reusable cloth shopping bag",
+  "alt": "Многоразовая сумка"
+ },
+ "eco_care:7": {
+  "q": "plastic bottle recycling bin",
+  "alt": "Контейнер для пластика"
+ },
+ "eco_care:8": {
+  "q": "planting tree sapling hands",
+  "alt": "Посадка дерева"
+ },
+ "plants:6": {
+  "q": "plant roots soil",
+  "alt": "Корни растения"
+ },
+ "plants:7": {
+  "q": "tomato cucumber vegetables",
+  "alt": "Помидоры и огурцы"
+ },
+ "plants:8": {
+  "q": "sunflower field",
+  "alt": "Поле подсолнухов"
+ },
+ "weather:7": {
+  "q": "cumulus clouds blue sky",
+  "alt": "Кучевые облака"
+ },
+ "weather:8": {
+  "q": "Oymyakon winter frost",
+  "alt": "Мороз в Оймяконе"
+ },
+ "world_peoples:6": {
+  "q": "world globe",
+  "alt": "Глобус"
+ },
+ "world_peoples:7": {
+  "q": "Canberra Lake Burley Griffin",
+  "alt": "Канберра"
+ },
+ "world_peoples:8": {
+  "q": "quill pen inkwell",
+  "alt": "Перо и чернильница"
+ },
+ "inventions:6": {
+  "q": "potter wheel clay",
+  "alt": "Гончарный круг"
+ },
+ "inventions:7": {
+  "q": "antique telephone",
+  "alt": "Старинный телефон"
+ },
+ "inventions:8": {
+  "q": "incandescent light bulb filament",
+  "alt": "Лампа накаливания"
+ },
+ "russia_nature:7": {
+  "q": "tundra reindeer",
+  "alt": "Тундра и олени"
+ },
+ "russia_nature:8": {
+  "q": "steppe feather grass",
+  "alt": "Степь с ковылём"
+ },
+ "food_chains:0": {
+  "q": "forest pond ecosystem",
+  "alt": "Лесной пруд"
+ },
+ "food_chains:1": {
+  "q": "green leaves sunlight",
+  "alt": "Листья на солнце"
+ },
+ "food_chains:2": {
+  "q": "hare eating grass",
+  "alt": "Заяц ест траву"
+ },
+ "food_chains:3": {
+  "q": "earthworm mushrooms leaf litter",
+  "alt": "Грибы и червяк"
+ },
+ "food_chains:5": {
+  "q": "owl forest night",
+  "alt": "Сова в лесу"
+ },
+ "food_chains:8": {
+  "q": "spider web dew",
+  "alt": "Паутина в росе"
+ },
+ "water_cycle:0": {
+  "q": "ice cubes water glass",
+  "alt": "Лёд и вода"
+ },
+ "water_cycle:1": {
+  "q": "boiling water pot",
+  "alt": "Кипящая вода"
+ },
+ "water_cycle:2": {
+  "q": "puddle drying sun",
+  "alt": "Лужа на солнце"
+ },
+ "water_cycle:3": {
+  "q": "clouds forming mountains",
+  "alt": "Облака над горами"
+ },
+ "water_cycle:4": {
+  "q": "rain drops puddle",
+  "alt": "Дождь"
+ },
+ "water_cycle:5": {
+  "q": "mountain stream river",
+  "alt": "Горный ручей"
+ },
+ "water_cycle:7": {
+  "q": "Lake Baikal clear water",
+  "alt": "Озеро Байкал"
+ },
+ "water_cycle:8": {
+  "q": "cloud droplets sky",
+  "alt": "Облака из капель"
+ },
+ "minerals:0": {
+  "q": "mineral collection rocks",
+  "alt": "Коллекция минералов"
+ },
+ "minerals:1": {
+  "q": "coal iron ore samples",
+  "alt": "Уголь и руда"
+ },
+ "minerals:2": {
+  "q": "oil pump jack",
+  "alt": "Нефтяная качалка"
+ },
+ "minerals:3": {
+  "q": "gas stove burner flame",
+  "alt": "Газовая плита"
+ },
+ "minerals:4": {
+  "q": "iron ore",
+  "alt": "Железная руда"
+ },
+ "minerals:5": {
+  "q": "granite embankment Saint Petersburg",
+  "alt": "Гранитная набережная"
+ },
+ "minerals:6": {
+  "q": "salt lake Baskunchak",
+  "alt": "Соляное озеро"
+ },
+ "minerals:8": {
+  "q": "sandstone porous rock",
+  "alt": "Пористый камень"
+ },
+ "red_book:0": {
+  "q": "Amur leopard",
+  "alt": "Дальневосточный леопард"
+ },
+ "red_book:1": {
+  "q": "snow leopard rocks",
+  "alt": "Снежный барс"
+ },
+ "red_book:3": {
+  "q": "Amur tiger snow",
+  "alt": "Амурский тигр"
+ },
+ "red_book:4": {
+  "q": "Siberian crane",
+  "alt": "Стерх"
+ },
+ "red_book:5": {
+  "q": "European bison",
+  "alt": "Зубр"
+ },
+ "red_book:6": {
+  "q": "nature reserve forest trail",
+  "alt": "Заповедная тропа"
+ },
+ "red_book:7": {
+  "q": "snowdrops spring forest",
+  "alt": "Подснежники"
+ },
+ "red_book:8": {
+  "q": "saiga antelope herd",
+  "alt": "Стадо сайгаков"
  }
 }

@@ -258,5 +258,81 @@
  "team_life:5": {
   "q": "kitchen cooking",
   "alt": "Кухня"
+ },
+ "what_creative:9": {
+  "q": "notebook pencil sketches",
+  "alt": "Блокнот идей"
+ },
+ "brainstorm:6": {
+  "q": "sticky notes",
+  "alt": "Письменный штурм"
+ },
+ "brainstorm:7": {
+  "q": "kitchen timer",
+  "alt": "Штурм в одиночку"
+ },
+ "unusual_uses:7": {
+  "q": "cardboard tube",
+  "alt": "Что это может быть?"
+ },
+ "combine:6": {
+  "q": "pocket knife multitool",
+  "alt": "Много в одном"
+ },
+ "new_view:6": {
+  "q": "burdock burrs",
+  "alt": "Подсмотри у природы"
+ },
+ "new_view:8": {
+  "q": "petri dish mold",
+  "alt": "Удача внимательных"
+ },
+ "inventor:7": {
+  "q": "matryoshka dolls",
+  "alt": "Приём «матрёшка»"
+ },
+ "inventor:8": {
+  "q": "oven mitt pot",
+  "alt": "Приём «посредник»"
+ },
+ "inventor:9": {
+  "q": "compost bin garden",
+  "alt": "Вред в пользу"
+ },
+ "make_game:0": {
+  "q": "chess pieces board",
+  "alt": "Из чего состоит игра"
+ },
+ "make_game:1": {
+  "q": "dice tokens board game",
+  "alt": "Правила и ход"
+ },
+ "make_game:2": {
+  "q": "balance scale",
+  "alt": "Баланс"
+ },
+ "make_game:4": {
+  "q": "checkers board",
+  "alt": "Одно правило — новая игра"
+ },
+ "junk_inventions:1": {
+  "q": "bottle caps corks",
+  "alt": "Что можно брать"
+ },
+ "junk_inventions:3": {
+  "q": "safety scissors glue stick",
+  "alt": "Инструменты с взрослыми"
+ },
+ "junk_inventions:5": {
+  "q": "bird feeder winter",
+  "alt": "Кормушка для птиц"
+ },
+ "junk_inventions:6": {
+  "q": "cardboard tubes organizer",
+  "alt": "Органайзер из втулок"
+ },
+ "junk_inventions:7": {
+  "q": "plastic bottle bowling",
+  "alt": "Игрушки из ненужного"
  }
 }

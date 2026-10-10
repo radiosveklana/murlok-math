@@ -278,5 +278,185 @@
  "immunity:5": {
   "q": "washing hands soap",
   "alt": "Моем руки с мылом"
+ },
+ "cells:7": {
+  "q": "plant cells microscope",
+  "alt": "Клетки растения под микроскопом"
+ },
+ "cells:8": {
+  "q": "DNA double helix model",
+  "alt": "Модель ДНК"
+ },
+ "skeleton:6": {
+  "q": "giraffe neck",
+  "alt": "Шея жирафа"
+ },
+ "skeleton:7": {
+  "q": "school backpack two straps",
+  "alt": "Школьный рюкзак"
+ },
+ "skeleton:8": {
+  "q": "height measuring stadiometer",
+  "alt": "Ростомер"
+ },
+ "muscles:7": {
+  "q": "facial muscles anatomy model",
+  "alt": "Мимика"
+ },
+ "heart_blood:7": {
+  "q": "stethoscope",
+  "alt": "Стетоскоп"
+ },
+ "heart_blood:8": {
+  "q": "red blood cells microscope",
+  "alt": "Клетки крови под микроскопом"
+ },
+ "lungs:6": {
+  "q": "child choir singing",
+  "alt": "Голос и пение"
+ },
+ "lungs:8": {
+  "q": "balloon inflating",
+  "alt": "Воздушный шарик"
+ },
+ "digestion:6": {
+  "q": "healthy plate vegetables",
+  "alt": "Полезный обед"
+ },
+ "digestion:7": {
+  "q": "yogurt bacteria microscope",
+  "alt": "Полезные бактерии"
+ },
+ "brain:6": {
+  "q": "child riding bicycle park",
+  "alt": "Учимся кататься"
+ },
+ "brain:7": {
+  "q": "bicycle helmet",
+  "alt": "Велосипедный шлем"
+ },
+ "senses:7": {
+  "q": "fresh bread loaves",
+  "alt": "Свежий хлеб"
+ },
+ "senses:8": {
+  "q": "three bowls of water",
+  "alt": "Три миски с водой"
+ },
+ "skin_teeth:6": {
+  "q": "dental model teeth",
+  "alt": "Модель зубов"
+ },
+ "skin_teeth:7": {
+  "q": "adhesive bandages first aid kit",
+  "alt": "Пластыри"
+ },
+ "skin_teeth:8": {
+  "q": "bath rubber duck bubbles",
+  "alt": "Пальцы после ванны"
+ },
+ "immunity:6": {
+  "q": "dandelion seeds pollen",
+  "alt": "Пыльца одуванчика"
+ },
+ "immunity:8": {
+  "q": "antique brass microscope",
+  "alt": "Старинный микроскоп"
+ },
+ "vitamins:0": {
+  "q": "fruits vegetables assortment",
+  "alt": "Фрукты и овощи"
+ },
+ "vitamins:1": {
+  "q": "carrots pumpkin",
+  "alt": "Морковь и тыква"
+ },
+ "vitamins:2": {
+  "q": "rose hips blackcurrant",
+  "alt": "Шиповник и смородина"
+ },
+ "vitamins:3": {
+  "q": "sunshine meadow children playing",
+  "alt": "Прогулка на солнце"
+ },
+ "vitamins:4": {
+  "q": "buckwheat porridge bread",
+  "alt": "Гречка и хлеб"
+ },
+ "vitamins:5": {
+  "q": "milk cheese cottage",
+  "alt": "Молоко и творог"
+ },
+ "vitamins:6": {
+  "q": "apple cut half browning",
+  "alt": "Потемневший срез яблока"
+ },
+ "vitamins:8": {
+  "q": "rainbow vegetables plate",
+  "alt": "Радуга на тарелке"
+ },
+ "growth:1": {
+  "q": "hand X-ray child",
+  "alt": "Рентген кисти"
+ },
+ "growth:3": {
+  "q": "pencil marks door frame",
+  "alt": "Отметки роста"
+ },
+ "growth:4": {
+  "q": "healthy breakfast milk",
+  "alt": "Секреты роста"
+ },
+ "growth:7": {
+  "q": "stadiometer scale",
+  "alt": "Ростомер и весы"
+ },
+ "eyes_ears:0": {
+  "q": "human eye model anatomy",
+  "alt": "Модель глаза"
+ },
+ "eyes_ears:1": {
+  "q": "eye iris pupil close-up",
+  "alt": "Зрачок крупно"
+ },
+ "eyes_ears:3": {
+  "q": "desk lamp book reading",
+  "alt": "Свет для чтения"
+ },
+ "eyes_ears:5": {
+  "q": "eye chart ophthalmologist",
+  "alt": "Кабинет окулиста"
+ },
+ "eyes_ears:6": {
+  "q": "ear model anatomy",
+  "alt": "Модель уха"
+ },
+ "eyes_ears:7": {
+  "q": "headphones",
+  "alt": "Наушники"
+ },
+ "kidneys_water:0": {
+  "q": "watermelon slice",
+  "alt": "Арбуз"
+ },
+ "kidneys_water:1": {
+  "q": "breath fog cold window",
+  "alt": "Дыхание на стекле"
+ },
+ "kidneys_water:2": {
+  "q": "kidney beans",
+  "alt": "Фасоль"
+ },
+ "kidneys_water:4": {
+  "q": "human anatomy model kidney",
+  "alt": "Анатомическая модель"
+ },
+ "kidneys_water:6": {
+  "q": "lemonade glasses",
+  "alt": "Стаканы лимонада"
+ },
+ "kidneys_water:7": {
+  "q": "glasses of water table",
+  "alt": "Стаканы воды"
  }
 }

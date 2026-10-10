@@ -298,5 +298,157 @@
  "habits:6": {
   "q": "sunshine",
   "alt": "Солнце"
+ },
+ "plate:7": {
+  "q": "dairy products milk cheese",
+  "alt": "Молочные продукты"
+ },
+ "plate:8": {
+  "q": "pilaf plov dish",
+  "alt": "Плов"
+ },
+ "plate:9": {
+  "q": "broccoli plate fork",
+  "alt": "Брокколи на тарелке"
+ },
+ "water:6": {
+  "q": "sugar cubes glass",
+  "alt": "Кубики сахара"
+ },
+ "water:7": {
+  "q": "reusable water bottle",
+  "alt": "Своя бутылка воды"
+ },
+ "water:8": {
+  "q": "cucumber watermelon orange slices",
+  "alt": "Сочные фрукты и овощи"
+ },
+ "breakfast:6": {
+  "q": "school lunch box sandwich",
+  "alt": "Второй завтрак"
+ },
+ "breakfast:7": {
+  "q": "oatmeal porridge berries",
+  "alt": "Овсянка с ягодами"
+ },
+ "breakfast:8": {
+  "q": "yogurt banana oats bowl",
+  "alt": "Йогурт с бананом"
+ },
+ "hygiene:7": {
+  "q": "hands washing soap",
+  "alt": "Мытьё рук с мылом"
+ },
+ "hygiene:8": {
+  "q": "nail clippers comb",
+  "alt": "Кусачки и расчёска"
+ },
+ "hygiene:9": {
+  "q": "toothbrush toothpaste glass",
+  "alt": "Зубная щётка"
+ },
+ "sport:9": {
+  "q": "children playing sports park",
+  "alt": "Спорт для всех"
+ },
+ "sleep:6": {
+  "q": "moon night window bedroom",
+  "alt": "Ночь за окном"
+ },
+ "sleep:7": {
+  "q": "alarm clock bedside",
+  "alt": "Будильник"
+ },
+ "screens:9": {
+  "q": "family dinner table",
+  "alt": "Ужин без экранов"
+ },
+ "calm:8": {
+  "q": "summer meadow flowers",
+  "alt": "Летний луг"
+ },
+ "calm:9": {
+  "q": "plush toy stress ball box",
+  "alt": "Коробочка спокойствия"
+ },
+ "habits:8": {
+  "q": "yoga mat rolled",
+  "alt": "Коврик для зарядки"
+ },
+ "habits:9": {
+  "q": "board game family",
+  "alt": "Настольная игра"
+ },
+ "posture:0": {
+  "q": "spine model skeleton",
+  "alt": "Модель позвоночника"
+ },
+ "posture:4": {
+  "q": "school backpack",
+  "alt": "Рюкзак на двух лямках"
+ },
+ "school_day:0": {
+  "q": "wall clock",
+  "alt": "Часы на стене"
+ },
+ "school_day:1": {
+  "q": "alarm clock morning window",
+  "alt": "Утренний подъём"
+ },
+ "school_day:3": {
+  "q": "classroom desks school",
+  "alt": "Школьный класс"
+ },
+ "school_day:6": {
+  "q": "children bicycles park",
+  "alt": "Час движения"
+ },
+ "fresh_air:0": {
+  "q": "park walk autumn path",
+  "alt": "Прогулка в парке"
+ },
+ "fresh_air:1": {
+  "q": "open window curtains fresh air",
+  "alt": "Проветривание"
+ },
+ "fresh_air:2": {
+  "q": "winter clothes layers",
+  "alt": "Одежда слоями"
+ },
+ "fresh_air:5": {
+  "q": "cold water basin towel",
+  "alt": "Закаливание"
+ },
+ "fresh_air:7": {
+  "q": "sun hat sunscreen beach shade",
+  "alt": "Панама и тень"
+ },
+ "fresh_air:8": {
+  "q": "weather vane wind",
+  "alt": "Флюгер"
+ },
+ "food_label:2": {
+  "q": "syrup honey sugar",
+  "alt": "Сахар и сиропы"
+ },
+ "food_label:4": {
+  "q": "milk carton refrigerator",
+  "alt": "Холодильник с продуктами"
+ },
+ "food_label:5": {
+  "q": "peanuts milk eggs",
+  "alt": "Арахис, молоко, яйца"
+ },
+ "food_label:6": {
+  "q": "fruit juice glass sugar cubes",
+  "alt": "Сахар в напитках"
+ },
+ "food_label:7": {
+  "q": "apple cheese snack",
+  "alt": "Яблоко и сыр"
+ },
+ "food_label:8": {
+  "q": "birthday cake candles",
+  "alt": "Праздничный торт"
  }
 }

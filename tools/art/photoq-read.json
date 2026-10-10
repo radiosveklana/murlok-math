@@ -70,5 +70,57 @@
  "focus:4": {
   "q": "calendar",
   "alt": "Каждый день"
+ },
+ "how:5": {
+  "q": "stopwatch",
+  "alt": "Секундомер"
+ },
+ "how:7": {
+  "q": "child bicycle",
+  "alt": "Детский велосипед"
+ },
+ "how:8": {
+  "q": "stack of books",
+  "alt": "Стопка разных книг"
+ },
+ "understand:5": {
+  "q": "magnifying glass on book",
+  "alt": "Лупа над книгой"
+ },
+ "understand:8": {
+  "q": "Lake Baikal",
+  "alt": "Озеро Байкал"
+ },
+ "focus:5": {
+  "q": "glass of water and apple",
+  "alt": "Вода и яблоко"
+ },
+ "focus:7": {
+  "q": "kitchen timer",
+  "alt": "Кухонный таймер"
+ },
+ "focus:8": {
+  "q": "dinosaur skeleton museum",
+  "alt": "Скелет динозавра"
+ },
+ "techniques:0": {
+  "q": "library shelves",
+  "alt": "Полки библиотеки"
+ },
+ "techniques:7": {
+  "q": "pencil on book",
+  "alt": "Карандаш над строкой"
+ },
+ "textbook:5": {
+  "q": "highlighter pens",
+  "alt": "Маркеры-выделители"
+ },
+ "textbook:6": {
+  "q": "desk calendar",
+  "alt": "Настольный календарь"
+ },
+ "memory_retell:5": {
+  "q": "wall calendar",
+  "alt": "Календарь"
  }
 }

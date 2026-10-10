@@ -424,5 +424,345 @@
   "q": "sunshine",
   "alt": "Солнце",
   "src": "commons"
+ },
+ "plate:7": {
+  "type": "art",
+  "p": "Milk, kefir, yogurt, cheese and cottage cheese in jars and bowls on a farmhouse kitchen table, morning sunlight"
+ },
+ "plate:8": {
+  "type": "photo",
+  "q": "pilaf plov dish",
+  "alt": "Плов",
+  "src": "commons"
+ },
+ "plate:9": {
+  "type": "photo",
+  "q": "broccoli plate fork",
+  "alt": "Брокколи на тарелке",
+  "src": "commons"
+ },
+ "water:6": {
+  "type": "photo",
+  "q": "sugar cubes glass",
+  "alt": "Кубики сахара",
+  "src": "commons"
+ },
+ "water:7": {
+  "type": "photo",
+  "q": "reusable water bottle",
+  "alt": "Своя бутылка воды",
+  "src": "commons"
+ },
+ "water:8": {
+  "type": "art",
+  "p": "Juicy slices of watermelon, cucumber, tomato and orange on a plate, sparkling water droplets on them"
+ },
+ "water:9": {
+  "type": "art",
+  "p": "A cute anime child happily drinking a glass of water after playing outside, a sunny yard and a ball behind"
+ },
+ "breakfast:6": {
+  "type": "photo",
+  "q": "school lunch box sandwich",
+  "alt": "Второй завтрак",
+  "src": "commons"
+ },
+ "breakfast:7": {
+  "type": "photo",
+  "q": "oatmeal porridge berries",
+  "alt": "Овсянка с ягодами",
+  "src": "commons"
+ },
+ "breakfast:8": {
+  "type": "art",
+  "p": "A simple breakfast a child can make: yogurt with banana and oats, a cheese sandwich and a glass of milk"
+ },
+ "breakfast:9": {
+  "type": "art",
+  "p": "A big friendly clock with little plates of breakfast, lunch, snack and dinner placed around it at even intervals"
+ },
+ "hygiene:7": {
+  "type": "photo",
+  "q": "hands washing soap",
+  "alt": "Мытьё рук с мылом",
+  "src": "commons"
+ },
+ "hygiene:8": {
+  "type": "art",
+  "p": "Small nail clippers, a hair brush and a comb neatly laid on a soft towel in a clean bathroom"
+ },
+ "hygiene:9": {
+  "type": "art",
+  "p": "A child toothbrush with toothpaste in a cup and a glass of water on a bright bathroom sink"
+ },
+ "sport:7": {
+  "type": "art",
+  "p": "A cute anime child walking to school, playing tag at recess and kicking a ball in the yard, shown in three cheerful scenes"
+ },
+ "sport:8": {
+  "type": "art",
+  "p": "Two cute anime friends jogging side by side in a park and chatting happily, autumn trees and a path"
+ },
+ "sport:9": {
+  "type": "photo",
+  "q": "children playing sports park",
+  "alt": "Спорт для всех",
+  "src": "commons"
+ },
+ "sleep:6": {
+  "type": "photo",
+  "q": "moon night window bedroom",
+  "alt": "Ночь за окном",
+  "src": "commons"
+ },
+ "sleep:7": {
+  "type": "photo",
+  "q": "alarm clock bedside",
+  "alt": "Будильник",
+  "src": "commons"
+ },
+ "sleep:8": {
+  "type": "art",
+  "p": "A cute anime child yawning at a school desk with heavy eyelids, a little sleepy cloud floating above"
+ },
+ "sleep:9": {
+  "type": "art",
+  "p": "A cute anime child sleeping peacefully at the same time each night, seven little moons in a row above the bed"
+ },
+ "screens:6": {
+  "type": "art",
+  "p": "A cute anime child looking up from a tablet and blinking, tiny sparkles around the eyes, a window with trees beside"
+ },
+ "screens:7": {
+  "type": "art",
+  "p": "A cute anime child doing eye exercises, eyes following a butterfly up, down and around in a sunny room"
+ },
+ "screens:8": {
+  "type": "art",
+  "p": "A cute anime child resting eyes with palms over them on a sofa, a tablet set aside, calm evening light"
+ },
+ "screens:9": {
+  "type": "art",
+  "p": "A cozy family dinner table with plates and a basket of phones placed aside on a shelf, warm lamp light"
+ },
+ "emotions:6": {
+  "type": "art",
+  "p": "A cute big thermometer with colors from calm blue at the bottom to bright red at the top, little faces beside each color"
+ },
+ "emotions:7": {
+  "type": "art",
+  "p": "Two cute anime children sitting calmly and talking face to face, one gently explaining feelings, colored markers on the table"
+ },
+ "emotions:8": {
+  "type": "art",
+  "p": "A cute anime child sitting next to a sad friend on the stairs and offering a cookie, warm sunlight"
+ },
+ "emotions:9": {
+  "type": "art",
+  "p": "A cute anime child standing at the edge of a swimming pool, a little nervous but brave, getting ready to jump in"
+ },
+ "calm:7": {
+  "type": "art",
+  "p": "A cute anime child holding a flower in one hand and a candle in the other, breathing in and gently blowing"
+ },
+ "calm:8": {
+  "type": "photo",
+  "q": "summer meadow flowers",
+  "alt": "Летний луг",
+  "src": "commons"
+ },
+ "calm:9": {
+  "type": "art",
+  "p": "An open cardboard box with a plush bunny, a squishy stress ball, colored pencils and soft fabric inside"
+ },
+ "habits:7": {
+  "type": "art",
+  "p": "A cute anime child arriving home after school and immediately putting the backpack on its hook, a glass of water waiting"
+ },
+ "habits:8": {
+  "type": "photo",
+  "q": "yoga mat rolled",
+  "alt": "Коврик для зарядки",
+  "src": "commons"
+ },
+ "habits:9": {
+  "type": "art",
+  "p": "A colorful board game with dice and wooden pieces on a family table, cookies and cocoa beside it"
+ },
+ "cover:posture": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting straight at a tiny wooden desk with a book, a small backpack with two straps beside the chair"
+ },
+ "posture:0": {
+  "type": "art",
+  "p": "A model of a human spine with gentle S-shaped curves standing on a school desk next to a book"
+ },
+ "posture:1": {
+  "type": "art",
+  "p": "A cute anime child slouching over a desk looking tired, a soft question mark cloud, a comfy chair nearby"
+ },
+ "posture:2": {
+  "type": "art",
+  "p": "A cute anime child sitting correctly at a desk: feet flat on the floor, back against the chair, book in front, warm lamp"
+ },
+ "posture:3": {
+  "type": "art",
+  "p": "A cute anime child at a desk measuring the distance from eyes to book with an elbow and fist, reading lamp glowing"
+ },
+ "posture:4": {
+  "type": "art",
+  "p": "A cute anime child walking to school with a backpack worn on both shoulders, seen from behind, autumn leaves"
+ },
+ "posture:5": {
+  "type": "art",
+  "p": "A cute anime class standing beside their desks stretching arms up during a short exercise break, sunny classroom"
+ },
+ "posture:6": {
+  "type": "art",
+  "p": "A cute anime child on a mat doing the cat stretch on hands and knees with a rounded back, a real cat copying beside"
+ },
+ "posture:7": {
+  "type": "art",
+  "p": "A cute anime child standing tall with back, head and heels against a light wall, proud smile, plant nearby"
+ },
+ "posture:8": {
+  "type": "art",
+  "p": "A cute anime child holding a phone up at eye level with a straight neck, sitting on a park bench"
+ },
+ "posture:9": {
+  "type": "art",
+  "p": "A cute anime child relaxing at a desk, shifting position and stretching between lessons, a timer on the desk"
+ },
+ "cover:school_day": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding a big pocket watch next to a sunny window, a school bag, a pillow and a ball arranged around"
+ },
+ "school_day:0": {
+  "type": "art",
+  "p": "A round wall clock in a tidy child room with a desk, a bed and a ball, morning light through the window"
+ },
+ "school_day:1": {
+  "type": "art",
+  "p": "An alarm clock on a nightstand at sunrise, curtains slightly open and golden light falling on a cozy bed"
+ },
+ "school_day:2": {
+  "type": "art",
+  "p": "A cute anime child sleeping soundly in a cozy bed under a starry window, a teddy bear and a small night lamp"
+ },
+ "school_day:3": {
+  "type": "photo",
+  "q": "classroom desks school",
+  "alt": "Школьный класс",
+  "src": "commons"
+ },
+ "school_day:4": {
+  "type": "art",
+  "p": "A cute anime child walking in an autumn park after school with a backpack, kicking leaves, sunny afternoon"
+ },
+ "school_day:5": {
+  "type": "art",
+  "p": "A cute anime child doing homework at a desk in bright afternoon light, notebooks and a cup of tea"
+ },
+ "school_day:6": {
+  "type": "photo",
+  "q": "children bicycles park",
+  "alt": "Час движения",
+  "src": "commons"
+ },
+ "school_day:7": {
+  "type": "art",
+  "p": "A cute anime child reading a paper book in bed by a warm lamp, a tablet switched off on the shelf"
+ },
+ "school_day:8": {
+  "type": "art",
+  "p": "A cute anime child happily painting, playing guitar and building with blocks in a colorful room, a clock on the wall"
+ },
+ "cover:fresh_air": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat in a cozy knitted scarf walking through a sunny snowy forest, breathing fresh frosty air"
+ },
+ "fresh_air:0": {
+  "type": "photo",
+  "q": "park walk autumn path",
+  "alt": "Прогулка в парке",
+  "src": "commons"
+ },
+ "fresh_air:1": {
+  "type": "art",
+  "p": "An open window with white curtains fluttering in a fresh breeze, green trees outside and a plant on the sill"
+ },
+ "fresh_air:2": {
+  "type": "art",
+  "p": "Winter clothes laid out in layers on a bed: a t-shirt, a warm sweater, a puffy jacket, a hat and mittens"
+ },
+ "fresh_air:3": {
+  "type": "art",
+  "p": "A cute anime child dressed just right for a chilly day, playing in light snow with a smile, cheeks rosy"
+ },
+ "fresh_air:4": {
+  "type": "art",
+  "p": "Cute anime children playing outside in the snow happily while tiny cartoon germs stay inside a stuffy closed room"
+ },
+ "fresh_air:5": {
+  "type": "art",
+  "p": "A basin of cool water with a towel on a wooden bench in a bright bathroom, sunlight from the window"
+ },
+ "fresh_air:6": {
+  "type": "art",
+  "p": "A cute anime child washing face with cool water in a bright bathroom, sparkly droplets, a fresh towel ready"
+ },
+ "fresh_air:7": {
+  "type": "art",
+  "p": "A sun hat, sunglasses and a water bottle on a towel under a beach umbrella in the shade on a sunny day"
+ },
+ "fresh_air:8": {
+  "type": "photo",
+  "q": "weather vane wind",
+  "alt": "Флюгер",
+  "src": "commons"
+ },
+ "cover:food_label": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat with a magnifying glass inspecting a cereal box and an apple in a small shopping basket, no writing"
+ },
+ "food_label:0": {
+  "type": "art",
+  "p": "A cute anime child holding a plain package and examining it with a magnifying glass in a bright grocery store aisle"
+ },
+ "food_label:1": {
+  "type": "art",
+  "p": "Ingredients lined up from biggest pile to smallest: a big heap of oats, a smaller heap of raisins and a tiny pinch of sugar"
+ },
+ "food_label:2": {
+  "type": "art",
+  "p": "A jar of honey, a bottle of syrup, sugar cubes and a bowl of sugar on a wooden table, a detective magnifying glass"
+ },
+ "food_label:3": {
+  "type": "art",
+  "p": "A kitchen scale with a bowl of food and three little colorful jars beside it representing proteins, fats and carbs"
+ },
+ "food_label:4": {
+  "type": "art",
+  "p": "An open refrigerator neatly filled with milk, yogurt, cheese and vegetables, everything fresh and tidy"
+ },
+ "food_label:5": {
+  "type": "photo",
+  "q": "peanuts milk eggs",
+  "alt": "Арахис, молоко, яйца",
+  "src": "commons"
+ },
+ "food_label:6": {
+  "type": "art",
+  "p": "A glass of juice and a sweet tea next to a stack of sugar cubes, and a glass of plain water winning a little crown"
+ },
+ "food_label:7": {
+  "type": "art",
+  "p": "A healthy snack plate with apple slices, cheese cubes, carrot sticks and a handful of nuts"
+ },
+ "food_label:8": {
+  "type": "photo",
+  "q": "birthday cake candles",
+  "alt": "Праздничный торт",
+  "src": "commons"
  }
 }

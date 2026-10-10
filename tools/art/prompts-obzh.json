@@ -44,8 +44,10 @@
   "src": "commons"
  },
  "first_aid_kit:1": {
-  "type": "art",
-  "p": "neatly arranged rolls of bandage, sterile gauze pads and colorful plasters on a clean table"
+  "type": "photo",
+  "q": "adhesive bandage",
+  "alt": "Пластырь",
+  "src": "commons"
  },
  "first_aid_kit:2": {
   "type": "photo",
@@ -54,16 +56,22 @@
   "src": "commons"
  },
  "first_aid_kit:3": {
-  "type": "art",
-  "p": "a small spray bottle of antiseptic next to a bottle of clean water and cotton pads"
+  "type": "photo",
+  "q": "antiseptic bottle",
+  "alt": "Антисептик",
+  "src": "commons"
  },
  "first_aid_kit:4": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat shaking head and handing a medicine bottle up to a smiling adult"
+  "type": "photo",
+  "q": "medicine bottles",
+  "alt": "Лекарства",
+  "src": "commons"
  },
  "first_aid_kit:5": {
-  "type": "art",
-  "p": "a paper sheet with little phone icons taped inside the lid of a first aid box"
+  "type": "photo",
+  "q": "notebook phone numbers",
+  "alt": "Список телефонов",
+  "src": "commons"
  },
  "cover:wounds": {
   "type": "photo",
@@ -84,16 +92,22 @@
   "src": "commons"
  },
  "wounds:2": {
-  "type": "art",
-  "p": "an anime kid calling loudly for an adult while pressing a clean folded cloth with both hands, adult running over"
+  "type": "photo",
+  "q": "gauze bandage roll",
+  "alt": "Бинт",
+  "src": "commons"
  },
  "wounds:3": {
-  "type": "art",
-  "p": "an anime kid sitting and leaning forward, gently pinching the soft part of the nose, a cold pack on the table"
+  "type": "photo",
+  "q": "paper tissues",
+  "alt": "Салфетки",
+  "src": "commons"
  },
  "wounds:4": {
-  "type": "art",
-  "p": "two anime kids side by side: one leaning head forward with a happy check mark glow, one tilting head back looking unsure"
+  "type": "photo",
+  "q": "gauze pads",
+  "alt": "Стерильные салфетки",
+  "src": "commons"
  },
  "wounds:5": {
   "type": "photo",
@@ -124,24 +138,32 @@
   "src": "commons"
  },
  "burns:3": {
-  "type": "art",
-  "p": "an anime adult wrapping a soft clean bandage around a child's hand, the child smiling"
+  "type": "photo",
+  "q": "gauze bandage roll",
+  "alt": "Чистая повязка",
+  "src": "commons"
  },
  "burns:4": {
-  "type": "art",
-  "p": "a friendly ambulance arriving at a house, an anime parent waving it in"
+  "type": "photo",
+  "q": "ambulance",
+  "alt": "Скорая помощь",
+  "src": "commons"
  },
  "burns:5": {
-  "type": "art",
-  "p": "an anime kid resting in the shade under a beach umbrella wearing a cap, holding a bottle of water"
+  "type": "photo",
+  "q": "sunscreen",
+  "alt": "Солнцезащитный крем",
+  "src": "commons"
  },
  "cover:injuries": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat pressing a cold pack on a bunny friend's knee while an adult hurries over with a first aid kit"
  },
  "injuries:0": {
-  "type": "art",
-  "p": "an anime kid holding a cold pack wrapped in a towel against a knee, sitting on a sofa"
+  "type": "photo",
+  "q": "ice pack",
+  "alt": "Холод на ушиб",
+  "src": "commons"
  },
  "injuries:1": {
   "type": "photo",
@@ -178,8 +200,10 @@
   "src": "commons"
  },
  "bites:0": {
-  "type": "art",
-  "p": "a cute fuzzy bee on a dandelion, an anime adult holding a cold pack ready nearby"
+  "type": "photo",
+  "q": "honey bee",
+  "alt": "Пчела",
+  "src": "commons"
  },
  "bites:1": {
   "type": "photo",
@@ -272,8 +296,10 @@
   "src": "commons"
  },
  "weather_water:2": {
-  "type": "art",
-  "p": "an anime kid coming in from snowy cold into a warm room, wrapped in a blanket with a mug of warm tea"
+  "type": "photo",
+  "q": "winter mittens",
+  "alt": "Тёплые варежки",
+  "src": "commons"
  },
  "weather_water:3": {
   "type": "photo",
@@ -318,8 +344,10 @@
   "src": "commons"
  },
  "fire_emergency:3": {
-  "type": "art",
-  "p": "an anime kid at an open window waving a bright towel to firefighters below, door closed behind"
+  "type": "photo",
+  "q": "firefighters",
+  "alt": "Пожарные",
+  "src": "commons"
  },
  "fire_emergency:4": {
   "type": "photo",
@@ -352,21 +380,369 @@
   "src": "commons"
  },
  "feeling_unwell:2": {
-  "type": "art",
-  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat placing a soft pillow away from sharp furniture while an adult calls on the phone and checks a watch"
+  "type": "photo",
+  "q": "pillow",
+  "alt": "Мягкая подушка",
+  "src": "commons"
  },
  "feeling_unwell:3": {
-  "type": "art",
-  "p": "an anime adult calmly kneeling next to a resting person, holding a phone, nothing near their mouth"
+  "type": "photo",
+  "q": "wristwatch",
+  "alt": "Засекаем время",
+  "src": "commons"
  },
  "feeling_unwell:4": {
-  "type": "art",
-  "p": "an anime kid calling loudly to a passing adult who rushes over, phone already in hand"
+  "type": "photo",
+  "q": "ambulance",
+  "alt": "Звоним 112",
+  "src": "commons"
  },
  "feeling_unwell:5": {
   "type": "photo",
   "q": "blanket",
   "alt": "Тёплый плед",
   "src": "commons"
+ },
+ "help_rule:6": {
+  "type": "photo",
+  "q": "mobile phone hand",
+  "alt": "Телефон в руке",
+  "src": "commons"
+ },
+ "help_rule:7": {
+  "type": "art",
+  "p": "A cute anime child taking a slow calm breath with hand on chest, soft blue swirls around, a phone resting on the table"
+ },
+ "help_rule:8": {
+  "type": "art",
+  "p": "A white ambulance van parked by a tidy apartment building entrance, a grown-up waiting by the door to meet it, calm daylight"
+ },
+ "help_rule:9": {
+  "type": "art",
+  "p": "A cute anime child and mom playing a pretend phone call game with toy phones on a sofa, both smiling"
+ },
+ "first_aid_kit:6": {
+  "type": "art",
+  "p": "A tidy home first aid box with bandages, plasters and a thermometer neatly sorted, a calendar page beside it"
+ },
+ "first_aid_kit:7": {
+  "type": "art",
+  "p": "A small waterproof first aid pouch next to a hiking backpack, a water bottle and a map on a forest log"
+ },
+ "first_aid_kit:8": {
+  "type": "photo",
+  "q": "digital thermometer",
+  "alt": "Градусник",
+  "src": "commons"
+ },
+ "first_aid_kit:9": {
+  "type": "photo",
+  "q": "school nurse office",
+  "alt": "Медкабинет",
+  "src": "commons"
+ },
+ "wounds:6": {
+  "type": "photo",
+  "q": "tweezers magnifying glass",
+  "alt": "Пинцет и лупа",
+  "src": "commons"
+ },
+ "wounds:7": {
+  "type": "art",
+  "p": "A pair of new sneakers with comfortable soft socks and a box of plasters on a bench in a hallway"
+ },
+ "wounds:8": {
+  "type": "art",
+  "p": "A green plantain leaf growing by a dusty country road next to a clean first aid kit with fresh plasters"
+ },
+ "wounds:9": {
+  "type": "art",
+  "p": "A colorful children plaster with a cute pattern placed on a soft towel, next to a tube of cream"
+ },
+ "burns:6": {
+  "type": "art",
+  "p": "A kettle on a stove with a soft cloud of steam rising, oven mitts hanging safely nearby in a tidy kitchen"
+ },
+ "burns:7": {
+  "type": "art",
+  "p": "Cleaning bottles placed on a high closed cabinet shelf in a laundry room, out of reach, plain unlabeled bottles"
+ },
+ "burns:8": {
+  "type": "art",
+  "p": "A stream of cool clear water flowing from a kitchen tap into a clean sink, water droplets sparkling"
+ },
+ "burns:9": {
+  "type": "art",
+  "p": "A friendly firefighter character teaching a class of cute anime children a safety lesson in a bright gym, mats on the floor"
+ },
+ "injuries:6": {
+  "type": "art",
+  "p": "A cold pack wrapped in a soft towel lying on a sofa next to a pillow and a glass of water"
+ },
+ "injuries:7": {
+  "type": "art",
+  "p": "A soft blue X-ray image of hand bones glowing on a light box in a calm doctor office"
+ },
+ "injuries:8": {
+  "type": "photo",
+  "q": "door stopper",
+  "alt": "Ограничитель двери",
+  "src": "commons"
+ },
+ "injuries:9": {
+  "type": "photo",
+  "q": "clinic entrance building",
+  "alt": "Здание поликлиники",
+  "src": "commons"
+ },
+ "bites:6": {
+  "type": "art",
+  "p": "A window with a fine mosquito net on a summer evening, a garden behind, a small lamp glowing inside"
+ },
+ "bites:7": {
+  "type": "art",
+  "p": "A gray paper wasp nest hanging under a wooden gazebo roof seen from a safe distance, summer garden around"
+ },
+ "bites:8": {
+  "type": "art",
+  "p": "A cute anime child standing still and calm with arms close to the body while a curious dog sniffs nearby, sunny park"
+ },
+ "choking:6": {
+  "type": "art",
+  "p": "Grapes cut into small halves on a little plate next to soft fruit pieces, ready for a toddler snack"
+ },
+ "choking:7": {
+  "type": "art",
+  "p": "A cute anime child with a parent sitting calmly in a friendly doctor office, the doctor holding a stethoscope and smiling"
+ },
+ "choking:8": {
+  "type": "art",
+  "p": "Small building pieces and beads stored in a closed box on a high shelf, a toddler playing with big soft blocks below"
+ },
+ "choking:9": {
+  "type": "art",
+  "p": "A first aid training class room with practice mannequins on mats and a first aid kit, bright and calm"
+ },
+ "weather_water:6": {
+  "type": "art",
+  "p": "A cup of hot tea, a warm plaid blanket and wool socks on a cozy sofa, snow falling outside the window"
+ },
+ "weather_water:7": {
+  "type": "art",
+  "p": "Winter clothes laid out in layers: a thin shirt, a fleece sweater, a puffy jacket, a hat, a scarf and mittens"
+ },
+ "weather_water:8": {
+  "type": "art",
+  "p": "A water bottle and a sun hat on a picnic blanket in the shade of a tree on a hot summer day"
+ },
+ "fire_emergency:6": {
+  "type": "photo",
+  "q": "frying pan lid",
+  "alt": "Крышка для сковороды",
+  "src": "commons"
+ },
+ "fire_emergency:7": {
+  "type": "photo",
+  "q": "smoke detector ceiling",
+  "alt": "Датчик дыма",
+  "src": "commons"
+ },
+ "fire_emergency:8": {
+  "type": "art",
+  "p": "A cute anime class walking calmly in a line down a bright school corridor with their teacher during a practice drill"
+ },
+ "fire_emergency:9": {
+  "type": "art",
+  "p": "A loudspeaker siren on a tall pole against a blue sky above city rooftops"
+ },
+ "feeling_unwell:6": {
+  "type": "art",
+  "p": "A friendly instructor showing cute anime students how to help on a practice mannequin lying on a mat in a bright classroom"
+ },
+ "feeling_unwell:7": {
+  "type": "art",
+  "p": "A blue asthma inhaler in an open school backpack pocket next to a water bottle"
+ },
+ "feeling_unwell:8": {
+  "type": "art",
+  "p": "A glass of orange juice and a few sugar cubes on a plate on a school desk next to a small glucose meter"
+ },
+ "feeling_unwell:9": {
+  "type": "photo",
+  "q": "fly agaric mushroom forest",
+  "alt": "Мухомор в лесу",
+  "src": "commons"
+ },
+ "cover:electric_gas": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat with a magnifying glass inspecting a wall socket with a safety cap, a charger and a lamp in a cozy room"
+ },
+ "electric_gas:0": {
+  "type": "photo",
+  "q": "electrical outlet safety cover",
+  "alt": "Розетка с заглушкой",
+  "src": "commons"
+ },
+ "electric_gas:1": {
+  "type": "photo",
+  "q": "hand towel dry hands",
+  "alt": "Сухие руки",
+  "src": "commons"
+ },
+ "electric_gas:2": {
+  "type": "art",
+  "p": "A hand pulling a plug out of a wall socket by holding the plug body, a lamp cable neatly behind"
+ },
+ "electric_gas:3": {
+  "type": "art",
+  "p": "A cute anime child pointing at a lamp with a damaged cable and calling a grown-up, not touching it, cozy room"
+ },
+ "electric_gas:4": {
+  "type": "photo",
+  "q": "power strip extension cord",
+  "alt": "Удлинитель",
+  "src": "commons"
+ },
+ "electric_gas:5": {
+  "type": "art",
+  "p": "A cute anime child running to call a grown-up from another room, the grown-up turning to listen attentively, calm home scene"
+ },
+ "electric_gas:6": {
+  "type": "photo",
+  "q": "power lines poles field",
+  "alt": "Линия электропередачи",
+  "src": "commons"
+ },
+ "electric_gas:7": {
+  "type": "photo",
+  "q": "gas stove kitchen",
+  "alt": "Газовая плита",
+  "src": "commons"
+ },
+ "cover:water_ice": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat wearing a tiny life vest standing on a sunny beach next to a lifebuoy, a frozen lake in the distance"
+ },
+ "water_ice:0": {
+  "type": "photo",
+  "q": "beach lifeguard tower",
+  "alt": "Спасательная вышка",
+  "src": "commons"
+ },
+ "water_ice:1": {
+  "type": "photo",
+  "q": "clear shallow water stones",
+  "alt": "Дно у берега",
+  "src": "commons"
+ },
+ "water_ice:2": {
+  "type": "art",
+  "p": "A bright orange life jacket and an inflatable ring lying on a wooden pier by a calm lake"
+ },
+ "water_ice:3": {
+  "type": "art",
+  "p": "A red and white lifebuoy with a rope hanging on a post by a calm beach, sunny sky"
+ },
+ "water_ice:4": {
+  "type": "art",
+  "p": "A cute anime child calmly floating on the back in a shallow pool wearing a swim cap, an instructor nearby, sunny day"
+ },
+ "water_ice:5": {
+  "type": "photo",
+  "q": "frozen lake reeds winter",
+  "alt": "Лёд у камышей",
+  "src": "commons"
+ },
+ "water_ice:6": {
+  "type": "photo",
+  "q": "ice safety picks",
+  "alt": "Спасалки для льда",
+  "src": "commons"
+ },
+ "water_ice:7": {
+  "type": "photo",
+  "q": "rescue rope coiled",
+  "alt": "Спасательная верёвка",
+  "src": "commons"
+ },
+ "cover:lost": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding a map and a whistle, standing calmly by a tall tree in a park with a mall in the distance"
+ },
+ "lost:0": {
+  "type": "art",
+  "p": "A cute anime child standing calmly in place in a busy park holding a backpack strap, looking around confidently"
+ },
+ "lost:1": {
+  "type": "art",
+  "p": "A hand holding a simple mobile phone with a cute case against a blurry colorful park background"
+ },
+ "lost:2": {
+  "type": "art",
+  "p": "An information desk in a bright shopping mall with a friendly security staff member seen from behind"
+ },
+ "lost:3": {
+  "type": "art",
+  "p": "A cute anime child with eyes closed remembering home, a glowing picture of the house and family in a thought bubble"
+ },
+ "lost:4": {
+  "type": "photo",
+  "q": "meeting point fountain",
+  "alt": "Место встречи",
+  "src": "commons"
+ },
+ "lost:5": {
+  "type": "photo",
+  "q": "big tree forest",
+  "alt": "Обними дерево",
+  "src": "commons"
+ },
+ "lost:6": {
+  "type": "photo",
+  "q": "whistle",
+  "alt": "Свисток",
+  "src": "commons"
+ },
+ "lost:7": {
+  "type": "art",
+  "p": "Volunteers in bright vests walking in a line through a sunny forest seen from behind, flashlights and backpacks"
+ },
+ "cover:ticks_forest": {
+  "type": "art",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat in light long clothes and tiny boots walking along a forest path, magnifying glass in paw"
+ },
+ "ticks_forest:0": {
+  "type": "art",
+  "p": "A tiny cartoon tick with eight little legs sitting on a tall grass blade, simple and not scary, sunny meadow behind"
+ },
+ "ticks_forest:1": {
+  "type": "art",
+  "p": "Light-colored long trousers tucked into socks, a hat and hiking boots laid out on a bench before a forest walk"
+ },
+ "ticks_forest:2": {
+  "type": "photo",
+  "q": "forest path trail",
+  "alt": "Лесная тропинка",
+  "src": "commons"
+ },
+ "ticks_forest:3": {
+  "type": "art",
+  "p": "Two cute anime friends in light clothes checking each other sleeves and collars after a forest walk, smiling"
+ },
+ "ticks_forest:4": {
+  "type": "art",
+  "p": "A small tick removal hook tool and a cotton pad on a clean white cloth in a calm home setting"
+ },
+ "ticks_forest:5": {
+  "type": "art",
+  "p": "A small glass jar with a lid and a piece of damp cotton inside on a table, ready to take to a lab"
+ },
+ "ticks_forest:6": {
+  "type": "art",
+  "p": "A digital thermometer and a calendar on a bedside table with a cup of tea, soft morning light"
+ },
+ "ticks_forest:7": {
+  "type": "art",
+  "p": "A small vaccine vial and a bandage on a doctor tray in a clean friendly clinic, a plush toy nearby"
  }
 }
