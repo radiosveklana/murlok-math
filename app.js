@@ -45,6 +45,9 @@ function markDay(n = 1) { const t = today(); S.days[t] = (S.days[t] || 0) + n; }
 function streak() { let n = 0; const d = new Date(); if (!S.days[dkey(d)]) d.setDate(d.getDate() - 1); while (S.days[dkey(d)]) { n++; d.setDate(d.getDate() - 1); } return n; }
 function noteErr(type, fact) { S.err[type] = (S.err[type] || 0) + 1; if (fact) S.facts[fact] = (S.facts[fact] || 0) + 1; save(); }
 const factKey = (p, q) => Math.min(p, q) + '×' + Math.max(p, q);
+/* метод зелёной ручки (v30): сначала — что уже верно, потом одна поправка, в конце — ободрение */
+function gpFb(good, fix) { const end = ((window.MASCOT_BANK || {}).gpEnd) || ['Ты справишься! 💚']; return `<div class="fb gp-ok">✅ ${good}</div><div class="gp-fix">🔎 ${fix} <span class="gp-end">${pick(end)}</span></div>`; }
+const gpSum = (ok, all) => all ? `<div class="gp-sum">🖊️ Зелёная ручка: ${ok} из ${all} ${plural(all, 'шага', 'шагов', 'шагов')} — верно с первой попытки!</div>` : '';
 
 /* ================= Звания, награды ================= */
 const RANKS_OLD = [0, 60, 180, 360, 600, 900, 1300];
@@ -416,9 +419,16 @@ function mountMul(el, { a, b, guided, onDone }) {
     else String(s.v).split('').reverse().forEach((d, q) => dsteps.push({ t: 'dig', key, col: s.col + q, expect: +d, s, part: q ? 't' : 'u' }));
   });
   const list = guided ? P.steps : dsteps;
-  let si = 0, buf = '', tries = 0, mistakes = 0, helped = false, done = false, hintLvl = 0;
+  let si = 0, buf = '', tries = 0, mistakes = 0, helped = false, done = false, hintLvl = 0, gpOk = 0, gpAll = 0;
   const cur = () => list[si];
   const base = s => (s.t === 'dig' ? s.s : s);
+  const gpStep = () => { gpAll++; if (!tries) gpOk++; };
+  function goodMul(st) { // зелёная ручка: что в этой строке уже верно
+    const same = list.slice(0, si).filter(x => x.t !== 'shift' && base(x).t === st.t && (st.t !== 'mul' || base(x).row === st.row)).length;
+    if (same) return same === 1 ? 'Первый разряд — верно' : `Первые ${same} ${plural(same, 'разряд', 'разряда', 'разрядов')} — верно`;
+    if (si) return 'Всё, что выше, — верно';
+    return 'Хорошо, что пробуешь — так и учатся';
+  }
 
   function hl(s) {
     $$('.cell', el).forEach(c => c.classList.remove('hl', 'hlc', 'target', 'tap', 'pulse'));
@@ -430,10 +440,10 @@ function mountMul(el, { a, b, guided, onDone }) {
     if (s.t === 'dig') cell(s.key, s.col).classList.add('target');
     else { const key = st.t === 'mul' ? 'p' + st.row : 's'; cell(key, st.col).classList.add('target'); if (st.last && st.v >= 10) cell(key, st.col + 1).classList.add('target'); }
   }
-  function writeStep(st) { // пошаговый режим: записать результат шага целиком
-    const key = st.t === 'mul' ? 'p' + st.row : 's';
-    if (!st.last) { set(key, st.col, st.v % 10, 'w pop'); if (st.v >= 10) { if (st.t === 'mul') set('mc', st.j + 1, Math.floor(st.v / 10), 'carry pop'); else set('sc', st.col + 1, Math.floor(st.v / 10), 'carry pop'); } }
-    else String(st.v).split('').reverse().forEach((d, q) => set(key, st.col + q, d, 'w pop'));
+  function writeStep(st, auto) { // пошаговый режим: записать результат шага целиком (auto — записал котик, без зелёной ручки)
+    const key = st.t === 'mul' ? 'p' + st.row : 's', W_ = auto ? 'w pop auto' : 'w pop';
+    if (!st.last) { set(key, st.col, st.v % 10, W_); if (st.v >= 10) { if (st.t === 'mul') set('mc', st.j + 1, Math.floor(st.v / 10), 'carry pop'); else set('sc', st.col + 1, Math.floor(st.v / 10), 'carry pop'); } }
+    else String(st.v).split('').reverse().forEach((d, q) => set(key, st.col + q, d, W_));
   }
   const clearMC = () => { for (let c = 0; c < W; c++) set('mc', c, ''); };
   const expr = st => st.t === 'mul' ? `${st.bd} × ${st.ad}${st.carry ? ` + <span class="cc">${st.carry}</span>` : ''}` : `${st.parts.join(' + ')}${st.carry ? ` + <span class="cc">${st.carry}</span>` : ''}`;
@@ -476,7 +486,7 @@ function mountMul(el, { a, b, guided, onDone }) {
     done = true; hl(null); keyHandler = null;
     const key = multi ? 's' : 'p0'; for (let c = 0; c < W; c++) cell(key, c)?.classList.add('done');
     ask.innerHTML = `<div class="ask-eq win">${a} × ${b} = <b>${P.total}</b></div>`;
-    say((fb ? `<div class="fb">${fb}</div>` : '') + `🎉 ${pick(['Молодец', 'Умница', 'Отлично', 'Ура'])}, ${esc(S.kid)}! <b>${a} × ${b} = ${P.total}</b>${mistakes ? '' : '<br>Без единой ошибки — вот это лапки!'}`);
+    say((fb ? `<div class="fb">${fb}</div>` : '') + `🎉 ${pick(['Молодец', 'Умница', 'Отлично', 'Ура'])}, ${esc(S.kid)}! <b>${a} × ${b} = ${P.total}</b>${mistakes ? gpSum(gpOk, gpAll) : '<br>Без единой ошибки — вот это лапки!'}`);
     SND.win(); later(() => catSay(pick(PH.done)), 400); onDone && onDone({ mistakes, helped });
   }
   function feedbackMul(st) {
@@ -494,22 +504,22 @@ function mountMul(el, { a, b, guided, onDone }) {
   // пошаговый ввод
   function checkFull() {
     const s = cur(); if (!s || !buf) return; const v = +buf, st = s;
-    if (v === st.v) { SND.ok(); writeStep(st); si++; next(feedbackMul(st) + rowDoneMsg(st)); return; }
+    if (v === st.v) { SND.ok(); gpStep(); writeStep(st); si++; next(feedbackMul(st) + rowDoneMsg(st)); return; }
     mistakes++; tries++; SND.bad(); shake(ask);
     let msg;
     if (st.t === 'mul') {
       if (st.carry && v === st.bd * st.ad) { noteErr('carry'); msg = `Почти! ${st.bd} × ${st.ad} = ${st.bd * st.ad} — верно, но не забудь прибавить запомненное <b class="cc">${st.carry}</b>.`; }
-      else { noteErr('tbl', factKey(st.bd, st.ad)); msg = tries < 2 ? `Не совсем. Вспомни таблицу: сколько будет <b>${st.bd} × ${st.ad}</b>?${st.carry ? ` Потом прибавь <b class="cc">${st.carry}</b>.` : ''}` : `${st.bd} × ${st.ad} = <b>${st.bd * st.ad}</b>${st.carry ? `, и ещё + ${st.carry} = <b>${st.v}</b>` : ''}.`; }
+      else { noteErr('tbl', factKey(st.bd, st.ad)); msg = tries < 2 ? `Вспомни таблицу: сколько будет <b>${st.bd} × ${st.ad}</b>?${st.carry ? ` Потом прибавь <b class="cc">${st.carry}</b>.` : ''}` : `${st.bd} × ${st.ad} = <b>${st.bd * st.ad}</b>${st.carry ? `, и ещё + ${st.carry} = <b>${st.v}</b>` : ''}.`; }
     } else { noteErr('add'); msg = tries < 2 ? `Пересчитай внимательно: ${expr(st)}.` : `${expr(st)} = <b>${st.v}</b>.`; }
     buf = '';
-    if (tries >= 3) { helped = true; writeStep(st); si++; next(`Записываю ответ: ${st.v}. Ничего, в следующий раз получится!`); return; }
-    say(`<div class="fb bad">${msg}</div>`); renderAsk();
+    if (tries >= 3) { helped = true; gpAll++; writeStep(st, true); si++; next(`Записываю ответ: ${st.v}. Ничего, в следующий раз получится!`); return; }
+    say(gpFb(goodMul(st), msg)); renderAsk();
   }
   // самостоятельный ввод по цифре
   function checkDigit(d) {
     const s = cur(); if (!s || s.t !== 'dig') return; const st = s.s;
     if (d === s.expect) {
-      set(s.key, s.col, d, 'w pop'); SND.tap(); pawAt(cell(s.key, s.col));
+      set(s.key, s.col, d, 'w pop'); SND.tap(); pawAt(cell(s.key, s.col)); gpStep();
       if (s.part === 'u' && !st.last && st.v >= 10) { if (st.t === 'mul') set('mc', st.j + 1, Math.floor(st.v / 10), 'carry pop'); else set('sc', st.col + 1, Math.floor(st.v / 10), 'carry pop'); }
       const finishedRow = st.last && (s.part === 't' || st.v < 10);
       si++;
@@ -523,16 +533,16 @@ function mountMul(el, { a, b, guided, onDone }) {
       else if (st.carry && d === (st.bd * st.ad) % 10) { noteErr('carry'); msg = `Не забудь прибавить запомненное число <b class="cc">${st.carry}</b> (оно записано маленькой цифрой сверху)!`; }
       else { noteErr('tbl', factKey(st.bd, st.ad)); msg = tries < 2 ? `Проверь: сколько будет <b>${expr(st)}</b>? В клетку пишем последнюю цифру.` : `${expr(st)} = <b>${st.v}</b>. В клетку пишем <b>${s.expect}</b>${st.v >= 10 && !st.last ? `, а ${Math.floor(st.v / 10)} запоминаем` : ''}.`; }
     } else { noteErr('add'); msg = tries < 2 ? `Сложи цифры в этом столбике${st.carry ? ' и не забудь запомненное' : ''}.` : `${expr(st)} = <b>${st.v}</b>. Пишем <b>${s.expect}</b>.`; }
-    if (tries >= 3) { helped = true; set(s.key, s.col, s.expect, 'w pop'); if (s.part === 'u' && !st.last && st.v >= 10) { if (st.t === 'mul') set('mc', st.j + 1, Math.floor(st.v / 10), 'carry'); else set('sc', st.col + 1, Math.floor(st.v / 10), 'carry'); } si++; next(`Здесь <b>${s.expect}</b>. Идём дальше!`); return; }
-    say(`<div class="fb bad">${msg}</div>`);
+    if (tries >= 3) { helped = true; gpAll++; set(s.key, s.col, s.expect, 'w pop auto'); if (s.part === 'u' && !st.last && st.v >= 10) { if (st.t === 'mul') set('mc', st.j + 1, Math.floor(st.v / 10), 'carry'); else set('sc', st.col + 1, Math.floor(st.v / 10), 'carry'); } si++; next(`Здесь <b>${s.expect}</b>. Идём дальше!`); return; }
+    say(gpFb(goodMul(st), msg));
   }
   // клик по клетке — выбор сдвига
   $('.mgrid', el).addEventListener('click', e => {
     const c = e.target.closest('.cell.tap'); if (!c || done) return; const s = cur(); if (!s || s.t !== 'shift') return;
     const col = +c.dataset.c;
-    if (col === s.row) { SND.ok(); for (let q = 0; q < s.row; q++) set('p' + s.row, q, '0', 'ghost'); si++; next(`✔ Верно! Сдвиг на ${s.row} ${plural(s.row, 'клетку', 'клетки', 'клеток')}. Пустая клетка — как невидимый нолик: мы ведь умножаем на ${s.bd * 10 ** s.row}.`); return; }
+    if (col === s.row) { SND.ok(); gpStep(); for (let q = 0; q < s.row; q++) set('p' + s.row, q, '0', 'ghost'); si++; next(`✔ Верно! Сдвиг на ${s.row} ${plural(s.row, 'клетку', 'клетки', 'клеток')}. Пустая клетка — как невидимый нолик: мы ведь умножаем на ${s.bd * 10 ** s.row}.`); return; }
     mistakes++; tries++; SND.bad(); noteErr('shift'); c.classList.add('wrong'); setTimeout(() => c.classList.remove('wrong'), 700);
-    say(`<div class="fb bad">Не сюда! Умножаем на ${s.bd} ${placeWord(s.row, s.bd)}, поэтому начинаем писать под <b>${s.row === 1 ? 'десятками' : 'сотнями'}</b> — на ${s.row} ${plural(s.row, 'клетку', 'клетки', 'клеток')} левее начала первой строки.</div>`);
+    say(gpFb(s.row > 1 ? 'Строки выше — верно' : 'Первая строка — верно', `Умножаем на ${s.bd} ${placeWord(s.row, s.bd)}, поэтому начинаем писать под <b>${s.row === 1 ? 'десятками' : 'сотнями'}</b> — на ${s.row} ${plural(s.row, 'клетку', 'клетки', 'клеток')} левее начала первой строки.`));
     if (tries >= 2) cell('p' + s.row, s.row).classList.add('pulse');
   });
   bindPad(el, {
@@ -561,7 +571,9 @@ function mountEq(el, { eq, guided, onDone }) {
   const drawLines = () => { linesEl.innerHTML = lines.map((l, i) => `<div class="eql ${l.cls || ''} ${i === lines.length - 1 ? 'last' : ''}">${l.h}</div>`).join(''); };
   const addLine = (h, cls) => { lines.push({ h, cls }); drawLines(); };
   addLine(`${E.eqHTML(eq.lhs)} = ${eq.rhs}`, 'first');
-  let li = 0, phase = '', buf = '', tries = 0, mistakes = 0, helped = false, done = false;
+  let li = 0, phase = '', buf = '', tries = 0, mistakes = 0, helped = false, done = false, gpOk = 0, gpAll = 0;
+  const gpStep = () => { gpAll++; if (!tries) gpOk++; };
+  const gpBoxes = () => li ? `Уже ${li} ${plural(li, 'коробка открыта', 'коробки открыты', 'коробок открыто')} верно` : '';
   const S_ = () => steps[li];
   const Etxt = s => E.eqText(s.E);
   const Ehtml = s => s.E.k === 'x' ? '<i class="x">x</i>' : `<span class="boxed">${E.eqHTML(s.E)}</span>`;
@@ -623,46 +635,48 @@ function mountEq(el, { eq, guided, onDone }) {
   function tapOp(id, btn) {
     const s = S_();
     if (id === s.node.id) {
-      SND.ok(); btn.classList.add('right'); phase = 'role';
+      SND.ok(); gpStep(); btn.classList.add('right'); phase = 'role';
       setTimeout(() => { render(); say(`<div class="fb">✔ Да! Последнее действие — «${SYM[s.node.op]}».</div>Всё, что с <i class="x">x</i> по другую сторону знака, прячем в коробку 📦 — будто это одно неизвестное число.`); }, 450);
       return;
     }
     mistakes++; tries++; SND.bad(); noteErr('order'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 600);
-    say(`<div class="fb bad">Это действие выполняется раньше.</div>Порядок такой: сначала <b>( скобки )</b>, потом <b>· и :</b>, потом <b>+ и −</b>. Последнее — то, что остаётся на самый конец.`);
+    say(gpFb(gpBoxes() || 'Хорошо, что ищешь последнее действие — это главный вопрос сыщика', `Это действие выполняется раньше. Порядок: сначала <b>( скобки )</b>, потом <b>· и :</b>, потом <b>+ и −</b>. Последнее — то, что остаётся на самый конец.`));
     if (tries >= 2) $(`.op.tap[data-op="${s.node.id}"]`, focus)?.classList.add('pulse');
   }
   function pickRole(r, btn) {
     const s = S_();
     if (r === s.role) {
-      SND.ok(); btn.classList.add('right'); tries = 0; phase = 'rule';
+      SND.ok(); gpStep(); btn.classList.add('right'); tries = 0; phase = 'rule';
       setTimeout(() => { render(); say(`<div class="fb">✔ Верно! ${s.E.k === 'x' ? '<i class="x">x</i>' : Ehtml(s)} — ${E.ROLES[s.role].gen}.</div>${partsLabel(s)}`); }, 450);
       return;
     }
     mistakes++; tries++; SND.bad(); noteErr('role'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 600);
     const n = E.PART_NAMES[s.node.op];
-    say(tries < 2 ? `<div class="fb bad">Не то.</div>В действии «${SYM[s.node.op]}» участвуют: <b>${n[0]}</b>, <b>${n[1]}</b> и <b>${n[2]}</b>. ${s.node.op === '-' || s.node.op === '/' ? `Посмотри, где стоит ${s.E.k === 'x' ? 'x' : 'коробка'} — <b>до</b> знака или <b>после</b>?` : ''}` : `<div class="fb bad">Смотри:</div>${partsLabel(s)}`);
+    const goodR = s.single ? (gpBoxes() || 'Хорошо, что рассуждаешь по правилу') : `Последнее действие «${SYM[s.node.op]}» найдено верно`;
+    say(gpFb(goodR, tries < 2 ? `В действии «${SYM[s.node.op]}» участвуют: <b>${n[0]}</b>, <b>${n[1]}</b> и <b>${n[2]}</b>. ${s.node.op === '-' || s.node.op === '/' ? `Посмотри, где стоит ${s.E.k === 'x' ? 'x' : 'коробка'} — <b>до</b> знака или <b>после</b>?` : ''}` : `Смотри: ${partsLabel(s)}`));
   }
   function pickRule(fs, btn) {
     const s = S_(), f = fs.split('|');
     if (+f[0] === s.f[0] && f[1] === s.f[1] && +f[2] === s.f[2]) {
-      SND.ok(); btn.classList.add('right'); tries = 0; phase = 'calc';
-      addLine(`${Ehtml(s)} = ${fTxt(s.f)}`);
+      SND.ok(); gpStep(); btn.classList.add('right'); tries = 0; phase = 'calc';
+      addLine(`${Ehtml(s)} = ${fTxt(s.f)}`, 'gp');
       setTimeout(() => { render(); say(`<div class="fb">✔ Правило сыщика:</div><div class="rule">📏 ${E.ROLES[s.role].rule}</div>Теперь посчитай!`); }, 450);
       return;
     }
     mistakes++; tries++; SND.bad(); noteErr('rule', null, 'eq:rule:' + s.role); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 600);
-    say(tries < 2 ? `<div class="fb bad">Хм, проверь.</div>${E.ROLES[s.role].hint}` : `<div class="fb bad">Правило:</div><div class="rule">📏 ${E.ROLES[s.role].rule}</div>`);
+    const goodRl = `Верно названо: ${s.E.k === 'x' ? '<i class="x">x</i>' : 'коробка'} — ${E.ROLES[s.role].gen}`;
+    say(gpFb(goodRl, tries < 2 ? E.ROLES[s.role].hint : `Правило:<div class="rule">📏 ${E.ROLES[s.role].rule}</div>`));
   }
   function checkNum(v) {
     const s = S_();
     if (phase === 'check') {
-      if (v === eq.rhs) { SND.ok(); addLine(`Проверка: ${E.eqText(eq.lhs, eq.x)} = ${eq.rhs} ✔`, 'check'); return finish(); }
+      if (v === eq.rhs) { SND.ok(); gpStep(); addLine(`Проверка: ${E.eqText(eq.lhs, eq.x)} = ${eq.rhs} ✔`, 'check'); return finish(); }
       mistakes++; tries++; SND.bad(); noteErr('check'); buf = ''; shake(ask);
-      say(`<div class="fb bad">Посчитай по шагам:</div>${tries < 2 ? E.evalChain(eq.lhs, eq.x)[0] + ' …' : E.evalChain(eq.lhs, eq.x).join('<br>')}`); renderAsk(); return;
+      say(gpFb(`<i class="x">x</i> = ${eq.x} — найден верно`, `Посчитай по шагам: ${tries < 2 ? E.evalChain(eq.lhs, eq.x)[0] + ' …' : E.evalChain(eq.lhs, eq.x).join('<br>')}`)); renderAsk(); return;
     }
     if (v === s.newC) {
-      SND.ok();
-      if (phase === 'num') addLine(`${Ehtml(s)} = ${v} <span class="why">(${fTxt(s.f)})</span>`); else addLine(`${Ehtml(s)} = ${v}`);
+      SND.ok(); const gpc = tries >= 3 ? '' : 'gp'; if (tries < 3) gpStep(); else gpAll++;
+      if (phase === 'num') addLine(`${Ehtml(s)} = ${v} <span class="why">(${fTxt(s.f)})</span>`, gpc); else addLine(`${Ehtml(s)} = ${v}`, gpc);
       li++;
       if (li < steps.length) {
         const ns = S_();
@@ -687,13 +701,13 @@ function mountEq(el, { eq, guided, onDone }) {
       msg = s.f[1] === '/' ? `Подумай наоборот: <b>${s.f[2]} · ? = ${s.f[0]}</b>` : s.f[1] === '*' ? `Посчитай ещё раз${s.f[0] > 20 ? ' — можно столбиком на листочке ✏️' : ''}.` : `Посчитай ещё раз внимательно${s.f[0] > 99 ? ', можно столбиком' : ''}.`;
     }
     if (tries >= 3) { helped = true; say(`Ответ: <b>${s.newC}</b>. Запишем и идём дальше!`); setTimeout(() => checkNum(s.newC), 900); renderAsk(); return; }
-    say(`<div class="fb bad">Не сходится.</div>${msg}`); renderAsk();
+    say(gpFb(phase === 'calc' ? 'Правило выбрано верно' : (gpBoxes() || 'Хорошо, что решаешь самостоятельно'), msg)); renderAsk();
   }
   function finish() {
     done = true; phase = 'done'; showPad(false);
     focus.innerHTML = `<div class="eqbig win"><i class="x">x</i> = ${eq.x}</div>`;
     ask.innerHTML = '';
-    say(`🎉 ${pick(['Молодец', 'Умница', 'Отлично'])}, ${esc(S.kid)}! <b><i class="x">x</i> = ${eq.x}</b>. Проверка сошлась — алиби подтверждено.${mistakes ? '' : '<br>Ни одной ошибки!'}`);
+    say(`🎉 ${pick(['Молодец', 'Умница', 'Отлично'])}, ${esc(S.kid)}! <b><i class="x">x</i> = ${eq.x}</b>. Проверка сошлась — алиби подтверждено.${mistakes ? gpSum(gpOk, gpAll) : '<br>Ни одной ошибки!'}`);
     SND.win(); later(() => catSay(pick(PH.done)), 400); onDone && onDone({ mistakes, helped });
   }
   const hb = $('#' + uid + '-hint');

@@ -33,7 +33,7 @@ const TaskBank = (() => {
         const box = $('#aqwhy', el); if (!box) return;
         if (r) { SND.ok(); box.innerHTML = `<div class="fb">✔ Верно!</div>${why || ''}`; if (window.Coach && t.src) Coach.track('a:' + t.src, mistakes ? 0.6 : 1, { count: false }); setTimeout(() => onDone({ mistakes, helped: mistakes >= 3 }), 1100); return; }
         mistakes++; SND.bad(); if (typeof noteErr === 'function') noteErr('aq');
-        box.innerHTML = `<div class="fb bad">Не совсем.</div>${why || ''}<div class="row-btns"><button class="btn pink" id="aqnext">${mistakes >= 3 ? 'Дальше →' : 'Попробовать другую задачу'}</button></div>`;
+        box.innerHTML = `<div class="fb bad">🔎 Давай разберёмся</div>${why || ''}<div class="row-btns"><button class="btn pink" id="aqnext">${mistakes >= 3 ? 'Дальше →' : 'Попробовать другую задачу'}</button></div>`;
         $('#aqnext', el).addEventListener('click', () => { if (mistakes >= 3 || !t.regen) onDone({ mistakes, helped: true }); else { q = t.regen(); show(); } });
       });
     };

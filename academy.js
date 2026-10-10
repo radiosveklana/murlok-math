@@ -123,7 +123,7 @@ SCREENS.aquiz = arg => {
     if (right) { if (it.gen) { if (window.Mistakes) Mistakes.solve('g:' + (it.h || qHash(it.q))); } else okm[it.qid] = 1; } else if (!it.gen) delete okm[it.qid]; // решённое верно — больше не спрашиваем
     if (!right) { SND.bad(); a.box[it.qid] = [0, today()]; if (it.gen) { a.gq = a.gq || {}; a.gq[it.qid] = it.q; const ks = Object.keys(a.gq); if (ks.length > 40) ks.slice(0, ks.length - 40).forEach(k => { delete a.gq[k]; delete a.box[k]; }); } }
     save();
-    bub(`${right ? '<div class="fb">✔ Верно!</div>' : '<div class="fb bad">Не совсем.</div>'}${why || ''}`);
+    bub(`${right ? '<div class="fb">✔ Верно!</div>' : '<div class="fb bad">🔎 Давай разберёмся</div>'}${why || ''}`);
     $('#qafter').innerHTML = `<button class="btn big pink" id="qn">${k + 1 < items.length ? 'Дальше →' : 'Итоги 🏆'}</button>`;
     $('#qn').addEventListener('click', () => { $('#qafter').innerHTML = ''; k++; k < items.length ? show() : finish(); });
   }

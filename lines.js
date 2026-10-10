@@ -286,6 +286,7 @@ const NAMES = ('Александра Саша Сашенька Шура Алин
 const CAT_NAMES = 'Мурлок Мурзик Мурка Барсик Пушок Пушинка Снежок Рыжик Васька Кузя Тиша Томас Том Симба Леопольд Маркиз Персик Багира Сёма Плюша Масик Пончик Зефирка Шерлок Феликс Кекс Мартин Матроскин Гав Бублик Ириска Коржик Карамелька Тигра Луна Ночка Дымок Уголёк Боня Буся Муся Соня Чарли Оскар Гарфилд'.split(/\s+/);
 
 /* ---------- все тексты для озвучки ---------- */
+const MASCOT = (() => { if (typeof module === 'undefined' || typeof require === 'undefined') return null; try { return require('./content/extra/mascot.js'); } catch (e) { return null; } })();
 function allTexts() {
   const out = new Set();
   const add = tpl => parts(tpl).forEach(p => { if (p.text) out.add((p.voice === 'cat' ? '' : p.voice === 'sus' ? '@s ' : '@v:' + p.voice + ' ') + p.text); });
@@ -299,6 +300,7 @@ function allTexts() {
     Object.entries(E.ATTRS).forEach(([a, A]) => A.vals.forEach(v => add(A.clue(v))));
     E.ANIMALS.forEach(([, n]) => { add(`${n} — не вор!`); add(`Подожди, {n}! ${n} подходит под все улики.`); add(`Думаешь, это ${n}? Сравни с уликами!`); });
   }
+  if (MASCOT) MASCOT.all().forEach(add); // v30: котик-друг — поддержка, факты, установки творца (content/extra/mascot.js)
   for (let p = 1; p <= 9; p++) for (let q = 1; q <= 9; q++) add(`${p} на ${q} — будет ${p * q}!`);
   LESSON_STEPS.mulA.forEach(s => add(s.txt)); LESSON_STEPS.box.forEach(s => add(s.t));
   return [...out];

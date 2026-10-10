@@ -104,7 +104,7 @@ const AcadGames = (() => {
       const pick = v => {
         clearInterval(tid); const r = v === q[1]; $$('#fq .opt').forEach(b => { b.disabled = true; if (+b.dataset.v === q[1]) b.classList.add('right'); else if (+b.dataset.v === v) b.classList.add('wrong'); });
         $$('.g-dots i')[k].className = r ? 'ok' : 'bad'; if (r) { ok++; SND.ok(); } else SND.bad();
-        $('#fwhy').innerHTML = `<div class="${r ? 'fb' : 'fb bad'}">${v === -1 ? '⏰ Время вышло!' : r ? '✔ Верно!' : 'Не совсем.'}</div><p>${q[2]}</p><button class="btn big pink" id="fn">${k + 1 < qs.length ? 'Дальше →' : 'Итоги 🏆'}</button>`;
+        $('#fwhy').innerHTML = `<div class="${r ? 'fb' : 'fb bad'}">${v === -1 ? '⏰ Время вышло!' : r ? '✔ Верно!' : '🔎 Давай разберёмся'}</div><p>${q[2]}</p><button class="btn big pink" id="fn">${k + 1 < qs.length ? 'Дальше →' : 'Итоги 🏆'}</button>`;
         $('#fn').addEventListener('click', () => { k++; k < qs.length ? ask() : fin(); });
       };
       $$('#fq .opt').forEach(b => b.addEventListener('click', () => pick(+b.dataset.v)));

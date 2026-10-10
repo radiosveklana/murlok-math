@@ -92,15 +92,15 @@ const Column = (() => {
     return `<div class="divbox"><div class="dgrid" style="--n:${n}">${rows.map((r, ri) => r.map(c => `<span class="dc ${c.cur ? 'cur' : ''} ${c.ul ? 'ul' : ''} ${c.rem ? 'rem' : ''}">${c.minus ? '<i class="mn">−</i>' : ''}${c.t}</span>`).join('')).join('')}</div><div class="dright"><div class="dvs">${P.b}</div><div class="dq">${qDigits || '&nbsp;'}</div></div></div>`;
   }
   function runDiv(el, P, guided, bub, finish) {
-    let s = 0, phase = guided ? 'first' : 'q', mistakes = 0, helped = false, tries = 0; const t0 = Date.now(), lv = S.prefs.divLv;
+    let s = 0, phase = guided ? 'first' : 'q', mistakes = 0, helped = false, tries = 0, okN = 0; const t0 = Date.now(), lv = S.prefs.divLv;
     if (window.Mistakes) Mistakes.begin({ kind: 'div', a: P.a, b: P.b }); // работа над ошибками: какая задача решается
     const draw = (part) => { el.innerHTML = `<div class="task-title">${P.a} : ${P.b}</div>${divGrid(P, Math.max(1, s + 1), part)}<div class="ask" id="cask"></div><div id="cin"></div>`; };
     const pad = (label, check) => {
       let buf = ''; $('#cask').innerHTML = `${label} <span class="inp" id="cv">?</span>`; $('#cin').innerHTML = numpad(true);
       bindPad($('#cin'), { digit: x => { if (buf.length < 6) { buf += x; $('#cv').textContent = buf; } }, back: () => { buf = buf.slice(0, -1); $('#cv').textContent = buf || '?'; }, ok: () => { if (!buf) return; const v = +buf; buf = ''; $('#cv').textContent = '?'; check(v); } });
     };
-    const wrong = (h, show) => { mistakes++; tries++; SND.bad(); noteErr('div', null, 'div:' + phase); bub(`<div class="fb bad">Не совсем.</div>${tries >= 2 && show != null ? `${h}<br>Ответ: <b>${show}</b>` : h}`); if (tries >= 3) { helped = true; return true; } return false; };
-    const ok = (h) => { tries = 0; SND.ok(); if (h) bub(`<div class="fb">✔ Верно!</div>${h}`); };
+    const wrong = (h, show) => { mistakes++; tries++; SND.bad(); noteErr('div', null, 'div:' + phase); bub(`${okN ? '<div class="fb gp-ok">✅ Предыдущие шаги — верно</div>' : ''}<div class="fb bad">🔎 Давай проверим</div>${tries >= 2 && show != null ? `${h}<br>Ответ: <b>${show}</b>` : h}`); if (tries >= 3) { helped = true; return true; } return false; };
+    const ok = (h) => { tries = 0; okN++; SND.ok(); if (h) bub(`<div class="fb">✔ Верно!</div>${h}`); };
     function step() {
       if (!el.isConnected) return; // ушли с экрана — отложенный шаг не рисуем
       const X = P.steps[s];
@@ -173,7 +173,7 @@ const Column = (() => {
       bindPad($('#cin'), { digit: x => { buf = String(x); $('#cv').textContent = buf; }, back: () => { buf = ''; $('#cv').textContent = '?'; }, ok: () => {
         if (buf === '') return; const v = +buf;
         if (v === c.d) { tries = 0; SND.ok(); got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; if (guided && c.carryOut) bub(P.op === '+' ? `✔ Пишем <b>${c.d}</b>, а <b>1</b> запоминаем — пишем сверху над следующим разрядом.` : `✔ Пишем <b>${c.d}</b>. Над соседом ставим точку — у него заняли единицу.`); k++; setTimeout(next, guided && c.carryOut ? 1100 : 200); }
-        else { mistakes++; tries++; SND.bad(); noteErr(P.op === '+' ? 'add' : 'sub', null, P.op === '+' ? (c.carryIn ? 'add:carry' : 'add:calc') : (c.carryIn || c.carryOut ? 'sub:borrow' : 'sub:calc')); const h = P.op === '+' ? `${c.da} + ${c.db}${c.carryIn ? ' + 1' : ''} = ${c.sum}. Пишем последнюю цифру.` : (c.carryOut ? `Заняли десяток: ${c.x} − ${c.db} = ${c.d}.` : `${c.top} − ${c.db} = ${c.d}.`); bub(`<div class="fb bad">Не совсем.</div>${tries >= 2 ? h : (P.op === '+' ? 'Не забудь про запомненную единицу!' : 'Хватает ли цифры сверху? Если нет — занимай десяток.')}`); if (tries >= 3) { helped = true; got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; k++; setTimeout(next, 1400); } }
+        else { mistakes++; tries++; SND.bad(); noteErr(P.op === '+' ? 'add' : 'sub', null, P.op === '+' ? (c.carryIn ? 'add:carry' : 'add:calc') : (c.carryIn || c.carryOut ? 'sub:borrow' : 'sub:calc')); const h = P.op === '+' ? `${c.da} + ${c.db}${c.carryIn ? ' + 1' : ''} = ${c.sum}. Пишем последнюю цифру.` : (c.carryOut ? `Заняли десяток: ${c.x} − ${c.db} = ${c.d}.` : `${c.top} − ${c.db} = ${c.d}.`); bub(`${got.length ? `<div class="fb gp-ok">✅ ${got.length === 1 ? 'Первый разряд' : 'Первые ' + got.length + ' ' + plural(got.length, 'разряд', 'разряда', 'разрядов')} — верно</div>` : ''}<div class="fb bad">🔎 Давай проверим</div>${tries >= 2 ? h : (P.op === '+' ? 'Не забудь про запомненную единицу!' : 'Хватает ли цифры сверху? Если нет — занимай десяток.')}`); if (tries >= 3) { helped = true; got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; k++; setTimeout(next, 1400); } }
       } });
     };
     next();
