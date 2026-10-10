@@ -4,7 +4,7 @@
 'use strict';
 const UX = (() => {
   const HOME_GROUPS = [
-    ['learn', '🎓 Учиться', ['school', 'academy', 'newcase', 'blitz', 'games', 'bugs']],
+    ['learn', '🎓 Учиться', ['school', 'academy', 'newcase', 'blitz', 'games', 'bugs', 'cheats']],
     ['cat', '🐱 Мой котик', ['house', 'shop', 'fitting', 'photo', 'chat', 'studio']],
     ['social', '🏆 Друзья и награды', ['friends', 'diplomas', 'book', 'earn']]
   ];
