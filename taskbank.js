@@ -17,7 +17,7 @@ const TaskBank = (() => {
     Object.values(window.SUBJECTS || {}).filter(s => s.id !== 'teen' && Array.isArray(s.units)).forEach(s => s.units.filter(u => typeof u.gen === 'function').forEach(u => reg({ id: s.id + ':' + u.id, subject: s.id, unit: u.id, acad: !(s.id === 'math4' || s.school), group: s.id === 'math4' || s.school ? groupOf(s.id, u.id) : s.icon + ' Академия: ' + s.name, name: u.title, icon: u.icon,
       make: d => ({ kind: 'aq', level: d, src: s.id + ':' + u.id, title: u.title, icon: u.icon, q: u.gen(d), regen: () => u.gen(d) }) })));
   }
-  const list = () => { scan(); return P.slice(); };
+  const list = () => { scan(); return P.filter(p => !window.Mistakes || Mistakes.topicOpen(p)); }; // закрытые (ещё не пройденные по порядку) темы в дела не берём
   function pick(ids, n, d) { // n задач из разных тем (если тем меньше — повторяем)
     const pool = list().filter(p => ids && ids.length ? ids.includes(p.id) : !p.acad), out = []; if (!pool.length) return out;
     let bag = shuffle(pool);

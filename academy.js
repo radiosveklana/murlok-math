@@ -11,6 +11,8 @@ const subj = id => { mergeExtra(); return window.SUBJECTS[id]; };
 const daysSince = d => Math.floor((Date.now() - new Date(d).getTime()) / 864e5);
 function dueMistakes(id) { const a = acad(id), out = []; Object.entries(a.box).forEach(([qid, [b, d]]) => { if (daysSince(d) >= BOX_DAYS[b]) out.push(qid); }); return out; }
 function findQ(id, qid) { const [uid, n] = qid.split('#'), u = subj(id).units.find(x => x.id === uid), gq = acad(id).gq || {}; if (u && gq[qid]) return { u, q: gq[qid], qid }; return u && u.quiz[+n] ? { u, q: u.quiz[+n], qid } : null; }
+/* «отпечаток» вопроса из генератора — чтобы решённые верно задачи не повторялись (mistakes.js хранит подписи) */
+const qHash = q => { const s = String((q && (q.q || q.story)) || '') + '|' + JSON.stringify((q && (q.a || q.items)) || '') + '|' + String(q && q.c != null ? q.c : ''); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
 const genLv = (id, uid) => ((S.prefs.genLv = S.prefs.genLv || {})[id + ':' + uid] || 1);
 /* прогресс предмета: учебник + тренажёр; у предметов с упражнениями и играми (скорочтение, общение, игры Академии) они — половина прогресса */
 function subjProgress(id) {
@@ -96,11 +98,18 @@ SCREENS.alesson = arg => {
 SCREENS.aquiz = arg => {
   const [id, uid] = String(arg).split(':'), s = subj(id); if (!s) return go('academy');
   const a = acad(id); let items = [];
+  // верно решённые вопросы больше не показываем (кроме «Разбора ошибок»); ошибки возвращаются; темы с генератором — новые задачи без повторов
+  const okm = a.ok = a.ok || {}, seen = a.seen = a.seen || {}, MK = window.Mistakes;
+  const fresh = u => (u.quiz || []).map((q, n) => ({ u, q, qid: u.id + '#' + n })).filter(x => window.GOD || !okm[x.qid]); // window.GOD — «режим бога»: повторы разрешены
+  const bySeen = l => shuffle(l).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0));
+  const genN = (u, lv, n) => { const out = [], hs = new Set(); for (let t = 0; out.length < n && t < n * 10; t++) { let q; try { q = u.gen(lv); } catch (e) { q = null; } if (!q) continue; const h = qHash(q); if (hs.has(h) || (MK && MK.isSolved('g:' + h))) continue; hs.add(h); out.push({ u, q, qid: u.id + '#g' + Date.now().toString(36) + out.length, gen: true, h }); } return out; };
   if (uid === '*review') items = dueMistakes(id).map(q => findQ(id, q)).filter(Boolean);
-  else if (uid === '*mix') { const seen = a.seen = a.seen || {}; items = shuffle(s.units.filter(u => a.read[u.id] && u.quiz).flatMap(u => u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n })))).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0)).slice(0, 10); }
-  else if ((s.units.find(x => x.id === uid) || {}).gen) { const u = s.units.find(x => x.id === uid), lv = genLv(id, uid), seen = a.seen = a.seen || {}; const st = shuffle(u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n }))).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0)).slice(0, u.genStatic != null ? u.genStatic : 2); items = shuffle(Array.from({ length: Math.max(1, (u.take || 8) - st.length) }, (_, i) => { let q; try { q = u.gen(lv); } catch (e) { q = null; } return q ? { u, q, qid: u.id + '#g' + Date.now().toString(36) + i, gen: true } : null; }).filter(Boolean).concat(st)); } // темы с генератором: задачи не повторяются
-  else { const u = s.units.find(x => x.id === uid); if (!u) return go('subject', id); const seen = a.seen = a.seen || {}; items = shuffle(u.quiz.map((q, n) => ({ u, q, qid: u.id + '#' + n }))).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0)).slice(0, u.take || 8); } // сначала — вопросы, которые ребёнок видел реже всего: без повторов, пока не пройдены все
-  if (!items.length) { toast('Пока нечего повторять — всё выучено! 🎉'); return go('subject', id); }
+  else if (uid === '*mix') { const us = s.units.filter(u => a.read[u.id] && u.quiz); items = bySeen(us.flatMap(fresh)).slice(0, 10); const gu = us.filter(u => u.gen); for (let t = 0; items.length < 10 && gu.length && t < 20; t++) { const u = pick(gu); items.push(...genN(u, genLv(id, u.id), 1)); } items = shuffle(items); }
+  else { const u = s.units.find(x => x.id === uid); if (!u) return go('subject', id); const take = u.take || 8;
+    if (u.gen) { const st = bySeen(fresh(u)).slice(0, u.genStatic != null ? u.genStatic : 2); items = shuffle(genN(u, genLv(id, uid), take - st.length).concat(st)); }
+    else items = bySeen(fresh(u)).slice(0, take); // сначала — вопросы, которые ребёнок видел реже всего
+    if (!items.length) return acadAllDone(s, u); }
+  if (!items.length) { toast(uid === '*mix' ? 'Все вопросы уже решены! 🎉' : 'Пока нечего повторять — всё выучено! 🎉'); return go('subject', id); }
   const title = uid === '*review' ? '🔁 Разбор ошибок' : uid === '*mix' ? '🎲 Тренировка' : '🎯 ' + items[0].u.title;
   let k = 0, ok = 0;
   app.innerHTML = `${topbar(title, 'subject')}<div class="page aquiz" style="--c:${s.color}"><div class="g-head"><div class="g-dots">${items.map(() => '<i></i>').join('')}</div><div class="pill">⭐ <b id="qsc">0</b></div></div>${helperHTML('qbub')}<div id="qarea"></div><div id="qafter" class="after"></div></div>`;
@@ -111,7 +120,8 @@ SCREENS.aquiz = arg => {
     { const sq = a.seen = a.seen || {}; sq[items[k].qid] = (sq[items[k].qid] || 0) + 1; }
     const it = items[k], dot = $$('.g-dots i')[k]; dot.className = right ? 'ok' : 'bad';
     if (right) { ok++; $('#qsc').textContent = ok; SND.ok(); award(uid === '*mix' ? 2 : 1, uid === '*mix' ? 5 : 3); if (a.box[it.qid]) { const nb = a.box[it.qid][0] + 1; if (nb >= BOX_DAYS.length) { delete a.box[it.qid]; if (a.gq) delete a.gq[it.qid]; window.Coach && Coach.cured(); } else a.box[it.qid] = [nb, today()]; } }
-    else { SND.bad(); a.box[it.qid] = [0, today()]; if (it.gen) { a.gq = a.gq || {}; a.gq[it.qid] = it.q; const ks = Object.keys(a.gq); if (ks.length > 40) ks.slice(0, ks.length - 40).forEach(k => { delete a.gq[k]; delete a.box[k]; }); } }
+    if (right) { if (it.gen) { if (window.Mistakes) Mistakes.solve('g:' + (it.h || qHash(it.q))); } else okm[it.qid] = 1; } else if (!it.gen) delete okm[it.qid]; // решённое верно — больше не спрашиваем
+    if (!right) { SND.bad(); a.box[it.qid] = [0, today()]; if (it.gen) { a.gq = a.gq || {}; a.gq[it.qid] = it.q; const ks = Object.keys(a.gq); if (ks.length > 40) ks.slice(0, ks.length - 40).forEach(k => { delete a.gq[k]; delete a.box[k]; }); } }
     save();
     bub(`${right ? '<div class="fb">✔ Верно!</div>' : '<div class="fb bad">Не совсем.</div>'}${why || ''}`);
     $('#qafter').innerHTML = `<button class="btn big pink" id="qn">${k + 1 < items.length ? 'Дальше →' : 'Итоги 🏆'}</button>`;
@@ -127,17 +137,27 @@ SCREENS.aquiz = arg => {
     const n = items.length, stars = ok === n ? 3 : ok >= n * 0.7 ? 2 : ok >= n * 0.4 ? 1 : 0;
     // после тренажёра — сразу следующий урок по предмету (если тема понята), иначе — повторить
     const ui = s.units.findIndex(x => x.id === uid), nu = ui >= 0 ? s.units[ui + 1] : null;
-    const nextHTML = () => ui < 0 ? '' : nu ? `<button class="btn big ${stars >= 2 ? 'pink' : ''} next-u" id="nextu">Следующий урок: ${nu.icon} ${nu.title} →</button>` : `<p class="next-u done">🎓 Это был последний урок предмета «${s.name}»! Загляни в смешанную тренировку и игры.</p>`;
+    const relearn = () => ui >= 0 && stars < 2 ? `<button class="btn big pink relearn" id="relearn">📖 Повторить урок</button><p class="small">Загляни в учебник ещё раз — потом тренажёр пойдёт легче. Ошибаться не страшно!</p>` : '';
+    const nextHTML = () => relearn() + (ui < 0 ? '' : nu && window.Mistakes && !Mistakes.unitOpen(id, nu.id) ? `<p class="next-u">🔒 Следующий урок «${nu.title}» откроется, когда получишь хотя бы ⭐ — попробуй ещё раз!</p>` : nu ? `<button class="btn big ${stars >= 2 ? 'pink' : ''} next-u" id="nextu">Следующий урок: ${nu.icon} ${nu.title} →</button>` : `<p class="next-u done">🎓 Это был последний урок предмета «${s.name}»! Загляни в смешанную тренировку и игры.</p>`);
     if (uid !== '*review' && uid !== '*mix') { a.best[uid] = Math.max(a.best[uid] || 0, stars); }
     save(); acadTask(id, { mistakes: n - ok }); if (uid === '*mix' && ok >= n * 0.8) award(5, 10); { const gu = s.units.find(x => x.id === uid); if (gu && gu.gen && genLv(id, uid) === 3 && ok === n) awardGems(1, 'за сложный уровень без ошибок'); } // смешанная тренировка труднее — награда больше
     if (window.Coach && id !== 'teen') { if (uid !== '*review' && uid !== '*mix') Coach.track('a:' + id + ':' + uid, ok / n); Coach.track('a:' + id, ok / n); } if (ok === n && n >= 5) awardGems(1, 'за тренажёр без ошибок'); SND.win(); if (stars >= 2) confetti(30);
-    $('#qarea').innerHTML = `<div class="center g-result"><div class="big-emoji">${['🐾', '🥉', '🥈', '🏆'][stars]}</div><h2>${esc(S.kid)}, ${ok} из ${n}!</h2><div class="stars big">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>${n - ok ? `<p>Ошибки попали в <b>🔁 Разбор ошибок</b> — повторим их завтра, и они запомнятся навсегда.</p>` : '<p>Без единой ошибки!</p>'}${nextHTML()}<div class="row-btns"><button class="btn ${nu && stars >= 2 ? '' : 'big pink'}" id="again">Ещё раз</button><button class="btn" id="tosubj">К предмету</button></div></div>`;
+    $('#qarea').innerHTML = `<div class="center g-result"><div class="big-emoji">${['🐾', '🥉', '🥈', '🏆'][stars]}</div><h2>${esc(S.kid)}, ${ok} из ${n}!</h2><div class="stars big">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>${n - ok ? `<p>Ошибки попали в <b>🔁 Разбор ошибок</b> — повторим их завтра, и они запомнятся навсегда.</p>` : '<p>Без единой ошибки!</p>'}${nextHTML()}<div class="row-btns"><button class="btn ${(nu && stars >= 2) || (ui >= 0 && stars < 2) ? '' : 'big pink'}" id="again">Ещё раз</button><button class="btn" id="tosubj">К предмету</button></div></div>`;
     $('#again').addEventListener('click', () => go('aquiz', arg)); $('#tosubj').addEventListener('click', () => go('subject', id));
     $('#nextu')?.addEventListener('click', () => { SND.tap(); go('alesson', id + ':' + nu.id); });
+    $('#relearn')?.addEventListener('click', () => { SND.tap(); go('alesson', id + ':' + uid); });
     say(stars >= 2 ? pick(PH.done) : pick(PH.cheerBad));
   }
   show();
 };
+/* все вопросы темы решены верно — повторять нечего (ошибки ждут в «Разборе ошибок») */
+function acadAllDone(s, u) {
+  const id = s.id, ui = s.units.indexOf(u), nu = s.units[ui + 1], due = dueMistakes(id).length, open = nu && (!window.Mistakes || Mistakes.unitOpen(id, nu.id));
+  app.innerHTML = `${topbar('🎯 ' + u.title, 'subject')}<div class="page aquiz" style="--c:${s.color}"><div class="center g-result all-done"><div class="big-emoji">🎓</div><h2>Тема пройдена — все вопросы решены!</h2><p>Ты верно ответил${/[аяь]$/i.test(S.kid || '') ? 'а' : ''} на все вопросы этой темы — повторять их незачем.${due ? ' А вопросы с ошибками ждут в «🔁 Разборе ошибок».' : ''}</p>${open ? `<button class="btn big pink next-u" id="nextu">Следующий урок: ${nu.icon} ${nu.title} →</button>` : ''}<div class="row-btns">${due ? `<button class="btn" id="rev">🔁 Разбор ошибок (${due})</button>` : ''}<button class="btn" id="tosubj">К предмету</button></div></div></div>`;
+  $('.back', app).dataset.go = 'subject'; $('.back', app).dataset.arg = id;
+  $('#nextu')?.addEventListener('click', () => { SND.tap(); go('alesson', id + ':' + nu.id); });
+  $('#rev')?.addEventListener('click', () => go('aquiz', id + ':*review')); $('#tosubj').addEventListener('click', () => go('subject', id));
+}
 
 /* ================= типы вопросов ================= */
 const ACAD_Q = {

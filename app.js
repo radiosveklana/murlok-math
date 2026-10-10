@@ -650,7 +650,7 @@ function mountEq(el, { eq, guided, onDone }) {
       setTimeout(() => { render(); say(`<div class="fb">✔ Правило сыщика:</div><div class="rule">📏 ${E.ROLES[s.role].rule}</div>Теперь посчитай!`); }, 450);
       return;
     }
-    mistakes++; tries++; SND.bad(); noteErr('rule'); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 600);
+    mistakes++; tries++; SND.bad(); noteErr('rule', null, 'eq:rule:' + s.role); btn.classList.add('wrong'); setTimeout(() => btn.classList.remove('wrong'), 600);
     say(tries < 2 ? `<div class="fb bad">Хм, проверь.</div>${E.ROLES[s.role].hint}` : `<div class="fb bad">Правило:</div><div class="rule">📏 ${E.ROLES[s.role].rule}</div>`);
   }
   function checkNum(v) {
@@ -679,7 +679,7 @@ function mountEq(el, { eq, guided, onDone }) {
     let msg;
     if (phase === 'num') {
       const wrongVals = E.ROLES[s.role].wrong(s.c, s.b).map(f => E.calc(...f));
-      if (wrongVals.includes(v)) { noteErr('rule'); msg = `Похоже, перепутано правило. ${s.E.k === 'x' ? '<i class="x">x</i>' : 'Коробка'} — это <b>${E.ROLES[s.role].gen}</b>.<div class="rule">📏 ${E.ROLES[s.role].rule}</div>`; }
+      if (wrongVals.includes(v)) { noteErr('rule', null, 'eq:rule:' + s.role); msg = `Похоже, перепутано правило. ${s.E.k === 'x' ? '<i class="x">x</i>' : 'Коробка'} — это <b>${E.ROLES[s.role].gen}</b>.<div class="rule">📏 ${E.ROLES[s.role].rule}</div>`; }
       else { noteErr('calc'); msg = tries < 2 ? `Подумай: ${s.E.k === 'x' ? '<i class="x">x</i>' : Ehtml(s)} — это ${E.ROLES[s.role].gen}. ${E.ROLES[s.role].hint}` : `Посчитай: ${Ehtml(s)} = <b>${fTxt(s.f)}</b>`; }
       if (tries >= 2) msg = `${Ehtml(s)} = <b>${fTxt(s.f)}</b>. Посчитай внимательно${s.f[1] === '*' && s.f[0] > 20 ? ' (можно столбиком на листочке ✏️)' : ''}.`;
     } else {
