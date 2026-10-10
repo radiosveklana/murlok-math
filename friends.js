@@ -71,7 +71,7 @@ const Friends = (() => {
       $('#vrt').innerHTML = rooms.map(r => `<button class="rtab ${r === cur ? 'on' : ''}" data-r="${r.id}"><span>${r.icon}</span>${r.name}${h.likes[r.id] ? ` <small>❤️${h.likes[r.id]}</small>` : ''}</button>`).join('');
       $$('#vrt .rtab').forEach(b => b.addEventListener('click', () => { cur = rooms.find(r => r.id === b.dataset.r); SND.tap(); draw(); }));
       const pl = h.place[cur.id] || cur.fixed.map(f => ({ id: f[0], x: f[3], y: f[4] })), cat = h.catAt[cur.id] || { x: 72, y: 3 };
-      roomEl.className = `room big guest ${cur.dark ? 'dark' : ''} ${ROOM_IMG.has(cur.id) ? 'hasbg' : ''}`; roomEl.style.backgroundImage = ROOM_IMG.has(cur.id) ? `url('img/rooms/${cur.id}.jpg')` : '';
+      roomEl.className = `room big guest ${cur.dark ? 'dark' : ''} ${roomHasBg(cur) ? 'hasbg' : ''}`; roomEl.style.backgroundImage = roomBg(cur);
       roomEl.style.setProperty('--wall', cur.wall); roomEl.style.setProperty('--floor', cur.floor); setU();
       roomEl.innerHTML = `<div class="wall"><div class="window">${cur.dark ? '✨' : '☁️'}</div></div><div class="floor"></div>
         ${pl.map(p => { const it = itemInfo(cur, p.id); return it ? `<button class="fx" data-id="${esc(p.id)}" style="left:${p.x}%;bottom:${p.y}%;z-index:${zOf(p.y)};--s:${FSIZE[p.id] || 10}">${icon(p.id, it.icon)}</button>` : ''; }).join('')}

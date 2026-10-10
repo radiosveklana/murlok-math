@@ -9,7 +9,10 @@ const GEM_FURN = { unicorn: 6, castle: 8, dragon: 10, carousel: 12, ferris: 15, 
 let ITEM_IMG = new Set(), ROOM_IMG = new Set();
 fetch('img/items/index.json').then(r => r.json()).then(a => { ITEM_IMG = new Set(a); }).catch(() => { });
 fetch('img/rooms/index.json').then(r => r.json()).then(a => { ROOM_IMG = new Set(a); }).catch(() => { });
-const icon = (id, emo, cls = '') => ITEM_IMG.has(id) ? `<img class="ic-img ${cls}" src="img/items/${id}.webp" alt="" draggable="false">` : emo;
+const icon = (id, emo, cls = '') => ITEM_IMG.has(id) ? `<img class="ic-img ${cls}" src="img/items/${id}.webp" alt="" draggable="false">` : `<span class="emo-st">${emo}</span>`;
+// фон комнаты: аниме-картинка, а пока её нет — нарисованный пастельный фон (roomart.js) вместо плоской заливки
+const roomBg = r => ROOM_IMG.has(r.id) ? `url('img/rooms/${r.id}.jpg')` : (window.RoomArt ? RoomArt.url(r) : '');
+const roomHasBg = r => ROOM_IMG.has(r.id) || !!window.RoomArt;
 const roomOpen = r => r.need <= solvedTotal() && (r.eq || 0) <= S.st.eq.done;
 const itemEq = c => (c[5] === 'Волшебство' || c[5] === 'Космос') ? Math.max(3, Math.round(c[4] / 4)) : 0; // волшебные и космические вещи — за уравнения
 const itemOpen = c => c[4] <= solvedTotal() && itemEq(c) <= S.st.eq.done;
@@ -93,8 +96,8 @@ SCREENS.house = (roomId) => {
   const hint = t => { $('#hint').innerHTML = t; };
   const drawRoom = () => {
     const open = roomOpen(cur), n = solvedTotal();
-    roomEl.className = `room big ${cur.dark ? 'dark' : ''} ${open ? '' : 'closed'} ${placing ? 'placing' : ''} ${ROOM_IMG.has(cur.id) ? 'hasbg' : ''}`;
-    roomEl.style.backgroundImage = ROOM_IMG.has(cur.id) ? `url('img/rooms/${cur.id}.jpg')` : '';
+    roomEl.className = `room big ${cur.dark ? 'dark' : ''} ${open ? '' : 'closed'} ${placing ? 'placing' : ''} ${roomHasBg(cur) ? 'hasbg' : ''}`;
+    roomEl.style.backgroundImage = roomBg(cur);
     roomEl.style.setProperty('--wall', cur.wall); roomEl.style.setProperty('--floor', cur.floor); setUnit();
     const pl = roomPlace(cur), low = careLow(), cat = S.catAt[cur.id] || { x: 78, y: 3 };
     pl.forEach(q => { if (q.on && !pl.some(z => z.id === q.on)) q.on = null; if (!q.on && !isWall(q.id) && q.y > FLOOR - 6) q.y = FLOOR - 6; if (isWall(q.id) && q.y < FLOOR + 4) q.y = FLOOR + 4; }); if (cat.y > FLOOR - 6) cat.y = FLOOR - 6;

@@ -380,11 +380,51 @@
   },
   {
    "kind": "room",
+   "out": "img/rooms/rink.jpg",
+   "p": "cute indoor ice skating rink, front view, pale blue walls with snowflake garlands and frosty windows, soft glowing lamps, smooth shiny ice floor in the lower third, empty open ice space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 71
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/factory.jpg",
+   "p": "cute candy factory hall interior, front view, pink walls with pipes and big glass jars of candies, lollipop decorations, striped pink and white tiled floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 72
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/observ.jpg",
+   "p": "grand cute observatory hall at night, front view, dark blue domed ceiling open to a starry sky with nebula, brass rails and star charts on the walls, dark wooden floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 73
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/throne.jpg",
+   "p": "cute royal throne hall interior, front view, golden cream walls with tall arched windows and hanging red banners, chandeliers, red carpet floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 74
+  },
+  {
+   "kind": "room",
+   "out": "img/rooms/fame.jpg",
+   "p": "cute hall of fame interior at night, front view, deep purple walls with glowing golden stars and empty trophy shelves, spotlights, polished purple marble floor in the lower third, empty open floor space in the middle",
+   "w": 1280,
+   "h": 800,
+   "seed": 75
+  },
+  {
+   "kind": "room",
    "out": "img/rooms/attic.jpg",
    "p": "cute attic observatory at night, front view, sloped wooden roof with big round window full of stars, purple night glow, wooden floor in the lower third, empty open floor space in the middle",
    "w": 1280,
    "h": 800,
-   "seed": 71
+   "seed": 76
   }
  ],
  "items": [
@@ -531,6 +571,66 @@
    "id": "fx_panel",
    "out": "img/items/fx_panel.webp",
    "p": "a cute spaceship control panel with buttons, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_skates",
+   "out": "img/items/fx_skates.webp",
+   "p": "a pair of white figure ice skates, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_flake",
+   "out": "img/items/fx_flake.webp",
+   "p": "a big sparkling blue snowflake ornament, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_mixer",
+   "out": "img/items/fx_mixer.webp",
+   "p": "a big pink candy factory cake mixer machine with a bowl of cream, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_belt",
+   "out": "img/items/fx_belt.webp",
+   "p": "a candy factory conveyor belt with colorful candies, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_tscope",
+   "out": "img/items/fx_tscope.webp",
+   "p": "a big brass observatory telescope on a stand, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_starmap",
+   "out": "img/items/fx_starmap.webp",
+   "p": "a framed star map with constellations, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_throne",
+   "out": "img/items/fx_throne.webp",
+   "p": "a royal red and gold throne chair, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_banner",
+   "out": "img/items/fx_banner.webp",
+   "p": "a hanging red banner with a golden magnifying glass emblem, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_cup",
+   "out": "img/items/fx_cup.webp",
+   "p": "a big shining golden champion cup, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fx_stars",
+   "out": "img/items/fx_stars.webp",
+   "p": "a wall panel with many golden glowing stars, empty, no animals, no cats, no people"
   },
   {
    "kind": "item",
@@ -1161,6 +1261,300 @@
    "id": "fountain",
    "out": "img/items/fountain.webp",
    "p": "a small stone fountain, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "wallshelf",
+   "out": "img/items/wallshelf.webp",
+   "p": "a small wooden wall shelf, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "table",
+   "out": "img/items/table.webp",
+   "p": "a small round wooden table, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "dresser",
+   "out": "img/items/dresser.webp",
+   "p": "a cute pastel chest of drawers, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "sofa2",
+   "out": "img/items/sofa2.webp",
+   "p": "a fluffy white cloud-shaped sofa, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "armchair",
+   "out": "img/items/armchair.webp",
+   "p": "a pink seashell-shaped armchair, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "chandelier",
+   "out": "img/items/chandelier.webp",
+   "p": "a crystal chandelier, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fireplace",
+   "out": "img/items/fireplace.webp",
+   "p": "a cozy brick fireplace with fire, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "aquarium2",
+   "out": "img/items/aquarium2.webp",
+   "p": "a big rectangular aquarium with colorful fish"
+  },
+  {
+   "kind": "item",
+   "id": "piggy",
+   "out": "img/items/piggy.webp",
+   "p": "a cute mini pig"
+  },
+  {
+   "kind": "item",
+   "id": "owl",
+   "out": "img/items/owl.webp",
+   "p": "a cute owl"
+  },
+  {
+   "kind": "item",
+   "id": "hedgehog",
+   "out": "img/items/hedgehog.webp",
+   "p": "a cute hedgehog"
+  },
+  {
+   "kind": "item",
+   "id": "panda",
+   "out": "img/items/panda.webp",
+   "p": "a plush panda toy, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "dino",
+   "out": "img/items/dino.webp",
+   "p": "a cute green toy dinosaur, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "racecar",
+   "out": "img/items/racecar.webp",
+   "p": "a red toy race car, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "lego",
+   "out": "img/items/lego.webp",
+   "p": "a castle built of colorful toy bricks, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "console",
+   "out": "img/items/console.webp",
+   "p": "a retro arcade game cabinet, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "swing",
+   "out": "img/items/swing.webp",
+   "p": "a wooden swing with ropes on a frame, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "macatower",
+   "out": "img/items/macatower.webp",
+   "p": "a pink macaron tower, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "waffles",
+   "out": "img/items/waffles.webp",
+   "p": "a plate of waffles with strawberry jam, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "cottoncandy",
+   "out": "img/items/cottoncandy.webp",
+   "p": "a pink cotton candy on a stick, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "pancakes2",
+   "out": "img/items/pancakes2.webp",
+   "p": "a tall stack of pancakes with butter, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "bigcake",
+   "out": "img/items/bigcake.webp",
+   "p": "a three tier birthday cake with strawberries, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "chocoriver",
+   "out": "img/items/chocoriver.webp",
+   "p": "a chocolate fountain with strawberries, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "skis",
+   "out": "img/items/skis.webp",
+   "p": "a pair of skis with poles"
+  },
+  {
+   "kind": "item",
+   "id": "sled",
+   "out": "img/items/sled.webp",
+   "p": "a wooden sled"
+  },
+  {
+   "kind": "item",
+   "id": "snowglobe",
+   "out": "img/items/snowglobe.webp",
+   "p": "a snow globe with a tiny house inside"
+  },
+  {
+   "kind": "item",
+   "id": "igloo",
+   "out": "img/items/igloo.webp",
+   "p": "a cute snowy igloo"
+  },
+  {
+   "kind": "item",
+   "id": "penguin",
+   "out": "img/items/penguin.webp",
+   "p": "a cute baby penguin"
+  },
+  {
+   "kind": "item",
+   "id": "scarfrack",
+   "out": "img/items/scarfrack.webp",
+   "p": "a coat rack with colorful knitted scarves"
+  },
+  {
+   "kind": "item",
+   "id": "surf",
+   "out": "img/items/surf.webp",
+   "p": "a colorful surfboard"
+  },
+  {
+   "kind": "item",
+   "id": "shell",
+   "out": "img/items/shell.webp",
+   "p": "a pink seashell"
+  },
+  {
+   "kind": "item",
+   "id": "crab",
+   "out": "img/items/crab.webp",
+   "p": "a cute red crab"
+  },
+  {
+   "kind": "item",
+   "id": "lighthouse",
+   "out": "img/items/lighthouse.webp",
+   "p": "a red and white lighthouse"
+  },
+  {
+   "kind": "item",
+   "id": "harp",
+   "out": "img/items/harp.webp",
+   "p": "a cute banjo, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "violin",
+   "out": "img/items/violin.webp",
+   "p": "a violin with a bow, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "sax",
+   "out": "img/items/sax.webp",
+   "p": "a golden saxophone, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "disco",
+   "out": "img/items/disco.webp",
+   "p": "a sparkling disco ball, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "detectiveboard",
+   "out": "img/items/detectiveboard.webp",
+   "p": "a detective cork board with photos, pins and red string, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "safe2",
+   "out": "img/items/safe2.webp",
+   "p": "a sturdy steel safe with a dial, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "fingerprint",
+   "out": "img/items/fingerprint.webp",
+   "p": "a detective fingerprint kit with a brush and a magnifying glass, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "walkie",
+   "out": "img/items/walkie.webp",
+   "p": "a walkie-talkie radio, empty, no animals, no cats, no people"
+  },
+  {
+   "kind": "item",
+   "id": "telescope2",
+   "out": "img/items/telescope2.webp",
+   "p": "a starry blue telescope on a tripod"
+  },
+  {
+   "kind": "item",
+   "id": "comet2",
+   "out": "img/items/comet2.webp",
+   "p": "a glowing comet with a long tail"
+  },
+  {
+   "kind": "item",
+   "id": "galaxy",
+   "out": "img/items/galaxy.webp",
+   "p": "a glass jar with a swirling galaxy inside"
+  },
+  {
+   "kind": "item",
+   "id": "crystal2",
+   "out": "img/items/crystal2.webp",
+   "p": "a small crystal castle"
+  },
+  {
+   "kind": "item",
+   "id": "firebird",
+   "out": "img/items/firebird.webp",
+   "p": "a cute fire phoenix bird with golden flames"
+  },
+  {
+   "kind": "item",
+   "id": "spellbook",
+   "out": "img/items/spellbook.webp",
+   "p": "an open glowing magic spell book"
+  },
+  {
+   "kind": "item",
+   "id": "statue",
+   "out": "img/items/statue.webp",
+   "p": "a marble statue of a cat detective with a magnifying glass"
+  },
+  {
+   "kind": "item",
+   "id": "goldcat",
+   "out": "img/items/goldcat.webp",
+   "p": "a shiny golden cat figurine"
   },
   {
    "kind": "item",
