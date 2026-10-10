@@ -2,7 +2,7 @@
 # Параллельный прогон всех тестов (≈10 мин): bash tools/e2e/run-par.sh
 cd "$(dirname "$0")"; [ -d node_modules ] || npm i --silent
 ROOT=$(cd ../.. && pwd); OUT=$(mktemp -d); FAIL=0
-AV=$(grep -o "APP_VERSION = '[0-9]*'" "$ROOT/app.js" | grep -o "[0-9]*"); VJ=$(grep -o "[0-9]\+" "$ROOT/version.json"); IV=$(grep -o "app.js?v=[0-9]*" "$ROOT/index.html" | grep -o "[0-9]*$")
+AV=$(grep -o "APP_VERSION = '[0-9]*'" "$ROOT/app.js" | grep -o "[0-9]*"); VJ=$(grep -o "[0-9]\+" "$ROOT/version.json"); IV=$(grep -o "app.js?v=[0-9]*" "$ROOT/app/index.html" | grep -o "[0-9]*$")
 echo "версии: app=$AV version.json=$VJ index=$IV"; [ "$AV" = "$VJ" ] && [ "$AV" = "$IV" ] || { echo "ВЕРСИИ НЕ СОВПАДАЮТ ✖"; exit 1; }
 for f in "$ROOT"/*.js "$ROOT"/content/*.js; do node --check "$f" || { echo "СИНТАКСИС ✖ $f"; exit 1; }; done
 node "$ROOT/tools/validate-content.js" "$ROOT"/content/*.js >/dev/null || { echo "КОНТЕНТ ✖"; exit 1; }
@@ -14,3 +14,5 @@ i=0; for t in "${TESTS[@]}"; do n=${t%%|*}; a=""; [[ "$t" == *"|"* ]] && a=${t#*
 wait
 for t in "${TESTS[@]}"; do n=${t%%|*}; echo "== $n"; grep -E "ERRORS|errs|MISSES|VOICE|FAIL|cat class|water:|login modal|music-on|CLOUD|PHYSICS|INTERRO|COLLIDE|OVERFLOW|TALK|ACAD DONE|V19 DONE|V20 DONE|V22 DONE|V25 DONE|V26 DONE|SKY DONE|V29 DONE|ARCADE|V30|SAYFLOW|ACC ALL OK|ACC FAIL" "$OUT/$n.log" | grep -v "^sec"; grep -qE "FAIL|PAGEERR|errs: [^n]|OVERFLOW [0-9]" "$OUT/$n.log" && FAIL=1; done
 [ $FAIL = 0 ] && echo "ВСЁ ЗЕЛЁНОЕ ✔" || { echo "ЕСТЬ ОШИБКИ ✖ (логи: $OUT)"; exit 1; }
+# уборка: прерванные тесты оставляют временные профили Chrome (по 20–50 МБ) — чистим старше получаса
+find "${TEMP:-/tmp}" -maxdepth 1 -type d -name 'puppeteer_dev_chrome_profile-*' -mmin +30 -exec rm -rf {} + 2>/dev/null || true
