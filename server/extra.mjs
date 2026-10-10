@@ -10,8 +10,9 @@ import { randomInt } from 'node:crypto';
 export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk }) {
   /* ---------- хранилище друзей (один JSON, запись через временный файл) ---------- */
   const FFILE = path.join(DIR, 'friends.json');
-  let F = { pub: {}, own: {}, links: {}, inbox: {}, tg: {}, tgTok: {}, sent: '' };
+  let F = { pub: {}, own: {}, links: {}, inbox: {}, tg: {}, tgTok: {}, sent: '', appr: {} };
   try { F = { ...F, ...JSON.parse(fs.readFileSync(FFILE, 'utf8')) }; } catch { }
+  F.appr = F.appr || {};
   let dirty = false; const touch = () => { dirty = true; };
   setInterval(() => { if (!dirty) return; dirty = false; const tmp = FFILE + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(F)); fs.renameSync(tmp, FFILE); }, 2000);
 
@@ -22,7 +23,15 @@ export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseRe
   const save = c => { try { return JSON.parse(fs.readFileSync(path.join(SAVE_DIR, c + '.json'), 'utf8')); } catch { return null; } };
   const first = s => String(s || '').trim().split(/\s+/)[0].replace(/[^\p{L}-]/gu, '').slice(0, 14);
   const card = pub => { const d = save(F.pub[pub]) || {}; return { pub, cat: String(d.name || 'Котик').slice(0, 20), kid: first(d.kid), fur: d.fur || 'ginger', wear: d.wear || {} }; };
-  const mutual = (a, b) => (F.links[a] || []).includes(F.own[b]) && (F.links[b] || []).includes(F.own[a]);
+  // v30: дети одной семьи дружат автоматически; дружба с другими семьями — по кодам и только с разрешения взрослых обеих семей
+  let famOf = () => [];
+  const linked2 = (a, b) => (F.links[a] || []).includes(F.own[b]) && (F.links[b] || []).includes(F.own[a]);
+  const approved = (a, b) => (F.appr[a] || []).includes(F.own[b]); // взрослый ребёнка a разрешил дружбу с b
+  const family = (a, b) => a !== b && famOf(a).includes(b);
+  const mutual = (a, b) => family(a, b) || (linked2(a, b) && approved(a, b) && approved(b, a));
+  const unlink = (code, other, pub, me) => { F.links[code] = (F.links[code] || []).filter(p => p !== pub); F.appr[code] = (F.appr[code] || []).filter(p => p !== pub); if (other) { F.links[other] = (F.links[other] || []).filter(p => p !== me); F.appr[other] = (F.appr[other] || []).filter(p => p !== me); } touch(); };
+  const ensurePub = c => { if (!F.own[c]) { const p = newPub(); F.pub[p] = c; F.own[c] = p; touch(); } return F.own[c]; };
+  if (!F.apprV) { for (const [a, L] of Object.entries(F.links)) L.forEach(p => { const b = F.pub[p]; if (b && linked2(a, b)) { (F.appr[a] = F.appr[a] || []).includes(p) || F.appr[a].push(p); } }); F.apprV = 1; touch(); } // уже существующие дружбы считаем одобренными
   const friendsOn = c => (save(c) || {}).friendsOn !== false;
   const HERE = new Map(); setInterval(() => { const now = Date.now(); for (const [k, v] of HERE) if (now - v.t > 60000) HERE.delete(k); }, 60000); // присутствие в памяти, без записи на диск
   const GIFTS = ['🍬', '🍩', '🌸', '⭐', '🎈', '🧶', '🐟', '🎁'];
@@ -42,15 +51,17 @@ export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseRe
       if (!limit('fradd:' + code, 15, 36e5) || !limit('fraddip:' + ip, 40, 36e5)) return send(res, 429, { error: 'slow' }, origin); // защита от перебора кодов
       if (!okPub(pub)) return send(res, 404, { error: 'nf' }, origin);
       if (pub === me) return send(res, 400, { error: 'self' }, origin);
+      if (family(code, F.pub[pub])) { const c0 = card(pub); return send(res, 200, { status: 'family', friend: { pub, cat: c0.cat, kid: c0.kid } }, origin); }
       const L = F.links[code] = F.links[code] || []; if (!L.includes(pub)) { if (L.length >= 30) return send(res, 400, { error: 'many' }, origin); L.push(pub); touch(); }
       const other = F.pub[pub], c = card(pub);
-      return send(res, 200, { status: mutual(code, other) ? 'mutual' : 'pending', friend: { pub, cat: c.cat, kid: c.kid } }, origin);
+      return send(res, 200, { status: mutual(code, other) ? 'mutual' : linked2(code, other) ? 'approval' : 'pending', friend: { pub, cat: c.cat, kid: c.kid } }, origin);
     }
     if (act === 'list') {
       const mine = F.links[code] || [];
-      const friends = mine.filter(p => F.pub[p] && mutual(code, F.pub[p])).map(p => { const c = card(p), s = save(F.pub[p]) || {}; return { ...c, seen: s.savedAt || 0 }; });
-      const pending = mine.filter(p => F.pub[p] && !mutual(code, F.pub[p])).map(p => { const c = card(p); return { pub: p, cat: c.cat, kid: c.kid }; });
-      const incoming = Object.entries(F.links).filter(([c, L]) => c !== code && L.includes(me) && !mine.includes(F.own[c])).map(([c]) => { const x = card(F.own[c]); return { pub: F.own[c], cat: x.cat, kid: x.kid }; }).slice(0, 10);
+      const fam = famOf(code).filter(c => okCode(c)).map(c => { const p = ensurePub(c), x = card(p), s = save(c) || {}; return { ...x, seen: s.savedAt || 0, family: true }; });
+      const friends = fam.concat(mine.filter(p => F.pub[p] && !family(code, F.pub[p]) && mutual(code, F.pub[p])).map(p => { const c = card(p), s = save(F.pub[p]) || {}; return { ...c, seen: s.savedAt || 0 }; }));
+      const pending = mine.filter(p => F.pub[p] && !mutual(code, F.pub[p])).map(p => { const c = card(p); return { pub: p, cat: c.cat, kid: c.kid, wait: linked2(code, F.pub[p]) ? 'parent' : 'friend' }; });
+      const incoming = Object.entries(F.links).filter(([c, L]) => c !== code && L.includes(me) && !mine.includes(F.own[c]) && !family(code, c)).map(([c]) => { const x = card(F.own[c]); return { pub: F.own[c], cat: x.cat, kid: x.kid }; }).slice(0, 10);
       const inbox = (F.inbox[code] || []).slice(-30).reverse();
       return send(res, 200, { me, friends, pending, incoming, inbox, unread: inbox.filter(x => !x.read).length, gifts: GIFTS, phrases: PHRASES }, origin);
     }
@@ -80,7 +91,7 @@ export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseRe
       if (at !== 'home' && !(okPub(at) && mutual(code, F.pub[at]))) return send(res, 403, { error: 'notfriend' }, origin);
       const c = card(me); HERE.set(me, { at, room, t: Date.now(), cat: c.cat, kid: c.kid, fur: c.fur, wear: c.wear, action: String(d.action || '').slice(0, 20) });
       const fresh = x => x && Date.now() - x.t < 15000;
-      const guests = [...HERE.entries()].filter(([p2, x]) => p2 !== me && fresh(x) && x.at === me && (F.links[code] || []).includes(p2)).map(([p2, x]) => ({ pub: p2, cat: x.cat, kid: x.kid, fur: x.fur, wear: x.wear, room: x.room, action: x.action }));
+      const guests = [...HERE.entries()].filter(([p2, x]) => p2 !== me && fresh(x) && x.at === me && F.pub[p2] && mutual(code, F.pub[p2])).map(([p2, x]) => ({ pub: p2, cat: x.cat, kid: x.kid, fur: x.fur, wear: x.wear, room: x.room, action: x.action }));
       let host = null, conflict = false;
       if (at !== 'home') { const h = HERE.get(at); host = fresh(h) ? { online: true, at: h.at === 'home' ? 'home' : 'away', room: h.room } : { online: false }; conflict = !!(fresh(h) && h.at === me); }
       const box = F.inbox[code] || [], unread = box.filter(x => !x.read).length, last = box.length ? box[box.length - 1] : null;
@@ -89,7 +100,8 @@ export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseRe
     if (act === 'seen') { (F.inbox[code] || []).forEach(x => { x.read = true; }); touch(); return send(res, 200, { ok: true }, origin); }
     if (act === 'remove') {
       const pub = String(d.pub || '').toUpperCase(), other = F.pub[pub];
-      F.links[code] = (F.links[code] || []).filter(p => p !== pub); if (other) F.links[other] = (F.links[other] || []).filter(p => p !== me); touch();
+      if (other && family(code, other)) return send(res, 400, { error: 'family' }, origin);
+      unlink(code, other, pub, me);
       return send(res, 200, { ok: true }, origin);
     }
     return send(res, 404, { error: 'nf' }, origin);
@@ -206,5 +218,22 @@ ${RULES}
   route.rp = (d, res, origin, ip) => rpHandle(d, res, origin, ip);
   route.tg = tgApi; route.tgLinks = () => F.tg; route.setStartHook = f => { startHook = f; }; route.TG_BOT = TG_BOT; // голосовая реплика в тренажёре (из /voice)
   route.hasRp = id => !!RP[id];
+  // v30: связь с кабинетами семьи (accounts.mjs)
+  route.setFamilyHook = f => { famOf = f; };
+  route.friendCodes = code => (F.links[code] || []).map(p => F.pub[p]).filter(c => c && !family(code, c) && mutual(code, c));
+  route.friendsAdmin = {
+    list(code) { // для взрослого: друзья ребёнка из других семей и заявки, которые ждут разрешения
+      const me = F.own[code], out = { friends: [], requests: [], waiting: [] }; if (!me) return out;
+      (F.links[code] || []).forEach(p => { const o = F.pub[p]; if (!o || family(code, o)) return; const c = card(p), x = { pub: p, cat: c.cat, kid: c.kid };
+        if (mutual(code, o)) out.friends.push(x); else if (linked2(code, o)) (approved(code, o) ? out.waiting : out.requests).push(x); });
+      return out;
+    },
+    approve(code, pub, yes) {
+      const o = F.pub[pub], me = F.own[code]; if (!o || !me || !(F.links[code] || []).includes(pub)) return false;
+      if (yes) { const L = F.appr[code] = F.appr[code] || []; if (!L.includes(pub)) L.push(pub); touch(); }
+      else unlink(code, o, pub, me);
+      return true;
+    },
+  };
   return route;
 }

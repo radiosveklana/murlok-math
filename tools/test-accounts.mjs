@@ -51,6 +51,78 @@ r = await A('POST', '/acc/pending', { code: 'KIDCODE1' }); ok('child receives gr
 r = await A('POST', '/acc/pending', { code: 'KIDCODE1' }); ok('grant not repeated', r.body.items.length === 0);
 acc.flag({ flag: 'distress', kid: 'Кэтика', cat: 'Котофей', code: 'KIDCODE1', text: 'мне грустно' }); r = await AD('GET', '/admin/api/flags', null, { cookie }); ok('flags visible to admin', r.body.flags.length === 1);
 r = await AD('GET', `/admin/api/family/${fam.id}`, null, { cookie }); ok('admin family card', r.body.children[0].name === 'Кэтика' && r.body.children[0].xp === 32130);
+// ---------- v30: семья из нескольких взрослых, семья = друзья, успехи, вызовы, челленджи ----------
+const { makeExtra } = await import('../server/extra.mjs');
+const extra = makeExtra({ DIR, SAVE_DIR, ORIGINS: ['https://murlok.tech-wave.ru'], limit: () => true, send, claude: async () => ({}), parseReply: x => x, maskPII: x => x, BAD_OUT: /$^/, MODEL: 'x', dayOk: () => true });
+acc.setHooks({ friendCodes: extra.friendCodes, friendsAdmin: extra.friendsAdmin }); extra.setFamilyHook(c => acc.siblings(c));
+const FR = (code, act, body = {}) => call(extra, 'POST', '/friend/' + act, { code, ...body });
+const mskDay = (k = 0) => new Date(Date.now() + 3 * 36e5 - k * 864e5).toISOString().slice(0, 10);
+const CH = t => ({ authorization: 'Bearer ' + t });
+mails.length = 0;
+r = await A('POST', '/acc/fam/invite', { email: 'Babushka@Test.ru', name: 'Бабушка' }, H); ok('invite adult by email', r.code === 200 && mails.length === 1 && mails[0].to === 'babushka@test.ru' && /Приглашение/.test(mails[0].subj) && r.body.family.invites.length === 1);
+r = await A('POST', '/acc/fam/invite', { email: 'papa@test.ru' }, H); ok('cannot invite adult of another family', r.code === 400 && r.body.error === 'taken');
+mails.length = 0; r = await A('POST', '/acc/start', { email: 'babushka@test.ru' }); ok('invited adult sees invite on login', r.body.isNew && r.body.invite && r.body.invite.by === 'ma***@test.ru');
+const cb = mails[0].text.match(/(\d{6})/)[1];
+r = await A('POST', '/acc/verify', { email: 'babushka@test.ru', code: cb }); ok('invited adult must consent', r.code === 400 && r.body.error === 'consent');
+r = await A('POST', '/acc/verify', { email: 'babushka@test.ru', code: cb, consent: true }); ok('invited adult joins same family', r.code === 200 && r.body.family.id === fam.id && r.body.family.adults.length === 2 && r.body.family.me.role === 'adult');
+const btok = r.body.token, babId = r.body.family.adults.find(a => a.role === 'adult').id;
+ok('adult consent logged', fs.readFileSync(path.join(DIR, 'consents.log'), 'utf8').includes('"type":"consent-adult"'));
+r = await A('POST', '/acc/revoke', { confirm: 'УДАЛИТЬ' }, CH(btok)); ok('invited adult cannot delete family', r.code === 403);
+r = await A('GET', '/acc/family', null, CH(btok)); ok('invited adult sees children', r.body.family.children.length === 1);
+// второй ребёнок семьи и прогресс за неделю
+fs.writeFileSync(path.join(SAVE_DIR, 'KIDCODE2.json'), JSON.stringify({ v: 1, kid: 'Миша Иванов', name: 'Барсик', xp: 500, days: { [mskDay()]: 40 }, daily: { [mskDay()]: { x: 300, t: 40, a: 6 } }, read: { schulte: { 4: 21.5 } }, acad: { space: { best: { a: 3, b: 2 } } }, savedAt: Date.now() }));
+const s1 = JSON.parse(fs.readFileSync(path.join(SAVE_DIR, 'KIDCODE1.json'), 'utf8')); Object.assign(s1, { days: { [mskDay()]: 120 }, daily: { [mskDay()]: { x: 900, t: 120, a: 25 } } }); fs.writeFileSync(path.join(SAVE_DIR, 'KIDCODE1.json'), JSON.stringify(s1));
+r = await A('POST', '/acc/child', { name: 'Миша Иванов', pin: [2, 3, 4], cloudCode: 'KIDCODE2' }, CH(btok)); ok('invited adult can add a child', r.code === 200);
+const misha = r.body.child, mtok = r.body.token;
+r = await FR('KIDCODE1', 'list'); ok('family kids are friends automatically', r.body.friends.some(f => f.family && f.kid === 'Миша'));
+r = await FR('KIDCODE1', 'remove', { pub: r.body.friends[0].pub }); ok('family friend cannot be removed', r.code === 400);
+r = await A('GET', '/acc/social/board', null, CH(ctok)); const fb = r.body.family || [];
+ok('weekly family board', r.code === 200 && fb.length === 2 && fb[0].name === 'Кэтика' && fb[0].xp === 900 && fb[0].tasks === 120 && fb[1].schulte[4] === 21.5 && fb[1].stars === 5, JSON.stringify(fb).slice(0, 200));
+ok('board shows only first names, no codes/emails', !/KIDCODE|@|Иванов/.test(JSON.stringify(r.body)));
+r = await A('GET', '/acc/social/board', null, H); ok('parent token cannot use child social api', r.code === 401);
+// вызов
+r = await A('POST', '/acc/duel/new', { to: misha.id, game: 'schulte4' }, CH(ctok)); ok('duel created with seed', r.code === 200 && r.body.duel.seed > 0);
+const did = r.body.duel.id;
+r = await A('GET', '/acc/duel/list', null, CH(mtok)); ok('duel hidden until challenger plays', r.body.incoming.length === 0);
+r = await A('POST', `/acc/duel/${did}/result`, { time: 30.55, errs: 1 }, CH(mtok)); ok('opponent cannot play first', r.code === 400 && r.body.error === 'early');
+r = await A('POST', `/acc/duel/${did}/result`, { time: 30.55, errs: 1 }, CH(ctok)); ok('challenger result saved', r.code === 200 && r.body.duel.mine.time === 30.6 && !r.body.duel.done);
+r = await A('GET', '/acc/social/news', null, CH(mtok)); ok('opponent gets notification', r.body.incoming.length === 1 && r.body.incoming[0].other.name === 'Кэтика');
+r = await A('POST', `/acc/duel/${did}/result`, { time: 25, errs: 0 }, CH(mtok)); ok('duel finished, faster wins', r.body.duel.done && r.body.duel.result === 'win');
+r = await A('POST', `/acc/duel/${did}/result`, { time: 1, errs: 0 }, CH(mtok)); ok('cannot replay duel', r.code === 400);
+r = await A('POST', `/acc/duel/${did}/claim`, {}, CH(mtok)); ok('winner gets candies once', r.body.candies === 15);
+r = await A('POST', `/acc/duel/${did}/claim`, {}, CH(mtok)); ok('no double reward', r.code === 400);
+r = await A('POST', `/acc/duel/${did}/claim`, {}, CH(ctok)); ok('loser gets a small reward', r.body.candies === 3);
+r = await A('GET', '/acc/duel/list', null, CH(ctok)); ok('duel history', r.body.done.length === 1 && r.body.done[0].result === 'lose' && r.body.done[0].theirs.time === 25);
+// челленджи
+r = await A('POST', '/acc/fam/chal', { tpl: 'fam_tasks' }, H); ok('parent creates family challenge', r.code === 200 && r.body.chal.progress === 160);
+r = await A('POST', '/acc/fam/chal', { tpl: 'fam_tasks' }, CH(btok)); ok('no duplicate family challenge', r.code === 400 && r.body.error === 'dup');
+r = await A('POST', '/acc/fam/chal', { tpl: 'solo_tasks' }, H); ok('parent cannot pick non-family template', r.code === 400);
+r = await A('POST', '/acc/chal/start', { tpl: 'solo_tasks' }, CH(ctok)); ok('child starts solo challenge', r.code === 200 && r.body.chal.complete && r.body.chal.claimable);
+r = await A('POST', '/acc/chal/start', { tpl: 'solo_tasks' }, CH(ctok)); ok('no duplicate solo challenge', r.code === 400);
+r = await A('GET', '/acc/chal/list', null, CH(mtok)); ok('family challenge visible to every kid', r.body.active.some(c => c.tpl === 'fam_tasks' && c.members.length === 2 && !c.complete));
+const solo = (await A('GET', '/acc/chal/list', null, CH(ctok))).body.active.find(c => c.tpl === 'solo_tasks');
+r = await A('POST', `/acc/chal/${solo.id}/claim`, {}, CH(ctok)); ok('challenge reward', r.body.candies === 30 && r.body.badge === '🧮');
+r = await A('POST', `/acc/chal/${solo.id}/claim`, {}, CH(ctok)); ok('challenge reward once', r.code === 400);
+r = await A('POST', '/acc/chal/start', { tpl: 'fr_race', with: [misha.id] }, CH(ctok)); ok('friends race with family member', r.code === 200 && r.body.chal.members.length === 2);
+// друзья из другой семьи — по кодам и с разрешения взрослых обеих семей
+r = await A('POST', '/acc/child', { name: 'Петя', pin: [5, 6, 7], cloudCode: 'KIDCODE3' }, CH(tok2)); const petya = r.body.child, ptok3 = r.body.token;
+fs.writeFileSync(path.join(SAVE_DIR, 'KIDCODE3.json'), JSON.stringify({ v: 1, kid: 'Петя', name: 'Рыжик', xp: 10, days: { [mskDay()]: 3 }, savedAt: Date.now() }));
+const pubK = (await FR('KIDCODE1', 'me')).body.pub, pubP = (await FR('KIDCODE3', 'me')).body.pub;
+await FR('KIDCODE1', 'add', { pub: pubP }); r = await FR('KIDCODE3', 'add', { pub: pubK }); ok('friendship waits for adults', r.body.status === 'approval');
+r = await FR('KIDCODE1', 'list'); ok('not friends before approval', !r.body.friends.some(f => f.pub === pubP) && r.body.pending.some(f => f.pub === pubP && f.wait === 'parent'));
+r = await A('POST', '/acc/duel/new', { to: petya.id, game: 'paws' }, CH(ctok)); ok('no duel with unapproved friend', r.code === 403);
+r = await A('GET', '/acc/fam/friends', null, H); ok('parent sees friend request', r.body.kids.find(k => k.id === kid.id).requests.some(x => x.pub === pubP));
+await A('POST', '/acc/fam/friends', { childId: kid.id, pub: pubP, ok: true }, H); r = await FR('KIDCODE1', 'list'); ok('one side approved is not enough', !r.body.friends.some(f => f.pub === pubP));
+r = await A('POST', '/acc/fam/friends', { childId: petya.id, pub: pubK, ok: true }, CH(tok2)); r = await FR('KIDCODE1', 'list'); ok('both families approved → friends', r.body.friends.some(f => f.pub === pubP && !f.family));
+r = await A('GET', '/acc/social/board', null, CH(ctok)); ok('friends board includes approved friend', r.body.friends.length === 2 && r.body.friends.some(x => x.name === 'Петя') && !r.body.friends.some(x => x.name === 'Миша'));
+r = await A('POST', '/acc/fam/friends', { childId: kid.id, pub: pubP, ok: true }, CH(tok2)); ok('parent cannot approve for another family', r.code === 404);
+r = await A('GET', '/acc/fam/social', null, H); ok('parent cabinet social summary', r.body.board.rows.length === 2 && r.body.chals.length >= 2 && r.body.duelsWeek === 1 && r.body.templates.length === 4);
+r = await AD('GET', '/admin/api/stats', null, { cookie }); ok('admin social counters', r.body.social.multiAdultFamilies === 1 && r.body.social.duelsPlayed === 1 && r.body.social.challengesActive >= 3, JSON.stringify(r.body.social));
+// убрать приглашённого взрослого
+r = await A('POST', `/acc/fam/adult/${babId}/remove`, {}, H); ok('owner removes invited adult', r.code === 200);
+r = await A('GET', '/acc/family', null, CH(btok)); ok('removed adult loses access', r.code === 401);
+ok('removal logged', fs.readFileSync(path.join(DIR, 'consents.log'), 'utf8').includes('"type":"adult-removed"'));
+
 // выгрузка и удаление
 r = await A('GET', '/acc/export', null, H); ok('export has progress', r.code === 200 && JSON.parse(r.raw).progress['Кэтика'].xp === 32130);
 r = await A('POST', '/acc/revoke', { confirm: 'нет' }, H); ok('revoke needs confirm', r.code === 400);
