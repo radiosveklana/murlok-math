@@ -8,6 +8,6 @@ echo "версии: app=$AV version.json=$VJ index=$IV"; [ "$AV" = "$VJ" ] && [ 
 for f in "$ROOT"/*.js "$ROOT"/content/*.js; do node --check "$f" || { echo "СИНТАКСИС ✖ $f"; exit 1; }; done
 node "$ROOT/tools/validate-content.js" "$ROOT"/content/*.js "$ROOT"/content/extra/q*.js >/dev/null || { echo "КОНТЕНТ ✖"; node "$ROOT/tools/validate-content.js" "$ROOT"/content/*.js "$ROOT"/content/extra/q*.js | grep ✘; exit 1; }
 if [ -z "$URL" ]; then (node "$ROOT/tools/e2e/serve.js" 8765 >/dev/null 2>&1 &) ; sleep 2; fi
-run() { echo "== $1"; out=$(timeout 420 node "$1" $2 2>&1 || echo "FAIL timeout/crash"); echo "$out" | grep -E "ERRORS|errs|MISSES|VOICE|FAIL|cat class|water:|login modal|music-on|CLOUD|PHYSICS|INTERRO|COLLIDE|OVERFLOW|TALK|ACAD FAIL|ACAD DONE|V19 FAIL|V19 DONE" ; echo "$out" | grep -qE "FAIL|PAGEERR|errs: [^n]|OVERFLOW [0-9]|ACAD FAIL|V19 FAIL" && FAIL=1; }
-run full.js "820 1180 E"; run games.js; run voice.js; run house-touch.js; run login.js; run cloud.js; run overflow.js; run academy.js; run v19.js
+run() { echo "== $1"; out=$(timeout 420 node "$1" $2 2>&1 || echo "FAIL timeout/crash"); echo "$out" | grep -E "ERRORS|errs|MISSES|VOICE|FAIL|cat class|water:|login modal|music-on|CLOUD|PHYSICS|INTERRO|COLLIDE|OVERFLOW|TALK|ACAD FAIL|ACAD DONE|V19 FAIL|V19 DONE|V29 FAIL|V29 DONE" ; echo "$out" | grep -qE "FAIL|PAGEERR|errs: [^n]|OVERFLOW [0-9]|ACAD FAIL|V19 FAIL|V29 FAIL" && FAIL=1; }
+run full.js "820 1180 E"; run games.js; run voice.js; run house-touch.js; run login.js; run cloud.js; run overflow.js; run academy.js; run v19.js; run v29-style.js
 [ $FAIL = 0 ] && echo "ВСЁ ЗЕЛЁНОЕ ✔" || { echo "ЕСТЬ ОШИБКИ ✖"; exit 1; }

@@ -1,6 +1,9 @@
 """Аниме-иллюстрации для «Мурлок и Ко» через FLUX.1-schnell (Hugging Face, токен из hf.env проекта video-channels).
   python tools/gen-anime.py test            — одна пробная картинка
   python tools/gen-anime.py scenes|rooms|items|all
+  python tools/gen-anime.py v29                 — очередь v29 (новые комнаты и их вещи), потом: python tools/index-assets.py
+  python tools/gen-anime.py pick id1 id2 …      — только указанные (имя файла без расширения), по порядку
+  MAX=40 — не больше стольких картинок за запуск (квота Cloudflare общая)
 Готовые файлы не перегенерирует."""
 import sys, json, pathlib, shutil, time, base64, urllib.request, os
 from gradio_client import Client
@@ -62,6 +65,11 @@ def save_sticker(src, out, size=320):
     if bb: im = im.crop(bb)
     im.thumbnail((size, size)); im.save(out, 'WEBP', quality=86, method=6)
 
+V29 = ('rink factory observ throne fame pool music library station '
+       'fx_bowl fx_bed fx_scratch fx_desk fx_skates fx_flake fx_mixer fx_belt fx_tscope fx_starmap fx_throne fx_banner fx_cup fx_stars '
+       'fx_pool fx_ring fx_mic fx_notes fx_shelf fx_globe fx_window fx_panel '
+       'teddy ball cake cookies blocks vase lamp2 pancakes balloons bubbles ladybug garland').split()
+
 def main():
     what = sys.argv[1] if len(sys.argv) > 1 else 'test'
     spec = json.loads((ROOT / 'tools' / 'anime-assets.json').read_text(encoding='utf-8'))
@@ -70,10 +78,18 @@ def main():
     if what in ('scenes', 'all'): jobs += spec['scenes']
     if what in ('rooms', 'all'): jobs += spec['rooms']
     if what in ('items', 'all'): jobs += spec['items']
+    if what == 'v29':  # очередь v29: фоны новых комнат → вещи этих комнат → самые заметные вещи каталога
+        sys.argv[2:] = V29
+        what = 'pick'
+    if what == 'pick':
+        allj = {pathlib.Path(j['out']).stem: j for j in spec['rooms'] + spec['items']}
+        jobs = [allj[i] for i in sys.argv[2:] if i in allj]
+    cap = int(os.environ.get('MAX', '999'))
     done = 0
     for j in jobs:
         out = ROOT / j['out']
         if out.exists(): continue
+        if done >= cap: print('cap', cap); break
         if j['kind'] == 'item':
             prompt = f"{j['p']}, single object, centered, full view, sticker style with soft shading, isolated on pure white background, {STYLE}"
             src = gen(prompt, out, 768, 768, j.get('seed', 11))

@@ -51,6 +51,11 @@ const ROOMS = {
   music: 'cute music room interior, front view, pink wallpaper with music notes, small stage lights, wooden floor in the lower third, empty open floor space in the middle',
   library: 'cozy cute library room interior, front view, tall bookshelves on the walls, round window, wooden floor with rug in the lower third, empty open floor space in the middle',
   station: 'cute space station interior, front view, round windows with planets and stars, soft blue lights, metal floor in the lower third, empty open floor space in the middle',
+  rink: 'cute indoor ice skating rink, front view, pale blue walls with snowflake garlands and frosty windows, soft glowing lamps, smooth shiny ice floor in the lower third, empty open ice space in the middle',
+  factory: 'cute candy factory hall interior, front view, pink walls with pipes and big glass jars of candies, lollipop decorations, striped pink and white tiled floor in the lower third, empty open floor space in the middle',
+  observ: 'grand cute observatory hall at night, front view, dark blue domed ceiling open to a starry sky with nebula, brass rails and star charts on the walls, dark wooden floor in the lower third, empty open floor space in the middle',
+  throne: 'cute royal throne hall interior, front view, golden cream walls with tall arched windows and hanging red banners, chandeliers, red carpet floor in the lower third, empty open floor space in the middle',
+  fame: 'cute hall of fame interior at night, front view, deep purple walls with glowing golden stars and empty trophy shelves, spotlights, polished purple marble floor in the lower third, empty open floor space in the middle',
   attic: 'cute attic observatory at night, front view, sloped wooden roof with big round window full of stars, purple night glow, wooden floor in the lower third, empty open floor space in the middle',
 };
 const EN = {
@@ -70,14 +75,20 @@ const EN = {
   rainbow: 'a rainbow with clouds', crystal: 'a glowing crystal ball', wand: 'a magic wand with stars', fairy: 'a tiny cute fairy', gem: 'a sparkling treasure chest with gems', genie: 'a magic lamp with a friendly genie', dragon: 'a cute baby dragon',
   star: 'a shining star', moon: 'a crescent moon', planet: 'the planet Saturn with rings', rocket: 'a cute rocket', ufo: 'a cute flying saucer', alien: 'a cute friendly alien',
   sunflower: 'a sunflower in a pot', cactus: 'a cute cactus in a pot', mushroom: 'a red spotted mushroom', tree: 'a round green tree', snowman: 'a cute snowman', fountain: 'a small stone fountain',
+  fx_skates: 'a pair of white figure ice skates', fx_flake: 'a big sparkling blue snowflake ornament', fx_mixer: 'a big pink candy factory cake mixer machine with a bowl of cream', fx_belt: 'a candy factory conveyor belt with colorful candies', fx_tscope: 'a big brass observatory telescope on a stand', fx_starmap: 'a framed star map with constellations', fx_throne: 'a royal red and gold throne chair', fx_banner: 'a hanging red banner with a golden magnifying glass emblem', fx_cup: 'a big shining golden champion cup', fx_stars: 'a wall panel with many golden glowing stars',
+  wallshelf: 'a small wooden wall shelf', table: 'a small round wooden table', dresser: 'a cute pastel chest of drawers', sofa2: 'a fluffy white cloud-shaped sofa', armchair: 'a pink seashell-shaped armchair', chandelier: 'a crystal chandelier', fireplace: 'a cozy brick fireplace with fire', aquarium2: 'a big rectangular aquarium with colorful fish', piggy: 'a cute mini pig', owl: 'a cute owl', hedgehog: 'a cute hedgehog', panda: 'a plush panda toy', dino: 'a cute green toy dinosaur', racecar: 'a red toy race car', lego: 'a castle built of colorful toy bricks', console: 'a retro arcade game cabinet', swing: 'a wooden swing with ropes on a frame',
+  macatower: 'a pink macaron tower', waffles: 'a plate of waffles with strawberry jam', cottoncandy: 'a pink cotton candy on a stick', pancakes2: 'a tall stack of pancakes with butter', bigcake: 'a three tier birthday cake with strawberries', chocoriver: 'a chocolate fountain with strawberries',
+  skis: 'a pair of skis with poles', sled: 'a wooden sled', snowglobe: 'a snow globe with a tiny house inside', igloo: 'a cute snowy igloo', penguin: 'a cute baby penguin', scarfrack: 'a coat rack with colorful knitted scarves',
+  surf: 'a colorful surfboard', shell: 'a pink seashell', crab: 'a cute red crab', lighthouse: 'a red and white lighthouse', harp: 'a cute banjo', violin: 'a violin with a bow', sax: 'a golden saxophone', disco: 'a sparkling disco ball',
+  detectiveboard: 'a detective cork board with photos, pins and red string', safe2: 'a sturdy steel safe with a dial', fingerprint: 'a detective fingerprint kit with a brush and a magnifying glass', walkie: 'a walkie-talkie radio', telescope2: 'a starry blue telescope on a tripod', comet2: 'a glowing comet with a long tail', galaxy: 'a glass jar with a swirling galaxy inside', crystal2: 'a small crystal castle', firebird: 'a cute fire phoenix bird with golden flames', spellbook: 'an open glowing magic spell book', statue: 'a marble statue of a cat detective with a magnifying glass', goldcat: 'a shiny golden cat figurine',
   f_fish: 'a fish', f_milk: 'a glass of milk', f_cheese: 'a piece of cheese', f_shrimp: 'a fried shrimp', f_cake: 'a cupcake',
 };
 const NOPETS = id => ', empty, no animals, no cats, no people';
 const items = [];
 L.ROOMS.forEach(r => r.fixed.forEach(f => items.push({ kind: 'item', id: f[0], out: `img/items/${f[0]}.webp`, p: EN[f[0]] + NOPETS(f[0]) })));
-L.CATALOG.forEach(c => items.push({ kind: 'item', id: c[0], out: `img/items/${c[0]}.webp`, p: EN[c[0]] + (['Питомцы', 'Волшебство', 'Космос'].includes(c[5]) ? '' : NOPETS(c[0])) }));
+L.CATALOG.forEach(c => items.push({ kind: 'item', id: c[0], out: `img/items/${c[0]}.webp`, p: EN[c[0]] + (['Питомцы', 'Волшебство', 'Космос', 'Зима', 'Море'].includes(c[5]) || ['statue', 'goldcat'].includes(c[0]) ? '' : NOPETS(c[0])) }));
 L.FOODS.forEach(f => items.push({ kind: 'item', id: f[0], out: `img/items/${f[0]}.webp`, p: EN[f[0]] }));
-const miss = items.filter(i => !i.p); if (miss.length) throw new Error('no EN: ' + miss.map(m => m.id));
+const miss = items.filter(i => /undefined/.test(i.p)); if (miss.length) throw new Error('no EN: ' + miss.map(m => m.id));
 const spec = {
   scenes: SCENES.map((p, i) => ({ kind: 'scene', out: `img/scene2/${i}.jpg`, p: p + ', mysterious detective mood, magical night atmosphere, no characters', w: 1280, h: 720, seed: 30 + i })),
   rooms: Object.entries(ROOMS).map(([id, p], i) => ({ kind: 'room', out: `img/rooms/${id}.jpg`, p, w: 1280, h: 800, seed: 60 + i })),

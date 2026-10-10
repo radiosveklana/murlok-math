@@ -23,6 +23,7 @@ const Drills = (() => {
       $('#dag').addEventListener('click', () => go('drill', mode)); SND.win();
     };
     bindPad(app, { digit: x => { if (over || buf.length >= 6) return; buf += x; draw(); if (+buf === cur.a) { score++; $('#ds').textContent = score; SND.ok(); buf = ''; cur = M2.gen(); draw(); } else if (buf.length >= String(cur.a).length && +buf !== cur.a) { SND.bad(); setTimeout(() => { buf = ''; draw(); }, 250); } }, back: () => { buf = buf.slice(0, -1); draw(); }, ok: () => { if (+buf !== cur.a && buf) { SND.bad(); buf = ''; draw(); } } });
+    if (window.Boosts) Boosts.timed(s => { if (!over) { left += s; const t = $('#dt'); if (t) t.textContent = left; } }, () => !over); // 🍭 +10 с
     tid = setInterval(() => { left--; const t = $('#dt'); if (t) t.textContent = left; if (left <= 0) end(); }, 1000); cleanups.push(() => clearInterval(tid));
   };
   { const bl = SCREENS.blitz; SCREENS.blitz = arg => { bl(arg); const pg = $('.page', app); if (!pg) return; pg.insertAdjacentHTML('afterbegin', `<div class="drill-modes"><b>Выбери режим</b> <button class="chip on">✖️ Таблица умножения</button>${Object.entries(MODES).map(([k, m]) => `<button class="chip" data-go="drill" data-arg="${k}">${m.icon} ${m.name}${best()[k] ? ' · 🏆 ' + best()[k] : ''}</button>`).join('')}</div>`); }; }

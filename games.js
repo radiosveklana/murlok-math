@@ -269,7 +269,8 @@ const GAME_FN = {
     st.say('Вор убегает с конфетами! Каждый верный ответ — рывок вперёд. Догони его до финиша!');
     const draw = () => { $('#rc').style.left = cat + '%'; $('#rt').style.left = thief + '%'; $('#cq').innerHTML = `${f[0]} × ${f[1]} = <span class="inp">${buf || '?'}</span>`; };
     draw();
-    const iv = setInterval(() => { if (done) return; thief += 0.9; draw(); if (thief >= 92) end(false); }, 600); cleanups.push(() => clearInterval(iv));
+    let frozen = 0; if (window.Boosts) Boosts.timed(s => { frozen = Date.now() + s * 1000; }, () => !done); // 🍭 вор замирает на 10 с
+    const iv = setInterval(() => { if (done || Date.now() < frozen) return; thief += 0.9; draw(); if (thief >= 92) end(false); }, 600); cleanups.push(() => clearInterval(iv));
     function end(win) { if (done) return; done = true; clearInterval(iv); keyHandler = null; st.score = win ? Math.max(3, 10 - Math.floor((Date.now() - t0) / 8000)) : Math.round(cat / 15); st.rounds = 10; st.r = 1; if (win) { M.sfx('whoosh'); say(pick(PH.bugFound)); } finishGame(g, st); }
     bindPad($('#garea'), { digit: d => {
       if (done) return; buf += d; draw(); const ans = String(f[0] * f[1]);

@@ -1260,8 +1260,8 @@ SCREENS.blitz = () => {
     $('#bzb').innerHTML = `Быстрее, лапки, ${esc(S.kid)}! ⚡`; speakT(PH.blitzGo[0]);
     const q = $('#q'), draw = () => { q.innerHTML = `${f[0]} × ${f[1]} = <span class="inp">${buf || '?'}</span>`; };
     draw();
-    const t0 = Date.now();
-    const iv = setInterval(() => { left = 60 - (Date.now() - t0) / 1000; $('#tb').style.width = Math.max(0, left / 60 * 100) + '%'; if (left <= 0) { clearInterval(iv); end(); } }, 100);
+    let t0 = Date.now(); if (window.Boosts) Boosts.timed(s => { t0 += s * 1000; }, () => left > 0); // 🍭 леденец-заморозка: +10 с
+    const iv = setInterval(() => { left = 60 - (Date.now() - t0) / 1000; $('#tb').style.width = Math.min(100, Math.max(0, left / 60 * 100)) + '%'; if (left <= 0) { clearInterval(iv); end(); } }, 100);
     cleanups.push(() => clearInterval(iv));
     bindPad(box, {
       digit: d => {
