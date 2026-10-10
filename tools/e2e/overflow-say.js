@@ -1,6 +1,6 @@
 // Ищет горизонтальную прокрутку на телефоне в момент, когда котик говорит (всплывающие реплики, подсказки, тосты)
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new' });

@@ -1,6 +1,6 @@
 // Академия, честная теория, тренер-котик, салон окрасов, отчёт для взрослых, ПИН, фотостудия, скорочтение
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = [], res = [];
 const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'ACAD OK ' : 'ACAD FAIL ') + name + (extra ? ' ' + extra : '')); };

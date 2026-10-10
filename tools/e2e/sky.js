@@ -1,7 +1,7 @@
 // sky: настоящая звёздная карта (starmap.js + content/extra/sky-data.js) — астрономия, отрисовка, касания, переполнение.
 // node tools/e2e/sky.js   (сервер: node tools/e2e/serve.js 8765)
 const puppeteer = require('puppeteer-core'), path = require('path');
-const URL = process.env.URL || 'http://localhost:8765/', SHOTS = path.join(__dirname, 'shots');
+const URL = process.env.URL || 'http://localhost:8765/app/', SHOTS = path.join(__dirname, 'shots');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0, fails = 0;
 const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'SKY OK ' : 'SKY FAIL ') + name + (x !== '' ? ' ' + x : '')); };

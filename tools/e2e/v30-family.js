@@ -1,7 +1,7 @@
 // v30: семья и друзья (сервер подменён): регистрация через взрослого на первом экране, приглашение взрослых в семью,
 // семья = друзья, таблица успехов недели, вызовы на одном и том же задании (общее зерно), челленджи, кабинет и отчёт для взрослых
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0, fails = 0;
 const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V30 OK ' : 'V30 FAIL ') + name + (x ? ' ' + x : '')); };

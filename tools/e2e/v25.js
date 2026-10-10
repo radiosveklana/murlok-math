@@ -1,7 +1,7 @@
 // v25: личные кабинеты в приложении (сервер подменён): вход родителя с согласием, кабинет, привязка прогресса,
 // вход ребёнка по семейному коду и картинке-ПИН, опрос, подарки от админа, облако и друзья только с кабинетом, подстройка Академии
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0;
 const ok = (name, c, x = '') => { n++; console.log((c ? 'V25 OK ' : 'V25 FAIL ') + name + (x ? ' ' + x : '')); };

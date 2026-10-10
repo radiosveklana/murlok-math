@@ -1,7 +1,7 @@
 // v22: Школа = «Математика 4 класс», копилка задач в «Новом деле», космос, карта звёзд, новые персонажи и преступления,
 // режимы «Быстрых лапок», ошибки Енота, «Мои награды», «Мысль дня», ОБЖ и «Скорая помощь котика»
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0;
 const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ') + name + (x ? ' ' + x : '')); };

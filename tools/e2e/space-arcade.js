@@ -2,7 +2,7 @@
 // чекпоинт, приз за все планеты, наклейки, вход из карты звёзд / игр, без переполнения на 320/390, reduced-motion.
 // URL=http://localhost:8775/ node tools/e2e/space-arcade.js
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0, fails = 0;
 const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'SPACE OK ' : 'SPACE FAIL ') + name + (x ? ' ' + x : '')); };

@@ -46,7 +46,9 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
     const mins = Math.round(wk.reduce((t, d) => t + Object.values((s.time || {})[d] || {}).reduce((a, b) => a + b, 0), 0) / 60);
     return { id: ch.id, name: ch.name, cat: s.name || ch.cat || '', fur: s.fur || 'ginger', wear: s.wear || {}, xp: s.xp || 0, cases: s.cases || 0, candies: s.candies || 0, gems: s.gems || 0, minutesWeek: mins, lastSeen: s.savedAt || 0, survey: ch.survey || null, ref: refCount(ch.ref), hasPin: !!ch.pinHash, cloudCode: ch.cloudCode };
   }
-  const famView = (f, me) => ({ id: f.id, email: f.email, code: f.code, me: me ? { email: me, role: (adults(f).find(a => a.email === me) || {}).role || 'adult' } : null,
+  const GODS = new Set(String(process.env.GOD_EMAILS || '').toLowerCase().split(/[\s,;]+/).filter(Boolean)); // «режим бога» для тестирования владельцем
+  const isGod = (f, me) => !!f.god || GODS.has(String(me || f.email || '').toLowerCase());
+  const famView = (f, me) => ({ id: f.id, email: f.email, code: f.code, god: isGod(f, me) || undefined, me: me ? { email: me, role: (adults(f).find(a => a.email === me) || {}).role || 'adult' } : null,
     adults: adults(f).map(a => ({ id: a.id, email: a.email, name: a.name || '', role: a.role, joined: a.joined })), invites: Object.entries(A.invites).filter(([, v]) => v.f === f.id && v.exp > now()).map(([e, v]) => ({ email: e, name: v.name || '', exp: v.exp })), priorities: f.priorities || [], plan: f.plan || 'free', created: f.created, consent: f.consent, ref: refCount(f.ref), children: (f.children || []).map(id => A.children[id]).filter(Boolean).map(kidSummary) });
 
   /* ---------- снимки прогресса (раз в сутки, 14 дней) ---------- */

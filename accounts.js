@@ -27,12 +27,12 @@ const Accounts = (() => {
   /* ---------- первый экран: вход для взрослого и для ребёнка с семейным кодом ---------- */
   // v30: на новом устройстве первым делом — регистрация взрослого и вход по семейному коду; «без регистрации» — скромно, ниже
   { const h = SCREENS.hello; SCREENS.hello = arg => { h(arg); const pg = $('.page', app) || app, fresh0 = !S.kid && !linked();
-    if (!fresh0) pg.insertAdjacentHTML('afterbegin', `<div class="acc-entry"><button class="btn" id="aparent">👨‍👩‍👧 Я взрослый: вход и регистрация</button><button class="btn" id="achild">🧒 У меня есть семейный код</button><a class="link small" href="about/">Что это за игра? Рассказ для родителей</a></div>`);
+    if (!fresh0) pg.insertAdjacentHTML('afterbegin', `<div class="acc-entry"><button class="btn" id="aparent">👨‍👩‍👧 Я взрослый: вход и регистрация</button><button class="btn" id="achild">🧒 У меня есть семейный код</button><a class="link small" href="?site=1">Что это за игра? Рассказ для родителей</a></div>`);
     else {
-      const at = $('.hello .lead', app) || $('.hello h1', app); if (at) at.insertAdjacentHTML('afterend', `<div class="acc-entry fresh"><button class="btn pink big" id="aparent">👨‍👩‍👧 Я взрослый: регистрация</button><button class="btn big" id="achild">🧒 У меня есть семейный код</button><p class="small">Регистрирует взрослый: прогресс хранится в облаке, у детей — друзья, вызовы и челленджи всей семьёй. Ребёнок входит по семейному коду.</p><a class="link small" href="about/">Что это за игра? Рассказ для родителей</a></div>`);
+      const at = $('.hello .lead', app) || $('.hello h1', app); if (at) at.insertAdjacentHTML('afterend', `<div class="acc-entry fresh"><button class="btn pink big" id="aparent">👨‍👩‍👧 Я взрослый: регистрация</button><button class="btn big" id="achild">🧒 У меня есть семейный код</button><p class="small">Регистрирует взрослый: прогресс хранится в облаке, у детей — друзья, вызовы и челленджи всей семьёй. Ребёнок входит по семейному коду.</p><a class="link small" href="?site=1">Что это за игра? Рассказ для родителей</a></div>`);
       const lbl = $('label[for="kid"]', app); if (lbl) lbl.insertAdjacentHTML('beforebegin', `<div class="acc-try"><h3>🐾 Попробовать без регистрации</h3><p class="small">Прогресс сохранится только на этом устройстве. Понравится — попроси взрослого зарегистрироваться, и прогресс не потеряется.</p></div>`);
     }
-    pg.insertAdjacentHTML('beforeend', '<p class="center small"><a class="link small" href="about/">Что это за игра? Рассказ для родителей</a> <span class="age">6+</span></p>'); $('#aparent').addEventListener('click', () => go('pauth')); $('#achild').addEventListener('click', () => go('clogin')); }; }
+    pg.insertAdjacentHTML('beforeend', '<p class="center small"><a class="link small" href="?site=1">Что это за игра? Рассказ для родителей</a> <span class="age">6+</span></p>'); $('#aparent').addEventListener('click', () => go('pauth')); $('#achild').addEventListener('click', () => go('clogin')); }; }
 
   /* ---------- вход родителя ---------- */
   SCREENS.pauth = arg => {
@@ -173,7 +173,7 @@ const Accounts = (() => {
     $('#cout', m.el).addEventListener('click', async () => { $('#cout', m.el).disabled = true; $('#cout', m.el).textContent = 'Сохраняем…';
       try { const r = await fetch(CLOUD + '/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), data: { ...S, chatLog: [] } }) }); if (!r.ok) throw 0; }
       catch (e) { $('#cout', m.el).disabled = false; $('#cout', m.el).textContent = 'Сохранить и выйти'; toast('Нет связи — прогресс не сохранился, попробуй позже'); return; }
-      ls.set(AK, null); try { localStorage.removeItem(KEY); localStorage.setItem('murlok-saw-site', '1'); } catch (e) { } location.href = 'about/'; }); // после выхода — на сайт
+      ls.set(AK, null); try { localStorage.removeItem(KEY); localStorage.setItem('murlok-saw-site', '1'); } catch (e) { } location.href = '?site=1'; }); // после выхода — на сайт
   }
   // «Выйти» для любого случая: привязанный ребёнок — сохраняем в облако и выходим; без кабинета — объясняем, что прогресс пропадёт
   function exitAny() {
@@ -222,7 +222,7 @@ const Accounts = (() => {
   { const os = openSettings; openSettings = function () { const r = os.apply(this, arguments); const L = $$('.modal .set-list').pop(); if (L && !$('#set-adult', L)) {
     // кто вошёл и «Выйти» — всегда сверху, чтобы не искать
     L.insertAdjacentHTML('beforebegin', `<div class="acc-line"><span class="al-ic">${linked() ? '☁️' : '📱'}</span><div class="al-t"><b>${esc(S.kid || 'Игрок')}</b><small>${linked() ? 'вход по семейному коду' : 'прогресс только на этом устройстве'}${parent() ? ' · взрослый: ' + esc(parent().email) : ''}</small></div><button class="btn sm" id="set-exit">🚪 Выйти</button></div>`);
-    L.insertAdjacentHTML('beforeend', `${parent() ? '<button class="set-row" id="set-pout"><span>🔓</span><b>Выйти из кабинета взрослого</b><i class="arr">›</i></button>' : ''}<button class="set-row adult" id="set-adult"><span>👨‍👩‍👧</span><b>Для взрослых</b><i class="arr">›</i></button><a class="set-row" id="set-site" href="about/"><span>🌐</span><b>На сайт «Мурлок и Ко»</b><i class="arr">›</i></a>`);
+    L.insertAdjacentHTML('beforeend', `${parent() ? '<button class="set-row" id="set-pout"><span>🔓</span><b>Выйти из кабинета взрослого</b><i class="arr">›</i></button>' : ''}<button class="set-row adult" id="set-adult"><span>👨‍👩‍👧</span><b>Для взрослых</b><i class="arr">›</i></button><a class="set-row" id="set-site" href="?site=1"><span>🌐</span><b>На сайт «Мурлок и Ко»</b><i class="arr">›</i></a>`);
     const close = () => $$('.modal').forEach(x => x.remove());
     $('#set-adult', L).addEventListener('click', () => { close(); gate('parents'); });
     $('#set-exit')?.addEventListener('click', () => { close(); exitAny(); });

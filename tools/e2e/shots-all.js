@@ -1,6 +1,6 @@
 // Скриншоты всех экранов на телефоне — для визуальной проверки вёрстки: node shots-all.js [ширина]
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const W = +process.argv[2] || 375;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {

@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer-core');
 (async () => {
-  const URL = process.env.URL || 'http://localhost:8765/';
+  const URL = process.env.URL || 'http://localhost:8765/app/';
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new', args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream', '--use-file-for-fake-audio-capture=' + require('path').resolve('q.wav'), '--autoplay-policy=no-user-gesture-required'] });
   const p = await b.newPage(); await p.setViewport({ width: 820, height: 1180 });
   const errs = []; p.on('pageerror', e => errs.push(e.message));

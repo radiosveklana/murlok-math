@@ -1,6 +1,6 @@
 // v19: друзья и гости (сервер подменён), тренажёр разговора, профили, имена, «Заработать», легенда, наряды, комнаты, игры Академии
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0;
 const ok = (name, c, x = '') => { n++; console.log((c ? 'V19 OK ' : 'V19 FAIL ') + name + (x ? ' ' + x : '')); };

@@ -1,7 +1,7 @@
 // v29: глубокая проработка Академии — больше карточек и вопросов в каждой теме, новые уроки, генераторы задач
 // (вероятности, логические таблицы, факт/мнение, безопасно/опасно…), генераторы Академии в «Новом деле → Выбрать темы».
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0, fails = 0;
 const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V29 OK ' : 'V29 FAIL ') + name + (x ? ' ' + x : '')); };

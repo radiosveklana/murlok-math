@@ -1,7 +1,7 @@
 // v29: единая рисовка домика (фон для комнат без картинки, вещи-стикеры), +31 наряд (сезонные и за достижения),
 // бонусы-айтемы из Кондитерской (пончик удачи, кекс-подсказка, леденец-заморозка, печенье-щит, торт-праздник)
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0, fails = 0;
 const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V29 OK ' : 'V29 FAIL ') + name + (x ? ' ' + x : '')); };

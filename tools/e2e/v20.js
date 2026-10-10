@@ -1,6 +1,6 @@
 // v20: математика 4 класса (генераторы, уровни, разбор ошибок), +810 вопросов, банки игр, креативное мышление, вещи на полках
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0;
 const ok = (name, c, x = '') => { n++; console.log((c ? 'V20 OK ' : 'V20 FAIL ') + name + (x ? ' ' + x : '')); };

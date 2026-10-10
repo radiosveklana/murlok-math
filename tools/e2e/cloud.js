@@ -2,7 +2,7 @@
 const puppeteer = require('puppeteer-core');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {
-  const URL = process.env.URL || 'http://localhost:8765/';
+  const URL = process.env.URL || 'http://localhost:8765/app/';
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new' });
   const errs = [];
   const p = await b.newPage(); p.on('pageerror', e => errs.push(e.message));

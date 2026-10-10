@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer-core');
 const ROOT = require('path').resolve(__dirname, '../..');
 const Eng = require(ROOT + '/engine.js');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; const misses = new Set();
 (async () => {

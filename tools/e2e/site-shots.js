@@ -1,6 +1,6 @@
 // Скриншоты обновлённого интерфейса для сайта about/: node tools/e2e/site-shots.js  → about/shots/*.webp, cat.svg, og.jpg
 const puppeteer = require('puppeteer-core'), fs = require('fs'), path = require('path');
-const URL = process.env.URL || 'http://localhost:8765/', OUT = path.join(__dirname, '../../about/shots');
+const URL = process.env.URL || 'http://localhost:8765/app/', OUT = path.join(__dirname, '../../about/shots');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });

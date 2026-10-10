@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer-core');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {
-  const URL = process.argv[2] || 'http://localhost:8765/';
+  const URL = process.argv[2] || 'http://localhost:8765/app/';
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new', args: ['--autoplay-policy=no-user-gesture-required'] });
   const p = await b.newPage(); await p.setViewport({ width: 820, height: 1180, isMobile: true, hasTouch: true });
   const errs = []; p.on('pageerror', e => errs.push(e.message));
