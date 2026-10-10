@@ -62,7 +62,7 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   ok('moon mission done', await E(() => S.trip.done.moon === 3));
 
   /* ---------- быстрые лапки, ошибки Енота ---------- */
-  await go('blitz'); ok('blitz modes', (await p.$$('.drill-modes .chip')).length === 5);
+  await go('blitz'); ok('blitz modes', (await p.$$('.bz-m')).length >= 5); // v29: сетка режимов вместо фишек
   await go('drill', 'div'); const qtxt = await E(() => document.querySelector('#dq').innerText); const [x, y] = qtxt.split(':').map(Number);
   for (const ch of String(x / y)) await p.keyboard.press(ch); await sleep(300); ok('division drill counts', await E(() => document.querySelector('#ds').innerText === '1'));
   await go('bugs'); ok('bugs: new mode link', !!(await p.$('.bugs2-link')));
