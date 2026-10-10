@@ -92,56 +92,59 @@ const Column = (() => {
     return `<div class="divbox"><div class="dgrid" style="--n:${n}">${rows.map((r, ri) => r.map(c => `<span class="dc ${c.cur ? 'cur' : ''} ${c.ul ? 'ul' : ''} ${c.rem ? 'rem' : ''}">${c.minus ? '<i class="mn">−</i>' : ''}${c.t}</span>`).join('')).join('')}</div><div class="dright"><div class="dvs">${P.b}</div><div class="dq">${qDigits || '&nbsp;'}</div></div></div>`;
   }
   function runDiv(el, P, guided, bub, finish) {
+    // wait — ответ уже принят, следующий шаг вот-вот появится: повторное нажатие «OK»/кнопки не засчитываем (иначе шаг шёл дважды и пример засчитывался 2 раза)
+    let wait = false, fin = false; const later = ms => { wait = true; setTimeout(step, ms); };
     let s = 0, phase = guided ? 'first' : 'q', mistakes = 0, helped = false, tries = 0, okN = 0; const t0 = Date.now(), lv = S.prefs.divLv;
     if (window.Mistakes) Mistakes.begin({ kind: 'div', a: P.a, b: P.b }); // работа над ошибками: какая задача решается
     const draw = (part) => { el.innerHTML = `<div class="task-title">${P.a} : ${P.b}</div>${divGrid(P, Math.max(1, s + 1), part)}<div class="ask" id="cask"></div><div id="cin"></div>`; };
     const pad = (label, check) => {
       let buf = ''; $('#cask').innerHTML = `${label} <span class="inp" id="cv">?</span>`; $('#cin').innerHTML = numpad(true);
-      bindPad($('#cin'), { digit: x => { if (buf.length < 6) { buf += x; $('#cv').textContent = buf; } }, back: () => { buf = buf.slice(0, -1); $('#cv').textContent = buf || '?'; }, ok: () => { if (!buf) return; const v = +buf; buf = ''; $('#cv').textContent = '?'; check(v); } });
+      bindPad($('#cin'), { digit: x => { if (buf.length < 6) { buf += x; $('#cv').textContent = buf; } }, back: () => { buf = buf.slice(0, -1); $('#cv').textContent = buf || '?'; }, ok: () => { if (!buf || wait) return; const v = +buf; buf = ''; $('#cv').textContent = '?'; check(v); } });
     };
     const wrong = (h, show) => { mistakes++; tries++; SND.bad(); noteErr('div', null, 'div:' + phase); bub(`${okN ? '<div class="fb gp-ok">✅ Предыдущие шаги — верно</div>' : ''}<div class="fb bad">🔎 Давай проверим</div>${tries >= 2 && show != null ? `${h}<br>Ответ: <b>${show}</b>` : h}`); if (tries >= 3) { helped = true; return true; } return false; };
     const ok = (h) => { tries = 0; okN++; SND.ok(); if (h) bub(`<div class="fb">✔ Верно!</div>${h}`); };
     function step() {
       if (!el.isConnected) return; // ушли с экрана — отложенный шаг не рисуем
+      wait = false; if (fin) return;
       const X = P.steps[s];
       if (phase === 'first') {
         draw(-1); const opts = []; const A = String(P.a); for (let k = 1; k <= Math.min(A.length, P.firstLen + 1); k++) opts.push(+A.slice(0, k));
         bub(`Делим <b>${P.a}</b> на <b>${P.b}</b>. Сначала найдём <b>первое неполное делимое</b> — самое маленькое начало числа, в котором ${P.b} помещается хотя бы один раз.`);
         $('#cask').innerHTML = 'Какое первое неполное делимое?'; $('#cin').innerHTML = `<div class="opts">${[...new Set(opts)].map(v => `<button class="opt" data-v="${v}">${v}</button>`).join('')}</div>`;
-        $$('#cin .opt').forEach(b => b.addEventListener('click', () => { const v = +b.dataset.v; if (v === P.first) { ok(`Первое неполное делимое — <b>${P.first}</b>. Значит, в частном будет <b>${String(P.q).length}</b> ${plural(String(P.q).length, 'цифра', 'цифры', 'цифр')}.`); phase = 'q'; setTimeout(step, 900); } else { b.classList.add('wrong'); if (wrong(v < P.b ? `${v} меньше ${P.b} — ${P.b} в нём не помещается ни разу. Возьми ещё цифру.` : `Можно взять меньше цифр: ${P.b} помещается уже в ${P.first}.`, P.first)) { phase = 'q'; setTimeout(step, 1500); } } }));
+        $$('#cin .opt').forEach(b => b.addEventListener('click', () => { if (wait) return; const v = +b.dataset.v; if (v === P.first) { ok(`Первое неполное делимое — <b>${P.first}</b>. Значит, в частном будет <b>${String(P.q).length}</b> ${plural(String(P.q).length, 'цифра', 'цифры', 'цифр')}.`); phase = 'q'; later(900); } else { b.classList.add('wrong'); if (wrong(v < P.b ? `${v} меньше ${P.b} — ${P.b} в нём не помещается ни разу. Возьми ещё цифру.` : `Можно взять меньше цифр: ${P.b} помещается уже в ${P.first}.`, P.first)) { phase = 'q'; later(1500); } } }));
         return;
       }
       if (phase === 'q') {
         draw(0);
         if (guided) bub(X.q === 0 && s > 0 ? `Число <b>${X.cur}</b> меньше <b>${P.b}</b>. Сколько раз ${P.b} в нём помещается?` : `Сколько раз <b>${P.b}</b> помещается в <b>${X.cur}</b>? Подбирай: ${P.b} · ? должно быть не больше ${X.cur}.`);
         pad(`${X.cur} : ${P.b} ≈`, v => {
-          if (v === X.q) { ok(X.q === 0 ? `Пишем в частном <b>0</b>.` : guided ? `${P.b} · ${X.q} = ${X.prod} — не больше ${X.cur}, а ${P.b} · ${X.q + 1} = ${P.b * (X.q + 1)} — уже больше.` : ''); phase = X.q === 0 ? 'next' : 'prod'; setTimeout(step, guided ? 900 : 250); return; }
+          if (v === X.q) { ok(X.q === 0 ? `Пишем в частном <b>0</b>.` : guided ? `${P.b} · ${X.q} = ${X.prod} — не больше ${X.cur}, а ${P.b} · ${X.q + 1} = ${P.b * (X.q + 1)} — уже больше.` : ''); phase = X.q === 0 ? 'next' : 'prod'; later(guided ? 900 : 250); return; }
           const h = v > X.q ? `${P.b} · ${v} = ${P.b * v} — это больше, чем ${X.cur}. Возьми меньше.` : `Мало: ${X.cur} − ${P.b * v} = ${X.cur - P.b * v}, а остаток должен быть меньше ${P.b}. Возьми больше.`;
-          if (wrong(h, X.q)) { phase = X.q === 0 ? 'next' : 'prod'; setTimeout(step, 1600); }
+          if (wrong(h, X.q)) { phase = X.q === 0 ? 'next' : 'prod'; later(1600); }
         });
         return;
       }
       if (phase === 'prod') {
         draw(0); if (guided) bub(`Умножаем: <b>${X.q} · ${P.b}</b> — и пишем под ${X.cur}.`);
-        pad(`${X.q} · ${P.b} =`, v => { if (v === X.prod) { ok(''); phase = 'rem'; step(); } else if (wrong(`Проверь умножение: ${X.q} · ${P.b}.`, X.prod)) { phase = 'rem'; setTimeout(step, 1500); } });
+        pad(`${X.q} · ${P.b} =`, v => { if (v === X.prod) { ok(''); phase = 'rem'; step(); } else if (wrong(`Проверь умножение: ${X.q} · ${P.b}.`, X.prod)) { phase = 'rem'; later(1500); } });
         return;
       }
       if (phase === 'rem') {
         draw(1); if (guided) bub(`Вычитаем: <b>${X.cur} − ${X.prod}</b>. Остаток должен быть меньше ${P.b}!`);
-        pad(`${X.cur} − ${X.prod} =`, v => { if (v === X.rem) { ok(''); phase = 'next'; step(); } else if (wrong(`Посчитай ${X.cur} − ${X.prod} столбиком или в уме.`, X.rem)) { phase = 'next'; setTimeout(step, 1500); } });
+        pad(`${X.cur} − ${X.prod} =`, v => { if (v === X.rem) { ok(''); phase = 'next'; step(); } else if (wrong(`Посчитай ${X.cur} − ${X.prod} столбиком или в уме.`, X.rem)) { phase = 'next'; later(1500); } });
         return;
       }
       if (phase === 'next') {
         if (s < P.steps.length - 1) {
           const d = String(P.a)[P.steps[s + 1].end]; s++; draw(0);
           if (guided) bub(`Сносим следующую цифру <b>${d}</b> — получилось <b>${P.steps[s].cur}</b>.`);
-          phase = 'q'; setTimeout(step, guided ? 1300 : 400); return;
+          phase = 'q'; later(guided ? 1300 : 400); return;
         }
         draw(2);
         const check = `${P.b} · ${P.q}${P.r ? ' + ' + P.r : ''} = ${P.a}`;
         $('#cask').innerHTML = `<b>${P.a} : ${P.b} = ${P.q}${P.r ? ` (ост. ${P.r})` : ''}</b>`; $('#cin').innerHTML = '';
         bub(`🎉 Готово, ${esc(S.kid)}! ${P.r ? `Остаток <b>${P.r}</b> меньше делителя ${P.b} — всё верно.` : 'Разделилось без остатка!'}<br>Проверка: <b>${check}</b> ✔`);
-        say(pick(PH.done)); finish(S.prefs.divLv, mistakes, helped, t0);
+        fin = true; say(pick(PH.done)); finish(S.prefs.divLv, mistakes, helped, t0);
       }
     }
     step();
@@ -149,7 +152,7 @@ const Column = (() => {
 
   /* ---------- сложение / вычитание столбиком ---------- */
   function runAdd(el, P, guided, bub, finish) {
-    const W = Math.max(String(P.a).length, String(P.b).length, String(P.res).length) + 1, got = [], marks = {}; let k = 0, mistakes = 0, helped = false, tries = 0; const t0 = Date.now();
+    const W = Math.max(String(P.a).length, String(P.b).length, String(P.res).length) + 1, got = [], marks = {}; let k = 0, mistakes = 0, helped = false, tries = 0, wait = false; const t0 = Date.now(); // wait — разряд принят, повторное «OK» до следующего шага игнорируем
     if (window.Mistakes) Mistakes.begin({ kind: 'add', a: P.a, b: P.b, op: P.op });
     const cell = (s, c) => { const i = s.length - (W - c); return i >= 0 && i < s.length ? s[i] : ''; };
     const draw = () => {
@@ -171,9 +174,9 @@ const Column = (() => {
       }
       let buf = ''; $('#cask').innerHTML = `Цифра в разряде: <span class="inp" id="cv">?</span>`; $('#cin').innerHTML = numpad(true);
       bindPad($('#cin'), { digit: x => { buf = String(x); $('#cv').textContent = buf; }, back: () => { buf = ''; $('#cv').textContent = '?'; }, ok: () => {
-        if (buf === '') return; const v = +buf;
-        if (v === c.d) { tries = 0; SND.ok(); got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; if (guided && c.carryOut) bub(P.op === '+' ? `✔ Пишем <b>${c.d}</b>, а <b>1</b> запоминаем — пишем сверху над следующим разрядом.` : `✔ Пишем <b>${c.d}</b>. Над соседом ставим точку — у него заняли единицу.`); k++; setTimeout(next, guided && c.carryOut ? 1100 : 200); }
-        else { mistakes++; tries++; SND.bad(); noteErr(P.op === '+' ? 'add' : 'sub', null, P.op === '+' ? (c.carryIn ? 'add:carry' : 'add:calc') : (c.carryIn || c.carryOut ? 'sub:borrow' : 'sub:calc')); const h = P.op === '+' ? `${c.da} + ${c.db}${c.carryIn ? ' + 1' : ''} = ${c.sum}. Пишем последнюю цифру.` : (c.carryOut ? `Заняли десяток: ${c.x} − ${c.db} = ${c.d}.` : `${c.top} − ${c.db} = ${c.d}.`); bub(`${got.length ? `<div class="fb gp-ok">✅ ${got.length === 1 ? 'Первый разряд' : 'Первые ' + got.length + ' ' + plural(got.length, 'разряд', 'разряда', 'разрядов')} — верно</div>` : ''}<div class="fb bad">🔎 Давай проверим</div>${tries >= 2 ? h : (P.op === '+' ? 'Не забудь про запомненную единицу!' : 'Хватает ли цифры сверху? Если нет — занимай десяток.')}`); if (tries >= 3) { helped = true; got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; k++; setTimeout(next, 1400); } }
+        if (buf === '' || wait) return; const v = +buf;
+        if (v === c.d) { tries = 0; SND.ok(); got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; if (guided && c.carryOut) bub(P.op === '+' ? `✔ Пишем <b>${c.d}</b>, а <b>1</b> запоминаем — пишем сверху над следующим разрядом.` : `✔ Пишем <b>${c.d}</b>. Над соседом ставим точку — у него заняли единицу.`); k++; wait = true; setTimeout(() => { wait = false; next(); }, guided && c.carryOut ? 1100 : 200); }
+        else { mistakes++; tries++; SND.bad(); noteErr(P.op === '+' ? 'add' : 'sub', null, P.op === '+' ? (c.carryIn ? 'add:carry' : 'add:calc') : (c.carryIn || c.carryOut ? 'sub:borrow' : 'sub:calc')); const h = P.op === '+' ? `${c.da} + ${c.db}${c.carryIn ? ' + 1' : ''} = ${c.sum}. Пишем последнюю цифру.` : (c.carryOut ? `Заняли десяток: ${c.x} − ${c.db} = ${c.d}.` : `${c.top} − ${c.db} = ${c.d}.`); bub(`${got.length ? `<div class="fb gp-ok">✅ ${got.length === 1 ? 'Первый разряд' : 'Первые ' + got.length + ' ' + plural(got.length, 'разряд', 'разряда', 'разрядов')} — верно</div>` : ''}<div class="fb bad">🔎 Давай проверим</div>${tries >= 2 ? h : (P.op === '+' ? 'Не забудь про запомненную единицу!' : 'Хватает ли цифры сверху? Если нет — занимай десяток.')}`); if (tries >= 3) { helped = true; got.push(c.d); if (c.carryOut) marks[k + 1] = P.op === '+' ? '1' : '•'; k++; wait = true; setTimeout(() => { wait = false; next(); }, 1400); } }
       } });
     };
     next();
