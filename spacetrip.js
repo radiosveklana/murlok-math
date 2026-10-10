@@ -8,7 +8,7 @@ const SpaceTrip = (() => {
     { id: 'moon', name: 'Луна', c: '#CFCFD8', r: 30, theme: 'Величины: длина, масса, время', src: ['math4:length_mass', 'math4:time'], fact: 'На Луне нет воздуха, поэтому следы космонавтов там хранятся десятилетиями.' },
     { id: 'mercury', name: 'Меркурий', c: '#B5A79A', r: 26, theme: 'Быстрый счёт: круглые числа и удобные вычисления', src: ['math4:round_mul', 'math4:props'], fact: 'Меркурий — самая маленькая планета и ближайшая к Солнцу.' },
     { id: 'venus', name: 'Венера', c: '#E8C67A', r: 34, theme: 'Порядок действий и деление с остатком', src: ['math4:order_ops', 'math4:remainder'], fact: 'Венера — самая горячая планета: там жарче, чем в духовке!' },
-    { id: 'earth', name: 'Земля', c: '#4C9BE8', r: 35, theme: 'Природа, забота и безопасность', src: ['@world', '@safety', '@health', '@obzh'], fact: 'Земля — единственная известная планета, где есть жизнь.' },
+    { id: 'earth', name: 'Земля', c: '#4C9BE8', r: 35, theme: 'Природа, забота и безопасность', src: ['@world', '@safety', '@health', '@obzh', '@body'], fact: 'Земля — единственная известная планета, где есть жизнь.' },
     { id: 'mars', name: 'Марс', c: '#D2603A', r: 30, theme: 'Задачи на движение', src: ['math4:motion', 'math4:motion_two'], fact: 'На Марсе самый высокий вулкан Солнечной системы — Олимп.' },
     { id: 'jupiter', name: 'Юпитер', c: '#D9A66B', r: 56, theme: 'Числа-гиганты: до миллиона', src: ['math4:million_read', 'math4:million_compare', 'math4:more_less'], fact: 'Внутри Юпитера поместилось бы больше тысячи планет размером с Землю.' },
     { id: 'saturn', name: 'Сатурн', c: '#E6CB8A', r: 48, ring: true, theme: 'Доли и части — как кольца Сатурна', src: ['math4:part_qty', 'math4:part_num'], fact: 'Кольца Сатурна состоят из льда и камней.' },
@@ -19,7 +19,7 @@ const SpaceTrip = (() => {
   const open = () => solvedTotal() >= NEED;
   const planet = (p, s = 1) => { const R = p.r * s, W = (R + (p.ring ? R * 0.7 : 0)) * 2 + 6; return `<svg viewBox="${-W / 2} ${-R - 3} ${W} ${R * 2 + 6}" width="${W}" height="${R * 2 + 6}">${p.ring ? `<ellipse rx="${R * 1.65}" ry="${R * 0.42}" fill="none" stroke="#C9A65A" stroke-width="${R * 0.16}"/>` : ''}<circle r="${R}" fill="${p.c}"/><circle cx="${-R * .35}" cy="${-R * .35}" r="${R * .3}" fill="#fff" opacity=".3"/><circle r="${R}" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="${R * .12}"/></svg>`; };
   function questionFrom(src, d) { // один вопрос: из «копилки» (генераторы) или из предмета Академии (@id)
-    if (src[0] === '@') { const s = window.SUBJECTS[src.slice(1)]; if (!s) return null; const u = pick(s.units), q = pick(u.quiz.filter(x => ['one', 'tf', 'input'].includes(x.type))); return q ? { q, title: s.name, icon: s.icon } : null; }
+    if (src[0] === '@') { const s = window.SUBJECTS[src.slice(1)]; if (!s) return null; const u = pick(s.units), okT = x => x && ['one', 'tf', 'input'].includes(x.type); let q = null; if (typeof u.gen === 'function' && Math.random() < 0.5) { try { q = u.gen(d); } catch (e) { q = null; } if (!okT(q)) q = null; } q = q || pick(u.quiz.filter(okT)); return q ? { q, title: s.name, icon: s.icon } : null; } // темы с генератором дают новые вопросы
     const [sid, uid] = src.split(':'), u = ((window.SUBJECTS[sid] || {}).units || []).find(x => x.id === uid); return u && u.gen ? { q: u.gen(d), title: u.title, icon: u.icon, regen: () => u.gen(d) } : null;
   }
   SCREENS.spacetrip = () => {
