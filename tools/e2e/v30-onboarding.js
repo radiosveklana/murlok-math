@@ -54,8 +54,8 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V30 OK
   ok('kid tour starts by itself after popups', await waitFor(tourOn, 6000));
   ok('own cat with outfit in the tour', await E(() => !!document.querySelector('.tour-cat svg') && document.querySelector('.hero-cat').style.visibility === 'hidden'));
   ok('spotlight + bubble + dots + skip', await E(() => !!document.querySelector('.tour-hole') && !!document.querySelector('.tb-dots i') && !!document.querySelector('.tb-skip')));
-  await sleep(1800);
-  ok('bubble text mentions kid and cat names', await E(() => /Маша/.test(document.querySelector('.tb-title').textContent) && /Пушок/.test(document.querySelector('.tb-text').textContent)));
+  // котик сначала подбегает, потом пишет текст — под нагрузкой это дольше 1,8 с, поэтому ждём условие
+  ok('bubble text mentions kid and cat names', await waitFor(() => E(() => /Маша/.test((document.querySelector('.tb-title') || {}).textContent || '') && /Пушок/.test((document.querySelector('.tb-text') || {}).textContent || '')), 6000));
   const steps = await walk('390 kid');
   ok('kid tour has 8–12 stops', steps >= 8 && steps <= 12, String(steps));
   ok('tour marked done, hero cat back', await E(() => S.tourDone === 1 && document.querySelector('.hero-cat').style.visibility === ''));
