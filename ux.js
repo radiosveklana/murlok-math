@@ -6,7 +6,7 @@ const UX = (() => {
   const HOME_GROUPS = [
     ['learn', '🎓 Учиться', ['school', 'academy', 'newcase', 'blitz', 'games', 'bugs']],
     ['cat', '🐱 Мой котик', ['house', 'shop', 'fitting', 'photo', 'chat', 'studio']],
-    ['social', '🏆 Друзья и награды', ['friends', 'diplomas', 'book', 'earn']]
+    ['social', '🏆 Друзья и награды', ['friends', 'board', 'diplomas', 'book', 'earn']]
   ];
   function regroupHome() {
     const tiles = $('.tiles', app); if (!tiles || tiles.dataset.ux) return;

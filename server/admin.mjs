@@ -24,13 +24,13 @@ export function makeAdmin({ DIR, SAVE_DIR, acc, send, mail, tg, tgLinks, TG_BOT 
     const refs = Object.entries(A.refs).map(([c, r]) => ({ code: c, visits: r.visits, regs: r.regs, owner: r.owner.c ? 'ребёнок ' + ((A.children[r.owner.c] || {}).name || '') : 'семья ' + ((A.families[r.owner.f] || {}).email || '') })).filter(r => r.visits || r.regs).sort((a, b) => b.regs - a.regs || b.visits - a.visits).slice(0, 15);
     return { families: Object.keys(A.families).length, children: Object.keys(A.children).length, active: { day: active(1), week: active(7), month: active(30) }, minutesPerKidDay: kids ? Math.round(mins / kids / 60 / 7) : 0,
       areas: Object.entries(areas).sort((a, b) => b[1] - a[1]).map(([a, s]) => ({ name: AREA[a] || a, minutes: Math.round(s / 60) })), subjects: Object.entries(subj).sort((a, b) => b[1] - a[1]).map(([id, n]) => ({ id, n })),
-      sources: { viaRef: Object.values(A.families).filter(f => f.refBy).length, direct: Object.values(A.families).filter(f => !f.refBy).length, top: refs }, unlinkedSaves: saves.filter(x => !linked.has(x.code)).length, flagsNew: A.flags.filter(f => !f.seen).length };
+      sources: { viaRef: Object.values(A.families).filter(f => f.refBy).length, direct: Object.values(A.families).filter(f => !f.refBy).length, top: refs }, unlinkedSaves: saves.filter(x => !linked.has(x.code)).length, flagsNew: A.flags.filter(f => !f.seen).length, social: acc.social ? acc.social.stats() : null };
   }
   function familyFull(f) {
     const v = acc.famView(f); v.children = v.children.map(k => { const ch = A.children[k.id], s = acc.readSave(ch.cloudCode) || {}; const sk = Object.entries(s.sk || {}).map(([id, x]) => ({ id, n: x.n, a: Math.round((x.a || 0) * 100) })).sort((a, b) => b.n - a.n).slice(0, 15);
       const snaps = fs.existsSync(acc.SNAP) ? fs.readdirSync(acc.SNAP).filter(d => fs.existsSync(path.join(acc.SNAP, d, ch.cloudCode + '.json'))).sort().reverse() : [];
       return { ...k, skills: sk, rank: s.xp, diplomas: (s.diplomas || []).length, acad: Object.keys(s.acad || {}).filter(x => x !== 'teen'), snapshots: snaps, flags: A.flags.filter(fl => fl.code === ch.cloudCode).slice(0, 10) }; });
-    v.refBy = f.refBy; return v;
+    v.refBy = f.refBy; v.adults = (f.parents || [{ email: f.email, role: 'owner' }]).map(a => ({ email: a.email, role: a.role, joined: a.joined })); return v;
   }
   const PAGE = path.join(DIR, 'admin.html');
   async function route(req, res, url) {
