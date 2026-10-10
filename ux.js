@@ -55,3 +55,7 @@ const UX = (() => {
   return { showAll: () => $$('.ptab-pane').forEach(p => { p.hidden = false; }) };
 })();
 window.UX = UX;
+/* экран решения на телефоне: условие задачи раскрывается по нажатию, а подсказка котика сама прокручивается к последней фразе (там вопрос) */
+document.addEventListener('click', e => { const st = e.target.closest('.task-page .story-card'); if (st) st.classList.toggle('open'); });
+new MutationObserver(() => { document.querySelectorAll('.task-page .ctrl-col .helper .bubble').forEach(b => { if (b.scrollHeight > b.clientHeight) b.scrollTop = b.scrollHeight; }); })
+  .observe(document.getElementById('app'), { childList: true, subtree: true, characterData: true });

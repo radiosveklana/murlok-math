@@ -25,7 +25,7 @@ function acadTask(id, res) { S.st[id] = S.st[id] || { done: 0, perfect: 0 }; tas
 SCREENS.academy = () => {
   const list = ACAD_ORDER.filter(subj);
   app.innerHTML = `${topbar('Академия сыщика')}<div class="page"><p class="center">Настоящий сыщик знает не только математику! Выбирай предмет: учебник, тренажёр и разбор ошибок — как в Школе сыщика.</p>
-    <div class="acad-grid">${list.map(id => { const s = subj(id), p = subjProgress(id), due = dueMistakes(id).length; return `<button class="acad-card" data-s="${id}" style="--c:${s.color}"><span class="ai">${s.icon}</span><b>${s.name}</b><small>${s.short}</small><span class="bar"><i style="width:${p}%"></i></span><span class="ap">${p}%${due ? ` · 🔁 ${due}` : ''}</span></button>`; }).join('')}
+    <div class="acad-grid">${list.map(id => { const s = subj(id), p = subjProgress(id), due = dueMistakes(id).length; return `<button class="acad-card" data-s="${id}" style="--c:${s.color}"><span class="ai">${s.icon}</span><b>${s.name}${id === 'teen' ? ' <span class="age">12+</span>' : ''}</b><small>${s.short}</small><span class="bar"><i style="width:${p}%"></i></span><span class="ap">${p}%${due ? ` · 🔁 ${due}` : ''}</span></button>`; }).join('')}
     ${ACAD_ORDER.filter(x => !subj(x)).map(x => `<div class="acad-card soon"><span class="ai">${{ safety: '🛡️', teen: '📘', think: '🧠', read: '⚡' }[x] || '✨'}</span><b>${{ safety: 'Безопасность', teen: 'Энциклопедия подростка', think: 'Критическое мышление', read: 'Скорочтение' }[x] || ''}</b><small>Скоро!</small></div>`).join('')}</div></div>`;
   $$('.acad-card[data-s]', app).forEach(b => b.addEventListener('click', () => { SND.tap(); go('subject', b.dataset.s); }));
 };
@@ -125,11 +125,15 @@ SCREENS.aquiz = arg => {
   }
   function finish() {
     const n = items.length, stars = ok === n ? 3 : ok >= n * 0.7 ? 2 : ok >= n * 0.4 ? 1 : 0;
+    // после тренажёра — сразу следующий урок по предмету (если тема понята), иначе — повторить
+    const ui = s.units.findIndex(x => x.id === uid), nu = ui >= 0 ? s.units[ui + 1] : null;
+    const nextHTML = () => ui < 0 ? '' : nu ? `<button class="btn big ${stars >= 2 ? 'pink' : ''} next-u" id="nextu">Следующий урок: ${nu.icon} ${nu.title} →</button>` : `<p class="next-u done">🎓 Это был последний урок предмета «${s.name}»! Загляни в смешанную тренировку и игры.</p>`;
     if (uid !== '*review' && uid !== '*mix') { a.best[uid] = Math.max(a.best[uid] || 0, stars); }
     save(); acadTask(id, { mistakes: n - ok }); if (uid === '*mix' && ok >= n * 0.8) award(5, 10); { const gu = s.units.find(x => x.id === uid); if (gu && gu.gen && genLv(id, uid) === 3 && ok === n) awardGems(1, 'за сложный уровень без ошибок'); } // смешанная тренировка труднее — награда больше
     if (window.Coach && id !== 'teen') { if (uid !== '*review' && uid !== '*mix') Coach.track('a:' + id + ':' + uid, ok / n); Coach.track('a:' + id, ok / n); } if (ok === n && n >= 5) awardGems(1, 'за тренажёр без ошибок'); SND.win(); if (stars >= 2) confetti(30);
-    $('#qarea').innerHTML = `<div class="center g-result"><div class="big-emoji">${['🐾', '🥉', '🥈', '🏆'][stars]}</div><h2>${esc(S.kid)}, ${ok} из ${n}!</h2><div class="stars big">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>${n - ok ? `<p>Ошибки попали в <b>🔁 Разбор ошибок</b> — повторим их завтра, и они запомнятся навсегда.</p>` : '<p>Без единой ошибки!</p>'}<div class="row-btns"><button class="btn big pink" id="again">Ещё раз</button><button class="btn" id="tosubj">К предмету</button></div></div>`;
+    $('#qarea').innerHTML = `<div class="center g-result"><div class="big-emoji">${['🐾', '🥉', '🥈', '🏆'][stars]}</div><h2>${esc(S.kid)}, ${ok} из ${n}!</h2><div class="stars big">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>${n - ok ? `<p>Ошибки попали в <b>🔁 Разбор ошибок</b> — повторим их завтра, и они запомнятся навсегда.</p>` : '<p>Без единой ошибки!</p>'}${nextHTML()}<div class="row-btns"><button class="btn ${nu && stars >= 2 ? '' : 'big pink'}" id="again">Ещё раз</button><button class="btn" id="tosubj">К предмету</button></div></div>`;
     $('#again').addEventListener('click', () => go('aquiz', arg)); $('#tosubj').addEventListener('click', () => go('subject', id));
+    $('#nextu')?.addEventListener('click', () => { SND.tap(); go('alesson', id + ':' + nu.id); });
     say(stars >= 2 ? pick(PH.done) : pick(PH.cheerBad));
   }
   show();

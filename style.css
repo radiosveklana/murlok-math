@@ -1039,7 +1039,7 @@ svg.chibi .ch-vein { animation: vein .5s ease-in-out infinite alternate; transfo
 @media (max-width: 420px) { .top { gap: 6px; } .top .pill { padding: 6px 9px; font-size: 14px; flex-shrink: 0; } .top h1 { font-size: 19px; } }
 @media (max-width: 340px) { .top h1 { font-size: 17px; } .top .pill { padding: 5px 7px; font-size: 13px; } }
 .floater { max-width: calc(100vw - 24px); }
-html, body { overflow-x: hidden; } /* страховка: случайный вылет анимации не даёт сдвигать страницу вбок */
+html, body { overflow-x: hidden; } @supports (overflow-x: clip) { html, body { overflow-x: clip; } } /* страховка: случайный вылет анимации не даёт сдвигать страницу вбок */
 
 /* ================= v22: креативные игры, карта звёзд, космос, школа ================= */
 .idea-prompt { background: #fff; border-radius: 20px; padding: 14px; box-shadow: var(--sh); text-align: center; margin-bottom: 10px; } .idea-prompt h2 { margin: 4px 0; overflow-wrap: anywhere; }
@@ -1165,3 +1165,44 @@ html, body { overflow-x: hidden; } /* страховка: случайный в�
 .drill-modes .chip { white-space: normal; text-align: left; padding: 10px 12px; border-radius: 14px; min-height: 46px; font-size: 15px; line-height: 1.2; display: flex; align-items: center; margin: 0; }
 .drill-modes .chip.on { outline: 3px solid var(--pink); }
 .games-page h3 { margin: 18px 4px 10px; }
+/* мгновенный отклик: кнопка «нажимается» сразу при касании */
+.pad .k.down, .schulte .sc.down, .opt.down { transform: translateY(3px) scale(.97); filter: brightness(.95); transition: none; }
+/* v29: экран решения на телефоне — всё под рукой без прокрутки: клавиатура прижата к низу, котик — маленьким облачком */
+@media (max-width: 640px) {
+  .task-page .task-head { gap: 6px; margin-bottom: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .task-page .task-head::-webkit-scrollbar { display: none; }
+  .task-page .task-head .seg { flex: 0 0 auto; padding: 3px; }
+  .task-page .task-head .seg button { padding: 6px 9px; font-size: 13px; min-height: 34px; }
+  .task-page .story, .task-page .q-story { font-size: 15px; padding: 8px 12px; margin-bottom: 6px; }
+  .task-page .mgrid { --cell: min(44px, calc((100vw - 60px) / var(--w))); }
+  .task-page .legend { display: none; }
+  .task-page .task-wrap { display: block; }
+  .task-page .ctrl-col { position: sticky; bottom: 0; z-index: 4; background: var(--bg); margin: 0 -16px; padding: 6px 16px calc(8px + env(safe-area-inset-bottom)); box-shadow: 0 -8px 18px rgba(59, 42, 74, .08); border-radius: 18px 18px 0 0; }
+  .task-page .ctrl-col .helper { margin-bottom: 6px; gap: 6px; align-items: center; }
+  .task-page .ctrl-col .helper .mini-cat { width: 40px; flex: 0 0 40px; }
+  .task-page .ctrl-col .helper .bubble { font-size: 14px; line-height: 1.3; padding: 7px 10px; max-height: 86px; overflow-y: auto; }
+  .task-page .ctrl-col .ask { padding: 6px 12px; margin-bottom: 6px; }
+  .task-page .ctrl-col .ask-eq { font-size: 24px; }
+  .task-page .ctrl-col .pad { gap: 6px; }
+  .task-page .ctrl-col .pad .k { min-height: 46px; height: 46px; font-size: 22px; }
+}
+.acc-line { display: flex; align-items: center; gap: 10px; background: var(--plum-2); border-radius: 16px; padding: 10px 12px; margin: 0 0 12px; }
+.acc-line .al-ic { font-size: 26px; } .acc-line .al-t { flex: 1; min-width: 0; display: flex; flex-direction: column; } .acc-line small { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  .task-page .story-card { font-size: 14px; padding: 6px 10px; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+  .task-page .story-card.open { display: block; }
+  .task-page .paper-col .task-title { font-size: 16px; margin: 0 0 4px; }
+  .task-page .paper { padding: 8px; }
+  .task-page .mgrid { --cell: min(38px, calc((100vw - 56px) / var(--w))); }
+  .task-page .ctrl-col .helper .bubble { max-height: 48px; }
+  .task-page .ctrl-col .pad .k { min-height: 42px; height: 42px; }
+  .task-page .ctrl-col .ask { padding: 4px 10px; }
+}
+/* домик: список вещей комнаты */
+.ri-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; margin: 10px 0 14px; max-height: 50vh; overflow-y: auto; }
+.ri { background: #fff; border-radius: 14px; padding: 8px 4px; box-shadow: var(--sh); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 30px; }
+.ri .ic-img { width: 48px; height: 48px; object-fit: contain; } .ri small { font-size: 11px; color: var(--muted); line-height: 1.1; }
+.fx.picked { animation: pickedPulse .5s ease-in-out 3; } @keyframes pickedPulse { 50% { transform: translateX(-50%) scale(1.15); filter: drop-shadow(0 0 10px #FFD54A); } }
+.next-u { display: block; margin: 10px auto 6px; max-width: 520px; } p.next-u.done { font-weight: 800; }
+.age { display: inline-block; font-size: 12px; font-weight: 900; border: 2px solid currentColor; border-radius: 8px; padding: 0 5px; opacity: .7; vertical-align: middle; }
+a.set-row { text-decoration: none; color: inherit; }

@@ -6,7 +6,7 @@ const salt = randomBytes(8).toString('hex'); process.env.ADMIN_USER = 'adm'; pro
 const { makeAccounts } = await import('../server/accounts.mjs'); const { makeAdmin } = await import('../server/admin.mjs');
 const mails = []; const mail = async (to, subj, text) => { mails.push({ to, subj, text }); };
 const send = (res, code, obj) => { res.code = code; res.body = obj; };
-const acc = makeAccounts({ DIR, SAVE_DIR, limit: () => true, send, mail, tg: async () => ({}) });
+const tgSent = []; const acc = makeAccounts({ DIR, SAVE_DIR, limit: () => true, send, mail, tg: async (m, p) => { tgSent.push(p); return { ok: true }; }, weekly: s => 'WEEK ' + s.kid, TG_BOT: 'bot' });
 const admin = makeAdmin({ DIR, SAVE_DIR, acc, send, mail, tg: async () => ({}), tgLinks: () => ({}), TG_BOT: 'bot' });
 let fails = 0; const ok = (n, c, x = '') => { if (!c) fails++; console.log((c ? 'ACC OK ' : 'ACC FAIL ') + n + (x ? ' ' + x : '')); };
 function call(handler, method, p, body, headers = {}) {
@@ -36,6 +36,12 @@ r = await A('POST', '/acc/survey', { answers: { like: ['🐾 Животные и
 await A('POST', '/acc/priorities', { list: ['math4', 'read'] }, H);
 r = await A('GET', '/acc/child/me', null, { authorization: 'Bearer ' + ctok }); ok('child sees priorities', r.body.priorities.join() === 'math4,read' && r.body.survey.me);
 r = await A('GET', '/acc/family', null, { authorization: 'Bearer ' + ctok }); ok('child token cannot open parent cabinet', r.code === 401);
+// семейный отчёт в Telegram
+r = await A('POST', '/acc/tg/link', {}, H); const ttok = (r.body.url || '').split('start=')[1]; ok('tg link for family', r.code === 200 && /^[A-Z0-9]{16}$/.test(ttok || ''));
+ok('tg start binds chat', typeof acc.tgStart(ttok, 'CHAT1') === 'string' && acc.tgStart(ttok, 'CHAT2') === false);
+tgSent.length = 0; r = await A('POST', '/acc/tg/test', {}, H); ok('tg report now: one message per child', r.body.sent === 1 && tgSent[0].chat_id === 'CHAT1' && tgSent[0].text === 'WEEK Кэтика', JSON.stringify(tgSent));
+r = await A('POST', '/acc/tg/status', {}, H); ok('tg status', r.body.linked === 1);
+acc.tgStop('CHAT1'); r = await A('POST', '/acc/tg/status', {}, H); ok('tg /stop unlinks family', r.body.linked === 0);
 // рефералы: переход + регистрация по ссылке, без дружбы
 r = await call(acc.refLink, 'GET', '/r/' + fam.ref.code); ok('ref link redirects', r.code === 302 && /\?ref=/.test(r.headers.location));
 mails.length = 0; await A('POST', '/acc/start', { email: 'papa@test.ru', ref: fam.ref.code }); const c2 = mails[0].text.match(/(\d{6})/)[1];

@@ -25,7 +25,7 @@ const Accounts = (() => {
   const ac = linked; window.accLinked = ac;
 
   /* ---------- первый экран: вход для взрослого и для ребёнка с семейным кодом ---------- */
-  { const h = SCREENS.hello; SCREENS.hello = arg => { h(arg); const pg = $('.page', app) || app; pg.insertAdjacentHTML('afterbegin', `<div class="acc-entry"><button class="btn" id="aparent">👨‍👩‍👧 Я взрослый: вход и регистрация</button><button class="btn" id="achild">🧒 У меня есть семейный код</button><a class="link small" href="about/">Что это за игра? Рассказ для родителей</a></div>`); $('#aparent').addEventListener('click', () => go('pauth')); $('#achild').addEventListener('click', () => go('clogin')); }; }
+  { const h = SCREENS.hello; SCREENS.hello = arg => { h(arg); const pg = $('.page', app) || app; pg.insertAdjacentHTML('afterbegin', `<div class="acc-entry"><button class="btn" id="aparent">👨‍👩‍👧 Я взрослый: вход и регистрация</button><button class="btn" id="achild">🧒 У меня есть семейный код</button><a class="link small" href="about/">Что это за игра? Рассказ для родителей</a> <span class="age">6+</span></div>`); $('#aparent').addEventListener('click', () => go('pauth')); $('#achild').addEventListener('click', () => go('clogin')); }; }
 
   /* ---------- вход родителя ---------- */
   SCREENS.pauth = arg => {
@@ -65,6 +65,7 @@ const Accounts = (() => {
         <details ${F.children.length ? '' : 'open'}><summary>➕ Добавить ребёнка</summary><input id="kname" class="nmi" placeholder="Имя ребёнка" maxlength="20">${picHTML('pk1')}<button class="btn pink" id="kadd">Добавить</button></details></div>
       <div class="card"><h3>🎯 Приоритетные направления</h3><p class="small">Котик-тренер будет чаще предлагать эти темы и ставить их выше в Академии.</p><div class="prio">${PRIOS.map(([id, n]) => `<label class="chip ${F.priorities.includes(id) ? 'on' : ''}"><input type="checkbox" value="${id}" ${F.priorities.includes(id) ? 'checked' : ''} hidden>${n}</label>`).join('')}</div><button class="btn" id="psave">Сохранить приоритеты</button></div>
       <div class="card"><h3>🔗 Реферальные ссылки</h3><p>Ваша ссылка: <code>${refUrl(F.ref.code)}</code> <button class="btn sm" data-share="${refUrl(F.ref.code)}">Поделиться</button></p><p class="small">Переходы: <b>${F.ref.visits}</b> · регистрации: <b>${F.ref.regs}</b>. Регистрация по ссылке не делает людей друзьями в игре — это только счётчик.</p></div>
+      <div class="card" id="tgcard2"><h3>📬 Отчёт в Telegram</h3><p class="small">Каждое воскресенье в 19:00 бот присылает отчёт по всем детям семьи: минуты, задачи, сильные стороны и что пока трудно.</p><p id="tgst" class="small">Проверяем…</p><div class="row-btns"><button class="btn pink" id="tglink">Подключить Telegram</button><button class="btn" id="tgnow" hidden>📨 Прислать отчёт сейчас</button><button class="btn" id="tgoff" hidden>Отключить</button></div></div>
       <div class="card"><h3>📄 Данные и согласие</h3><p class="small">Согласие от ${new Date(F.consent.at).toLocaleDateString('ru-RU')} (редакция ${F.consent.ver}). <a href="/privacy.html" target="_blank">Политика</a> · <a href="/consent.html" target="_blank">Согласие</a></p><div class="row-btns"><button class="btn" id="aexp">⬇️ Выгрузить все данные</button><button class="btn danger" id="adel">Удалить аккаунт и данные</button><button class="btn" id="aout">🚪 Выйти из кабинета</button></div></div>`;
     $$('[data-share]').forEach(b => b.addEventListener('click', () => share(b.dataset.share, 'Мурлок и Ко — тренажёр для детей')));
     $$('.prio .chip').forEach(l => l.addEventListener('click', e => { e.preventDefault(); const i = $('input', l); i.checked = !i.checked; l.classList.toggle('on', i.checked); }));
@@ -82,6 +83,11 @@ const Accounts = (() => {
     $('#aexp').addEventListener('click', async () => { const r = await fetch(CLOUD + '/acc/export', { headers: { authorization: 'Bearer ' + P.token } }); const blob = await r.blob(), a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'murlok-family-data.json'; a.click(); });
     $('#adel').addEventListener('click', () => { const m = modal(`<h2>Удалить аккаунт?</h2><p>Будут удалены кабинет, дети и весь их облачный прогресс. Это нельзя отменить. Согласие будет отозвано.</p><input id="dconf" class="nmi" placeholder="Напишите УДАЛИТЬ"><div class="row-btns"><button class="btn danger" id="dgo">Удалить</button><button class="btn" data-close>Отмена</button></div>`); $('#dgo', m.el).addEventListener('click', async () => { if ($('#dconf', m.el).value.trim() !== 'УДАЛИТЬ') return toast('Напишите УДАЛИТЬ'); await api('revoke', { confirm: 'УДАЛИТЬ' }, P.token).catch(() => { }); ls.set(PK, null); ls.set(AK, null); m.close(); toast('Аккаунт и данные удалены'); go('home'); }); });
     $$('#aout, #aout2').forEach(b => b.addEventListener('click', () => parentOut()));
+    const tgState = async () => { try { const d = await api('tg/status', {}, P.token); $('#tgst').textContent = d.linked ? `✅ Подключено (${d.linked} ${d.linked === 1 ? 'чат' : 'чата'}).` : 'Пока не подключено. Нажмите «Подключить» и в Telegram — «Запустить».'; $('#tgnow').hidden = $('#tgoff').hidden = !d.linked; } catch (e) { $('#tgst').textContent = 'Нет связи с сервером.'; } };
+    tgState();
+    $('#tglink').addEventListener('click', async () => { const w = window.open('', '_blank'); try { const d = await api('tg/link', {}, P.token); if (w) w.location = d.url; else location.href = d.url; toast('Нажмите «Запустить» в Telegram — и вернитесь сюда'); setTimeout(tgState, 8000); } catch (e) { if (w) w.close(); toast('Не получилось — попробуйте ещё раз'); } });
+    $('#tgnow').addEventListener('click', async () => { try { const d = await api('tg/test', {}, P.token); toast(d.ok ? 'Отчёт отправлен в Telegram 📨' : 'Не отправилось — проверьте, что бот не заблокирован'); } catch (e) { toast('Нет связи с сервером'); } });
+    $('#tgoff').addEventListener('click', async () => { await api('tg/unlink', {}, P.token).catch(() => { }); tgState(); });
     if (arg === 'new' && !F.priorities.length) setTimeout(() => toast('Отметьте приоритетные направления — котик подстроит программу'), 800);
   };
 
@@ -143,7 +149,15 @@ const Accounts = (() => {
     $('#cout', m.el).addEventListener('click', async () => { $('#cout', m.el).disabled = true; $('#cout', m.el).textContent = 'Сохраняем…';
       try { const r = await fetch(CLOUD + '/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), data: { ...S, chatLog: [] } }) }); if (!r.ok) throw 0; }
       catch (e) { $('#cout', m.el).disabled = false; $('#cout', m.el).textContent = 'Сохранить и выйти'; toast('Нет связи — прогресс не сохранился, попробуй позже'); return; }
-      ls.set(AK, null); try { localStorage.removeItem(KEY); } catch (e) { } location.reload(); });
+      ls.set(AK, null); try { localStorage.removeItem(KEY); localStorage.setItem('murlok-saw-site', '1'); } catch (e) { } location.href = 'about/'; }); // после выхода — на сайт
+  }
+  // «Выйти» для любого случая: привязанный ребёнок — сохраняем в облако и выходим; без кабинета — объясняем, что прогресс пропадёт
+  function exitAny() {
+    if (linked()) return childOut();
+    const m = modal(`<div class="big-emoji">🚪</div><h2>Выйти?</h2><p>Сейчас прогресс <b>${esc(S.kid || '')}</b> хранится только на этом устройстве. Если выйти, он пропадёт.</p><p class="small">Попроси взрослого открыть кабинет и привязать прогресс — тогда можно выходить и входить на любом устройстве по семейному коду.</p><div class="row-btns"><button class="btn pink" id="ex-link">👨‍👩‍👧 Привязать (для взрослых)</button>${window.Extras ? '<button class="btn" id="ex-prof">👥 Сменить игрока</button>' : ''}${parent() ? '<button class="btn" id="ex-pout">🔓 Выйти взрослому</button>' : ''}<button class="btn" data-close>Остаться</button></div>`);
+    $('#ex-link', m.el).addEventListener('click', () => { m.close(); gate('pcab'); });
+    $('#ex-prof', m.el)?.addEventListener('click', () => { m.close(); Extras.openProfiles(); });
+    $('#ex-pout', m.el)?.addEventListener('click', () => { m.close(); parentOut(); });
   }
   /* ---------- замок раздела для взрослых ----------
      Есть ПИН → только ПИН (5 ошибок — пауза 10 минут). Нет ПИНа или забыли → код из почты родителя, затем новый ПИН.
@@ -182,13 +196,15 @@ const Accounts = (() => {
       S.pin = a; S.pinLock = { n: 0, until: 0 }; save(); SND.win(); toast('ПИН сохранён'); go(next); });
   };
   { const os = openSettings; openSettings = function () { const r = os.apply(this, arguments); const L = $$('.modal .set-list').pop(); if (L && !$('#set-adult', L)) {
-    L.insertAdjacentHTML('beforeend', `${linked() ? '<button class="set-row" id="set-out"><span>🚪</span><b>Выйти из игры</b><i class="arr">›</i></button>' : ''}${parent() ? '<button class="set-row" id="set-pout"><span>🔓</span><b>Выйти из кабинета взрослого</b><i class="arr">›</i></button>' : ''}<button class="set-row adult" id="set-adult"><span>👨‍👩‍👧</span><b>Для взрослых</b><i class="arr">›</i></button>`);
+    // кто вошёл и «Выйти» — всегда сверху, чтобы не искать
+    L.insertAdjacentHTML('beforebegin', `<div class="acc-line"><span class="al-ic">${linked() ? '☁️' : '📱'}</span><div class="al-t"><b>${esc(S.kid || 'Игрок')}</b><small>${linked() ? 'вход по семейному коду' : 'прогресс только на этом устройстве'}${parent() ? ' · взрослый: ' + esc(parent().email) : ''}</small></div><button class="btn sm" id="set-exit">🚪 Выйти</button></div>`);
+    L.insertAdjacentHTML('beforeend', `${parent() ? '<button class="set-row" id="set-pout"><span>🔓</span><b>Выйти из кабинета взрослого</b><i class="arr">›</i></button>' : ''}<button class="set-row adult" id="set-adult"><span>👨‍👩‍👧</span><b>Для взрослых</b><i class="arr">›</i></button><a class="set-row" id="set-site" href="about/"><span>🌐</span><b>На сайт «Мурлок и Ко»</b><i class="arr">›</i></a>`);
     const close = () => $$('.modal').forEach(x => x.remove());
     $('#set-adult', L).addEventListener('click', () => { close(); gate('parents'); });
-    $('#set-out', L)?.addEventListener('click', () => { close(); childOut(); });
+    $('#set-exit')?.addEventListener('click', () => { close(); exitAny(); });
     $('#set-pout', L)?.addEventListener('click', () => { close(); parentOut(); });
   } return r; }; }
   ['pauth', 'pcab', 'clogin', 'survey', 'agate', 'pinset'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
-  return { parent, child, linked, api, SURVEY, gate, adultOk, parentOut, childOut };
+  return { parent, child, linked, api, SURVEY, gate, adultOk, parentOut, childOut, exitAny };
 })();
 window.Accounts = Accounts;

@@ -169,8 +169,8 @@ const extra = makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseRepl
 // почта (team@tech-wave.ru через Яндекс) — для кодов входа и рассылок
 let mailer = null; try { const nm = requireCJS('nodemailer'); if (process.env.SMTP_HOST) mailer = nm.createTransport({ host: process.env.SMTP_HOST, port: +process.env.SMTP_PORT || 465, secure: process.env.SMTP_SECURE !== 'false', auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } }); } catch (e) { console.error('nodemailer', e.message); }
 const mail = async (to, subject, text) => { if (!mailer) throw new Error('mail off'); await mailer.sendMail({ from: `"Мурлок и Ко" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`, to, subject, text }); };
-const accounts = makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg: extra.tg });
-extra.setStartHook((tok, chat) => accounts.tgStart(tok, chat));
+const accounts = makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg: extra.tg, weekly: extra.weekly, TG_BOT: extra.TG_BOT });
+extra.setStartHook((tok, chat) => accounts.tgStart(tok, chat)); extra.setStopHook(chat => accounts.tgStop(chat));
 const admin = makeAdmin({ DIR, SAVE_DIR, acc: accounts, send, mail, tg: extra.tg, tgLinks: extra.tgLinks, TG_BOT: extra.TG_BOT });
 const flagIt = (d, out, text) => { if (out && out.flag && out.flag !== 'none') accounts.flag({ flag: out.flag, kid: String(d.kid || '').slice(0, 20), cat: String(d.cat || '').slice(0, 20), code: String(d.code || '').slice(0, 8), text: maskPII(String(text || '')).slice(0, 300) }); };
 http.createServer(async (req, res) => {

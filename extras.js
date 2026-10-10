@@ -41,18 +41,10 @@ const Extras = (() => {
 
   /* ================= Telegram для родителя ================= */
   const tg = (act, body = {}) => fetch(CLOUD + '/tg/' + act, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), ...body }) }).then(r => r.json());
+  // отчёт теперь семейный и подключается в кабинете родителя (accounts.js) — здесь только путь туда
   { const par = SCREENS.parents; SCREENS.parents = arg => {
-    par(arg); const pg = $('.page.parents', app), anchor = pg && $('#reset', pg); if (!anchor) return;
-    anchor.insertAdjacentHTML('beforebegin', `<div class="card" id="tgcard"><h3>📬 Отчёт в Telegram</h3><p class="small">Каждое воскресенье в 19:00 — коротко: сколько занимались, сильные стороны, что пока трудно и совет на неделю. Что читает ребёнок в «Энциклопедии подростка», в отчёт не попадает.</p><div id="tgst" class="small">Проверяем…</div></div>`);
-    tg('status').then(d => {
-      const el = $('#tgst'); if (!el) return;
-      if (d.disabled) { el.innerHTML = 'Бот отчётов скоро заработает 🐾'; return; }
-      if (d.error) { el.innerHTML = 'Подключение будет доступно, когда прогресс сохранится в облаке (через минуту).'; return; }
-      el.innerHTML = d.linked ? '✅ Подключено. <div class="row-btns"><button class="btn sm" id="tgtest">Прислать отчёт сейчас</button><button class="btn sm" id="tgoff">Отключить</button></div>' : '<button class="btn pink" id="tglink">Подключить Telegram</button>';
-      $('#tglink')?.addEventListener('click', async () => { const r = await tg('link').catch(() => ({})); if (r.url) { window.open(r.url, '_blank', 'noopener'); el.innerHTML = 'Откройте бота и нажмите «Старт». Потом вернитесь сюда.'; } });
-      $('#tgtest')?.addEventListener('click', () => tg('test').then(r => toast(r.ok ? 'Отчёт отправлен в Telegram' : 'Не получилось')));
-      $('#tgoff')?.addEventListener('click', () => tg('unlink').then(() => go('parents')));
-    }).catch(() => { const el = $('#tgst'); if (el) el.textContent = 'Нет связи с сервером.'; });
+    par(arg); const pg = $('.page.parents', app), anchor = pg && $('#reset', pg); if (!anchor) return; const hasP = window.Accounts && Accounts.parent();
+    anchor.insertAdjacentHTML('beforebegin', `<div class="card" id="tgcard"><h3>📬 Отчёт в Telegram</h3><p class="small">Каждое воскресенье в 19:00 — по всем детям семьи: сколько занимались, сильные стороны, что пока трудно. Подключается в личном кабинете родителя.</p><button class="btn pink" data-go="${hasP ? 'pcab' : 'pauth'}">${hasP ? 'Открыть кабинет → Telegram' : 'Войти в кабинет'}</button></div>`);
   }; }
 
   /* ================= тренажёр разговора ================= */

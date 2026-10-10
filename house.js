@@ -72,7 +72,7 @@ SCREENS.house = (roomId) => {
     <div class="care-bars" id="cb"></div>
     <div class="room-tabs" id="rt"></div>
     <div class="room big" id="room"></div>
-    <div class="house-tools"><button class="btn sm" id="invb">🎒 Сундук с вещами <b id="invn"></b></button><button class="btn sm pink" id="hshop">🛍️ Магазин вещей</button></div>
+    <div class="house-tools"><button class="btn sm" id="invb">🎒 Сундук с вещами <b id="invn"></b></button><button class="btn sm" id="roomItems">🧺 Вещи в комнате</button><button class="btn sm pink" id="hshop">🛍️ Магазин вещей</button></div>
     <div class="tray" id="tray" hidden></div><p class="small center" id="hint"></p></div>`;
   if (S.houseRefund) { const n = S.houseRefund; S.houseRefund = 0; save(); later(() => { modal(`<div class="big-emoji">🏠✨</div><h2>Домик обновился!</h2><p>Комнаты стали больше, вещи можно расставлять пальцем, а за котиком теперь можно ухаживать.</p><p>Конфеты за прежние покупки вернулись: <b>+${n} 🍬</b></p><button class="btn pink" data-close>Ура!</button>`); speakT(PH.room[3]); }, 300); }
   const roomEl = $('#room');
@@ -115,7 +115,7 @@ SCREENS.house = (roomId) => {
   function itemHTML(p, low) {
     const it = itemInfo(cur, p.id); if (!it) return '';
     const needK = { food: 'food', water: 'water', sleep: 'energy', play: 'fun', wash: 'clean' }[it.care];
-    const base = p.on && roomPlace(cur).find(z => z.id === p.on), zz = base ? zOf(base.y) + 2 : zOf(p.y);
+    const base = p.on && roomPlace(cur).find(z => z.id === p.on), zz = (base ? zOf(base.y) + 2 : zOf(p.y)) + ((FSIZE[p.id] || 10) <= 12 && !it.fixed ? 60 : 0); // мелочь всегда поверх крупной мебели — её можно достать
     return `<button class="fx ${it.fixed ? 'fixed' : ''} ${needK && low.includes(needK) ? 'needs' : ''} ${p.on ? 'onshelf' : ''}" data-id="${p.id}" data-on="${p.on || ''}" style="left:${p.x}%;bottom:${p.y}%;z-index:${zz};--s:${FSIZE[p.id] || 10}">${icon(p.id, it.icon)}${it.care ? `<small class="ctag">${{ food: '🍽️', water: '💧', sleep: '💤', play: '🎾', wash: '🫧', rest: '🛋️' }[it.care]}</small>` : ''}</button>`;
   }
   const FLOOR = 30; // верх пола в % высоты комнаты
@@ -280,6 +280,14 @@ SCREENS.house = (roomId) => {
       });
     }));
   }
+  // «Вещи в комнате»: любую вещь — даже упавшую за диван — можно вытащить на середину пола и переставить
+  $('#roomItems').addEventListener('click', () => {
+    if (!roomOpen(cur)) return; const pl = roomPlace(cur).filter(p => { const it = itemInfo(cur, p.id); return it && !it.fixed; });
+    if (!pl.length) { toast('В этой комнате пока нет своих вещей — поставь что-нибудь из сундука 🎒'); return; }
+    const m = modal(`<h2>🧺 Вещи в комнате «${cur.name}»</h2><p class="small">Нажми на вещь — она появится в центре комнаты, и её можно перетащить пальцем.</p><div class="ri-grid">${pl.map(p => { const it = itemInfo(cur, p.id); return `<button class="ri" data-id="${p.id}">${icon(p.id, it.icon)}<small>${it.name || ''}</small></button>`; }).join('')}</div><button class="btn" data-close>Готово</button>`, 'wide');
+    $$('.ri', m.el).forEach(b => b.addEventListener('click', () => { const p = roomPlace(cur).find(q => q.id === b.dataset.id); if (!p) return; p.x = 50; p.y = 6; p.on = null; save(); m.close(); drawRoom(); M.sfx('pop');
+      const el = $(`.fx[data-id="${p.id}"]`, roomEl); if (el) { el.style.zIndex = 420; el.classList.add('picked'); setTimeout(() => el.classList.remove('picked'), 1600); } }));
+  });
   $('#invb').addEventListener('click', () => {
     const t = $('#tray'), list = invList(); t.hidden = !t.hidden; SND.tap();
     if (t.hidden) return;

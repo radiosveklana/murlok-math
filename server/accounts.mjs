@@ -7,7 +7,7 @@ import { randomBytes, randomInt, createHash, scryptSync, timingSafeEqual } from 
 
 export const CONSENT_VER = '2026-10-09';
 
-export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg }) {
+export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_BOT }) {
   const FILE = path.join(DIR, 'accounts.json'), CLOG = path.join(DIR, 'consents.log'), SNAP = path.join(DIR, 'snapshots');
   fs.mkdirSync(SNAP, { recursive: true });
   let A = { families: {}, children: {}, codes: {}, sessions: {}, refs: {}, emailIdx: {}, famCodes: {}, flags: [], pending: {}, admin: { tg: null, tgTok: null } };
@@ -122,6 +122,11 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg }) {
     const s = auth(req, 'p'); if (!s) return send(res, 401, { error: 'auth' }, origin);
     const f = A.families[s.f]; if (!f) return send(res, 401, { error: 'auth' }, origin);
     if (r === 'family' && req.method === 'GET') return send(res, 200, { family: famView(f) }, origin);
+    // семейный отчёт в Telegram: один бот, отчёт сразу по всем детям семьи
+    if (r === 'tg/link' && req.method === 'POST') { A.tgTok = A.tgTok || {}; const tok = rnd(16); A.tgTok[tok] = { f: f.id, t: now() }; touch(); return send(res, 200, { url: `https://t.me/${TG_BOT || 'izzy_backup_bot'}?start=${tok}` }, origin); }
+    if (r === 'tg/status' && req.method === 'POST') return send(res, 200, { linked: (f.tg || []).length }, origin);
+    if (r === 'tg/test' && req.method === 'POST') { const n = await famReport(f, true); return send(res, 200, { ok: n > 0, sent: n }, origin); }
+    if (r === 'tg/unlink' && req.method === 'POST') { f.tg = []; touch(); return send(res, 200, { ok: true }, origin); }
     if (r === 'priorities' && req.method === 'POST') { const d = await J(); f.priorities = (Array.isArray(d.list) ? d.list : []).slice(0, 8).map(x => String(x).slice(0, 20)); touch(); return send(res, 200, { ok: true }, origin); }
     if (r === 'child' && req.method === 'POST') {
       const d = await J(), name = String(d.name || '').replace(/[<>{}"]/g, '').trim().slice(0, 20);
@@ -160,7 +165,29 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg }) {
     const item = { ts: now(), ...rec }; A.flags.unshift(item); A.flags = A.flags.slice(0, 500); touch();
     if (A.admin.tg && (rec.flag === 'distress' || rec.flag === 'pii')) tg('sendMessage', { chat_id: A.admin.tg, text: `⚠️ Мурлок: ${rec.flag === 'distress' ? 'ребёнку плохо/страшно' : 'личные данные'}\nРебёнок: ${rec.kid || '—'} (котик ${rec.cat || '—'})\nСообщение: ${String(rec.text || '').slice(0, 300)}\n\nПодробнее — в админке.` }).catch(() => { });
   }
-  function tgStart(tok, chat) { if (tok && A.admin.tgTok && tok === A.admin.tgTok) { A.admin.tg = chat; A.admin.tgTok = null; touch(); return true; } return false; }
+  function tgStart(tok, chat) {
+    if (tok && A.admin.tgTok && tok === A.admin.tgTok) { A.admin.tg = chat; A.admin.tgTok = null; touch(); return true; }
+    const t = (A.tgTok || {})[tok]; if (!t || now() - t.t > 864e5) return false;
+    const f = A.families[t.f]; delete A.tgTok[tok]; if (!f) return false;
+    f.tg = [...new Set([...(f.tg || []), chat])]; touch();
+    setTimeout(() => famReport(f, true, chat), 800);
+    return '🐾 Готово! Каждое воскресенье в 19:00 я буду присылать отчёт по всем детям семьи. Прислать отчёт сразу — кнопка в кабинете родителя. Отключить — там же или командой /stop.';
+  }
+  function tgStop(chat) { let hit = false; for (const f of Object.values(A.families)) if ((f.tg || []).includes(chat)) { f.tg = f.tg.filter(c => c !== chat); hit = true; } if (hit) touch(); return hit; }
+  async function famReport(f, force, onlyChat) {
+    const chats = onlyChat ? [onlyChat] : (f.tg || []); if (!chats.length || !weekly) return 0;
+    const kids = (f.children || []).map(id => A.children[id]).filter(Boolean);
+    const msgs = kids.map(k => { const sv = readSave(k.cloudCode); return sv ? weekly(sv) : `🐾 ${k.name}: прогресса в облаке пока нет — откройте приложение на устройстве ребёнка и войдите по семейному коду.`; });
+    if (!msgs.length) msgs.push('🐾 В семье пока нет детей. Добавьте ребёнка в кабинете родителя — и отчёты начнут приходить.');
+    let n = 0; for (const c of chats) for (const m of msgs) { const r = await tg('sendMessage', { chat_id: c, text: m }); if (r && r.ok) n++; await new Promise(x => setTimeout(x, 150)); }
+    return n;
+  }
+  // воскресенье 19:00 МСК — недельные отчёты всем семьям с Telegram
+  setInterval(async () => {
+    const msk = new Date(Date.now() + 3 * 36e5), wk = msk.toISOString().slice(0, 10);
+    if (msk.getUTCDay() !== 0 || msk.getUTCHours() !== 19 || A.famSent === wk) return;
+    A.famSent = wk; touch(); for (const f of Object.values(A.families)) if ((f.tg || []).length) await famReport(f);
+  }, 5 * 60000).unref?.();
 
-  return { acc, refLink, flag, tgStart, A, touch, flush, famView, kidSummary, readSave, wipeFamily, logConsent, CLOG, SNAP, auth, token, rnd, sha };
+  return { acc, refLink, flag, tgStart, tgStop, famReport, A, touch, flush, famView, kidSummary, readSave, wipeFamily, logConsent, CLOG, SNAP, auth, token, rnd, sha };
 }
