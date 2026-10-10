@@ -139,7 +139,10 @@ const LIST = { me: 'MYCODE', friends: [{ pub: 'FRND22', cat: 'Пушок', kid: 
 
   /* ---------- стикер убирается касанием (палец чуть сдвинулся) ---------- */
   await go('photo'); await click('.ph-s[data-e="⭐"]'); await click('.ph-s[data-e="🎀"]');
-  const stk = await (await p.$('.st-stk')).boundingBox(); await p.mouse.move(stk.x + stk.width / 2, stk.y + stk.height / 2); await p.mouse.down(); await p.mouse.move(stk.x + stk.width / 2 + 4, stk.y + stk.height / 2 + 3); await p.mouse.up(); await sleep(300);
+  // короткое касание = быстрее 600 мс; под нагрузкой (4 браузера) шаги мыши через CDP иногда идут дольше — тогда это «долгое нажатие», пробуем ещё раз
+  for (let t = 0; t < 3 && (await p.$$('.st-stk')).length === 2; t++) {
+    const stk = await (await p.$('.st-stk')).boundingBox(); await p.mouse.move(stk.x + stk.width / 2, stk.y + stk.height / 2); await p.mouse.down(); await p.mouse.move(stk.x + stk.width / 2 + 4, stk.y + stk.height / 2 + 3); await p.mouse.up(); await sleep(300);
+  }
   ok('sticker removed by tap', (await p.$$('.st-stk')).length === 1);
 
   /* ---------- смешанная тренировка: награда больше ---------- */
