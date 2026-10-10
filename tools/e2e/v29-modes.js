@@ -1,7 +1,7 @@
 // v29: «по всем темам» — Ошибки Енота в любой теме Школы и Академии, новое «Новое дело» (3 шага, Школа + Академия),
 // «Быстрые лапки» с сеткой режимов и фактами Академии, числа по выбору в играх, «Улика или ложь», «Сортировка улик», разнообразие задач
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let fails = 0;
 const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V29 OK ' : 'V29 FAIL ') + name + (x ? ' ' + x : '')); };

@@ -8,7 +8,7 @@ for f in "$ROOT"/*.js "$ROOT"/content/*.js; do node --check "$f" || { echo "СИ
 node "$ROOT/tools/validate-content.js" "$ROOT"/content/*.js >/dev/null || { echo "КОНТЕНТ ✖"; exit 1; }
 node "$ROOT/tools/test-accounts.mjs" | tail -1 | tee /dev/stderr | grep -q "ACC ALL OK" || { echo "СЕРВЕР КАБИНЕТОВ ✖"; exit 1; }
 curl -s -o /dev/null http://localhost:8765/ || { (node "$ROOT/tools/e2e/serve.js" 8765 >/dev/null 2>&1 &); sleep 2; }
-T="overflow.js;full.js|820 1180 E;academy.js;v19.js;v20.js;v22.js;v25.js;voice.js;games.js;house-touch.js;login.js;cloud.js;overflow-say.js;v26.js;sky.js;v29.js;space-arcade.js;v30-family.js"
+T="overflow.js;full.js|820 1180 E;academy.js;v19.js;v20.js;v22.js;v25.js;voice.js;games.js;house-touch.js;login.js;cloud.js;overflow-say.js;v26.js;sky.js;v29.js;space-arcade.js;v30-family.js;v29-modes.js;v30-mistakes.js;v30-onboarding.js;v30-mascot.js;v30-limits.js;v30-cheats.js;v29-style.js"
 IFS=';' read -ra TESTS <<< "$T"
 i=0; for t in "${TESTS[@]}"; do n=${t%%|*}; a=""; [[ "$t" == *"|"* ]] && a=${t#*|}; ( timeout 900 node $n $a > "$OUT/$n.log" 2>&1 || echo "FAIL timeout/crash" >> "$OUT/$n.log" ) & sleep 3; i=$((i+1)); (( i % 4 == 0 )) && wait; done # не больше 4 браузеров разом — иначе ложные падения от нагрузки
 wait

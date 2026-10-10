@@ -1,7 +1,7 @@
 // v30: время игры (норма в день, разрешённые часы, перерывы, продление через замок взрослого, учёт по разделам)
 // и «Играть самому» (профиль взрослого в семье, пометка «взрослый», вход в профиль взрослого только через замок). Сервер подменён.
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0, fails = 0;
 const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V30L OK ' : 'V30L FAIL ') + name + (x ? ' ' + x : '')); };

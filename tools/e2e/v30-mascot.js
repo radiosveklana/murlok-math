@@ -1,7 +1,7 @@
 // v30: котик-друг и метод зелёной ручки — банки фраз (≥400, по ≥60 в категории), озвучка, темп без спама,
 // зелёная ручка в столбике и уравнениях, вопрос о самочувствии, итоги «Что получилось отлично», память и ритуалы, карточка для взрослых
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let fails = 0;
 const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V30 OK ' : 'V30 FAIL ') + name + (x ? ' ' + x : '')); };

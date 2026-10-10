@@ -1,7 +1,7 @@
 // v30: «Работа над ошибками», предложение повторить, «Проверь мою тетрадь», листок для печати, отчёт;
 // без повторов решённых задач/вопросов; уроки открываются по порядку (+ «Открыть все уроки»)
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0, fails = 0;
 const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V30 OK ' : 'V30 FAIL ') + name + (x ? ' ' + x : '')); };

@@ -1,7 +1,7 @@
 // v30: «📋 Шпаргалки» — кнопка в шапке экранов с задачами (нужная шпаргалка по теме), полный экран из Школы и с главной,
 // интерактивная таблица умножения, «трудные» примеры, отчёт для взрослых, без горизонтальной прокрутки на 320px
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let fails = 0;
 const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V30 OK ' : 'V30 FAIL ') + name + (x ? ' ' + x : '')); };

@@ -1,7 +1,7 @@
 // v30: экскурсии с котиком — большая для ребёнка (один раз, пропуск, повтор из ⚙️), мини-экскурсии экранов,
 // экскурсия для взрослых, «что нового» для ветеранов; аккуратное завершение на 320/390/768, без ошибок и вылезаний за край
 const puppeteer = require('puppeteer-core');
-const URL = process.env.URL || 'http://localhost:8765/';
+const URL = process.env.URL || 'http://localhost:8765/app/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = []; let n = 0, fails = 0;
 const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V30 OK ' : 'V30 FAIL ') + name + (x ? ' ' + x : '')); };
