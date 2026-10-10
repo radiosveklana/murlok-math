@@ -31,9 +31,18 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
 
   // v30: в семье несколько взрослых. Первый — владелец (f.email), остальные приглашены по почте и имеют права родителя
   const adults = f => { if (!Array.isArray(f.parents)) { f.parents = [{ id: 'P' + rnd(8), email: f.email, role: 'owner', joined: f.created, consent: f.consent }]; touch(); } return f.parents; };
+  // v30: взрослый тоже играет — своя «игровая» запись (role 'adult-player') в f.players: свой котик и прогресс, видна в семье (таблица, вызовы, челленджи)
+  const isPlayer = ch => !!ch && ch.role === 'adult-player';
+  const kidsOf = f => (f.children || []).map(id => A.children[id]).filter(Boolean);
+  const playersOf = f => (f.players || []).map(id => A.children[id]).filter(Boolean);
+  const membersOf = f => [...kidsOf(f), ...playersOf(f)];
+  const LIM_DAILY = [0, 15, 30, 45, 60, 90, 120], HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;
+  const cleanLimits = d => { const daily = LIM_DAILY.includes(+d.daily) ? +d.daily : 0, hours = !!(d.from && d.to && HHMM.test(d.from) && HHMM.test(d.to) && d.from !== d.to);
+    return { daily, from: hours ? d.from : null, to: hours ? d.to : null, breaks: d.breaks === true, at: now() }; };
+  const hasLimits = l => !!(l && (l.daily || l.from || l.breaks));
   let hooks = { friendCodes: () => [], friendsAdmin: null }; // друзья живут в extra.mjs — сервер связывает модули через setHooks
   const setHooks = h => { hooks = { ...hooks, ...h }; };
-  const social = makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes: code => hooks.friendCodes(code) });
+  const social = makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes: code => hooks.friendCodes(code), membersOf });
   const siblings = code => { const ch = Object.values(A.children).find(c => c.cloudCode === code), f = ch && A.families[ch.familyId]; return f ? (f.children || []).map(id => A.children[id]).filter(c => c && c.id !== ch.id).map(c => c.cloudCode) : []; };
 
   /* ---------- рефералы ---------- */
@@ -44,10 +53,13 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
   function kidSummary(ch) {
     const s = readSave(ch.cloudCode) || {}, wk = Array.from({ length: 7 }, (_, k) => { const d = new Date(); d.setDate(d.getDate() - k); return d.toISOString().slice(0, 10); });
     const mins = Math.round(wk.reduce((t, d) => t + Object.values((s.time || {})[d] || {}).reduce((a, b) => a + b, 0), 0) / 60);
-    return { id: ch.id, name: ch.name, cat: s.name || ch.cat || '', fur: s.fur || 'ginger', wear: s.wear || {}, xp: s.xp || 0, cases: s.cases || 0, candies: s.candies || 0, gems: s.gems || 0, minutesWeek: mins, lastSeen: s.savedAt || 0, survey: ch.survey || null, ref: refCount(ch.ref), hasPin: !!ch.pinHash, cloudCode: ch.cloudCode };
+    // минуты за последние два дня (ключи — по часам устройства ребёнка): кабинет показывает «сегодня» по своему календарю
+    const tdays = Object.keys(s.time || {}).sort().slice(-2), timeDays = Object.fromEntries(tdays.map(d => [d, Math.round(Object.values(s.time[d] || {}).reduce((a, b) => a + b, 0) / 60)]));
+    return { id: ch.id, name: ch.name, cat: s.name || ch.cat || '', fur: s.fur || 'ginger', wear: s.wear || {}, xp: s.xp || 0, cases: s.cases || 0, candies: s.candies || 0, gems: s.gems || 0, minutesWeek: mins, lastSeen: s.savedAt || 0, survey: ch.survey || null, ref: refCount(ch.ref), hasPin: !!ch.pinHash, cloudCode: ch.cloudCode, limits: ch.limits || null, timeDays, ...(isPlayer(ch) ? { role: 'adult-player', adultOf: ch.adultOf } : {}) };
   }
   const famView = (f, me) => ({ id: f.id, email: f.email, code: f.code, me: me ? { email: me, role: (adults(f).find(a => a.email === me) || {}).role || 'adult' } : null,
-    adults: adults(f).map(a => ({ id: a.id, email: a.email, name: a.name || '', role: a.role, joined: a.joined })), invites: Object.entries(A.invites).filter(([, v]) => v.f === f.id && v.exp > now()).map(([e, v]) => ({ email: e, name: v.name || '', exp: v.exp })), priorities: f.priorities || [], plan: f.plan || 'free', created: f.created, consent: f.consent, ref: refCount(f.ref), children: (f.children || []).map(id => A.children[id]).filter(Boolean).map(kidSummary) });
+    adults: adults(f).map(a => ({ id: a.id, email: a.email, name: a.name || '', role: a.role, joined: a.joined })), invites: Object.entries(A.invites).filter(([, v]) => v.f === f.id && v.exp > now()).map(([e, v]) => ({ email: e, name: v.name || '', exp: v.exp })), priorities: f.priorities || [], plan: f.plan || 'free', created: f.created, consent: f.consent, ref: refCount(f.ref), children: kidsOf(f).map(kidSummary),
+    players: playersOf(f).map(ch => { const k = kidSummary(ch), mineA = me && adults(f).find(a => a.email === me), mine = !!(mineA && ch.adultOf === mineA.id); return { id: k.id, name: k.name, cat: k.cat, fur: k.fur, wear: k.wear, xp: k.xp, minutesWeek: k.minutesWeek, lastSeen: k.lastSeen, mine, ...(mine ? { cloudCode: ch.cloudCode } : {}) }; }) });
 
   /* ---------- снимки прогресса (раз в сутки, 14 дней) ---------- */
   function snapshot() {
@@ -60,7 +72,9 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
   }
   setTimeout(snapshot, 5000); setInterval(snapshot, 36e5);
 
+  function dropMember(ch) { try { fs.rmSync(path.join(SAVE_DIR, ch.cloudCode + '.json'), { force: true }); } catch { } fs.readdirSync(SNAP).forEach(d => { try { fs.rmSync(path.join(SNAP, d, ch.cloudCode + '.json'), { force: true }); } catch { } }); delete A.pending[ch.cloudCode]; if (ch.ref) delete A.refs[ch.ref]; social.forgetChild(ch.id); delete A.children[ch.id]; touch(); }
   function wipeFamily(f, why) {
+    playersOf(f).forEach(dropMember); f.players = [];
     (f.children || []).forEach(id => { const ch = A.children[id]; if (ch) { try { fs.rmSync(path.join(SAVE_DIR, ch.cloudCode + '.json'), { force: true }); } catch { } fs.readdirSync(SNAP).forEach(d => { try { fs.rmSync(path.join(SNAP, d, ch.cloudCode + '.json'), { force: true }); } catch { } }); delete A.pending[ch.cloudCode]; if (ch.ref) delete A.refs[ch.ref]; delete A.children[id]; } });
     if (f.ref) delete A.refs[f.ref]; delete A.emailIdx[f.email]; delete A.famCodes[f.code];
     adults(f).forEach(a => { if (A.emailIdx[a.email] === f.id) delete A.emailIdx[a.email]; }); for (const [e, v] of Object.entries(A.invites)) if (v.f === f.id) delete A.invites[e];
@@ -117,7 +131,7 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
     }
     if (r === 'child/login' && req.method === 'POST') {
       const d = await J(), fid = A.famCodes[String(d.familyCode || '').toUpperCase()], f = fid && A.families[fid], ch = f && A.children[d.childId];
-      if (!ch || ch.familyId !== fid) return send(res, 404, { error: 'nf' }, origin);
+      if (!ch || ch.familyId !== fid || isPlayer(ch)) return send(res, 404, { error: 'nf' }, origin); // игрок-взрослый входит только из кабинета
       if (!limit('accpin:' + ch.id, 10, 36e5)) return send(res, 429, { error: 'slow' }, origin);
       if (ch.pinHash && ch.pinHash !== pinHash(f, d.pin)) return send(res, 400, { error: 'pin' }, origin);
       ch.lastLogin = now(); touch();
@@ -131,7 +145,7 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
     }
     if (r === 'child/me' && req.method === 'GET') { // ребёнку — приоритеты семьи для подстройки программы
       const s2 = auth(req, 'c'); if (!s2) return send(res, 401, { error: 'auth' }, origin); const f2 = A.families[s2.f], ch = A.children[s2.c]; if (!f2 || !ch) return send(res, 401, { error: 'auth' }, origin);
-      return send(res, 200, { name: ch.name, priorities: f2.priorities || [], survey: ch.survey || null, cloudCode: ch.cloudCode }, origin);
+      return send(res, 200, { name: ch.name, priorities: f2.priorities || [], survey: ch.survey || null, cloudCode: ch.cloudCode, limits: isPlayer(ch) ? null : (ch.limits || null), role: isPlayer(ch) ? 'adult-player' : 'child' }, origin);
     }
     if (r === 'pending' && req.method === 'POST') { // начисления/восстановление от админа — ребёнок забирает при входе
       const d = await J(), code = String(d.code || '').toUpperCase(); const p = A.pending[code]; if (!p) return send(res, 200, { items: [] }, origin);
@@ -174,6 +188,7 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
       if (a.role === 'owner') return send(res, 400, { error: 'owner' }, origin);
       if (meA.role !== 'owner' && a.id !== meA.id) return send(res, 403, { error: 'owner' }, origin);
       f.parents = adults(f).filter(x => x.id !== a.id); if (A.emailIdx[a.email] === f.id) delete A.emailIdx[a.email];
+      playersOf(f).filter(ch => ch.adultOf === a.id).forEach(ch => { f.players = f.players.filter(x => x !== ch.id); dropMember(ch); }); // его котик уходит вместе с ним
       for (const [k, x] of Object.entries(A.sessions)) if (x.f === f.id && x.e === a.email) delete A.sessions[k];
       logConsent({ type: a.id === meA.id ? 'adult-left' : 'adult-removed', family: f.id, emailHash: sha(a.email) }); touch();
       return send(res, 200, { ok: true }, origin);
@@ -187,6 +202,24 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
       const done = hooks.friendsAdmin.approve(ch.cloudCode, String(d.pub || '').toUpperCase(), d.ok === true); return send(res, done ? 200 : 404, done ? { ok: true } : { error: 'nf' }, origin);
     }
     if (/^fam\/(social|chal)/.test(r)) { const d = req.method === 'POST' ? await J() : {}; const out = await social.parent(r, req, d, f, o => send(res, 200, o, origin), (c, e) => send(res, c, { error: e }, origin)); if (out !== null) return out; }
+    if (r === 'play' && req.method === 'POST') { // «Играть самому»: своя игровая запись взрослого в семье — одна на взрослого
+      const d = await J(); f.players = f.players || [];
+      let ch = playersOf(f).find(x => x.adultOf === meA.id);
+      if (!ch) {
+        const name = String(d.name || '').replace(/[<>{}"]/g, '').trim().slice(0, 20); if (name.length < 2) return send(res, 400, { error: 'name' }, origin);
+        let code; do { code = rnd(8); } while (Object.values(A.children).some(c => c.cloudCode === code) || fs.existsSync(path.join(SAVE_DIR, code + '.json')));
+        const id = 'C' + rnd(10); ch = A.children[id] = { id, familyId: f.id, name, cat: String(d.cat || '').replace(/[<>{}"]/g, '').slice(0, 20), cloudCode: code, pinHash: null, created: now(), survey: null, role: 'adult-player', adultOf: meA.id };
+        f.players.push(id);
+      }
+      ch.lastLogin = now(); touch();
+      return send(res, 200, { token: token('c', f.id, ch.id, 365), childId: ch.id, cloudCode: ch.cloudCode, name: ch.name, cat: ch.cat || '', familyCode: f.code, hasSave: !!readSave(ch.cloudCode) }, origin);
+    }
+    if (r === 'play/remove' && req.method === 'POST') { const ch = playersOf(f).find(x => x.adultOf === meA.id); if (ch) { f.players = f.players.filter(x => x !== ch.id); dropMember(ch); } return send(res, 200, { ok: true }, origin); }
+    const ml = r.match(/^child\/(C[A-Z0-9]{10})\/limits$/);
+    if (ml && req.method === 'POST') { // ограничения времени игры: норма на день, разрешённые часы, перерыв каждые 25 минут
+      const ch = A.children[ml[1]]; if (!ch || ch.familyId !== f.id || isPlayer(ch)) return send(res, 404, { error: 'nf' }, origin);
+      const d = await J(); ch.limits = { ...cleanLimits(d), by: meA.id }; touch(); return send(res, 200, { ok: true, limits: ch.limits }, origin);
+    }
     if (r === 'priorities' && req.method === 'POST') { const d = await J(); f.priorities = (Array.isArray(d.list) ? d.list : []).slice(0, 8).map(x => String(x).slice(0, 20)); touch(); return send(res, 200, { ok: true }, origin); }
     if (r === 'child' && req.method === 'POST') {
       const d = await J(), name = String(d.name || '').replace(/[<>{}"]/g, '').trim().slice(0, 20);
@@ -205,7 +238,7 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
       f.children = f.children.filter(x => x !== ch.id); social.forgetChild(ch.id); try { fs.rmSync(path.join(SAVE_DIR, ch.cloudCode + '.json'), { force: true }); } catch { } if (ch.ref) delete A.refs[ch.ref]; delete A.children[ch.id]; touch(); return send(res, 200, { ok: true }, origin);
     }
     if (r === 'export' && req.method === 'GET') {
-      const out = { family: { ...famView(f), salt: undefined }, consents: fs.existsSync(CLOG) ? fs.readFileSync(CLOG, 'utf8').split('\n').filter(l => l.includes(f.id)).map(l => JSON.parse(l)) : [], progress: Object.fromEntries((f.children || []).map(id => A.children[id]).filter(Boolean).map(ch => [ch.name, readSave(ch.cloudCode)])) };
+      const out = { family: { ...famView(f), salt: undefined }, consents: fs.existsSync(CLOG) ? fs.readFileSync(CLOG, 'utf8').split('\n').filter(l => l.includes(f.id)).map(l => JSON.parse(l)) : [], progress: Object.fromEntries(membersOf(f).map(ch => [ch.name + (isPlayer(ch) ? ' (взрослый)' : ''), readSave(ch.cloudCode)])) };
       res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'content-disposition': 'attachment; filename="murlok-family-data.json"' }); return res.end(JSON.stringify(out, null, 1));
     }
     if ((r === 'delete' || r === 'revoke') && req.method === 'POST') { const d = await J(); if (meA.role !== 'owner') return send(res, 403, { error: 'owner' }, origin); if (d.confirm !== 'УДАЛИТЬ') return send(res, 400, { error: 'confirm' }, origin); wipeFamily(f, r === 'revoke' ? 'revoke' : 'delete'); return send(res, 200, { ok: true }, origin); }
@@ -249,5 +282,5 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
     A.famSent = wk; touch(); for (const f of Object.values(A.families)) if ((f.tg || []).length) await famReport(f);
   }, 5 * 60000).unref?.();
 
-  return { acc, refLink, flag, tgStart, tgStop, famReport, A, touch, flush, famView, kidSummary, readSave, wipeFamily, logConsent, CLOG, SNAP, auth, token, rnd, sha, social, setHooks, siblings, adults };
+  return { acc, refLink, flag, tgStart, tgStop, famReport, A, touch, flush, famView, kidSummary, readSave, wipeFamily, logConsent, CLOG, SNAP, auth, token, rnd, sha, social, setHooks, siblings, adults, isPlayer, kidsOf, playersOf, membersOf, hasLimits };
 }

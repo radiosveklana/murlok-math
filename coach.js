@@ -180,10 +180,13 @@ const Coach = (() => {
   const AREA_NAME = { math: 'Математика и дела', games: 'Детективные игры', academy: 'Академия', house: 'Домик котика', shop: 'Кондитерская', chat: 'Разговоры с котиком', studio: 'Студия звуков', photo: 'Фотостудия', other: 'Главная и прочее' };
   let lastAct = Date.now();
   ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => { lastAct = Date.now(); }, { capture: true, passive: true }));
+  // время в разделе для взрослых, кабинете, замке и на экране «Пора отдохнуть» не считается
+  const NO_TIME = new Set(['parents', 'pcab', 'pauth', 'agate', 'pinset', 'rest', 'limitunlock', 'adultswitch']);
   setInterval(() => {
-    if (document.hidden || !S.kid || Date.now() - lastAct > 90000 || curScreen === 'parents') return;
+    if (document.hidden || !S.kid || Date.now() - lastAct > 90000 || NO_TIME.has(curScreen)) return;
     S.time = S.time || {}; const t = today(), d = S.time[t] = S.time[t] || {}, a = AREA[curScreen] || 'other'; d[a] = (d[a] || 0) + 20;
     if (Object.keys(S.time).length > 70) Object.keys(S.time).sort().slice(0, -60).forEach(k => delete S.time[k]);
+    try { if (window.Limits) Limits.tick(curScreen, 20); } catch (e) { console.warn(e); } // учёт по разделам и ограничения времени (limits.js)
     try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { }
   }, 20000);
   const minsOf = d => { const x = (S.time || {})[d]; return x ? Object.values(x).reduce((a, b) => a + b, 0) / 60 : 0; };

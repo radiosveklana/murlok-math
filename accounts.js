@@ -84,6 +84,7 @@ const Accounts = (() => {
       <div class="card"><h3>📄 Данные и согласие</h3><p class="small">Согласие от ${new Date(F.consent.at).toLocaleDateString('ru-RU')} (редакция ${F.consent.ver}). <a href="/privacy.html" target="_blank">Политика</a> · <a href="/consent.html" target="_blank">Согласие</a></p><div class="row-btns"><button class="btn" id="aexp">⬇️ Выгрузить все данные</button>${!F.me || F.me.role === 'owner' ? '<button class="btn danger" id="adel">Удалить аккаунт и данные</button>' : ''}<button class="btn" id="aout">🚪 Выйти из кабинета</button></div></div>
       <div id="pcab-social"></div>`;
     window.Family && Family.cabinet($('#pcab-social'));
+    window.Grownup && Grownup.cabinet(F, P, $('.acc')); // v30: «Играть самому» и время игры детей (grownup.js)
     let irole = 'Второй родитель'; $$('#irole .chip').forEach(l => l.addEventListener('click', () => { irole = l.dataset.r; $$('#irole .chip').forEach(x => x.classList.toggle('on', x === l)); }));
     $('#iadd').addEventListener('click', async () => { const email = $('#iemail').value.trim().toLowerCase(); if (!/^\S+@\S+\.\S+$/.test(email)) return toast('Проверьте адрес почты'); $('#iadd').disabled = true;
       try { await api('fam/invite', { email, name: irole }, P.token); toast('Приглашение отправлено на ' + esc(email)); go('pcab'); }
@@ -229,6 +230,6 @@ const Accounts = (() => {
     $('#set-pout', L)?.addEventListener('click', () => { close(); parentOut(); });
   } return r; }; }
   ['pauth', 'pcab', 'clogin', 'survey', 'agate', 'pinset'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
-  return { parent, child, linked, api, SURVEY, gate, adultOk, parentOut, childOut, exitAny };
+  return { parent, child, linked, api, SURVEY, gate, adultOk, parentOut, childOut, exitAny, ADULT };
 })();
 window.Accounts = Accounts;

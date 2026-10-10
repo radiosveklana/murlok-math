@@ -24,7 +24,10 @@ export const CHAL_TPL = {
   fr_race: { kind: 'friends', mode: 'race', icon: '🏁', name: 'Гонка: кто первым решит 100 задач', metric: 'tasks', goal: 100, days: 7, reward: { candies: 25, gems: 0, badge: '🏁' } },
 };
 
-export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes }) {
+export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes, membersOf }) {
+  // дети семьи + игроки-взрослые («Играть самому»): взрослые видны только своей семье, с пометкой adult
+  const famMembers = f => f ? (membersOf ? membersOf(f) : (f.children || []).map(id => A.children[id]).filter(Boolean)) : [];
+  const isAdult = ch => !!ch && ch.role === 'adult-player';
   A.duels = A.duels || {}; A.chals = A.chals || {};
   const now = () => Date.now();
   const MSK = 3 * 36e5, dk = ts => new Date(ts + MSK).toISOString().slice(0, 10); // день по Москве
@@ -48,11 +51,11 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes }) {
   }
   function streakNow(s) { const D = s.days || {}; let d = today(), n = 0; if (!D[d]) d = addDays(d, -1); while ((+D[d] || 0) > 0 && n < 400) { n++; d = addDays(d, -1); } return n; }
   const stars = s => Object.entries(s.acad || {}).filter(([k]) => k !== 'teen').reduce((t, [, a]) => t + Object.values((a && a.best) || {}).reduce((x, y) => x + (+y || 0), 0), 0);
-  const card = (ch, s = readSave(ch.cloudCode) || {}) => ({ id: ch.id, name: first(ch.name), cat: String(s.name || ch.cat || 'Котик').slice(0, 20), fur: s.fur || 'ginger', wear: s.wear || {} });
+  const card = (ch, s = readSave(ch.cloudCode) || {}) => ({ id: ch.id, name: first(ch.name), cat: String(s.name || ch.cat || 'Котик').slice(0, 20), fur: s.fur || 'ginger', wear: s.wear || {}, ...(isAdult(ch) ? { adult: true } : {}) });
 
   /* ---------- кто кого видит: семья (автоматически) и одобренные друзья ---------- */
-  const famKids = ch => ((A.families[ch.familyId] || {}).children || []).map(id => A.children[id]).filter(Boolean);
-  function friendKids(ch) { const m = byCode(), fam = new Set(famKids(ch).map(c => c.id)); return [...new Set(friendCodes(ch.cloudCode) || [])].map(c => m.get(c)).filter(c => c && !fam.has(c.id)); }
+  const famKids = ch => famMembers(A.families[ch.familyId]);
+  function friendKids(ch) { const m = byCode(), fam = new Set(famKids(ch).map(c => c.id)); return [...new Set(friendCodes(ch.cloudCode) || [])].map(c => m.get(c)).filter(c => c && !fam.has(c.id) && !isAdult(c)); }
   const related = (ch, id) => id !== ch.id && (famKids(ch).some(c => c.id === id) || friendKids(ch).some(c => c.id === id));
   function people(ch) { return { family: famKids(ch).filter(c => c.id !== ch.id).map(c => card(c)), friends: friendKids(ch).map(c => card(c)) }; }
 
@@ -67,7 +70,7 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes }) {
     const from = weekStart(), to = today();
     return { from, to, family: sortRows(famKids(ch).map(c => row(c, ch.id, from, to))), friends: sortRows([ch, ...friendKids(ch)].map(c => row(c, ch.id, from, to))) };
   }
-  const famBoard = f => { const from = weekStart(), to = today(); return { from, to, rows: sortRows((f.children || []).map(id => A.children[id]).filter(Boolean).map(c => row(c, null, from, to))) }; };
+  const famBoard = f => { const from = weekStart(), to = today(); return { from, to, rows: sortRows(famMembers(f).map(c => row(c, null, from, to))) }; };
 
   /* ---------- вызовы ---------- */
   const DUEL_EXP = 7 * 864e5;
@@ -93,7 +96,7 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes }) {
   setInterval(() => { const t = now(); for (const [k, d] of Object.entries(A.duels)) if ((!d.done && (d.exp < t || (!d.r[d.from] && t - d.created > 864e5))) || t - d.created > 60 * 864e5) { delete A.duels[k]; touch(); } }, 36e5);
 
   /* ---------- челленджи ---------- */
-  function chalMembers(c) { if (c.kind === 'family') return ((A.families[c.fam] || {}).children || []).map(id => A.children[id]).filter(Boolean); return (c.members || []).map(id => A.children[id]).filter(Boolean); }
+  function chalMembers(c) { if (c.kind === 'family') return famMembers(A.families[c.fam]); return (c.members || []).map(id => A.children[id]).filter(Boolean); }
   function chalView(c, me) {
     const T = CHAL_TPL[c.tpl], to = today() < c.end ? today() : c.end, mem = chalMembers(c);
     const vals = mem.map(ch => { const m = metrics(ch, c.start, to); return { ch, v: T.metric === 'activeDays' ? m.active : m[T.metric] }; });
@@ -101,10 +104,11 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes }) {
     if (T.metric === 'activeDays') { const u = new Set(); vals.forEach(x => x.v.forEach(d => u.add(d))); progress = u.size; members = vals.map(x => ({ ...card(x.ch), me: x.ch.id === me, value: x.v.length })); }
     else { members = vals.map(x => ({ ...card(x.ch), me: x.ch.id === me, value: x.v })); progress = T.kind === 'friends' && T.mode === 'race' ? ((members.find(x => x.me) || {}).value || 0) : members.reduce((t, x) => t + x.value, 0); }
     if (T.mode === 'race') { members.sort((a, b) => b.value - a.value); c.reached = c.reached || {}; members.forEach(x => { if (x.value >= T.goal && !c.reached[x.id]) { c.reached[x.id] = now(); touch(); } }); }
-    const complete = progress >= T.goal, isMember = mem.some(x => x.id === me), ended = today() > c.end;
+    const kidsOnly = T.kind === 'family' && isAdult(A.children[me]); // награда семейного челленджа — детям; взрослый помогает общему счёту
+    const complete = progress >= T.goal, isMember = mem.some(x => x.id === me) && !kidsOnly, ended = today() > c.end;
     const firstId = T.mode === 'race' ? Object.entries(c.reached || {}).sort((a, b) => a[1] - b[1]).map(x => x[0])[0] : null;
     return { id: c.id, tpl: c.tpl, kind: T.kind, mode: T.mode || '', icon: T.icon, name: T.name, goal: T.goal, metric: T.metric, start: c.start, end: c.end, daysLeft: ended ? 0 : range(today(), c.end).length,
-      progress: Math.min(progress, T.goal * 10), members: T.kind === 'solo' ? [] : members, complete, ended, reward: T.reward, claimable: complete && isMember && !(c.claimed || {})[me], claimed: !!(c.claimed || {})[me], first: firstId === me };
+      progress: Math.min(progress, T.goal * 10), members: T.kind === 'solo' ? [] : members, complete, ended, reward: T.reward, claimable: complete && isMember && !(c.claimed || {})[me], claimed: !!(c.claimed || {})[me], first: firstId === me, ...(kidsOnly ? { kidsOnly: true } : {}) };
   }
   const chalsOf = ch => Object.values(A.chals).filter(c => (c.kind === 'family' ? c.fam === ch.familyId : (c.members || []).includes(ch.id)));
   const isActive = c => today() <= c.end;
@@ -170,7 +174,7 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes }) {
   /* ---------- API родителя (токен взрослого семьи) ---------- */
   async function parent(r, req, d, f, ok, bad) {
     if (r === 'fam/social') {
-      const kids = (f.children || []).map(id => A.children[id]).filter(Boolean), ids = new Set(kids.map(k => k.id));
+      const kids = famMembers(f), ids = new Set(kids.map(k => k.id));
       const chals = Object.values(A.chals).filter(c => (c.kind === 'family' ? c.fam === f.id : (c.members || []).some(id => ids.has(id))) && isActive(c)).map(c => ({ ...chalView(c, null), by: c.kind === 'family' ? 'parent' : 'kid' }));
       const wk = weekStart(), duels = Object.values(A.duels).filter(x => x.done && (ids.has(x.from) || ids.has(x.to)) && dk(x.doneAt || 0) >= wk).length;
       return ok({ board: famBoard(f), chals, duelsWeek: duels, templates: Object.entries(CHAL_TPL).filter(([, t]) => t.kind === 'family').map(([id, t]) => ({ id, ...t })) });
@@ -188,7 +192,10 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes }) {
 
   function stats() {
     const wk = weekStart(), D = Object.values(A.duels);
-    return { multiAdultFamilies: Object.values(A.families).filter(f => (f.parents || []).length > 1).length, duelsPlayed: D.filter(x => x.done).length, duelsWeek: D.filter(x => x.done && dk(x.doneAt || 0) >= wk).length, duelsOpen: D.filter(x => !x.done).length, challengesActive: Object.values(A.chals).filter(isActive).length };
+    const CA = Object.values(A.chals).filter(isActive), adultIds = new Set(Object.values(A.children).filter(isAdult).map(c => c.id));
+    return { multiAdultFamilies: Object.values(A.families).filter(f => (f.parents || []).length > 1).length, duelsPlayed: D.filter(x => x.done).length, duelsWeek: D.filter(x => x.done && dk(x.doneAt || 0) >= wk).length, duelsOpen: D.filter(x => !x.done).length, challengesActive: CA.length,
+      challengesByKind: { solo: CA.filter(c => c.kind === 'solo').length, family: CA.filter(c => c.kind === 'family').length, friends: CA.filter(c => c.kind === 'friends').length },
+      duelsWithAdults: D.filter(x => adultIds.has(x.from) || adultIds.has(x.to)).length, duelsByGame: D.reduce((o, x) => { o[x.game] = (o[x.game] || 0) + 1; return o; }, {}) };
   }
   function forgetChild(id) { for (const [k, d] of Object.entries(A.duels)) if (d.from === id || d.to === id) delete A.duels[k]; for (const [k, c] of Object.entries(A.chals)) if (c.members) { c.members = c.members.filter(x => x !== id); if (!c.members.length) delete A.chals[k]; } touch(); }
   function forgetFamily(fid) { for (const [k, c] of Object.entries(A.chals)) if (c.fam === fid) delete A.chals[k]; touch(); }
