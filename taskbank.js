@@ -13,12 +13,13 @@ const TaskBank = (() => {
   reg({ id: 'add', group: '✍️ Письменные вычисления', name: 'Сложение и вычитание', icon: '➕', make: d => ({ kind: 'add', level: d, P: Column.genAdd(d, Math.random() < 0.5 ? '+' : '-') }) });
   function scan() { // темы с генераторами задач: программа 4 класса и будущие школьные предметы
     const groupOf = (sid, uid) => { const G = window.School4 && sid === 'math4' ? School4.GROUPS.find(g => g.items.includes(uid)) : null; return G ? G.t : '📚 ' + (window.SUBJECTS[sid] || {}).name; };
-    Object.values(window.SUBJECTS || {}).filter(s => s.id === 'math4' || s.school).forEach(s => s.units.filter(u => typeof u.gen === 'function').forEach(u => reg({ id: s.id + ':' + u.id, subject: s.id, unit: u.id, group: groupOf(s.id, u.id), name: u.title, icon: u.icon,
+    // темы Академии с генераторами (космос, окружающий мир, тело, ЗОЖ, ОБЖ…) тоже попадают в копилку: их можно выбрать в «Выбрать темы», но в «Вся программа» (математика) они не подмешиваются
+    Object.values(window.SUBJECTS || {}).filter(s => s.id !== 'teen' && Array.isArray(s.units)).forEach(s => s.units.filter(u => typeof u.gen === 'function').forEach(u => reg({ id: s.id + ':' + u.id, subject: s.id, unit: u.id, acad: !(s.id === 'math4' || s.school), group: s.id === 'math4' || s.school ? groupOf(s.id, u.id) : s.icon + ' Академия: ' + s.name, name: u.title, icon: u.icon,
       make: d => ({ kind: 'aq', level: d, src: s.id + ':' + u.id, title: u.title, icon: u.icon, q: u.gen(d), regen: () => u.gen(d) }) })));
   }
   const list = () => { scan(); return P.slice(); };
   function pick(ids, n, d) { // n задач из разных тем (если тем меньше — повторяем)
-    const pool = list().filter(p => !ids || !ids.length || ids.includes(p.id)), out = []; if (!pool.length) return out;
+    const pool = list().filter(p => ids && ids.length ? ids.includes(p.id) : !p.acad), out = []; if (!pool.length) return out;
     let bag = shuffle(pool);
     for (let i = 0; i < n; i++) { if (!bag.length) bag = shuffle(pool); const p = bag.shift(); try { const t = p.make(d); t.pid = p.id; t.title = t.title || p.name; t.icon = t.icon || p.icon; out.push(t); } catch (e) { console.warn(e); i--; if (out.length + bag.length === 0) break; } }
     return out;
