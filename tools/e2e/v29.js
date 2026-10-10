@@ -51,13 +51,14 @@ const SUBJ = { safety: 14, talk: 13, think: 14, creative: 12, read: 6, stories: 
   /* ---------- «Новое дело»: генераторы Академии — в «Выбрать темы», не в «Вся программа», без энциклопедии ---------- */
   ok('taskbank: academy topics only by choice, no teen', await E(() => { const L = TaskBank.list(), A = L.filter(p => p.acad); return A.length >= 6 && A.every(p => p.subject !== 'teen' && /Академия/.test(p.group)); }));
   await go('newcase'); await click('.choice[data-t="pick"]');
-  ok('pick modal shows academy group', await E(() => /Академия/.test(document.querySelector('.tb-pick').innerText)));
+  // v30 (modes.js): Академия в выборе тем — отдельным блоком «допрос свидетелей» (.tb-acad), в блоке «Школа» — только математика
+  ok('pick modal shows academy group', await E(() => /Академия/.test(document.querySelector('.tb-modal').innerText) && !!document.querySelector('.tb-acad input') && ![...document.querySelectorAll('.tb-pick input')].some(i => /^(think|space|safety|body|health|world|obzh):/.test(i.value))));
   const pickId = gens.find(k => k.startsWith('think')) || gens[0];
-  await E(id => { document.querySelectorAll('.tb-pick input').forEach(i => { i.checked = i.value === id; }); }, pickId); await click('#tbok'); await click('#go'); await sleep(800);
+  await E(id => { document.querySelectorAll('.tb-pick input, .tb-acad input').forEach(i => { i.checked = i.value === id; }); }, pickId); await click('#tbok'); await click('#go'); await sleep(800);
   ok('case from academy topic', await E(id => CASE && CASE.tasks.length === 4 && CASE.tasks.every(t => t.kind === 'aq' && t.src === id), pickId));
   await go('casetask'); await sleep(500); ok('academy task in case renders', await E(() => !!document.querySelector('.aq-box')));
   await answer(); await sleep(1800); ok('academy task solved -> clue', await E(() => !!document.querySelector('#clue')));
-  await E(() => { startCase('all', 2); }); await sleep(400); ok('all-program case has no academy topics', await E(() => CASE.tasks.every(t => !/^(safety|talk|think|creative|read|stories|teen):/.test(t.src || ''))));
+  await E(() => { startCase('all', 2); }); await sleep(400); ok('all-program case: 2 school + 2 academy tasks', await E(() => CASE.tasks.length === 4 && CASE.tasks.filter(t => t.acad).length === 2 && CASE.tasks.filter(t => !t.acad && !/^(safety|talk|think|creative|read|stories|teen|space|world|body|health|obzh):/.test(t.src || '')).length === 2)); // v30 (modes.js): «Вся программа» = Школа + Академия (допрос свидетелей)
 
   /* ---------- тренер, отчёт родителям, дипломы ---------- */
   ok('coach knows new units', await E(U => U.every(k => { const i = Coach.info('a:' + k); return i && i.name && i.area === 'academy'; }), newUnits));

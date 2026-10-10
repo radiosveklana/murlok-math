@@ -73,8 +73,10 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V30 OK
 
     /* ---------- Академия: верные вопросы не повторяются, «Тема пройдена» ---------- */
     const u0 = await E(() => SUBJECTS.space.units[0].id), u1 = await E(() => SUBJECTS.space.units[1].id);
-    await E(u => { const a = acad('space'), u0 = SUBJECTS.space.units.find(x => x.id === u); a.ok = {}; u0.quiz.forEach((q, i) => { if (i >= 2) a.ok[u + '#' + i] = 1; }); save(); }, u0);
-    await go('aquiz', 'space:' + u0); ok('only not-yet-correct questions are asked', await E(() => document.querySelectorAll('.g-dots i').length === 2), String(await E(() => document.querySelectorAll('.g-dots i').length)));
+    // тренажёр без генератора задач: у первого урока «Космоса» теперь есть генератор (расширение Академии), поэтому берём предмет, где первые уроки — только из готовых вопросов
+    const QS = await E(() => Object.values(SUBJECTS).find(s => s.units.length > 2 && !s.units[0].gen && !s.units[1].gen && (s.units[0].quiz || []).length > 4 && !/teen/.test(s.id)).id), q0 = await E(s => SUBJECTS[s].units[0].id, QS);
+    await E((u, QS) => { const a = acad(QS), u0 = SUBJECTS[QS].units.find(x => x.id === u); a.ok = {}; u0.quiz.forEach((q, i) => { if (i >= 2) a.ok[u + '#' + i] = 1; }); save(); }, q0, QS);
+    await go('aquiz', QS + ':' + q0); ok('only not-yet-correct questions are asked', await E(() => document.querySelectorAll('.g-dots i').length === 2), String(await E(() => document.querySelectorAll('.g-dots i').length)));
     // отвечаем неверно на всё → <2 звёзд: «Повторить урок», следующий урок закрыт
     for (let k = 0; k < 3; k++) { if (!(await p.$('#qarea .q-unit'))) break; await E(() => { const q = window.__aq; const area = document.querySelector('#qarea');
         if (q.type === 'one') { const w = [...area.querySelectorAll('.opt')].find(b => +b.dataset.i !== q.c); w.click(); } else if (q.type === 'tf') area.querySelector(`.opt[data-v="${q.c ? 0 : 1}"]`).click();
@@ -84,11 +86,11 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V30 OK
         else { const o = [...area.querySelectorAll('.opt')]; o[o.length - 1].click(); } }); await sleep(250); await click('#qn'); }
     ok('<2 stars → prominent «Повторить урок»', !!(await p.$('#relearn')), await txt('#qarea'));
     ok('next lesson locked until ⭐', /🔒/.test(await txt('.next-u')));
-    ok('wrong answers go to review', await E(u => Object.keys(acad('space').box).filter(k => k.startsWith(u + '#')).length >= 1, u0));
+    ok('wrong answers go to review', await E((u, QS) => Object.keys(acad(QS).box).filter(k => k.startsWith(u + '#')).length >= 1, q0, QS));
     await click('#relearn'); ok('«Повторить урок» → textbook', await E(() => curScreen === 'alesson'));
-    await E(u => { const a = acad('space'); SUBJECTS.space.units.find(x => x.id === u).quiz.forEach((q, i) => { a.ok[u + '#' + i] = 1; }); save(); }, u0);
-    await go('aquiz', 'space:' + u0); ok('all solved → «Тема пройдена»', /Тема пройдена/.test(await txt('.page')));
-    ok('mistakes screen shows academy subject', await (async () => { await go('mistakes'); return /Космос|космос/i.test(await txt('.mk-page')) || await E(() => document.querySelectorAll('.mk-item').length >= 2); })());
+    await E((u, QS) => { const a = acad(QS); SUBJECTS[QS].units.find(x => x.id === u).quiz.forEach((q, i) => { a.ok[u + '#' + i] = 1; }); save(); }, q0, QS);
+    await go('aquiz', QS + ':' + q0); ok('all solved → «Тема пройдена»', /Тема пройдена/.test(await txt('.page')));
+    ok('mistakes screen shows academy subject', await (async () => { await go('mistakes'); return (await E(s => new RegExp(SUBJECTS[s].name, "i").test(document.querySelector(".mk-page").innerText), QS)) || await E(() => document.querySelectorAll('.mk-item').length >= 2); })());
 
     /* ---------- уроки по порядку ---------- */
     await go('subject', 'space');

@@ -130,7 +130,8 @@ const LIST = { me: 'MYCODE', friends: [{ pub: 'FRND22', cat: 'Пушок', kid: 
   } return false; };
   await E(() => { S.prefs.divLv = 2; S.prefs.colGuided = { div: true }; save(); }); await go('colwork', 'div');
   const d0 = await E(() => (S.st.div || {}).done || 0);
-  ok('long division guided solved', await solveCol() && (await E(() => S.st.div.done)) === d0 + 1 && /Проверка/.test(await E(() => document.querySelector('#cbub').innerText)));
+  { const sv = await solveCol(), dn = await E(() => S.st.div.done), bt = await E(() => (document.querySelector('#cbub') || {}).innerText || ''); // подробности — чтобы под нагрузкой было видно, какой шаг не прошёл
+    ok('long division guided solved', sv && dn === d0 + 1 && /Проверка/.test(bt), `solved=${sv} done=${d0}→${dn} bub=${bt.slice(0, 80)}`); }
   await E(() => { S.prefs.divLv = 3; S.prefs.colGuided.div = false; save(); }); await go('colwork', 'div'); ok('long division 2-digit solo', await solveCol());
   await E(() => { S.prefs.addLv = 3; save(); }); await go('colwork', 'add:-'); ok('column subtraction', await solveCol() && (await E(() => S.st.add.done)) >= 1);
   await go('school'); ok('school has new topics', !!(await p.$('.school-card.div')) && !!(await p.$('.school-card.add')));

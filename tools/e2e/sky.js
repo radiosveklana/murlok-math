@@ -45,7 +45,14 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'SKY OK
   /* касание созвездия на карте */
   const tgt = await E(() => { const d = StarMap.debug(); const ids = ['UMa', 'Cas', 'Cyg', 'Lyr', 'Per', 'And', 'Peg', 'Aur', 'Dra', 'Cep', 'Her', 'Boo', 'Leo', 'Ori']; for (const id of ids) { const w = StarMap.where(id); if (w) return { id, ...w }; } return null; });
   ok('a famous constellation is above the horizon', !!tgt, tgt && tgt.id);
-  if (tgt) { await p.touchscreen.tap(tgt.x, tgt.y); await sleep(900); }
+  // под нагрузкой (4 браузера разом) карта может перерисоваться/сдвинуться, а поверх на миг оказаться реплика котика —
+  // поэтому координаты берём заново прямо перед касанием, ждём, пока в точке именно холст, и пробуем до 3 раз
+  if (tgt) for (let t = 0; t < 3; t++) {
+    const w = await E(id => { const w = StarMap.where(id); if (!w) return null; const el = document.elementFromPoint(w.x, w.y); return { ...w, cv: !!el && el.id === 'skyc' }; }, tgt.id);
+    if (!w) break; if (!w.cv) { await sleep(600); continue; }
+    await p.touchscreen.tap(w.x, w.y); await sleep(900);
+    if (await E(id => StarMap.debug().act === id && !!document.querySelector('#cinfo .cinfo'), tgt.id)) break;
+  }
   ok('tap opens constellation card', tgt && await E(id => { const c = document.querySelector('#cinfo .cinfo'); return !!c && c.innerText.includes(SKY.cons[id].ru) && StarMap.debug().act === id; }, tgt.id));
   ok('tap reward uses old id', tgt && await E(id => S.starsSeen.includes(StarMap.OLD ? (Object.entries(StarMap.OLD).find(([o, i]) => i === id) || [id])[0] : id), tgt.id));
   await shot('sky-card-390.png');

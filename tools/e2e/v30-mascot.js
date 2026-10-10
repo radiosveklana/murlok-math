@@ -42,7 +42,7 @@ const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V30 OK ' : 
   /* ---------- темп: не больше одной болтовни за 12 с и не больше 4 на экран ---------- */
   await go('shop'); await sleep(900);
   const pace = await E(async () => { Mascot.resetPace(); const bub = document.querySelector('#mascot .ms-bubble'); say('Первая реплика', 0, { prio: 0 }); const a = bub.textContent; say('Вторая реплика', 0, { prio: 0 }); const b2 = bub.textContent; return [a, b2]; });
-  ok('pacing: chatter throttled', /Первая/.test(pace[0]) && /Первая/.test(pace[1]), pace.join(' / '));
+  ok('pacing: chatter throttled', /первая/i.test(pace[0]) && /первая/i.test(pace[1]), pace.join(' / ')); // say() иногда добавляет обращение по имени («Тест, первая…») — регистр не важен
   const instr = await E(() => { const bub = document.querySelector('#mascot .ms-bubble'); say('Важная подсказка'); return bub.textContent; });
   ok('pacing: instructions are never throttled', /важная подсказка/i.test(instr));
   const streak = await E(() => { okRun = 0; lastCheer = 0; for (let i = 0; i < 4; i++) cheer(true); lastCheer = 0; cheer(true); return document.querySelector('#mascot .ms-bubble').textContent; });

@@ -66,7 +66,7 @@ const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V29 OK ' : 
 
   /* ---------- 🔍 Новое дело ---------- */
   await go('newcase');
-  ok('newcase: fits 360x740 without scroll', await noScroll());
+  ok('newcase: fits 360x740 without scroll', await noScroll(), await E(() => document.documentElement.scrollHeight - innerHeight + ' ' + [...document.querySelectorAll('body *')].filter(e => e.getBoundingClientRect().bottom > innerHeight + 1 && getComputedStyle(e).position !== 'fixed').slice(0, 6).map(e => e.tagName + '.' + String(e.className).slice(0, 30) + ':' + Math.round(e.getBoundingClientRect().bottom)).join(' ')));
   ok('newcase: 3 steps, 4 topics + classic, case teaser', await E(() => document.querySelectorAll('.nc-step').length === 2 && document.querySelectorAll('.nc-t').length === 4 && document.querySelectorAll('.nc-c').length === 3 && /Дело №1/.test(document.querySelector('.nc-case').innerText) && /«.+»/.test(document.querySelector('.nc-case').innerText) && /Взять дело №1/.test(document.querySelector('#go').innerText)));
   await shotSafe({ path: __dirname + '/shots/V29-newcase.png' });
   ok('newcase teaser = next crime', await E(() => document.querySelector('.nc-case b').innerText.includes(E.CRIMES[S.crimeBag[0]].title)));
@@ -81,7 +81,10 @@ const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V29 OK ' : 
   ok('whole program: school + academy', await E(() => CASE.tasks.filter(t => t.acad).length === 2 && CASE.tasks.filter(t => !t.acad).length === 2 && CASE.topic === 'all'));
   await E(() => startCase('school', 1)); await sleep(500);
   ok('school: 4 school tasks', await E(() => CASE.real === 'school' && CASE.tasks.length === 4 && CASE.tasks.every(t => !t.acad)));
-  await go('newcase'); await click('.choice[data-t="pick"]');
+  // v30 (mistakes.js): уроки открываются по порядку — в выборе тем только открытые темы; с «Открыть все уроки» — все 22
+  await E(() => { S.unlockAll = false; save(); }); await go('newcase'); await click('.choice[data-t="pick"]');
+  { const r = await E(() => { const v = [...document.querySelectorAll('.tb-pick input')].map(i => i.value), L = TaskBank.list().map(t => t.id); return { ok: v.length > 0 && v.length < 22 && v.every(x => L.includes(x)) && v.length === TaskBank.list().filter(t => !t.acad).length, v: v.join(',') }; }); ok('pick modal: only open school topics while lessons are locked', r.ok, r.v); }
+  await E(() => { document.querySelectorAll('.modal').forEach(m => m.remove()); S.unlockAll = true; save(); }); await go('newcase'); await click('.choice[data-t="pick"]');
   ok('pick modal: school chips + academy chips', await E(() => document.querySelectorAll('.tb-pick input').length === 22 && document.querySelectorAll('.tb-acad input').length > 50));
   await E(() => { document.querySelectorAll('.tb-pick input').forEach(i => { i.checked = i.value === 'math4:buy'; }); document.querySelectorAll('.tb-acad input').forEach(i => { i.checked = /^space:/.test(i.value); }); }); await click('#tbok');
   ok('pick saved both', await E(() => S.prefs.caseTopics.length === 1 && S.prefs.caseAcad.length >= 5 && /тем: \d+/.test(document.querySelector('#pickn').innerText)));
