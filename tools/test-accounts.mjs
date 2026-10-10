@@ -124,8 +124,50 @@ r = await A('GET', '/acc/social/board', null, CH(ctok)); ok('friends board inclu
 r = await A('POST', '/acc/fam/friends', { childId: kid.id, pub: pubP, ok: true }, CH(tok2)); ok('parent cannot approve for another family', r.code === 404);
 r = await A('GET', '/acc/fam/social', null, H); ok('parent cabinet social summary', r.body.board.rows.length === 2 && r.body.chals.length >= 2 && r.body.duelsWeek === 1 && r.body.templates.length === 4);
 r = await AD('GET', '/admin/api/stats', null, { cookie }); ok('admin social counters', r.body.social.multiAdultFamilies === 1 && r.body.social.duelsPlayed === 1 && r.body.social.challengesActive >= 3, JSON.stringify(r.body.social));
+// ---------- v30: взрослый играет сам, ограничения времени, метрики админки ----------
+r = await A('POST', '/acc/play', { name: 'Мама', cat: 'Мурка' }, H); ok('adult player created', r.code === 200 && r.body.token && /^[A-Z0-9]{8}$/.test(r.body.cloudCode) && r.body.familyCode === fam.code && !r.body.hasSave);
+const mamaP = r.body, mptok = r.body.token;
+r = await A('POST', '/acc/play', { name: 'Другое' }, H); ok('one player per adult (same record)', r.body.childId === mamaP.childId && r.body.name === 'Мама');
+r = await A('POST', '/acc/play', { name: 'Ба' }, CH(ctok)); ok('child token cannot create adult player', r.code === 401);
+r = await A('GET', '/acc/family', null, H); ok('players listed apart from children', r.body.family.children.length === 2 && r.body.family.players.length === 1 && r.body.family.players[0].mine && r.body.family.players[0].name === 'Мама');
+r = await A('GET', '/acc/family', null, CH(btok)); ok('other adult sees player, not as mine', r.body.family.players.length === 1 && !r.body.family.players[0].mine);
+r = await A('POST', '/acc/child/list', { familyCode: fam.code }); ok('child list on device excludes adult players', r.body.kids.length === 2 && !r.body.kids.some(k => k.id === mamaP.childId));
+r = await A('POST', '/acc/child/login', { familyCode: fam.code, childId: mamaP.childId, pin: [] }); ok('no family-code login into adult player', r.code === 404);
+fs.writeFileSync(path.join(SAVE_DIR, mamaP.cloudCode + '.json'), JSON.stringify({ v: 1, kid: 'Мама', name: 'Мурка', role: 'adult', xp: 3000, days: { [mskDay()]: 200 }, daily: { [mskDay()]: { x: 2000, t: 200, a: 0 } }, time: { [mskDay()]: { math: 1200 } }, savedAt: Date.now() }));
+r = await A('GET', '/acc/social/board', null, CH(ctok)); const fbA = r.body.family || [];
+ok('adult player in family board, labelled', fbA.length === 3 && fbA[0].name === 'Мама' && fbA[0].adult === true && !fbA.find(x => x.name === 'Кэтика').adult);
+ok('adult not on friends board', !(r.body.friends || []).some(x => x.adult));
+r = await A('GET', '/acc/social/people', null, CH(ctok)); ok('adult in duel people list', r.body.family.some(p => p.id === mamaP.childId && p.adult));
+r = await A('POST', '/acc/duel/new', { to: mamaP.childId, game: 'paws' }, CH(ctok)); ok('kid can challenge adult player', r.code === 200);
+r = await A('GET', '/acc/chal/list', null, CH(mptok)); const famC = r.body.active.find(c => c.tpl === 'fam_tasks');
+ok('adult counts in family challenge, reward is for kids', famC && famC.members.length === 3 && famC.progress === 360 && famC.kidsOnly && !famC.claimable, JSON.stringify(famC && { p: famC.progress, k: famC.kidsOnly, c: famC.claimable }));
+r = await A('GET', '/acc/fam/social', null, H); ok('cabinet board includes adult player', r.body.board.rows.some(x => x.adult && x.name === 'Мама'));
+r = await A('GET', '/acc/child/me', null, CH(mptok)); ok('player child/me: role, no limits', r.body.role === 'adult-player' && r.body.limits === null);
+// ограничения времени
+r = await A('POST', `/acc/child/${kid.id}/limits`, { daily: 30, from: '08:00', to: '20:00', breaks: true }, H); ok('parent sets limits', r.code === 200 && r.body.limits.daily === 30 && r.body.limits.from === '08:00' && r.body.limits.breaks === true);
+r = await A('GET', '/acc/child/me', null, CH(ctok)); ok('child gets limits via child/me', r.body.limits && r.body.limits.daily === 30 && r.body.limits.to === '20:00' && r.body.role === 'child');
+r = await A('POST', `/acc/child/${misha.id}/limits`, { daily: 37, from: '25:00', to: '20:00', breaks: 'yes' }, CH(btok)); ok('limits sanitized', r.body.limits.daily === 0 && r.body.limits.from === null && r.body.limits.breaks === false);
+r = await A('POST', `/acc/child/${mamaP.childId}/limits`, { daily: 15 }, H); ok('no limits on adult player', r.code === 404);
+r = await A('POST', `/acc/child/${kid.id}/limits`, { daily: 15 }, CH(tok2)); ok('other family cannot set limits', r.code === 404);
+const s1b = JSON.parse(fs.readFileSync(path.join(SAVE_DIR, 'KIDCODE1.json'), 'utf8')); Object.assign(s1b, { time: { '2026-01-01': { math: 60 }, [mskDay()]: { math: 600, games: 300 } }, use: { [mskDay()]: { case: 400, paws: 200, 'a:space': 300 } }, limitStat: { blocks: 2, unlocks: 1 }, acad: { space: { read: { u1: 1 }, best: { u1: 3 }, box: { q1: 1 } } } }); fs.writeFileSync(path.join(SAVE_DIR, 'KIDCODE1.json'), JSON.stringify(s1b));
+r = await A('GET', '/acc/family', null, H); const kk = r.body.family.children.find(k => k.id === kid.id); ok('cabinet: today minutes + limits', kk.timeDays[mskDay()] === 15 && kk.limits.daily === 30 && Object.keys(kk.timeDays).length === 2);
+// метрики админки
+r = await AD('GET', '/admin/api/metrics', null, { cookie }); const M = r.body, sec = id => M.sections.find(x => x.id === id);
+ok('metrics: sections from S.use', r.code === 200 && sec('case').minutes === 7 && sec('paws').reach === 1 && M.kidsWithNewTracking === 1, JSON.stringify(M.sections.slice(0, 4)));
+ok('metrics: academy subject + review', M.subjects.some(x => x.id === 'space' && x.minutes === 5 && x.read === 1 && x.stars === 8) && M.review.cards === 1);
+ok('metrics: adoption', M.adoption.limits === 1 && M.adoption.limitKids === 1 && M.adoption.adultPlayers === 1 && M.adoption.multiAdult === 1 && M.adoption.limitBlocks === 2 && M.adoption.limitUnlocks === 1, JSON.stringify(M.adoption));
+ok('metrics: per-kid week + onboarding', M.perKidWeek.minutes > 0 && M.onboarding.started >= 3 && M.onboarding.linked >= 2 && M.social.duelsWithAdults === 1);
+r = await AD('GET', '/admin/api/metrics', null, { cookie }); ok('metrics cached', r.body.cached === true);
+r = await AD('GET', '/admin/api/metrics?fresh=1', null, { cookie }); ok('metrics fresh recalculation', !r.body.cached);
+r = await AD('GET', '/admin/api/stats', null, { cookie }); ok('admin stats: adult players apart from kids', r.body.children === 3 && r.body.adultPlayers === 1, JSON.stringify({ c: r.body.children, a: r.body.adultPlayers }));
+r = await AD('GET', `/admin/api/family/${fam.id}`, null, { cookie }); ok('admin family card: players + limits + tg', r.body.players.length === 1 && r.body.children.find(k => k.id === kid.id).limits.daily === 30 && r.body.tg === 0);
+r = await AD('GET', '/admin/api/metrics'); ok('metrics closed without cookie', r.code === 401);
+// бабушка играет, потом её убирают из семьи — её котик уходит вместе с ней
+r = await A('POST', '/acc/play', { name: 'Бабушка' }, CH(btok)); const babP = r.body; ok('second adult has own player', r.code === 200 && babP.childId !== mamaP.childId);
+fs.writeFileSync(path.join(SAVE_DIR, babP.cloudCode + '.json'), JSON.stringify({ v: 1, kid: 'Бабушка', xp: 1 }));
 // убрать приглашённого взрослого
 r = await A('POST', `/acc/fam/adult/${babId}/remove`, {}, H); ok('owner removes invited adult', r.code === 200);
+ok('removed adult player dropped with save', !acc.A.children[babP.childId] && !fs.existsSync(path.join(SAVE_DIR, babP.cloudCode + '.json')) && acc.A.families[fam.id].players.length === 1);
 r = await A('GET', '/acc/family', null, CH(btok)); ok('removed adult loses access', r.code === 401);
 ok('removal logged', fs.readFileSync(path.join(DIR, 'consents.log'), 'utf8').includes('"type":"adult-removed"'));
 
@@ -133,6 +175,7 @@ ok('removal logged', fs.readFileSync(path.join(DIR, 'consents.log'), 'utf8').inc
 r = await A('GET', '/acc/export', null, H); ok('export has progress', r.code === 200 && JSON.parse(r.raw).progress['Кэтика'].xp === 32130);
 r = await A('POST', '/acc/revoke', { confirm: 'нет' }, H); ok('revoke needs confirm', r.code === 400);
 r = await A('POST', '/acc/revoke', { confirm: 'УДАЛИТЬ' }, H); ok('revoke wipes family', r.body.ok && !fs.existsSync(path.join(SAVE_DIR, 'KIDCODE1.json')) && !acc.A.families[fam.id]);
+ok('revoke wipes adult player too', !acc.A.children[mamaP.childId] && !fs.existsSync(path.join(SAVE_DIR, mamaP.cloudCode + '.json')));
 r = await A('GET', '/acc/family', null, H); ok('old token dead', r.code === 401);
 ok('revoke logged', fs.readFileSync(path.join(DIR, 'consents.log'), 'utf8').includes('"type":"revoke"'));
 acc.flush(); console.log(fails ? 'ACC FAILED ' + fails : 'ACC ALL OK'); process.exit(fails ? 1 : 0);
