@@ -1,2 +1,0 @@
-SAYFLOW OK
-exit 0
