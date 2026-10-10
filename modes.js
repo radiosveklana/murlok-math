@@ -430,15 +430,19 @@ const Modes = (() => {
     app.innerHTML = `${topbar('⚡ Быстрые лапки')}<div class="page bz2">
       <p class="bz-lead">60 секунд — сколько успеешь? Выбери режим:</p>
       <div class="bz-grid">${MATH_KEYS.map(card).join('')}</div>
-      ${fs.length ? `<div class="bz-sub">🎓 Факты Академии <small>— правда или нет, на скорость</small></div><div class="bz-facts">${fs.map(s => { const k = 'f:' + s.id, b = bestOf(k); return `<button class="bz-f" data-m="${k}">${s.icon} ${s.name}${b ? ` · 🏆${b}` : ''}</button>`; }).join('')}</div>` : ''}
+      ${fs.length ? `<button class="bz-fp" id="bzfp"></button>` : ''}
       <div class="bz-sel" id="bzsel"></div>
       <button class="btn big pink bz-go" id="go">⚡ Старт!</button></div>`;
     const draw = () => {
       const M = getMode(sel), b = bestOf(sel); $$('[data-m]', app).forEach(x => x.classList.toggle('on', x.dataset.m === sel));
+      const fp = $('#bzfp'); if (fp) { const fm = /^f:/.test(sel) ? getMode(sel) : null; fp.classList.toggle('on', !!fm); fp.innerHTML = `<span>🎓</span><b>Факты Академии</b><small>${fm ? fm.icon + ' ' + fm.short + (bestOf(sel) ? ' · 🏆 ' + bestOf(sel) : '') : 'правда или нет — выбери предмет'} ▾</small>`; }
       const weak = sel === 'tbl' ? Object.entries(S.facts || {}).sort((x, y) => y[1] - x[1]).slice(0, 4) : [];
       $('#bzsel').innerHTML = `<b>${M.icon} ${M.name}</b> · ${b ? `рекорд <b>${b}</b>` : 'поставь первый рекорд!'}${weak.length ? `<small>Чаще будут: ${weak.map(w => w[0]).join(', ')}</small>` : ''}`;
     };
     $$('[data-m]', app).forEach(x => x.addEventListener('click', () => { sel = x.dataset.m; S.prefs.blitzMode = sel; save(); SND.tap(); draw(); }));
+    $('#bzfp')?.addEventListener('click', () => { SND.tap();
+      const m = modal(`<h2>🎓 Факты Академии</h2><p class="small">60 секунд: правда или нет, выбери ответ. Какой предмет?</p><div class="bp-subs bz-fsubs">${fs.map(s => { const k = 'f:' + s.id, b = bestOf(k); return `<button class="bp-sub bz-f ${k === sel ? 'on' : ''}" data-fm="${k}" style="--c:${s.color || '#FFD9E6'}"><span>${s.icon}</span><b>${s.name}${b ? `<br><small>🏆 ${b}</small>` : ''}</b></button>`; }).join('')}</div><button class="btn" data-close>Закрыть</button>`, 'wide');
+      $$('[data-fm]', m.el).forEach(x => x.addEventListener('click', () => { sel = x.dataset.fm; S.prefs.blitzMode = sel; save(); SND.tap(); m.close(); draw(); })); });
     $('#go').addEventListener('click', () => go('drill', sel));
     draw();
   };
@@ -654,8 +658,8 @@ const Modes = (() => {
 .bz-m { background: #fff; border-radius: 16px; padding: 8px 4px; box-shadow: 0 4px 0 #E6D6C4; border: 3px solid transparent; display: flex; flex-direction: column; align-items: center; gap: 1px; line-height: 1.15; }
 .bz-m .bz-i { font-size: 26px; } .bz-m b { font-size: 14px; } .bz-m small { font-size: 12px; color: var(--muted); } .bz-m.on, .bz-f.on { border-color: var(--pink); background: #FFF7FA; }
 .bz-sub { font-weight: 900; margin-top: 4px; } .bz-sub small { font-weight: 600; color: var(--muted); }
-.bz-facts { display: flex; gap: 6px; overflow-x: auto; padding: 2px 2px 6px; scrollbar-width: thin; }
-.bz-f { flex: none; background: #fff; border-radius: 14px; padding: 8px 12px; font-weight: 800; font-size: 14px; box-shadow: 0 3px 0 #E6D6C4; border: 3px solid transparent; white-space: nowrap; }
+.bz-fp { display: grid; grid-template-columns: 34px 1fr; column-gap: 8px; align-items: center; text-align: left; background: #fff; border-radius: 16px; padding: 8px 12px; box-shadow: 0 4px 0 #E6D6C4; border: 3px solid transparent; } .bz-fp span { grid-row: span 2; font-size: 26px; } .bz-fp b { font-size: 15px; } .bz-fp small { color: var(--muted); font-size: 13px; } .bz-fp.on { border-color: var(--pink); background: #FFF7FA; }
+.bz-f { background: #fff; border-radius: 12px; padding: 5px 9px; font-weight: 800; font-size: 13px; box-shadow: 0 3px 0 #E6D6C4; border: 3px solid transparent; white-space: nowrap; }
 .bz-sel { background: #fff; border-radius: 16px; padding: 10px 12px; box-shadow: var(--sh); text-align: center; font-size: 15px; } .bz-sel small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
 .bz-go { width: 100%; }
 .bz-run { max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; }

@@ -91,8 +91,9 @@ const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V29 OK ' : 
 
   /* ---------- ⚡ Быстрые лапки ---------- */
   await go('blitz');
-  ok('blitz: mode grid + academy facts, no scroll', await E(() => document.querySelectorAll('.bz-m').length === 6 && document.querySelectorAll('.bz-f').length >= 3) && await noScroll());
+  ok('blitz: mode grid + academy facts, no scroll', await E(() => document.querySelectorAll('.bz-m').length === 6 && !!document.querySelector('#bzfp')) && await noScroll());
   await p.screenshot({ path: __dirname + '/shots/V29-blitz.png' });
+  await click('#bzfp'); ok('facts subjects sheet', await E(() => document.querySelectorAll('.modal [data-fm]').length >= 3)); await click('.modal [data-fm]'); ok('facts mode selected', await E(() => /^f:/.test(S.prefs.blitzMode) && document.querySelector('#bzfp').classList.contains('on')));
   await click('.bz-m[data-m="div"]'); ok('mode remembered', await E(() => S.prefs.blitzMode === 'div' && /Деление/.test(document.querySelector('#bzsel').innerText)));
   await click('#go'); ok('drill: timer + numpad visible without scroll', await E(() => curScreen === 'drill' && !!document.querySelector('.timer') && document.querySelector('.pad .k[data-k="0"]').getBoundingClientRect().bottom <= innerHeight) && await noScroll());
   for (const m of ['tbl', 'div', 'round', 'addsub', 'mul2', 'mixall']) {
