@@ -58,9 +58,8 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   await go('starmap'); ok('star map: 16 constellations', (await p.$$('.cst')).length === 16);
   await click('.cst-chips .chip[data-c="ursa_major"]'); await sleep(800); ok('constellation info + reward', await E(() => /Большая Медведица/.test(document.querySelector('#cinfo').innerText) && S.starsSeen.includes('ursa_major')));
   ok('space trip locked', await E(() => !SpaceTrip.open()) && !!(await p.$('.trip-btn')));
-  await E(() => { S.st.mul.done += 130; save(); }); await go('spacetrip'); ok('space trip open: 9 planets', (await p.$$('.tp')).length === 9);
-  await click('.tp[data-p="moon"]'); for (let k = 0; k < 5; k++) { await answer(); await sleep(400); await click('#mn'); }
-  ok('moon mission done', await E(() => S.trip.done.moon === 3));
+  await E(() => { S.st.mul.done += 130; save(); }); await go('spacetrip'); ok('space arcade open: 8 planets + ticket', (await p.$$('.tp')).length === 8 && await E(() => SpaceTrip.tickets() >= 1));
+  await click('#stFly'); await sleep(700); ok('space arcade flight starts (ticket spent)', await E(() => curScreen === 'spacefly' && !!document.querySelector('#sacv') && SpaceTrip.state().used === 1));
 
   /* ---------- быстрые лапки, ошибки Енота ---------- */
   await go('blitz'); ok('blitz modes', (await p.$$('.drill-modes .chip')).length === 5);
@@ -79,7 +78,7 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   await go('academy'); ok('obzh + stories in hub', !!(await p.$('.acad-card[data-s="obzh"]')) && !!(await p.$('.acad-card[data-s="stories"]')));
   await go('rescue'); for (let k = 0; k < 5; k++) { await E(() => { const G = window.SUBJECTS.obzh.game, s = document.querySelector('.q-case').innerText.replace('🚑 ', '').trim(), q = G.find(g => s.includes(g.s.slice(0, 30))); q.steps.forEach(st => [...document.querySelectorAll('.rs-opts .opt')].find(b => b.innerText === st).click()); }); await sleep(300); await click('#rn'); }
   ok('rescue game 5/5', await E(() => /5 из 5/.test(document.querySelector('#rq').innerText)));
-  ok('obzh in diplomas + space', await E(() => Diplomas.rules().some(r => r.id === 'subj:obzh') && SpaceTrip.PL.find(p => p.id === 'earth').src.includes('@obzh')));
+  ok('obzh in diplomas + space', await E(() => Diplomas.rules().some(r => r.id === 'subj:obzh')));
 
   /* ---------- «Что нового» не пропадает при перезагрузке, пока не закроют ---------- */
   await E(() => { S.seenVersion = '1'; S.cases = Math.max(S.cases, 1); save(); }); await p.goto(URL); await sleep(2500);

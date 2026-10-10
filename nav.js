@@ -5,7 +5,7 @@
 const Nav = (() => {
   const H = []; let cur = null, back = false;
   // задания и одноразовые экраны: возвращаться в них нельзя
-  const TASK = new Set(['hello', 'caseintro', 'casetask', 'accuse', 'solved', 'pauth', 'clogin', 'survey', 'mission',
+  const TASK = new Set(['hello', 'caseintro', 'casetask', 'accuse', 'solved', 'pauth', 'clogin', 'survey', 'mission', 'spacefly',
     'aquiz', 'alesson', 'lesson', 'collesson', 'colwork', 'practice', 'game', 'drill', 'blitz', 'bugs', 'bugs2', 'rescue', 'solar',
     'citywalk', 'fakenews', 'helpharm', 'bodybuild', 'rpchat', 'visit', 'chat']);
   const isTask = s => TASK.has(s.n) || (/^(practice2|ideas)$/.test(s.n) && s.a != null && s.a !== '');
