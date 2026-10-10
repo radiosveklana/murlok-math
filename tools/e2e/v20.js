@@ -44,7 +44,7 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V20 OK ' : 'V20 FAIL ')
   ok('extra questions merged', await E(() => { const u = window.SUBJECTS.space.units.find(x => x.id === 'sun_system'); return u.quiz.length >= 20; }));
   ok('all extra banks merged', await E(() => ['space', 'world', 'body', 'safety', 'talk', 'health', 'think', 'teen', 'read'].every(id => window.SUBJECTS[id].units.every(u => u.quiz.length >= 14 || id === 'read'))));
   ok('creative in hub', !!(await p.$('.acad-card[data-s="creative"]')));
-  ok('reading texts 48', await E(() => (window.READ_TEXTS || []).length === 40));
+  ok('reading texts 55+', await E(() => (window.READ_TEXTS || []).length >= 55));
   await go('fakenews'); ok('fake news from bigger pool', await E(() => (AcadGames.CLAIMS.length + (window.EXTRA_CLAIMS || []).length) >= 70 && !!S.agSeen.claims));
   await go('citywalk'); ok('city walk bigger pool', await E(() => AcadGames.WALK.length >= 26));
 
