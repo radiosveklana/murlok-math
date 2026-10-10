@@ -52,8 +52,11 @@ const FAMCHAL = { id: 'HFAMCHAL01', tpl: 'fam_tasks', kind: 'family', mode: '', 
   /* ---------- новое устройство: первым делом — взрослый и семейный код ---------- */
   const q = await page(); await q.goto(URL); await q.waitForSelector('#kid');
   const E2 = (f, ...a) => q.evaluate(f, ...a);
-  ok('fresh hello leads with adult registration', await E2(() => { const e = document.querySelector('.acc-entry.fresh'), k = document.querySelector('#kid'); return !!e && /Я взрослый: регистрация/.test(e.innerText) && !!document.querySelector('#achild') && !!(e.compareDocumentPosition(k) & Node.DOCUMENT_POSITION_FOLLOWING); }));
-  ok('try without registration kept (low-key)', await E2(() => /Попробовать без регистрации/.test(document.querySelector('.acc-try').innerText) && document.querySelector('#kid').offsetParent !== null));
+  // первый экран в два шага: три дороги, «Просто поиграть» открывает знакомство (?choose=1 — показать шаг 1 и под автотестом)
+  await q.goto(URL + '?choose=1'); await sleep(1200);
+  ok('fresh hello: three roads, adult first', await E2(() => { const r = [...document.querySelectorAll('.hl-roads .road')].map(b => b.id); return r.join() === 'aparent,achild,atry' && document.querySelector('#kid').offsetParent === null; }));
+  await E2(() => document.querySelector('#atry').click()); await sleep(300);
+  ok('try without registration opens the form', await E2(() => document.querySelector('#kid').offsetParent !== null && !document.querySelector('.hello').classList.contains('choose')));
   await q.type('#kid', 'Тося'); await q.type('#nm', 'Пушок'); await E2(() => document.querySelector('#start').click()); await sleep(1500);
   ok('local play still works', await E2(() => S.kid === 'Тося' && curScreen === 'home'));
   await E2(() => { document.querySelectorAll('.modal').forEach(m => m.remove()); go('home'); }); await sleep(600);

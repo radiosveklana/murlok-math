@@ -88,7 +88,7 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V26 OK
   await E(() => document.querySelector('.modal #set-exit').click()); await sleep(300); const s0 = saves.length;
   await E(() => document.querySelector('.modal #cout').click()); await sleep(2500);
   ok('child logout saves to cloud and clears device', saves.length > s0 && await E(() => !JSON.parse(localStorage.getItem('murlok-detective-v1') || '{}').kid && !localStorage.getItem('murlok-acc:murlok-detective-v1')), saves.length + ' ' + s0 + ' ' + await E(() => (localStorage.getItem('murlok-detective-v1') || '').slice(0, 60)));
-  ok('after logout: back to the site', await E(() => location.pathname.endsWith('/about/')));
+  ok('after logout: back to the site', await E(() => /site=1/.test(location.search)));
   ok('no errors', !errors.length, errors.slice(0, 4).join(' | '));
   console.log('V26 DONE', n, fails ? 'FAILED ' + fails : ''); await b.close(); process.exit(fails ? 1 : 0);
 })().catch(e => { console.log('V26 FAIL crash', e.message); console.log(errors.join('\n')); process.exit(1); });
