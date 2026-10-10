@@ -34,7 +34,7 @@ const Mistakes = (() => {
   /* ---------- решённые задачи: не повторяем ---------- */
   let sset = null, sref = null;
   const SV = () => { if (!Array.isArray(S.solved)) S.solved = []; if (sref !== S.solved) { sref = S.solved; sset = new Set(S.solved); } return sset; };
-  const isSolved = sig => !window.GOD && !!sig && SV().has(sig); // «режим бога» (window.GOD) — повторы разрешены
+  const isSolved = sig => !window.GOD && !(window.withSeed && withSeed.run) && !!sig && SV().has(sig); // внутри withSeed (дуэли) — без учёта решённого, иначе задания у игроков разойдутся // «режим бога» (window.GOD) — повторы разрешены
   function solve(sig) { if (!sig) return; const set = SV(); if (set.has(sig)) return; set.add(sig); S.solved.push(sig); if (S.solved.length > 5000) S.solved.splice(0, S.solved.length - 5000).forEach(x => set.delete(x)); }
   const hashQ = q => typeof qHash === 'function' ? qHash(q) : String(q && q.q).slice(0, 40);
   function sigOf(c) {

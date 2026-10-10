@@ -14,7 +14,7 @@ const Family = (() => {
 
   /* ---------- одинаковая случайность для обоих игроков ---------- */
   function rng(seed) { let a = (seed >>> 0) || 1; return () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
-  function withSeed(seed, fn) { if (seed == null) return fn(); const orig = Math.random; Math.random = rng(seed); try { return fn(); } finally { Math.random = orig; } } // без зерна — обычный Math.random
+  function withSeed(seed, fn) { if (seed == null) return fn(); const orig = Math.random, prev = withSeed.run; Math.random = rng(seed); withSeed.run = {}; try { return fn(); } finally { Math.random = orig; withSeed.run = prev; } } // без зерна — обычный Math.random; withSeed.run — своя «память без повторов» на один прогон (генераторы не смотрят в общую историю, иначе у двух игроков разные задания)
   window.withSeed = withSeed;
 
   /* ---------- учёт за день: опыт и задания Академии (для таблицы недели и челленджей) ---------- */

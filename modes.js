@@ -35,6 +35,8 @@ const Modes = (() => {
     return ord.filter((id, i) => ord.indexOf(id) === i).map(sbj).filter(s => s && Array.isArray(s.units) && !isSchool(s) && (withTeen || s.id !== 'teen') && s.units.some(u => unitQs(u).length));
   }
   const acadUnits = s => s.units.filter(u => unitQs(u).length);
+  // уроки открываются по порядку (mistakes.js): в делах — только открытые уроки Академии («Открыть все уроки» / window.GOD — все)
+  const uOpen = (s, u) => !window.Mistakes || !Mistakes.unitOpen || Mistakes.unitOpen(s.id, u.id);
   const coachId = (sid, uid) => sid === 'teen' ? null : 'a:' + sid + (uid ? ':' + uid : '');
   /* мешок без повторов: каждый элемент по разу, потом заново */
   const bag = () => { let b = []; return (arr, key) => { if (!b.length || b.src !== key) { b = shuffle(arr.slice()); b.src = key; } return b.shift(); }; };
@@ -107,9 +109,11 @@ const Modes = (() => {
     const s = (window.SUBJECTS || {}).math4; if (!s) return;
     s.units.forEach(u => {
       if (typeof u.gen !== 'function' || u.gen.v29) return;
-      const g0 = u.gen, extra = VAR[u.id] || [], hist = [];
+      const g0 = u.gen, extra = VAR[u.id] || [], histG = [];
       const sig = q => strip(q.q).replace(/\d[\d\s]*/g, '#'); // «шаблон» задачи без чисел
       const g = function (d) {
+        // внутри withSeed (дуэли) — история только этого прогона: задания зависят лишь от зерна и одинаковы у обоих игроков
+        const run = window.withSeed && withSeed.run, hist = run ? (run['h:' + u.id] = run['h:' + u.id] || []) : histG;
         let q = null, best = null;
         for (let t = 0; t < 12; t++) {
           const f = extra.length && Math.random() < 0.45 ? pick(extra) : g0;
@@ -341,10 +345,10 @@ const Modes = (() => {
   };
   addNF('newcase');
   function pickTopics() {
-    const p = S.prefs, L = TaskBank.list(), groups = [...new Set(L.map(x => x.group))], sel = new Set(p.caseTopics || []), selA = new Set(p.caseAcad || []), subs = acadSubs(false);
+    const p = S.prefs, L = TaskBank.list().filter(x => !x.acad), groups = [...new Set(L.map(x => x.group))], sel = new Set(p.caseTopics || []), selA = new Set(p.caseAcad || []), subs = acadSubs(false);
     const ch = (v, on, html) => `<label class="tb-chip"><input type="checkbox" value="${v}" ${on ? 'checked' : ''}><span>${html}</span></label>`;
     const m = modal(`<h2>🎯 Какие темы в деле?</h2><div class="tb-scroll"><h3 class="tb-h">📐 Школа</h3><div class="tb-pick">${groups.map(g => `<h4>${g}</h4><div class="tb-chips">${L.filter(x => x.group === g).map(x => ch(x.id, sel.has(x.id), `${x.icon} ${x.name}`)).join('')}</div>`).join('')}</div>
-      <h3 class="tb-h">🎓 Академия <small>— допрос свидетелей</small></h3><div class="tb-acad">${subs.map(s => { const us = acadUnits(s), nOn = us.filter(u => selA.has(s.id + ':' + u.id)).length; return `<details class="tb-subj"${nOn ? ' open' : ''}><summary>${s.icon} ${s.name}${nOn ? ` <i>${nOn}</i>` : ''}</summary><div class="tb-chips">${us.map(u => ch(s.id + ':' + u.id, selA.has(s.id + ':' + u.id), `${u.icon} ${u.title}`)).join('')}</div></details>`; }).join('')}</div></div>
+      <h3 class="tb-h">🎓 Академия <small>— допрос свидетелей</small></h3><div class="tb-acad">${subs.map(s => { const us = acadUnits(s).filter(u => uOpen(s, u)), nOn = us.filter(u => selA.has(s.id + ':' + u.id)).length; return `<details class="tb-subj"${nOn ? ' open' : ''}><summary>${s.icon} ${s.name}${nOn ? ` <i>${nOn}</i>` : ''}</summary><div class="tb-chips">${us.map(u => ch(s.id + ':' + u.id, selA.has(s.id + ':' + u.id), `${u.icon} ${u.title}`)).join('')}</div></details>`; }).join('')}</div></div>
       <div class="row-btns"><button class="btn pink" id="tbok">Готово</button><button class="btn" id="tball">Все</button><button class="btn" id="tbnone">Сбросить</button></div>`, 'wide tb-modal');
     $('#tball', m.el).addEventListener('click', () => $$('input', m.el).forEach(i => { i.checked = true; }));
     $('#tbnone', m.el).addEventListener('click', () => $$('input', m.el).forEach(i => { i.checked = false; }));
@@ -356,8 +360,8 @@ const Modes = (() => {
   /* вопросы Академии в деле: «допрос свидетеля» — свидетель расскажет, что видел, если ответишь на его вопрос */
   function acadPool(ids) {
     const out = [];
-    if (ids) ids.forEach(id => { const [sid, uid] = id.split(':'), s = sbj(sid), u = s && s.units.find(x => x.id === uid); if (u && unitQs(u).length) out.push({ s, u }); });
-    else acadSubs(false).forEach(s => acadUnits(s).forEach(u => out.push({ s, u })));
+    if (ids) ids.forEach(id => { const [sid, uid] = id.split(':'), s = sbj(sid), u = s && s.units.find(x => x.id === uid); if (u && unitQs(u).length && uOpen(s, u)) out.push({ s, u }); });
+    else acadSubs(false).forEach(s => acadUnits(s).filter(u => uOpen(s, u)).forEach(u => out.push({ s, u })));
     return out;
   }
   function mkAcad(su, d, wit) {
@@ -449,7 +453,7 @@ const Modes = (() => {
   SCREENS.drill = mode => {
     const M = getMode(mode); if (!M) return go('blitz');
     S.prefs.blitzMode = M.key; save();
-    const DUR = 60, t0 = Date.now(), misses = []; let score = 0, cur = M.gen(null), buf = '', lock = false, over = false;
+    const DUR = 60, misses = []; let t0 = Date.now(), score = 0, cur = M.gen(null), buf = '', lock = false, over = false;
     const prevBest = bestOf(M.key);
     app.innerHTML = `${topbar(M.icon + ' ' + M.name, 'blitz')}<div class="page bz-run${M.choice ? ' bz-choice' : ''}">
       <div class="timer"><i id="tb"></i></div>
@@ -477,8 +481,9 @@ const Modes = (() => {
       $('#again').addEventListener('click', () => go('drill', M.key));
     };
     draw();
-    const iv = setInterval(() => { const left = DUR - (Date.now() - t0) / 1000; const tb = $('#tb'), dt = $('#dt'); if (tb) tb.style.width = Math.max(0, left / DUR * 100) + '%'; if (dt) dt.textContent = Math.max(0, Math.ceil(left)); if (left <= 0) end(); }, 100);
+    const iv = setInterval(() => { const left = DUR - (Date.now() - t0) / 1000; const tb = $('#tb'), dt = $('#dt'); if (tb) tb.style.width = Math.min(100, Math.max(0, left / DUR * 100)) + '%'; if (dt) dt.textContent = Math.max(0, Math.ceil(left)); if (left <= 0) end(); }, 100);
     cleanups.push(() => clearInterval(iv));
+    if (window.Boosts) Boosts.timed(sec => { if (!over) t0 += sec * 1000; }, () => !over); // 🍭 леденец-заморозка: +10 с и в новых режимах «Быстрых лапок»
     if (M.choice) {
       $('#bzo').addEventListener('click', e => { const b = e.target.closest('.opt'); if (!b || lock || over) return; if (+b.dataset.i === cur.c) { b.classList.add('right'); hit(); } else { b.classList.add('wrong'); miss(() => { const rb = $(`#bzo .opt[data-i="${cur.c}"]`); if (rb) rb.classList.add('right'); }); } });
     } else {
@@ -628,9 +633,9 @@ const Modes = (() => {
 .bp-sub span { font-size: 26px; width: 38px; height: 38px; border-radius: 12px; background: var(--c); display: grid; place-items: center; flex: none; } .bp-sub.on { border-color: var(--pink); }
 /* «Новое дело» */
 .nc2 { display: flex; flex-direction: column; gap: 8px; max-width: 560px; margin: 0 auto; }
-.nc2 .nc-case { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 18px; padding: 8px 12px; box-shadow: var(--sh); margin: 0; }
+.nc2 .nc-case { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 18px; padding: 6px 12px; box-shadow: var(--sh); margin: 0; }
 .nc2 .nc-case .mini-cat { width: 52px; flex: none; } .nc-ct { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
-.nc-no { font-size: 13px; font-weight: 800; color: #9C6B45; } .nc-ct b { font-size: 17px; } .nc-ct small { color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nc-no { font-size: 13px; font-weight: 800; color: #9C6B45; } .nc-ct b { font-size: 16px; line-height: 1.15; } /* длинное название дела переносится на 2 строки — экран всё равно влезает в 360×740 без прокрутки */ .nc-ct small { color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nc-step { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 17px; margin-top: 2px; }
 .nc-n { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--pink); color: #fff; font-size: 15px; flex: none; } .nc-n.w { background: #fff; color: var(--pink); }
 .newcase.nc2 .choice-grid.nc-topics { grid-template-columns: 1fr 1fr; gap: 8px; }
