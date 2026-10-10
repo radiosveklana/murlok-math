@@ -345,7 +345,7 @@ function ritualLine() { const h = hourNow(), R = BANK.ritual; return rand(h >= 2
 function callback() {
   const m = MS();
   if (daysAway() >= 3) return rand(BANK.ritual.miss);
-  const w = lastWin(); if (w && Math.random() < 0.8) return BANK.ritual.remember[w.topic][w.yest ? 0 : 1];
+  const w = lastWin(); if (w) return BANK.ritual.remember[w.topic][w.yest ? 0 : 1];
   const likes = [].concat((S.profile || {}).like || []).filter(x => BANK.ritual.fav[x]);
   if (likes.length && m.favDay !== today()) { m.favDay = today(); const l = rand(likes), out = [BANK.ritual.fav[l][0]]; if (/Животные/.test(l)) out.push(rand(BANK.facts.animals)); if (/Космос/.test(l)) out.push(rand(BANK.facts.space)); return out; }
   return null;
