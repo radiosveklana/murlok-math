@@ -49,7 +49,8 @@ let played = false;
   const setUsed = min => E(min => { S.time = S.time || {}; S.time[today()] = { math: min * 60 }; save(); }, min);
 
   /* ---------- настройки приходят с сервера ---------- */
-  ok('limits pulled from /acc/child/me', await E(() => S.limits && S.limits.daily === 30) && calls.some(c => c.act === 'acc/child/me' && c.auth === 'Bearer CTOKEN'));
+  for (let i = 0; i < 20 && !(await E(() => !!(S.limits && S.limits.daily === 30))); i++) await sleep(500);
+  ok('limits pulled from /acc/child/me', await E(() => S.limits && S.limits.daily === 30) && calls.some(c => c.act === 'acc/child/me' && c.auth === 'Bearer CTOKEN'), JSON.stringify(await E(() => S.limits || null)) + ' ' + calls.map(c => c.act + ':' + c.auth.slice(7)).join(','));
   await go('home'); await setUsed(26); await clean(); await E(() => Limits.check()); await sleep(300);
   ok('soft warning 5 minutes before', await E(() => [...document.querySelectorAll('.toast')].some(t => /Ещё 4 минуты/.test(t.innerText))));
   await setUsed(31); await E(() => Limits.check()); await sleep(600);
@@ -85,9 +86,9 @@ let played = false;
   /* ---------- время в разделе для взрослых не считается ---------- */
   await E(() => { S.limits = null; save(); }); await go('parents');
   const t0 = await E(() => Object.values(S.time[today()] || {}).reduce((a, x) => a + x, 0));
-  for (let i = 0; i < 5; i++) { await E(() => document.dispatchEvent(new Event('pointerdown'))); await sleep(4500); }
+  for (let i = 0; i < 5; i++) { await E(() => document.body.dispatchEvent(new Event('pointerdown', { bubbles: true }))); await sleep(4500); }
   ok('no time counted in parents section', await E(t0 => Object.values(S.time[today()] || {}).reduce((a, x) => a + x, 0) === t0, t0));
-  await go('home'); for (let i = 0; i < 5; i++) { await E(() => document.dispatchEvent(new Event('pointerdown'))); await sleep(4500); }
+  await go('home'); for (let i = 0; i < 5; i++) { await E(() => document.body.dispatchEvent(new Event('pointerdown', { bubbles: true }))); await sleep(4500); }
   ok('time counted while playing', await E(t0 => Object.values(S.time[today()] || {}).reduce((a, x) => a + x, 0) > t0, t0));
 
   /* ---------- кабинет: время игры ---------- */
