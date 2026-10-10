@@ -26,13 +26,42 @@ const Accounts = (() => {
 
   /* ---------- первый экран: вход для взрослого и для ребёнка с семейным кодом ---------- */
   // v30: на новом устройстве первым делом — регистрация взрослого и вход по семейному коду; «без регистрации» — скромно, ниже
-  { const h = SCREENS.hello; SCREENS.hello = arg => { h(arg); const pg = $('.page', app) || app, fresh0 = !S.kid && !linked();
-    if (!fresh0) pg.insertAdjacentHTML('afterbegin', `<div class="acc-entry"><button class="btn" id="aparent">👨‍👩‍👧 Я взрослый: вход и регистрация</button><button class="btn" id="achild">🧒 У меня есть семейный код</button><a class="link small" href="?site=1">Что это за игра? Рассказ для родителей</a></div>`);
-    else {
-      const at = $('.hello .lead', app) || $('.hello h1', app); if (at) at.insertAdjacentHTML('afterend', `<div class="acc-entry fresh"><button class="btn pink big" id="aparent">👨‍👩‍👧 Я взрослый: регистрация</button><button class="btn big" id="achild">🧒 У меня есть семейный код</button><p class="small">Регистрирует взрослый: прогресс хранится в облаке, у детей — друзья, вызовы и челленджи всей семьёй. Ребёнок входит по семейному коду.</p><a class="link small" href="?site=1">Что это за игра? Рассказ для родителей</a></div>`);
-      const lbl = $('label[for="kid"]', app); if (lbl) lbl.insertAdjacentHTML('beforebegin', `<div class="acc-try"><h3>🐾 Попробовать без регистрации</h3><p class="small">Прогресс сохранится только на этом устройстве. Понравится — попроси взрослого зарегистрироваться, и прогресс не потеряется.</p></div>`);
+  // v30: первый экран в два шага. Шаг 1 — три понятные дороги (взрослый / семейный код / просто поиграть), шаг 2 — имя и котик.
+  // Под автотестами (navigator.webdriver) сразу открыт шаг 2 — так старые тесты вводят имя как раньше; ?choose=1 включает шаг 1 и для них.
+  { const h = SCREENS.hello; SCREENS.hello = arg => { h(arg); const hl = $('.hello', app); if (!hl) return;
+    const fresh0 = !S.kid && !linked(), forceChoose = /[?&]choose=1/.test(location.search);
+    const about = '<p class="hl-foot"><a class="link small" href="?site=1">Что это за игра? Рассказ для родителей</a> <span class="age">6+</span></p>';
+    if (!fresh0) { // уже играет на этом устройстве (например, вернулся к имени) — компактные входы сверху
+      hl.insertAdjacentHTML('afterbegin', `<div class="acc-entry"><button class="btn sm" id="aparent">👨‍👩‍👧 Вход для взрослых</button><button class="btn sm" id="achild">🧒 Семейный код</button></div>`); hl.insertAdjacentHTML('beforeend', about);
+    } else {
+      [...hl.children].forEach(el => { if (!el.matches('.hello-cat, h1, .lead')) el.classList.add('hf'); });
+      $('.lead', hl)?.insertAdjacentHTML('afterend', `<div class="hl-roads">
+        <button class="road pink" id="aparent"><span class="rd-ic">👨‍👩‍👧</span><b>Я взрослый</b><small>Регистрация семьи: прогресс в облаке, отчёты, друзья и вызовы</small></button>
+        <button class="road" id="achild"><span class="rd-ic">🧒</span><b>У меня есть семейный код</b><small>Войти в свою игру на этом устройстве</small></button>
+        <button class="road mint" id="atry"><span class="rd-ic">🐾</span><b>Просто поиграть</b><small>Без регистрации — прогресс только на этом устройстве</small></button>
+      </div><div class="hf hl-step2"><button class="link" id="aback">← Назад</button><h3>🐾 Знакомимся!</h3></div>`);
+      hl.insertAdjacentHTML('beforeend', about);
+      const step = n => { hl.classList.toggle('choose', n === 1); if (n === 2) setTimeout(() => $('#kid')?.focus(), 50); };
+      step(navigator.webdriver && !forceChoose ? 2 : 1);
+      $('#atry').addEventListener('click', () => { SND.tap(); step(2); });
+      $('#aback').addEventListener('click', () => { SND.tap(); step(1); });
     }
-    pg.insertAdjacentHTML('beforeend', '<p class="center small"><a class="link small" href="?site=1">Что это за игра? Рассказ для родителей</a> <span class="age">6+</span></p>'); $('#aparent').addEventListener('click', () => go('pauth')); $('#achild').addEventListener('click', () => go('clogin')); }; }
+    $('#aparent').addEventListener('click', () => go('pauth')); $('#achild').addEventListener('click', () => go('clogin'));
+    if (!document.getElementById('hello-css')) { const st = document.createElement('style'); st.id = 'hello-css'; st.textContent = `
+      .hello .hl-roads { display: grid; gap: 12px; margin: 18px auto 8px; max-width: 520px; }
+      .hello:not(.choose) .hl-roads { display: none; }
+      .hello.choose .hf { display: none !important; }
+      .hello .road { display: grid; grid-template-columns: 54px 1fr; grid-template-rows: auto auto; column-gap: 12px; text-align: left; align-items: center; background: #fff; border-radius: 22px; padding: 14px 16px; box-shadow: var(--sh); border: 3px solid transparent; }
+      .hello .road .rd-ic { grid-row: span 2; font-size: 38px; text-align: center; }
+      .hello .road b { font-size: 19px; } .hello .road small { color: var(--muted); font-size: 14px; line-height: 1.3; }
+      .hello .road.pink { background: var(--pink); color: #fff; box-shadow: 0 5px 0 var(--pink-d); } .hello .road.pink small { color: #FFE3EC; }
+      .hello .road.mint { border-color: var(--mint-2); }
+      .hello .road:active { transform: translateY(3px); }
+      .hello .hl-step2 { display: flex; align-items: center; justify-content: space-between; max-width: 520px; margin: 14px auto 4px; }
+      .hello .hl-step2 h3 { margin: 0; } .hello .hl-foot { margin-top: 18px; text-align: center; }
+      .hello .acc-entry { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+      .hello .acc-try { display: none; }`; document.head.appendChild(st); }
+  }; }
 
   /* ---------- вход родителя ---------- */
   SCREENS.pauth = arg => {
