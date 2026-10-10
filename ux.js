@@ -21,7 +21,7 @@ const UX = (() => {
     // учёба — сразу под героем (после продолжения дела и квеста), советы котика и мысль дня — под ней, остальное — ниже
     const anchor = $('.quest', app) || $('.resume', app) || $('.care-alert', app) || $('.hero', app);
     if (secs.learn) anchor.after(secs.learn);
-    let last = secs.learn || anchor; ['.coach', '.thought', '.acc-nudge'].forEach(sel => { const el = $(sel, app); if (el) { last.after(el); last = el; } });
+    let last = secs.learn || anchor; ['.coach', '.thought', '.m-know', '.acc-nudge'].forEach(sel => { const el = $(sel, app); if (el) { last.after(el); last = el; } });
     if (secs.cat) { last.after(secs.cat); last = secs.cat; } if (secs.social) last.after(secs.social);
     tiles.remove();
   }
@@ -31,7 +31,7 @@ const UX = (() => {
     if (el.classList.contains('acc-card') || el.matches('button.danger')) return 'acc';
     if (el.classList.contains('coach-rep')) return 'sum';
     const h = ((el.querySelector('h2,h3') || el).textContent || '').trim();
-    if (/Сильные|Зоны роста|Советы|Коротко/.test(h)) return 'sum';
+    if (/Сильные|Зоны роста|Советы|Коротко|зелёной ручки/.test(h)) return 'sum';
     if (/Облачная|Резервная|Друзья в игре|Telegram|Разговоры|Настройки|Как устроен|Личный кабинет/.test(h)) return 'acc';
     return 'prog';
   };

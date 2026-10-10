@@ -156,7 +156,7 @@ const Coach = (() => {
       $('#cpq', m.el).innerHTML = `<div class="cp-q" data-c="${q.type === 'tf' ? (q.c ? 1 : 0) : q.c}">${T.render(q)}</div>`;
       T.bind($('#cpq', m.el), q, (r, why) => {
         if (r) { ok++; SND.ok(); } else SND.bad();
-        $('#cpw', m.el).innerHTML = (r ? '<div class="fb">✔ Верно!</div>' : '<div class="fb bad">Не совсем.</div>') + (why || '');
+        $('#cpw', m.el).innerHTML = (r ? '<div class="fb">✔ Верно!</div>' : '<div class="fb bad">🔎 Давай разберёмся</div>') + (why || '');
         $('#cpa', m.el).innerHTML = `<button class="btn pink" id="cpn">${k + 1 < qs.length ? 'Дальше →' : 'Готово ✔'}</button>`;
         $('#cpn', m.el).addEventListener('click', () => { k++; if (k < qs.length) show(); else { m.close(); cb(ok, qs.length); } });
       });

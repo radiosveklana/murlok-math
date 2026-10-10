@@ -113,7 +113,7 @@ SCREENS.aquiz = arg => {
     if (right) { ok++; $('#qsc').textContent = ok; SND.ok(); award(uid === '*mix' ? 2 : 1, uid === '*mix' ? 5 : 3); if (a.box[it.qid]) { const nb = a.box[it.qid][0] + 1; if (nb >= BOX_DAYS.length) { delete a.box[it.qid]; if (a.gq) delete a.gq[it.qid]; window.Coach && Coach.cured(); } else a.box[it.qid] = [nb, today()]; } }
     else { SND.bad(); a.box[it.qid] = [0, today()]; if (it.gen) { a.gq = a.gq || {}; a.gq[it.qid] = it.q; const ks = Object.keys(a.gq); if (ks.length > 40) ks.slice(0, ks.length - 40).forEach(k => { delete a.gq[k]; delete a.box[k]; }); } }
     save();
-    bub(`${right ? '<div class="fb">✔ Верно!</div>' : '<div class="fb bad">Не совсем.</div>'}${why || ''}`);
+    bub(`${right ? '<div class="fb">✔ Верно!</div>' : '<div class="fb bad">🔎 Давай разберёмся</div>'}${why || ''}`);
     $('#qafter').innerHTML = `<button class="btn big pink" id="qn">${k + 1 < items.length ? 'Дальше →' : 'Итоги 🏆'}</button>`;
     $('#qn').addEventListener('click', () => { $('#qafter').innerHTML = ''; k++; k < items.length ? show() : finish(); });
   }
