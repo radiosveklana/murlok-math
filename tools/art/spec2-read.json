@@ -1,0 +1,242 @@
+{
+ "how:5": {
+  "type": "photo",
+  "q": "stopwatch",
+  "alt": "Секундомер",
+  "p": "a shiny stopwatch lying on an open storybook, soft desk lamp light, cozy study corner, counting reading speed"
+ },
+ "how:6": {
+  "type": "art",
+  "q": "word recognition reading",
+  "alt": "Мозг узнаёт слово",
+  "p": "a cheerful child reading a book while a glowing whole word shape pops out like a friendly puzzle piece, bright cozy room"
+ },
+ "how:7": {
+  "type": "photo",
+  "q": "child bicycle",
+  "alt": "Детский велосипед",
+  "p": "a small bicycle parked next to a stack of books in a sunny park, reading is a skill you practice like riding a bike"
+ },
+ "how:8": {
+  "type": "photo",
+  "q": "stack of books",
+  "alt": "Стопка разных книг",
+  "p": "a colorful stack of different books, a comic, a textbook and a fairy tale, on a wooden table, some fast reads and some slow"
+ },
+ "understand:5": {
+  "type": "photo",
+  "q": "magnifying glass on book",
+  "alt": "Лупа над книгой",
+  "p": "a magnifying glass resting on an open book page, a detective clue mood, warm light, discovering the meaning of an unknown word"
+ },
+ "understand:6": {
+  "type": "art",
+  "q": "paragraphs blocks",
+  "alt": "Абзацы-кирпичики",
+  "p": "a book page made of colorful building blocks, each block a little story scene, a child happily stacking them, bright and playful"
+ },
+ "understand:7": {
+  "type": "art",
+  "q": "reading between the lines",
+  "alt": "Читай между строк",
+  "p": "a boy entering a room with a wet umbrella in the corner and rain drops, a curious girl guessing it is raining outside"
+ },
+ "understand:8": {
+  "type": "photo",
+  "q": "Lake Baikal",
+  "alt": "Озеро Байкал",
+  "p": "clear blue Lake Baikal with ice and mountains, a fact you can check, peaceful wide landscape under a bright sky"
+ },
+ "focus:5": {
+  "type": "photo",
+  "q": "glass of water and apple",
+  "alt": "Вода и яблоко",
+  "p": "a glass of water and a red apple beside an open book on a table, a healthy snack before reading"
+ },
+ "focus:6": {
+  "type": "art",
+  "q": "wandering thoughts reading",
+  "alt": "Мысли разбежались",
+  "p": "a child reading while tiny thought bubbles with toys and clouds float away, then the child gently gathers them back with a net"
+ },
+ "focus:7": {
+  "type": "photo",
+  "q": "kitchen timer",
+  "alt": "Кухонный таймер",
+  "p": "a cute kitchen timer next to an open book, focused reading time without distractions, cozy desk with a lamp"
+ },
+ "focus:8": {
+  "type": "photo",
+  "q": "dinosaur skeleton museum",
+  "alt": "Скелет динозавра",
+  "p": "a big dinosaur skeleton in a museum hall, reading about what you love keeps attention, exciting discovery"
+ },
+ "cover:techniques": {
+  "type": "art",
+  "q": "speed reading detective",
+  "alt": "Приёмы сыщика",
+  "p": "a cute detective owl with a magnifying glass flying over open books with glowing trails, secret speed reading techniques, magical library"
+ },
+ "techniques:0": {
+  "type": "photo",
+  "q": "library shelves",
+  "alt": "Полки библиотеки",
+  "p": "long library shelves full of books, different ways of reading, warm light, a soft armchair in a reading nook"
+ },
+ "techniques:1": {
+  "type": "art",
+  "q": "skimming book",
+  "alt": "Просмотр книги",
+  "p": "a child flipping quickly through a picture book, looking at titles and pictures, small sparkles over the headings"
+ },
+ "techniques:2": {
+  "type": "art",
+  "q": "scanning text search",
+  "alt": "Поиск в тексте",
+  "p": "a child running a finger along book lines looking for a glowing number, a tiny bridge drawing on the page"
+ },
+ "techniques:3": {
+  "type": "art",
+  "q": "key words highlight",
+  "alt": "Слова-улики",
+  "p": "a page with a few glowing highlighted words like clues, a little hedgehog finding an apple in the evening illustration"
+ },
+ "techniques:4": {
+  "type": "art",
+  "q": "reading word chunks",
+  "alt": "Чтение блоками",
+  "p": "eyes jumping across text in big glowing chunks, a cat sitting on a window sill illustration in an open book"
+ },
+ "techniques:5": {
+  "type": "art",
+  "q": "eyes moving forward",
+  "alt": "Глаза идут вперёд",
+  "p": "a child reading with an arrow-shaped bookmark moving only forward along the lines, determined happy face, cozy room"
+ },
+ "techniques:6": {
+  "type": "art",
+  "q": "inner voice reading",
+  "alt": "Голос в голове",
+  "p": "a child reading silently while a tiny soft speech cloud glows near their head, calm cozy room with a lamp"
+ },
+ "techniques:7": {
+  "type": "photo",
+  "q": "pencil on book",
+  "alt": "Карандаш над строкой",
+  "p": "a pencil lying across the lines of an open book, used as a pointer to guide reading, warm desk light"
+ },
+ "techniques:8": {
+  "type": "art",
+  "q": "speed reading myth",
+  "alt": "Миф о скорочтении",
+  "p": "a book with a flying rocket that is cracking and fizzling, a wise owl shaking its head, playful myth busting"
+ },
+ "cover:textbook": {
+  "type": "art",
+  "q": "textbook study",
+  "alt": "Учебник и инструкция",
+  "p": "a happy child at a desk with a textbook, a notebook and a little robot instruction leaflet, cozy lamp light, ready to understand"
+ },
+ "textbook:0": {
+  "type": "art",
+  "q": "preview textbook",
+  "alt": "Разведка параграфа",
+  "p": "a child with binoculars looking over a giant open textbook like a landscape, scouting headings and pictures"
+ },
+ "textbook:1": {
+  "type": "art",
+  "q": "questions to text",
+  "alt": "Вопросы к тексту",
+  "p": "a book page with a water drop traveling around a cloud cycle and big question marks floating, a curious child"
+ },
+ "textbook:2": {
+  "type": "art",
+  "q": "reading in parts",
+  "alt": "Читай по частям",
+  "p": "a child eating a big cake slice by slice that looks like book pages, playful metaphor for reading in small parts"
+ },
+ "textbook:3": {
+  "type": "art",
+  "q": "retell own words",
+  "alt": "Своими словами",
+  "p": "a child explaining to a plush toy with hand gestures, a closed book nearby, little picture bubbles floating around"
+ },
+ "textbook:4": {
+  "type": "art",
+  "q": "mind map spider",
+  "alt": "Таблица и «паучок»",
+  "p": "a friendly cartoon spider weaving a mind map web with little picture nodes on a notebook page, bright desk"
+ },
+ "textbook:5": {
+  "type": "photo",
+  "q": "highlighter pens",
+  "alt": "Маркеры-выделители",
+  "p": "colorful highlighter pens on an open notebook, marking the main ideas, bright tidy study desk"
+ },
+ "textbook:6": {
+  "type": "photo",
+  "q": "desk calendar",
+  "alt": "Настольный календарь",
+  "p": "a desk calendar next to a notebook, repeating the lesson the next day, tidy study table with pencils"
+ },
+ "textbook:7": {
+  "type": "art",
+  "q": "read task to the end",
+  "alt": "Дочитай до конца",
+  "p": "a child following a winding path of text to a finish flag at the last dot, determined smile"
+ },
+ "cover:memory_retell": {
+  "type": "art",
+  "q": "memory retell",
+  "alt": "Запомнить и пересказать",
+  "p": "a child with a glowing treasure chest of memories made from book scenes, storytelling to friends, warm magical light"
+ },
+ "memory_retell:0": {
+  "type": "art",
+  "q": "main idea",
+  "alt": "Главная мысль",
+  "p": "a child holding a glowing star above an open book, the main idea shining brightly, cozy room with bookshelves"
+ },
+ "memory_retell:1": {
+  "type": "art",
+  "q": "five questions",
+  "alt": "Пять вопросов",
+  "p": "five friendly question mark characters around an open book, each holding a little icon of who what where when why"
+ },
+ "memory_retell:2": {
+  "type": "art",
+  "q": "memory hooks",
+  "alt": "Опорные слова",
+  "p": "little golden hooks holding tiny picture cards on a string above an open book, memory hooks, warm light"
+ },
+ "memory_retell:3": {
+  "type": "art",
+  "q": "picture plan",
+  "alt": "План-картинки",
+  "p": "a row of small doodles on paper: a little house, a road, a wolf and a grandmother, drawn by a child"
+ },
+ "memory_retell:4": {
+  "type": "art",
+  "q": "short or detailed",
+  "alt": "Подробно или кратко",
+  "p": "a big thick scroll and a tiny note side by side, a child choosing between long and short retelling"
+ },
+ "memory_retell:5": {
+  "type": "photo",
+  "q": "wall calendar",
+  "alt": "Календарь",
+  "p": "a wall calendar with colored stickers marking repeat days, a spaced repetition plan above a study desk"
+ },
+ "memory_retell:6": {
+  "type": "art",
+  "q": "sleep memory",
+  "alt": "Сон и память",
+  "p": "a child sleeping peacefully while tiny helpers sort glowing books on shelves inside a dream cloud"
+ },
+ "memory_retell:7": {
+  "type": "art",
+  "q": "recall flashcards",
+  "alt": "Вспоминай сам",
+  "p": "a child closing a book and recalling with eyes looking up, glowing flashcards appearing around, cozy room"
+ }
+}

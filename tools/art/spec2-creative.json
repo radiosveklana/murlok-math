@@ -1,0 +1,368 @@
+{
+ "what_creative:7": {
+  "type": "art",
+  "q": "light bulbs choice",
+  "alt": "Много ответов, один выбор",
+  "p": "a child surrounded by many floating colorful light bulbs, reaching out to pick the single brightest one, sparkles around, cozy room"
+ },
+ "what_creative:8": {
+  "type": "art",
+  "q": "bath idea eureka",
+  "alt": "Как приходит озарение",
+  "p": "a child relaxing on a garden swing when a bright light bulb suddenly pops above their head, notebook resting on the grass"
+ },
+ "what_creative:9": {
+  "type": "photo",
+  "q": "notebook pencil sketches",
+  "alt": "Блокнот идей",
+  "p": "an open sketchbook with doodles of rockets and flowers, a pencil on top, a child jotting down a sudden idea"
+ },
+ "what_creative:10": {
+  "type": "art",
+  "q": "curious cat eyes question",
+  "alt": "Любопытство",
+  "p": "a curious child crouching to look closely into the eyes of a cat, floating question marks and a magnifying glass around"
+ },
+ "brainstorm:6": {
+  "type": "photo",
+  "q": "sticky notes",
+  "alt": "Письменный штурм",
+  "p": "children quietly writing ideas on colorful sticky notes and sticking them on a big board, calm classroom"
+ },
+ "brainstorm:7": {
+  "type": "photo",
+  "q": "kitchen timer",
+  "alt": "Штурм в одиночку",
+  "p": "a child alone at a desk with a kitchen timer and a stack of sticky notes covered in doodles, focused and happy"
+ },
+ "brainstorm:8": {
+  "type": "art",
+  "q": "target arrow question",
+  "alt": "Хорошая задача",
+  "p": "a child aiming a dart at the center of a target made of a glowing question mark, scattered arrows missing a blurry cloud"
+ },
+ "brainstorm:9": {
+  "type": "art",
+  "q": "sorting ideas stars",
+  "alt": "Выбор после штурма",
+  "p": "a child sorting a pile of sticky notes into groups and placing a golden star on the best one, wall board behind"
+ },
+ "unusual_uses:6": {
+  "type": "art",
+  "q": "popcorn microwave discovery",
+  "alt": "Случайные открытия",
+  "p": "a surprised scientist cartoon raccoon in a lab coat watching popcorn suddenly popping near a glowing machine, chocolate bar melting in pocket"
+ },
+ "unusual_uses:7": {
+  "type": "photo",
+  "q": "cardboard tube",
+  "alt": "Что это может быть?",
+  "p": "two children playing with a cardboard tube, one using it as a telescope and the other as a trumpet, laughing"
+ },
+ "unusual_uses:8": {
+  "type": "art",
+  "q": "cat sweater bed",
+  "alt": "Вещь для другого",
+  "p": "a happy cat curled up in a cozy old knitted sweater turned into a pet bed, a child smiling nearby"
+ },
+ "what_if:6": {
+  "type": "art",
+  "q": "world without clocks",
+  "alt": "Что, если исчезнет?",
+  "p": "a town where people look at the sun and roosters to tell time, empty clock frames on walls, a curious child"
+ },
+ "what_if:7": {
+  "type": "art",
+  "q": "thought experiment bubble",
+  "alt": "Мысленный эксперимент",
+  "p": "a child sitting with eyes closed while a big thought bubble shows a tiny planet with floating apples, scientist pose"
+ },
+ "what_if:8": {
+  "type": "art",
+  "q": "fairy tale crocodile house",
+  "alt": "Фантастическая гипотеза",
+  "p": "a fairy tale scene of a friendly crocodile peeking out of an apartment window, a child writing a story at a desk"
+ },
+ "what_if:9": {
+  "type": "art",
+  "q": "chain reasoning dominoes",
+  "alt": "Проверь логику",
+  "p": "a child following a path of glowing stepping stones each with a check mark, one wobbly stone with a question mark"
+ },
+ "combine:6": {
+  "type": "photo",
+  "q": "pocket knife multitool",
+  "alt": "Много в одном",
+  "p": "a closed red pocket multitool with tools partly fanned out on a wooden table, simple clean background"
+ },
+ "combine:7": {
+  "type": "art",
+  "q": "glowing shoes flashlight",
+  "alt": "Соединяй свойства",
+  "p": "a child wearing sneakers with softly glowing soles walking on a dark path at dusk, a flashlight beside"
+ },
+ "combine:8": {
+  "type": "art",
+  "q": "cleaning dance music",
+  "alt": "Соединяй дела",
+  "p": "a child dancing with a mop while cleaning the room, musical notes floating, a happy cat dancing too"
+ },
+ "new_view:6": {
+  "type": "photo",
+  "q": "burdock burrs",
+  "alt": "Подсмотри у природы",
+  "p": "a fluffy dog with round burrs stuck in its fur on a meadow walk, a curious inventor raccoon holding a magnifying glass"
+ },
+ "new_view:7": {
+  "type": "art",
+  "q": "break fresh eyes",
+  "alt": "Свежий взгляд",
+  "p": "a child stretching by a window and drinking water, a half-finished drawing waiting on the desk, sunshine"
+ },
+ "new_view:8": {
+  "type": "photo",
+  "q": "petri dish mold",
+  "alt": "Удача внимательных",
+  "p": "a petri dish with fuzzy green mold on a lab table under a magnifying glass, a microscope nearby"
+ },
+ "new_view:9": {
+  "type": "art",
+  "q": "asking grandma cozy corner",
+  "alt": "Спроси человека",
+  "p": "a child with a notebook asking grandma what makes her reading corner cozy, grandma pointing at a soft armchair and lamp"
+ },
+ "inventor:7": {
+  "type": "photo",
+  "q": "matryoshka dolls",
+  "alt": "Приём «матрёшка»",
+  "p": "a row of colorful nesting dolls opened one inside another on a table, next to a stack of nested bowls"
+ },
+ "inventor:8": {
+  "type": "photo",
+  "q": "oven mitt pot",
+  "alt": "Приём «посредник»",
+  "p": "a child wearing a thick oven mitt holding a warm pot handle in a bright kitchen, a parent supervising"
+ },
+ "inventor:9": {
+  "type": "photo",
+  "q": "compost bin garden",
+  "alt": "Вред в пользу",
+  "p": "a wooden compost bin full of leaves and vegetable peels in a garden, healthy flowers growing beside it"
+ },
+ "inventor:10": {
+  "type": "art",
+  "q": "toolbox ideas",
+  "alt": "40 приёмов",
+  "p": "an inventor child opening a big toolbox with forty little glowing compartments, each holding a tiny idea icon"
+ },
+ "stories:6": {
+  "type": "art",
+  "q": "two words fantasy",
+  "alt": "Бином фантазии",
+  "p": "a dog and a wardrobe magically combined into a funny scene, a dog walking out of a wardrobe into a snowy forest"
+ },
+ "stories:7": {
+  "type": "art",
+  "q": "fairy tale bricks",
+  "alt": "Кирпичики сказки",
+  "p": "colorful toy blocks each showing a fairy tale symbol like a crown, a road, a dragon egg and a key, stacked into a castle"
+ },
+ "stories:8": {
+  "type": "art",
+  "q": "shadow walking away",
+  "alt": "Начало-крючок",
+  "p": "a child waking up in the morning and seeing their own shadow tiptoeing out the door, playful and magical"
+ },
+ "stories:9": {
+  "type": "art",
+  "q": "characters talking puppets",
+  "alt": "Голоса героев",
+  "p": "a child with two hand puppets, a proud lion and a shy mouse, acting out a dialogue with colorful speech bubbles"
+ },
+ "team_life:6": {
+  "type": "art",
+  "q": "design thinking steps",
+  "alt": "Дизайн-мышление",
+  "p": "children interviewing a classmate, sketching ideas, building a cardboard prototype and testing it, shown along a winding path"
+ },
+ "team_life:7": {
+  "type": "art",
+  "q": "feedback sandwich",
+  "alt": "Как давать отзыв",
+  "p": "a child pointing kindly at a friend drawing with a heart sticker and a small star sticker, both smiling"
+ },
+ "team_life:8": {
+  "type": "art",
+  "q": "criticism question",
+  "alt": "Принимать критику",
+  "p": "a child taking a deep breath and asking a question while a friend points at a model rocket, a calm cloud above"
+ },
+ "team_life:9": {
+  "type": "art",
+  "q": "team review circle",
+  "alt": "Разбор полётов",
+  "p": "a team of children sitting in a circle after building a cardboard castle, two glowing bubbles with a star and a wrench"
+ },
+ "cover:make_game": {
+  "type": "art",
+  "q": "board game dice",
+  "alt": "Придумай игру",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat designing a board game on a big sheet of paper with dice, tokens and colored pencils scattered around"
+ },
+ "make_game:0": {
+  "type": "photo",
+  "q": "chess pieces board",
+  "alt": "Из чего состоит игра",
+  "p": "a chessboard with wooden pieces mid game, a child thinking with chin on hand, warm light"
+ },
+ "make_game:1": {
+  "type": "photo",
+  "q": "dice tokens board game",
+  "alt": "Правила и ход",
+  "p": "a colorful handmade board game path with a die and small tokens, a child moving a token"
+ },
+ "make_game:2": {
+  "type": "photo",
+  "q": "balance scale",
+  "alt": "Баланс",
+  "p": "a simple balance scale with two game tokens perfectly level, two children smiling at each other"
+ },
+ "make_game:3": {
+  "type": "art",
+  "q": "friends playtest board game",
+  "alt": "Тест на друзьях",
+  "p": "a group of friends playing a handmade board game on the floor, the inventor child taking notes in a notebook"
+ },
+ "make_game:4": {
+  "type": "photo",
+  "q": "checkers board",
+  "alt": "Одно правило — новая игра",
+  "p": "a checkers board with red and black pieces, a child flipping one piece upside down with a mischievous grin"
+ },
+ "make_game:5": {
+  "type": "art",
+  "q": "paper board game path",
+  "alt": "Игра из бумаги",
+  "p": "a child drawing a winding path of squares from start to finish on a big sheet of paper, stars and arrows along the way"
+ },
+ "make_game:6": {
+  "type": "art",
+  "q": "chalk playground game",
+  "alt": "Игра во дворе",
+  "p": "children playing a running game in a safe yard with chalk boundary lines on the pavement, far from the road"
+ },
+ "make_game:7": {
+  "type": "art",
+  "q": "rules list numbered",
+  "alt": "Как записать правила",
+  "p": "a child writing a short numbered list on a scroll with simple doodles beside each line, colored pencils on the table"
+ },
+ "cover:junk_inventions": {
+  "type": "art",
+  "q": "cardboard robot",
+  "alt": "Изобретения из мусора",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat building a cute robot from cardboard boxes, bottle caps and paper tubes, glue and tape on the table"
+ },
+ "junk_inventions:0": {
+  "type": "art",
+  "q": "cardboard box house",
+  "alt": "Апсайклинг",
+  "p": "a child turning a cardboard box into a colorful dollhouse with windows, old jars turned into flower vases nearby"
+ },
+ "junk_inventions:1": {
+  "type": "photo",
+  "q": "bottle caps corks",
+  "alt": "Что можно брать",
+  "p": "colorful plastic bottle caps, corks and cardboard tubes sorted into little bowls on a table"
+ },
+ "junk_inventions:2": {
+  "type": "art",
+  "q": "safe materials sorting",
+  "alt": "Что брать нельзя",
+  "p": "a child sorting craft supplies into a green basket while a parent safely puts old batteries and a broken cup into a box"
+ },
+ "junk_inventions:3": {
+  "type": "photo",
+  "q": "safety scissors glue stick",
+  "alt": "Инструменты с взрослыми",
+  "p": "children safety scissors with rounded tips, a glue stick and tape on a craft table, a parent helping"
+ },
+ "junk_inventions:4": {
+  "type": "art",
+  "q": "prototype pencil holder",
+  "alt": "От задачи к прототипу",
+  "p": "pencils rolling off a desk, then a child building a cardboard holder that stops them, step by step"
+ },
+ "junk_inventions:5": {
+  "type": "photo",
+  "q": "bird feeder winter",
+  "alt": "Кормушка для птиц",
+  "p": "a homemade bird feeder made from a milk carton hanging on a snowy branch, small birds eating seeds"
+ },
+ "junk_inventions:6": {
+  "type": "photo",
+  "q": "cardboard tubes organizer",
+  "alt": "Органайзер из втулок",
+  "p": "cardboard tubes of different heights glued together and painted, holding pencils and brushes on a desk"
+ },
+ "junk_inventions:7": {
+  "type": "photo",
+  "q": "plastic bottle bowling",
+  "alt": "Игрушки из ненужного",
+  "p": "plastic bottles set up as bowling pins on a floor with a small ball rolling toward them, children cheering"
+ },
+ "cover:comics": {
+  "type": "art",
+  "q": "comic panels",
+  "alt": "Комиксы и раскадровка",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat drawing a four-panel comic strip with pencils, blank speech bubbles and colorful sketches spread on a desk"
+ },
+ "comics:0": {
+  "type": "art",
+  "q": "comic panels frames",
+  "alt": "Кадр за кадром",
+  "p": "a page with four neat comic frames showing a cat chasing a butterfly, a child pointing at the frames"
+ },
+ "comics:1": {
+  "type": "art",
+  "q": "gutter imagination",
+  "alt": "Что между кадрами",
+  "p": "two comic frames showing a ball thrown and then a broken flower pot, a child imagining the middle in a thought bubble"
+ },
+ "comics:2": {
+  "type": "art",
+  "q": "speech thought bubbles",
+  "alt": "Пузыри речи и мысли",
+  "p": "a cartoon fox with an empty oval speech bubble and a fluffy cloud thought bubble, colorful simple style"
+ },
+ "comics:3": {
+  "type": "art",
+  "q": "starburst sound effect",
+  "alt": "Звукоподражания",
+  "p": "a comic panel with a big colorful starburst shape around a falling pot and a cat jumping in surprise, no letters"
+ },
+ "comics:4": {
+  "type": "art",
+  "q": "camera angles shots",
+  "alt": "План и ракурс",
+  "p": "three comic frames of the same forest scene: wide view, medium view of a fox, close-up of its eyes"
+ },
+ "comics:5": {
+  "type": "art",
+  "q": "storyboard film",
+  "alt": "Раскадровка в кино",
+  "p": "a child pinning simple pencil sketch frames on a wall in a row, a toy movie camera and clapperboard nearby"
+ },
+ "comics:6": {
+  "type": "art",
+  "q": "four panel comic",
+  "alt": "История в 4 кадрах",
+  "p": "a four-panel comic strip about a kitten trying to reach a fish, failing, inventing a ladder and succeeding happily"
+ },
+ "comics:7": {
+  "type": "art",
+  "q": "emotion faces drawing",
+  "alt": "Эмоция тремя линиями",
+  "p": "a sheet with simple cartoon faces showing joy, surprise and sadness drawn with eyebrows, eyes and mouth, colored pencils nearby"
+ }
+}

@@ -1,0 +1,464 @@
+{
+ "fact_opinion:6": {
+  "type": "photo",
+  "q": "Mount Everest summit",
+  "alt": "Эверест — самая высокая",
+  "p": "a tiny explorer raccoon planting a flag on top of a giant snowy mountain peak, while a cake with a heart floats in a thought bubble"
+ },
+ "fact_opinion:7": {
+  "type": "photo",
+  "q": "clock school",
+  "alt": "Число и мнение",
+  "p": "a raccoon pupil looking at a big wall clock in a school hallway, half happy and half grumpy, glowing number five floating nearby"
+ },
+ "fact_opinion:8": {
+  "type": "art",
+  "q": "raccoon pears apples",
+  "alt": "Факт о мнении",
+  "p": "a cute raccoon happily hugging a pear and politely pushing away an apple, a fox taking notes in a small notebook"
+ },
+ "fact_opinion:9": {
+  "type": "photo",
+  "q": "weather vane clouds",
+  "alt": "Прогноз — не факт",
+  "p": "an owl weather forecaster looking at gray clouds through a telescope, a little umbrella and question mark beside her"
+ },
+ "cause_effect:6": {
+  "type": "photo",
+  "q": "fire truck",
+  "alt": "Не перепутай причину",
+  "p": "a red fire truck with friendly firefighters next to a small campfire being safely put out, a puzzled raccoon scratching its head"
+ },
+ "cause_effect:7": {
+  "type": "photo",
+  "q": "seedlings pots",
+  "alt": "Опыт-проверка",
+  "p": "two small seedling pots on a sunny windowsill, one green and lush with a watering can, the other dry and droopy"
+ },
+ "cause_effect:8": {
+  "type": "art",
+  "q": "chain question marks",
+  "alt": "«Почему?» пять раз",
+  "p": "a sleepy raccoon followed by a chain of five glowing question marks leading back to a TV and an alarm clock"
+ },
+ "cause_effect:9": {
+  "type": "photo",
+  "q": "bicycle chain rust",
+  "alt": "Думай наперёд",
+  "p": "a child wheeling a bicycle under a shed roof as rain starts, a thought bubble showing a rusty chain"
+ },
+ "evidence:6": {
+  "type": "art",
+  "q": "scarf clue detective",
+  "alt": "Подброшенная улика",
+  "p": "a fox detective with a magnifying glass examining a striped scarf lying suspiciously near an empty cake plate"
+ },
+ "evidence:7": {
+  "type": "art",
+  "q": "timeline clocks",
+  "alt": "Линия времени",
+  "p": "a timeline of three clocks with a cake, then a fox leaving, then an empty plate, a squirrel detective pointing"
+ },
+ "evidence:8": {
+  "type": "art",
+  "q": "foggy memory witness",
+  "alt": "Память подводит",
+  "p": "a squirrel witness with a fuzzy thought bubble showing a jacket in two different colors, an owl taking notes"
+ },
+ "evidence:9": {
+  "type": "art",
+  "q": "sleeping dog night stable",
+  "alt": "Улика, которой нет",
+  "p": "a sleeping guard dog curled up peacefully by a stable at night under a starry sky, a detective silhouette with a pipe nearby"
+ },
+ "traps:6": {
+  "type": "photo",
+  "q": "scarecrow straw",
+  "alt": "Соломенное чучело",
+  "p": "a funny straw scarecrow in a field wearing a hat, a squirrel and a fox pointing at it and laughing"
+ },
+ "traps:7": {
+  "type": "art",
+  "q": "slippery slide",
+  "alt": "Скользкая дорожка",
+  "p": "a raccoon holding one candy at the top of an exaggerated slippery slide, a wise owl calmly stopping the imaginary chain"
+ },
+ "traps:8": {
+  "type": "art",
+  "q": "wishing star test",
+  "alt": "Хочу — значит, правда",
+  "p": "a raccoon wishing on a shooting star with crossed fingers while a test paper still sits on the desk"
+ },
+ "traps:9": {
+  "type": "art",
+  "q": "tunnel vision binoculars",
+  "alt": "Вижу только своё",
+  "p": "a fox looking through a narrow paper tube at one messy sock while a tidy room surrounds the raccoon"
+ },
+ "ads:6": {
+  "type": "photo",
+  "q": "price tag",
+  "alt": "Цена с девятками",
+  "p": "a big shop price tag with nines and a coin next to it, a raccoon with a magnifying glass comparing two tags"
+ },
+ "ads:7": {
+  "type": "photo",
+  "q": "juice carton glass",
+  "alt": "На 30% больше — чем что?",
+  "p": "two juice cartons side by side, one slightly taller, a squirrel holding a ruler and a question mark"
+ },
+ "ads:8": {
+  "type": "art",
+  "q": "chips bag air",
+  "alt": "Большая коробка",
+  "p": "a huge snack bag with a cutaway showing only a few crisps and lots of air inside, a raccoon surprised"
+ },
+ "ads:9": {
+  "type": "art",
+  "q": "blogger toy camera",
+  "alt": "Реклама у блогеров",
+  "p": "a cartoon fox blogger holding a toy in front of a camera, a small coin bag hidden behind its back, a child watching thoughtfully"
+ },
+ "ads:10": {
+  "type": "art",
+  "q": "stars reviews robot",
+  "alt": "Ненастоящие отзывы",
+  "p": "a row of glowing five-star shapes being stamped by a sneaky little robot, a detective squirrel noticing"
+ },
+ "news_fakes:6": {
+  "type": "art",
+  "q": "cats protest funny",
+  "alt": "Шутка или правда?",
+  "p": "a funny newspaper-style scene of cats holding fish-shaped signs, a child laughing and showing it to a parent"
+ },
+ "news_fakes:7": {
+  "type": "art",
+  "q": "scissors quote cut",
+  "alt": "Вырванная цитата",
+  "p": "an owl speaking a long speech bubble while scissors snip out just one part of it, a fox journalist looking guilty"
+ },
+ "news_fakes:8": {
+  "type": "photo",
+  "q": "stop sign",
+  "alt": "Сигнал «стоп»",
+  "p": "a child holding a little stop sign in front of a glowing tablet with exploding abstract shapes, taking a calm breath"
+ },
+ "news_fakes:9": {
+  "type": "photo",
+  "q": "magnifying glass photograph",
+  "alt": "Поиск по картинке",
+  "p": "a child and parent at a laptop holding a magnifying glass over a glowing abstract photo, little matching photos appearing"
+ },
+ "logic:6": {
+  "type": "photo",
+  "q": "grey cat",
+  "alt": "Один серый кот",
+  "p": "a row of orange cats sitting in a line with one fluffy gray cat proudly in the middle, a detective pointing"
+ },
+ "logic:7": {
+  "type": "photo",
+  "q": "apple pear",
+  "alt": "«И» и «или»",
+  "p": "an apple and a pear on a table with a raccoon holding both in one scene and choosing one in another"
+ },
+ "logic:8": {
+  "type": "art",
+  "q": "venn diagram circles birds",
+  "alt": "Круги-помощники",
+  "p": "big colorful circles drawn on paper, a small circle of penguins inside a larger circle of birds, an owl teacher pointing"
+ },
+ "logic:9": {
+  "type": "art",
+  "q": "boxes calendar months",
+  "alt": "Принцип ящиков",
+  "p": "twelve little boxes labeled with month pictures and thirteen cute children figurines, one box holding two"
+ },
+ "patterns:6": {
+  "type": "art",
+  "q": "calendar week days",
+  "alt": "Закономерности вокруг",
+  "p": "a cute calendar with seven colorful day blocks forming a pattern, a raccoon guessing the next one with a light bulb"
+ },
+ "patterns:7": {
+  "type": "art",
+  "q": "two rows pattern",
+  "alt": "Два ряда в одном",
+  "p": "two colorful rows of number blocks weaving into one braid, a squirrel untangling them happily"
+ },
+ "patterns:8": {
+  "type": "art",
+  "q": "shapes sequence",
+  "alt": "Фигуры меняются",
+  "p": "a sequence of colorful shapes changing color and size step by step, a fox detective with a magnifying glass studying them"
+ },
+ "patterns:9": {
+  "type": "photo",
+  "q": "dominoes",
+  "alt": "Проверь правило",
+  "p": "a row of dominoes on a table with a child testing two possible next pieces, thoughtful expression"
+ },
+ "cases:5": {
+  "type": "art",
+  "q": "detective board clues",
+  "alt": "Мотив, возможность, способ",
+  "p": "a detective board with three cards showing a heart, a clock and a key connected by red string, a raccoon detective"
+ },
+ "cases:6": {
+  "type": "art",
+  "q": "sunny town fox umbrella",
+  "alt": "Ловим неточности",
+  "p": "a fox holding a wet umbrella in a bright sunny candy town, a squirrel detective raising an eyebrow"
+ },
+ "cases:7": {
+  "type": "art",
+  "q": "many versions cards",
+  "alt": "Несколько версий",
+  "p": "a detective cat laying out several picture cards on a table showing different theories about a missing cake"
+ },
+ "cases:8": {
+  "type": "photo",
+  "q": "puzzle pieces",
+  "alt": "Подставь ответ",
+  "p": "a child fitting the last puzzle piece into a jigsaw puzzle with a hedgehog picture, a check mark glowing"
+ },
+ "kind_debate:6": {
+  "type": "photo",
+  "q": "felt tip markers",
+  "alt": "Я-сообщение",
+  "p": "a set of colorful felt-tip markers on a desk with two children talking calmly about sharing them"
+ },
+ "kind_debate:7": {
+  "type": "art",
+  "q": "raccoon squirrel walk",
+  "alt": "Начни с общего",
+  "p": "a raccoon and a squirrel holding a map together and agreeing on a picnic spot, both smiling, sunny park"
+ },
+ "kind_debate:8": {
+  "type": "art",
+  "q": "pause breath calm",
+  "alt": "Пауза — не поражение",
+  "p": "a squirrel taking a deep calm breath with closed eyes, a little pause button glowing beside, a friend waiting patiently"
+ },
+ "kind_debate:9": {
+  "type": "art",
+  "q": "compromise sharing",
+  "alt": "Решение для всех",
+  "p": "a raccoon and a squirrel splitting a picnic into two halves, one with nuts and one with berries, both happy"
+ },
+ "cover:probability": {
+  "type": "art",
+  "q": "coins dice",
+  "alt": "Вероятности и шансы",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat flipping a shiny coin, colorful dice rolling around on a table, little numbers floating in the air"
+ },
+ "probability:0": {
+  "type": "art",
+  "q": "calendar sun",
+  "alt": "Точно или никогда",
+  "p": "three signposts labeled with simple icons of a sun, a question mark and a crossed pig with wings, a child choosing"
+ },
+ "probability:1": {
+  "type": "art",
+  "q": "ladder chances",
+  "alt": "Лесенка шансов",
+  "p": "a colorful ladder with steps going from gray to bright gold, a raccoon climbing with a coin in paw"
+ },
+ "probability:2": {
+  "type": "photo",
+  "q": "coin",
+  "alt": "Монетка",
+  "p": "a shiny coin spinning in the air above a child hand, sparkles around it, soft background"
+ },
+ "probability:3": {
+  "type": "photo",
+  "q": "dice",
+  "alt": "Кубик",
+  "p": "a colorful six-sided die rolling across a wooden table, a few other dice scattered nearby in soft light"
+ },
+ "probability:4": {
+  "type": "photo",
+  "q": "marbles bag",
+  "alt": "Мешок с шариками",
+  "p": "a cloth bag spilling seven red marbles and three blue marbles on a table, a child counting them"
+ },
+ "probability:5": {
+  "type": "art",
+  "q": "coin no memory",
+  "alt": "Монетка не помнит",
+  "p": "a cute coin character with a blank happy face and no memory bubble, five previous tosses floating away like balloons"
+ },
+ "probability:6": {
+  "type": "art",
+  "q": "lottery tickets",
+  "alt": "Лотереи",
+  "p": "a giant pile of plain lottery tickets with only one tiny golden star ticket, a raccoon searching with a magnifying glass"
+ },
+ "probability:7": {
+  "type": "photo",
+  "q": "coins pile",
+  "alt": "Много попыток",
+  "p": "a child flipping many coins and sorting them into two piles that become almost equal, a chart drawn in chalk"
+ },
+ "cover:arguments": {
+  "type": "art",
+  "q": "scales debate",
+  "alt": "Аргументы",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat standing on a podium beside balance scales holding glowing arguments, a crowd of animals listening"
+ },
+ "arguments:0": {
+  "type": "art",
+  "q": "library cat school",
+  "alt": "Тезис",
+  "p": "a cozy school library with a sleepy cat on a bookshelf, a child presenting one big idea in a glowing frame"
+ },
+ "arguments:1": {
+  "type": "photo",
+  "q": "trees yard",
+  "alt": "Аргумент",
+  "p": "young trees planted in a courtyard, children with watering cans, a glowing arrow pointing from reason to idea"
+ },
+ "arguments:2": {
+  "type": "art",
+  "q": "tree shade",
+  "alt": "Пример",
+  "p": "children resting in the cool shade of a big tree on a hot sunny day, a thermometer showing the difference"
+ },
+ "arguments:3": {
+  "type": "photo",
+  "q": "balance scale",
+  "alt": "Сильный и слабый",
+  "p": "an old brass balance scale with a heavy stone on one side and a feather on the other, a child observing"
+ },
+ "arguments:4": {
+  "type": "art",
+  "q": "autumn leaves rake",
+  "alt": "Контраргумент",
+  "p": "a courtyard full of falling autumn leaves and a child with a rake, a neighbor pointing at the leaf pile"
+ },
+ "arguments:5": {
+  "type": "art",
+  "q": "compost leaves",
+  "alt": "Ответ на контраргумент",
+  "p": "children happily raking autumn leaves into a compost bin, a neighbor nodding with approval, sunny day"
+ },
+ "arguments:6": {
+  "type": "art",
+  "q": "sheep crowd",
+  "alt": "«Все так говорят»",
+  "p": "a flock of cute sheep all walking one direction while a thoughtful lamb stops to check the map"
+ },
+ "arguments:7": {
+  "type": "art",
+  "q": "fox ginger debate",
+  "alt": "Переход на личности",
+  "p": "a ginger fox calmly explaining an idea with a chart while a grumpy badger points at its fur, an owl referee"
+ },
+ "cover:check_source": {
+  "type": "art",
+  "q": "magnifying glass books",
+  "alt": "Проверка источника",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat examining a stack of books and a glowing tablet with a magnifying glass, a calendar and a question mark nearby"
+ },
+ "check_source:0": {
+  "type": "art",
+  "q": "author scientist",
+  "alt": "Кто автор?",
+  "p": "a friendly scientist owl in a lab coat next to a book, a detective child asking who wrote it"
+ },
+ "check_source:1": {
+  "type": "photo",
+  "q": "calendar",
+  "alt": "Когда опубликовано?",
+  "p": "an old yellowed newspaper and a fresh calendar side by side, a child comparing the dates with a magnifying glass"
+ },
+ "check_source:2": {
+  "type": "art",
+  "q": "footnotes trail",
+  "alt": "Откуда известно?",
+  "p": "a glowing trail of arrows leading from a book to a museum and a laboratory, a child following it"
+ },
+ "check_source:3": {
+  "type": "photo",
+  "q": "books stack",
+  "alt": "Сравни источники",
+  "p": "three open encyclopedias side by side on a library table with a child checking the same picture in each"
+ },
+ "check_source:4": {
+  "type": "photo",
+  "q": "encyclopedia library shelf",
+  "alt": "Надёжные места",
+  "p": "tall library shelves full of encyclopedias and reference books, a cozy reading lamp, warm light"
+ },
+ "check_source:5": {
+  "type": "art",
+  "q": "fake website disguise",
+  "alt": "Сайты-подделки",
+  "p": "two almost identical houses side by side, one with a tiny wrong window, a detective child spotting the difference"
+ },
+ "check_source:6": {
+  "type": "art",
+  "q": "clickbait balloon",
+  "alt": "Кликбейт и старые фото",
+  "p": "a loud cartoon megaphone shouting colorful stars and exclamation marks, a calm child with headphones checking a photo"
+ },
+ "check_source:7": {
+  "type": "art",
+  "q": "magic potion seller",
+  "alt": "Кому выгодно?",
+  "p": "a fox merchant selling sparkly potion bottles at a market stall, a skeptical child with a magnifying glass"
+ },
+ "cover:logic_grids": {
+  "type": "art",
+  "q": "grid table puzzle",
+  "alt": "Логические таблицы",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat filling a big grid on paper with checks and crosses, little pictures of a cat, dog and hamster along the edge"
+ },
+ "logic_grids:0": {
+  "type": "art",
+  "q": "children pets cat dog hamster",
+  "alt": "Задача-таблица",
+  "p": "three children holding a cat, a dog and a hamster in a row, question marks above who owns which pet"
+ },
+ "logic_grids:1": {
+  "type": "photo",
+  "q": "graph paper grid",
+  "alt": "Рисуем таблицу",
+  "p": "a child drawing a neat grid on squared paper with a ruler and pencil, pet pictures along the edges"
+ },
+ "logic_grids:2": {
+  "type": "art",
+  "q": "check cross marks",
+  "alt": "Плюс и минус",
+  "p": "a paper grid filled with green checks and red crosses, a pencil and eraser beside, a smiling child"
+ },
+ "logic_grids:3": {
+  "type": "art",
+  "q": "one each matching",
+  "alt": "Каждый — ровно один",
+  "p": "three children each holding exactly one different pet, arrows linking each child to one animal"
+ },
+ "logic_grids:4": {
+  "type": "art",
+  "q": "elimination crossing out",
+  "alt": "Метод исключения",
+  "p": "a detective crossing out two options on a grid with a red pencil, the last cell glowing with a green check"
+ },
+ "logic_grids:5": {
+  "type": "art",
+  "q": "boy cat clue",
+  "alt": "Хитрые подсказки",
+  "p": "a boy holding a cat while two girls shrug, a grid on the wall with a column crossed out"
+ },
+ "logic_grids:6": {
+  "type": "art",
+  "q": "four by four grid",
+  "alt": "Задачи 4 на 4",
+  "p": "a bigger colorful four-by-four grid on a desk with four kids and four pets around it, a child concentrating"
+ },
+ "logic_grids:7": {
+  "type": "art",
+  "q": "checklist verify",
+  "alt": "Проверка ответа",
+  "p": "a child reading clue cards one by one and ticking them off next to a completed grid, a happy owl nodding"
+ }
+}

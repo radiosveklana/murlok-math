@@ -1,0 +1,482 @@
+{
+ "growing_up:7": {
+  "type": "none"
+ },
+ "growing_up:8": {
+  "type": "art",
+  "q": "growing up feelings",
+  "alt": "То взрослая, то маленькая",
+  "p": "a fully clothed anime tween girl standing between a teddy bear and a stylish backpack, thoughtful smile, soft pastel room"
+ },
+ "growing_up:9": {
+  "type": "art",
+  "q": "transitional age",
+  "alt": "Переходный возраст",
+  "p": "a fully clothed anime tween walking across a little bridge from a playground toward a city skyline at sunrise, hopeful"
+ },
+ "growing_up:10": {
+  "type": "art",
+  "q": "talk to trusted adult",
+  "alt": "Спросить взрослого",
+  "p": "a fully clothed anime tween girl sitting on a sofa with her mother, drinking tea and talking warmly, cozy room"
+ },
+ "girls_body:10": {
+  "type": "none"
+ },
+ "girls_body:11": {
+  "type": "none"
+ },
+ "girls_body:12": {
+  "type": "none"
+ },
+ "girls_body:13": {
+  "type": "none"
+ },
+ "boys_body:8": {
+  "type": "none"
+ },
+ "boys_body:9": {
+  "type": "none"
+ },
+ "boys_body:10": {
+  "type": "none"
+ },
+ "boys_body:11": {
+  "type": "art",
+  "q": "boy sharing feelings",
+  "alt": "Мальчик говорит о чувствах",
+  "p": "a fully clothed anime tween boy talking openly with his dad on a park bench, gentle autumn leaves, supportive mood"
+ },
+ "for_everyone:8": {
+  "type": "none"
+ },
+ "for_everyone:9": {
+  "type": "none"
+ },
+ "for_everyone:10": {
+  "type": "none"
+ },
+ "for_everyone:11": {
+  "type": "photo",
+  "q": "glass of water",
+  "alt": "Стакан воды",
+  "p": "a clear glass of fresh water with a slice of lemon on a sunny kitchen table, healthy habit"
+ },
+ "hygiene:7": {
+  "type": "none"
+ },
+ "hygiene:8": {
+  "type": "photo",
+  "q": "nail clipper",
+  "alt": "Кусачки для ногтей",
+  "p": "a small nail clipper and a nail file lying on a clean folded towel in a bright bathroom"
+ },
+ "hygiene:9": {
+  "type": "photo",
+  "q": "toothbrush",
+  "alt": "Зубная щётка",
+  "p": "a new toothbrush in a cup on a clean bathroom shelf next to a fresh pillow"
+ },
+ "hygiene:10": {
+  "type": "photo",
+  "q": "folded t-shirt",
+  "alt": "Сменная футболка",
+  "p": "a neatly folded clean t-shirt in an open school backpack, a fresh kit for the day"
+ },
+ "emotions:7": {
+  "type": "art",
+  "q": "anger at parents",
+  "alt": "Злость по мелочам",
+  "p": "a fully clothed anime tween girl puffing her cheeks with a tiny storm cloud above, mom offering a hat, humorous gentle mood"
+ },
+ "emotions:8": {
+  "type": "art",
+  "q": "wanting to cry",
+  "alt": "Хочется заплакать",
+  "p": "a fully clothed anime tween sitting quietly by a window with a soft tear, a warm cup of tea, comforting rain outside"
+ },
+ "emotions:9": {
+  "type": "art",
+  "q": "naming feelings",
+  "alt": "Назвать чувство",
+  "p": "a fully clothed anime tween holding colorful feeling cards with simple faces, choosing one, bright calm room"
+ },
+ "emotions:10": {
+  "type": "art",
+  "q": "grounding 5 4 3 2 1",
+  "alt": "Упражнение 5-4-3-2-1",
+  "p": "a fully clothed anime tween calmly noticing five glowing objects around a cozy room, a plant, a lamp, a book"
+ },
+ "friendship:7": {
+  "type": "art",
+  "q": "secret told",
+  "alt": "Рассказали секрет",
+  "p": "two fully clothed anime tween girls talking on a bench, one sharing her hurt calmly, soft sunset light"
+ },
+ "friendship:8": {
+  "type": "art",
+  "q": "different friend groups",
+  "alt": "Разные компании",
+  "p": "a fully clothed anime tween waving to friends from an art club and from the schoolyard, happy and colorful"
+ },
+ "friendship:9": {
+  "type": "art",
+  "q": "friend not replying",
+  "alt": "Друг не отвечает",
+  "p": "a fully clothed anime tween looking at a phone with empty chat bubbles, a thoughtful cat beside her, evening room"
+ },
+ "friendship:10": {
+  "type": "art",
+  "q": "new class friends",
+  "alt": "Новый класс",
+  "p": "a fully clothed anime tween smiling and saying hello to a classmate in a bright sunny classroom"
+ },
+ "crush:7": {
+  "type": "art",
+  "q": "blushing crush",
+  "alt": "Краснею рядом",
+  "p": "a fully clothed anime tween girl blushing shyly while holding books, little hearts floating, a school corridor"
+ },
+ "crush:8": {
+  "type": "art",
+  "q": "crush on book hero",
+  "alt": "Влюблённость в героя книги",
+  "p": "a fully clothed anime tween hugging a fantasy book with sparkles and a little castle rising from the pages"
+ },
+ "crush:9": {
+  "type": "art",
+  "q": "keeping feelings private",
+  "alt": "Чувства — личное",
+  "p": "a fully clothed anime tween smiling and holding a small locked diary close to her chest, friends chatting nearby"
+ },
+ "crush:10": {
+  "type": "art",
+  "q": "talk to mom",
+  "alt": "Поговорить с мамой",
+  "p": "a fully clothed anime tween girl confiding in her mother at the kitchen table, warm lamp light, safe atmosphere"
+ },
+ "confidence:7": {
+  "type": "art",
+  "q": "teasing",
+  "alt": "Дразнят",
+  "p": "a fully clothed anime tween standing tall with a calm face as gray clouds bounce off a glowing shield around her"
+ },
+ "confidence:8": {
+  "type": "art",
+  "q": "accepting compliments",
+  "alt": "Принять комплимент",
+  "p": "a fully clothed anime tween smiling and saying thank you while a friend hands her a flower, sunny schoolyard"
+ },
+ "confidence:9": {
+  "type": "photo",
+  "q": "apple and pear",
+  "alt": "Яблоко и груша",
+  "p": "a red apple and a green pear side by side on a wooden table, everyone is different and good"
+ },
+ "confidence:10": {
+  "type": "art",
+  "q": "mistake at blackboard",
+  "alt": "Ошибка у доски",
+  "p": "a fully clothed anime tween at a classroom chalkboard smiling and fixing a mistake, a supportive teacher nearby"
+ },
+ "boundaries:8": {
+  "type": "photo",
+  "q": "closed wooden door",
+  "alt": "Закрытая дверь",
+  "p": "a closed wooden door of a cozy bedroom with a plain round hanger on the handle, privacy at home"
+ },
+ "boundaries:9": {
+  "type": "art",
+  "q": "saying stop",
+  "alt": "Сказать «стоп»",
+  "p": "a fully clothed anime tween calmly raising a hand to say stop, a friend nodding and stepping back, schoolyard"
+ },
+ "boundaries:10": {
+  "type": "photo",
+  "q": "smartphone padlock",
+  "alt": "Телефон под замком",
+  "p": "a smartphone lying on a desk with a small padlock beside it, digital privacy, soft daylight"
+ },
+ "boundaries:11": {
+  "type": "art",
+  "q": "trusted adult safety",
+  "alt": "Тревожные знаки",
+  "p": "a fully clothed anime tween talking to her mom who listens carefully, a protective glowing shield around them, cozy home"
+ },
+ "online:6": {
+  "type": "photo",
+  "q": "padlock",
+  "alt": "Навесной замок",
+  "p": "a sturdy metal padlock with keys on a wooden desk, a symbol of a strong password"
+ },
+ "online:7": {
+  "type": "photo",
+  "q": "footprints in sand",
+  "alt": "Следы на песке",
+  "p": "footprints on a sandy beach stretching into the distance, a symbol of a digital footprint"
+ },
+ "online:8": {
+  "type": "art",
+  "q": "privacy settings",
+  "alt": "Настройки приватности",
+  "p": "a fully clothed anime tween and her dad looking at a phone together, small shield and lock icons floating"
+ },
+ "online:9": {
+  "type": "photo",
+  "q": "phone on nightstand",
+  "alt": "Телефон на тумбочке",
+  "p": "a smartphone lying face down on a nightstand beside a book and a lamp at bedtime"
+ },
+ "is_it_normal:12": {
+  "type": "art",
+  "q": "lonely in crowd",
+  "alt": "Одиночество среди людей",
+  "p": "a fully clothed anime tween sitting on a bench in a busy park, a friendly cat approaching, gentle warm light"
+ },
+ "is_it_normal:13": {
+  "type": "photo",
+  "q": "alarm clock",
+  "alt": "Будильник",
+  "p": "a classic alarm clock on a nightstand in soft early morning light, a sleepy cozy bedroom"
+ },
+ "is_it_normal:14": {
+  "type": "art",
+  "q": "strange dreams",
+  "alt": "Странные сны",
+  "p": "a fully clothed anime tween sleeping peacefully while whimsical floating islands and clouds drift in a dream bubble"
+ },
+ "is_it_normal:15": {
+  "type": "art",
+  "q": "new interests",
+  "alt": "Новые увлечения",
+  "p": "a fully clothed anime tween putting old toys in a box and picking up a guitar and paints, cheerful room"
+ },
+ "cover:online_friends": {
+  "type": "art",
+  "q": "online friendship",
+  "alt": "Дружба в интернете",
+  "p": "a laptop with glowing chat bubbles and hearts, a small shield, and a small fluffy ginger kitten detective in a tiny deerstalker hat sitting beside it, gentle pastel"
+ },
+ "online_friends:0": {
+  "type": "art",
+  "q": "online friends",
+  "alt": "Друзья в интернете",
+  "p": "a fully clothed anime tween drawing on a tablet, colorful chat bubbles with art stickers floating, cozy room"
+ },
+ "online_friends:1": {
+  "type": "art",
+  "q": "fake profile mask",
+  "alt": "Не тот, за кого себя выдаёт",
+  "p": "a laptop screen with a smiling cartoon mask peeking out, a magnifying glass revealing a question mark behind it"
+ },
+ "online_friends:2": {
+  "type": "art",
+  "q": "private messages danger",
+  "alt": "Не уходи в личку",
+  "p": "a fully clothed anime tween choosing to stay in a bright group chat room instead of a dark side door"
+ },
+ "online_friends:3": {
+  "type": "art",
+  "q": "online rules",
+  "alt": "Три правила",
+  "p": "three glowing shield badges floating above a laptop, a fully clothed anime tween giving a thumbs up"
+ },
+ "online_friends:4": {
+  "type": "photo",
+  "q": "smartphone on desk",
+  "alt": "Смартфон",
+  "p": "a smartphone resting on a desk beside a cup of cocoa, taking a calm break from busy chats"
+ },
+ "online_friends:5": {
+  "type": "art",
+  "q": "removed from chat",
+  "alt": "Удалили из чата",
+  "p": "a fully clothed anime tween looking a bit sad at a phone, then a friend inviting her to play outside"
+ },
+ "online_friends:6": {
+  "type": "art",
+  "q": "jealous of friend",
+  "alt": "Ревность к подруге",
+  "p": "two fully clothed anime tween girls, one on her phone, the other gently inviting her to bake cookies together"
+ },
+ "online_friends:7": {
+  "type": "photo",
+  "q": "ring light",
+  "alt": "Кольцевая лампа",
+  "p": "a ring light and a camera tripod in an empty room, behind the scenes of blogging and video making"
+ },
+ "cover:money": {
+  "type": "art",
+  "q": "money budget",
+  "alt": "Деньги и покупки",
+  "p": "a cute piggy bank with golden coins and a little shopping bag, and a small fluffy ginger kitten detective in a tiny deerstalker hat examining a coin with a magnifying glass"
+ },
+ "money:0": {
+  "type": "photo",
+  "q": "coins and notebook",
+  "alt": "Монеты",
+  "p": "a small pile of coins next to an open notebook with a pencil on a desk, planning a budget"
+ },
+ "money:1": {
+  "type": "photo",
+  "q": "piggy bank",
+  "alt": "Копилка",
+  "p": "a pink ceramic piggy bank with shiny coins beside it on a wooden shelf, saving for a goal"
+ },
+ "money:2": {
+  "type": "art",
+  "q": "want vs need",
+  "alt": "«Хочу» и «нужно»",
+  "p": "a fully clothed anime tween weighing notebooks and a bus pass against a shiny toy on a big balance scale"
+ },
+ "money:3": {
+  "type": "art",
+  "q": "impulse purchase",
+  "alt": "Подожду день",
+  "p": "a fully clothed anime tween in a store pausing with a calendar bubble showing tomorrow, calm wise smile"
+ },
+ "money:4": {
+  "type": "photo",
+  "q": "cereal boxes shop shelf",
+  "alt": "Сравнение цен",
+  "p": "two packs of cereal of different sizes on a shop shelf, comparing prices, bright supermarket"
+ },
+ "money:5": {
+  "type": "photo",
+  "q": "cash register receipt",
+  "alt": "Чек",
+  "p": "a paper receipt roll beside a small shopping bag on a shop counter, keeping proof of purchase"
+ },
+ "money:6": {
+  "type": "photo",
+  "q": "payment card chip",
+  "alt": "Банковская карта",
+  "p": "a close up of a generic plastic payment card chip without logos on a dark surface"
+ },
+ "money:7": {
+  "type": "art",
+  "q": "SMS code scam",
+  "alt": "Код никому",
+  "p": "a smartphone with a glowing shield and a closed lock, a sneaky shadowy fox mask turned away"
+ },
+ "money:8": {
+  "type": "art",
+  "q": "fake prize scam",
+  "alt": "Фальшивый приз",
+  "p": "a gift box opening to reveal a fishing hook, a fully clothed anime tween wisely stepping back"
+ },
+ "cover:exam_stress": {
+  "type": "art",
+  "q": "exam stress",
+  "alt": "Стресс перед контрольной",
+  "p": "a calm desk with a test paper, a pencil, a cup of tea and a small fluffy ginger kitten detective in a tiny deerstalker hat giving a thumbs up, soft breathing waves"
+ },
+ "exam_stress:0": {
+  "type": "art",
+  "q": "nervous before test",
+  "alt": "Волнение перед контрольной",
+  "p": "a fully clothed anime tween with little butterflies around her, holding a pencil, taking a calm deep breath"
+ },
+ "exam_stress:1": {
+  "type": "art",
+  "q": "box breathing",
+  "alt": "Дыхание «квадрат»",
+  "p": "a fully clothed anime tween breathing calmly while a glowing square traces around her, peaceful pastel room"
+ },
+ "exam_stress:2": {
+  "type": "photo",
+  "q": "planner notebook",
+  "alt": "Ежедневник",
+  "p": "an open planner notebook with colored sticky notes and pens on a desk, a study plan in parts"
+ },
+ "exam_stress:3": {
+  "type": "art",
+  "q": "sleep before exam",
+  "alt": "Сон важнее",
+  "p": "a fully clothed anime tween sleeping in pajamas with books neatly stacked and a moon in the window"
+ },
+ "exam_stress:4": {
+  "type": "photo",
+  "q": "school backpack",
+  "alt": "Школьный рюкзак",
+  "p": "a packed school backpack with pencils and a ruler, ready by the door the evening before"
+ },
+ "exam_stress:5": {
+  "type": "art",
+  "q": "writing a test",
+  "alt": "Пишем контрольную",
+  "p": "a fully clothed anime tween calmly writing a test in a bright classroom, starting with easy tasks"
+ },
+ "exam_stress:6": {
+  "type": "art",
+  "q": "mistake not disaster",
+  "alt": "Ошибка — не катастрофа",
+  "p": "a fully clothed anime tween holding a test paper with a smile, a little lightbulb idea above her head"
+ },
+ "exam_stress:7": {
+  "type": "art",
+  "q": "kind self-talk",
+  "alt": "Добрые слова себе",
+  "p": "a fully clothed anime tween looking in a mirror while the reflection gives an encouraging hug gesture"
+ },
+ "cover:talk_parents": {
+  "type": "art",
+  "q": "talk with parents",
+  "alt": "Разговор с родителями",
+  "p": "a warm kitchen table with tea cups and speech bubbles shaped like hearts, a small fluffy ginger kitten detective in a tiny deerstalker hat listening nearby"
+ },
+ "talk_parents:0": {
+  "type": "art",
+  "q": "choose time to talk",
+  "alt": "Время для разговора",
+  "p": "a fully clothed anime tween waiting until mom relaxes on the sofa in the evening, cozy lamp light"
+ },
+ "talk_parents:1": {
+  "type": "art",
+  "q": "start conversation",
+  "alt": "Мне важно поговорить",
+  "p": "a fully clothed anime tween approaching her dad shyly, he puts down his book and smiles warmly"
+ },
+ "talk_parents:2": {
+  "type": "art",
+  "q": "I-messages",
+  "alt": "Я-сообщения",
+  "p": "a fully clothed anime tween calmly speaking to her mother with a gentle heart speech bubble, cozy kitchen"
+ },
+ "talk_parents:3": {
+  "type": "art",
+  "q": "admitting mistake",
+  "alt": "Признаться в ошибке",
+  "p": "a fully clothed anime tween showing a school diary to her mom, mom hugging her supportively"
+ },
+ "talk_parents:4": {
+  "type": "art",
+  "q": "asking independence",
+  "alt": "Просить самостоятельности",
+  "p": "a fully clothed anime tween with a backpack discussing a walking route map with her parents"
+ },
+ "talk_parents:5": {
+  "type": "art",
+  "q": "after argument",
+  "alt": "После ссоры",
+  "p": "a fully clothed anime tween and her mom making up with a hug after a pause, tea on the table"
+ },
+ "talk_parents:6": {
+  "type": "art",
+  "q": "busy tired parents",
+  "alt": "Родители устали",
+  "p": "a fully clothed anime tween bringing a cup of tea to a tired dad at a laptop, warm smile"
+ },
+ "talk_parents:7": {
+  "type": "photo",
+  "q": "folded paper note",
+  "alt": "Записка",
+  "p": "a folded paper note on a kitchen table next to a pencil, a gentle way to share feelings"
+ },
+ "talk_parents:8": {
+  "type": "art",
+  "q": "other trusted adult",
+  "alt": "Другой взрослый",
+  "p": "a fully clothed anime tween talking with a kind school counselor in a bright cozy office"
+ }
+}

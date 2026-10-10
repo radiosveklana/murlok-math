@@ -1,0 +1,440 @@
+{
+ "scientists:7": {
+  "type": "photo",
+  "q": "Archimedes portrait",
+  "alt": "Архимед",
+  "p": "an ancient Greek scholar jumping out of a bath shouting eureka, water splashing, a golden crown on a marble table"
+ },
+ "scientists:8": {
+  "type": "photo",
+  "q": "Galileo Galilei portrait",
+  "alt": "Галилео Галилей",
+  "p": "a telescope on a rooftop pointing at Jupiter with four tiny moons, starry night over an old Italian town"
+ },
+ "scientists:9": {
+  "type": "photo",
+  "q": "Ivan Pavlov portrait",
+  "alt": "Иван Павлов",
+  "p": "a happy dog in an old laboratory hearing a small bell, a scientist notebook and glass flasks nearby"
+ },
+ "scientists:10": {
+  "type": "photo",
+  "q": "Albert Einstein portrait",
+  "alt": "Альберт Эйнштейн",
+  "p": "a small boy amazed by a glowing compass needle in his hands, curious wonder, cozy old room with books"
+ },
+ "scientists:11": {
+  "type": "photo",
+  "q": "Ivan Kulibin portrait",
+  "alt": "Иван Кулибин",
+  "p": "a self-taught mechanic workshop with gears and an egg-shaped clock, warm candle light, old Russian town"
+ },
+ "space_travel:7": {
+  "type": "photo",
+  "q": "Gherman Titov cosmonaut",
+  "alt": "Герман Титов",
+  "p": "a Vostok spacecraft orbiting Earth with a sunrise over the planet horizon, a full day in space"
+ },
+ "space_travel:8": {
+  "type": "photo",
+  "q": "Valeri Polyakov Mir",
+  "alt": "Валерий Поляков",
+  "p": "the Mir space station orbiting blue Earth, a long space flight, bright stars in the dark background"
+ },
+ "space_travel:9": {
+  "type": "photo",
+  "q": "International Space Station",
+  "alt": "МКС",
+  "p": "the International Space Station with big solar panels over the blue Earth, bright stars in space"
+ },
+ "space_travel:10": {
+  "type": "photo",
+  "q": "Afanasy Nikitin monument Tver",
+  "alt": "Памятник Афанасию Никитину",
+  "p": "an old wooden merchant ship sailing across three seas toward India with palm trees and elephants on the shore"
+ },
+ "kids_heroes:7": {
+  "type": "photo",
+  "q": "Carl Friedrich Gauss portrait",
+  "alt": "Карл Гаусс",
+  "p": "a clever schoolboy at an old slate board quickly adding numbers 1 to 100 with glowing pairs, a surprised teacher"
+ },
+ "kids_heroes:8": {
+  "type": "photo",
+  "q": "Sergey Karjakin chess",
+  "alt": "Сергей Карякин",
+  "p": "a chessboard with glowing pieces and a small trophy, a young champion practicing every day, bright room"
+ },
+ "kids_heroes:9": {
+  "type": "photo",
+  "q": "Lev Landau physicist",
+  "alt": "Лев Ландау",
+  "p": "a teenage student surrounded by floating math formulas and stars in a grand university hall, enthusiasm"
+ },
+ "kids_heroes:10": {
+  "type": "photo",
+  "q": "Gitanjali Rao",
+  "alt": "Гитанджали Рао",
+  "p": "a young inventor girl testing a glass of clean water with a small gadget at a science fair table"
+ },
+ "writers_artists:7": {
+  "type": "photo",
+  "q": "Hans Christian Andersen portrait",
+  "alt": "Ханс Кристиан Андерсен",
+  "p": "an ugly duckling looking at its reflection and seeing a beautiful swan on a calm lake, reeds and soft light"
+ },
+ "writers_artists:8": {
+  "type": "photo",
+  "q": "Beatrix Potter portrait",
+  "alt": "Беатрис Поттер",
+  "p": "a little rabbit in a blue jacket in a vegetable garden, a watercolor sketchbook and brushes nearby"
+ },
+ "writers_artists:9": {
+  "type": "photo",
+  "q": "Leonardo da Vinci flying machine drawing",
+  "alt": "Тетради Леонардо",
+  "p": "an old notebook with sketches of flying machines and gears, a quill pen and a candle on a wooden desk"
+ },
+ "writers_artists:10": {
+  "type": "photo",
+  "q": "Ivan Fyodorov monument Moscow",
+  "alt": "Памятник Ивану Фёдорову",
+  "p": "an old wooden printing press with a freshly printed book page in a candlelit printing workshop"
+ },
+ "writers_artists:11": {
+  "type": "photo",
+  "q": "Nikolay Nosov writer",
+  "alt": "Николай Носов",
+  "p": "a little boy in a huge blue hat and yellow trousers among giant flowers in a fairy tale town"
+ },
+ "sport_heroes:7": {
+  "type": "photo",
+  "q": "Larisa Latynina gymnast",
+  "alt": "Лариса Латынина",
+  "p": "a gymnastics balance beam in a sports hall with a stack of shining medals, Olympic spirit, bright lights"
+ },
+ "sport_heroes:8": {
+  "type": "photo",
+  "q": "Yelena Isinbayeva pole vault",
+  "alt": "Елена Исинбаева",
+  "p": "a pole vault bar set very high in a stadium against a bright blue sky, a record jump moment"
+ },
+ "sport_heroes:9": {
+  "type": "photo",
+  "q": "Barcelona 1992 Olympic stadium",
+  "alt": "Стадион Барселоны",
+  "p": "a runner with a bandaged leg crossing a finish line helped by his father, a cheering stadium crowd"
+ },
+ "sport_heroes:10": {
+  "type": "photo",
+  "q": "Fosbury flop high jump",
+  "alt": "Прыжок фосбери-флоп",
+  "p": "an athlete jumping backwards over a high jump bar onto a soft landing mat in a sunny stadium"
+ },
+ "sport_heroes:11": {
+  "type": "photo",
+  "q": "Jesse Owens 1936",
+  "alt": "Джесси Оуэнс",
+  "p": "four gold medals lying on a running track next to starting blocks, morning sun, a feeling of victory"
+ },
+ "doctors_rescuers:7": {
+  "type": "photo",
+  "q": "Laennec stethoscope",
+  "alt": "Стетоскоп Лаэннека",
+  "p": "an old wooden stethoscope tube next to a rolled paper tube on a doctor desk, 19th century study"
+ },
+ "doctors_rescuers:8": {
+  "type": "photo",
+  "q": "Wilhelm Rontgen portrait",
+  "alt": "Вильгельм Рентген",
+  "p": "an old laboratory with a glowing green screen in a dark room, a curious scientist with glass tubes"
+ },
+ "doctors_rescuers:9": {
+  "type": "photo",
+  "q": "Jonas Salk portrait",
+  "alt": "Джонас Солк",
+  "p": "a scientist in a white coat holding a vaccine vial in a laboratory, hopeful light, happy healthy children outside"
+ },
+ "doctors_rescuers:10": {
+  "type": "photo",
+  "q": "Novolazarevskaya station Antarctica",
+  "alt": "Антарктическая станция",
+  "p": "a lonely polar station in the snowy Antarctic night with a glowing window and green aurora in the sky"
+ },
+ "doctors_rescuers:11": {
+  "type": "photo",
+  "q": "Henry Dunant portrait",
+  "alt": "Анри Дюнан",
+  "p": "a white flag with a red cross waving over a field tent with kind helpers carrying bandages and water"
+ },
+ "animal_heroes:7": {
+  "type": "photo",
+  "q": "Vostok spacecraft capsule",
+  "alt": "Корабль «Восток»",
+  "p": "a brave little dog in a small space suit looking out of a round spacecraft window at the blue Earth"
+ },
+ "animal_heroes:8": {
+  "type": "photo",
+  "q": "Cher Ami pigeon",
+  "alt": "Голубь Шер Ами",
+  "p": "a brave carrier pigeon flying over a green forest with a tiny message tube on its leg"
+ },
+ "animal_heroes:9": {
+  "type": "photo",
+  "q": "Magawa rat",
+  "alt": "Крыса Магава",
+  "p": "a big friendly African rat with a little harness sniffing the ground in a grassy field, sunny day"
+ },
+ "animal_heroes:10": {
+  "type": "photo",
+  "q": "guide dog harness",
+  "alt": "Собака-поводырь",
+  "p": "a calm labrador guide dog in a harness waiting patiently at a pedestrian crossing on a sunny street"
+ },
+ "animal_heroes:11": {
+  "type": "photo",
+  "q": "Greyfriars Bobby statue",
+  "alt": "Памятник Бобби",
+  "p": "a small loyal Skye terrier sitting on an old stone street in Edinburgh, soft morning light"
+ },
+ "fail_to_win:7": {
+  "type": "photo",
+  "q": "Ludwig van Beethoven portrait",
+  "alt": "Людвиг ван Бетховен",
+  "p": "a composer at a grand piano feeling music vibrations as glowing notes, a candlelit room"
+ },
+ "fail_to_win:8": {
+  "type": "photo",
+  "q": "Wright Flyer first flight 1903",
+  "alt": "Первый полёт братьев Райт",
+  "p": "an early wooden biplane lifting off sandy dunes by the sea while two brothers cheer"
+ },
+ "fail_to_win:9": {
+  "type": "photo",
+  "q": "ETH Zurich main building",
+  "alt": "Политехникум в Цюрихе",
+  "p": "a teenage student looking up at an old university building, determined to try again next year"
+ },
+ "fail_to_win:10": {
+  "type": "photo",
+  "q": "Charles Goodyear portrait",
+  "alt": "Чарльз Гудьир",
+  "p": "a lump of rubber on a hot old iron stove turning into a springy ball, a surprised inventor"
+ },
+ "fail_to_win:11": {
+  "type": "photo",
+  "q": "Raytheon Radarange microwave oven",
+  "alt": "Первая микроволновка",
+  "p": "a melted chocolate bar next to a big old radar machine, a surprised engineer in a laboratory"
+ },
+ "kindness:7": {
+  "type": "photo",
+  "q": "Nicholas Winton",
+  "alt": "Николас Уинтон",
+  "p": "a steam train full of happy children waving from the windows, a kind man standing on the platform"
+ },
+ "kindness:8": {
+  "type": "photo",
+  "q": "Anne Sullivan Helen Keller",
+  "alt": "Энн Салливан и Хелен Келлер",
+  "p": "a teacher spelling letters into a girl palm under a water pump, a moment of understanding"
+ },
+ "kindness:9": {
+  "type": "photo",
+  "q": "Dasha Sevastopolskaya monument",
+  "alt": "Памятник Даше Севастопольской",
+  "p": "a brave young nurse with a cart of bandages and water in an old seaside town"
+ },
+ "kindness:10": {
+  "type": "photo",
+  "q": "Wangari Maathai",
+  "alt": "Вангари Маатаи",
+  "p": "women planting tree seedlings on green African hills, a growing forest under the warm sun"
+ },
+ "growth_mindset:8": {
+  "type": "photo",
+  "q": "Angela Duckworth",
+  "alt": "Анджела Дакворт",
+  "p": "a child steadily climbing a staircase of books toward a little flag at the top, perseverance"
+ },
+ "growth_mindset:9": {
+  "type": "photo",
+  "q": "tomato kitchen timer",
+  "alt": "Таймер-помидор",
+  "p": "a tomato-shaped kitchen timer on a study desk with a notebook and pencils, focused work time"
+ },
+ "growth_mindset:10": {
+  "type": "photo",
+  "q": "Hermann Ebbinghaus portrait",
+  "alt": "Герман Эббингауз",
+  "p": "a forgetting curve drawn as a playful rollercoaster while a child happily repeats flashcards, warm soft light, cozy mood"
+ },
+ "growth_mindset:11": {
+  "type": "photo",
+  "q": "marshmallows",
+  "alt": "Зефир",
+  "p": "a child sitting at a table looking at one fluffy marshmallow on a plate, patiently waiting"
+ },
+ "growth_mindset:12": {
+  "type": "art",
+  "q": "explaining to friend",
+  "alt": "Объясни другу",
+  "p": "a child explaining a drawing on a small chalkboard to a younger sibling and a cat, cozy room"
+ },
+ "cover:explorers": {
+  "type": "art",
+  "q": "explorers",
+  "alt": "Первооткрыватели",
+  "p": "a tiny sailing ship, a hot air balloon and a mountain flag heading toward a glowing unknown map horizon"
+ },
+ "explorers:0": {
+  "type": "photo",
+  "q": "Bellingshausen Lazarev Antarctica",
+  "alt": "Корабли «Восток» и «Мирный»",
+  "p": "two wooden sailing ships among huge icebergs near a snowy continent, penguins on the ice"
+ },
+ "explorers:1": {
+  "type": "photo",
+  "q": "Roald Amundsen",
+  "alt": "Руаль Амундсен",
+  "p": "a polar explorer team with dog sleds reaching a flag at the South Pole on white snow plains"
+ },
+ "explorers:2": {
+  "type": "photo",
+  "q": "Hillary Tenzing Everest 1953",
+  "alt": "Хиллари и Тенцинг",
+  "p": "two climbers with a flag on the snowy summit of Mount Everest high above the clouds"
+ },
+ "explorers:3": {
+  "type": "photo",
+  "q": "Nicholas Miklouho-Maclay",
+  "alt": "Миклухо-Маклай",
+  "p": "an old sailing ship near a tropical island beach with palm trees, a friendly peaceful welcome"
+ },
+ "explorers:4": {
+  "type": "photo",
+  "q": "Kon-Tiki raft museum",
+  "alt": "Плот «Кон-Тики»",
+  "p": "a balsa wood raft with a square sail crossing the wide blue Pacific ocean under a sunny sky"
+ },
+ "explorers:5": {
+  "type": "photo",
+  "q": "Jacques-Yves Cousteau",
+  "alt": "Жак-Ив Кусто",
+  "p": "a diver with an aqualung swimming among colorful fish and coral in clear blue water"
+ },
+ "explorers:6": {
+  "type": "photo",
+  "q": "Nao Victoria replica Magellan",
+  "alt": "Корабль Магеллана",
+  "p": "old sailing ships passing through a narrow stormy strait, a globe with a route around the world"
+ },
+ "explorers:7": {
+  "type": "photo",
+  "q": "Przewalski horse",
+  "alt": "Лошадь Пржевальского",
+  "p": "small wild horses running across the vast golden steppe under a big blue sky, warm soft light, cozy mood"
+ },
+ "cover:women_science": {
+  "type": "art",
+  "q": "women in science",
+  "alt": "Женщины в науке",
+  "p": "a glowing laboratory with a microscope, a telescope and math formulas floating like stars, inspiring bright atmosphere, no faces"
+ },
+ "women_science:0": {
+  "type": "photo",
+  "q": "Sofia Kovalevskaya",
+  "alt": "Софья Ковалевская",
+  "p": "a child room with walls covered in old math formula pages, a curious girl looking up in wonder"
+ },
+ "women_science:1": {
+  "type": "photo",
+  "q": "Ada Lovelace portrait",
+  "alt": "Ада Лавлейс",
+  "p": "an old brass calculating machine with gears and punched cards in a cozy Victorian study"
+ },
+ "women_science:2": {
+  "type": "photo",
+  "q": "Zinaida Yermolyeva",
+  "alt": "Зинаида Ермольева",
+  "p": "petri dishes with green mold in a laboratory next to a microscope, hopeful warm light"
+ },
+ "women_science:3": {
+  "type": "photo",
+  "q": "Lise Meitner",
+  "alt": "Лиза Мейтнер",
+  "p": "a glowing atom model splitting in two with sparkles in an old physics laboratory, warm soft light, cozy mood"
+ },
+ "women_science:4": {
+  "type": "photo",
+  "q": "Rosalind Franklin",
+  "alt": "Розалинд Франклин",
+  "p": "a glowing DNA double helix over a crystal x-ray pattern in a quiet laboratory, warm soft light, cozy mood"
+ },
+ "women_science:5": {
+  "type": "photo",
+  "q": "Katherine Johnson NASA",
+  "alt": "Кэтрин Джонсон",
+  "p": "a rocket launching into space with trajectory math drawn across the evening sky, warm soft light, cozy mood"
+ },
+ "women_science:6": {
+  "type": "photo",
+  "q": "Natalia Bekhtereva",
+  "alt": "Наталья Бехтерева",
+  "p": "a glowing friendly brain model with sparkling paths in a modern research laboratory, warm soft light, cozy mood"
+ },
+ "women_science:7": {
+  "type": "photo",
+  "q": "Mary Anning",
+  "alt": "Мэри Эннинг",
+  "p": "fossil ammonites and an ichthyosaur skeleton in rocks on a seaside cliff beach, a little hammer"
+ },
+ "cover:young_inventors": {
+  "type": "art",
+  "q": "young inventors",
+  "alt": "Юные изобретатели",
+  "p": "a workshop with a kid-made rocket, a trophy cup and blueprints, gears and lightbulbs glowing, no faces"
+ },
+ "young_inventors:0": {
+  "type": "photo",
+  "q": "Philo Farnsworth",
+  "alt": "Фило Фарнсворт",
+  "p": "straight plowed furrows in a farm field turning into the lines of an old television screen"
+ },
+ "young_inventors:1": {
+  "type": "photo",
+  "q": "Nadia Comaneci",
+  "alt": "Надя Команечи",
+  "p": "a gymnastics scoreboard showing a perfect score in a sports arena with uneven bars, warm soft light, cozy mood"
+ },
+ "young_inventors:2": {
+  "type": "photo",
+  "q": "Margaret E. Knight",
+  "alt": "Маргарет Найт",
+  "p": "an old textile loom with a safety guard in a factory, flat bottom paper bags nearby"
+ },
+ "young_inventors:3": {
+  "type": "photo",
+  "q": "trampoline",
+  "alt": "Батут",
+  "p": "a big trampoline in a sunny backyard, a child jumping high joyfully into the blue sky"
+ },
+ "young_inventors:4": {
+  "type": "photo",
+  "q": "water skiing",
+  "alt": "Водные лыжи",
+  "p": "water skis gliding on a calm lake with sparkling splashes on a sunny summer day"
+ },
+ "young_inventors:5": {
+  "type": "photo",
+  "q": "Pele 1958",
+  "alt": "Пеле",
+  "p": "a football made of rolled socks on a dusty street, a boy dreaming of a big stadium"
+ },
+ "young_inventors:6": {
+  "type": "photo",
+  "q": "Igor Sikorsky helicopter",
+  "alt": "Игорь Сикорский",
+  "p": "an early helicopter hovering over a green field, a boy with a toy rotor dreaming nearby"
+ }
+}

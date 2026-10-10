@@ -1,0 +1,422 @@
+{
+ "amazing_animals:7": {
+  "type": "photo",
+  "q": "chameleon branch",
+  "alt": "Хамелеон на ветке",
+  "p": "A bright green chameleon on a branch slowly turning orange and blue, its curly tail wrapped around the twig, jungle leaves behind"
+ },
+ "amazing_animals:8": {
+  "type": "photo",
+  "q": "Greenland shark",
+  "alt": "Гренландская акула",
+  "p": "A large slow gray shark gliding through dark icy blue Arctic water under floating ice, calm and peaceful, tiny fish nearby"
+ },
+ "amazing_animals:9": {
+  "type": "photo",
+  "q": "ant carrying leaf",
+  "alt": "Муравей несёт лист",
+  "p": "A tiny ant carrying a huge green leaf over its head and a dung beetle rolling a big ball along a forest path"
+ },
+ "pet_care:6": {
+  "type": "photo",
+  "q": "cat tail up",
+  "alt": "Кошка с хвостом трубой",
+  "p": "A happy cat with its tail held straight up and a friendly dog wagging its tail, sitting together on a cozy rug"
+ },
+ "pet_care:7": {
+  "type": "photo",
+  "q": "dog nose close-up",
+  "alt": "Нос собаки",
+  "p": "Close-up of a sleepy puppy waking up on a soft blanket, its little nose glistening, warm morning light from a window"
+ },
+ "pet_care:8": {
+  "type": "photo",
+  "q": "dog drinking water bowl",
+  "alt": "Собака пьёт воду",
+  "p": "A dog resting in the cool shade of a tree on a hot summer day next to a full bowl of fresh water"
+ },
+ "wild_help:6": {
+  "type": "photo",
+  "q": "great tit bird feeder",
+  "alt": "Синица у кормушки",
+  "p": "A yellow-breasted tit and a red-breasted bullfinch sitting on a wooden bird feeder with seeds in a snowy winter garden"
+ },
+ "wild_help:7": {
+  "type": "photo",
+  "q": "cranes flying flock autumn",
+  "alt": "Перелётные птицы",
+  "p": "A flock of cranes flying in a V shape across an autumn sky above golden forests and fields"
+ },
+ "wild_help:8": {
+  "type": "photo",
+  "q": "small bird cardboard box",
+  "alt": "Птица в коробке",
+  "p": "A small sparrow resting quietly inside an open cardboard box lined with a soft cloth, gentle hands in mittens nearby"
+ },
+ "eco_care:6": {
+  "type": "photo",
+  "q": "reusable cloth shopping bag",
+  "alt": "Многоразовая сумка",
+  "p": "A colorful cloth shopping bag filled with fresh vegetables and bread hanging on a hook, a crumpled plastic bag crossed away"
+ },
+ "eco_care:7": {
+  "type": "photo",
+  "q": "plastic bottle recycling bin",
+  "alt": "Контейнер для пластика",
+  "p": "A row of colorful recycling bins in a school yard with a pile of plastic bottles neatly collected nearby"
+ },
+ "eco_care:8": {
+  "type": "photo",
+  "q": "planting tree sapling hands",
+  "alt": "Посадка дерева",
+  "p": "Small hands in gardening gloves planting a young tree sapling in fresh soil with a little watering can beside it"
+ },
+ "plants:6": {
+  "type": "photo",
+  "q": "plant roots soil",
+  "alt": "Корни растения",
+  "p": "A whole young plant pulled from soil showing white roots, a green stem, leaves and a yellow flower, like a friendly team"
+ },
+ "plants:7": {
+  "type": "photo",
+  "q": "tomato cucumber vegetables",
+  "alt": "Помидоры и огурцы",
+  "p": "A wooden table with tomatoes, cucumbers and peppers cut open to show their seeds next to apples and pears"
+ },
+ "plants:8": {
+  "type": "photo",
+  "q": "sunflower field",
+  "alt": "Поле подсолнухов",
+  "p": "A field of young sunflowers all turning their heads toward the bright morning sun under a blue sky"
+ },
+ "weather:6": {
+  "type": "art",
+  "q": "wind trees blowing",
+  "alt": "Ветер",
+  "p": "Wind blowing across a sunny landscape, warm air rising from the ground in soft swirls, trees bending and a kite flying high"
+ },
+ "weather:7": {
+  "type": "photo",
+  "q": "cumulus clouds blue sky",
+  "alt": "Кучевые облака",
+  "p": "Fluffy white cumulus clouds floating over a green meadow on a sunny day, a few darker clouds gathering far away"
+ },
+ "weather:8": {
+  "type": "photo",
+  "q": "Oymyakon winter frost",
+  "alt": "Мороз в Оймяконе",
+  "p": "A frozen northern village with snowy wooden houses and frosty trees under a pale winter sun, a thermometer covered in frost"
+ },
+ "world_peoples:6": {
+  "type": "photo",
+  "q": "world globe",
+  "alt": "Глобус",
+  "p": "A colorful globe on a wooden desk showing continents and blue oceans, a magnifying glass and a compass beside it"
+ },
+ "world_peoples:7": {
+  "type": "photo",
+  "q": "Canberra Lake Burley Griffin",
+  "alt": "Канберра",
+  "p": "A calm lake with a fountain and green parks of a modern city under a bright blue sky, kangaroos grazing on a hill"
+ },
+ "world_peoples:8": {
+  "type": "photo",
+  "q": "quill pen inkwell",
+  "alt": "Перо и чернильница",
+  "p": "An old feather quill pen and an inkwell on a wooden desk beside stacks of colorful books and a candle"
+ },
+ "kindness:6": {
+  "type": "art",
+  "q": "friends bench park",
+  "alt": "Поддержка друга",
+  "p": "Two cute anime children sitting on a park bench, one gently listening with a hand on the shoulder of a sad friend, autumn leaves falling"
+ },
+ "kindness:7": {
+  "type": "art",
+  "q": "children friends school yard",
+  "alt": "Дружный класс",
+  "p": "A group of cute anime schoolchildren inviting a lonely classmate to join their game in a sunny school yard, everyone smiling"
+ },
+ "kindness:8": {
+  "type": "art",
+  "q": "family dinner table setting",
+  "alt": "Помощь дома",
+  "p": "A cute anime child happily setting plates on a family dinner table in a cozy kitchen, a hand-drawn card leaning on a vase"
+ },
+ "inventions:6": {
+  "type": "photo",
+  "q": "potter wheel clay",
+  "alt": "Гончарный круг",
+  "p": "An old wooden cart wheel, a spinning pottery wheel with clay and a simple wooden lever lifting a big stone"
+ },
+ "inventions:7": {
+  "type": "photo",
+  "q": "antique telephone",
+  "alt": "Старинный телефон",
+  "p": "An antique wooden telephone with a crank handle next to a modern smartphone on a table, showing how phones changed"
+ },
+ "inventions:8": {
+  "type": "photo",
+  "q": "incandescent light bulb filament",
+  "alt": "Лампа накаливания",
+  "p": "A glowing old-fashioned light bulb with a bright filament inside on a workbench in a cozy inventor workshop"
+ },
+ "russia_nature:6": {
+  "type": "art",
+  "q": "taiga forest Russia",
+  "alt": "Природные зоны",
+  "p": "Colorful bands of nature from north to south: icy tundra, dark green taiga, leafy forest and golden steppe under one sky"
+ },
+ "russia_nature:7": {
+  "type": "photo",
+  "q": "tundra reindeer",
+  "alt": "Тундра и олени",
+  "p": "Reindeer grazing on mossy tundra with low shrubs, snowy hills on the horizon and a polar bear walking on distant ice"
+ },
+ "russia_nature:8": {
+  "type": "photo",
+  "q": "steppe feather grass",
+  "alt": "Степь с ковылём",
+  "p": "A wide steppe with silver feather grass waving in the wind, red wild tulips blooming and a hawk in the sky"
+ },
+ "cover:food_chains": {
+  "type": "art",
+  "q": "forest ecosystem animals",
+  "alt": "Лесная экосистема",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat with a magnifying glass in a sunny forest clearing watching a hare, a fox, an owl and mushrooms"
+ },
+ "food_chains:0": {
+  "type": "photo",
+  "q": "forest pond ecosystem",
+  "alt": "Лесной пруд",
+  "p": "A lively forest clearing with a pond, trees, mushrooms, frogs, birds and a deer living together in harmony"
+ },
+ "food_chains:1": {
+  "type": "photo",
+  "q": "green leaves sunlight",
+  "alt": "Листья на солнце",
+  "p": "Bright green leaves and pond algae soaking up golden sunlight, tiny sparkles showing them making food from light"
+ },
+ "food_chains:2": {
+  "type": "photo",
+  "q": "hare eating grass",
+  "alt": "Заяц ест траву",
+  "p": "A brown hare nibbling grass in a meadow while a red fox watches from the edge of the forest"
+ },
+ "food_chains:3": {
+  "type": "photo",
+  "q": "earthworm mushrooms leaf litter",
+  "alt": "Грибы и червяк",
+  "p": "Mushrooms growing on a mossy log and an earthworm in dark soil among fallen autumn leaves"
+ },
+ "food_chains:4": {
+  "type": "art",
+  "q": "grass hare fox food chain",
+  "alt": "Цепь питания",
+  "p": "A row of three friendly pictures connected by arrows: green grass, a hare eating it and a fox, in a sunny meadow"
+ },
+ "food_chains:5": {
+  "type": "photo",
+  "q": "owl forest night",
+  "alt": "Сова в лесу",
+  "p": "An owl sitting on an oak branch at dusk with acorns below, and a pond with algae and small fish nearby"
+ },
+ "food_chains:6": {
+  "type": "art",
+  "q": "many hares eating forest",
+  "alt": "Нарушенная цепь",
+  "p": "A forest overrun by many hares and mice nibbling all the bushes bare, an empty fox den in the corner"
+ },
+ "food_chains:7": {
+  "type": "art",
+  "q": "food web forest animals",
+  "alt": "Пищевая сеть",
+  "p": "Forest animals connected by glowing threads into a web: fox, hare, mouse, owl, snake, birds and plants"
+ },
+ "food_chains:8": {
+  "type": "photo",
+  "q": "spider web dew",
+  "alt": "Паутина в росе",
+  "p": "A spider web sparkling with morning dew drops between grass stems, a small spider resting in the center"
+ },
+ "cover:water_cycle": {
+  "type": "art",
+  "q": "raindrop water cycle",
+  "alt": "Путешествие капли",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat riding a big shiny raindrop falling from a fluffy cloud toward a river, sea and mountains below"
+ },
+ "water_cycle:0": {
+  "type": "photo",
+  "q": "ice cubes water glass",
+  "alt": "Лёд и вода",
+  "p": "Ice cubes, a glass of water and a steaming kettle side by side on a kitchen table, showing ice, water and steam"
+ },
+ "water_cycle:1": {
+  "type": "photo",
+  "q": "boiling water pot",
+  "alt": "Кипящая вода",
+  "p": "A pot of boiling water bubbling on a stove next to a frozen pond with ice, a thermometer between them"
+ },
+ "water_cycle:2": {
+  "type": "photo",
+  "q": "puddle drying sun",
+  "alt": "Лужа на солнце",
+  "p": "A puddle on a sunny path slowly drying, soft invisible wisps of vapor rising toward the warm sun"
+ },
+ "water_cycle:3": {
+  "type": "photo",
+  "q": "clouds forming mountains",
+  "alt": "Облака над горами",
+  "p": "Warm vapor rising from a lake and turning into fluffy white clouds high above cool mountain peaks"
+ },
+ "water_cycle:4": {
+  "type": "photo",
+  "q": "rain drops puddle",
+  "alt": "Дождь",
+  "p": "Raindrops falling from gray clouds into a puddle making circles, with snowflakes and hail mixed in the sky"
+ },
+ "water_cycle:5": {
+  "type": "photo",
+  "q": "mountain stream river",
+  "alt": "Горный ручей",
+  "p": "A stream flowing down from hills into a river that winds toward the sea, rain soaking into the green ground"
+ },
+ "water_cycle:6": {
+  "type": "art",
+  "q": "water cycle ocean cloud rain",
+  "alt": "Круговорот воды",
+  "p": "A cheerful circle: ocean water rising as vapor, forming clouds, raining on mountains and flowing back to the sea in rivers"
+ },
+ "water_cycle:7": {
+  "type": "photo",
+  "q": "Lake Baikal clear water",
+  "alt": "Озеро Байкал",
+  "p": "A crystal clear freshwater lake with smooth stones visible underwater and green mountains around, a huge sea in the distance"
+ },
+ "water_cycle:8": {
+  "type": "photo",
+  "q": "cloud droplets sky",
+  "alt": "Облака из капель",
+  "p": "A close magical view inside a fluffy cloud showing tiny water droplets and ice crystals sparkling in sunlight"
+ },
+ "cover:minerals": {
+  "type": "art",
+  "q": "underground minerals crystals cave",
+  "alt": "Подземные кладовые",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat holding a little lantern in an underground cave full of sparkling crystals, coal and shiny gold rocks"
+ },
+ "minerals:0": {
+  "type": "photo",
+  "q": "mineral collection rocks",
+  "alt": "Коллекция минералов",
+  "p": "A collection of colorful minerals and rocks on a wooden shelf: coal, iron ore, granite, salt crystals and gold nuggets"
+ },
+ "minerals:1": {
+  "type": "photo",
+  "q": "coal iron ore samples",
+  "alt": "Уголь и руда",
+  "p": "Three jars side by side: a black coal lump, dark liquid oil and a soft cloud of gas, on a laboratory shelf"
+ },
+ "minerals:2": {
+  "type": "photo",
+  "q": "oil pump jack",
+  "alt": "Нефтяная качалка",
+  "p": "An oil pump jack nodding in a wide field at sunset, a small gas flame and a cart of black coal nearby"
+ },
+ "minerals:3": {
+  "type": "photo",
+  "q": "gas stove burner flame",
+  "alt": "Газовая плита",
+  "p": "A gas stove burner with a neat blue flame in a tidy kitchen, an open window letting in fresh air"
+ },
+ "minerals:4": {
+  "type": "photo",
+  "q": "iron ore",
+  "alt": "Железная руда",
+  "p": "Glowing orange molten metal pouring from a big furnace bucket into molds in a huge factory, sparks flying safely far away"
+ },
+ "minerals:5": {
+  "type": "photo",
+  "q": "granite embankment Saint Petersburg",
+  "alt": "Гранитная набережная",
+  "p": "A granite stone river embankment with steps down to the water in an old city, gentle evening light on the river"
+ },
+ "minerals:6": {
+  "type": "photo",
+  "q": "salt lake Baskunchak",
+  "alt": "Соляное озеро",
+  "p": "A white salt lake shining under the sun, salt crystals at its edge, a gold nugget and a clear diamond on a velvet cloth"
+ },
+ "minerals:7": {
+  "type": "art",
+  "q": "coal oil gas reserves",
+  "alt": "Кладовые не бесконечны",
+  "p": "An underground treasure chest of coal and oil slowly emptying, while wind turbines and solar panels shine on the surface above"
+ },
+ "minerals:8": {
+  "type": "photo",
+  "q": "sandstone porous rock",
+  "alt": "Пористый камень",
+  "p": "Cross-section of underground layers where dark oil soaks into porous sandstone like water in a sponge"
+ },
+ "cover:red_book": {
+  "type": "art",
+  "q": "Amur tiger snow",
+  "alt": "Редкие звери",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat reading a big red book in a snowy forest while an Amur tiger, a crane and a polar bear look on"
+ },
+ "red_book:0": {
+  "type": "photo",
+  "q": "Amur leopard",
+  "alt": "Дальневосточный леопард",
+  "p": "A big red book lying open on a mossy stump, surrounded by rare animals and flowers: a leopard, a crane and a snowdrop"
+ },
+ "red_book:1": {
+  "type": "photo",
+  "q": "snow leopard rocks",
+  "alt": "Снежный барс",
+  "p": "A snow leopard resting on snowy mountain rocks, its long fluffy tail curled around its paws"
+ },
+ "red_book:2": {
+  "type": "art",
+  "q": "red book pages colors",
+  "alt": "Страницы Красной книги",
+  "p": "An open book with colorful pages in red, yellow, white, gray and green, little animal pictures on each page, no writing"
+ },
+ "red_book:3": {
+  "type": "photo",
+  "q": "Amur tiger snow",
+  "alt": "Амурский тигр",
+  "p": "A large striped Amur tiger walking through a snowy taiga forest under tall pine trees"
+ },
+ "red_book:4": {
+  "type": "photo",
+  "q": "Siberian crane",
+  "alt": "Стерх",
+  "p": "A white Siberian crane with a red face standing in a wetland, and a polar bear on a floating ice sheet in the distance"
+ },
+ "red_book:5": {
+  "type": "photo",
+  "q": "European bison",
+  "alt": "Зубр",
+  "p": "A huge shaggy European bison standing in a green forest meadow, and a saiga antelope with a big nose on the steppe beyond"
+ },
+ "red_book:6": {
+  "type": "photo",
+  "q": "nature reserve forest trail",
+  "alt": "Заповедная тропа",
+  "p": "A wooden boardwalk trail winding through a protected wild forest with a small observation tower and a deer watching"
+ },
+ "red_book:7": {
+  "type": "photo",
+  "q": "snowdrops spring forest",
+  "alt": "Подснежники",
+  "p": "White snowdrop flowers blooming in a spring forest among melting snow, a little sign-free fence protecting them"
+ },
+ "red_book:8": {
+  "type": "photo",
+  "q": "saiga antelope herd",
+  "alt": "Стадо сайгаков",
+  "p": "A large herd of saiga antelopes running happily across a wide green steppe under a bright sky"
+ }
+}

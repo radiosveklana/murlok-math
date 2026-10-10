@@ -1,0 +1,482 @@
+{
+ "personal_data:6": {
+  "type": "art",
+  "q": "smartphone permission settings",
+  "alt": "Разрешения приложений",
+  "p": "a child thoughtfully looking at a tablet showing glowing abstract icons of a camera, microphone and map pin, one icon switched off with a friendly shield"
+ },
+ "personal_data:7": {
+  "type": "art",
+  "q": "quiz questionnaire paper",
+  "alt": "Хитрый тест",
+  "p": "a curious child at a desk looking at a colorful glowing quiz bubble on a laptop, deciding to close it, a small shield and question marks floating nearby"
+ },
+ "personal_data:8": {
+  "type": "art",
+  "q": "video camera tripod room",
+  "alt": "Осмотри кадр",
+  "p": "a child with a magnifying glass checking a cozy bedroom before recording a video, a phone on a small tripod, window curtains drawn, nothing personal visible"
+ },
+ "personal_data:9": {
+  "type": "art",
+  "q": "family house keys",
+  "alt": "Секреты семьи",
+  "p": "a happy family drawn as a cozy house with a heart-shaped lock on the door, a child holding a finger to lips with a friendly smile"
+ },
+ "personal_data:10": {
+  "type": "art",
+  "q": "eraser pencil delete",
+  "alt": "Удалить и рассказать",
+  "p": "a calm child sitting with a parent at a laptop together, the parent pointing at a glowing abstract delete icon, both smiling and relieved"
+ },
+ "passwords:6": {
+  "type": "art",
+  "q": "padlock question mark",
+  "alt": "Секретные вопросы",
+  "p": "a child and a parent whispering a funny secret answer to each other, a golden padlock with a question mark floating between them"
+ },
+ "passwords:7": {
+  "type": "photo",
+  "q": "padlock",
+  "alt": "Замок на экране",
+  "p": "a smartphone with a big glowing padlock symbol on its screen held by a child, a fingerprint shape glowing below, cozy room background"
+ },
+ "passwords:8": {
+  "type": "art",
+  "q": "hand covering keypad",
+  "alt": "Прикрой пароль",
+  "p": "a child at a keypad shielding it with a cupped hand while a friendly cat politely turns away, playful and safe mood"
+ },
+ "passwords:9": {
+  "type": "art",
+  "q": "warning sign shield",
+  "alt": "Аккаунт взломали",
+  "p": "a child noticing a glowing red exclamation mark on a tablet and calmly showing it to a parent, who holds a big shield icon"
+ },
+ "passwords:10": {
+  "type": "photo",
+  "q": "patch fabric sewing",
+  "alt": "Обновления — заплатки",
+  "p": "a cute cartoon computer getting a colorful patch sewn on by a tiny robot with a needle, a glowing refresh arrow above"
+ },
+ "scammers:6": {
+  "type": "art",
+  "q": "price tag bargain",
+  "alt": "Слишком дёшево",
+  "p": "a child raising an eyebrow at a giant glowing price tag with a tiny number on it, a fishing hook hidden behind the tag, child walking away"
+ },
+ "scammers:7": {
+  "type": "art",
+  "q": "telephone handset",
+  "alt": "Звонок «из полиции»",
+  "p": "a confident child hanging up a phone and walking to mom in the kitchen to tell her, a speech bubble with a check mark"
+ },
+ "scammers:8": {
+  "type": "art",
+  "q": "microphone sound wave",
+  "alt": "Подделка голоса",
+  "p": "a child holding a phone with a wavy glowing sound wave, a little mask floating next to it, the child calling back to grandma to check"
+ },
+ "scammers:9": {
+  "type": "art",
+  "q": "chat bubbles phone",
+  "alt": "Взломанный друг",
+  "p": "a child texting while a second phone shows a friend calling to check, glowing abstract chat bubbles, friendly question mark between them"
+ },
+ "scammers:10": {
+  "type": "art",
+  "q": "QR code sticker",
+  "alt": "Опасный QR-код",
+  "p": "a child pausing before scanning a mysterious sticker on a lamppost, holding the phone down and shaking head, a small shield glowing nearby"
+ },
+ "online_strangers:6": {
+  "type": "art",
+  "q": "mask costume",
+  "alt": "Входят в доверие",
+  "p": "a child at a computer seeing a glowing chat bubble with a smiling mask, a wise owl next to the child pointing at the mask"
+ },
+ "online_strangers:7": {
+  "type": "art",
+  "q": "shield heart",
+  "alt": "Не бойся сказать",
+  "p": "a child hugging a parent on a sofa, a big protective glowing shield around them, a closed laptop on the table"
+ },
+ "online_strangers:8": {
+  "type": "photo",
+  "q": "magnifying glass",
+  "alt": "Проверка профиля",
+  "p": "a child detective with a magnifying glass examining a glowing abstract profile card on a big screen, little check and cross marks around"
+ },
+ "online_strangers:9": {
+  "type": "art",
+  "q": "webcam cover",
+  "alt": "Камера выключена",
+  "p": "a child sliding a little cover over a laptop webcam with a satisfied smile, cozy desk with books and a plant"
+ },
+ "street_stranger:6": {
+  "type": "art",
+  "q": "pharmacy shop street",
+  "alt": "Островки безопасности",
+  "p": "a child and parent walking a sunny street route, marking a shop, a pharmacy and a library with glowing green star markers on a map"
+ },
+ "street_stranger:7": {
+  "type": "art",
+  "q": "footprints distance",
+  "alt": "Держи дистанцию",
+  "p": "a child keeping two big steps away from an adult on a sunny sidewalk, glowing footprints showing the safe distance, child walking toward parents"
+ },
+ "street_stranger:8": {
+  "type": "photo",
+  "q": "elevator doors",
+  "alt": "Лифт и подъезд",
+  "p": "a child waiting calmly in a bright apartment lobby next to open elevator doors, choosing to wait for the next one, friendly neighbor lady nearby"
+ },
+ "street_stranger:9": {
+  "type": "art",
+  "q": "phone call parent",
+  "alt": "Сначала спроси",
+  "p": "a child politely stopping on a sunny street and calling mom on a phone before going anywhere, a check mark speech bubble"
+ },
+ "home_alone:6": {
+  "type": "photo",
+  "q": "house keys",
+  "alt": "Ключи под присмотром",
+  "p": "a child tucking a house key into a zipped inner jacket pocket at the apartment door, cozy hallway, warm light"
+ },
+ "home_alone:7": {
+  "type": "art",
+  "q": "window mosquito net",
+  "alt": "Окна и балкон",
+  "p": "a child sitting safely on a rug playing with toys far from a closed window with potted plants on the sill, sunny room"
+ },
+ "home_alone:8": {
+  "type": "art",
+  "q": "medicine cabinet",
+  "alt": "Таблетки — не конфеты",
+  "p": "a child pointing at a high closed medicine cabinet and choosing a real apple instead, parent smiling in the doorway"
+ },
+ "home_alone:9": {
+  "type": "art",
+  "q": "door chain lock",
+  "alt": "Если кто-то ломится",
+  "p": "a child safely in a far room calling a parent on a phone, the front door locked with a chain, a big shield glowing over the door"
+ },
+ "road_water_ice:6": {
+  "type": "art",
+  "q": "parking lot cars",
+  "alt": "Дворы и парковки",
+  "p": "a child walking on a sidewalk in a courtyard far from parked cars, holding a parent hand, a car with reversing lights glowing"
+ },
+ "road_water_ice:7": {
+  "type": "art",
+  "q": "thunderstorm house",
+  "alt": "Гроза",
+  "p": "children running from a lake toward a cozy house with lights on as gray clouds gather, everyone safe indoors watching rain"
+ },
+ "road_water_ice:8": {
+  "type": "art",
+  "q": "inflatable swim ring beach",
+  "alt": "Матрас — не спасатель",
+  "p": "a child playing near shore in shallow water with an inflatable ring, a lifeguard tower and a parent watching closely"
+ },
+ "road_water_ice:9": {
+  "type": "art",
+  "q": "rescue rope ice",
+  "alt": "Спасение на льду",
+  "p": "a child lying flat and crawling safely to the shore on snowy ice, rescuers on the bank holding out a long rope, sunny winter day"
+ },
+ "bullying:6": {
+  "type": "art",
+  "q": "children playground",
+  "alt": "Почему обижают",
+  "p": "a thoughtful child under a tree watching a show-off kid trying to look cool, a small sad cloud above the show-off"
+ },
+ "bullying:7": {
+  "type": "photo",
+  "q": "diary notebook pen",
+  "alt": "Дневник фактов",
+  "p": "a child writing in a notebook with a pen at a desk, a calendar and colored stickers nearby, calm focused mood"
+ },
+ "bullying:8": {
+  "type": "art",
+  "q": "child talking mother",
+  "alt": "Рассказать взрослому",
+  "p": "a child sitting with mom at a kitchen table with tea, telling her something important, mom listening warmly with a hand on shoulder"
+ },
+ "bullying:9": {
+  "type": "art",
+  "q": "apology handshake children",
+  "alt": "Если обижал ты",
+  "p": "two children making peace, one offering a hand and a sorry card with a heart, the other smiling, sunny schoolyard"
+ },
+ "bullying:10": {
+  "type": "photo",
+  "q": "paint brushes watercolor",
+  "alt": "Восстановить силы",
+  "p": "a happy child painting with watercolors at a sunny table, a guitar and a soccer ball nearby, cozy room"
+ },
+ "my_body:6": {
+  "type": "art",
+  "q": "shield heart bubble",
+  "alt": "Личные места",
+  "p": "a fully dressed child wrapped in a big soft protective glowing bubble with a heart, giving a confident thumbs up, simple pastel background"
+ },
+ "my_body:7": {
+  "type": "photo",
+  "q": "traffic light",
+  "alt": "Внутренний светофор",
+  "p": "a child with a little glowing traffic light beside them showing red, stepping back confidently and walking toward a trusted parent"
+ },
+ "my_body:8": {
+  "type": "art",
+  "q": "phone face down shield",
+  "alt": "Фото тела — нет",
+  "p": "a fully dressed child confidently putting a phone face-down on the table and saying no, a protective shield glowing nearby"
+ },
+ "my_body:9": {
+  "type": "art",
+  "q": "doctor stethoscope child",
+  "alt": "Когда помогают",
+  "p": "a friendly doctor listening to a fully clothed child breathing with a stethoscope, mom sitting next to them holding the child hand"
+ },
+ "emergency_numbers:6": {
+  "type": "art",
+  "q": "phone emergency button",
+  "alt": "Экстренный вызов",
+  "p": "a child holding a phone with a big glowing red cross button on a locked screen, calm and confident, cozy room"
+ },
+ "emergency_numbers:7": {
+  "type": "art",
+  "q": "telephone ambulance fire truck",
+  "alt": "112 или родителям?",
+  "p": "a split scene of a child calling mom on a phone and a friendly ambulance and fire truck waiting, a big question mark between"
+ },
+ "emergency_numbers:8": {
+  "type": "art",
+  "q": "ambulance arrival door",
+  "alt": "Пока едет помощь",
+  "p": "a child and a neighbor waiting at the entrance of an apartment building as a friendly ambulance arrives, child holding a phone"
+ },
+ "emergency_numbers:9": {
+  "type": "art",
+  "q": "paper note backpack",
+  "alt": "Номера на бумаге",
+  "p": "a child folding a small paper note with doodled digits into a backpack pocket, school supplies nearby, warm desk lamp light"
+ },
+ "cover:games_chats": {
+  "type": "art",
+  "q": "game controller headset",
+  "alt": "Игры и чаты",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting with a game controller and gaming headset, glowing abstract game shapes and coins floating around, safe and cozy"
+ },
+ "games_chats:0": {
+  "type": "art",
+  "q": "gem coins piggy bank",
+  "alt": "Донат — настоящие деньги",
+  "p": "a child holding a piggy bank and looking at glowing game gems on a tablet, deciding to ask a parent first"
+ },
+ "games_chats:1": {
+  "type": "art",
+  "q": "treasure chest trap",
+  "alt": "«Бесплатные» скины",
+  "p": "a child stepping away from a glowing treasure chest decorated with stars that hides a fishing hook, a wise cat warning"
+ },
+ "games_chats:2": {
+  "type": "art",
+  "q": "fishing hook chain link",
+  "alt": "Ссылки в чате",
+  "p": "a glowing chain link turning into a fishing hook inside a chat bubble, a child closing the window with a smile"
+ },
+ "games_chats:3": {
+  "type": "photo",
+  "q": "gaming headset",
+  "alt": "Голосовой чат",
+  "p": "a child wearing a headset and pressing a mute button with a finger to lips, glowing sound waves stopping"
+ },
+ "games_chats:4": {
+  "type": "art",
+  "q": "computer bug shield",
+  "alt": "Читы и моды",
+  "p": "a cute cartoon computer with a sneaky little bug creature trying to crawl in, a shield blocking it, child cheering"
+ },
+ "games_chats:5": {
+  "type": "art",
+  "q": "secret door game",
+  "alt": "Закрытые кланы",
+  "p": "a child saying no thanks to a mysterious glowing door in a game world, walking back to friends playing together"
+ },
+ "games_chats:6": {
+  "type": "art",
+  "q": "block button mute",
+  "alt": "Токсичные игроки",
+  "p": "a child calmly pressing a glowing block button as an angry cloud speech bubble fades away, peaceful game world behind"
+ },
+ "games_chats:7": {
+  "type": "photo",
+  "q": "hourglass",
+  "alt": "Время в игре",
+  "p": "a big hourglass next to a game controller on a table, a child stretching happily by a sunny window"
+ },
+ "cover:digital_footprint": {
+  "type": "art",
+  "q": "footprints sand",
+  "alt": "Цифровой след",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat following glowing footprints made of tiny hearts, likes and photos across a soft digital landscape with a magnifying glass"
+ },
+ "digital_footprint:0": {
+  "type": "photo",
+  "q": "footprints sand beach",
+  "alt": "Цифровой след",
+  "p": "glowing footprints of little icons like hearts, stars and photos trailing behind a child walking across a soft digital landscape"
+ },
+ "digital_footprint:1": {
+  "type": "art",
+  "q": "photo frames flying",
+  "alt": "Навсегда — навсегда",
+  "p": "a child seeing a glowing photo copied into many little floating frames flying away like birds, a thoughtful expression"
+ },
+ "digital_footprint:2": {
+  "type": "photo",
+  "q": "magnifying glass",
+  "alt": "Поиск по имени",
+  "p": "a giant magnifying glass hovering over a cloud of glowing abstract cards and photos, a child peeking through it"
+ },
+ "digital_footprint:3": {
+  "type": "art",
+  "q": "path stars reputation",
+  "alt": "Репутация",
+  "p": "a child standing on a path of glowing kind hearts and stars, friends waving and smiling around, sunny meadow"
+ },
+ "digital_footprint:4": {
+  "type": "art",
+  "q": "thinking child question",
+  "alt": "Подумай перед постом",
+  "p": "a child with a finger on chin before a glowing post button, three small thought bubbles with a check mark, heart and lock"
+ },
+ "digital_footprint:5": {
+  "type": "photo",
+  "q": "padlock",
+  "alt": "Настройки приватности",
+  "p": "a child adjusting big friendly glowing switches and a padlock on a giant abstract settings panel"
+ },
+ "digital_footprint:6": {
+  "type": "art",
+  "q": "camera permission friends",
+  "alt": "Только с разрешения",
+  "p": "a child holding a camera and asking a friend, the friend nodding with a thumbs up, sunny park, both smiling"
+ },
+ "digital_footprint:7": {
+  "type": "art",
+  "q": "drawings gallery",
+  "alt": "Хороший след",
+  "p": "a child proudly showing drawings and a tiny robot project floating in glowing frames, kind heart icons around"
+ },
+ "cover:bystander": {
+  "type": "art",
+  "q": "hands support heart",
+  "alt": "Если ты свидетель",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat gently holding a heart, standing next to a sad child and offering support, glowing chat bubbles fading behind"
+ },
+ "bystander:0": {
+  "type": "art",
+  "q": "superhero cape child",
+  "alt": "Ты сильнее",
+  "p": "a child wearing a little cape standing beside a classmate, glowing chat bubbles behind turning from gray to warm colors"
+ },
+ "bystander:1": {
+  "type": "art",
+  "q": "heart message",
+  "alt": "Не лайкать",
+  "p": "a child pulling a finger away from a glowing like button under a gray cloud bubble, choosing to send a heart message instead"
+ },
+ "bystander:2": {
+  "type": "art",
+  "q": "children friendship bench",
+  "alt": "Поддержи лично",
+  "p": "a child sitting next to a sad classmate on a school bench, offering a hand and a smile, warm afternoon light"
+ },
+ "bystander:3": {
+  "type": "art",
+  "q": "screenshot folder",
+  "alt": "Сохрани доказательства",
+  "p": "a child pressing buttons on a phone to capture a glowing abstract chat, a little folder icon with a check mark"
+ },
+ "bystander:4": {
+  "type": "art",
+  "q": "teacher child talk",
+  "alt": "Скажи взрослому",
+  "p": "two children walking together to a kind teacher in a bright classroom, the teacher kneeling to listen"
+ },
+ "bystander:5": {
+  "type": "art",
+  "q": "flag report button",
+  "alt": "Пожалуйся модератору",
+  "p": "a child pressing a big glowing flag button, a friendly robot moderator with a broom sweeping away gray clouds"
+ },
+ "bystander:6": {
+  "type": "art",
+  "q": "crowd standing apart",
+  "alt": "Не за компанию",
+  "p": "a child stepping out of a gray crowd toward a lonely classmate, the path between them glowing warm"
+ },
+ "bystander:7": {
+  "type": "art",
+  "q": "calm hand stop",
+  "alt": "Заступайся безопасно",
+  "p": "a child calmly standing beside a sad classmate holding a hand up gently against a gray cloud, other kids joining in"
+ },
+ "cover:transport": {
+  "type": "art",
+  "q": "bus metro train",
+  "alt": "Безопасность в транспорте",
+  "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat sitting politely on a bus seat holding a handrail, a metro train and a commuter train visible through the window"
+ },
+ "transport:0": {
+  "type": "photo",
+  "q": "bus stop shelter",
+  "alt": "На остановке",
+  "p": "a child waiting at a bus stop shelter well back from the curb, a bus approaching in the distance, snowy winter day"
+ },
+ "transport:1": {
+  "type": "photo",
+  "q": "bus interior handrails empty",
+  "alt": "В салоне",
+  "p": "an empty bright city bus interior with yellow handrails and doors open, cheerful child holding a handrail"
+ },
+ "transport:2": {
+  "type": "art",
+  "q": "bus crosswalk",
+  "alt": "Дождись, пока уедет",
+  "p": "a child waiting on the sidewalk as a bus drives away, then crossing at a zebra crossing, sunny street"
+ },
+ "transport:3": {
+  "type": "photo",
+  "q": "metro escalator handrail",
+  "alt": "Метро и эскалатор",
+  "p": "a child standing on a metro escalator holding the handrail, a parent behind, bright station"
+ },
+ "transport:4": {
+  "type": "photo",
+  "q": "railway pedestrian bridge",
+  "alt": "Переход через пути",
+  "p": "a child and parent crossing railway tracks on a pedestrian overpass bridge, a commuter train passing safely below"
+ },
+ "transport:5": {
+  "type": "art",
+  "q": "metro station worker",
+  "alt": "Если потерялся",
+  "p": "a child calmly waiting on a metro platform bench and talking to a station worker in uniform, parent arriving with open arms"
+ },
+ "transport:6": {
+  "type": "photo",
+  "q": "child car seat",
+  "alt": "В машине",
+  "p": "a child sitting buckled up in a car booster seat with a seatbelt, smiling and holding a toy"
+ },
+ "transport:7": {
+  "type": "photo",
+  "q": "bicycle helmet",
+  "alt": "Шлем и самокат",
+  "p": "a child wearing a bicycle helmet riding a kick scooter on a park path, sunny day, knee pads on"
+ }
+}
