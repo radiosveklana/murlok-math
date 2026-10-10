@@ -36,7 +36,7 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   ok('taskbank has all school topics', await E(() => TaskBank.list().filter(x => !x.acad).length === 22));
   ok('taskbank has academy topics with generators', await E(() => { const L = TaskBank.list(), want = Object.values(window.SUBJECTS).filter(s => s.id !== 'teen' && s.id !== 'math4' && !s.school).flatMap(s => s.units.filter(u => typeof u.gen === 'function').map(u => s.id + ':' + u.id)); return want.every(id => L.some(x => x.id === id && x.acad)); }));
   await go('newcase'); ok('newcase: all + pick', !!(await p.$('.choice[data-t="all"]')) && !!(await p.$('.choice[data-t="pick"]')));
-  await click('.choice[data-t="pick"]'); ok('pick topics modal', (await p.$$('.tb-pick input')).length === (await E(() => TaskBank.list().length)));
+  await click('.choice[data-t="pick"]'); ok('pick topics modal', (await p.$$('.tb-pick input')).length === (await E(() => TaskBank.list().filter(x => !x.acad).length)) && (await p.$$('.tb-acad input')).length > 0); // v30: темы Академии — отдельным блоком .tb-acad
   await E(() => { document.querySelectorAll('.tb-pick input').forEach(i => { i.checked = /^math4:(motion|buy|remainder)$/.test(i.value); }); }); await click('#tbok');
   ok('picked saved', await E(() => S.prefs.caseTopics.length === 3));
   await click('#go'); await sleep(800);
