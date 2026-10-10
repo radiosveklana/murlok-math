@@ -1,0 +1,171 @@
+[
+ {
+  "hover": [],
+  "overlap": [],
+  "clip": [],
+  "docW": 320,
+  "docH": 2210,
+  "title": "🏆 Мои награды",
+  "sc": "diplomas",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-diplomas.png"
+ },
+ {
+  "hover": [],
+  "overlap": [
+   "текст/текст: div.window «✨» ⨯ div.big-emoji «🔒» (45x44)",
+   "текст/текст: button.fx.fixed «🏆» ⨯ button.btn.pink.sm «▶ Заработать» (52x20)",
+   "текст/текст: button.fx.fixed «🌟» ⨯ h3 ««Зал славы»» (11x20)",
+   "текст/текст: button.fx.fixed «🌟» ⨯ p «Чтобы открыть, реши» (55x20)",
+   "текст/текст: button.fx.fixed «🌟» ⨯ b «ещё 948 задач и ещё 238 уравне» (64x20)",
+   "текст/блок: button.fx.fixed «🏆» ⨯ button.btn.pink.sm «▶ Заработать» (52x40) сверху: button.fx.fixed",
+   "текст/блок: h3 ««Зал славы»» ⨯ button.fx.fixed «🌟» (17x10) сверху: button.fx.fixed",
+   "текст/блок: p «Чтобы открыть, реши» ⨯ button.fx.fixed «🌟» (61x20) сверху: button.fx.fixed",
+   "текст/блок: b «ещё 948 задач и ещё 238 уравне» ⨯ button.fx.fixed «🌟» (70x20) сверху: button.fx.fixed",
+   "текст/блок: button.btn.pink.sm «▶ Заработать» ⨯ button.fx.fixed «🏆» (64x20) сверху: button.fx.fixed"
+  ],
+  "clip": [],
+  "docW": 320,
+  "docH": 801,
+  "title": "Домик котика",
+  "sc": "house:fame",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-house_fame.png"
+ },
+ {
+  "hover": [],
+  "overlap": [],
+  "clip": [],
+  "docW": 320,
+  "docH": 1919,
+  "title": "Дело №15",
+  "sc": "caseintro",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-caseintro.png"
+ },
+ {
+  "hover": [],
+  "overlap": [],
+  "clip": [],
+  "docW": 320,
+  "docH": 714,
+  "title": "Дело №15",
+  "sc": "casetask",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-casetask.png"
+ },
+ {
+  "hover": [],
+  "overlap": [],
+  "clip": [],
+  "docW": 320,
+  "docH": 590,
+  "title": "📎 Необычное применение",
+  "sc": "ideas:uses",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-ideas_uses.png"
+ },
+ {
+  "hover": [],
+  "overlap": [
+   "текст/текст: li «Задавай вопросы «что?» и «как?» ⨯ div.bub «Ой… привет. Я тут новенькая, н» (143x17)",
+   "текст/текст: li «Найди общий интерес» ⨯ span.rp-av «🦊» (6x19)"
+  ],
+  "clip": [],
+  "docW": 320,
+  "docH": 677,
+  "title": "🦊 Познакомься с новенькой",
+  "sc": "rpchat:new_kid",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-rpchat_new_kid.png"
+ },
+ {
+  "hover": [],
+  "overlap": [],
+  "clip": [],
+  "docW": 320,
+  "docH": 599,
+  "title": "🔐 Для взрослых",
+  "sc": "agate",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-agate.png"
+ },
+ {
+  "hover": [],
+  "overlap": [],
+  "clip": [],
+  "docW": 320,
+  "docH": 2035,
+  "title": "Школа сыщика",
+  "sc": "school",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-school.png"
+ },
+ {
+  "hover": [],
+  "overlap": [
+   "текст/текст: div#cbub.bubble.pop «— самое маленькое начало числа» ⨯ div.task-title «810 : 2» (71x20)"
+  ],
+  "clip": [],
+  "docW": 320,
+  "docH": 582,
+  "task": {
+   "ans": {
+    "sel": ".ask",
+    "pos": [
+     424,
+     470
+    ],
+    "text": "Какое первое неполное делимое?"
+   },
+   "ctl": {
+    "sel": ".opts",
+    "pos": [
+     488,
+     528
+    ],
+    "n": 1
+   },
+   "VH": 568,
+   "fits": true,
+   "covered": []
+  },
+  "title": "➗ Деление столбиком",
+  "sc": "colwork:div",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-colwork_div.png"
+ },
+ {
+  "hover": [],
+  "overlap": [],
+  "clip": [],
+  "docW": 320,
+  "docH": 811,
+  "title": "Ошибки Енота",
+  "sc": "bugs",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-bugs.png"
+ },
+ {
+  "hover": [],
+  "overlap": [],
+  "clip": [],
+  "docW": 320,
+  "docH": 707,
+  "title": "🎯 Как заработать",
+  "sc": "earn:shade:galaxy",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-earn_shade_galaxy.png"
+ },
+ {
+  "hover": [],
+  "overlap": [],
+  "clip": [],
+  "docW": 320,
+  "docH": 5147,
+  "title": "👗 Примерочная",
+  "sc": "fitting",
+  "errs": [],
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\320-fitting.png"
+ }
+]

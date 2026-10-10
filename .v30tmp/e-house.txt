@@ -1,0 +1,6 @@
+cat class after tap: room-cat
+water: room-cat eating
+PHYSICS OK
+COLLIDE OK
+errs: none
+exit 0

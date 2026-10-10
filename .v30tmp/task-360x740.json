@@ -1,0 +1,578 @@
+[
+ {
+  "as": ".cell.target",
+  "ans": [
+   334,
+   372
+  ],
+  "ansCov": null,
+  "cs": ".pad",
+  "ctl": [
+   560,
+   746
+  ],
+  "keyCov": [],
+  "nkeys": 12,
+  "VH": 740,
+  "docH": 812,
+  "bodyScroll": "",
+  "cc": "sticky 430..754",
+  "sc": "practice:mul",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-practice_mul.png"
+ },
+ {
+  "as": ".eql.last",
+  "ans": [
+   204,
+   252
+  ],
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "sticky 260..486",
+  "sc": "practice:eq",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-practice_eq.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 873,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "lesson:mul",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-lesson_mul.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 826,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "lesson:eq",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-lesson_eq.png"
+ },
+ {
+  "as": ".ask",
+  "ans": [
+   744,
+   844
+  ],
+  "ansCov": "вне экрана",
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 890,
+  "bodyScroll": "",
+  "cc": "static 552..844",
+  "sc": "bugs",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-bugs.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": ".opts",
+  "ctl": [
+   636,
+   684
+  ],
+  "keyCov": [],
+  "nkeys": 2,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "bugs2",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-bugs2.png"
+ },
+ {
+  "as": ".ask-eq .inp",
+  "ans": [
+   140,
+   180
+  ],
+  "ansCov": null,
+  "cs": ".pad",
+  "ctl": [
+   180,
+   442
+  ],
+  "keyCov": [],
+  "nkeys": 12,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "drill:div",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-drill_div.png"
+ },
+ {
+  "as": ".ask-eq .inp",
+  "ans": [
+   140,
+   180
+  ],
+  "ansCov": null,
+  "cs": ".pad",
+  "ctl": [
+   180,
+   442
+  ],
+  "keyCov": [],
+  "nkeys": 12,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "drill:mixall",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-drill_mixall.png"
+ },
+ {
+  "as": ".bz-q .inp",
+  "ans": [
+   239,
+   299
+  ],
+  "ansCov": null,
+  "cs": ".pad",
+  "ctl": [
+   317,
+   525
+  ],
+  "keyCov": [],
+  "nkeys": 11,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "blitzrun",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-blitzrun.png"
+ },
+ {
+  "as": ".ask",
+  "ans": [
+   459,
+   506
+  ],
+  "ansCov": null,
+  "cs": ".opts",
+  "ctl": [
+   524,
+   564
+  ],
+  "keyCov": [],
+  "nkeys": 2,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "colwork:div",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-colwork_div.png"
+ },
+ {
+  "as": ".ask .inp",
+  "ans": [
+   457,
+   484
+  ],
+  "ansCov": null,
+  "cs": ".pad",
+  "ctl": [
+   514,
+   708
+  ],
+  "keyCov": [],
+  "nkeys": 12,
+  "VH": 740,
+  "docH": 762,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "colwork:add",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-colwork_add.png"
+ },
+ {
+  "as": ".cell.target",
+  "ans": [
+   308,
+   346
+  ],
+  "ansCov": null,
+  "cs": ".pad",
+  "ctl": [
+   493,
+   679
+  ],
+  "keyCov": [],
+  "nkeys": 11,
+  "VH": 740,
+  "docH": 882,
+  "bodyScroll": "",
+  "cc": "sticky 333..740",
+  "sc": "casetask-mul",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-casetask-mul.png"
+ },
+ {
+  "as": ".ask .inp",
+  "ans": [
+   405,
+   443
+  ],
+  "ansCov": null,
+  "cs": ".pad",
+  "ctl": [
+   453,
+   639
+  ],
+  "keyCov": [],
+  "nkeys": 12,
+  "VH": 740,
+  "docH": 746,
+  "bodyScroll": "",
+  "cc": "sticky 248..700",
+  "sc": "casetask-eq",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-casetask-eq.png"
+ },
+ {
+  "as": ".ask",
+  "ans": [
+   638,
+   739
+  ],
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 785,
+  "bodyScroll": "",
+  "cc": "static 446..739",
+  "sc": "casetask-bug",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-casetask-bug.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 1014,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "casetask-interro",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-casetask-interro.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": ".opts",
+  "ctl": [
+   550,
+   696
+  ],
+  "keyCov": [],
+  "nkeys": 3,
+  "VH": 740,
+  "docH": 750,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "game:scales",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-game_scales.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 779,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "game:interro",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-game_interro.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 762,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "game:color",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-game_color.png"
+ },
+ {
+  "as": ".ask-eq .inp",
+  "ans": [
+   392,
+   433
+  ],
+  "ansCov": null,
+  "cs": ".pad",
+  "ctl": [
+   433,
+   641
+  ],
+  "keyCov": [],
+  "nkeys": 12,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "game:safe",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-game_safe.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 774,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "game:logic",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-game_logic.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "game:memo",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-game_memo.png"
+ },
+ {
+  "as": ".ask-eq .inp",
+  "ans": [
+   283,
+   323
+  ],
+  "ansCov": null,
+  "cs": ".pad",
+  "ctl": [
+   323,
+   531
+  ],
+  "keyCov": [],
+  "nkeys": 11,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "game:chase",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-game_chase.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": ".opts",
+  "ctl": [
+   337,
+   438
+  ],
+  "keyCov": [],
+  "nkeys": 4,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "game:pattern",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-game_pattern.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": ".opts",
+  "ctl": [
+   241,
+   401
+  ],
+  "keyCov": [],
+  "nkeys": 3,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "game:estimate",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-game_estimate.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": ".opts",
+  "ctl": [
+   347,
+   587
+  ],
+  "keyCov": [],
+  "nkeys": 3,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "aquiz:safety:personal_data",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-aquiz_safety_personal_data.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": ".opts",
+  "ctl": [
+   426,
+   637
+  ],
+  "keyCov": [],
+  "nkeys": 4,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "aquiz:math4:motion",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-aquiz_math4_motion.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": ".opts",
+  "ctl": [
+   506,
+   666
+  ],
+  "keyCov": [],
+  "nkeys": 3,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "aquiz:math4:data_logic",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-aquiz_math4_data_logic.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": null,
+  "ctl": null,
+  "keyCov": [],
+  "nkeys": 0,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "aquiz:obzh:burns",
+  "fits": false,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-aquiz_obzh_burns.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": ".opts",
+  "ctl": [
+   250,
+   487
+  ],
+  "keyCov": [],
+  "nkeys": 4,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "aquiz:think:fact_opinion",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-aquiz_think_fact_opinion.png"
+ },
+ {
+  "as": null,
+  "ans": null,
+  "ansCov": null,
+  "cs": ".rs-opts",
+  "ctl": [
+   356,
+   555
+  ],
+  "keyCov": [],
+  "nkeys": 6,
+  "VH": 740,
+  "docH": 740,
+  "bodyScroll": "",
+  "cc": "",
+  "sc": "rescue",
+  "fits": true,
+  "shot": "C:\\Users\\izzye\\projects\\murlok-math\\.claude\\worktrees\\agent-a8427356e6acc5b36\\.v30tmp\\shots\\vp-360x740-rescue.png"
+ }
+]

@@ -1,0 +1,56 @@
+##### rpchat:new_kid
+main#app.scr-rpchat 0..677 w320 
+  header.top 14..90 w288 sticky
+    button.back 28..76 w48 
+    h1 42..62 w99 
+    div.pill.gem 38..66 w53 
+      b.gemN 43..61 w16 
+    div.pill.candy 38..66 w69 
+      b.candyN 43..61 w31 
+  div.page.rp 90..651 w288 
+    div.rp-role 94..268 w288 
+      b 104..171 w264 
+      small 175..231 w264 
+      details 235..258 w264 
+        summary 235..258 w264 
+        ul 262..351 w264 
+          li 262..284 w244 
+          li 284..329 w244 
+          li 329..351 w244 
+    div#rpl.rp-log 276..496 w288 
+      div.msg.cat 296..446 w227 relative
+        span.rp-av 401..436 w36 
+        div.bub 306..436 w127 
+    div.chat-bar 504..568 w288 sticky
+      input#rpin 510..562 w176 
+      button#rpmic.mic 511..561 w50 
+      button#rpsend.send 511..561 w50 
+    div.row-btns 580..651 w288 
+      button#rpend.btn.mint 580..651 w288 
+##### ideas:uses
+main#app.scr-ideas 0..596 w320 
+  header.top 14..90 w288 sticky
+    button.back 28..76 w48 
+    h1 42..62 w99 
+    div.pill.gem 38..66 w53 
+      b.gemN 43..61 w16 
+    div.pill.candy 38..66 w69 
+      b.candyN 43..61 w31 
+  div.page.idea 90..559 w288 
+    div.idea-prompt 94..325 w288 
+      div.big-emoji 108..198 w260 
+      h2 202..227 w260 
+      p 231..298 w260 
+        b 253..275 w92 
+    div.idea-bar 335..357 w284 
+      span 335..357 w86 
+        b#icnt 335..357 w10 
+      span 335..357 w60 
+        b#itime 335..357 w29 
+    div.fr-add 363..428 w288 
+      input#iin.nmi 363..428 w220 
+      button#iadd.btn.pink 363..428 w60 
+    div#ilist.idea-list 438..438 w288 
+    div.row-btns 450..500 w288 
+      button#idone.btn.mint 450..500 w114 
+    p.small.center 500..559 w288 

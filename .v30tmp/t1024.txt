@@ -1,0 +1,30 @@
+OK  practice:mul                 ans=.cell.target 395,449 | ctl=.pad 402,634 keys=12 | VH=768 doc=768 cc=sticky 160..634  
+BAD practice:eq                  ans=.eql.last 311,360 | ctl=-  keys=0 | VH=768 doc=768 cc=sticky 240..527  
+BAD lesson:mul                   ans=-  | ctl=-  keys=0 | VH=768 doc=768 cc=  
+BAD lesson:eq                    ans=-  | ctl=-  keys=0 | VH=768 doc=768 cc=  
+BAD bugs                         ans=.ask 423,493 | ctl=-  keys=0 | VH=768 doc=768 cc=static 196..505  
+OK  bugs2                        ans=-  | ctl=.opts 227,275 keys=2 | VH=768 doc=768 cc=  
+OK  drill:div                    ans=.ask-eq .inp 140,180 | ctl=.pad 180,466 keys=12 | VH=768 doc=768 cc=  
+OK  drill:mixall                 ans=.ask-eq .inp 140,180 | ctl=.pad 180,466 keys=12 | VH=768 doc=768 cc=  
+OK  blitzrun                     ans=.bz-q .inp 264,352 | ctl=.pad 368,614 keys=11 | VH=768 doc=768 cc=  
+OK  colwork:div                  ans=.ask 416,463 | ctl=.opts 481,529 keys=2 | VH=768 doc=768 cc=  
+OK  colwork:add                  ans=.ask .inp 482,510 | ctl=.pad 528,760 keys=12 | VH=768 doc=845 cc=  
+OK  casetask-mul                 ans=.cell.target 390,444 | ctl=.pad 345,577 keys=11 | VH=768 doc=768 cc=sticky 155..630  
+OK  casetask-eq                  ans=.ask .inp 366,417 | ctl=.pad 441,673 keys=12 | VH=768 doc=772 cc=sticky 155..726  
+BAD casetask-bug                 ans=.ask 382,473 | ctl=-  keys=0 | VH=768 doc=768 cc=static 155..485  
+BAD casetask-interro             ans=-  | ctl=-  keys=0 | VH=768 doc=768 cc=  
+OK  game:scales                  ans=-  | ctl=.opts 508,688 keys=3 | VH=768 doc=768 cc=  
+BAD game:interro                 ans=-  | ctl=-  keys=0 | VH=768 doc=768 cc=  
+BAD game:color                   ans=-  | ctl=-  keys=0 | VH=768 doc=946 cc=  
+OK  game:safe                    ans=.ask-eq .inp 434,486 | ctl=.pad 486,732 keys=12 | VH=768 doc=778 cc=  
+BAD game:logic                   ans=-  | ctl=-  keys=0 | VH=768 doc=942 cc=  
+BAD game:memo                    ans=-  | ctl=-  keys=0 | VH=768 doc=768 cc=  
+OK  game:chase                   ans=.ask-eq .inp 308,360 | ctl=.pad 360,606 keys=11 | VH=768 doc=768 cc=  
+OK  game:pattern                 ans=-  | ctl=.opts 300,418 keys=4 | VH=768 doc=768 cc=  
+OK  game:estimate                ans=-  | ctl=.opts 272,466 keys=3 | VH=768 doc=768 cc=  
+OK  aquiz:safety:personal_data   ans=-  | ctl=.opts 339,536 keys=3 | VH=768 doc=768 cc=  
+OK  aquiz:math4:motion           ans=-  | ctl=.opts 337,594 keys=4 | VH=768 doc=768 cc=  
+OK  aquiz:math4:data_logic       ans=.ask-eq .inp 470,522 | ctl=.pad 522,768 keys=12 | VH=768 doc=861 cc=  
+OK  aquiz:obzh:burns             ans=-  | ctl=.opts 339,536 keys=3 | VH=768 doc=768 cc=  
+BAD aquiz:think:fact_opinion     ans=-  | ctl=-  keys=0 | VH=768 doc=768 cc=  
+OK  rescue                       ans=-  | ctl=.rs-opts 294,547 keys=5 | VH=768 doc=768 cc=  

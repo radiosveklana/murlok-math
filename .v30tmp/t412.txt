@@ -1,0 +1,21 @@
+OK  practice:mul                 ans=.cell.target 384,422 | ctl=.pad 637,823 keys=12 | VH=915 doc=915 cc=sticky 506..831  
+BAD practice:eq                  ans=.eql.last 269,317 | ctl=-  keys=0 | VH=915 doc=915 cc=sticky 325..551  
+BAD lesson:mul                   ans=-  | ctl=-  keys=0 | VH=915 doc=915 cc=  
+BAD lesson:eq                    ans=-  | ctl=-  keys=0 | VH=915 doc=915 cc=  
+BAD bugs                         ans=.ask 650,725 | ctl=-  keys=0 | VH=915 doc=915 cc=static 458..725  
+Ошибка: Не удается завершить процесс с идентификатором 35532, дочерний процесса 33492.
+Причина: Ни один из экземпляров этого задания не запущен.
+C:\Users\izzye\projects\murlok-math\tools\e2e\node_modules\puppeteer-core\lib\cjs\puppeteer\util\Deferred.js:60
+            this.#timeoutError = new Errors_js_1.TimeoutError(opts.message);
+                                 ^
+
+TimeoutError: Navigation timeout of 30000 ms exceeded
+    at new Deferred (C:\Users\izzye\projects\murlok-math\tools\e2e\node_modules\puppeteer-core\lib\cjs\puppeteer\util\Deferred.js:60:34)
+    at Deferred.create (C:\Users\izzye\projects\murlok-math\tools\e2e\node_modules\puppeteer-core\lib\cjs\puppeteer\util\Deferred.js:21:16)
+    at new LifecycleWatcher (C:\Users\izzye\projects\murlok-math\tools\e2e\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\LifecycleWatcher.js:69:60)
+    at CdpFrame.goto (C:\Users\izzye\projects\murlok-math\tools\e2e\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\Frame.js:149:29)
+    at CdpFrame.<anonymous> (C:\Users\izzye\projects\murlok-math\tools\e2e\node_modules\puppeteer-core\lib\cjs\puppeteer\util\decorators.js:109:27)
+    at CdpPage.goto (C:\Users\izzye\projects\murlok-math\tools\e2e\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:574:43)
+    at C:\Users\izzye\projects\murlok-math\.claude\worktrees\agent-a8427356e6acc5b36\.v30tmp\task.js:14:13
+
+Node.js v22.14.0

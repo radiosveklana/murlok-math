@@ -1,0 +1,345 @@
+##### game:safe
+main#app.scr-game 0..866 w320 
+  header.top 0..76 w288 sticky
+    button.back 14..62 w48 
+    h1 28..48 w99 
+    div.pill.gem 24..52 w53 
+      b.gemN 29..47 w16 
+    div.pill.candy 24..52 w69 
+      b.candyN 29..47 w31 
+  div.page.game-page 76..820 w288 
+    div.g-head 80..118 w288 
+      div#gdots.g-dots 91..107 w82 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+      div.pill 80..118 w66 
+        b#gsc 88..110 w10 
+    div.helper 128..295 w288 relative
+      div.mini-cat 128..211 w70 
+        svg 128..211 w70 
+      div#gbub.bubble.pop 128..295 w208 relative
+        b 164..211 w120 
+    div#garea 307..820 w288 
+      div.safe 307..507 w240 relative
+        div.safe-door 323..491 w208 absolute
+          div.dial 351..397 w170 
+          div.safe-wheel 398..472 w74 
+      div.ask-eq 517..558 w288 
+        span#sin.inp 517..558 w34 
+      div.pad 558..820 w288 
+        button.k 558..616 w89 
+        button.k 558..616 w89 
+        button.k 558..616 w89 
+        button.k 626..684 w89 
+        button.k 626..684 w89 
+        button.k 626..684 w89 
+        button.k 694..752 w89 
+        button.k 694..752 w89 
+        button.k 694..752 w89 
+        button.k.fn 762..820 w89 
+        button.k 762..820 w89 
+        button.k.ok 762..820 w89 
+    div#gafter.after 826..826 w288 
+##### game:chase
+main#app.scr-game 0..740 w320 
+  header.top 14..90 w288 sticky
+    button.back 28..76 w48 
+    h1 42..62 w99 
+    div.pill.gem 38..66 w53 
+      b.gemN 43..61 w16 
+    div.pill.candy 38..66 w69 
+      b.candyN 43..61 w31 
+  div.page.game-page 90..708 w288 
+    div.g-head 94..132 w288 
+      div#gdots.g-dots 113..113 w0 
+      div.pill 94..132 w66 
+        b#gsc 102..124 w10 
+    div.helper 142..309 w288 relative
+      div.mini-cat 142..225 w70 
+        svg 142..225 w70 
+      div#gbub.bubble.pop 146..306 w200 relative
+    div#garea 321..708 w288 
+      div.track 321..391 w288 relative
+        span#rc.runner.c 333..389 w55 absolute
+        span#rt.runner.t 333..408 w51 absolute
+          span.pt.chibi-pt 333..393 w51 relative
+        span.finish 335..383 w47 absolute
+      div#cq.ask-eq 405..446 w288 
+        span.inp 405..446 w34 
+      div.pad 446..708 w288 
+        button.k 446..504 w89 
+        button.k 446..504 w89 
+        button.k 446..504 w89 
+        button.k 514..572 w89 
+        button.k 514..572 w89 
+        button.k 514..572 w89 
+        button.k 582..640 w89 
+        button.k 582..640 w89 
+        button.k 582..640 w89 
+        button.k.fn 650..708 w89 
+        button.k 650..708 w89 
+        span 650..708 w89 
+    div#gafter.after 714..714 w288 
+##### game:scales
+main#app.scr-game 0..845 w320 
+  header.top 0..76 w288 sticky
+    button.back 14..62 w48 
+    h1 28..48 w99 
+    div.pill.gem 24..52 w53 
+      b.gemN 29..47 w16 
+    div.pill.candy 24..52 w69 
+      b.candyN 29..47 w31 
+  div.page.game-page 76..799 w288 
+    div.g-head 80..118 w288 
+      div#gdots.g-dots 91..107 w104 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+      div.pill 80..118 w66 
+        b#gsc 88..110 w10 
+    div.helper 128..271 w288 relative
+      div.mini-cat 128..211 w70 
+        svg 128..211 w70 
+      div#gbub.bubble.pop 128..271 w208 relative
+        b 140..163 w10 
+        b 188..211 w31 
+    div#garea 311..799 w288 
+      div.scales 311..561 w288 relative
+        div.beam 381..391 w253 absolute
+          div.pan.l 391..391 w117 absolute
+          div.pan.r 391..391 w117 absolute
+        div.pivot 385..455 w60 absolute
+      div.eqline 571..609 w288 
+        i.x 574..604 w15 
+      div#sq 619..799 w288 
+        div.opts 619..799 w288 
+          button.opt.wide 619..674 w288 
+          button.opt.wide 682..736 w288 
+          button.opt.wide 744..799 w288 
+    div#gafter.after 805..805 w288 
+##### colwork:add
+main#app.scr-colwork 0..847 w320 
+  header.top 0..76 w288 sticky
+    button.back 14..62 w48 
+    h1 28..48 w99 
+    div.pill.gem 24..52 w53 
+      b.gemN 29..47 w16 
+    div.pill.candy 24..52 w69 
+      b.candyN 29..47 w31 
+  div.page.task-page.col-page 76..801 w288 
+    div.task-head.wrap 80..120 w288 
+      div.seg.lv 80..120 w251 
+        button.on 83..117 w81 
+        button 83..117 w75 
+        button 83..117 w77 
+      div.seg.mode 80..120 w162 
+        button.on 83..117 w85 
+        button 83..117 w65 
+      div.seg.ops 80..120 w74 
+        button.on 83..117 w31 
+        button 83..117 w31 
+    div.helper 128..247 w288 relative
+      div.mini-cat 128..211 w70 
+        svg 128..211 w70 
+      div#cbub.bubble.pop 128..247 w208 relative
+        b 164..187 w76 
+        b 164..187 w8 
+    div#cwork 259..801 w288 
+      div.task-title 259..293 w288 
+      div.paper 301..477 w288 
+        div.agrid 309..469 w168 
+          span.ac.carry 349..349 w28 
+          span.ac.carry 349..349 w28 
+          span.ac.carry 349..349 w28 
+          span.ac.carry 349..349 w28 
+          span.ac.carry 349..349 w28 
+          span.ac.carry 349..349 w28 
+          span.ac 349..389 w28 
+          span.ac 349..389 w28 
+          span.ac 349..389 w28 
+          span.ac 349..389 w28 
+          span.ac 349..389 w28 
+          span.ac.hl 349..389 w28 
+          span.ac.ul 389..429 w28 
+          span.ac.ul 389..429 w28 
+      div#cask.ask 477..527 w288 
+        span#cv.inp 489..515 w21 
+      div#cin 539..801 w288 
+        div.pad 539..801 w288 
+          button.k 539..597 w89 
+          button.k 539..597 w89 
+          button.k 539..597 w89 
+          button.k 607..665 w89 
+          button.k 607..665 w89 
+          button.k 607..665 w89 
+          button.k 675..733 w89 
+          button.k 675..733 w89 
+          button.k 675..733 w89 
+          button.k.fn 743..801 w89 
+          button.k 743..801 w89 
+          button.k.ok 743..801 w89 
+    div#cafter.after 807..807 w288 
+##### colwork:div
+main#app.scr-colwork 0..742 w320 
+  header.top 0..76 w288 sticky
+    button.back 14..62 w48 
+    h1 28..48 w99 
+    div.pill.gem 24..52 w53 
+      b.gemN 29..47 w16 
+    div.pill.candy 24..52 w69 
+      b.candyN 29..47 w31 
+  div.page.task-page.col-page 76..696 w288 
+    div.task-head.wrap 80..120 w288 
+      div.seg.lv 80..120 w525 
+        button.on 83..117 w125 
+        button 83..117 w144 
+        button 83..117 w115 
+        button 83..117 w117 
+      div.seg.mode 80..120 w162 
+        button.on 83..117 w85 
+        button 83..117 w65 
+    div.helper 128..342 w288 relative
+      div.mini-cat 128..211 w70 
+        svg 128..211 w70 
+      div#cbub.bubble.pop 128..342 w208 relative
+        b 140..163 w31 
+        b 140..163 w10 
+        b 188..234 w147 
+    div#cwork 354..696 w288 
+      div.task-title 354..388 w288 
+      div.divbox 398..501 w188 
+        div.dgrid 412..487 w86 
+          span.dc 412..444 w26 relative
+          span.dc 412..444 w26 relative
+          span.dc 412..444 w26 relative
+        div.dright 412..487 w70 
+          div.dvs 412..450 w67 
+          div.dq 450..487 w67 
+      div#cask.ask 511..580 w288 
+      div#cin 592..696 w288 
+        div.opts 592..696 w288 
+          button.opt 592..640 w140 
+          button.opt 592..640 w140 
+          button.opt 648..696 w140 
+    div#cafter.after 702..702 w288 
+##### blitzrun
+main#app.scr-blitz 0..658 w320 
+  header.top 14..90 w288 sticky
+    button.back 28..76 w48 
+    h1 42..62 w99 
+    div.pill.gem 38..66 w53 
+      b.gemN 43..61 w16 
+    div.pill.candy 38..66 w69 
+      b.candyN 43..61 w31 
+  div#bz.page.center.blitz 90..632 w288 
+    div.helper 94..177 w288 relative
+      div.mini-cat 94..177 w70 
+        svg 94..177 w70 
+      div#bzb.bubble 94..166 w208 relative
+      div.cheer 94..123 w90 absolute
+    div.timer 189..207 w288 
+      i#tb 189..207 w281 
+    div.bz-score 217..250 w288 
+      b#sc 217..249 w14 
+    div#q.bz-q 262..354 w288 
+      span.inp 278..338 w53 
+    div.pad 370..632 w288 
+      button.k 370..428 w89 
+      button.k 370..428 w89 
+      button.k 370..428 w89 
+      button.k 438..496 w89 
+      button.k 438..496 w89 
+      button.k 438..496 w89 
+      button.k 506..564 w89 
+      button.k 506..564 w89 
+      button.k 506..564 w89 
+      button.k.fn 574..632 w89 
+      button.k 574..632 w89 
+      span 574..632 w89 
+##### aquiz:math4:motion
+main#app.scr-aquiz 0..822 w320 
+  header.top 0..76 w288 sticky
+    button.back 14..62 w48 
+    h1 28..48 w99 
+    div.pill.gem 24..52 w53 
+      b.gemN 29..47 w16 
+    div.pill.candy 24..52 w69 
+      b.candyN 29..47 w31 
+  div.page.aquiz 76..776 w288 
+    div.g-head 80..118 w288 
+      div.g-dots 91..107 w170 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+        i 91..107 w16 
+      div.pill 80..118 w66 
+        b#qsc 88..110 w10 
+    div.seg.genlv 128..225 w288 
+      button.on 133..174 w130 
+      button 133..174 w142 
+      button 180..220 w278 
+    div.helper 225..321 w288 relative
+      div.mini-cat 225..308 w70 
+        svg 225..308 w70 
+      div#qbub.bubble.pop 225..321 w208 relative
+    div#qarea 333..776 w288 
+      div.q-unit 333..351 w288 
+      div.q-text 359..465 w288 
+        b 385..411 w58 
+        b 412..465 w263 
+      div.ask-eq 473..514 w288 
+        span#qin.inp 473..514 w34 
+      div.pad 514..776 w288 
+        button.k 514..572 w89 
+        button.k 514..572 w89 
+        button.k 514..572 w89 
+        button.k 582..640 w89 
+        button.k 582..640 w89 
+        button.k 582..640 w89 
+        button.k 650..708 w89 
+        button.k 650..708 w89 
+        button.k 650..708 w89 
+        button.k.fn 718..776 w89 
+        button.k 718..776 w89 
+        button.k.ok 718..776 w89 
+    div#qafter.after 782..782 w288 
+##### rescue
+main#app.scr-rescue 0..683 w320 
+  header.top 0..76 w288 sticky
+    button.back 14..62 w48 
+    h1 28..48 w99 
+    div.pill.gem 24..52 w53 
+      b.gemN 29..47 w16 
+    div.pill.candy 24..52 w69 
+      b.candyN 29..47 w31 
+  div.page 76..643 w288 
+    div.g-dots 80..96 w288 
+      i 80..96 w16 
+      i 80..96 w16 
+      i 80..96 w16 
+      i 80..96 w16 
+      i 80..96 w16 
+    p.center.small 96..135 w288 
+      b 96..115 w80 
+    div#rq 146..643 w288 
+      div.q-case 146..215 w288 
+      div#rhint.r-hint 225..290 w288 
+        b 258..280 w64 
+      div#rdone.ord-ans 300..348 w288 
+        span.small 310..330 w268 
+      div.rs-opts 356..643 w288 
+        button.opt.case-opt 356..404 w226 
+        button.opt.case-opt 404..452 w228 
+        button.opt.case-opt 452..499 w248 
+        button.opt.case-opt 499..547 w243 
+        button.opt.case-opt 547..595 w211 
+        button.opt.case-opt 595..643 w185 
+      div#rwhy 643..643 w288 
