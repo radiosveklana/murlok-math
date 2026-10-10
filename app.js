@@ -294,7 +294,7 @@ function homeGreetOld() {
   const hi = h < 12 ? 'Доброе утро' : h < 18 ? 'Добрый день' : 'Добрый вечер';
   return pick([`${hi}, ${S.kid}! Мур-р 😺`, `${S.kid}, я так по тебе соскучился! 🐾`, st >= 2 ? `Уже ${st} ${plural(st, 'день', 'дня', 'дней')} подряд! Ты молодец! 🔥` : 'Погладь меня — я замурлычу! 🐾', t >= 5 ? 'Задание дня выполнено! Я горжусь тобой!' : `Решим ещё ${5 - t} ${plural(5 - t, 'задачу', 'задачи', 'задач')} для задания дня?`, (!S.lessons.mul || !S.lessons.eq) ? 'Начнём со Школы сыщика? Я всё объясню!' : 'Возьмём новое дело? Сладкоград ждёт! 🍬']);
 }
-const NO_FLOAT = ['home', 'hello', 'casetask', 'practice', 'bugs', 'parents', 'lesson', 'blitz', 'chat', 'game'];
+const NO_FLOAT = ['home', 'hello', 'caseintro', 'casetask', 'practice', 'bugs', 'parents', 'lesson', 'blitz', 'chat', 'game'];
 let curScreen = '', okRun = 0, lastCheer = 0;
 const mascot = document.createElement('div'); mascot.id = 'mascot'; mascot.hidden = true;
 mascot.innerHTML = '<div class="ms-bubble" hidden></div><button class="ms-cat" aria-label="Котик-напарник"></button>';
@@ -1267,9 +1267,11 @@ SCREENS.blitz = () => {
     $('#go').addEventListener('click', run);
   };
   const facts = []; for (let p = 2; p <= 9; p++) for (let q = 2; q <= 9; q++) facts.push([p, q]);
-  const pickFact = last => { const w = facts.map(([p, q]) => 1 + 4 * (S.facts[factKey(p, q)] || 0) + (p * q > 20 ? 1 : 0)); let tot = w.reduce((x, y) => x + y, 0), f; do { let r = Math.random() * tot; f = facts.find((_, i) => (r -= w[i]) < 0) || facts[0]; } while (last && f[0] === last[0] && f[1] === last[1]); return f; };
+  // в одном забеге пример не повторяется, пока не пройдены все остальные; пример с ошибкой возвращается (его убирают из «пройденных»)
+  const usedF = new Set();
+  const pickFact = last => { if (usedF.size >= facts.length - 1) usedF.clear(); const w = facts.map(([p, q]) => usedF.has(factKey(p, q)) ? 0 : 1 + 4 * (S.facts[factKey(p, q)] || 0) + (p * q > 20 ? 1 : 0)); let tot = w.reduce((x, y) => x + y, 0), f, g = 0; do { let r = Math.random() * tot; f = facts.find((_, i) => w[i] && (r -= w[i]) < 0) || facts.find((_, i) => w[i]) || facts[0]; } while (last && f[0] === last[0] && f[1] === last[1] && ++g < 20); usedF.add(factKey(f[0], f[1])); return f; };
   const run = () => {
-    let score = 0, f = pickFact(), buf = '', left = 60, lock = false; const misses = [];
+    usedF.clear(); let score = 0, f = pickFact(), buf = '', left = 60, lock = false; const misses = [];
     box.innerHTML = `${helperHTML('bzb')}<div class="timer"><i id="tb"></i></div><div class="bz-score">✔ <b id="sc">0</b></div><div class="bz-q" id="q"></div>${numpad(false)}`;
     $('#bzb').innerHTML = `Быстрее, лапки, ${esc(S.kid)}! ⚡`; speakT(PH.blitzGo[0]);
     const q = $('#q'), draw = () => { q.innerHTML = `${f[0]} × ${f[1]} = <span class="inp">${buf || '?'}</span>`; };
@@ -1282,7 +1284,7 @@ SCREENS.blitz = () => {
         if (lock) return; buf += d; draw(); const ans = String(f[0] * f[1]);
         if (buf.length >= ans.length) {
           if (buf === ans) { score++; $('#sc').textContent = score; SND.tap(); catMood('happy', 500); cheer(true); q.classList.add('ok'); setTimeout(() => q.classList.remove('ok'), 150); f = pickFact(f); buf = ''; draw(); }
-          else { lock = true; SND.bad(); noteErr('tbl', factKey(f[0], f[1])); misses.push(`${f[0]} × ${f[1]} = ${ans}`); q.innerHTML = `${f[0]} × ${f[1]} = <span class="inp bad">${ans}</span>`; setTimeout(() => { lock = false; f = pickFact(f); buf = ''; draw(); }, 1100); }
+          else { lock = true; SND.bad(); usedF.delete(factKey(f[0], f[1])); noteErr('tbl', factKey(f[0], f[1])); misses.push(`${f[0]} × ${f[1]} = ${ans}`); q.innerHTML = `${f[0]} × ${f[1]} = <span class="inp bad">${ans}</span>`; setTimeout(() => { lock = false; f = pickFact(f); buf = ''; draw(); }, 1100); }
         }
       },
       back: () => { buf = buf.slice(0, -1); draw(); },

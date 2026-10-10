@@ -324,7 +324,9 @@ typeof SCREENS !== 'undefined' && (function () {
   /* ---- чтение на время с вопросами на понимание ---- */
   SCREENS.rtext = idx => {
     const readT = R().readT = R().readT || R().wpm.map(x => x.t); // какие тексты уже читали (вопросы к ним ребёнок помнит)
-    const fresh = TEXTS.map((x, k) => k).filter(k => !readT.includes(TEXTS[k].t));
+    // уровень текста — по скорости ребёнка (последний честный замер): до 70 слов/мин — 1, до 110 — 2, быстрее — 3; тексты без уровня подходят всем
+    const lastW = (R().wpm || []).filter(x => x.wpm <= 400).slice(-1)[0], myLv = !lastW ? 1 : lastW.wpm < 70 ? 1 : lastW.wpm < 110 ? 2 : 3;
+    const fresh0 = TEXTS.map((x, k) => k).filter(k => !readT.includes(TEXTS[k].t)), fitLv = fresh0.filter(k => !TEXTS[k].lv || TEXTS[k].lv === myLv), fresh = fitLv.length ? fitLv : fresh0;
     const i = idx != null && idx !== '' ? +idx : fresh.length ? fresh[Math.floor(Math.random() * fresh.length)] : Math.floor(Math.random() * TEXTS.length), T = TEXTS[i], repeat = readT.includes(T.t);
     const words = T.w.split(/\s+/), last = R().wpm.slice(-1)[0], pace = last ? Math.round(last.wpm * 1.1) : 110;
     app.innerHTML = `${topbar('📖 Читаем на время', 'subject')}<div class="page"><div class="seg" id="mode"><button data-m="0" class="on">👀 Сам</button><button data-m="1">🐾 С указкой (${pace} сл/мин)</button></div>
