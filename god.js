@@ -7,7 +7,7 @@
   const on = () => { try { return localStorage.getItem(K) === '1'; } catch (e) { return false; } };
   window.GOD = on();
   // кабинет родителя сообщает, что этот взрослый — «бог»: запоминаем на устройстве
-  if (window.Accounts && Accounts.api) { const P = Accounts.parent(); if (P && P.token && !sessionStorage.getItem('godChk')) { sessionStorage.setItem('godChk', 1); Accounts.api('family', null, P.token).then(d => { const g = !!(d.family && d.family.god); try { g ? localStorage.setItem(K, '1') : localStorage.removeItem(K); } catch (e) { } if (g !== window.GOD) location.reload(); }).catch(() => { }); } }
+  if (window.Accounts && Accounts.api) { const P = Accounts.parent(); if (P && P.token) { Accounts.api('family', null, P.token).then(d => { const g = !!(d.family && d.family.god); try { g ? localStorage.setItem(K, '1') : localStorage.removeItem(K); } catch (e) { } if (g !== window.GOD) location.reload(); }).catch(() => { }); } }
   if (!window.GOD) return;
   // всё, что открывается «за решённые задачи» (комнаты, космос), — открыто
   const st0 = solvedTotal; solvedTotal = function () { return Math.max(st0.apply(this, arguments), 100000); };

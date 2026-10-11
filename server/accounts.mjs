@@ -153,6 +153,14 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
       const s2 = auth(req, 'c'); if (!s2) return send(res, 401, { error: 'auth' }, origin); const f2 = A.families[s2.f], ch = A.children[s2.c]; if (!f2 || !ch) return send(res, 401, { error: 'auth' }, origin);
       return send(res, 200, { name: ch.name, priorities: f2.priorities || [], survey: ch.survey || null, cloudCode: ch.cloudCode, limits: isPlayer(ch) ? null : (ch.limits || null), role: isPlayer(ch) ? 'adult-player' : 'child' }, origin);
     }
+    if (r === 'child/adopt' && req.method === 'POST') { // ребёнок вошёл по семейному коду и картинке-ПИНу; в облаке у записи пусто — берём игру с этого планшета
+      const s2 = auth(req, 'c'); if (!s2) return send(res, 401, { error: 'auth' }, origin); const ch = A.children[s2.c]; if (!ch) return send(res, 401, { error: 'auth' }, origin);
+      const d = await J(), code = String(d.cloudCode || '').toUpperCase(); if (!/^[A-Z0-9]{8}$/.test(code)) return send(res, 400, { error: 'code' }, origin);
+      if (code !== ch.cloudCode) { const old = readSave(ch.cloudCode); if (old && (old.xp || 0) > 0) return send(res, 400, { error: 'busy' }, origin);
+        if (Object.values(A.children).some(c => c.cloudCode === code && c.id !== ch.id)) return send(res, 400, { error: 'taken' }, origin);
+        try { fs.rmSync(path.join(SAVE_DIR, ch.cloudCode + '.json'), { force: true }); } catch { } ch.cloudCode = code; touch(); }
+      return send(res, 200, { cloudCode: ch.cloudCode }, origin);
+    }
     if (r === 'pending' && req.method === 'POST') { // начисления/восстановление от админа — ребёнок забирает при входе
       const d = await J(), code = String(d.code || '').toUpperCase(); const p = A.pending[code]; if (!p) return send(res, 200, { items: [] }, origin);
       delete A.pending[code]; touch(); return send(res, 200, { items: p }, origin);
