@@ -369,13 +369,9 @@ const StarMap = (() => {
     build(); hud(); size(); draw();
     StarMap._open = open;
   };
-  /* телескоп в домике (обсерватория и вещи-телескопы) открывает карту — только касанием, не перетаскиванием */
-  let down = null;
-  document.addEventListener('pointerdown', e => { const f = e.target.closest('.room:not(.guest) .fx'); down = f ? { id: f.dataset.id, x: e.clientX, y: e.clientY } : null; }, true);
-  document.addEventListener('pointerup', e => {
-    if (!down || !/^(fx_tscope|fx_starmap|fx_window|telescope2|scope|galaxy)$/.test(down.id) || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 12) return; down = null;
-    setTimeout(() => { if (curScreen === 'house' && !$('.modal')) go('starmap', 'house'); }, 1300); // котик договаривает — и открывается звёздное небо
-  }, true);
+  /* v31: вещи в домике сами решают, куда вести: телескопы → космическая аркада (или подсказка + карта звёзд),
+     звёздная карта и «галактика» → это небо. Всё — в housefun.js, после анимации котика (без двойного перехода). */
+  const HOUSE_SKY = ['fx_starmap', 'galaxy'];
   const total = () => window.SKY ? Object.keys(window.SKY.cons).length : 88;
   const sp = (window.SUBJECTS || {}).space; if (sp) sp.extras = [...(sp.extras || []).filter(e => e.id !== 'starmap'), { id: 'starmap', icon: '🔭', name: 'Карта звёздного неба', run: () => go('starmap'), badge: () => (S.starsSeen || []).length ? `открыто ${(S.starsSeen || []).length} из ${total()}` : '', prog: () => Math.min(1, (S.starsSeen || []).length / total()) }];
   if (!NO_FLOAT.includes('starmap')) NO_FLOAT.push('starmap');
@@ -384,6 +380,6 @@ const StarMap = (() => {
   const where = id => { const e = st.drawn.find(d => d[0] === id); if (!e || !cv) return null; const r = cv.getBoundingClientRect(); return { x: r.left + e[1], y: r.top + e[2] - 4 }; };
   const proj = (ra, dec) => { const r = (90 - dec), a = ra / 24 * Math.PI * 2 - Math.PI / 2; return [500 + r * Math.cos(a), 500 + r * Math.sin(a)]; }; // старый экспорт
   const view = (z, px, py) => { st.z = z; st.px = px; st.py = py; if (ctx && cache) draw(); return debug(); };
-  return { proj, altAz, lst, debug, where, view, OLD };
+  return { proj, altAz, lst, debug, where, view, OLD, HOUSE_SKY };
 })();
 window.StarMap = StarMap;

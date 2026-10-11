@@ -4,6 +4,7 @@ const HL = window.Lines;
 const OLD_FURN = { sofa: 20, plant: 10, pic: 15, tv: 30, fishtank: 40, clock: 20, bowl: 10, milk: 10, cake: 25, cookies: 15, teapot: 20, cupcakes: 35, bed: 30, teddy: 15, lamp: 15, books: 20, lights: 25, pillow: 15, map: 20, dossier: 15, flash: 15, phone: 20, puzzle: 25, case: 20, yarn: 10, balloons: 15, ball: 10, game: 30, kite: 15, paint: 20, tree: 25, sunflower: 15, fountain: 50, butterfly: 15, mushroom: 10, ladybug: 10, scope: 50, planet: 30, moon: 20, star: 15, rocket: 60, ufo: 70 };
 const CARE_RATE = { food: 5, water: 7, fun: 6, energy: 4, clean: 3 }; // убывание в час
 const catItem = id => HL.CATALOG.find(c => c[0] === id);
+const anyItem = id => { const c = catItem(id); if (c) return { icon: c[1], name: c[2] }; const f = fxFind(id); return f ? { icon: f[1], name: f[2] } : null; }; // вещь из каталога или убранная в сундук встроенная
 const GEM_FURN = { unicorn: 6, castle: 8, dragon: 10, carousel: 12, ferris: 15, gem: 5 }; // особые вещи — только за 💎
 /* аниме-наклейки вещей (img/items), если нарисованы; иначе эмодзи */
 let ITEM_IMG = new Set(), ROOM_IMG = new Set();
@@ -20,6 +21,8 @@ function lockText(r) { const t = Math.max(0, r.need - solvedTotal()), e = Math.m
 
 /* переход со старого домика: возвращаем конфеты за прежнюю мебель */
 function houseMigrate() {
+  // v31: плита на кухне была добавлена автоматически и не убиралась — убираем её из сохранений (без возврата: она была бесплатной)
+  if (S.place) Object.keys(S.place).forEach(k => { const a = S.place[k]; if (Array.isArray(a) && a.some(p => p.id === 'fx_stove')) { S.place[k] = a.filter(p => p.id !== 'fx_stove'); S.place[k].forEach(p => { if (p.on === 'fx_stove') p.on = null; }); save(); } });
   if (S.houseV === 2) return;
   let refund = 0; (S.furn || []).forEach(id => { refund += OLD_FURN[id] || 0; });
   S.furn = []; S.place = {}; S.catAt = {}; S.houseV = 2;
@@ -45,15 +48,20 @@ function careAlertHTML() {
   return `<button class="care-alert" data-go="house" data-arg="${C.room}">😿 ${C.low} <b>→</b></button>`;
 }
 
+/* v31: мелкие «встроенные» украшения можно убрать в сундук и вернуть; главные вещи комнаты (миска, кровать, ванна…) остаются на месте */
+const RM_FX = new Set(['fx_lamp', 'fx_duck', 'fx_soap', 'fx_tulip', 'fx_ring', 'fx_notes', 'fx_flake', 'fx_banner']);
+const fxFind = id => { for (const r of HL.ROOMS) { const f = r.fixed.find(x => x[0] === id); if (f) return f; } return null; };
+const fxStash = () => (S.fxStash = S.fxStash || []);
 function roomPlace(room) {
   S.place = S.place || {}; S.catAt = S.catAt || {};
-  if (!S.place[room.id]) { S.place[room.id] = room.fixed.map(f => ({ id: f[0], x: f[3], y: f[4] })); save(); }
-  room.fixed.forEach(f => { if (!S.place[room.id].some(p => p.id === f[0])) S.place[room.id].push({ id: f[0], x: f[3], y: f[4] }); });
+  const skip = id => fxStash().includes(id) || placedIds().includes(id);
+  if (!S.place[room.id]) { S.place[room.id] = room.fixed.filter(f => !skip(f[0])).map(f => ({ id: f[0], x: f[3], y: f[4] })); save(); }
+  room.fixed.forEach(f => { if (!skip(f[0])) S.place[room.id].push({ id: f[0], x: f[3], y: f[4] }); });
   return S.place[room.id];
 }
 function placedIds() { return Object.values(S.place || {}).flat().map(p => p.id); }
 function itemInfo(room, id) {
-  const f = room.fixed.find(x => x[0] === id); if (f) return { icon: f[1], name: f[2], care: f[5], line: f[6], fixed: true };
+  const f = room.fixed.find(x => x[0] === id) || fxFind(id); if (f) return { icon: f[1], name: f[2], care: f[5], line: f[6], fixed: !RM_FX.has(id), fx: true };
   const c = catItem(id); return c ? { icon: c[1], name: c[2], line: c[6], cat: c[5], wall: !!c[7] } : null;
 }
 
@@ -66,7 +74,7 @@ const FSIZE = { fx_bed: 30, fx_sofa: 28, fx_tub: 27, fx_bowl: 8, fx_water: 8, fx
   star: 8, moon: 12, planet: 15, rocket: 19, ufo: 17, alien: 12, sunflower: 13, cactus: 11, mushroom: 8, tree: 28, snowman: 17, fountain: 24 };
 const CAT_W = 15;
 // «полки»: у этих вещей есть верх, на который можно поставить небольшую вещь (полка на стене → на ней магический шар)
-const SURF = new Set(['wallshelf', 'table', 'dresser', 'bookcase', 'fx_desk', 'fx_shelf', 'piano', 'fx_stove', 'chair', 'tv', 'fx_panel', 'fx_mixer', 'safe2', 'fireplace', 'lego', 'dollhouse', 'console', 'fx_throne']);
+const SURF = new Set(['wallshelf', 'table', 'dresser', 'bookcase', 'fx_desk', 'fx_shelf', 'piano', 'chair', 'tv', 'fx_panel', 'fx_mixer', 'safe2', 'fireplace', 'lego', 'dollhouse', 'console', 'fx_throne']);
 const SMALL = id => (FSIZE[id] || 10) <= 14; // ставить сверху можно только небольшие вещи
 SCREENS.house = (roomId) => {
   houseMigrate();
@@ -92,7 +100,7 @@ SCREENS.house = (roomId) => {
     $$('.rtab', app).forEach(b => b.addEventListener('click', () => { if (busy) return; cur = ROOMS.find(r => r.id === b.dataset.r); placing = null; SND.tap(); drawTabs(); drawRoom(); }));
     $('.rtab.on', app)?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
   };
-  const invList = () => S.furn.filter(id => !placedIds().includes(id) && catItem(id));
+  const invList = () => S.furn.filter(id => !placedIds().includes(id) && catItem(id)).concat(fxStash().filter(id => fxFind(id) && !placedIds().includes(id)));
   const hint = t => { $('#hint').innerHTML = t; };
   const drawRoom = () => {
     const open = roomOpen(cur), n = solvedTotal();
@@ -105,12 +113,12 @@ SCREENS.house = (roomId) => {
       ${pl.map(p => itemHTML(p, low)).join('')}
       <div class="room-cat" id="rcat" style="left:${cat.x}%;bottom:${cat.y}%;z-index:${zOf(cat.y) + 1}">${myCat()}</div>
       <div class="trash" id="trash">🗑️<small>в сундук</small></div>
-      ${placing ? `<div class="ghost" id="ghost" style="--s:${FSIZE[placing] || 10}">${icon(placing, catItem(placing)[1])}</div>` : ''}
+      ${placing ? `<div class="ghost" id="ghost" style="--s:${FSIZE[placing] || 10}">${icon(placing, anyItem(placing).icon)}</div>` : ''}
       ${open ? '' : `<div class="room-lock"><div class="big-emoji">🔒</div><h3>«${cur.name}»</h3><p>Чтобы открыть, реши <b>${lockText(cur)}</b>.</p><div class="bar"><i style="width:${Math.min(1, (Math.min(n, cur.need) + Math.min(S.st.eq.done, cur.eq || 0)) / (cur.need + (cur.eq || 0) || 1)) * 100}%"></i></div><p class="small">Задач: ${n} из ${cur.need} · уравнений: ${S.st.eq.done} из ${cur.eq || 0}</p>${(cur.eq || 0) > S.st.eq.done ? '<button class="btn pink sm" id="goeq">📦 Решать уравнения</button>' : ''}</div>`}`;
     $('#invn').textContent = invList().length || '';
     drawCare();
     if (!open) { hint(''); say((cur.eq || 0) > S.st.eq.done ? PH.quest[0] : PH.room[1]); const ge = $('#goeq'); if (ge) ge.addEventListener('click', goEquations); return; }
-    hint(placing ? `👆 Нажми в комнате туда, куда поставить <b>${catItem(placing)[2]}</b>` : `${cur.care}. Нажми на вещь — котик ею воспользуется. Вещи и котика можно <b>перетаскивать пальцем</b>, а лишнее — утащить на 🗑️.`);
+    hint(placing ? `👆 Нажми в комнате туда, куда поставить <b>${anyItem(placing).name}</b>` : `${cur.care}. Нажми на вещь — котик ею воспользуется. Вещи и котика можно <b>перетаскивать пальцем</b>, а лишнее — утащить на 🗑️.`);
     $$('.fx', roomEl).forEach(b => pointerItem(b));
     pointerItem($('#rcat'), true);
   };
@@ -122,7 +130,7 @@ SCREENS.house = (roomId) => {
     return `<button class="fx ${it.fixed ? 'fixed' : ''} ${needK && low.includes(needK) ? 'needs' : ''} ${p.on ? 'onshelf' : ''}" data-id="${p.id}" data-on="${p.on || ''}" style="left:${p.x}%;bottom:${p.y}%;z-index:${zz};--s:${FSIZE[p.id] || 10}">${icon(p.id, it.icon)}${it.care ? `<small class="ctag">${{ food: '🍽️', water: '💧', sleep: '💤', play: '🎾', wash: '🫧', rest: '🛋️' }[it.care]}</small>` : ''}</button>`;
   }
   const FLOOR = 30; // верх пола в % высоты комнаты
-  const isWall = id => { const c = catItem(id); if (c) return !!c[7]; const f = cur.fixed.find(x => x[0] === id); return f ? f[4] > FLOOR : false; };
+  const isWall = id => { const c = catItem(id); if (c) return !!c[7]; const f = fxFind(id); return f ? f[4] > FLOOR : false; };
   function surfaceUnder(el, id, y) { // самая высокая поверхность под вещью, на которую её отпустили сверху
     if (!SMALL(id) || SURF.has(id)) return null; const me = boxOf(el), cx = (me.l + me.r) / 2; let best = null;
     $$('.fx', roomEl).forEach(o => { if (o === el || !SURF.has(o.dataset.id)) return; const b = boxOf(o), R = roomEl.getBoundingClientRect(), top = b.y + o.getBoundingClientRect().height / R.height * 100 * 0.9;
@@ -169,7 +177,7 @@ SCREENS.house = (roomId) => {
         const over = trash.classList.contains('over'); trash.classList.remove('over'); M.haptic(10);
         if (isCat) { const y = settle(el, null, xy[1], true); setTimeout(() => { const x = unblock(el, true); S.catAt[cur.id] = { x, y }; save(); }, 420); el.style.zIndex = zOf(y) + 1; return; }
         const pl = roomPlace(cur), p = pl.find(q => q.id === el.dataset.id);
-        if (over && !el.classList.contains('fixed')) { S.place[cur.id] = pl.filter(q => q !== p); save(); say(HL.HOUSE_PH[1]); M.sfx('pop'); drawRoom(); return; }
+        if (over && !el.classList.contains('fixed')) { S.place[cur.id] = pl.filter(q => q !== p); if (fxFind(p.id) && !fxStash().includes(p.id)) fxStash().push(p.id); save(); say(HL.HOUSE_PH[1]); M.sfx('pop'); drawRoom(); return; }
         const ox = p.x, oy = p.y; p.x = xy[0]; p.y = settle(el, p.id, xy[1]); p.on = el.dataset.on || null; if (!p.on) el.style.zIndex = zOf(p.y); M.sfx('pop');
         if (SURF.has(p.id)) roomPlace(cur).filter(z => z.on === p.id).forEach(z => { z.x += p.x - ox; z.y += p.y - oy; const ze = $(`.fx[data-id="${z.id}"]`, roomEl); if (ze) { ze.style.left = z.x + '%'; ze.style.bottom = z.y + '%'; } });
         setTimeout(() => { if (!p.on) p.x = unblock(el); save(); }, 420); save();
@@ -183,7 +191,7 @@ SCREENS.house = (roomId) => {
     if (!placing) return; const R = roomEl.getBoundingClientRect();
     const x = Math.max(4, Math.min(96, (e.clientX - R.left) / R.width * 100)), y = Math.max(0, Math.min(88, (R.bottom - e.clientY) / R.height * 100 - 4));
     const wall = isWall(placing), py = wall ? Math.max(FLOOR + 4, Math.min(86, y)) : Math.min(y, FLOOR - 6);
-    roomPlace(cur).push({ id: placing, x, y: py }); save(); placing = null; confetti(10); M.sfx('pop'); say(HL.HOUSE_PH[0]); drawRoom();
+    roomPlace(cur).push({ id: placing, x, y: py }); S.fxStash = fxStash().filter(i => i !== placing); save(); placing = null; confetti(10); M.sfx('pop'); say(HL.HOUSE_PH[0]); drawRoom();
   });
 
   /* ---------- кот пользуется вещами ---------- */
@@ -207,6 +215,15 @@ SCREENS.house = (roomId) => {
   function interact(b) {
     const id = b.dataset.id, it = itemInfo(cur, id), c = careNow(), g = geo(b); if (!it) return;
     M.haptic(15);
+    // v31: у вещи есть своё «живое» действие (housefun.js): телескоп → космос, бассейн, микрофон, каток, фабрика…
+    if (window.HouseFun && HouseFun.has(id)) return run(async () => {
+      const near = () => catMoveTo(Math.max(6, Math.min(94, g.x + (g.x < 70 ? 1 : -1) * (g.w * 0.5 + CATW))), Math.min(g.y, 20), g.z + 1);
+      const X = { id, b, g, it, roomEl, cur, CATW, place: roomPlace(cur), catEl, catMoveTo, catBack, catFace, near, parts, wait, bump, anim, say };
+      anim(b, 'boing', 600);
+      let r = {}; try { r = await HouseFun.act(id, X); } catch (e) { console.warn(e); }
+      if (r.noBack || curScreen !== 'house' || !catEl()) return;
+      catFace({ happy: true }); if (!r.noLine) say(r.line || it.line); await wait(900); catBack();
+    });
     if (it.care === 'food') return openFood(b);
     if (it.care === 'water') { if (c.water >= 95) return say(HL.HOUSE_PH[6]); return run(async () => { await catMoveTo(g.x + g.w * 0.5 + CATW, g.y, g.z + 1); catEl().classList.add('eating'); M.sfx('lap'); parts(b, ['💧', '💦'], 6); await wait(1600); catEl().classList.remove('eating'); bump('water', 100); catFace({ happy: true }); say(HL.CARE.water.ok); await wait(1200); catBack(); }); }
     if (it.care === 'sleep') { if (c.energy >= 95) return say(HL.HOUSE_PH[5]); return run(async () => {
@@ -294,7 +311,7 @@ SCREENS.house = (roomId) => {
   $('#invb').addEventListener('click', () => {
     const t = $('#tray'), list = invList(); t.hidden = !t.hidden; SND.tap();
     if (t.hidden) return;
-    t.innerHTML = list.length ? `<p class="small center">Выбери вещь, а потом нажми в комнате, куда её поставить:</p><div class="items">${list.map(id => { const c = catItem(id); return `<button class="item" data-put="${id}"><span class="ii">${icon(id, c[1])}</span><span class="in">${c[2]}</span></button>`; }).join('')}</div>` : `<p class="center">Сундук пуст. Вещи покупаются в <b>Магазине вещей</b> за конфеты, заработанные примерами 🍬</p>`;
+    t.innerHTML = list.length ? `<p class="small center">Выбери вещь, а потом нажми в комнате, куда её поставить:</p><div class="items">${list.map(id => { const c = anyItem(id); return `<button class="item" data-put="${id}"><span class="ii">${icon(id, c.icon)}</span><span class="in">${c.name}</span></button>`; }).join('')}</div>` : `<p class="center">Сундук пуст. Вещи покупаются в <b>Магазине вещей</b> за конфеты, заработанные примерами 🍬</p>`;
     $$('[data-put]', t).forEach(x => x.addEventListener('click', () => {
       if (!roomOpen(cur)) return say((cur.eq || 0) > S.st.eq.done ? PH.quest[0] : PH.room[1]);
       placing = x.dataset.put; t.hidden = true; SND.tap(); drawRoom(); roomEl.scrollIntoView({ block: 'center', behavior: 'smooth' });

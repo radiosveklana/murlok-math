@@ -1335,3 +1335,31 @@ a.set-row { text-decoration: none; color: inherit; }
 /* кабинет на планшете ребёнка: привязка игры — первой и заметно */
 .link-here { border: 3px solid var(--pink); animation: linkGlow 1.6s ease-in-out 3; }
 @keyframes linkGlow { 50% { box-shadow: 0 0 0 6px var(--pink-2); } }
+/* === v31 housefun: живые вещи в домике (плавание, пение, каток, свет, снег, корона) === */
+.room-cat.peek svg.cat { transform: rotate(-14deg) translateY(-3%); transition: transform .3s; }
+.room-cat.singing svg.cat { animation: groove .45s ease-in-out infinite; transform-origin: 50% 100%; }
+.room-cat.skating svg.cat { animation: hfSkate .7s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes hfSkate { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg) translateY(-3%); } }
+.room-cat.swimming { transition: left .9s ease-in-out, bottom .4s ease-out, width .4s !important; }
+.room-cat.swimming svg.cat { animation: hfSwim .6s ease-in-out infinite; }
+.room-cat.swimming.flip svg.cat { animation-name: hfSwimF; }
+@keyframes hfSwim { 50% { transform: translateY(5%) rotate(5deg); } }
+@keyframes hfSwimF { 0%, 100% { transform: scaleX(-1); } 50% { transform: scaleX(-1) translateY(5%) rotate(5deg); } }
+.hf-water { position: absolute; transform: translateX(-50%); height: calc(var(--u) * 6.5); border-radius: 50% / 45%; pointer-events: none; overflow: hidden;
+  background: linear-gradient(rgba(150, 225, 255, .78), rgba(40, 150, 230, .88)); box-shadow: inset 0 calc(var(--u) * .5) 0 rgba(255, 255, 255, .65); animation: hfWave 1s ease-in-out infinite; }
+@keyframes hfWave { 50% { transform: translateX(-50%) scaleY(1.08); } }
+.hf-ripple { position: absolute; top: 20%; width: 30%; aspect-ratio: 3 / 1; border: 2px solid rgba(255, 255, 255, .85); border-radius: 50%; transform: translate(-50%, -50%) scale(.3); animation: hfRip 1.2s ease-out forwards; }
+@keyframes hfRip { to { transform: translate(-50%, -50%) scale(1.6); opacity: 0; } }
+.hf-snow { position: absolute; top: -6%; pointer-events: none; z-index: 460; animation: hfFall 2.4s linear forwards; }
+@keyframes hfFall { to { transform: translate(calc(var(--u) * 4), calc(var(--u) * 70)) rotate(240deg); opacity: 0; } }
+.hf-light { position: absolute; inset: 0; pointer-events: none; z-index: 440; background: radial-gradient(circle at var(--lx, 50%) 15%, rgba(255, 240, 170, .75), rgba(255, 240, 170, 0) 62%); animation: hfLight 2s ease-in-out forwards; }
+@keyframes hfLight { 0% { opacity: 0; } 20%, 70% { opacity: 1; } 100% { opacity: 0; } }
+.fx.hf-glow { filter: drop-shadow(0 0 14px #FFE27A) brightness(1.2); }
+.hf-candy { position: absolute; transform: translateX(-50%); font-size: calc(var(--u) * 4); pointer-events: none; transition: left 1.2s linear; animation: roll 1.2s linear; }
+.hf-crown { position: absolute; left: 50%; top: -14%; font-size: calc(var(--u) * 6); pointer-events: none; animation: hfCrown 2.1s ease-out forwards; }
+@keyframes hfCrown { 0% { transform: translate(-50%, -60%) scale(.3); opacity: 0; } 25% { transform: translate(-50%, 0) scale(1.2); opacity: 1; } 40%, 85% { transform: translate(-50%, 0) scale(1); opacity: 1; filter: drop-shadow(0 0 8px #FFD34D); } 100% { opacity: 0; } }
+.hf-fame { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 10px 0 14px; }
+.hf-fame > div { background: #fff; border: 2px solid var(--gold, #FFC93C); border-radius: 14px; padding: 8px; display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: center; text-align: left; }
+.hf-fame span { grid-row: span 2; font-size: 26px; } .hf-fame b { font-size: 20px; } .hf-fame small { color: var(--muted); line-height: 1.2; }
+@media (prefers-reduced-motion: reduce) { .room-cat.swimming svg.cat, .room-cat.singing svg.cat, .room-cat.skating svg.cat, .hf-water { animation: none; } }
+/* === /v31 housefun === */
