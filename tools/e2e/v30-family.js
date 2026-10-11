@@ -121,7 +121,7 @@ const FAMCHAL = { id: 'HFAMCHAL01', tpl: 'fam_tasks', kind: 'family', mode: '', 
   ok('start solo challenge', calls.some(c => c.act === 'acc/chal/start' && c.d.tpl === 'solo_tasks'));
   await click('[data-fr="fr_race"]'); await click('.modal [data-p="CKID0000002"]'); await click('#frgo'); await sleep(400);
   ok('start race with family member', calls.some(c => c.act === 'acc/chal/start' && c.d.tpl === 'fr_race' && c.d.with.join() === 'CKID0000002'));
-  await go('diplomas'); ok('challenge badges in «Мои награды»', await E(() => /Значки челленджей/.test(document.body.innerText)));
+  await go('diplomas', 'collection'); /* v31: значки челленджей — во вкладке «Коллекция» */ ok('challenge badges in «Мои награды»', await E(() => /Значки челленджей/.test(document.body.innerText)));
   /* ---------- друзья: семья без кодов ---------- */
   await go('friends'); await sleep(800);
   ok('family friend marked, cannot be removed', await E(() => { const c = [...document.querySelectorAll('.fr-card')].find(x => /Барсик/.test(x.innerText)); return c && /семья/.test(c.innerText) && !c.querySelector('[data-del]'); }));
