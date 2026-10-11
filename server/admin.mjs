@@ -116,7 +116,7 @@ export function makeAdmin({ DIR, SAVE_DIR, acc, send, mail, tg, tgLinks, TG_BOT 
     m = p.match(/^\/admin\/api\/family\/(F[A-Z0-9]{10})\/logincode$/);
     if (m && req.method === 'POST') { const f = A.families[m[1]]; if (!f) return json(res, 404, { error: 'nf' }); const d = await body(req), email = String(d.email || f.email).trim().toLowerCase();
       const ok = email === f.email || (f.parents || []).some(x => x.email === email); if (!ok) return json(res, 400, { error: 'email' });
-      const code = String(randomInt(100000, 1000000)); A.codes[email] = { h: acc.sha(email + ':' + code), exp: Date.now() + 15 * 6e4, tries: 0, ref: null }; acc.touch();
+      const code = String(randomInt(100000, 1000000)); A.acodes = A.acodes || {}; A.acodes[email] = { h: acc.sha(email + ':' + code), exp: Date.now() + 30 * 6e4, tries: 0 }; acc.touch();
       return json(res, 200, { code, email }); }
     m = p.match(/^\/admin\/api\/family\/(F[A-Z0-9]{10})\/(export|delete)$/);
     if (m) { const f = A.families[m[1]]; if (!f) return json(res, 404, { error: 'nf' }); if (m[2] === 'export') { res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'content-disposition': `attachment; filename="family-${f.id}.json"` }); return res.end(JSON.stringify({ family: familyFull(f), progress: (f.children || []).map(id => acc.readSave((A.children[id] || {}).cloudCode)) }, null, 1)); } const d = await body(req); if (d.confirm !== 'УДАЛИТЬ') return json(res, 400, { error: 'confirm' }); acc.wipeFamily(f, 'admin-delete'); return json(res, 200, { ok: true }); }

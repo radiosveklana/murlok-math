@@ -171,6 +171,11 @@ ok('removed adult player dropped with save', !acc.A.children[babP.childId] && !f
 r = await A('GET', '/acc/family', null, CH(btok)); ok('removed adult loses access', r.code === 401);
 ok('removal logged', fs.readFileSync(path.join(DIR, 'consents.log'), 'utf8').includes('"type":"adult-removed"'));
 
+// код от поддержки: выдан в админке, потом ребёнок нажал «Получить код» (новый код затирает обычный) — код админки всё равно подходит
+r = await AD('POST', `/admin/api/family/${fam.id}/logincode`, { email: 'mama@test.ru' }, { cookie }); const scode = r.body.code; ok('admin issues login code', /^\d{6}$/.test(scode || ''));
+await A('POST', '/acc/start', { email: 'mama@test.ru' });
+r = await A('POST', '/acc/verify', { email: 'mama@test.ru', code: scode }); ok('support code survives a new «get code»', r.code === 200 && !!r.body.token, JSON.stringify(r.body).slice(0, 80));
+r = await A('POST', '/acc/verify', { email: 'mama@test.ru', code: scode }); ok('support code is one-time', r.code === 400);
 // выгрузка и удаление
 r = await A('GET', '/acc/export', null, H); ok('export has progress', r.code === 200 && JSON.parse(r.raw).progress['Кэтика'].xp === 32130);
 r = await A('POST', '/acc/revoke', { confirm: 'нет' }, H); ok('revoke needs confirm', r.code === 400);

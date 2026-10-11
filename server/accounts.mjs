@@ -102,10 +102,14 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
       return send(res, 200, { ok: true, isNew: !A.emailIdx[email], invite: inv ? { by: String(inv.email).replace(/^(.{2})[^@]*/, '$1***') } : null }, origin); // почту пригласившего — не целиком
     }
     if (r === 'verify' && req.method === 'POST') {
-      const d = await J(), email = String(d.email || '').trim().toLowerCase(), c = A.codes[email];
-      if (!c || c.exp < now()) return send(res, 400, { error: 'expired' }, origin);
+      const d = await J(), email = String(d.email || '').trim().toLowerCase(), h = sha(email + ':' + String(d.code || '').trim());
+      // код от поддержки (админка) хранится отдельно — его не затирает повторный «Получить код»
+      const ac = (A.acodes || {})[email], adminOk = ac && ac.exp > now() && ac.tries < 5 && ac.h === h;
+      const c = adminOk ? ac : A.codes[email];
+      if (!c || c.exp < now()) { if (ac && ac.exp > now()) { ac.tries++; touch(); return send(res, 400, { error: 'code', left: 5 - ac.tries }, origin); } return send(res, 400, { error: 'expired' }, origin); }
       if (c.tries >= 5) return send(res, 429, { error: 'tries' }, origin);
-      if (c.h !== sha(email + ':' + String(d.code || '').trim())) { c.tries++; touch(); return send(res, 400, { error: 'code', left: 5 - c.tries }, origin); }
+      if (c.h !== h) { c.tries++; if (ac && ac !== c) ac.tries++; touch(); return send(res, 400, { error: 'code', left: 5 - c.tries }, origin); }
+      if (adminOk) delete A.acodes[email];
       let fid = A.emailIdx[email], f = fid && A.families[fid];
       const inv = !f && A.invites[email] && A.invites[email].exp > now() && A.families[A.invites[email].f];
       if (inv) { // приглашённый взрослый присоединяется к семье с правами родителя — со своим согласием
