@@ -1,4 +1,5 @@
 // murlok-api, v23: админка (одна роль «владелец»): /admin — страница, /admin/api/* — данные и действия.
+import { randomInt } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
@@ -111,6 +112,12 @@ export function makeAdmin({ DIR, SAVE_DIR, acc, send, mail, tg, tgLinks, TG_BOT 
       if (m[2] === 'resetpin') { ch.pinHash = null; acc.touch(); return json(res, 200, { ok: true }); }
       if (m[2] === 'restore') { const dd = String(d.day || ''), src = path.join(acc.SNAP, dd, ch.cloudCode + '.json'); if (!/^\d{4}-\d{2}-\d{2}$/.test(dd) || !fs.existsSync(src)) return json(res, 400, { error: 'day' }); fs.copyFileSync(path.join(SAVE_DIR, ch.cloudCode + '.json'), path.join(SAVE_DIR, ch.cloudCode + '.before-restore.json')); fs.copyFileSync(src, path.join(SAVE_DIR, ch.cloudCode + '.json')); (A.pending[ch.cloudCode] = A.pending[ch.cloudCode] || []).push({ type: 'restore', day: dd, at: Date.now() }); acc.touch(); return json(res, 200, { ok: true }); }
     }
+    // код входа от поддержки: если письмо не дошло, админ выдаёт взрослому одноразовый код (15 минут), тот вводит его в «У меня уже есть код»
+    m = p.match(/^\/admin\/api\/family\/(F[A-Z0-9]{10})\/logincode$/);
+    if (m && req.method === 'POST') { const f = A.families[m[1]]; if (!f) return json(res, 404, { error: 'nf' }); const d = await body(req), email = String(d.email || f.email).trim().toLowerCase();
+      const ok = email === f.email || (f.parents || []).some(x => x.email === email); if (!ok) return json(res, 400, { error: 'email' });
+      const code = String(randomInt(100000, 1000000)); A.codes[email] = { h: acc.sha(email + ':' + code), exp: Date.now() + 15 * 6e4, tries: 0, ref: null }; acc.touch();
+      return json(res, 200, { code, email }); }
     m = p.match(/^\/admin\/api\/family\/(F[A-Z0-9]{10})\/(export|delete)$/);
     if (m) { const f = A.families[m[1]]; if (!f) return json(res, 404, { error: 'nf' }); if (m[2] === 'export') { res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'content-disposition': `attachment; filename="family-${f.id}.json"` }); return res.end(JSON.stringify({ family: familyFull(f), progress: (f.children || []).map(id => acc.readSave((A.children[id] || {}).cloudCode)) }, null, 1)); } const d = await body(req); if (d.confirm !== 'УДАЛИТЬ') return json(res, 400, { error: 'confirm' }); acc.wipeFamily(f, 'admin-delete'); return json(res, 200, { ok: true }); }
     if (p === '/admin/api/flags') { if (req.method === 'POST') { A.flags.forEach(f => { f.seen = true; }); acc.touch(); return json(res, 200, { ok: true }); } return json(res, 200, { flags: A.flags.slice(0, 200) }); }
