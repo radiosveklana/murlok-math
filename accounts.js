@@ -92,7 +92,10 @@ const Accounts = (() => {
 
   async function linkDevice() {
     const P = parent(); if (!P || linked() || !S.kid) return false;
-    const fam = (await api('family', null, P.token)).family, empty = (fam.children || []).filter(k => !k.xp && !k.lastSeen);
+    const fam0 = (await api('family', null, P.token)).family, myP = (fam0.players || []).find(p => p.mine && p.cloudCode === cloudCode());
+    if (myP) { const r = await api('play', {}, P.token); ls.set(AK, { token: r.token, childId: r.childId, familyCode: r.familyCode, name: r.name, adult: true }); S.cloudCode = r.cloudCode; save(); cloudDirty = true; cloudPush(); return true; } // на устройстве — игра этого взрослого
+    if ((fam0.players || []).some(p => p.name === S.kid)) return false; // это игра другого взрослого семьи — не превращаем её в ребёнка
+    const fam = fam0, mine = (fam.children || []).find(k => k.cloudCode && k.cloudCode === cloudCode()), empty = mine ? [mine] : (fam.children || []).filter(k => !k.xp && !k.lastSeen);
     // в семье есть ребёнок без прогресса (завели в кабинете заранее) — присоединяем игру к нему, а не создаём второго
     const r = empty.length === 1 ? await api('child/' + empty[0].id + '/attach', { cloudCode: cloudCode(), cat: S.name }, P.token) : await api('child', { name: S.kid, cloudCode: cloudCode(), cat: S.name }, P.token);
     ls.set(AK, { token: r.token, childId: r.child.id, familyCode: fam.code, name: S.kid }); S.cloudCode = r.child.cloudCode; save(); cloudDirty = true; cloudPush(); return true;
@@ -101,6 +104,7 @@ const Accounts = (() => {
     app.innerHTML = `${topbar('🔗 Привязка', 'home')}<div class="page center"><div class="big-emoji">🔗</div><p>Привязываем игру к семье…</p></div>`;
     linkDevice().then(ok => { if (ok) { SND.win(); toast(`Игра «${esc(S.kid)}» в семье! ✅`); } go(next || 'friends'); }).catch(e => { toast('Не получилось: ' + (e.code || 'нет связи')); go('pcab'); });
   };
+  if (parent() && S.kid && !linked() && !sessionStorage.getItem('autoLink')) { sessionStorage.setItem('autoLink', 1); setTimeout(() => linkDevice().then(ok => { if (ok) toast(`Игра «${esc(S.kid)}» теперь в семье: друзья, вызовы и облако включены ✅`); }).catch(() => { }), 2500); }
   /* ---------- кабинет родителя ---------- */
   const picHTML = id => `<div class="pinpick" id="${id}">${PICS.map((p, i) => `<button type="button" class="pp" data-i="${i}">${p}</button>`).join('')}</div><div class="small">Выберите 3 картинки по порядку — это ПИН ребёнка: <b class="pinshow">—</b></div>`;
   const bindPick = el => { const sel = []; $$('.pp', el).forEach(b => b.addEventListener('click', () => { if (sel.length >= 3) sel.length = 0; sel.push(+b.dataset.i); $('.pinshow', el.parentElement).textContent = sel.map(i => PICS[i]).join(' ') || '—'; SND.tap(); })); return () => sel.slice(); };

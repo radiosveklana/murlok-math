@@ -242,6 +242,7 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
       const ch = A.children[m[1]]; if (!ch || ch.familyId !== f.id) return send(res, 404, { error: 'nf' }, origin);
       if (m[2] === 'attach') { // игра с планшета присоединяется к уже заведённому, но пустому ребёнку (родитель завёл его в кабинете раньше)
         const d = await J(), code = String(d.cloudCode || '').toUpperCase(); if (!/^[A-Z0-9]{8}$/.test(code)) return send(res, 400, { error: 'code' }, origin);
+        if (ch.cloudCode === code) return send(res, 200, { child: kidSummary(ch), token: token('c', f.id, ch.id, 365) }, origin); // уже эта игра — просто вход на устройстве
         if (Object.values(A.children).some(c => c.cloudCode === code && c.id !== ch.id)) return send(res, 400, { error: 'taken' }, origin);
         const old = readSave(ch.cloudCode); if (old && (old.xp || 0) > 0) return send(res, 400, { error: 'busy' }, origin);
         try { fs.rmSync(path.join(SAVE_DIR, ch.cloudCode + '.json'), { force: true }); } catch { } ch.cloudCode = code; if (d.cat) ch.cat = String(d.cat).slice(0, 20); touch();
