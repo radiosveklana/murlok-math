@@ -15,6 +15,8 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V26 OK
     if (/(murlok-api|\/api)\/save/.test(u)) { saves.push(r.postData()); return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"ok":true}' }); }
     if (/acc\/start/.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"ok":true,"isNew":false}' });
     if (/acc\/verify/.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"token":"PT","family":{}}' });
+    if (/acc\/child$/.test(u) && r.method() === 'POST') return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"child":{"id":"CTEST00001","cloudCode":"TESTCODE"},"token":"CT"}' });
+    if (/acc\/family$/.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"family":{"id":"F1","code":"FAM123","email":"mama@test.ru","children":[],"priorities":[],"consent":{"ver":"x","at":1},"adults":[]}}' });
     if (/(murlok-api|\/api)\/acc\//.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: H, body: '{"ok":true,"items":[]}' });
     r.continue(); });
   await p.goto(URL); await p.waitForSelector('#kid');

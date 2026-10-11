@@ -67,7 +67,7 @@ const Family = (() => {
 
   /* ---------- общие кусочки ---------- */
   let duelCache = {};
-  const lockedHTML = title => `${topbar(title)}<div class="page"><div class="card center"><div class="big-emoji">🔐</div><h2>Вместе со взрослым</h2><p>Таблица успехов, вызовы и челленджи появятся, когда мама или папа откроют <b>личный кабинет</b> и привяжут твой прогресс. Так безопаснее!</p><p class="small">Взрослому: «Для взрослых» → «Кабинет» → <b>«Привязать прогресс этого устройства»</b>.</p><button class="btn pink" data-go="agate" data-arg="pcab">👨‍👩‍👧 Взрослому: привязать игру к семье</button></div></div>`;
+  const lockedHTML = title => `${topbar(title)}<div class="page"><div class="card center"><div class="big-emoji">🔐</div><h2>Вместе со взрослым</h2><p>Таблица успехов, вызовы и челленджи появятся, когда мама или папа откроют <b>личный кабинет</b> и привяжут твой прогресс. Так безопаснее!</p><p class="small">Взрослому: «Для взрослых» → «Кабинет» → <b>«Привязать прогресс этого устройства»</b>.</p><button class="btn pink" data-go="agate" data-arg="${window.Accounts && Accounts.parent() ? 'linknow' : 'pcab'}">👨‍👩‍👧 Взрослому: привязать игру к семье</button></div></div>`;
   const giveReward = (r, why) => { if (!r) return; if (r.candies) award(r.candies, 0); if (r.gems) awardGems(r.gems, why); if (r.badge) { S.chalBadges = S.chalBadges || []; S.chalBadges.push({ b: r.badge, name: r.name || why || '', at: Date.now() }); save(); } };
   const plain = s => String(s || '').replace(/<[^>]+>/g, '');
 

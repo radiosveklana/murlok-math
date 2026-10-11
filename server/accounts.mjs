@@ -43,7 +43,7 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
   let hooks = { friendCodes: () => [], friendsAdmin: null }; // друзья живут в extra.mjs — сервер связывает модули через setHooks
   const setHooks = h => { hooks = { ...hooks, ...h }; };
   const social = makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes: code => hooks.friendCodes(code), membersOf });
-  const siblings = code => { const ch = Object.values(A.children).find(c => c.cloudCode === code), f = ch && A.families[ch.familyId]; return f ? (f.children || []).map(id => A.children[id]).filter(c => c && c.id !== ch.id).map(c => c.cloudCode) : []; };
+  const siblings = code => { const ch = Object.values(A.children).find(c => c.cloudCode === code), f = ch && A.families[ch.familyId]; return f ? [...(f.children || []), ...(f.players || [])].map(id => A.children[id]).filter(c => c && c.id !== ch.id).map(c => c.cloudCode) : []; };
 
   /* ---------- рефералы ---------- */
   const newRef = owner => { const c = uniq(6, A.refs); A.refs[c] = { owner, visits: 0, regs: 0 }; return c; };
@@ -237,9 +237,16 @@ export function makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg, weekly, TG_
       A.children[id].ref = newRef({ f: f.id, c: id }); f.children.push(id); touch();
       return send(res, 200, { child: kidSummary(A.children[id]), token: token('c', f.id, id, 365) }, origin);
     }
-    const m = r.match(/^child\/(C[A-Z0-9]{10})\/(pin|remove)$/);
+    const m = r.match(/^child\/(C[A-Z0-9]{10})\/(pin|remove|rename|attach)$/);
     if (m && req.method === 'POST') {
       const ch = A.children[m[1]]; if (!ch || ch.familyId !== f.id) return send(res, 404, { error: 'nf' }, origin);
+      if (m[2] === 'attach') { // игра с планшета присоединяется к уже заведённому, но пустому ребёнку (родитель завёл его в кабинете раньше)
+        const d = await J(), code = String(d.cloudCode || '').toUpperCase(); if (!/^[A-Z0-9]{8}$/.test(code)) return send(res, 400, { error: 'code' }, origin);
+        if (Object.values(A.children).some(c => c.cloudCode === code && c.id !== ch.id)) return send(res, 400, { error: 'taken' }, origin);
+        const old = readSave(ch.cloudCode); if (old && (old.xp || 0) > 0) return send(res, 400, { error: 'busy' }, origin);
+        try { fs.rmSync(path.join(SAVE_DIR, ch.cloudCode + '.json'), { force: true }); } catch { } ch.cloudCode = code; if (d.cat) ch.cat = String(d.cat).slice(0, 20); touch();
+        return send(res, 200, { child: kidSummary(ch), token: token('c', f.id, ch.id, 365) }, origin); }
+      if (m[2] === 'rename') { const d = await J(), name = String(d.name || '').replace(/[<>{}"]/g, '').trim().slice(0, 20); if (name.length < 2) return send(res, 400, { error: 'name' }, origin); ch.name = name; touch(); return send(res, 200, { ok: true }, origin); }
       if (m[2] === 'pin') { const d = await J(); if (!validPin(d.pin)) return send(res, 400, { error: 'pin' }, origin); ch.pinHash = pinHash(f, d.pin); touch(); return send(res, 200, { ok: true }, origin); }
       f.children = f.children.filter(x => x !== ch.id); social.forgetChild(ch.id); try { fs.rmSync(path.join(SAVE_DIR, ch.cloudCode + '.json'), { force: true }); } catch { } if (ch.ref) delete A.refs[ch.ref]; delete A.children[ch.id]; touch(); return send(res, 200, { ok: true }, origin);
     }
