@@ -92,7 +92,7 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'SPACE 
   ok('last planet: no «next» button', !(await p.$('#saNext')));
   await go('shop'); ok('outfit in wardrobe', await E(() => !!document.querySelector('#si .item[data-id="cosmocape"].own')));
   await E(() => document.querySelector('#si .item[data-id="cosmocape"]').click()); await sleep(300); ok('outfit can be worn', await E(() => S.wear.neck === 'cosmocape'));
-  await go('diplomas'); ok('awards: space stickers 8/8', /Космические наклейки \(8\/8\)/.test(await E(() => document.body.innerText)));
+  await go('diplomas', 'collection'); /* v31: наклейки — во вкладке «Коллекция» */ ok('awards: space stickers 8/8', /Космические наклейки \(8\/8\)/.test(await E(() => document.body.innerText)));
   await go('games'); ok('games list has the arcade', /Полёт в космос|аркад/i.test(await E(() => document.body.innerText)));
 
   /* ---------- 320 px и reduced motion ---------- */
