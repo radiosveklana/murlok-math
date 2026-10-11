@@ -1332,3 +1332,6 @@ a.set-row { text-decoration: none; color: inherit; }
   .top > .pill.gem { grid-row: 1; align-self: end; } .top > .pill.candy { grid-row: 2; align-self: start; }
 }
 @media (max-width: 360px) { .top > h1 { font-size: 16.5px; } }
+/* кабинет на планшете ребёнка: привязка игры — первой и заметно */
+.link-here { border: 3px solid var(--pink); animation: linkGlow 1.6s ease-in-out 3; }
+@keyframes linkGlow { 50% { box-shadow: 0 0 0 6px var(--pink-2); } }

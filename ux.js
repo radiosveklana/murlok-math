@@ -3,6 +3,7 @@
    работает поверх всех модулей, ничего не удаляет — только переставляет готовые блоки. */
 'use strict';
 const UX = (() => {
+  { const st = document.createElement('style'); st.textContent = '.to-game{width:100%;margin:0 0 10px}'; document.head.appendChild(st); }
   const HOME_GROUPS = [
     ['learn', '🎓 Учиться', ['school', 'academy', 'mistakes', 'newcase', 'blitz', 'games', 'bugs', 'cheats']],
     ['cat', '🐱 Мой котик', ['house', 'shop', 'fitting', 'photo', 'chat', 'studio']],
@@ -44,6 +45,7 @@ const UX = (() => {
     const bar = document.createElement('div'); bar.className = 'ptabs'; bar.setAttribute('role', 'tablist');
     bar.innerHTML = PTABS.map(([id, n]) => `<button role="tab" data-tab="${id}">${n}</button>`).join('');
     pg.append(bar, ...PTABS.map(([id]) => panes[id]));
+    if (S.kid) pg.insertAdjacentHTML('afterbegin', '<button class="btn mint big to-game" data-go="home">🎮 Вернуться в игру</button>'); // взрослый раздел всегда можно покинуть
     const show = id => { if (!panes[id] || !panes[id].children.length) id = 'sum'; ptab = id; try { sessionStorage.setItem('ptab', id); } catch (e) { }
       PTABS.forEach(([t]) => { panes[t].hidden = t !== id; }); $$('button', bar).forEach(b => b.setAttribute('aria-selected', b.dataset.tab === id)); };
     bar.addEventListener('click', e => { const b = e.target.closest('button[data-tab]'); if (!b) return; SND.tap(); show(b.dataset.tab); window.scrollTo({ top: 0 }); });
