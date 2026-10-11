@@ -386,7 +386,7 @@ const SpaceTrip = (() => {
   // diplomas.js подключается позже — оборачиваем, когда все скрипты загружены
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wrapAwards); else wrapAwards();
 
-  /* ---------- вход: из карты звёзд (и из телескопа — он открывает карту звёзд) ---------- */
+  /* ---------- вход: из карты звёзд и из телескопа в домике (housefun.js) ---------- */
   { const sm = SCREENS.starmap; if (sm) SCREENS.starmap = arg => { sm(arg); const pg = $('.page.starmap', app); if (pg) pg.insertAdjacentHTML('afterbegin', `<button class="btn big ${open() ? 'pink' : ''} trip-btn" data-go="spacetrip">🚀 Космическая аркада ${open() ? `<small>🎫 билетов: ${tickets()}</small>` : `<small>(откроется после ${NEED} задач: ${solvedTotal()}/${NEED})</small>`}</button>`); }; }
   ['spacetrip', 'mission', 'spacefly'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
   return { PL, NEED, TICKET, open, tickets, toNext, OUTFIT, state: st };

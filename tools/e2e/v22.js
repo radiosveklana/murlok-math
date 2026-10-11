@@ -87,8 +87,11 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   await p.reload(); await sleep(2500); ok('news survives reload', !!(await p.$('#newsOk')));
   await click('#newsOk'); await p.reload(); await sleep(2500); ok('news closed for good', !(await p.$('#newsOk')) && (await E(() => S.seenVersion === APP_VERSION)));
   /* ---------- звёздная карта в обсерватории открывает небо ---------- */
+  // v31: вещи работают только в открытой комнате (раньше карта открывалась и из запертой) — на время проверки открываем обсерваторию
+  const stObs = await E(() => JSON.stringify(S.st)); await E(() => { S.st.mul.done = Math.max(S.st.mul.done, 700); S.st.eq.done = Math.max(S.st.eq.done, 160); save(); });
   await go('house', 'observ'); await sleep(900); { const t = await p.$('.fx[data-id="fx_starmap"]'); if (t) { const bb = await t.boundingBox(); await p.touchscreen.tap(bb.x + bb.width / 2, bb.y + bb.height / 2); await sleep(2200); } }
   ok('star map item opens sky', await E(() => curScreen === 'starmap'));
+  await E(s => { S.st = JSON.parse(s); save(); }, stObs);
   /* ---------- «←» ведёт на предыдущий экран ---------- */
   await go('home'); await go('academy'); await go('subject', 'space'); await go('alesson', 'space:sun_system');
   const backTo = async () => { await E(() => document.querySelectorAll('.modal,.toast').forEach(m => m.remove())); await p.click('.top .back'); await sleep(500); return E(() => curScreen); };
