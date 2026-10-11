@@ -12,17 +12,25 @@ const Extras = (() => {
     Object.assign(me, { kid: S.kid, cat: S.name, fur: S.fur, wear: S.wear, xp: S.xp }); try { localStorage.setItem(PK, JSON.stringify(P)); } catch (e) { }
   }
   function switchTo(id) { remember(); const P = profs(); P.active = id; localStorage.setItem(PK, JSON.stringify(P)); cloudPush(); location.reload(); }
+  // «Кто играет?»: только игроки семьи (у профиля есть вход в семью). Новых игроков здесь не создаём.
+  // Переключаться может только взрослый (замок проверяет grownup.js); игроков не из семьи взрослый может убрать с устройства.
+  const inFamily = id => { try { const a = JSON.parse(localStorage.getItem('murlok-acc:' + keyOf(id)) || 'null'); return !!(a && a.token); } catch (e) { return false; } };
+  const adultNow = () => (window.Accounts && Accounts.adultOk && Accounts.adultOk()) || S.role === 'adult';
   function openProfiles() {
-    remember(); const P = profs();
-    const m = modal(`<h2>👥 Кто играет?</h2><p class="small">У каждого игрока свой котик, свой прогресс и свой домик.</p><div class="profs">${P.list.map(p => `<button class="prof ${p.id === P.active ? 'on' : ''}" data-p="${p.id}"><span class="pc">${catSVG({ fur: FURS[p.fur] ? p.fur : 'ginger', wear: p.wear || {}, smile: true })}</span><b>${esc(p.kid || 'Игрок')}</b><small>котик ${esc(p.cat || '')}${p.id === P.active ? ' · сейчас' : ''}</small></button>`).join('')}<button class="prof add" id="padd"><span class="pc">＋</span><b>Новый игрок</b><small>брат, сестра, друг</small></button></div><button class="btn" data-close>Закрыть</button>`);
+    remember(); const P = profs(), fam = P.list.filter(p => p.id === P.active || inFamily(p.id)), other = P.list.filter(p => p.id !== P.active && !inFamily(p.id));
+    const card = p => `<button class="prof ${p.id === P.active ? 'on' : ''}" data-p="${p.id}"><span class="pc">${catSVG({ fur: FURS[p.fur] ? p.fur : 'ginger', wear: p.wear || {}, smile: true })}</span><b>${esc(p.kid || 'Игрок')}</b><small>котик ${esc(p.cat || '')}${p.id === P.active ? ' · сейчас' : ''}</small></button>`;
+    const m = modal(`<h2>👥 Кто играет?</h2><p class="small">Игроки семьи на этом устройстве. Сменить игрока может только взрослый.</p><div class="profs">${fam.map(card).join('')}</div>
+      ${other.length && adultNow() ? `<h3 class="small" style="margin-top:14px">Не в семье — только на этом устройстве</h3><div class="profs-other">${other.map(p => `<div class="po-row"><b>${esc(p.kid || 'Игрок')}</b><small>котик ${esc(p.cat || '')}</small><button class="btn sm danger" data-prm="${p.id}">Убрать с устройства</button></div>`).join('')}</div>` : ''}
+      <button class="btn" data-close>Закрыть</button>`);
     $$('.prof[data-p]', m.el).forEach(b => b.addEventListener('click', () => { if (b.dataset.p !== P.active) switchTo(b.dataset.p); else m.close(); }));
-    $('#padd', m.el).addEventListener('click', () => { if (P.list.length >= 6) { toast('Можно до 6 игроков'); return; } const id = 'p' + Date.now().toString(36); remember(); const Q = profs(); Q.active = id; localStorage.setItem(PK, JSON.stringify(Q)); location.reload(); });
+    $$('[data-prm]', m.el).forEach(b => b.addEventListener('click', () => { const id = b.dataset.prm; if (!confirm('Убрать этого игрока с устройства? Его прогресс на этом устройстве удалится.')) return;
+      const Q = profs(); Q.list = Q.list.filter(x => x.id !== id); try { localStorage.setItem(PK, JSON.stringify(Q)); localStorage.removeItem(keyOf(id)); localStorage.removeItem('murlok-acc:' + keyOf(id)); } catch (e) { } b.closest('.po-row').remove(); toast('Убрано'); }));
+    if (!document.getElementById('prof-css')) { const st = document.createElement('style'); st.id = 'prof-css'; st.textContent = '.po-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#fff;border-radius:14px;padding:8px 12px;margin:6px 0}.po-row small{color:var(--muted);flex:1}'; document.head.appendChild(st); }
   }
   if (typeof openSettings === 'function') {
     const os = openSettings;
     openSettings = function () { const r = os.apply(this, arguments); const L = $$('.modal .set-list').pop(); if (L && !$('#set-prof', L)) { L.insertAdjacentHTML('beforeend', '<button class="set-row" id="set-prof"><span>👥</span><b>Игроки</b><i class="arr">›</i></button>'); $('#set-prof', L).addEventListener('click', () => { $$('.modal').forEach(x => x.remove()); openProfiles(); }); } return r; };
   }
-  { const h = SCREENS.hello; SCREENS.hello = arg => { h(arg); const P = profs(); if (P.list.filter(p => p.kid).length) { const pg = $('.page', app) || app; pg.insertAdjacentHTML('afterbegin', '<button class="btn sm prof-back" id="pback">👥 Выбрать другого игрока</button>'); $('#pback').addEventListener('click', openProfiles); } }; }
   { const hm = SCREENS.home; SCREENS.home = arg => { const r = hm(arg); remember(); return r; }; }
 
   /* ================= свежий прогресс с другого устройства ================= */

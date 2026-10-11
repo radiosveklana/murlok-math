@@ -52,7 +52,7 @@ const Grownup = (() => {
   document.addEventListener('click', e => {
     const b = e.target.closest('.prof[data-p]'); if (!b) return;
     const P = profs(), p = P.list.find(x => x.id === b.dataset.p);
-    if (!p || !p.adult || p.id === P.active || isAdult() || Accounts.adultOk()) return;
+    if (!p || p.id === P.active || isAdult() || Accounts.adultOk()) return; // сменить игрока с профиля ребёнка — только через замок взрослого
     e.preventDefault(); e.stopImmediatePropagation(); $$('.modal').forEach(m => m.remove());
     try { sessionStorage.setItem('adultSwitch', p.id); } catch (er) { } go('adultswitch');
   }, true);

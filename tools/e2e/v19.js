@@ -149,9 +149,7 @@ const LIST = { me: 'MYCODE', friends: [{ pub: 'FRND22', cat: 'Пушок', kid: 
   ok('mix reward x2', await E(() => /award\(uid === '\*mix' \? 2 : 1/.test(SCREENS.aquiz.toString()) || true));
 
   /* ---------- профили ---------- */
-  await go('home'); await click('#cfg'); await click('#set-prof'); ok('profiles modal', (await p.$$('.prof')).length >= 2);
-  await click('#padd'); await sleep(1500); await p.waitForSelector('#kid', { timeout: 6000 }).catch(() => { });
-  ok('new profile empty', await E(() => !S.kid && KEY !== 'murlok-detective-v1' && !!document.querySelector('#pback')));
+  await go('home'); await click('#cfg'); await click('#set-prof'); ok('profiles modal: no «new player», only family', (await p.$$('.prof')).length >= 1 && !(await p.$('#padd')));
   await E(() => { const P = JSON.parse(localStorage.getItem('murlok-profiles')); P.active = 'main'; localStorage.setItem('murlok-profiles', JSON.stringify(P)); }); await p.goto(URL); for (let t = 0; t < 3 && !(await p.evaluate(() => typeof window.Coach === 'object' && typeof go === 'function').catch(() => false)); t++) { errors.length = 0; await p.reload(); await new Promise(r => setTimeout(r, 800)); } await sleep(1300);
   ok('back to main profile keeps progress', await E(() => S.kid === 'Василиса' && S.legendSeen === 1));
 
