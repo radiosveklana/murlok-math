@@ -180,7 +180,17 @@ document.addEventListener('pointerdown', function unlock() { M.ctx(); M.unlockSp
 const tone = seq => M.tone(seq), later = (f, ms) => setTimeout(f, ms);
 const SND = {
   ok: () => { cheer(true); tone([[660, 0.12], [880, 0.2, 0.09]]); if (Math.random() < 0.3) later(() => M.chirp(), 260); catMood('happy', 900); M.haptic(15); },
-  bad: () => { cheer(false); tone([[200, 0.22, 0, 'triangle', 0.14]]); later(() => M.custom('oops') || M.meow({ shape: 'question', vol: 0.32, pitch: 1.2, dur: 0.45 }), 120); catMood('sad', 1300); M.haptic([40, 60, 40]); },
+  // ошибка — не наказание: котик задумывается (нейтральная мордочка, наклон головы, «💭»), мягкое «хм-м?», без вибрации.
+  // Звук «Ой!», записанный ребёнком в Студии звуков, по-прежнему играет — это его собственное творчество.
+  bad: () => {
+    cheer(false); later(() => M.custom('oops') || M.hmm(), 60);
+    catMood('think', 1500); // не sad/happy → обычные открытые глаза, без бровей «домиком» и слезинки
+    const cats = $$('.m-think:not(.chat-cat)');
+    cats.forEach(b => { const h = b.querySelector('svg.cat .head'); if (h && h.animate) try { h.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(7deg)', offset: 0.3 }, { transform: 'rotate(7deg)', offset: 0.75 }, { transform: 'rotate(0)' }], { duration: 1400, easing: 'ease-in-out' }); } catch (e) { } });
+    const big = cats.find(b => b.getBoundingClientRect().width > 40);
+    if (big) { const r = big.getBoundingClientRect(), q = document.createElement('div'); q.className = 'heart think-bubble'; q.textContent = '💭'; q.style.left = (r.left + r.width * 0.7) + 'px'; q.style.top = (r.top + r.height * 0.1) + 'px'; q.style.setProperty('--dx', '12px'); document.body.appendChild(q); later(() => q.remove(), 2100); }
+    later(() => cats.forEach(b => b.classList.remove('m-think')), 1500);
+  },
   tap: () => { tone([[560, 0.05, 0, 'sine', 0.06]]); M.haptic(8); },
   coin: () => { tone([[988, 0.09], [1319, 0.25, 0.07]]); flyCandy(); },
   win: () => { tone([[523, 0.14], [659, 0.14, 0.11], [784, 0.14, 0.22], [1047, 0.45, 0.33]]); later(() => M.custom('yay') || M.meow({ shape: 'happy', force: true }), 650); later(() => M.purr(1.8), 1350); catMood('happy', 2400); later(() => hearts(), 600); M.haptic([20, 40, 20, 40, 80]); },
