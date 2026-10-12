@@ -26,14 +26,14 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V22 OK ' : 'V22 FAIL ')
   /* ---------- Школа = «Математика 4 класс» ---------- */
   await E(() => { S.unlockAll = true; save(); }); // v30: уроки открываются по порядку — здесь проверяем все темы, открываем всё (как «Открыть все уроки» у взрослых)
   await go('school');
-  ok('school: one section, all topics', await E(() => /Математика 4 класс/.test(document.querySelector('.school-head').innerText) && document.querySelectorAll('.page.school4 .unit').length === 22));
+  ok('school: one section, all topics', await E(() => /Математика 4 класс/.test(document.querySelector('.school-head').innerText) && document.querySelectorAll('.page.school4 .unit').length === 33)); // v35: +11 новых тем
   ok('school: old lessons kept', !!(await p.$('[data-go="lesson"][data-arg="mul"]')) && !!(await p.$('[data-go="practice"][data-arg="eq"]')) && !!(await p.$('[data-go="colwork"][data-arg="div"]')) && !!(await p.$('[data-go="collesson"][data-arg="add"]')));
   ok('school: groups collapsible', await E(() => document.querySelectorAll('details.sgroup').length === 7 && !document.querySelector('details.sgroup [data-aq="motion"]').closest('details').open));
   await E(() => { document.querySelector('[data-aq="motion"]').closest('details').open = true; }); await sleep(200);
   await click('[data-aq="motion"]'); ok('school topic opens trainer', await E(() => curScreen === 'aquiz' && !!document.querySelector('.genlv')));
 
   /* ---------- «Новое дело» из копилки ---------- */
-  ok('taskbank has all school topics', await E(() => TaskBank.list().filter(x => !x.acad).length === 22));
+  ok('taskbank has all school topics', await E(() => TaskBank.list().filter(x => !x.acad).length === 33)); // v35: +11 новых тем
   ok('taskbank has academy topics with generators', await E(() => { const L = TaskBank.list(), want = Object.values(window.SUBJECTS).filter(s => s.id !== 'teen' && s.id !== 'math4' && !s.school).flatMap(s => s.units.filter(u => typeof u.gen === 'function').map(u => s.id + ':' + u.id)); return want.every(id => L.some(x => x.id === id && x.acad)); }));
   await go('newcase'); ok('newcase: all + pick', !!(await p.$('.choice[data-t="all"]')) && !!(await p.$('.choice[data-t="pick"]')));
   await click('.choice[data-t="pick"]'); ok('pick topics modal', (await p.$$('.tb-pick input')).length === (await E(() => TaskBank.list().filter(x => !x.acad).length)) && (await p.$$('.tb-acad input')).length > 0); // v30: темы Академии — отдельным блоком .tb-acad
