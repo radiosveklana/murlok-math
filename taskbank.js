@@ -15,7 +15,12 @@ const TaskBank = (() => {
     const groupOf = (sid, uid) => { const G = window.School4 && sid === 'math4' ? School4.GROUPS.find(g => g.items.includes(uid)) : null; return G ? G.t : '📚 ' + (window.SUBJECTS[sid] || {}).name; };
     // темы Академии с генераторами (космос, окружающий мир, тело, ЗОЖ, ОБЖ…) тоже попадают в копилку: их можно выбрать в «Выбрать темы», но в «Вся программа» (математика) они не подмешиваются
     Object.values(window.SUBJECTS || {}).filter(s => s.id !== 'teen' && Array.isArray(s.units)).forEach(s => s.units.filter(u => typeof u.gen === 'function').forEach(u => reg({ id: s.id + ':' + u.id, subject: s.id, unit: u.id, acad: !(s.id === 'math4' || s.school), group: s.id === 'math4' || s.school ? groupOf(s.id, u.id) : s.icon + ' Академия: ' + s.name, name: u.title, icon: u.icon,
-      make: d => ({ kind: 'aq', level: d, src: s.id + ':' + u.id, title: u.title, icon: u.icon, q: u.gen(d), regen: () => u.gen(d) }) })));
+      make: d => { const g = () => genNoCalc(s, u, d); return { kind: 'aq', level: d, src: s.id + ':' + u.id, title: u.title, icon: u.icon, q: g(), regen: g }; } })));
+  }
+  function genNoCalc(s, u, d) { // в темах Академии — без задач на счёт (isCalcQ/calcAllowed из academy.js)
+    let q = u.gen(d); if (typeof isCalcQ !== 'function' || typeof calcAllowed !== 'function' || calcAllowed(s, u)) return q;
+    for (let t = 0; t < 12 && isCalcQ(q); t++) q = u.gen(d);
+    return q;
   }
   const list = () => { scan(); return P.filter(p => !window.Mistakes || Mistakes.topicOpen(p)); }; // закрытые (ещё не пройденные по порядку) темы в дела не берём
   function pick(ids, n, d) { // n задач из разных тем (если тем меньше — повторяем)

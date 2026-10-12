@@ -2,6 +2,18 @@
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const files = process.argv.slice(2); let bad = 0;
 const err = (f, m) => { bad++; console.log('✘ ' + f + ': ' + m); };
+/* «задачи на счёт» в предметах Академии запрещены (кроме математики, school:true и уроков/предметов с calcOk:true).
+   Детектор isCalcQ/calcAllowed берём из academy.js (блок между метками CALCQ) — один источник правды с движком. */
+const ROOT = path.resolve(__dirname, '..');
+const { isCalcQ, calcAllowed } = new Function(fs.readFileSync(path.join(ROOT, 'academy.js'), 'utf8').match(/\/\*CALCQ[\s\S]*?\/\*\/CALCQ\*\//)[0] + '; return { isCalcQ, calcAllowed };')();
+/* ложные срабатывания эвристики: фрагмент текста вопроса (q или story). Настоящую задачу на счёт сюда не добавлять — перенести в math4 */
+const ALLOW_CALC = [];
+const allowed = q => ALLOW_CALC.some(t => String(q.q || q.story || '').includes(t));
+const GEN_CALC_N = 200; // сколько задач генератора проверять на каждом уровне
+const calcMsg = q => 'задача на счёт в предмете Академии (isCalcQ) — перепиши в вопрос на знание или перенеси в math4: «' + String(q.q || q.story || '').replace(/<[^>]+>/g, ' ').slice(0, 90) + '»';
+/* флаги calcOk уроков/предметов — для банков QUIZ_EXTRA, которые проверяются отдельно от файла предмета */
+const META = (() => { const c = { window: {} }; c.window.SUBJECTS = {}; for (const f of fs.readdirSync(path.join(ROOT, 'content')).filter(x => /\.js$/.test(x))) { try { vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'content', f), 'utf8'), c, { filename: f }); } catch (e) { } } return c.window.SUBJECTS; })();
+const metaAllowed = (sid, uid) => { const s = META[sid] || { id: sid }; return calcAllowed(s, (s.units || []).find(u => u.id === uid)); };
 for (const f of files) {
   const ctx = { window: {} }; ctx.window.SUBJECTS = {};
   try { vm.runInNewContext(fs.readFileSync(f, 'utf8'), ctx, { filename: f }); } catch (e) { err(f, 'синтаксис: ' + e.message); continue; }
@@ -19,6 +31,10 @@ for (const f of files) {
       if (!Array.isArray(u.cards) || u.cards.length < 3) err(U, 'карточек меньше 3');
       (u.cards || []).forEach((c, ci) => { if (!c.t || !c.h) err(U, 'карточка ' + ci + ' без t/h'); if (c.h && c.h.replace(/<[^>]+>/g, '').length > 700) err(U, 'карточка ' + ci + ' длиннее 700 знаков'); nc++; });
       if (!Array.isArray(u.quiz) || u.quiz.length < 6) err(U, 'вопросов меньше 6');
+      if (!calcAllowed(s, u)) {
+        (u.quiz || []).forEach((q, qi) => { if (isCalcQ(q) && !allowed(q)) err(U + ' q' + qi + ' (' + q.type + ')', calcMsg(q)); });
+        if (typeof u.gen === 'function') { let n = 0, ex = null; for (const lv of [1, 2, 3]) for (let t = 0; t < GEN_CALC_N; t++) { let q; try { q = u.gen(lv); } catch (e) { break; } if (isCalcQ(q) && !allowed(q)) { n++; ex = ex || q; } } if (n) err(U + ' gen', n + ' из ' + GEN_CALC_N * 3 + ' — ' + calcMsg(ex)); }
+      }
       if (typeof u.gen === 'function') { for (const lv of [1, 2, 3]) for (let t = 0; t < 40; t++) { let q; try { q = u.gen(lv); } catch (e) { err(U, 'gen упал: ' + e.message); break; } if (!q || !q.type) { err(U, 'gen вернул пусто'); break; } u.quiz.push(q); } }
       (u.quiz || []).forEach((q, qi) => {
         const Q = U + ' q' + qi + ' (' + q.type + ')'; nq++;
@@ -41,7 +57,8 @@ for (const f of files) {
     let nq = 0;
     for (const [uid, qs] of Object.entries(units || {})) {
       if (!Array.isArray(qs)) { err(f, 'QUIZ_EXTRA.' + sid + '.' + uid + ' — не массив'); continue; }
-      qs.forEach((q, qi) => { nq++; const e = checkQ(q); if (e) err(f + ' [' + sid + '.' + uid + '] q' + qi + ' (' + q.type + ')', e); });
+      const ok = metaAllowed(sid, uid);
+      qs.forEach((q, qi) => { nq++; const e = checkQ(q) || (!ok && isCalcQ(q) && !allowed(q) ? calcMsg(q) : ''); if (e) err(f + ' [' + sid + '.' + uid + '] q' + qi + ' (' + q.type + ')', e); });
     }
     console.log('✔ ' + f + ' [доп. вопросы ' + sid + ']: ' + nq);
   }
