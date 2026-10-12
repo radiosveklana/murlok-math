@@ -3287,14 +3287,6 @@
   "q": "eggs",
   "file": "File:Eggs in basket 2020 G1.jpg"
  },
- "health/plate:6": {
-  "alt": "Обед за столом",
-  "author": "Afifa Afrin",
-  "lic": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Dinner_table_arrangement_with_food_of_a_middle_class_Bangladeshi_family_01.jpg",
-  "q": "family dinner table",
-  "file": "File:Dinner table arrangement with food of a middle class Bangladeshi family 01.jpg"
- },
  "health/water:3": {
   "alt": "Кувшин воды",
   "author": "Pushkin's // Pushkin Antiques",
@@ -4086,14 +4078,6 @@
   "page": "https://commons.wikimedia.org/wiki/File:Forest_path.jpg",
   "q": "forest path",
   "file": "File:Forest path.jpg"
- },
- "obzh/cover:choking": {
-  "alt": "Обед за столом",
-  "author": "Jason M. C., Han",
-  "lic": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Special_foods_%26_cuisines_in_Chongqing_-_Family_Dinner_3rd.jpg",
-  "q": "family dinner table",
-  "file": "File:Special foods & cuisines in Chongqing - Family Dinner 3rd.jpg"
  },
  "obzh/choking:1": {
   "alt": "Скорая помощь",
