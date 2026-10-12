@@ -144,6 +144,20 @@ function trill(o = {}) {
   const g = AC.createGain(); env(g, t0, [[0.04, 0.6], [dur * 0.8, 0.5], [dur, 0.0001]]);
   osc.connect(bp); bp.connect(am); am.connect(g); g.connect(master); osc.start(t0); lfo.start(t0); osc.stop(t0 + dur + 0.05); lfo.stop(t0 + dur + 0.05);
 }
+/* ---------- «хм-м?» — котик задумался (на ошибку: мягко, тихо, вопросительно, без «бзз» и «ой») ---------- */
+function hmm() {
+  if (!ok()) return; const now = AC.currentTime; if (now - lastVoice < 0.3) return; lastVoice = now;
+  const t0 = now + 0.02, p = rr(0.95, 1.08);
+  // закрытое «м-м» с лёгким подъёмом в конце, как вопрос; триангл через низкочастотный фильтр — мягкий тембр
+  const o = AC.createOscillator(); o.type = 'triangle';
+  o.frequency.setValueAtTime(300 * p, t0); o.frequency.linearRampToValueAtTime(285 * p, t0 + 0.28); o.frequency.linearRampToValueAtTime(400 * p, t0 + 0.6);
+  const vib = AC.createOscillator(), vg = AC.createGain(); vib.frequency.value = 5; vg.gain.value = 4; vib.connect(vg); vg.connect(o.frequency);
+  const lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900; lp.Q.value = 0.7;
+  const g = AC.createGain(); env(g, t0, [[0.08, 0.13], [0.3, 0.1], [0.5, 0.12], [0.66, 0.0001]]);
+  o.connect(lp); lp.connect(g); g.connect(master);
+  o.start(t0); vib.start(t0); o.stop(t0 + 0.72); vib.stop(t0 + 0.72);
+  tone([[880, 0.35, 0.62, 'sine', 0.035]]); // тихий «дзинь» идеи — «сейчас разберёмся»
+}
 function chirp() { tone([[rr(1500, 1800), 0.07, 0, 'triangle', 0.12, 2400], [rr(1700, 2000), 0.08, 0.1, 'triangle', 0.1, 2600]]); }
 
 /* ---------- хрум-хрум (ест сладость) ---------- */
@@ -275,5 +289,5 @@ function sfx(name) {
   if (name === 'mystery') { [220, 277, 330].forEach((f, i) => tone([[f, 2.4, i * 0.05, 'sine', 0.06]])); [1319, 1568, 1976, 1568].forEach((f, i) => tone([[f, 0.6, 0.6 + i * 0.35, 'triangle', 0.05]])); return; }
   if (name === 'snore') { [0, 1.4].forEach(d => { nburst(t + d, 0.7, 200, 1, 0.25, 'lowpass'); }); return; }
 }
-root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, voice, setBusy, sfx, playBuffer, setCustom, custom, preloadVoice, loadMan, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
+root.Meow = { ctx, tone, meow, kitten, purr, purrStart, purrStop, hiss, trill, hmm, chirp, crunch, yawn, pawStep, haptic, setEnabled: f => { enabled = f; }, setVibro: f => { vibroOn = f; }, setVoice: f => { voiceOn = f; }, onTalk: f => { onTalk = f; }, speak, voice, setBusy, sfx, playBuffer, setCustom, custom, preloadVoice, loadMan, unlockSpeech, hush, hasSpeech: () => 'speechSynthesis' in window, stopAll: () => purrStop() };
 })(this);
