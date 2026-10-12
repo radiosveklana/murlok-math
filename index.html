@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <script>/* уже играет (есть сохранение) или пришёл по ссылке игры (?app, ?ref, #restore) — сразу в игру; ?site=1 — показать сайт */
 try { const q = location.search, h = location.hash; if (!/[?&]site=1/.test(q) && (/[?&](app|ref)=/.test(q) || /restore=/.test(h) || Object.keys(localStorage).some(k => /^murlok-(detective|acc|parent|profiles)/.test(k)))) location.replace('app/' + q.replace(/[?&]app=1/, '').replace(/^&/, '?') + h); } catch (e) { }</script>
+<script>document.documentElement.classList.add('mk-js') /* анимации сайта: site-anim.css/js */</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Мурлок и Ко — детективная школа для 4 класса</title>
 <meta name="description" content="Тренажёр для детей 9–11 лет: вся математика 4 класса, космос, ОБЖ, мышление и скорочтение. Котик-сыщик раскрывает кражи сладостей, а родители получают честный отчёт. Без рекламы, данные в России.">
@@ -159,6 +160,8 @@ footer a { margin-right: 16px; }
 }
 @media (max-width: 420px) { body { font-size: 17px; } .wrap { padding-inline: 16px; } .btn { padding: 15px 20px; font-size: 17px; } .stk { width: 64px; } .stk.s2 { width: 56px; } .stk.s3 { width: 52px; } .nav .btn span { display: none; } }
 </style>
+<link rel="stylesheet" href="site-anim.css?v=34">
+<script src="site-anim.js?v=34" defer></script>
 </head>
 <body>
 <header class="nav" id="nav"><div class="wrap">
@@ -198,7 +201,7 @@ footer a { margin-right: 16px; }
 
   <div class="feat rv"><div class="shot c-mint"><img class="wide" src="about/shots/house.webp" alt="Домик котика с комнатами и вещами"></div>
     <div><h3>🏠 Свой котик и его домик</h3><p>За задачи ребёнок получает сладости и кристаллы, а на них покупает котику наряды, мебель и игрушки. Котика нужно кормить и развлекать. Есть примерочная, фотостудия и дипломы, которые можно показать бабушке.</p>
-    <ul><li>Пять комнат, вещи на полках и столах</li><li>Больше 50 нарядов и окрасы шёрстки за достижения</li><li>Бонусы из Кондитерской: пончик удачи, кекс-подсказка, леденец-заморозка</li></ul></div></div>
+    <ul><li>17 комнат, вещи на полках и столах</li><li>Больше 50 нарядов и окрасы шёрстки за достижения</li><li>Бонусы из Кондитерской: пончик удачи, кекс-подсказка, леденец-заморозка</li></ul></div></div>
 
   <div class="feat rv"><div class="shot c-night"><img class="wide" src="about/shots/sky.webp" alt="Карта звёздного неба с созвездиями"></div>
     <div><h3>🔭 Небо и космическая аркада</h3><p>Телескоп в домике показывает настоящее небо над вашим городом: все 88 созвездий и Полярную. А за решённые задачи котик получает билеты на космическую аркаду — ведёт ракету от Меркурия до Нептуна, собирает звёзды и уворачивается от астероидов.</p></div></div>
@@ -214,6 +217,11 @@ footer a { margin-right: 16px; }
   <div class="stat"><b>3900+</b><span>вопросов и задач</span></div>
   <div class="stat"><b>750+</b><span>фото и иллюстраций</span></div>
 </div></div></section>
+
+<section class="mk-video" id="video" hidden><div class="wrap">
+  <div class="sec-head rv"><span class="kicker">Видео</span><h2>Посмотрите, как это работает</h2></div>
+  <div class="mk-vbox"><video preload="none" data-poster="video/overview.jpg" controls playsinline><source src="video/overview.mp4" type="video/mp4"></video><button class="mk-play" type="button" aria-label="Смотреть видео">▶</button></div>
+</div></section>
 
 <section class="parents" id="parents"><div class="wrap">
   <div class="sec-head rv"><span class="kicker">Для родителей</span><h2>Видно, что ребёнок понял, а что нет</h2><p>Тренажёр не просто считает минуты. Он замечает сильные стороны и темы, где ребёнку пока трудно, и подстраивает задания.</p></div>
