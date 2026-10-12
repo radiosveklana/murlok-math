@@ -118,6 +118,8 @@ const Limits = (() => {
     }).catch(() => { });
   }
   setTimeout(pull, 1200); setInterval(() => { if (!document.hidden) pull(); }, 10 * 60e3);
+  // ребёнок только что вошёл по семейному коду (без перезагрузки) — правила берём сразу, при первом же переходе
+  let lastTok = ''; { const g1 = go; go = function () { const c = window.Accounts && Accounts.child(), t = c && c.token || ''; if (t && t !== lastTok) { lastTok = t; pull(); } return g1.apply(this, arguments); }; }
   function apply(l) { S.limits = l || null; save(); check(); } // кабинет на этом же устройстве — применяем сразу
 
   if (typeof NEWS !== 'undefined') NEWS.unshift('🎮 Взрослые тоже могут играть: «Играть самому» в кабинете — свой котик, вызовы и челленджи всей семьёй', '⏳ Взрослые могут настроить время игры — котик напомнит, когда пора отдохнуть');

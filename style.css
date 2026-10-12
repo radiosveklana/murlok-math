@@ -1363,3 +1363,8 @@ a.set-row { text-decoration: none; color: inherit; }
 .hf-fame span { grid-row: span 2; font-size: 26px; } .hf-fame b { font-size: 20px; } .hf-fame small { color: var(--muted); line-height: 1.2; }
 @media (prefers-reduced-motion: reduce) { .room-cat.swimming svg.cat, .room-cat.singing svg.cat, .room-cat.skating svg.cat, .hf-water { animation: none; } }
 /* === /v31 housefun === */
+
+/* v34: галочки согласия — текст абзацем, а не колонками; [hidden] всегда скрывает (CSS кнопок его перебивал) */
+[hidden] { display: none !important; }
+.acc .tgl { display: block; position: relative; padding-left: 36px; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.acc .tgl input { position: absolute; left: 0; top: 0; }
