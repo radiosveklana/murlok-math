@@ -21,7 +21,7 @@ const Accounts = (() => {
   }, 2500);
 
   /* ---------- облако и друзья — только для детей из кабинета (согласие родителя) ---------- */
-  const cp = cloudPush; cloudPush = function () { if (!linked()) return; return cp.apply(this, arguments); };
+  const cp = cloudPush; cloudPush = function () { if (!linked()) return null; return cp.apply(this, arguments); };
   const ac = linked; window.accLinked = ac;
 
   /* ---------- первый экран: вход для взрослого и для ребёнка с семейным кодом ---------- */
@@ -243,7 +243,7 @@ const Accounts = (() => {
     if (!linked()) { toast('Сначала взрослый привяжет прогресс к кабинету — иначе он потеряется'); return; }
     const m = modal(`<div class="big-emoji">🚪</div><h2>Выйти из игры?</h2><p>Прогресс <b>${esc(S.kid)}</b> сохранится в облаке. Вернуться можно по семейному коду и картинке-ПИН.</p><div class="row-btns"><button class="btn pink" id="cout">Сохранить и выйти</button><button class="btn" data-close>Остаться</button></div>`);
     $('#cout', m.el).addEventListener('click', async () => { $('#cout', m.el).disabled = true; $('#cout', m.el).textContent = 'Сохраняем…';
-      try { const r = await fetch(CLOUD + '/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), data: { ...S, chatLog: [] } }) }); if (!r.ok) throw 0; }
+      try { const r = await fetch(CLOUD + '/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), data: { ...S, chatLog: [] } }) }); if (!r.ok && r.status !== 409) throw 0; } // 409 — в облаке уже более свежий прогресс, он и останется
       catch (e) { $('#cout', m.el).disabled = false; $('#cout', m.el).textContent = 'Сохранить и выйти'; toast('Нет связи — прогресс не сохранился, попробуй позже'); return; }
       ls.set(AK, null); try { localStorage.removeItem(KEY); localStorage.setItem('murlok-saw-site', '1'); } catch (e) { } location.href = '?site=1'; }); // после выхода — на сайт
   }

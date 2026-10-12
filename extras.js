@@ -11,7 +11,9 @@ const Extras = (() => {
     if (!me) { me = { id: P.active }; P.list.push(me); }
     Object.assign(me, { kid: S.kid, cat: S.name, fur: S.fur, wear: S.wear, xp: S.xp }); try { localStorage.setItem(PK, JSON.stringify(P)); } catch (e) { }
   }
-  function switchTo(id) { remember(); const P = profs(); P.active = id; localStorage.setItem(PK, JSON.stringify(P)); cloudPush(); location.reload(); }
+  // перед перезагрузкой дожидаемся отправки прогресса (не дольше 3 с): иначе запрос обрывался, и в «Успехах» у игрока оставались старые цифры
+  const flushThen = fn => Promise.race([typeof cloudFlush === 'function' ? cloudFlush() : null, new Promise(r => setTimeout(r, 3000))]).then(fn, fn);
+  function switchTo(id) { remember(); const P = profs(); P.active = id; localStorage.setItem(PK, JSON.stringify(P)); flushThen(() => location.reload()); }
   // «Кто играет?»: только игроки семьи (у профиля есть вход в семью). Новых игроков здесь не создаём.
   // Переключаться может только взрослый (замок проверяет grownup.js); игроков не из семьи взрослый может убрать с устройства.
   const inFamily = id => { try { const a = JSON.parse(localStorage.getItem('murlok-acc:' + keyOf(id)) || 'null'); return !!(a && a.token); } catch (e) { return false; } };
@@ -41,9 +43,19 @@ const Extras = (() => {
       if (!d || d.v !== 1 || !d.savedAt || d.savedAt <= (S.cloudAt || 0) + 60000 || (d.xp || 0) <= (S.xp || 0)) return;
       const m = modal(`<div class="big-emoji">☁️🐾</div><h2>На другом устройстве ты ушла дальше!</h2><p>В облаке: ⭐ <b>${d.xp}</b> опыта, 🍬 ${d.candies || 0}, дел: ${d.cases || 0}.<br>Здесь: ⭐ <b>${S.xp}</b>.</p><p>Продолжить с более свежего прогресса?</p><div class="row-btns"><button class="btn pink" id="cfYes">Да, продолжить оттуда</button><button class="btn" id="cfNo">Нет, оставить этот</button></div>`.replace('ушла', /[аяь]$/i.test(S.kid || '') ? 'ушла' : 'ушёл'));
       $('#cfYes', m.el).addEventListener('click', () => { exportBackup(); cloudRestore(S.cloudCode).catch(() => { m.close(); toast('Не получилось загрузить'); }); });
-      $('#cfNo', m.el).addEventListener('click', () => { m.close(); cloudDirty = true; cloudPush(); });
+      $('#cfNo', m.el).addEventListener('click', () => { m.close(); cloudDirty = true; cloudPush(true); });
     }).catch(() => { });
   }
+  // сервер не принял сохранение: в облаке прогресс больше (играли на другом устройстве) — спрашиваем один раз за запуск
+  let staleAsked = false;
+  window.cloudStale = d => {
+    if (staleAsked || !d) return; staleAsked = true;
+    const show = () => { if ($('.modal')) return setTimeout(show, 1500);
+      const m = modal(`<div class="big-emoji">☁️🐾</div><h2>На другом устройстве ты ушла дальше!</h2><p>В облаке: ⭐ <b>${d.xp}</b> опыта, 🍬 ${d.candies || 0}, дел: ${d.cases || 0}.<br>Здесь: ⭐ <b>${S.xp}</b>.</p><p>Продолжить с более свежего прогресса?</p><div class="row-btns"><button class="btn pink" id="csYes">Да, продолжить оттуда</button><button class="btn" id="csNo">Нет, оставить этот</button></div>`.replace('ушла', /[аяь]$/i.test(S.kid || '') ? 'ушла' : 'ушёл'));
+      $('#csYes', m.el).addEventListener('click', () => { exportBackup(); cloudRestore(S.cloudCode).catch(() => { m.close(); toast('Не получилось загрузить'); }); });
+      $('#csNo', m.el).addEventListener('click', () => { m.close(); cloudDirty = true; cloudPush(true); }); };
+    show();
+  };
   const exportBackup = () => { try { localStorage.setItem('murlok-before-restore', JSON.stringify(S)); } catch (e) { } }; // на всякий случай сохраняем текущий прогресс
   setTimeout(cloudFresher, 3500);
 
@@ -113,6 +125,6 @@ const Extras = (() => {
   };
   ['roleplay', 'rpchat'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
   if ((window.SUBJECTS || {}).talk) window.SUBJECTS.talk.extras = [{ id: 'roleplay', icon: '🎭', name: 'Тренажёр разговора', run: () => go('roleplay'), badge: () => { const d = Object.keys(S.rp || {}).length; return d ? `сценок: ${d} из ${RP().length}` : ''; }, prog: () => RP().length ? RP().reduce((t, r) => t + ((S.rp || {})[r.id] || 0) / 3, 0) / RP().length : 0 }];
-  return { profs, openProfiles, keyOf };
+  return { profs, openProfiles, keyOf, flushThen };
 })();
 window.Extras = Extras;

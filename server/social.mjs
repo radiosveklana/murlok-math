@@ -125,7 +125,7 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes, members
     const ch = A.children[s.c]; if (!ch) return bad(401, 'auth');
     if (r === 'social/board') return ok(board(ch));
     if (r === 'social/people') return ok({ ...people(ch), games: DUEL_GAMES });
-    if (r === 'social/news') { const dl = duelList(ch), cl = chalList(ch); return ok({ incoming: dl.incoming, unclaimedDuels: dl.unclaimed, claimableChals: cl.claimable }); }
+    if (r === 'social/news') { const dl = duelList(ch), cl = chalList(ch); return ok({ incoming: dl.incoming, unclaimedDuels: dl.unclaimed, finished: dl.done.filter(x => !x.claimed).slice(0, 3), claimableChals: cl.claimable }); } // finished — итоги вызовов, которые игрок ещё не видел
     if (r === 'duel/list') return ok(duelList(ch));
     if (r === 'duel/new') {
       const to = String(d.to || ''), game = String(d.game || ''), topic = String(d.topic || '').replace(/[^a-z0-9_]/gi, '').slice(0, 30);
@@ -177,7 +177,11 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes, members
       const kids = famMembers(f), ids = new Set(kids.map(k => k.id));
       const chals = Object.values(A.chals).filter(c => (c.kind === 'family' ? c.fam === f.id : (c.members || []).some(id => ids.has(id))) && isActive(c)).map(c => ({ ...chalView(c, null), by: c.kind === 'family' ? 'parent' : 'kid' }));
       const wk = weekStart(), duels = Object.values(A.duels).filter(x => x.done && (ids.has(x.from) || ids.has(x.to)) && dk(x.doneAt || 0) >= wk).length;
-      return ok({ board: famBoard(f), chals, duelsWeek: duels, templates: Object.entries(CHAL_TPL).filter(([, t]) => t.kind === 'family').map(([id, t]) => ({ id, ...t })) });
+      // последние вызовы семьи — взрослый видит, кто с кем играл и чем кончилось (раньше в кабинете было только число)
+      const nm = id => { const c = A.children[id]; return c ? { name: first(c.name), adult: isAdult(c) || undefined } : { name: '—' }; };
+      const recent = Object.values(A.duels).filter(x => (ids.has(x.from) || ids.has(x.to)) && x.r[x.from]).sort((a, b) => (b.doneAt || b.created) - (a.doneAt || a.created)).slice(0, 8)
+        .map(x => ({ id: x.id, game: x.game, icon: DUEL_GAMES[x.game].icon, gameName: DUEL_GAMES[x.game].name, topic: x.topic || '', from: nm(x.from), to: nm(x.to), rFrom: x.r[x.from] || null, rTo: x.r[x.to] || null, done: !!x.done, winner: x.done ? (x.winner === x.from ? 'from' : x.winner === x.to ? 'to' : 'draw') : null, at: x.doneAt || x.created }));
+      return ok({ board: famBoard(f), chals, duelsWeek: duels, recent, templates: Object.entries(CHAL_TPL).filter(([, t]) => t.kind === 'family').map(([id, t]) => ({ id, ...t })) });
     }
     if (r === 'fam/chal') {
       const T = CHAL_TPL[d.tpl]; if (!T || T.kind !== 'family') return bad(400, 'tpl');

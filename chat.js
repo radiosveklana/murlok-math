@@ -1,7 +1,7 @@
 /* chat.js — «Поболтать с котиком»: ребёнок говорит (микрофон) или пишет, котик отвечает голосом.
    Ответы даёт сервер murlok-api (строгие детские правила безопасности). Переписка хранится только на этом устройстве. */
 'use strict';
-const API = (location.hostname === 'murlok.tech-wave.ru' ? '/api' : 'https://level.tech-wave.ru/murlok-api');
+const API = CLOUD; // тот же адрес, что и у облака (app.js)
 const CAN_REC = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
 const CHAT_TIPS = ['Как у тебя дела?', 'Загадай мне загадку', 'Расскажи про космос', 'Помоги понять умножение', 'Какое твоё любимое лакомство?', 'Мне сегодня грустно', 'Расскажи смешную историю', 'Какие бывают кошки?'];
 const deviceId = () => { if (!S.device) { S.device = 'd' + Math.random().toString(36).slice(2) + Date.now().toString(36); save(); } return S.device; };

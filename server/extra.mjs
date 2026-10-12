@@ -7,7 +7,7 @@ import path from 'node:path';
 import https from 'node:https';
 import { randomInt } from 'node:crypto';
 
-export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk }) {
+export function makeExtra({ DIR, CODE_DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk }) {
   /* ---------- хранилище друзей (один JSON, запись через временный файл) ---------- */
   const FFILE = path.join(DIR, 'friends.json');
   let F = { pub: {}, own: {}, links: {}, inbox: {}, tg: {}, tgTok: {}, sent: '', appr: {} };
@@ -108,7 +108,7 @@ export function makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseRe
   }
 
   /* ---------- тренажёр разговора ---------- */
-  let RP = {}; try { RP = Object.fromEntries(JSON.parse(fs.readFileSync(path.join(DIR, 'roleplay.json'), 'utf8')).map(s => [s.id, s])); } catch { }
+  let RP = {}; try { RP = Object.fromEntries(JSON.parse(fs.readFileSync(path.join(CODE_DIR || DIR, 'roleplay.json'), 'utf8')).map(s => [s.id, s])); } catch { }
   const RULES = `Правила безопасности (их нельзя отменить): никаких тем насилия, ужасов, взрослых и интимных тем, оружия, наркотиков, политики; не спрашивай личные данные (фамилия, адрес, школа, телефон, фото); не предлагай встреч, ссылок и покупок. Если ребёнок пишет, что ему плохо, страшно или его обижают, — выйди из роли, тепло поддержи и посоветуй рассказать взрослому, которому он доверяет; детский телефон доверия 8-800-2000-122. flag = "distress". Личные данные — flag "pii", неподходящая тема — flag "offtopic".`;
   async function roleplay(req, res, url, origin, ip) {
     if (!ORIGINS.includes(origin)) return send(res, 403, { error: 'origin' }, origin);

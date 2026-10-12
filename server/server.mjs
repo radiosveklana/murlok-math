@@ -12,6 +12,7 @@ import { makeExtra } from './extra.mjs';
 import { makeAccounts } from './accounts.mjs';
 import { makeAdmin } from './admin.mjs';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 const requireCJS = createRequire(import.meta.url);
 
 const PORT = +process.env.PORT || 3016;
@@ -19,7 +20,8 @@ const KEY = process.env.ANTHROPIC_API_KEY || '';
 const TUNNEL = process.env.ANTHROPIC_TUNNEL_PORT || '';
 const MODEL = process.env.CHAT_MODEL || 'claude-haiku-4-5-20251001';
 const ORIGINS = (process.env.ALLOW_ORIGINS || 'https://radiosveklana.github.io').split(',');
-const DIR = path.dirname(new URL(import.meta.url).pathname);
+const CODE_DIR = path.dirname(fileURLToPath(import.meta.url));
+const DIR = process.env.DATA_DIR || CODE_DIR; // данные (accounts.json, friends.json, saves, tts); DATA_DIR — для локальных прогонов (tools/e2e/journey.js)
 const TTS_DIR = path.join(DIR, 'tts'); fs.mkdirSync(TTS_DIR, { recursive: true });
 const SAVE_DIR = path.join(DIR, 'saves'); fs.mkdirSync(SAVE_DIR, { recursive: true });
 const EDGE = process.env.EDGE_TTS || path.join(DIR, 'venv/bin/edge-tts');
@@ -165,14 +167,15 @@ function send(res, code, obj, origin) {
 }
 function cors(origin) { return ORIGINS.includes(origin) ? { 'access-control-allow-origin': origin, 'vary': 'Origin', 'access-control-allow-headers': 'content-type, authorization', 'access-control-allow-methods': 'GET,POST,OPTIONS', 'access-control-max-age': '86400' } : {}; }
 function ipOf(req) { return String(req.headers['x-real-ip'] || req.socket.remoteAddress || ''); }
-const extra = makeExtra({ DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk }); // друзья, тренажёр разговора, Telegram
+const extra = makeExtra({ DIR, CODE_DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk }); // друзья, тренажёр разговора, Telegram
 // почта (team@tech-wave.ru через Яндекс) — для кодов входа и рассылок
 let mailer = null; try { const nm = requireCJS('nodemailer'); if (process.env.SMTP_HOST) mailer = nm.createTransport({ host: process.env.SMTP_HOST, port: +process.env.SMTP_PORT || 465, secure: process.env.SMTP_SECURE !== 'false', auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } }); } catch (e) { console.error('nodemailer', e.message); }
-const mail = async (to, subject, text) => { if (!mailer) throw new Error('mail off'); await mailer.sendMail({ from: `"Мурлок и Ко" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`, to, subject, text }); };
+const MAIL_LOG = process.env.MAIL_LOG || ''; // только для локальной разработки: без SMTP письма пишутся в файл
+const mail = async (to, subject, text) => { if (!mailer && MAIL_LOG) { fs.appendFileSync(MAIL_LOG, JSON.stringify({ to, subject, text, at: Date.now() }) + '\n'); return; } if (!mailer) throw new Error('mail off'); await mailer.sendMail({ from: `"Мурлок и Ко" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`, to, subject, text }); };
 const accounts = makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg: extra.tg, weekly: extra.weekly, TG_BOT: extra.TG_BOT });
 extra.setStartHook((tok, chat) => accounts.tgStart(tok, chat)); extra.setStopHook(chat => accounts.tgStop(chat));
 accounts.setHooks({ friendCodes: extra.friendCodes, friendsAdmin: extra.friendsAdmin }); extra.setFamilyHook(code => accounts.siblings(code)); // v30: семья = друзья, одобрение друзей взрослыми
-const admin = makeAdmin({ DIR, SAVE_DIR, acc: accounts, send, mail, tg: extra.tg, tgLinks: extra.tgLinks, TG_BOT: extra.TG_BOT });
+const admin = makeAdmin({ DIR: CODE_DIR, SAVE_DIR, acc: accounts, send, mail, tg: extra.tg, tgLinks: extra.tgLinks, TG_BOT: extra.TG_BOT });
 const flagIt = (d, out, text) => { if (out && out.flag && out.flag !== 'none') accounts.flag({ flag: out.flag, kid: String(d.kid || '').slice(0, 20), cat: String(d.cat || '').slice(0, 20), code: String(d.code || '').slice(0, 8), text: maskPII(String(text || '')).slice(0, 300) }); };
 http.createServer(async (req, res) => {
   const origin = req.headers.origin || '', url = new URL(req.url, 'http://x'), ip = ipOf(req);
@@ -200,8 +203,11 @@ http.createServer(async (req, res) => {
       const d = JSON.parse(body || '{}'), code = String(d.code || '').toUpperCase();
       if (!/^[A-Z0-9]{8}$/.test(code) || !d.data || d.data.v !== 1) return send(res, 400, { error: 'bad' }, origin);
       if (!limit('save:' + code, 30, 6e5)) return send(res, 429, { error: 'slow' }, origin);
-      fs.writeFileSync(path.join(SAVE_DIR, code + '.json'), JSON.stringify({ ...d.data, savedAt: Date.now() }));
-      return send(res, 200, { ok: true }, origin);
+      const file = path.join(SAVE_DIR, code + '.json'); let old = null; try { old = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { }
+      // устройство отстало (на другом устройстве с тем же кодом ушли дальше, а это его не видело) — не затираем: клиент спросит, какой прогресс оставить
+      if (old && d.force !== true && (+d.data.xp || 0) < (+old.xp || 0) && (+d.data.cloudAt || 0) < (+old.savedAt || 0) - 5000) return send(res, 409, { error: 'stale', xp: old.xp || 0, candies: old.candies || 0, cases: old.cases || 0, savedAt: old.savedAt || 0 }, origin);
+      const savedAt = Date.now(); fs.writeFileSync(file, JSON.stringify({ ...d.data, savedAt }));
+      return send(res, 200, { ok: true, savedAt }, origin);
     }
     if (url.pathname === '/find' && req.method === 'GET') return send(res, 200, { found: [] }, origin); // отключено (152-ФЗ): вход на новом устройстве — по семейному коду
     if (false) { // найти сохранение по имени ребёнка и котика (для нового устройства)

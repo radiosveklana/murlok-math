@@ -18,7 +18,8 @@ const Grownup = (() => {
     if (!S.kid) return; let me = P.list.find(x => x.id === P.active); if (!me) { me = { id: P.active }; P.list.push(me); }
     Object.assign(me, { kid: S.kid, cat: S.name, fur: S.fur, wear: S.wear, xp: S.xp }, isAdult() ? { adult: true, cloudCode: S.cloudCode } : {});
   }
-  function switchTo(id) { const P = profs(); remember(P); P.active = id; setProfs(P); try { cloudPush(); } catch (e) { } location.reload(); }
+  const reloadAfterSave = () => (window.Extras && Extras.flushThen ? Extras.flushThen(() => location.reload()) : location.reload()); // прогресс уходящего игрока — сначала в облако
+  function switchTo(id) { const P = profs(); remember(P); P.active = id; setProfs(P); reloadAfterSave(); }
 
   /* ---------- «Играть самому» ---------- */
   async function play(Pp, name, cat, btn) {
@@ -39,7 +40,7 @@ const Grownup = (() => {
     try { localStorage.setItem('murlok-acc:' + keyOf(prof.id), JSON.stringify({ token: r.token, childId: r.childId, familyCode: r.familyCode, name: r.name, adult: true })); } catch (e) { }
     setProfs(P); SND.win(); toast('🎮 Открываем Вашего котика…');
     if (P.active === prof.id) { location.reload(); return; }
-    P.active = prof.id; setProfs(P); try { cloudPush(); } catch (e) { } setTimeout(() => location.reload(), 400);
+    P.active = prof.id; setProfs(P); reloadAfterSave();
   }
 
   /* ---------- в профиль взрослого с профиля ребёнка — только через замок ---------- */

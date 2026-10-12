@@ -70,6 +70,15 @@ const Family = (() => {
   const lockedHTML = title => `${topbar(title)}<div class="page"><div class="card center"><div class="big-emoji">🔐</div><h2>Вместе со взрослым</h2><p>Таблица успехов, вызовы и челленджи появятся, когда мама или папа откроют <b>личный кабинет</b> и привяжут твой прогресс. Так безопаснее!</p><button class="btn pink big" data-go="clogin">🧒 Войти по семейному коду</button><p class="small">Код семьи и твою картинку-ПИН знает мама или папа — они в кабинете взрослого. Твоя игра на этом планшете перенесётся в семью.</p><button class="link small" data-go="agate" data-arg="${window.Accounts && Accounts.parent() ? 'linknow' : 'pcab'}">Я взрослый: привязать сам</button></div></div>`;
   const giveReward = (r, why) => { if (!r) return; if (r.candies) award(r.candies, 0); if (r.gems) awardGems(r.gems, why); if (r.badge) { S.chalBadges = S.chalBadges || []; S.chalBadges.push({ b: r.badge, name: r.name || why || '', at: Date.now() }); save(); } };
   const plain = s => String(s || '').replace(/<[^>]+>/g, '');
+  // свежий прогресс — на сервер до того, как просим таблицу (не дольше 4 с, чтобы без сети экран не завис)
+  const flushUp = () => Promise.race([typeof cloudFlush === 'function' ? cloudFlush() : null, new Promise(r => setTimeout(r, 4000))]);
+  // сыгранный вызов — это тоже игра: опыт, задача дня, рекорды (раньше дуэль не попадала ни в «Успехи», ни в задание дня)
+  function credit(game, r) { try {
+    if (/^schulte/.test(game)) { const n = game === 'schulte5' ? 5 : 4; S.read = S.read || { wpm: [], schulte: {}, flash: 0 }; S.read.schulte = S.read.schulte || {}; const sec = +r.time; if (sec > 0 && (!S.read.schulte[n] || sec < S.read.schulte[n])) S.read.schulte[n] = sec; award(0, 5); }
+    else if (game === 'paws') { S.st.blitz.games++; if ((+r.score || 0) > S.st.blitz.best) S.st.blitz.best = +r.score; award(0, +r.score || 0); }
+    else award(0, (+r.score || 0) * 2);
+    markDay(1); try { day().t++; } catch (e) { } save(); cloudDirty = true;
+  } catch (e) { console.warn(e); } }
 
   /* ---------- экран «Успехи»: таблица / вызовы / челленджи ---------- */
   const TABS = [['top', '📊 Таблица'], ['duels', '⚔️ Вызовы'], ['chal', '🎯 Челленджи']];
@@ -80,6 +89,7 @@ const Family = (() => {
     app.innerHTML = `${topbar('🏆 Успехи')}<div class="seg tabs fm-tabs">${TABS.map(([id, n]) => `<button data-t="${id}" class="${id === tab ? 'on' : ''}">${n}</button>`).join('')}</div><div class="page fm" id="fmp"><p class="center small">Загрузка…</p></div>`;
     $$('.fm-tabs button').forEach(b => b.addEventListener('click', () => { SND.tap(); go(b.dataset.t === 'top' ? 'board' : b.dataset.t === 'duels' ? 'duels' : 'chal'); }));
     const box = $('#fmp');
+    await flushUp(); if (!document.body.contains(box)) return;
     try { await ({ top: drawTop, duels: drawDuels, chal: drawChal })[tab](box); }
     catch (e) { if ($('#fmp')) $('#fmp').innerHTML = `<div class="card center"><div class="big-emoji">☁️</div><p>${e.code === 'auth' ? 'Нужно войти заново по семейному коду.' : 'Не получилось связаться с сервером. Проверь интернет.'}</p><button class="btn pink" data-go="board">Ещё раз</button></div>`; }
   };
@@ -152,7 +162,7 @@ const Family = (() => {
     $('#dgo').addEventListener('click', () => {
       const area = document.createElement('div'); box.innerHTML = ''; box.appendChild(area); box.classList.remove('center');
       const fin = async res => {
-        box.innerHTML = '<p class="center">Отправляем результат…</p>';
+        box.innerHTML = '<p class="center">Отправляем результат…</p>'; credit(d.game, res); flushUp();
         try { const r = await api("duel/" + d.id + "/result", res); d = r.duel; duelCache[d.id] = d; }
         catch (e) { d = { ...d, mine: res }; if (e.code !== 'played') toast('Нет связи — результат не отправился'); }
         if (document.body.contains(box)) showResult(box, d);
@@ -162,14 +172,29 @@ const Family = (() => {
       else playTopic(area, d.topic, d.seed, fin);
     });
   };
+  const headOf = d => d.done ? (d.result === 'win' ? '🏆 Победа!' : d.result === 'draw' ? '🤝 Ничья!' : '💪 В этот раз победил' + (girl(d.other.name) ? 'а' : '') + ' ' + esc(d.other.name)) : '📨 Вызов отправлен!';
+  const scoreHTML = d => `<div class="fm-score"><div class="${d.result === 'win' ? 'win' : ''}">${ava({ fur: S.fur, wear: S.wear })}<b>Ты</b><span>${resText(d.game, d.mine)}</span></div><div class="${d.result === 'lose' ? 'win' : ''}">${ava(d.other)}<b>${esc(d.other.name)}</b><span>${d.theirs ? resText(d.game, d.theirs) : 'ещё не играл' + (girl(d.other.name) ? 'а' : '')}</span></div></div>`;
   function showResult(box, d) {
     box.classList.add('center');
-    const head = d.done ? (d.result === 'win' ? '🏆 Победа!' : d.result === 'draw' ? '🤝 Ничья!' : '💪 В этот раз победил' + (girl(d.other.name) ? 'а' : '') + ' ' + esc(d.other.name)) : '📨 Вызов отправлен!';
-    box.innerHTML = `<div class="big-emoji">${d.done ? (d.result === 'win' ? '🏆' : d.result === 'draw' ? '🤝' : '🐾') : '⏳'}</div><h2>${head}</h2>
-      <div class="fm-score"><div class="${d.result === 'win' ? 'win' : ''}">${ava({ fur: S.fur, wear: S.wear })}<b>Ты</b><span>${resText(d.game, d.mine)}</span></div><div class="${d.result === 'lose' ? 'win' : ''}">${ava(d.other)}<b>${esc(d.other.name)}</b><span>${d.theirs ? resText(d.game, d.theirs) : 'ещё не играл' + (girl(d.other.name) ? 'а' : '')}</span></div></div>
-      <p>${d.done ? (d.result === 'lose' ? 'Отличная попытка! Тренируйся — и в следующий раз победа будет твоей.' : 'Здорово сыграно!') : `${esc(d.other.name)} увидит вызов в игре. Результат появится во вкладке «Вызовы».`}</p>
+    box.innerHTML = `<div class="big-emoji">${d.done ? (d.result === 'win' ? '🏆' : d.result === 'draw' ? '🤝' : '🐾') : '⏳'}</div><h2>${headOf(d)}</h2>${scoreHTML(d)}
+      <p>${d.done ? (d.result === 'lose' ? 'Отличная попытка! Тренируйся — и в следующий раз победа будет твоей.' : 'Здорово сыграно!') : `${esc(d.other.name)} увидит вызов в игре. Как только ${girl(d.other.name) ? 'она' : 'он'} сыграет, итог появится здесь, на главной и во вкладке «Вызовы».`}</p>
       <div class="row-btns"><button class="btn pink" data-go="duels">К вызовам</button><button class="btn" data-go="home">Домой</button></div>`;
-    if (d.done) { SND.win(); if (d.result === 'win') confetti(40); claimDuels([d]); }
+    if (d.done) { SND.win(); if (d.result === 'win') confetti(40); claimDuels([d]); return; }
+    // ждём соперника прямо на этом экране: итог появится сам (раньше экран навсегда оставался «Вызов отправлен»)
+    const iv = setInterval(async () => { if (!document.body.contains(box)) return clearInterval(iv); try { const nd = (await api('duel/' + d.id)).duel; if (nd && nd.done && document.body.contains(box)) { clearInterval(iv); duelCache[nd.id] = nd; showResult(box, nd); } } catch (e) { } }, 8000);
+    cleanups.push(() => clearInterval(iv));
+  }
+  // итог вызова, который закончился без тебя (соперник сыграл позже) — показываем на главной один раз и сразу выдаём награду
+  const resShown = () => { try { return JSON.parse(sessionStorage.getItem('duelResShown') || '[]'); } catch (e) { return []; } };
+  function showFinished(n) {
+    const L = (n.finished || []).filter(d => d.done && !d.claimed && !resShown().includes(d.id)); if (!L.length) return;
+    const tryIt = k => { if (curScreen !== 'home' || resShown().includes(L[0].id)) return; if ($('.modal')) { if (k < 20) setTimeout(() => tryIt(k + 1), 1500); return; }
+      const d = L[0]; try { sessionStorage.setItem('duelResShown', JSON.stringify([...resShown(), d.id])); } catch (e) { }
+      const m = modal(`<div class="big-emoji">${d.result === 'win' ? '🏆' : d.result === 'draw' ? '🤝' : '🐾'}</div><h2>Итог вызова: ${headOf(d)}</h2><p>${d.icon} <b>${esc(plain(gameName(d)))}</b></p>${scoreHTML(d)}<div class="row-btns"><button class="btn pink" data-go="duels">К вызовам</button><button class="btn" data-close>Ура!</button></div>`);
+      if (d.result === 'win') confetti(30); M.meow({ shape: 'happy' }); claimDuels([d]).then(() => { news = null; if (L.length > 1) setTimeout(() => showFinished({ finished: L.slice(1) }), 1200); });
+      m.el.addEventListener('click', e => { if (e.target.closest('[data-close]')) news = null; });
+    };
+    setTimeout(() => tryIt(0), 2500);
   }
 
   /* ---------- челленджи ---------- */
@@ -204,9 +229,9 @@ const Family = (() => {
     const fr = $('.t-friends', app) || $('.t-diploma', app) || $('.t-shop', app);
     if (fr && !$('.t-board', app)) fr.insertAdjacentHTML('afterend', `<button class="tile t-board" data-go="board"><span class="ti">🏆</span><b>Успехи и вызовы</b><small>Таблица недели, вызовы, челленджи</small><span class="tbadge" id="fmbadge" hidden></span></button>`);
     if (!linked()) return r;
-    const paint = n => { const b = $('#fmbadge'); const c = n.incoming.length + n.unclaimedDuels + n.claimableChals; if (b && c) { b.hidden = false; b.textContent = c; } };
+    const paint = n => { const b = $('#fmbadge'); const c = n.incoming.length + n.unclaimedDuels + n.claimableChals; if (b) { b.hidden = !c; b.textContent = c || ''; } };
     let offer = n => { const L = n.incoming.filter(d => !shown().includes(d.id)); if (!L.length) return; const d = L[0];
-      const tryIt = k => { if (curScreen !== 'home') return; if ($('.modal')) { if (k < 20) setTimeout(() => tryIt(k + 1), 1500); return; }
+      const tryIt = k => { if (curScreen !== 'home' || shown().includes(d.id)) return; if ($('.modal')) { if (k < 20) setTimeout(() => tryIt(k + 1), 1500); return; }
         try { sessionStorage.setItem('duelShown', JSON.stringify([...shown(), d.id])); } catch (e) { }
         const m = modal(`<div class="fm-vs">${ava(d.other)}<b>⚔️</b>${ava({ fur: S.fur, wear: S.wear })}</div><h2>${esc(d.other.name)} бросил${girl(d.other.name) ? 'а' : ''} тебе вызов!</h2><p>${d.icon} <b>${esc(plain(gameName(d)))}</b></p>${d.theirs ? `<p>Результат: <b>${resText(d.game, d.theirs)}</b>. Сможешь лучше?</p>` : ''}<div class="row-btns"><button class="btn pink" id="dacc">Принять вызов!</button><button class="btn" data-close>Позже</button></div>`);
         $('#dacc', m.el).addEventListener('click', () => { duelCache[d.id] = d; m.close(); go('duelplay', d.id); }); M.meow({ shape: 'happy' }); };
@@ -214,9 +239,13 @@ const Family = (() => {
     // котик сам напоминает о вызове, который уже видели, но ещё не приняли (раз в 20 минут, чтобы не надоедать)
     const remind = n => { const L = n.incoming.filter(d => shown().includes(d.id)); if (!L.length) return; let at = 0; try { at = +sessionStorage.getItem('duelRemindAt') || 0; } catch (e) { } if (Date.now() - at < 20 * 6e4) return;
       setTimeout(() => { if (curScreen !== 'home' || $('.modal')) return; const d = L[0]; try { sessionStorage.setItem('duelRemindAt', Date.now()); } catch (e) { } say(`⚔️ ${esc(d.other.name)} ждёт твой ответ на вызов «${esc(plain(gameName(d)))}»! Загляни в «Успехи и вызовы» 🏆`, 0, { prio: 1 }); }, 6000); };
-    const offer0 = offer; offer = n => { offer0(n); remind(n); };
-    if (news && Date.now() - newsAt < 60000) { paint(news); offer(news); }
-    else api('social/news').then(n => { news = n; newsAt = Date.now(); if (curScreen === 'home') { paint(n); offer(n); } }).catch(() => { });
+    const offer0 = offer; offer = n => { showFinished(n); offer0(n); remind(n); };
+    // новости вызовов: старые показываем сразу, но всегда дозапрашиваем свежие (раньше кэш на минуту прятал итог только что сыгранного вызова);
+    // пока ребёнок или взрослый на главной — проверяем раз в 30 секунд, чтобы вызов и итог приходили сами
+    const pull = () => api('social/news').then(n => { news = n; newsAt = Date.now(); if (curScreen === 'home') { paint(n); offer(n); } }).catch(() => { });
+    if (news) paint(news);
+    if (!news || Date.now() - newsAt > 8000) pull(); else offer(news);
+    const iv = setInterval(() => { if (curScreen !== 'home') return clearInterval(iv); if (!document.hidden) pull(); }, 30000); cleanups.push(() => clearInterval(iv));
   } catch (e) { console.warn(e); } return r; }; }
   { const g0 = go; go = function (name) { if (['board', 'duels', 'chal', 'duelplay'].includes(name)) news = null; return g0.apply(this, arguments); }; }
 
@@ -237,7 +266,8 @@ const Family = (() => {
     if (!document.body.contains(el)) return; if (!d || !d.board || !Array.isArray(d.chals)) { el.innerHTML = ''; return; } fr = fr && Array.isArray(fr.kids) ? fr : { kids: [] };
     const sch = r => [4, 5, 3].map(n => r.schulte && r.schulte[n] ? `${n}×${n}: ${r.schulte[n]} с` : '').find(Boolean) || '—';
     const famC = d.chals.filter(c => c.kind === 'family'), kidC = d.chals.filter(c => c.kind !== 'family'), act = new Set(famC.map(c => c.tpl));
-    el.innerHTML = `<div class="card"><h3>📊 Успехи за неделю</h3>${d.board.rows.length ? `<table class="fm-tbl"><tr><th>Ребёнок</th><th>⭐ опыт</th><th>🧮 задачи</th><th>🔥 дней подряд</th><th>🔢 Шульте</th><th>★</th></tr>${d.board.rows.map(r => `<tr><td>${esc(r.name)}${r.adult ? ' <small>(взрослый)</small>' : ''}</td><td>${r.xp}</td><td>${r.tasks}</td><td>${r.streak}</td><td>${sch(r)}</td><td>${r.stars}</td></tr>`).join('')}</table><p class="small">Вызовов сыграно за неделю: <b>${d.duelsWeek}</b>. Дети видят такую же таблицу — только имена и котиков.</p>` : '<p class="small">Добавьте детей — и здесь появится таблица.</p>'}</div>
+    el.innerHTML = `<div class="card"><h3>📊 Успехи за неделю</h3>${d.board.rows.length ? `<table class="fm-tbl"><tr><th>Ребёнок</th><th>⭐ опыт</th><th>🧮 задачи</th><th>🔥 дней подряд</th><th>🔢 Шульте</th><th>★</th></tr>${d.board.rows.map(r => `<tr><td>${esc(r.name)}${r.adult ? ' <small>(взрослый)</small>' : ''}</td><td>${r.xp}</td><td>${r.tasks}</td><td>${r.streak}</td><td>${sch(r)}</td><td>${r.stars}</td></tr>`).join('')}</table><p class="small">Вызовов сыграно за неделю: <b>${d.duelsWeek}</b>. Дети видят такую же таблицу — только имена и котиков.</p>` : '<p class="small">Добавьте детей — и здесь появится таблица.</p>'}
+      ${(d.recent || []).length ? `<h3>⚔️ Последние вызовы</h3><div class="fm-recent">${d.recent.map(x => `<div class="fm-rd"><span>${x.icon}</span><div><b>${esc(x.from.name)} ${x.done ? (x.winner === 'from' ? '🏆' : '') : ''}<small>${resText(x.game, x.rFrom)}</small></b> <i>vs</i> <b>${esc(x.to.name)} ${x.winner === 'to' ? '🏆' : ''}<small>${x.rTo ? resText(x.game, x.rTo) : 'ещё не сыграл(а)'}</small></b><small>${esc(plain(gameName(x)))}${x.done ? (x.winner === 'draw' ? ' · ничья' : '') : ' · ждём ответа'}</small></div></div>`).join('')}</div>` : ''}</div>
       <div class="card"><h3>🎯 Челленджи</h3>${famC.length ? famC.map(c => `<div class="fm-tpl"><span>${c.icon}</span><div><b>${esc(c.name)}</b><small>${Math.min(c.progress, c.goal)} из ${c.goal} · до ${new Date(c.end).toLocaleDateString('ru-RU')}${c.complete ? ' · ✅ цель достигнута' : ''}</small><div class="bar mint"><i style="width:${Math.min(100, Math.round(c.progress / c.goal * 100))}%"></i></div></div><button class="btn sm" data-crm="${c.id}">Убрать</button></div>`).join('') : '<p class="small">Семейных челленджей пока нет.</p>'}
         ${kidC.length ? `<p class="small"><b>Дети сами начали:</b> ${kidC.map(c => `${c.icon} ${esc(c.name)} (${Math.min(c.progress, c.goal)}/${c.goal})`).join(' · ')}</p>` : ''}
         <details ${famC.length ? '' : 'open'}><summary>➕ Создать семейный челлендж</summary><p class="small">Общая цель на всех детей семьи на 7 дней. Когда цель достигнута, каждый ребёнок получает награду.</p>${d.templates.map(t => `<div class="fm-tpl"><span>${t.icon}</span><div><b>${t.name}</b><small>${rewardTxt(t.reward)} каждому</small></div><button class="btn sm pink" data-cadd="${t.id}" ${act.has(t.id) ? 'disabled' : ''}>${act.has(t.id) ? 'идёт' : 'Создать'}</button></div>`).join('')}</details></div>
@@ -283,6 +313,7 @@ const Family = (() => {
     .fm-tbl{width:100%;border-collapse:collapse;font-size:14px}.fm-tbl th,.fm-tbl td{padding:5px 4px;border-bottom:1px solid #f1e8ee;text-align:center}.fm-tbl td:first-child,.fm-tbl th:first-child{text-align:left}
     .fm-frk{padding:8px 0;border-bottom:1px solid #f1e8ee}.fm-adult{display:flex;align-items:center;gap:8px;padding:6px 0;flex-wrap:wrap}.fm-adult>span{flex:1;min-width:0;overflow-wrap:anywhere}
     .fm-adl{display:inline-block;font-size:11px;font-weight:800;background:#E8F4FF;color:#2B6CB0;border-radius:8px;padding:1px 6px;vertical-align:middle}
+    .fm-recent{display:flex;flex-direction:column;gap:6px}.fm-rd{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px solid #f1e8ee}.fm-rd:last-child{border-bottom:0}.fm-rd>span{font-size:22px}.fm-rd>div{flex:1;min-width:0}.fm-rd b{display:inline-flex;flex-direction:column;vertical-align:top}.fm-rd b small{font-weight:600;color:var(--muted)}.fm-rd i{margin:0 6px;color:var(--muted)}.fm-rd>div>small{display:block;color:var(--muted)}
     .fm-roles .chip{cursor:pointer}.fm-roles .chip.on{background:var(--pink);color:#fff}
     .acc-entry.fresh{background:#fff;border-radius:20px;padding:16px;box-shadow:var(--sh2);display:flex;flex-direction:column;gap:10px;margin-bottom:14px}.acc-entry.fresh .btn{width:100%}
     .acc-try{margin-top:6px;padding-top:10px;border-top:2px dashed #EADCE6;width:100%}.acc-try h3{margin:0 0 4px}.duelp .schulte{margin:10px auto}
