@@ -29,6 +29,7 @@ const UX = (() => {
 
   const PTABS = [['sum', '📊 Обзор'], ['prog', '📈 Прогресс'], ['acc', '⚙️ Кабинет']];
   const ptabOf = el => {
+    if (el.classList.contains('top-note')) return 'sum';
     if (el.classList.contains('acc-card') || el.matches('button.danger')) return 'acc';
     if (el.classList.contains('coach-rep')) return 'sum';
     const h = ((el.querySelector('h2,h3') || el).textContent || '').trim();

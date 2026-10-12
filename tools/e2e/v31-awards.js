@@ -49,7 +49,7 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V31 OK
   ok('legacy badges stay earned', R.kept);
   ok('retro badges granted from progress', R.n >= 40 && R.retro >= 25, `total ${R.n}, retro ${R.retro}`);
   ok('v31 flag set', R.v === 31);
-  ok('specific retro badges', await E(() => ['case25', 'who10', 'who25', 'blitz10', 'sch3', 'flash4', 'early1', 'lunch10', 'm4f:' + SUBJECTS.math4.units[0].id, 'm4s:' + SUBJECTS.math4.units[0].id, 'ac1:space', 'pl1', 'con10', 'furn5', 'days10', 'sweet1000'].every(id => S.badges.includes(id))));
+  ok('specific retro badges', await E(() => ['case25', 'who10', 'who25', 'blitz10', 'sch3', 'flash4', 'lunch10', 'm4f:' + SUBJECTS.math4.units[0].id, 'm4s:' + SUBJECTS.math4.units[0].id, 'ac1:space', 'pl1', 'con10', 'furn5', 'days10'].every(id => S.badges.includes(id))));
   ok('not over-granted', await E(() => !['case50', 'blitz30', 'streak100', 'pl8', 'con30', 'ch1', 'sch4', 'wpm100'].some(id => S.badges.includes(id))));
   ok('retro diplomas granted', await E(() => ['cases10', 'cases25', 'top:mul', 'm4:' + SUBJECTS.math4.units[0].id].every(id => (S.diplomas || []).some(d => d.id === id))));
   await sleep(1200);
@@ -96,7 +96,7 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V31 OK
   ok('weekly diploma retro (5 days a week)', await E(() => S.diplomas.some(d => /^week:/.test(d.id))));
   ok('gender: «прошла», not «прошёла»', await E(() => !/прошёла/.test(document.body.innerText)));
   await shot('05-diplomas');
-  await E(() => document.querySelector('.aw-pane[data-p="diplomas"] .dp').click()); await p.waitForSelector('.ph-big', { timeout: 8000 }).catch(() => { });
+  await E(() => { S.shareOn = true; document.querySelector('.aw-pane[data-p="diplomas"] .dp').click(); }); await p.waitForSelector('.ph-big', { timeout: 8000 }).catch(() => { });
   ok('diploma share still works', (await E(() => window.__lastDiploma || 0)) > 50000 && !!(await p.$('#pshare')));
   await clean();
 

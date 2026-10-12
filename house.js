@@ -2,7 +2,8 @@
 'use strict';
 const HL = window.Lines;
 const OLD_FURN = { sofa: 20, plant: 10, pic: 15, tv: 30, fishtank: 40, clock: 20, bowl: 10, milk: 10, cake: 25, cookies: 15, teapot: 20, cupcakes: 35, bed: 30, teddy: 15, lamp: 15, books: 20, lights: 25, pillow: 15, map: 20, dossier: 15, flash: 15, phone: 20, puzzle: 25, case: 20, yarn: 10, balloons: 15, ball: 10, game: 30, kite: 15, paint: 20, tree: 25, sunflower: 15, fountain: 50, butterfly: 15, mushroom: 10, ladybug: 10, scope: 50, planet: 30, moon: 20, star: 15, rocket: 60, ufo: 70 };
-const CARE_RATE = { food: 5, water: 7, fun: 6, energy: 4, clean: 3 }; // убывание в час
+const CARE_RATE = { food: 1.2, water: 1.6, fun: 1.4, energy: 1, clean: 0.8 }; // убывание в час (v34: мягко — котик не «голодает» и не давит виной)
+const CARE_MIN = 40, CARE_GAP = 6; // ниже 40% не падает; пока ребёнка нет дольше 6 часов — потребности замирают
 const catItem = id => HL.CATALOG.find(c => c[0] === id);
 const anyItem = id => { const c = catItem(id); if (c) return { icon: c[1], name: c[2] }; const f = fxFind(id); return f ? { icon: f[1], name: f[2] } : null; }; // вещь из каталога или убранная в сундук встроенная
 const GEM_FURN = { unicorn: 6, castle: 8, dragon: 10, carousel: 12, ferris: 15, gem: 5 }; // особые вещи — только за 💎
@@ -34,9 +35,9 @@ function houseMigrate() {
 /* потребности котика убывают со временем, но не ниже 5 — котик только грустит */
 function careNow() {
   houseMigrate();
-  const c = S.care, h = (Date.now() - c.t) / 3.6e6;
+  const c = S.care, h = Math.min(CARE_GAP, (Date.now() - c.t) / 3.6e6);
   if (h > 0.02) {
-    for (const k in CARE_RATE) { const room = HL.ROOMS.find(r => r.id === HL.CARE[k].room); if (room && roomOpen(room)) c[k] = Math.max(5, c[k] - CARE_RATE[k] * h); }
+    for (const k in CARE_RATE) { const room = HL.ROOMS.find(r => r.id === HL.CARE[k].room); if (room && roomOpen(room)) c[k] = Math.max(Math.min(c[k], CARE_MIN), c[k] - CARE_RATE[k] * h); }
     c.t = Date.now(); save();
   }
   return c;

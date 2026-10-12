@@ -1368,3 +1368,10 @@ a.set-row { text-decoration: none; color: inherit; }
 [hidden] { display: none !important; }
 .acc .tgl { display: block; position: relative; padding-left: 36px; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
 .acc .tgl input { position: absolute; left: 0; top: 0; }
+
+/* v34: отчёт ребёнка в окне (только просмотр) */
+.rep-frame { width: 100%; height: min(75vh, 900px); border: 0; border-radius: 14px; background: var(--bg, #fff); }
+.modal .sheet.rep-sheet, .rep-sheet { max-width: 980px; width: 96vw; }
+body.view-ro header.top .back, body.view-ro header.top .pill, body.view-ro #mascot, body.view-ro .upd, body.view-ro #reset, body.view-ro .danger { display: none !important; }
+body.view-ro .to-game, body.view-ro .ptabs button[data-tab="acc"] { display: none !important; }
+.top-note { border: 2px solid var(--mint, #2ec4a0); }

@@ -32,6 +32,8 @@ const Medals = (() => {
   const m4units = () => ((((window.SUBJECTS || {}).math4) || {}).units) || [];
   const dayKeys = () => mm('dk', () => Object.keys(S.days || {}).filter(k => S.days[k] > 0 && /^\d{4}-\d\d-\d\d$/.test(k)).sort());
   const dOf = k => new Date(k + 'T12:00:00');
+  function bestWeek() { return mm('bw', () => { const ts = dayKeys().map(k => dOf(k).getTime()).sort((a, b) => a - b); let best = 0; for (let i = 0, j = 0; i < ts.length; i++) { while (ts[i] - ts[j] > 6 * 864e5 + 36e5) j++; best = Math.max(best, i - j + 1); } return best; }); }
+  function goodWeeks() { return mm('gw', () => { const W = {}; dayKeys().forEach(k => { const d = dOf(k), mon = new Date(d); mon.setDate(d.getDate() - (d.getDay() + 6) % 7); const w = mon.toDateString(); W[w] = (W[w] || 0) + 1; }); return Object.values(W).filter(n => n >= 4).length; }); }
   function bestStreak() { return mm('bs', () => { let best = 0, run = 0, prev = null; dayKeys().forEach(k => { const t = dOf(k).getTime(); run = prev != null && Math.round((t - prev) / 864e5) === 1 ? run + 1 : 1; prev = t; best = Math.max(best, run); }); return Math.max(best, (((S.coach || {}).stats) || {}).bestStreak || 0, typeof streak === 'function' ? streak() : 0); }); }
   const hours = (a, b) => { const H = S.hours || []; let n = 0; for (let h = a; h <= b; h++) n += H[h] || 0; return n; };
   const bestWpm = () => mm('wpm', () => Math.max(0, ...(((S.read || {}).wpm) || []).filter(x => x.comp >= 67).map(x => x.wpm)));
@@ -140,24 +142,18 @@ const Medals = (() => {
     /* семья */
     [['ch1', 'b', 1, 'Первый челлендж'], ['ch5', 's', 5, 'Семейная команда'], ['ch15', 'g', 15, 'Чемпион семьи']].forEach(([id, t, n, nm]) => A(id, 'family', t, '🎯', nm, n === 1 ? 'Выполнить первый семейный челлендж' : `Выполнить ${n} семейных челленджей`, n, () => (S.chalBadges || []).length, { go: 'board' }));
     /* серии дней */
-    [['streak3', 'b', 3, 'Три дня подряд'], ['streak7', 's', 7, 'Неделя сыска'], ['streak14', 's', 14, 'Две недели подряд'], ['streak30', 'g', 30, 'Месяц без пропусков'], ['streak60', 'g', 60, 'Два месяца подряд'], ['streak100', 'l', 100, 'Сто дней подряд']]
-      .forEach(([id, t, n, nm]) => A(id, 'days', t, '🔥', nm, `Заниматься ${n} дней подряд`, n, bestStreak));
+    // v34: без «подряд» — пропуск дня ничего не сжигает; награждаем регулярность (дни за неделю, хорошие недели)
+    [['streak3', 'b', 3, 'Три дня за неделю'], ['streak7', 's', 5, 'Пять дней за неделю']].forEach(([id, t, n, nm]) => A(id, 'days', t, '📅', nm, `Позаниматься ${n} разных дней за одну неделю (7 дней)`, n, bestWeek));
+    [['wk4', 's', 4, 'Месяц регулярности'], ['wk12', 'g', 12, 'Три месяца регулярности'], ['wk26', 'l', 26, 'Полгода регулярности']].forEach(([id, t, n, nm]) => A(id, 'days', t, '🗓️', nm, `${n} хороших недель — когда занятия были хотя бы 4 дня из 7`, n, goodWeeks));
     [['days10', 'b', 10], ['days50', 's', 50], ['days100', 'g', 100]].forEach(([id, t, n]) => A(id, 'days', t, '📅', `${n} дней занятий`, `Позаниматься в ${n} разных днях`, n, () => dayKeys().length));
     /* время суток */
-    A('early1', 'time', 'b', '🐦', 'Ранняя пташка', 'Позаниматься рано утром — до 8 часов', 1, () => hours(5, 7) ? 1 : 0);
-    A('early20', 'time', 's', '🌅', 'Утренний сыщик', 'Решить 20 заданий рано утром — до 8 часов', 20, () => hours(5, 7));
     A('lunch10', 'time', 'b', '🥪', 'Обеденный перерыв', 'Решить 10 заданий днём — с 12 до 14 часов', 10, () => hours(12, 13));
     A('weekend5', 'time', 's', '🎈', 'Сыщик выходного дня', 'Позаниматься в 5 выходных дней (субботы и воскресенья)', 5, () => dayKeys().filter(k => [0, 6].includes(dOf(k).getDay())).length);
     A('allweek', 'time', 'g', '🌈', 'Вся неделя', 'Позаниматься в каждый день недели — от понедельника до воскресенья', 7, () => new Set(dayKeys().map(k => dOf(k).getDay())).size);
     /* секреты и забавные */
-    A('sweet100', 'secret', 'b', '🍬', 'Сладкоежка', 'Собрать 100 конфет', 100, () => S.totalCandies || 0);
-    A('sweet1000', 'secret', 's', '🍭', 'Конфетная гора', 'Собрать 1000 конфет', 1000, () => S.totalCandies || 0, { secret: true });
-    A('sweet5000', 'secret', 'g', '🍫', 'Шоколадная фабрика', 'Собрать 5000 конфет', 5000, () => S.totalCandies || 0, { secret: true });
     A('gem100', 'secret', 'g', '💎', 'Кладоискатель', 'Заработать 100 кристаллов', 100, () => S.gemsTotal || 0, { secret: true });
-    A('chat20', 'secret', 'b', '💬', 'Болтушка', 'Написать котику 20 сообщений в чате', 20, () => (S.chatLog || []).filter(m => m && m.r === 'u').length, { secret: true });
     A('rankTop', 'secret', 'l', '👑', 'Легенда сыска', 'Получить самое высокое звание агентства', 15, () => (typeof rank === 'function' ? rank().i : 0), { secret: true });
     A('legend3', 'secret', 'l', '🌠', 'Три звезды легенды', 'Достичь уровня «Легенда сыска ★3»', 3, () => (window.Wardrobe ? Wardrobe.legend().lv || 0 : 0), { secret: true });
-    A('newyear', 'secret', 's', '🎄', 'Новогодний сыщик', 'Позаниматься 31 декабря или 1 января', 1, () => dayKeys().some(k => /-12-31$|-01-01$/.test(k)) ? 1 : 0, { secret: true });
     A('talkall', 'secret', 'g', '🎭', 'Душа компании', 'Пройти все сценки тренажёра разговора хотя бы на две звезды', 1, () => { const R = tg('talk').roleplay || []; return R.length && R.every(r => ((S.rp || {})[r.id] || 0) >= 2) ? 1 : 0; }, { secret: true });
     return L;
   }
