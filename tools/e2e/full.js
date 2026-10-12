@@ -25,7 +25,7 @@ const errors = []; const misses = new Set();
 
   await p.goto(URL); await sleep(800);
   await shot('01-hello');
-  await p.type('#kid', 'Василиса'); await p.type('#nm', 'Мурзик'); await click('.fur[data-f="calico"]'); await click('#start'); await sleep(600);
+  await p.type('#kid', 'Василиса'); await p.$eval('#nm', i => { i.value = ''; }); await p.type('#nm', 'Мурзик'); await click('.fur[data-f="calico"]'); await click('#start'); await sleep(600);
   await shot('02-welcome'); await click('.modal [data-close]'); await shot('03-home');
   await sleep(2500); await dismiss(); await click('#cfg'); await sleep(300); await click('#mus'); // ждём очередь окон на главной (подарок за вход), чтобы не закрыть настройки await sleep(400); await shot('03b-music'); await click('.mcard[data-m="mystic"]'); await sleep(1500);
   console.log('music-on:', await p.evaluate(() => document.body.classList.contains('music-on')), await p.$eval('#nowp', e => e.innerText));

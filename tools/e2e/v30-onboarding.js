@@ -43,7 +43,7 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V30 OK
   /* ---------- 390: знакомство → окна по очереди → экскурсия ---------- */
   await p.goto(URL); await p.waitForSelector('#kid');
   await E(() => { localStorage.removeItem('murlok-detective-v1'); }); await p.goto(URL); await p.waitForSelector('#kid');
-  await p.type('#kid', 'Маша'); await p.type('#nm', 'Пушок'); await p.click('#start');
+  await p.type('#kid', 'Маша'); await p.$eval('#nm', i => { i.value = ''; }); await p.type('#nm', 'Пушок'); await p.click('#start');
   await waitFor(() => E(() => !!document.querySelector('.modal')), 4000);
   await sleep(2500);
   ok('tour waits while welcome popup is open', await E(() => !!document.querySelector('.modal')) && !(await tourOn()));

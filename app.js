@@ -862,7 +862,7 @@ SCREENS.hello = () => {
     <label class="lbl" for="kid">Как тебя зовут?</label>
     <input id="kid" class="nmi" maxlength="16" placeholder="Твоё имя" value="${esc(S.kid || '')}" autocomplete="off">
     <label class="lbl" for="nm">А как зовут твоего котика-напарника?</label>
-    <input id="nm" class="nmi" maxlength="16" placeholder="Например, Мурлок" value="${esc(S.name || '')}" autocomplete="off">
+    <input id="nm" class="nmi" maxlength="16" placeholder="Мурлок" value="${esc(S.name || 'Мурлок')}" autocomplete="off">
     <div class="lbl">Выбери окрас</div>
     <div class="furs">${Object.entries(FURS).filter(([k, f]) => !f.salon || (S.furs || []).includes(k)).map(([k, f]) => `<button class="fur ${k === fur ? 'on' : ''}" data-f="${k}"><i style="background:${f.sw}"></i>${f.name}</button>`).join('')}</div>
     <button class="btn big pink" id="start">Начать расследования →</button>

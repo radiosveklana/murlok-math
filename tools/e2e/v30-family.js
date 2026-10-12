@@ -57,7 +57,7 @@ const FAMCHAL = { id: 'HFAMCHAL01', tpl: 'fam_tasks', kind: 'family', mode: '', 
   ok('fresh hello: three roads, adult first', await E2(() => { const r = [...document.querySelectorAll('.hl-roads .road')].map(b => b.id); return r.join() === 'aparent,achild,atry' && document.querySelector('#kid').offsetParent === null; }));
   await E2(() => document.querySelector('#atry').click()); await sleep(300);
   ok('try without registration opens the form', await E2(() => document.querySelector('#kid').offsetParent !== null && !document.querySelector('.hello').classList.contains('choose')));
-  await q.type('#kid', 'Тося'); await q.type('#nm', 'Пушок'); await E2(() => document.querySelector('#start').click()); await sleep(1500);
+  await q.type('#kid', 'Тося'); await q.$eval('#nm', i => { i.value = ''; }); await q.type('#nm', 'Пушок'); await E2(() => document.querySelector('#start').click()); await sleep(1500);
   ok('local play still works', await E2(() => S.kid === 'Тося' && curScreen === 'home'));
   await E2(() => { document.querySelectorAll('.modal').forEach(m => m.remove()); go('home'); }); await sleep(600);
   ok('unlinked kid: nudge to ask an adult', await E2(() => /Позвать взрослого/.test((document.querySelector('.acc-nudge') || {}).innerText || '')));
