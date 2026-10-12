@@ -27,7 +27,15 @@ const Modes = (() => {
     if (q.type === 'case') return Array.isArray(q.a) && q.a.some(o => o.ok === true) && q.a.some(o => o.ok !== true);
     return false;
   }
-  const unitQs = u => (u.quiz || []).filter(okQ);
+  /* задачи на счёт (isCalcQ, academy.js) — только в математике и школьных предметах; в Академии их не показываем нигде */
+  const calcMemo = new WeakMap();
+  function calcOkU(u) {
+    if (typeof isCalcQ !== 'function' || typeof calcAllowed !== 'function') return true;
+    if (!calcMemo.has(u)) { const s = Object.values(window.SUBJECTS || {}).find(x => Array.isArray(x.units) && x.units.includes(u)); calcMemo.set(u, calcAllowed(s, u)); }
+    return calcMemo.get(u);
+  }
+  const okQU = (u, q) => okQ(q) && (calcOkU(u) || !isCalcQ(q));
+  const unitQs = u => (u.quiz || []).filter(q => okQU(u, q));
   const isSchool = s => s.id === 'math4' || !!s.school;
   /* предметы Академии (всё, кроме школьных) — в порядке Академии; новые предметы контента появляются сами */
   function acadSubs(withTeen = true) {
@@ -218,7 +226,7 @@ const Modes = (() => {
   const seenQ = new Set();
   function qFromUnit(s, u) { // вопрос из темы: генератор (бесконечные задачи) или банк тренажёра без повторов
     const qs = unitQs(u);
-    if (typeof u.gen === 'function' && (!qs.length || Math.random() < 0.75)) { for (let t = 0; t < 6; t++) { let q; try { q = u.gen(typeof genLv === 'function' ? genLv(s.id, u.id) : 2); } catch (e) { q = null; } if (okQ(q)) return q; } }
+    if (typeof u.gen === 'function' && (!qs.length || Math.random() < 0.75)) { for (let t = 0; t < 6; t++) { let q; try { q = u.gen(typeof genLv === 'function' ? genLv(s.id, u.id) : 2); } catch (e) { q = null; } if (okQU(u, q)) return q; } }
     if (!qs.length) return null;
     const fresh = qs.filter(q => !seenQ.has(q)), q = pick(fresh.length ? fresh : qs); seenQ.add(q); return q;
   }
@@ -375,8 +383,16 @@ const Modes = (() => {
     const known = new Set(TaskBank.list().map(x => x.id));
     if (topic === 'school') { nS = 4; nA = 0; }
     if (topic === 'acad') { nS = 0; nA = 4; }
-    if (topic === 'pick') { ids = (p.caseTopics || []).filter(x => known.has(x)); aids = acadPool(p.caseAcad || []).map(x => x.s.id + ':' + x.u.id); if (!ids.length && !aids.length) { ids = null; aids = null; } else if (!aids.length) { nS = 4; nA = 0; } else if (!ids.length) { nS = 0; nA = 4; } }
-    const pool = acadPool(aids); if (!pool.length) { nS += nA; nA = 0; }
+    if (topic === 'pick') {
+      ids = (p.caseTopics || []).filter(x => known.has(x)); aids = acadPool(p.caseAcad || []).map(x => x.s.id + ':' + x.u.id);
+      const wantA = (p.caseAcad || []).length > 0;
+      // выбранные темы Академии закрылись или пропали — не подменяем их математикой: берём открытые темы Академии
+      if (wantA && !aids.length) { if (!acadPool(null).length) { toast('🔒 Выбранные темы Академии пока закрыты. Открой урок в Академии или выбери другие темы!'); pickTopics(); return; } toast('🔒 Выбранные темы Академии пока закрыты — свидетели спросят про открытые темы Академии'); aids = null; if (!ids.length) { nS = 0; nA = 4; } }
+      else if (!ids.length && !aids.length) { toast('🔒 Выбранные темы пока недоступны — выбери темы ещё раз'); pickTopics(); return; } else if (!aids.length) { nS = 4; nA = 0; } else if (!ids.length) { nS = 0; nA = 4; }
+    }
+    const pool = acadPool(aids);
+    if (!pool.length && nA && (topic === 'acad' || (topic === 'pick' && !nS))) { toast('🔒 Темы Академии пока закрыты — сначала открой урок в Академии!'); if (topic === 'pick') pickTopics(); return; }
+    if (!pool.length) { nS += nA; nA = 0; }
     scPrev('mix', diff); if (!CASE) return;
     const sch = nS ? TaskBank.pick(ids, nS, diff) : [], ab = bag(), wits = CASE.witnesses || [];
     const ac = Array.from({ length: nA }, (_, i) => mkAcad(ab(pool, 'p'), diff, wits[i] || null));
@@ -683,6 +699,6 @@ const Modes = (() => {
 `;
   document.head.appendChild(css);
 
-  return { okQ, bugFromQ, bugSource, schoolEntries, acadSubs, factItems, getMode, NUM, VAR, CORE_BUG, truthItems };
+  return { okQ, unitQs, qFromUnit, bugFromQ, bugSource, schoolEntries, acadSubs, factItems, getMode, NUM, VAR, CORE_BUG, truthItems };
 })();
 window.Modes = Modes;

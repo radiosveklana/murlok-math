@@ -9,10 +9,37 @@ const acad = id => { S.acad = S.acad || {}; const a = S.acad[id] = S.acad[id] ||
 function mergeExtra() { if (mergeExtra.done) return; mergeExtra.done = true; Object.entries(window.QUIZ_EXTRA || {}).forEach(([sid, units]) => { const sb = window.SUBJECTS[sid]; if (!sb) return; Object.entries(units).forEach(([uid, qs]) => { const u = sb.units.find(x => x.id === uid); if (u && Array.isArray(qs)) u.quiz.push(...qs); }); }); }
 const subj = id => { mergeExtra(); return window.SUBJECTS[id]; };
 const daysSince = d => Math.floor((Date.now() - new Date(d).getTime()) / 864e5);
-function dueMistakes(id) { const a = acad(id), out = []; Object.entries(a.box).forEach(([qid, [b, d]]) => { if (daysSince(d) >= BOX_DAYS[b]) out.push(qid); }); return out; }
+function dueMistakes(id) { const a = acad(id), out = []; Object.entries(a.box).forEach(([qid, [b, d]]) => { if (calcBlocked(id, qid)) { delete a.box[qid]; if (a.gq) delete a.gq[qid]; return; } if (daysSince(d) >= BOX_DAYS[b]) out.push(qid); }); return out; }
+/* старые ошибки-«примеры» в нематематических предметах (до v32) больше не возвращаются в разбор */
+function calcBlocked(id, qid) { const s = subj(id), f = s && findQ(id, qid); return !!f && !calcAllowed(s, f.u) && isCalcQ(f.q); }
 function findQ(id, qid) { const [uid, n] = qid.split('#'), u = subj(id).units.find(x => x.id === uid), gq = acad(id).gq || {}; if (u && gq[qid]) return { u, q: gq[qid], qid }; return u && u.quiz[+n] ? { u, q: u.quiz[+n], qid } : null; }
 /* «отпечаток» вопроса из генератора — чтобы решённые верно задачи не повторялись (mistakes.js хранит подписи) */
 const qHash = q => { const s = String((q && (q.q || q.story)) || '') + '|' + JSON.stringify((q && (q.a || q.items)) || '') + '|' + String(q && q.c != null ? q.c : ''); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
+/*CALCQ — «задача на счёт»: в предметах Академии (кроме математики) таких вопросов быть не должно.
+   Тот же код читает tools/validate-content.js (вырезает блок между метками CALCQ) — правьте только здесь.
+   Явный флаг q.calc (true/false) важнее эвристики. */
+function isCalcQ(q) {
+  if (!q || typeof q !== 'object') return false;
+  if (q.calc === true || q.calc === false) return q.calc;
+  if (q.type !== 'input' && q.type !== 'one') return false;
+  const tx = h => String(h == null ? '' : h).replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/(\d)[\s  ](?=\d{3}(?!\d))/g, '$1');
+  const T = /\b\d{1,2}:\d{2}\b/g, W = '(?=[^а-яёa-z]|$)';
+  const nums = s => [...new Set((s.replace(T, m => ' ' + m.replace(':', '.') + ' ').match(/\d+(?:[.,]\d+)?/g) || []).map(x => String(+x.replace(',', '.'))))];
+  const opts = q.type === 'one' ? (q.a || []).map(tx) : null;
+  if (opts && !opts.every(o => /^\s*(?:≈|~|около)?\s*[\d\s.,:−-]+\s*[а-яё°%.,]*\s*$/i.test(o))) return false;
+  // 1) в объяснении есть действие с числами: «3 × 7», «1000 : 250», «16 + 6», «5 стаканов × 250», «16:00 + 40 минут», «отнимаем»
+  const why = tx(q.why).replace(T, ' Ч ');
+  if (/\d\s*[×·÷*\/+−:]\s*\d/.test(why) || /[×÷]\s*\d|\d\s*[×÷]/.test(why) || /Ч\s*[+−]\s*\d|\d\s*[+−]\s*Ч/.test(why) || /\d\s*минус\s*\d|отнима|прибавля|вычита|умножа/i.test(why)) return true;
+  // 2) ответ — число, которого нет в условии; в условии ≥ 2 чисел (для «выбери» — с подсказкой «сколько … за / всего / на сколько…»)
+  const qt = tx(q.q || q.story).replace(/\d+(?:\s*[–-]\s*\d+){2,}/g, ' ').replace(/\d+\s*[–—]\s*\d+/g, ' '); // телефоны «8-800-…», «5-4-3-2-1» и диапазоны «5–17» — не данные задачи
+  const qn = nums(qt), an = nums(q.type === 'input' ? String(q.c) : String(opts[q.c] || ''));
+  if (!an.length || an.some(x => qn.includes(x))) return false;
+  const KW = new RegExp('сколько[^?]*[^а-яё](за|всего|вместе|осталось|останется|понадобится|хватит|наберётся|получится)' + W + '|во сколько раз|на сколько|сколько (это|будет|прошло|лет прошло)' + W + '|во сколько (часов|ему|ей)' + W + '|какого числа|какой (у него )?рост|в какую минуту', 'i');
+  return (q.type === 'input' && qn.length >= 2) || (qn.length >= 1 && KW.test(qt));
+}
+/* где задачи на счёт разрешены: математика, школьные предметы (school:true), предмет или урок с calcOk:true */
+const calcAllowed = (s, u) => !!((s && (s.calcOk || s.id === 'math4' || s.school)) || (u && u.calcOk));
+/*/CALCQ*/
 const genLv = (id, uid) => ((S.prefs.genLv = S.prefs.genLv || {})[id + ':' + uid] || 1);
 /* прогресс предмета: учебник + тренажёр; у предметов с упражнениями и играми (скорочтение, общение, игры Академии) они — половина прогресса */
 function subjProgress(id) {
@@ -100,9 +127,9 @@ SCREENS.aquiz = arg => {
   const a = acad(id); let items = [];
   // верно решённые вопросы больше не показываем (кроме «Разбора ошибок»); ошибки возвращаются; темы с генератором — новые задачи без повторов
   const okm = a.ok = a.ok || {}, seen = a.seen = a.seen || {}, MK = window.Mistakes;
-  const fresh = u => (u.quiz || []).map((q, n) => ({ u, q, qid: u.id + '#' + n })).filter(x => window.GOD || !okm[x.qid]); // window.GOD — «режим бога»: повторы разрешены
+  const fresh = u => (u.quiz || []).map((q, n) => ({ u, q, qid: u.id + '#' + n })).filter(x => (window.GOD || !okm[x.qid]) && (calcAllowed(s, u) || !isCalcQ(x.q))); // window.GOD — «режим бога»: повторы разрешены; задачи на счёт — только в математике
   const bySeen = l => shuffle(l).sort((x, y) => (seen[x.qid] || 0) - (seen[y.qid] || 0));
-  const genN = (u, lv, n) => { const out = [], hs = new Set(); for (let t = 0; out.length < n && t < n * 10; t++) { let q; try { q = u.gen(lv); } catch (e) { q = null; } if (!q) continue; const h = qHash(q); if (hs.has(h) || (MK && MK.isSolved('g:' + h))) continue; hs.add(h); out.push({ u, q, qid: u.id + '#g' + Date.now().toString(36) + out.length, gen: true, h }); } return out; };
+  const genN = (u, lv, n) => { const out = [], hs = new Set(); for (let t = 0; out.length < n && t < n * 10; t++) { let q; try { q = u.gen(lv); } catch (e) { q = null; } if (!q || (!calcAllowed(s, u) && isCalcQ(q))) continue; const h = qHash(q); if (hs.has(h) || (MK && MK.isSolved('g:' + h))) continue; hs.add(h); out.push({ u, q, qid: u.id + '#g' + Date.now().toString(36) + out.length, gen: true, h }); } return out; };
   if (uid === '*review') items = dueMistakes(id).map(q => findQ(id, q)).filter(Boolean);
   else if (uid === '*mix') { const us = s.units.filter(u => a.read[u.id] && u.quiz); items = bySeen(us.flatMap(fresh)).slice(0, 10); const gu = us.filter(u => u.gen); for (let t = 0; items.length < 10 && gu.length && t < 20; t++) { const u = pick(gu); items.push(...genN(u, genLv(id, u.id), 1)); } items = shuffle(items); }
   else { const u = s.units.find(x => x.id === uid); if (!u) return go('subject', id); const take = u.take || 8;
@@ -110,6 +137,7 @@ SCREENS.aquiz = arg => {
     else items = bySeen(fresh(u)).slice(0, take); // сначала — вопросы, которые ребёнок видел реже всего
     if (!items.length) return acadAllDone(s, u); }
   if (!items.length) { toast(uid === '*mix' ? 'Все вопросы уже решены! 🎉' : 'Пока нечего повторять — всё выучено! 🎉'); return go('subject', id); }
+  window.__aqItems = items; // для автотестов (tools/e2e/v32-nocalc.js)
   const title = uid === '*review' ? '🔁 Разбор ошибок' : uid === '*mix' ? '🎲 Тренировка' : '🎯 ' + items[0].u.title;
   let k = 0, ok = 0;
   app.innerHTML = `${topbar(title, 'subject')}<div class="page aquiz" style="--c:${s.color}"><div class="g-head"><div class="g-dots">${items.map(() => '<i></i>').join('')}</div><div class="pill">⭐ <b id="qsc">0</b></div></div>${helperHTML('qbub')}<div id="qarea"></div><div id="qafter" class="after"></div></div>`;
