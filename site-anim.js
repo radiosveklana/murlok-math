@@ -205,7 +205,7 @@
     const grid = $('#parents .grid3'); if (!grid) return;
     const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'], hs = [.55, .8, .38, .95, .7, .45, .62];
     const row = hide(el('div', 'mk-rep-row', `<div class="mk-rep">
-      <div class="mk-rep-h"><b>📬 Отчёт за неделю</b><span>пример · Кэтика</span></div>
+      <div class="mk-rep-h"><b>📬 Отчёт за неделю</b><span>пример · Соня</span></div>
       <div class="mk-rep-b">
         <div><div class="mk-cap">Минуты по дням</div><div class="mk-bars">${days.map((d, k) => `<div class="mk-bar" style="--h:${hs[k]};--dl:${(k * .08).toFixed(2)}s"><i></i><span>${d}</span></div>`).join('')}</div></div>
         <div class="mk-acc"><div class="mk-cap">Точность</div><b>87%</b><div class="mk-track" style="--v:.87"><i></i></div></div>
