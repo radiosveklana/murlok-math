@@ -17,7 +17,7 @@ const Accounts = (() => {
   try { const m = location.hash.match(/restore=([A-Z0-9]{8})/); if (m && !S.kid) { history.replaceState(null, '', location.pathname); cloudRestore(m[1]).catch(() => { }); } } catch (e) { }
   if (/github\.io$/.test(location.hostname)) setTimeout(() => {
     if ($('.modal')) return; const m = modal(`<div class="big-emoji">🏡✨</div><h2>Мы переехали!</h2><p>«Мурлок и Ко» теперь живёт по новому адресу: <b>murlok.tech-wave.ru</b>. Там появятся личные кабинеты, и прогресс будет надёжно храниться на российском сервере.</p><p>Весь твой прогресс переедет вместе с тобой 🐾</p><div class="row-btns"><button class="btn pink" id="mvgo">Переехать</button><button class="btn" data-close>Позже</button></div>`);
-    $('#mvgo', m.el).addEventListener('click', async () => { $('#mvgo', m.el).textContent = 'Собираем вещи…'; let code = ''; if (S.kid) { code = cloudCode(); cloudDirty = true; await fetch('https://level.tech-wave.ru/murlok-api/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code, data: { ...S, chatLog: [] } }) }).catch(() => { }); } location.href = HOME + (code ? '#restore=' + code : ''); });
+    $('#mvgo', m.el).addEventListener('click', async () => { $('#mvgo', m.el).textContent = 'Собираем вещи…'; let code = ''; if (S.kid) { code = cloudCode(); cloudDirty = true; await fetch('https://level.tech-wave.ru/murlok-api/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code, data: (({ pin, pinLock, ...x }) => ({ ...x, chatLog: [] }))(S) }) }).catch(() => { }); } location.href = HOME + (code ? '#restore=' + code : ''); });
   }, 2500);
 
   /* ---------- облако и друзья — только для детей из кабинета (согласие родителя) ---------- */
@@ -241,9 +241,10 @@ const Accounts = (() => {
   async function parentOut() { const P = parent(); if (P) await api('logout', {}, P.token).catch(() => { }); ls.set(PK, null); toast('Вы вышли из кабинета'); go(S.kid ? 'home' : 'hello'); }
   function childOut() {
     if (!linked()) { toast('Сначала взрослый привяжет прогресс к кабинету — иначе он потеряется'); return; }
+    if (S.role !== 'adult' && window.Limits && Limits.rules() && !adultOk()) { toast('Пока действуют правила времени, выйти можно только вместе со взрослым'); return gate('home'); } // иначе «выйти → новый игрок» обходит ограничения
     const m = modal(`<div class="big-emoji">🚪</div><h2>Выйти из игры?</h2><p>Прогресс <b>${esc(S.kid)}</b> сохранится в облаке. Вернуться можно по семейному коду и картинке-ПИН.</p><div class="row-btns"><button class="btn pink" id="cout">Сохранить и выйти</button><button class="btn" data-close>Остаться</button></div>`);
     $('#cout', m.el).addEventListener('click', async () => { $('#cout', m.el).disabled = true; $('#cout', m.el).textContent = 'Сохраняем…';
-      try { const r = await fetch(CLOUD + '/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), data: { ...S, chatLog: [] } }) }); if (!r.ok && r.status !== 409) throw 0; } // 409 — в облаке уже более свежий прогресс, он и останется
+      try { const r = await fetch(CLOUD + '/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), data: (({ pin, pinLock, ...x }) => ({ ...x, chatLog: [] }))(S) }) }); if (!r.ok && r.status !== 409) throw 0; } // 409 — в облаке уже более свежий прогресс, он и останется
       catch (e) { $('#cout', m.el).disabled = false; $('#cout', m.el).textContent = 'Сохранить и выйти'; toast('Нет связи — прогресс не сохранился, попробуй позже'); return; }
       ls.set(AK, null); try { localStorage.removeItem(KEY); localStorage.setItem('murlok-saw-site', '1'); } catch (e) { } location.href = '?site=1'; }); // после выхода — на сайт
   }
@@ -276,20 +277,24 @@ const Accounts = (() => {
     const tryIt = () => {
       const L = S.pinLock = S.pinLock || { n: 0, until: 0 };
       if (Date.now() < L.until) { $('#pinerr').textContent = `Слишком много попыток. Попробуйте через ${Math.ceil((L.until - Date.now()) / 60000)} мин.`; return; }
-      if ($('#pinin').value.trim() === S.pin) { L.n = 0; save(); unlock(); go(next); return; }
+      if (pinOk($('#pinin').value.trim())) { L.n = 0; save(); unlock(); go(next); return; }
       L.n++; if (L.n >= 5) { L.n = 0; L.until = Date.now() + 10 * 60 * 1000; } save();
       SND.bad(); shake($('#pinin')); $('#pinin').value = ''; $('#pinerr').textContent = L.until > Date.now() ? 'Слишком много попыток. Попробуйте через 10 мин.' : 'Неверный ПИН';
     };
     $('#pingo').addEventListener('click', tryIt); $('#pinin').addEventListener('keydown', e => { if (e.key === 'Enter') tryIt(); });
     $('#pinforgot').addEventListener('click', () => go('pauth', 'gate:' + next));
   };
+  // ПИН храним только как солёный хэш (и не отправляем в облако); старые ПИНы открытым текстом тоже принимаем и тут же перехэшируем
+  function pinHash(p, salt) { salt = salt || Math.random().toString(36).slice(2, 10); let h = 2166136261 >>> 0; const src = salt + ':' + p; for (let k = 0; k < 20000; k++) for (let i = 0; i < src.length; i++) { h ^= src.charCodeAt(i) + k; h = Math.imul(h, 16777619) >>> 0; } return 'h1:' + salt + ':' + h.toString(36); }
+  function pinOk(p) { const v = String(S.pin || ''); if (!v) return false; if (!v.startsWith('h1:')) { if (p !== v) return false; S.pin = pinHash(p); save(); return true; } return pinHash(p, v.split(':')[1]) === v; }
+  window.pinOk = pinOk;
   SCREENS.pinset = next => {
     next = next || 'parents'; if (!adultOk()) return gate(next);
     app.innerHTML = `${topbar('🔐 ПИН для взрослых', 'home')}<div class="page center acc"><div class="card"><div class="big-emoji">🔢</div><h2>Придумайте ПИН</h2><p class="small">4 цифры. По ним вы будете входить в раздел для взрослых на этом устройстве. Не показывайте их ребёнку. Забудете — войдёте снова по коду из почты.</p><input id="pin1" class="nmi" type="password" inputmode="numeric" maxlength="4" placeholder="ПИН" autocomplete="off" style="text-align:center;max-width:220px"><input id="pin2" class="nmi" type="password" inputmode="numeric" maxlength="4" placeholder="Ещё раз" autocomplete="off" style="text-align:center;max-width:220px"><p class="small err" id="perr"></p><button class="btn pink big" id="pinok">Сохранить</button></div></div>`;
     $('#pinok').addEventListener('click', () => { const a = $('#pin1').value.trim(), b = $('#pin2').value.trim();
       if (!/^\d{4}$/.test(a)) { $('#perr').textContent = 'Нужно ровно 4 цифры'; return; } if (/^(\d)\1{3}$|^(1234|4321|0123)$/.test(a)) { $('#perr').textContent = 'Слишком простой ПИН — ребёнок угадает'; return; }
       if (a !== b) { $('#perr').textContent = 'ПИНы не совпадают'; return; }
-      S.pin = a; S.pinLock = { n: 0, until: 0 }; save(); SND.win(); toast('ПИН сохранён'); go(next); });
+      S.pin = pinHash(a); S.pinLock = { n: 0, until: 0 }; save(); SND.win(); toast('ПИН сохранён'); go(next); });
   };
   { const os = openSettings; openSettings = function () { const r = os.apply(this, arguments); const L = $$('.modal .set-list').pop(); if (L && !$('#set-adult', L)) {
     // кто вошёл и «Выйти» — всегда сверху, чтобы не искать

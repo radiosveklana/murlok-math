@@ -60,7 +60,7 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V26 OK
   await E(() => { pin1.value = '1111'; pin2.value = '1111'; pinok.click(); }); await sleep(300);
   ok('too simple PIN rejected', await E(() => curScreen === 'pinset' && /простой/.test(perr.textContent)));
   await E(() => { pin1.value = '2580'; pin2.value = '2580'; pinok.click(); }); await sleep(700);
-  ok('PIN saved and section opens', await E(() => curScreen === 'parents' && S.pin === '2580'));
+  ok('PIN saved and section opens', await E(() => curScreen === 'parents' && window.pinOk('2580')));
   await go('home'); await go('parents'); ok('leaving locks again: PIN asked', await E(() => curScreen === 'agate') && !!(await p.$('#pinin')));
   for (let k = 0; k < 5; k++) { await E(() => { pinin.value = '0000'; pingo.click(); }); await sleep(120); }
   await E(() => { pinin.value = '2580'; pingo.click(); }); await sleep(400);

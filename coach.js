@@ -50,7 +50,7 @@ const Coach = (() => {
     if (o.count !== false) tick(id, v);
     save();
   }
-  const resV = r => r.helped ? 0.5 : [1, 0.6, 0.3][r.mistakes || 0] ?? 0;
+  const resV = r => (r = r.raw || r, r.helped) ? 0.5 : [1, 0.6, 0.3][r.mistakes || 0] ?? 0;
 
   /* ---------- «Котик советует» ---------- */
   function topicN(tp) { return CORE.filter(x => x.startsWith(tp)).reduce((t, x) => t + ((SK()[x] || {}).n || 0), 0); }
@@ -252,7 +252,7 @@ const Coach = (() => {
   }
   function settingsHTML() {
     return `<div class="card"><h3>🔐 Настройки для взрослых</h3>
-      <label class="tgl"><input type="checkbox" id="shareOn" ${S.shareOn !== false ? 'checked' : ''}> Разрешить кнопку «Поделиться» в фотостудии (ВКонтакте и др.)</label>
+      <label class="tgl"><input type="checkbox" id="shareOn" ${S.shareOn === true ? 'checked' : ''}> Разрешить кнопку «Поделиться» в фотостудии (ВКонтакте и др.)</label>
       <p class="small">На фото — только котик, наряд и (по желанию) имя ребёнка. Камера не используется. Сохранить фото на устройство можно всегда.</p>
       <div class="row-btns"><button class="btn" id="pinset">🔢 ${S.pin ? 'Сменить ПИН' : 'Поставить ПИН на этот раздел'}</button></div></div>`;
   }

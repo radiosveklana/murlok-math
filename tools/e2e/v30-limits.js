@@ -106,7 +106,7 @@ let played = false;
   await Promise.all([p.waitForNavigation({ timeout: 15000 }).catch(() => { }), E(() => document.querySelector('#gp-go').click())]); await sleep(2500);
   ok('play request with parent token', calls.some(c => c.act === 'acc/play' && c.d.name === 'Папа' && c.d.cat === 'Мурзик' && c.auth === 'Bearer PTOKEN'));
   ok('adult profile opened: own cat + cloud link', await E(() => S.role === 'adult' && S.kid === 'Папа' && S.name === 'Мурзик' && S.cloudCode === 'ADULTC01' && Accounts.linked() && Accounts.child().token === 'ATOKEN'));
-  ok('adult PIN copied (lock kept)', await E(() => S.pin === '2580'));
+  ok('adult PIN copied (lock kept)', await E(() => window.pinOk('2580')));
   ok('device profiles: child kept, adult marked', await E(() => { const P = Extras.profs(); return P.list.some(x => x.id === 'main' && x.kid === 'Кэтика') && P.list.some(x => x.adult && x.kid === 'Папа' && x.id === P.active); }));
   ok('no limits for adult player', await E(() => !Limits.state() && !Limits.rules()));
   await go('board'); await p.waitForSelector('.fm-row', { timeout: 8000 }).catch(() => { }); await sleep(300);

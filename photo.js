@@ -5,7 +5,7 @@ const Photo = (() => {
   const APP_URL = 'https://radiosveklana.github.io/murlok-math/';
   const GRADS = { candy: ['Сладкоград', '#FFD1E3', '#FFF4D6'], space: ['Космос', '#1B1446', '#4B2A85'], mint: ['Мятный', '#C9F7E6', '#E9F3FF'], sunset: ['Закат', '#FFB88A', '#FF7FA6'], night: ['Ночь сыщика', '#22284A', '#3F4C7A'], fit: ['Примерочная', '#FFE1EE', '#E8DDFF'] };
   const STICK = ['⭐', '💖', '🍬', '🍩', '🔍', '🎀', '🌈', '✨', '👑', '🐟', '🎉', '🌙', '🚀', '🧁', '🏆', '🐾'];
-  const st = { bg: 'g:candy', pose: 'smile', name: true, badge: 'rank', stickers: [], wear: null, fur: null };
+  const st = { bg: 'g:candy', pose: 'smile', name: false, badge: 'rank', stickers: [], wear: null, fur: null };
   const P = () => window.Fitting ? Fitting.poseOf(st.pose) : { o: { smile: true } };
   const catOf = () => catSVG({ fur: st.fur || S.fur, wear: st.wear || S.wear, ...P().o });
   function bgs() {
@@ -99,7 +99,7 @@ const Photo = (() => {
     download(blob); toast('💾 Фото сохранено в «Загрузки»');
   }
   async function shareIt(blob, vk) {
-    if (S.shareOn === false) { toast('Взрослые выключили «Поделиться». Фото можно сохранить 💾'); return; }
+    if (S.shareOn !== true) { toast('«Поделиться» включает взрослый в своём разделе. А фото можно сохранить 💾'); return; }
     const text = `Мой котик ${S.name} в «Мурлок и Ко» 🐾`;
     if (canFiles(blob)) { try { await navigator.share({ files: [file(blob)], title: 'Мурлок и Ко', text }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
     download(blob);
@@ -107,7 +107,7 @@ const Photo = (() => {
     else toast('Фото сохранено — его можно отправить из галереи телефона');
   }
   function view(blob, id, fresh) {
-    const u = URL.createObjectURL(blob), share = S.shareOn !== false;
+    const u = URL.createObjectURL(blob), share = S.shareOn === true;
     const m = modal(`<img class="ph-big" src="${u}" alt="Фото котика">${fresh ? '<h2>Вот это кадр! 📸</h2>' : ''}<div class="row-btns"><button class="btn pink" id="psave">💾 Сохранить</button>${share ? '<button class="btn" id="pshare">📤 Поделиться</button><button class="btn vk" id="pvk">ВКонтакте</button>' : ''}${id ? '<button class="btn danger sm" id="pdel">🗑</button>' : ''}<button class="btn" data-close>Закрыть</button></div>${share ? '<p class="small">Делись только с теми, кого знаешь. На фото нет адреса и личных данных — так и должно быть 🛡️</p>' : ''}`, 'ph-sheet');
     $('#psave', m.el).addEventListener('click', () => saveIt(blob));
     $('#pshare', m.el)?.addEventListener('click', () => shareIt(blob, false));

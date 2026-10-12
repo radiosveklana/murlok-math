@@ -1,3 +1,16 @@
 tools/.tmp/
 
 .claude/
+
+# данные сервера (персональные данные — никогда в публичный репозиторий)
+server/accounts.json
+server/friends.json
+server/consents.log
+server/roleplay.json
+server/saves/
+server/snapshots/
+server/tts/
+server/venv/
+server/node_modules/
+server/ecosystem.config.cjs
+*.bak-*

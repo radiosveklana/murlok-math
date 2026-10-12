@@ -82,6 +82,7 @@ const Boosts = (() => {
   }
   function patchRes(res, reserved) {
     if (!res) return;
+    if (!res.raw) res.raw = { mistakes: res.mistakes || 0, helped: !!res.helped }; // бонусы меняют только награду: учёба (тренер, «Работа над ошибками») смотрит на res.raw
     if (reserved && res.helped && (res.mistakes || 0) < 3 && have('hint') >= reserved) { // при 3+ ошибках ответ мог показать сам котик — это не подсказка
       for (let i = 0; i < reserved; i++) spend('hint'); res.helped = false; res.cupcake = reserved; save(); refresh();
     }

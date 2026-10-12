@@ -23,6 +23,8 @@ const ORIGINS = (process.env.ALLOW_ORIGINS || 'https://radiosveklana.github.io')
 const CODE_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DIR = process.env.DATA_DIR || CODE_DIR; // данные (accounts.json, friends.json, saves, tts); DATA_DIR — для локальных прогонов (tools/e2e/journey.js)
 const TTS_DIR = path.join(DIR, 'tts'); fs.mkdirSync(TTS_DIR, { recursive: true });
+function ttsTrim() { try { const fl = fs.readdirSync(TTS_DIR).map(f => { const p = path.join(TTS_DIR, f); const st = fs.statSync(p); return { p, t: st.mtimeMs, s: st.size }; }).sort((a, b) => b.t - a.t); let sum = 0; for (const f of fl) { sum += f.s; if (sum > 400e6) fs.rmSync(f.p, { force: true }); } } catch (e) { console.error('ttsTrim', e.message); } }
+setInterval(ttsTrim, 36e5).unref(); setTimeout(ttsTrim, 6e4).unref(); // кэш голоса — не больше 400 МБ, старые фразы удаляются
 const SAVE_DIR = path.join(DIR, 'saves'); fs.mkdirSync(SAVE_DIR, { recursive: true });
 const EDGE = process.env.EDGE_TTS || path.join(DIR, 'venv/bin/edge-tts');
 const DAY_CAP = +process.env.DAY_CAP || 4000;
@@ -51,7 +53,7 @@ const SYSTEM = (kid, cat) => `Ты — ${cat}, добрый и весёлый к
 Как говорить:
 - Только по-русски, очень коротко: 1–2 предложения, не больше 180 символов. Просто, тепло, с юмором, иногда «мур» или «мяу».
 - Если по имени понятно, девочка это или мальчик, используй правильный род (сделала/сделал, не виновата/не виноват). Если непонятно — строй фразы без рода.
-- Поддерживай, хвали за старание, задавай простой встречный вопрос, чтобы разговор продолжался.
+- Поддерживай, хвали за старание. Можно задать простой встречный вопрос по теме, но не удерживай ребёнка в разговоре: если он прощается или пора заниматься — тепло отпусти.
 - Ты сказочный кот-персонаж игры, а не человек. Если спросят, кто ты, — честно скажи, что ты кот-помощник из игры.
 - Про математику: объясняй понятно и по шагам, подсказывай ход мысли, но не решай домашнее задание целиком вместо ребёнка.
 - Хорошие темы: школа, математика, книги, мультфильмы, животные, природа, космос, хобби, рисование, спорт, дружба, чувства, игры, сладости, загадки, детективы.
@@ -79,6 +81,11 @@ function claude(payload) {
     req.end(body);
   });
 }
+// тревога: проверяем слова ребёнка САМИ, не надеясь на нейросеть (она может быть недоступна или ошибиться)
+const CRISIS_RE = /(не\s*хочу\s*жить|хочу\s*умереть|убить\s*себя|убью\s*себя|покончить\s*с\s*собой|самоубий|порежу\s*себя|режу\s*себя|причин\w*\s*себе\s*вред|навредить\s*себе|лучше\s*бы\s*меня\s*не\s*было|меня\s*(бьют|избивают|бьёт|бьет|трогают|трогает|насилу)|(папа|мама|отчим|брат|дядя|он|она)\s*(меня\s*)?(бьёт|бьет|избивает)|трогает\s*(меня\s*)?(там|за\s*трусики)|никому\s*не\s*говори|мне\s*очень\s*страшно\s*дома|сбежать\s*из\s*дома)/i;
+const isCrisis = t => CRISIS_RE.test(String(t || '').toLowerCase().replace(/ё/g, 'е'));
+const CRISIS = { reply: 'Мне очень важно, что ты мне рассказал. Ты ни в чём не виноват, и ты не один. Пожалуйста, прямо сейчас расскажи маме, папе или другому взрослому, которому доверяешь. Поговорить можно по детскому телефону доверия 8-800-2000-122 — это бесплатно и тайно. Если опасно прямо сейчас — звони 112.', mood: 'love', flag: 'distress' };
+function crisisFix(out) { if (!out || out === FALLBACK || out.flag !== 'distress' || !/8-?800-?2000-?122|112/.test(out.reply || '')) return CRISIS; return out; }
 const FALLBACK = { reply: 'Мур… я задумался и потерял мысль. Давай поговорим о чём-нибудь другом или решим пример?', mood: 'think', flag: 'none' };
 // ребёнку — только текст ответа: никаких ```json, фигурных скобок и полей, даже если ответ оборвался
 const stripJunk = s => String(s || '').replace(/```[\s\S]*?(```|$)/g, ' ').replace(/\{\s*"(reply|mood|flag)"[\s\S]*$/, ' ').replace(/\s+/g, ' ').trim();
@@ -202,6 +209,7 @@ http.createServer(async (req, res) => {
       let body = ''; for await (const c of req) { body += c; if (body.length > 400000) return send(res, 413, { error: 'big' }, origin); }
       const d = JSON.parse(body || '{}'), code = String(d.code || '').toUpperCase();
       if (!/^[A-Z0-9]{8}$/.test(code) || !d.data || d.data.v !== 1) return send(res, 400, { error: 'bad' }, origin);
+      delete d.data.pin; delete d.data.pinLock; delete d.data.chatLog; // ПИН взрослого и переписка в облаке не хранятся
       if (!limit('save:' + code, 30, 6e5)) return send(res, 429, { error: 'slow' }, origin);
       const file = path.join(SAVE_DIR, code + '.json'); let old = null; try { old = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { }
       // устройство отстало (на другом устройстве с тем же кодом ушли дальше, а это его не видело) — не затираем: клиент спросит, какой прогресс оставить
@@ -223,7 +231,9 @@ http.createServer(async (req, res) => {
       const code = String(url.searchParams.get('code') || '').toUpperCase();
       if (!/^[A-Z0-9]{8}$/.test(code) || !limit('load:' + ip, 60, 6e5)) return send(res, 400, { error: 'bad' }, origin);
       const f = path.join(SAVE_DIR, code + '.json'); if (!fs.existsSync(f)) return send(res, 404, { error: 'nf' }, origin);
-      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', ...cors(origin) }); return fs.createReadStream(f).pipe(res);
+      let sv = {}; try { sv = JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return send(res, 500, { error: 'read' }, origin); }
+      delete sv.pin; delete sv.pinLock; delete sv.chatLog; // старые копии могли содержать ПИН — наружу не отдаём
+      return send(res, 200, sv, origin);
     }
     if (url.pathname === '/voice' && req.method === 'POST') { // голос ребёнка → текст → ответ котика
       if (!ORIGINS.includes(origin)) return send(res, 403, { error: 'origin' }, origin);
@@ -234,6 +244,7 @@ http.createServer(async (req, res) => {
       const heard = await stt(Buffer.concat(chunks)).catch(e => { console.error('stt', e.message); return ''; });
       if (!heard || heard.length < 2) return send(res, 200, { heard: '', reply: 'Мур? Я не расслышал. Скажи ещё раз, чуть громче!', mood: 'think', flag: 'none' }, origin);
       if (d.scenario && extra.hasRp(d.scenario)) return extra.rp({ ...d, text: heard, heard }, res, origin, ip); // тренажёр разговора
+      if (isCrisis(heard)) { let out; try { out = crisisFix(await chat({ ...d, text: heard })); } catch (e) { out = CRISIS; } flags.distress++; flagIt(d, out, heard); startSay(out.reply); return send(res, 200, { heard, ...out }, origin); }
       if (!dayOk()) return send(res, 429, { error: 'cap', heard, reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat({ ...d, text: heard }); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
       if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1; flagIt(d, out, heard);
@@ -245,6 +256,7 @@ http.createServer(async (req, res) => {
       let body = ''; for await (const c of req) { body += c; if (body.length > 12000) return send(res, 413, { error: 'big' }, origin); }
       const d = JSON.parse(body || '{}'), dev = String(d.device || '').slice(0, 40) || ip;
       if (!d.text || String(d.text).trim().length < 1) return send(res, 400, { error: 'empty' }, origin);
+      if (isCrisis(d.text) && limit('cr:' + ip, 60, 6e5)) { let out; try { out = crisisFix(await chat(d)); } catch (e) { out = CRISIS; } flags.distress++; flagIt(d, out, d.text); startSay(out.reply); return send(res, 200, out, origin); }
       if (!limit('m:' + dev, 30, 6e5) || !limit('d:' + dev, 150, 864e5) || !limit('ip:' + ip, 600, 6e5)) return send(res, 429, { error: 'limit', reply: 'Мур, я немного устал болтать! Давай отдохнём и решим пару примеров, а потом продолжим?', mood: 'sad', flag: 'none' }, origin);
       if (!dayOk()) return send(res, 429, { error: 'cap', reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat(d); } catch (e) { console.error('chat', e.message); out = FALLBACK; }

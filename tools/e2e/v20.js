@@ -56,7 +56,7 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V20 OK ' : 'V20 FAIL ')
   ok('story saved', await E(() => S.ideas[0].mode === 'story'));
   await go('ideas', 'draw'); const cv = await (await p.$('#dcv')).boundingBox();
   for (let k = 0; k < 4; k++) { await p.mouse.move(cv.x + 40 + k * 30, cv.y + 60); await p.mouse.down(); await p.mouse.move(cv.x + 120 + k * 30, cv.y + 160, { steps: 5 }); await p.mouse.up(); }
-  await p.type('#dname', 'Которобот'); await click('#dsave'); await sleep(800); ok('drawing saved + share', await E(() => S.ideas[0].mode === 'draw') && !!(await p.$('.ph-big')));
+  await E(() => { S.shareOn = true; }); await p.type('#dname', 'Которобот'); await click('#dsave'); await sleep(800); ok('drawing saved + share', await E(() => S.ideas[0].mode === 'draw') && !!(await p.$('.ph-big')));
   await E(() => document.querySelectorAll('.modal').forEach(m => m.remove()));
   await go('parents'); ok('parents see ideas', await E(() => { UX.showAll(); return true; }) && await E(() => /Идеи и истории ребёнка/.test(document.body.innerText)));
 

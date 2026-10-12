@@ -113,7 +113,7 @@ const LIST = { me: 'MYCODE', friends: [{ pub: 'FRND22', cat: 'Пушок', kid: 
   ok('no teen diploma rule', await E(() => !Diplomas.rules().some(r => r.id === 'subj:teen')));
   await E(() => document.querySelectorAll('.modal').forEach(m => m.remove())); ok('diploma tile', !!(await p.$('.t-diploma')));
   await go('diplomas', 'diplomas'); /* v31: вкладка «Дипломы» в «Моих наградах» */ ok('diplomas section', (await p.$$('.dp')).length >= 2 && (await p.$$('.dp-n')).length >= 1);
-  await click('.dp'); await p.waitForSelector('.ph-big', { timeout: 8000 }).catch(() => { });
+  await E(() => { S.shareOn = true; }); await click('.dp'); await p.waitForSelector('.ph-big', { timeout: 8000 }).catch(() => { });
   ok('diploma image + share', (await E(() => window.__lastDiploma || 0)) > 50000 && !!(await p.$('#pshare')) && !!(await p.$('#psave')), 'size ' + (await E(() => window.__lastDiploma)));
   await E(() => document.querySelectorAll('.modal').forEach(m => m.remove()));
 

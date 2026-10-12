@@ -80,6 +80,7 @@ const Mistakes = (() => {
   };
   function afterTask(kind, res, meta) {
     if (meta.academy) return;
+    if (res.raw) res = { ...res, ...res.raw }; // ошибка, «закрытая» печеньем-щитом, всё равно попадает в работу над ошибками
     const perfect = !res.mistakes && !res.helped, c = ctx;
     if (perfect && c && (c.kind === kind || c.kind === 'aq')) solve(sigOf(c));
     if (!KINDS.includes(kind) || !meta.level) { buf = []; ctx = null; return; }
@@ -187,7 +188,7 @@ const Mistakes = (() => {
       $('#mdn').innerHTML = guided ? '🐾 Сначала решаем <b>вместе</b> — котик подскажет каждый шаг.' : `🕵️ Теперь <b>сам(а)</b>! Задача ${i + 1} из ${N}.`;
       const t = makeSimilar(kind, lv, i === 0);
       const done = res => {
-        taskDone(kind, res, { level: lv, guided }); const perfect = !res.mistakes && !res.helped; if (!guided && perfect) solo++;
+        taskDone(kind, res, { level: lv, guided }); const rr = res.raw || res, perfect = !rr.mistakes && !rr.helped; if (!guided && perfect) solo++;
         award(perfect ? 2 : 1, guided ? 6 : 10); const dot = $$('.g-dots i', app)[i]; if (dot) dot.className = perfect ? 'ok' : 'bad';
         i++;
         if (i < N) { $('#after').innerHTML = `<button class="btn big pink" id="mdnext">Следующая задача →</button>`; $('#mdnext').addEventListener('click', () => { SND.tap(); const d = $$('.g-dots i', app)[i]; if (d) d.className = 'now'; run(); }); return; }

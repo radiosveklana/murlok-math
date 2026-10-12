@@ -110,7 +110,7 @@ const ok = (name, cond, extra = '') => { res.push(name); console.log((cond ? 'AC
   /* ---------- фотостудия ---------- */
   await go('photo'); ok('photo bg thumbs', await E(() => [...document.querySelectorAll('.ph-bg')].filter(b => /url\(/.test(getComputedStyle(b).backgroundImage)).length >= 6));
   await clickSel('.ph-s[data-e="⭐"]'); await clickSel('.ph-bg:nth-child(2)');
-  await clickSel('#snap'); await p.waitForSelector('.ph-big', { timeout: 8000 }).catch(() => { });
+  await E(() => { S.shareOn = true; }); await clickSel('#snap'); await p.waitForSelector('.ph-big', { timeout: 8000 }).catch(() => { });
   ok('photo rendered', (await E(() => window.__lastPhoto || 0)) > 50000 && !!(await p.$('.ph-big')), 'size ' + (await E(() => window.__lastPhoto)));
   ok('share buttons', !!(await p.$('#pshare')) && !!(await p.$('#pvk')));
   await E(() => document.querySelector('.modal [data-close]').click()); await sleep(800);

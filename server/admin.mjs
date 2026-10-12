@@ -90,11 +90,17 @@ export function makeAdmin({ DIR, SAVE_DIR, acc, send, mail, tg, tgLinks, TG_BOT 
     v.refBy = f.refBy; v.adults = (f.parents || [{ email: f.email, role: 'owner' }]).map(a => ({ email: a.email, role: a.role, joined: a.joined })); return v;
   }
   const PAGE = path.join(DIR, 'admin.html');
+  const FAILS = new Map();
   async function route(req, res, url) {
     const p = url.pathname;
     if (p === '/admin' || p === '/admin/') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'x-frame-options': 'DENY' }); return res.end(fs.readFileSync(PAGE)); }
     if (p === '/admin/api/login' && req.method === 'POST') {
-      const d = await body(req); if (!checkPass(d.user, d.pass)) { await new Promise(r => setTimeout(r, 800)); return json(res, 401, { error: 'login' }); }
+      const ip = String(req.headers['x-real-ip'] || req.socket.remoteAddress || ''), now = Date.now(); // не больше 5 неудач за 15 минут с адреса и 30 в час всего
+      for (const [k, v] of FAILS) if (now - v.at > 36e5) FAILS.delete(k);
+      const fi = FAILS.get(ip) || { n: 0, at: now }, fa = FAILS.get('*') || { n: 0, at: now };
+      if ((fi.n >= 5 && now - fi.at < 9e5) || fa.n >= 30) { await new Promise(r => setTimeout(r, 800)); return json(res, 429, { error: 'slow' }); }
+      const d = await body(req); if (!checkPass(d.user, d.pass)) { FAILS.set(ip, { n: fi.n + 1, at: now }); FAILS.set('*', { n: fa.n + 1, at: fa.at }); console.warn('admin login fail', ip); await new Promise(r => setTimeout(r, 800)); return json(res, 401, { error: 'login' }); }
+      FAILS.delete(ip);
       const k = randomBytes(24).toString('hex'); SESS.set(k, { exp: Date.now() + 12 * 36e5 });
       res.writeHead(200, { 'content-type': 'application/json', 'set-cookie': `madm=${k}; Path=/admin; HttpOnly; Secure; SameSite=Strict; Max-Age=43200` }); return res.end('{"ok":true}');
     }
