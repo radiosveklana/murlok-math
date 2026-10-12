@@ -14,11 +14,12 @@ const Mistakes = (() => {
   const ICON = { mul: '✖️', eq: '📦', div: '➗', add: '➕' };
   const KNAME = { mul: 'Умножение столбиком', eq: 'Составные уравнения', div: 'Деление столбиком', add: 'Сложение и вычитание столбиком' };
   const DAY = () => today();
+  const gA = () => (S.kid ? (/[аяь]$/i.test(S.kid) ? 'а' : '') : '(а)'); // род по имени ребёнка; имя неизвестно — «(а)»
   const T = () => (S.mtop = S.mtop || {});
   const LOG = () => (S.mlog = S.mlog || []);
   const ERR = {
     'mul:carry': 'забываешь прибавить запомненное число', 'mul:tbl': 'путаешь таблицу умножения', 'mul:add': 'ошибаешься, когда складываешь неполные произведения',
-    'mul:shift': 'забываешь сдвинуть вторую строку на клетку влево', 'eq:order': 'не сразу находишь последнее действие', 'eq:role': 'путаешь названия: слагаемое, вычитаемое, множитель…',
+    'mul:shift': 'забываешь сдвинуть вторую строку на клетку влево', 'eq:order': 'не сразу находишь последнее действие', 'eq:role': 'путаешь названия чисел в уравнении (слагаемое, вычитаемое, множитель и другие)',
     'eq:rule': 'путаешь правило нахождения неизвестного', 'eq:calc': 'ошибаешься в вычислениях', 'eq:check': 'ошибаешься при проверке',
     'div:first': 'не сразу находишь первое неполное делимое', 'div:q': 'подбираешь цифру частного неточно', 'div:prod': 'ошибаешься, когда умножаешь цифру частного на делитель',
     'div:rem': 'ошибаешься при вычитании (остаток должен быть меньше делителя)', 'div:next': 'путаешься, когда сносишь следующую цифру', 'div:zero': 'забываешь написать 0 в частном',
@@ -105,15 +106,26 @@ const Mistakes = (() => {
   }
 
   /* ---------- котик предлагает повторить ---------- */
+  // v35: не чаще раза за сессию на тип ошибки; если на экране победа — не модалка поверх неё, а тихая карточка под ней
+  const offered = new Set();
   function offer(key, dom, fact) {
-    if (Date.now() - lastPrompt < 4 * 60 * 1000) return;
+    if (Date.now() - lastPrompt < 4 * 60 * 1000 || offered.has(dom)) return;
     const k = key.replace(/\d+$/, ''), scr = curScreen;
     setTimeout(() => {
-      if ($('.modal') || curScreen !== scr) return; lastPrompt = Date.now();
+      if ($('.modal') || curScreen !== scr || offered.has(dom)) return; lastPrompt = Date.now(); offered.add(dom);
+      const btns = `<button class="btn pink" id="mkles">📖 Повторим урок (3 мин)</button><button class="btn" id="mkone">🐾 Решим ещё один вместе</button>`;
+      const bind = (root, close) => {
+        $('#mkles', root).addEventListener('click', () => { close(); const [s, a] = LESSON(k); go(s, a); });
+        $('#mkone', root).addEventListener('click', () => { close(); go('mdrill', key + ':one'); });
+      };
+      const win = $('#app .ask-eq.win, #app .win, #app .g-result'), after = win && ($('#app #after') || $('#app .page'));
+      if (after) { // победа на экране — не закрываем её
+        after.insertAdjacentHTML('beforeend', `<div class="mk-soft card"><p>🐾 Кстати: ты <b>${errText(dom, fact)}</b>. Хочешь, потренируем это?</p><div class="row-btns">${btns}</div></div>`);
+        const c = $('.mk-soft', after); bind(c, () => c.remove()); return;
+      }
       const m = modal(`<div class="m-cat">${myCat({ happy: true })}</div><h2>Давай разберёмся вместе 🐾</h2><p>Я заметил: ты <b>${errText(dom, fact)}</b>.</p><p class="small">Ошибаться не страшно — так сыщики находят, что подтянуть. Хочешь, повторим?</p>
-        <div class="mk-col"><button class="btn pink" id="mkles">📖 Повторим урок (3 мин)</button><button class="btn" id="mkone">🐾 Решим ещё один вместе</button><button class="btn ghost" data-close>Позже</button></div>`, 'mk-offer');
-      $('#mkles', m.el).addEventListener('click', () => { m.close(); const [s, a] = LESSON(k); go(s, a); });
-      $('#mkone', m.el).addEventListener('click', () => { m.close(); go('mdrill', key + ':one'); });
+        <div class="mk-col">${btns}<button class="btn ghost" data-close>Позже</button></div>`, 'mk-offer');
+      bind(m.el, () => m.close());
       say('Ошибаться не страшно, {n}! Давай разберёмся вместе.', 0, { silent: true });
     }, 2300);
   }
@@ -150,7 +162,7 @@ const Mistakes = (() => {
     const back = ['school', 'academy', 'parents'].includes(arg) ? arg : 'home', sc = schoolItems(), ac = acadItems();
     const fixed = Object.entries(T()).filter(([, e]) => e.fixed && ago(e.fixed) <= 14);
     const prog = e => { if (e.coach != null) return `<span class="small">Пока трудно: точность ${e.coach}%. Реши пару задач — и станет легче!</span>`; const ok = e.ok || 0;
-      return `<span class="mk-prog">${'●'.repeat(ok)}${'○'.repeat(Math.max(0, 2 - ok))}</span> <span class="small">${e.last === DAY() ? 'Завтра реши 2 задачи сам(а) без ошибок — и тема исправлена.' : `Реши сам(а) без ошибок ещё ${2 - ok} — и тема исправлена.`}</span>`; };
+      return `<span class="mk-prog">${'●'.repeat(ok)}${'○'.repeat(Math.max(0, 2 - ok))}</span> <span class="small">${e.last === DAY() ? 'Завтра реши 2 задачи сам' + gA() + ' без ошибок — и тема исправлена.' : `Реши сам${gA()} без ошибок ещё ${2 - ok} — и тема исправлена.`}</span>`; };
     const what = e => { const ts = Object.entries(e.e || {}).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([t]) => errText(t, e.f)); return ts.length ? 'Ты ' + ts.join('; ') + '.' : ''; };
     const schoolCard = e => `<div class="mk-item"><span class="mk-ic">${ICON[e.k] || '✏️'}</span><div class="mk-b"><b>${esc(name(e.key))}</b>${what(e) ? `<p class="mk-what">${what(e)}</p>` : ''}${e.s ? `<small>Пример с ошибкой: <b>${esc(e.s)}</b></small>` : ''}<div>${prog(e)}</div></div>
       <div class="mk-act"><button class="btn sm" data-mles="${e.k}">📖 Повторить урок</button><button class="btn sm pink" data-mdr="${e.key}">✏️ 3 похожих задачи</button></div></div>`;
@@ -185,7 +197,7 @@ const Mistakes = (() => {
       <div class="mk-note" id="mdn"></div><div id="task"></div><div id="after" class="after"></div></div>`;
     const run = () => {
       const guided = i === 0, el = $('#task'); $('#after').innerHTML = '';
-      $('#mdn').innerHTML = guided ? '🐾 Сначала решаем <b>вместе</b> — котик подскажет каждый шаг.' : `🕵️ Теперь <b>сам(а)</b>! Задача ${i + 1} из ${N}.`;
+      $('#mdn').innerHTML = guided ? '🐾 Сначала решаем <b>вместе</b> — котик подскажет каждый шаг.' : `🕵️ Теперь <b>сам${gA()}</b>! Задача ${i + 1} из ${N}.`;
       const t = makeSimilar(kind, lv, i === 0);
       const done = res => {
         taskDone(kind, res, { level: lv, guided }); const rr = res.raw || res, perfect = !rr.mistakes && !rr.helped; if (!guided && perfect) solo++;
@@ -194,7 +206,7 @@ const Mistakes = (() => {
         if (i < N) { $('#after').innerHTML = `<button class="btn big pink" id="mdnext">Следующая задача →</button>`; $('#mdnext').addEventListener('click', () => { SND.tap(); const d = $$('.g-dots i', app)[i]; if (d) d.className = 'now'; run(); }); return; }
         const e = T()[key];
         $('#after').innerHTML = `<div class="card center mk-end"><div class="big-emoji">${solo >= 2 || (one && perfect) ? '🏆' : '🐾'}</div><h3>${one ? (perfect ? 'Получилось без ошибок!' : 'Разобрались вместе!') : solo >= 2 ? 'Две задачи сам(а) без ошибок — супер!' : 'Хорошая тренировка!'}</h3>
-          <p class="small">${e && !e.fixed ? (e.last === DAY() ? 'Чтобы тема ушла из «Работы над ошибками», завтра реши 2 такие задачи сам(а) без ошибок — так знание закрепится надолго.' : 'Тема почти исправлена!') : 'Ошибаться не страшно — главное, разобраться.'}</p>
+          <p class="small">${e && !e.fixed ? (e.last === DAY() ? 'Чтобы тема ушла из «Работы над ошибками», завтра реши 2 такие задачи сам' + gA() + ' без ошибок — так знание закрепится надолго.' : 'Тема почти исправлена!') : 'Ошибаться не страшно — главное, разобраться.'}</p>
           <div class="row-btns"><button class="btn pink" data-go="mistakes">🩹 К работе над ошибками</button><button class="btn" id="mdagain">Ещё раз</button></div></div>`;
         $('#mdagain').addEventListener('click', () => go('mdrill', arg)); SND.win(); if (solo >= 2) confetti(25);
       };
@@ -237,11 +249,11 @@ const Mistakes = (() => {
   function mulSteps(a, b) {
     const P = E.mulPlan(a, b), out = [], rowSteps = i => P.steps.filter(s => s.t === 'mul' && s.row === i);
     const rowReplay = i => rp(rowSteps(i).map(s => `${s.bd} × ${s.ad}${s.carry ? ` + <b class="cc">${s.carry}</b>` : ''} = ${s.v} → ${s.last ? `пишем <b>${s.v}</b>` : `пишем <b>${s.v % 10}</b>${s.v >= 10 ? `, <b class="cc">${Math.floor(s.v / 10)}</b> запоминаем` : ''}`}`).concat([`Получилось: <b>${P.rows[i].val}</b>`]));
-    const rowWrong = (i, v) => { const r = P.rows[i]; for (let j = 1; j < P.A.length; j++) if (v === E.mulDropCarry(a, r.bd, j)) return { t: 'mul:carry', h: 'Похоже, ты <b>забыл(а) прибавить запомненное число</b>. После умножения цифры прибавляй то, что записано маленькой цифрой сверху.' };
+    const rowWrong = (i, v) => { const r = P.rows[i]; for (let j = 1; j < P.A.length; j++) if (v === E.mulDropCarry(a, r.bd, j)) return { t: 'mul:carry', h: 'Похоже, ты <b>забыл' + gA() + ' прибавить запомненное число</b>. После умножения цифры прибавляй то, что записано маленькой цифрой сверху.' };
       return { t: 'mul:tbl', h: `Проверь каждое умножение по таблице и запомненные числа. Вот как идёт строка ${a} × ${r.bd}:` }; };
     if (P.B.length === 1) {
       rowSteps(0).forEach(s => out.push({ q: `Умножаем <b>${s.bd} × ${s.ad}</b>${s.carry ? ' и прибавляем запомненное' : ''}. Какое число у тебя получилось на этом шаге?`, exp: s.v,
-        wrong: v => s.carry && v === s.bd * s.ad ? { t: 'mul:carry', h: `Ты <b>не прибавил(а) запомненное <b class="cc">${s.carry}</b></b>: ${s.bd} × ${s.ad} = ${s.bd * s.ad}, и ещё + ${s.carry} = ${s.v}.` } : { t: 'mul:tbl', h: `Проверь по таблице: ${s.bd} × ${s.ad} = ${s.bd * s.ad}${s.carry ? `, плюс запомненное ${s.carry} = ${s.v}` : ''}.`, f: factKey(s.bd, s.ad) },
+        wrong: v => s.carry && v === s.bd * s.ad ? { t: 'mul:carry', h: `Ты <b>не прибавил${gA()} запомненное <b class="cc">${s.carry}</b></b>: ${s.bd} × ${s.ad} = ${s.bd * s.ad}, и ещё + ${s.carry} = ${s.v}.` } : { t: 'mul:tbl', h: `Проверь по таблице: ${s.bd} × ${s.ad} = ${s.bd * s.ad}${s.carry ? `, плюс запомненное ${s.carry} = ${s.v}` : ''}.`, f: factKey(s.bd, s.ad) },
         replay: rp([`${s.bd} × ${s.ad} = ${s.bd * s.ad}`].concat(s.carry ? [`+ запомненное <b class="cc">${s.carry}</b> = ${s.v}`] : []).concat([s.last ? `Последняя цифра — пишем <b>${s.v}</b> целиком` : `Пишем <b>${s.v % 10}</b>${s.v >= 10 ? `, а <b class="cc">${Math.floor(s.v / 10)}</b> запоминаем` : ''}`])) }));
       return out;
     }
@@ -258,7 +270,7 @@ const Mistakes = (() => {
       wrong: v => ({ t: 'div:first', h: v < b ? `В ${v} число ${b} не помещается ни разу — надо взять ещё цифру.` : `Можно взять меньше цифр: ${b} помещается уже в ${P.first}.` }),
       replay: rp([`Ищем самое маленькое начало числа, в котором ${b} помещается хотя бы 1 раз`, `Первое неполное делимое — <b>${P.first}</b>`, `Значит, в частном будет <b>${String(P.q).length}</b> ${plural(String(P.q).length, 'цифра', 'цифры', 'цифр')}`]) });
     P.steps.forEach((X, k) => {
-      out.push({ q: `${X.cur} : ${b} — какую <b>цифру частного</b> ты написал(а)?`, exp: X.q,
+      out.push({ q: `${X.cur} : ${b} — какую <b>цифру частного</b> ты написал${gA()}?`, exp: X.q,
         wrong: v => X.q === 0 ? { t: 'div:zero', h: `${X.cur} меньше ${b} — делитель не помещается ни разу. <b>Пишем в частном 0</b> и сносим следующую цифру!` } : v > X.q ? { t: 'div:q', h: `${b} · ${v} = ${b * v} — это больше, чем ${X.cur}. Цифра частного меньше.` } : { t: 'div:q', h: `${X.cur} − ${b * v} = ${X.cur - b * v} — это не меньше ${b}, значит ${b} помещается ещё раз. Цифра частного больше.` },
         replay: rp([`Сколько раз ${b} помещается в ${X.cur}?`, `${b} · ${X.q} = ${X.prod}${X.q < 9 ? ` — подходит, а ${b} · ${X.q + 1} = ${b * (X.q + 1)} — уже больше ${X.cur}` : ''}`, `Пишем в частное <b>${X.q}</b>`]) + grid(k) });
       if (X.q > 0) out.push({ q: `${X.cur} − ${X.q} · ${b}: какой <b>остаток</b> у тебя получился?`, exp: X.rem,
@@ -276,7 +288,7 @@ const Mistakes = (() => {
       const c = P.cols[k] || { d: 0, da: 0, db: 0, carryIn: 0, carryOut: 0, top: 0, x: 0, sum: 0 }, kd = +(s[s.length - 1 - k] || 0);
       if (kd === c.d) continue;
       let t, h;
-      if (op === '+') { t = c.carryIn && kd === (c.d + 9) % 10 ? 'add:carry' : 'add:calc'; h = t === 'add:carry' ? 'Ты <b>не прибавил(а) запомненную единицу</b> из предыдущего разряда.' : 'Ошибка при сложении цифр этого разряда.'; }
+      if (op === '+') { t = c.carryIn && kd === (c.d + 9) % 10 ? 'add:carry' : 'add:calc'; h = t === 'add:carry' ? 'Ты <b>не прибавил' + gA() + ' запомненную единицу</b> из предыдущего разряда.' : 'Ошибка при сложении цифр этого разряда.'; }
       else { const noBorrow = Math.abs(c.da - c.db) % 10, noReduce = ((c.da - c.db) % 10 + 10) % 10; t = (c.carryOut && kd === noBorrow) || (c.carryIn && kd === noReduce) ? 'sub:borrow' : 'sub:calc'; h = t === 'sub:borrow' ? (c.carryOut && kd === noBorrow ? 'Сверху цифра меньше — надо было <b>занять десяток</b> у соседа, а не вычитать «наоборот».' : 'У этой цифры <b>заняли десяток</b> (точка сверху) — её нужно было уменьшить на 1.') : 'Ошибка при вычитании цифр этого разряда.'; }
       const line = op === '+' ? `${c.da} + ${c.db}${c.carryIn ? ' + <b class="cc">1</b> (запомненная)' : ''} = ${c.sum} → пишем <b>${c.d}</b>${c.carryOut ? ', <b class="cc">1</b> запоминаем' : ''}` : `${c.carryIn ? `${c.da} − 1 (заняли) = ${c.top}; ` : ''}${c.carryOut ? `занимаем десяток: ${c.x} − ${c.db}` : `${c.top} − ${c.db}`} = <b>${c.d}</b>`;
       return { k, kd, exp: c.d, t, h: `Разряд <b>${place[k] || ''}</b>: у тебя ${kd}, а должно быть ${c.d}. ${h}`, replay: rp(P.cols.slice(0, k).map((x, i) => `Разряд ${place[i]}: ${x.d} ✔`).concat([line])) };
@@ -291,7 +303,7 @@ const Mistakes = (() => {
   }
   SCREENS.paper = arg => {
     let type = PT[arg] ? arg : (S.prefs.paperT || 'mul'), prob = null, own = false, tried = false;
-    app.innerHTML = `${topbar('✏️ Проверь мою тетрадь', 'mistakes')}<div class="page mk-paper">${helperHTML('pbub')}<div class="seg pt">${Object.entries(PT).map(([k, n]) => `<button data-pt="${k}" class="${k === type ? 'on' : ''}">${n}</button>`).join('')}</div><div id="pwork"></div></div>`;
+    app.innerHTML = `${topbar('✏️ Проверь мою тетрадь', 'mistakes')}<div class="page mk-paper">${helperHTML('pbub')}<div class="seg pp-tabs">${Object.entries(PT).map(([k, n]) => `<button data-pt="${k}" class="${k === type ? 'on' : ''}">${n}</button>`).join('')}</div><div id="pwork"></div></div>`;
     const bub = h => { const b = $('#pbub'); if (b) { b.innerHTML = h; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); } };
     const gen = () => { const lv = S.prefs[{ mul: 'mulLv', div: 'divLv', add: 'addLv', eq: 'eqLv' }[type]] || 2;
       if (type === 'mul') { const t = makeTask('mul', lv); return { kind: 'mul', a: t.a, b: t.b }; }
@@ -408,37 +420,46 @@ const Mistakes = (() => {
   }
   const CORE = () => (window.School4 && School4.CORE) || {};
   function coreStarted(k) { const c = CORE()[k]; if (!c) return true; return !!(S.lessons[k] || c.done() > 0 || (S.theory || {})[c.th] || (S.sk || {})[k + '1'] || (S.sk || {})[k + '2'] || (S.sk || {})[k + '3'] || (S.sk || {})[k + '4']); }
+  // v35: одно правило для всех тем — следующая открывается, когда тренажёр предыдущей пройден хотя бы на ⭐ (учебник желателен, но не обязателен);
+  // тема без тренажёра — когда прочитана; старые темы школы (столбик, уравнения) — урок + хотя бы одна решённая задача
+  const starOk = (sid, u) => { const a = acadOf(sid); return (u.quiz && u.quiz.length) || u.gen ? ((a.best || {})[u.id] || 0) >= 1 : !!(a.read || {})[u.id]; };
   function itemDone(x) { // урок пройден + немного практики
     if (x[0] === '@') { const k = x.slice(1), c = CORE()[k]; if (!c) return true; return !!(S.lessons[k] || (S.theory || {})[c.th]) && c.done() > 0; }
-    const a = acadOf('math4'); return !!(a.read || {})[x] && (a.best || {})[x] != null;
+    const u = (((window.SUBJECTS || {}).math4 || {}).units || []).find(y => y.id === x); return u ? starOk('math4', u) : true;
   }
   const groupOf = x => window.School4 ? School4.GROUPS.find(g => g.items.includes(x)) : null;
   function schoolOpen(x) {
-    if (S.unlockAll || window.GOD) return true; const G = groupOf(x); if (!G) return true; const i = G.items.indexOf(x); if (i <= 0) return true;
+    if (S.unlockAll || window.GOD) return true; const G = groupOf(x); if (!G) return true; const i = G.items.indexOf(x); if (i <= 0 || G.free) return true; // G.free — темы группы независимы (письменные вычисления)
     if (x[0] === '@' ? coreStarted(x.slice(1)) : acadStarted('math4', x)) return true;
     return itemDone(G.items[i - 1]);
   }
   function unitOpen(sid, uid) {
     if (S.unlockAll || window.GOD) return true; if (sid === 'math4') return schoolOpen(uid);
     const s = (window.SUBJECTS || {})[sid]; if (!s) return true; const i = s.units.findIndex(u => u.id === uid); if (i <= 0) return true;
-    if (acadStarted(sid, uid)) return true; const p = s.units[i - 1], a = acadOf(sid);
-    return !!(a.read || {})[p.id] && (!(p.quiz && p.quiz.length) || ((a.best || {})[p.id] || 0) >= 1);
+    if (acadStarted(sid, uid)) return true; return starOk(sid, s.units[i - 1]);
   }
   function topicOpen(p) { if (!p) return true; if (KINDS.includes(p.id)) return schoolOpen('@' + p.id); if (p.subject) return unitOpen(p.subject, p.unit); return true; }
   const titleOf = x => { if (x[0] === '@') return (CORE()[x.slice(1)] || {}).title || ''; const u = ((window.SUBJECTS || {}).math4 || { units: [] }).units.find(y => y.id === x); return u ? u.title : ''; };
   const lockHTML = txt => `<span class="lockb">🔒 ${txt}</span>`;
+  const needTxt = x => x && x[0] === '@' ? ': пройди урок и реши хотя бы один пример' : ': нужна хотя бы ⭐ в тренажёре';
   function lockSchool() {
     if (!window.School4 || S.unlockAll) return;
     School4.GROUPS.forEach(G => G.items.forEach((x, i) => {
       if (schoolOpen(x)) return; const el = x[0] === '@' ? $(`.school-card.${x.slice(1)}`, app) : $(`.unit[data-u="${x}"]`, app); if (!el) return;
-      el.classList.add('locked'); const ub = $('.ub', el); if (ub) ub.innerHTML = lockHTML(`Откроется после темы «${esc(titleOf(G.items[i - 1]))}»`);
+      el.classList.add('locked'); const ub = $('.ub', el); if (ub) ub.innerHTML = lockHTML(`Откроется после темы «${esc(titleOf(G.items[i - 1]))}»${needTxt(G.items[i - 1])}`);
     }));
   }
   function lockSubject(sid) {
     if (S.unlockAll) return; const s = (window.SUBJECTS || {})[sid]; if (!s) return;
     $$('.units > .unit', app).forEach((el, i) => { const u = s.units[i]; if (!u || unitOpen(sid, u.id)) return; el.classList.add('locked'); const ub = $('.ub', el);
-      if (ub) ub.innerHTML = lockHTML(sid === 'math4' ? `Откроется после темы «${esc(titleOf((groupOf(u.id) || { items: [] }).items[(groupOf(u.id) || { items: [] }).items.indexOf(u.id) - 1] || ''))}»` : `Откроется после урока ${i}`); });
+      if (ub) ub.innerHTML = lockHTML(sid === 'math4' ? `Откроется после темы «${esc(titleOf((groupOf(u.id) || { items: [] }).items[(groupOf(u.id) || { items: [] }).items.indexOf(u.id) - 1] || ''))}»` : `Откроется после урока ${i}${needTxt('')}`); });
   }
+
+  // v35: тап по закрытой теме — короткое объяснение, а не тишина
+  document.addEventListener('click', e => {
+    const el = e.target.closest && e.target.closest('#app .unit.locked'); if (!el) return;
+    const t = ($('.lockb', el) || {}).textContent || '🔒 Эта тема пока закрыта'; SND.tap(); toast(`${esc(t.trim())}<br><small>Темы открываются по порядку — так легче учиться 🐾</small>`);
+  });
 
   /* ---------- встраивание в экраны ---------- */
   const wrap = (n, f) => { const s = SCREENS[n]; if (!s) return; SCREENS[n] = arg => { const r = s(arg); try { f(arg); } catch (e) { console.warn(e); } return r; }; };
@@ -452,7 +473,7 @@ const Mistakes = (() => {
   wrap('parents', () => {
     const pg = $('.page.parents', app); if (!pg) return; const reset = $('#reset', pg);
     const html = `<div class="card"><h3>🖨️ Листок для тетради</h3><p class="small">8–12 примеров по выбранным темам или по слабым местам ребёнка, с местом для решения. Вторая страница — ответы для проверки.</p><div class="row-btns"><button class="btn pink" data-go="worksheet" data-arg="p">Сделать листок</button><button class="btn" data-go="worksheet" data-arg="p:weak">🎯 По слабым темам</button></div></div>
-      <div class="card"><h3>🔓 Настройки уроков</h3><label class="tgl"><input type="checkbox" id="unlockAll" ${S.unlockAll ? 'checked' : ''}> Открыть все уроки</label><p class="small">Обычно уроки открываются по порядку: следующий — когда пройден предыдущий урок и тренажёр (хотя бы на ⭐). Первый урок каждой темы открыт сразу, а всё, что ребёнок уже начинал, остаётся открытым.</p></div>`;
+      <div class="card"><h3>🔓 Настройки уроков</h3><label class="tgl"><input type="checkbox" id="unlockAll" ${S.unlockAll ? 'checked' : ''}> Открыть все уроки</label><p class="small">Обычно уроки открываются по порядку: следующий — когда тренажёр предыдущего пройден хотя бы на ⭐ (у тем столбика — урок и хотя бы один решённый пример). Первый урок каждой темы открыт сразу, а всё, что ребёнок уже начинал, остаётся открытым.</p></div>`;
     if (reset) reset.insertAdjacentHTML('beforebegin', html); else pg.insertAdjacentHTML('beforeend', html);
     $('#unlockAll', pg).addEventListener('change', e => { S.unlockAll = e.target.checked; save(); toast(S.unlockAll ? '🔓 Все уроки открыты' : '🔒 Уроки снова открываются по порядку'); });
   });
@@ -473,7 +494,8 @@ const Mistakes = (() => {
   .mk-rep { background: #FFF6E9; border-radius: 14px; padding: 10px 12px; margin: 6px 0 10px; font-size: 15px; }
   .mk-col { display: flex; flex-direction: column; gap: 8px; align-items: stretch; max-width: 360px; margin: 10px auto 0; }
   .mk-note { margin: 6px 4px 8px; font-size: 15px; } .mk-end { margin-top: 12px; }
-  .mk-paper .seg.pt { flex-wrap: wrap; margin: 8px 0; }
+  .mk-paper .seg.pp-tabs { flex-wrap: wrap; margin: 8px 0; }
+  .mk-soft { margin: 12px 0; background: #FFF6E9; } .mk-soft p { margin: 0 0 8px; }
   .pp-card, .pp-step, .pp-found { background: #fff; border-radius: 20px; padding: 16px; box-shadow: var(--sh2); margin: 10px 0; }
   .pp-q { font-size: clamp(26px, 8vw, 40px); font-weight: 900; text-align: center; margin: 6px 0; word-break: break-word; }
   .pp-ans { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; margin: 8px 0; }
@@ -509,6 +531,6 @@ const Mistakes = (() => {
   }`;
   if (!document.getElementById('mk-css')) { const st = document.createElement('style'); st.id = 'mk-css'; st.textContent = css; document.head.appendChild(st); }
 
-  return { begin, isSolved, solve, sigOf, count, weekFixed, reportHTML, schoolItems, acadItems, errText, parseEq, unitOpen, schoolOpen, topicOpen, mulSteps, divSteps, addFind, eqStepsQ, _ctx: () => ctx, _buf: () => buf, _reset() { lastPrompt = 0; lastDom = null; } };
+  return { begin, isSolved, solve, sigOf, count, weekFixed, reportHTML, schoolItems, acadItems, errText, parseEq, unitOpen, schoolOpen, topicOpen, mulSteps, divSteps, addFind, eqStepsQ, _ctx: () => ctx, _buf: () => buf, _reset() { lastPrompt = 0; lastDom = null; offered.clear(); }, _lp0() { lastPrompt = 0; lastDom = null; } };
 })();
 window.Mistakes = Mistakes;

@@ -4,12 +4,15 @@
 const Salon = (() => {
   const st = () => (window.Coach ? Coach.stats() : { growDone: 0, masterDone: 0, overcome: [], cured: 0, bestStreak: 0 });
   const th = k => ((S.theory || {})[k] || {}).verified;
+  // v35: урок засчитывается, если страницы прочитаны не наспех и в «Проверь себя» верно хотя бы половина; объясняем, чего не хватило
+  const thCond = (k, name) => () => { const r = (S.theory || {})[k]; return `Прочитай урок «${name}» не спеша (каждую страницу или «🔊 Прочитай мне») и ответь верно хотя бы на половину вопросов «Проверь себя»${r && !r.verified ? '. В прошлый раз урок был пролистан слишком быстро или ответов было мало — попробуй ещё раз' : ''}`; };
+  const condOf = x => typeof x.cond === 'function' ? x.cond() : x.cond;
   const acadVerified = () => Object.entries(S.theory || {}).filter(([k, r]) => k.startsWith('a:') && r.verified).length;
   const acad3 = () => Object.values(S.acad || {}).reduce((t, a) => t + Object.values(a.best || {}).filter(x => x >= 3).length, 0);
   const pf = id => ((S.sk || {})[id] || {}).pf || 0;
   const SH = [
-    { id: 'mint', name: 'Мятная карамель', gems: 5, f: { base: '#9FE6C8', light: '#E8FFF5', stripe: '#6FCFA8', ai: '#E86FA0', sw: '#9FE6C8' }, cond: 'Изучи урок «Умножение столбиком» и ответь на «Проверь себя»', p: () => [th('t:mul') ? 1 : 0, 1] },
-    { id: 'lavender', name: 'Лавандовый туман', gems: 5, f: { base: '#C9B6F2', light: '#F3EDFF', stripe: '#A58BE0', ai: '#5B4BB7', sw: '#C9B6F2' }, cond: 'Изучи урок «Уравнения» и ответь на «Проверь себя»', p: () => [th('t:eq') ? 1 : 0, 1] },
+    { id: 'mint', name: 'Мятная карамель', gems: 5, f: { base: '#9FE6C8', light: '#E8FFF5', stripe: '#6FCFA8', ai: '#E86FA0', sw: '#9FE6C8' }, cond: thCond('t:mul', 'Умножение столбиком'), p: () => [th('t:mul') ? 1 : 0, 1] },
+    { id: 'lavender', name: 'Лавандовый туман', gems: 5, f: { base: '#C9B6F2', light: '#F3EDFF', stripe: '#A58BE0', ai: '#5B4BB7', sw: '#C9B6F2' }, cond: thCond('t:eq', 'Уравнения'), p: () => [th('t:eq') ? 1 : 0, 1] },
     { id: 'peach', name: 'Персик', gems: 6, f: { base: '#FFC1A1', light: '#FFF0E6', stripe: '#F49A72', ai: '#3F9A4A', sw: '#FFC1A1' }, cond: 'Выполни 3 задания роста от котика', p: () => [st().growDone, 3] },
     { id: 'sky', name: 'Небесный', gems: 8, f: { grad: ['#A8D8FF', '#D6ECFF', '#FFFFFF'], light: '#F2FAFF', ai: '#2D7FE0', sw: 'linear-gradient(135deg,#A8D8FF,#fff)' }, cond: 'Изучи 5 уроков в Академии (с «Проверь себя»)', p: () => [acadVerified(), 5] },
     { id: 'cloud', name: 'Облачко', gems: 8, f: { grad: ['#FFFFFF', '#E6EBF8', '#FFFFFF'], light: '#FFFFFF', ai: '#9B7BFF', sw: 'linear-gradient(135deg,#fff,#DDE3F5)' }, cond: 'Занимайся 7 дней подряд', p: () => [Math.max(st().bestStreak || 0, streak()), 7] },
@@ -28,7 +31,7 @@ const Salon = (() => {
     const own = owned();
     return `<p class="small center">Особые окрасы открываются за <b>достижения</b> — трудные задачи, задания котика и изученные уроки. Открыл — покупай за 💎!</p><div class="salon">${SH.map(x => {
       const p = prog(x), has = own.includes(x.id), on = S.fur === x.id;
-      return `<button class="shade ${has ? 'own' : p.ok ? 'open' : 'locked'} ${on ? 'on' : ''}" data-sh="${x.id}"><span class="sw" style="background:${x.f.sw}">${x.f.fx ? '✨' : ''}</span><b>${x.name}</b>${has ? `<small>${on ? 'надет ✔' : 'нажми, чтобы надеть'}</small>` : `<small>${x.cond}</small><span class="bar"><i style="width:${p.a / p.b * 100}%"></i></span><span class="sp">${p.ok ? `🔓 ${x.gems} 💎` : `🔒 ${p.a}/${p.b}`}</span>`}</button>`;
+      return `<button class="shade ${has ? 'own' : p.ok ? 'open' : 'locked'} ${on ? 'on' : ''}" data-sh="${x.id}"><span class="sw" style="background:${x.f.sw}">${x.f.fx ? '✨' : ''}</span><b>${x.name}</b>${has ? `<small>${on ? 'надет ✔' : 'нажми, чтобы надеть'}</small>` : `<small>${condOf(x)}</small><span class="bar"><i style="width:${p.a / p.b * 100}%"></i></span><span class="sp">${p.ok ? `🔓 ${x.gems} 💎` : `🔒 ${p.a}/${p.b}`}</span>`}</button>`;
     }).join('')}</div>`;
   }
   function bind(root, redraw) {
@@ -36,7 +39,7 @@ const Salon = (() => {
       const x = SH.find(s => s.id === b.dataset.sh), own = owned();
       if (own.includes(x.id)) { S.fur = x.id; save(); SND.meow(); catMood('happy', 1500); redraw(); return; }
       const p = prog(x);
-      if (!p.ok) { SND.tap(); toast(`<span class="tb">🔒</span><div><b>${x.name}</b><br>${x.cond}. Сейчас: ${p.a} из ${p.b}.</div>`); return; }
+      if (!p.ok) { SND.tap(); toast(`<span class="tb">🔒</span><div><b>${x.name}</b><br>${condOf(x)}. Сейчас: ${p.a} из ${p.b}.</div>`); return; }
       if ((S.gems || 0) < x.gems) { SND.bad(); toast(`<span class="tb">💎</span><div>Окрас открыт! Нужно <b>${x.gems} 💎</b>, у тебя ${S.gems || 0}.<br>Кристаллы — за сложные задачи и задания котика.</div>`); return; }
       const m = modal(`<div class="m-cat">${catSVG({ fur: x.id, wear: S.wear, happy: true })}</div><h2>${x.name}</h2><p>Купить окрас за <b>${x.gems} 💎</b>?</p><div class="row-btns"><button class="btn pink" id="buysh">Купить!</button><button class="btn" data-close>Не сейчас</button></div>`);
       $('#buysh', m.el).addEventListener('click', () => { S.gems -= x.gems; own.push(x.id); S.fur = x.id; save(); updCandy(); m.close(); confetti(40); M.sfx('magic'); SND.win(); say(PH.salonNew[0], 0, { prio: 1 }); redraw(); });

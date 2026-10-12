@@ -24,6 +24,16 @@ const Nav = (() => {
     e.stopImmediatePropagation(); e.preventDefault(); if (typeof SND !== 'undefined') SND.tap();
     const p = H.pop(); back = true; go(p.n, p.a);
   }, true);
-  return { history: () => H.slice(), current: () => cur };
+  // v35: на телефоне панель с клавиатурой прижата к низу и закрывала нижние клетки столбика (строку суммы) —
+  // подвигаем страницу, чтобы клетка, в которую сейчас пишем, была видна над панелью
+  let raf = 0;
+  const keepVisible = () => { raf = 0;
+    const t = document.querySelector('#app .cell.target, #app .cell.tap'), c = document.querySelector('#app .task-page .ctrl-col'); if (!t || !c) return;
+    if (getComputedStyle(c).position !== 'sticky') return; const tr = t.getBoundingClientRect(), cr = c.getBoundingClientRect(), top = (document.querySelector('#app header.top') || { getBoundingClientRect: () => ({ bottom: 0 }) }).getBoundingClientRect().bottom;
+    if (cr.top < tr.bottom + 8 && cr.top > 0) window.scrollBy({ top: Math.min(tr.bottom + 12 - cr.top, Math.max(0, tr.top - top - 8)), behavior: 'smooth' });
+  };
+  const app0 = document.getElementById('app');
+  if (app0 && window.MutationObserver) new MutationObserver(() => { if (!raf) raf = requestAnimationFrame(keepVisible); }).observe(app0, { subtree: true, attributes: true, attributeFilter: ['class'] });
+  return { history: () => H.slice(), current: () => cur, keepVisible };
 })();
 window.Nav = Nav;
