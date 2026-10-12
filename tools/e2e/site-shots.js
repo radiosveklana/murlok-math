@@ -10,7 +10,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const wide = () => p.setViewport({ width: 1100, height: 700, deviceScaleFactor: 1.5 });
   await phone(); await p.goto(URL); await p.waitForSelector('#kid');
   await p.evaluate(() => {
-    const s = Object.assign(fresh(), { name: 'Мурлок', kid: 'Кэтика', seenVersion: APP_VERSION, rankV: 2, xp: 6400, candies: 860, gems: 14, cases: 23, fur: 'ginger', wear: { head: 'deer', hand: 'loupe', neck: 'scarf' }, lessons: { mul: 1, eq: 1 }, login: { last: new Date().toISOString().slice(0, 10), day: 1 } });
+    const s = Object.assign(fresh(), { name: 'Мурлок', kid: 'Соня', seenVersion: APP_VERSION, rankV: 2, xp: 6400, candies: 860, gems: 14, cases: 23, fur: 'ginger', wear: { head: 'deer', hand: 'loupe', neck: 'scarf' }, lessons: { mul: 1, eq: 1 }, login: { last: new Date().toISOString().slice(0, 10), day: 1 } });
     const d = new Date(); s.days = {}; for (let i = 0; i < 9; i++) { const k = new Date(d - i * 864e5).toISOString().slice(0, 10); s.days[k] = 6 + (i * 3) % 9; s.time = s.time || {}; s.time[k] = { school: 600 + i * 90, academy: 420 + (i % 3) * 200, game: 300 }; }
     localStorage.setItem('murlok-detective-v1', JSON.stringify(s));
   });
