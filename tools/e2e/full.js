@@ -8,7 +8,7 @@ const errors = []; const misses = new Set();
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new', args: ['--allow-file-access-from-files', '--autoplay-policy=no-user-gesture-required'] });
   const p = await b.newPage();
   await p.setViewport({ width: +process.argv[2] || 820, height: +process.argv[3] || 1180, isMobile: true, hasTouch: true, deviceScaleFactor: 1 });
-  p.on('pageerror', e => errors.push('PAGEERR ' + e.message));
+  p.on('pageerror', e => errors.push('PAGEERR ' + e.message + (process.env.STK ? ' @ ' + String(e.stack).split(String.fromCharCode(10)).slice(1, 4).join(' | ') : '')));
   p.on('response', r => { if (r.status() === 404) errors.push('404 ' + r.url().replace(URL, '')); });
   p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errors.push('CONSOLE ' + m.text()); if (m.text().startsWith('VOICE-MISS')) misses.add(m.text()); });
   await p.evaluateOnNewDocument(() => { window.MURLOK_DEBUG = true; });
@@ -112,7 +112,8 @@ const errors = []; const misses = new Set();
   await click('[data-go="bugs"]'); await sleep(300); await shot('29-bugs');
   await toHome(); await click('[data-go="shop"]'); await shot('30-shop');
   await p.evaluate(() => { S.candies = 200; save(); }); await toHome(); await click('[data-go="shop"]');
-  for (const id of ['crown', 'glasses', 'scarf']) { await click(`.item[data-id="${id}"]`); await click('#buy'); await sleep(300); }
+  const tabOf = id => p.evaluate(id => { const b = document.querySelector(`.item[data-id="${id}"]`), it = b && b.closest('.items'); if (!it || !it.classList.contains('sect-off')) return; const box = it.parentElement, heads = [...box.children].filter(x => /^H[34]$/.test(x.tagName) && x.nextElementSibling && x.nextElementSibling.matches('.items, .furs')), bar = box.querySelector(':scope > .sect-chips'); if (bar) bar.children[heads.indexOf(it.previousElementSibling)].click(); }, id); // v38: магазин по вкладкам
+  for (const id of ['crown', 'glasses', 'scarf']) { await tabOf(id); await sleep(200); await dismiss(); await p.waitForFunction(id => [...document.querySelectorAll(`.item[data-id="${id}"]`)].some(x => x.offsetParent), { timeout: 8000 }, id).catch(() => tabOf(id)); await p.evaluate(id => { const b = [...document.querySelectorAll(`.item[data-id="${id}"]`)].find(x => x.offsetParent); if (b) b.click(); }, id); await sleep(150); await click('#buy'); await sleep(300); }
   await shot('31-shop-bought');
   await toHome(); await click('[data-go="diplomas"]'); await click('[data-go="book"]'); await shot('32-book'); await click('.tabs [data-t="table"]'); await shot('33-table'); await click('.tabs [data-t="awards"]'); await shot('34-awards');
   await p.evaluate(() => { S.pin = '2580'; save(); }); await toHome(); await click('#cfg'); await click('.modal #set-adult'); await p.waitForSelector('#pinin'); await p.type('#pinin', '2580'); await click('#pingo'); await sleep(500); await shot('35-parents');
@@ -123,7 +124,7 @@ const errors = []; const misses = new Set();
   await toHome(); for (let i = 0; i < 4; i++) { await sleep(1200); await dismiss(); } await shot('37b-home-care'); await p.evaluate(() => go('house', 'kitchen')); await sleep(700); await shot('37c-kitchen');
   await click('.fx[data-id="fx_bowl"]'); await sleep(300); await click('[data-food="f_fish"]'); await sleep(2200); await shot('38-fed');
   await click('.fx[data-id="fx_water"]'); await sleep(1500);
-  await click('#hshop'); await sleep(400); await shot('39-shop-home'); await click('.item[data-f="unicorn"]'); await click('#buyg'); await sleep(300); await click('.item[data-f="teddy"]'); await click('#buy'); await sleep(300);
+  await click('#hshop'); await sleep(400); await shot('39-shop-home'); const pickF = f => p.evaluate(f => { const b = document.querySelector(`.item[data-f="${f}"]`), it = b && b.closest('.items'); if (it && it.classList.contains('sect-off')) { const box = it.parentElement, heads = [...box.children].filter(x => /^H[34]$/.test(x.tagName) && x.nextElementSibling && x.nextElementSibling.matches('.items, .furs')), bar = box.querySelector(':scope > .sect-chips'); if (bar) bar.children[heads.indexOf(it.previousElementSibling)].click(); } setTimeout(() => [...document.querySelectorAll(`.item[data-f="${f}"]`)].find(x => x.offsetParent).click(), 150); }, f); await pickF('unicorn'); await sleep(400); await click('#buyg'); await sleep(300); await pickF('teddy'); await sleep(400); await click('#buy'); await sleep(300);
   await toHome(); for (let i = 0; i < 4; i++) { await sleep(1300); await dismiss(); } await click('[data-go="house"]'); await sleep(500); await click('.rtab[data-r="play"]'); await sleep(300); await click('#invb'); await sleep(300); await shot('40-tray'); await click('[data-put="unicorn"]'); await sleep(900);
   { const R = await (await p.$('#room')).boundingBox(); await p.mouse.move(R.x + R.width * 0.6, R.y + R.height * 0.8); await p.mouse.down(); await p.mouse.up(); } await sleep(500); await shot('40b-placed');
   await click('#invb'); await click('[data-put="teddy"]'); await sleep(900); { const R = await (await p.$('#room')).boundingBox(); console.log('DBG ghost', !!(await p.$('#ghost')), JSON.stringify(R)); await p.mouse.click(R.x + R.width * 0.15, R.y + R.height * 0.85); console.log('DBG placed', await p.evaluate(() => JSON.stringify(S.place.play))); } await sleep(400);

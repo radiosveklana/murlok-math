@@ -52,6 +52,7 @@ const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V30 OK ' : 
       const hs = await hscroll();
       const topOk = await E(() => { const t = document.querySelector('header.top'); return [...t.children].every(c => c.getBoundingClientRect().right <= innerWidth + 1); });
       if (!has) { ok(T + `${s}:${a}: 📋 button`, false); continue; }
+      if (await E(() => !!document.querySelector('#app .timer, #app .bz-score, #app .fake-timer'))) { await E(() => document.querySelector('header.top .cs-btn').click()); await sleep(250); ok(T + `${s}:${a}: 📋 blocked while timer runs (v35)`, !(await E(() => !!document.querySelector('.cs-modal')))); continue; }
       await E(() => document.querySelector('header.top .cs-btn').click()); await sleep(250);
       const r = await E(() => ({ sheet: document.querySelector('.cs-modal .cs-wrap').dataset.sheet, focus: (document.querySelector('.cs-modal .cs-card.focus') || {}).dataset?.card }));
       ok(T + `${s}:${a}: 📋 → ${sid}/${card}`, r.sheet === sid && r.focus === card && !hs && topOk, JSON.stringify(r) + ` hs=${hs} top=${topOk}`);
