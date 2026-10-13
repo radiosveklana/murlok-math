@@ -26,7 +26,7 @@ const ok = (name, c, x = '') => { n++; console.log((c ? 'V20 OK ' : 'V20 FAIL ')
 
   /* ---------- математика 4 класса ---------- */
   await go('school'); ok('school: 4th grade section', !!(await p.$('.school-head')));
-  await go('subject', 'math4'); ok('math4 subject: 18 topics', (await p.$$('.unit')).length === 18);
+  await go('subject', 'math4'); ok('math4 subject: 29 topics', (await p.$$('.unit')).length === 29);
   ok('math4 back goes to school', await E(() => document.querySelector('.back').dataset.go === 'school'));
   await go('aquiz', 'math4:remainder'); ok('level selector', (await p.$$('.genlv button')).length === 3);
   const qs = []; let wrongDone = false; for (let k = 0; k < 12; k++) { if (!(await p.$('#qarea .q-unit'))) break; qs.push(await E(() => JSON.stringify(window.__aq).slice(0, 80))); const g = await E(() => window.__aqGen); const w = g && !wrongDone; if (w) wrongDone = true; await answer(w); await sleep(200); await click('#qn'); } // ошибаемся ровно на одном сгенерированном вопросе
