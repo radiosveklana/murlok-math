@@ -58,10 +58,8 @@
   "p": "A long cartoon thigh bone lying next to a child for size, and a magnifying glass revealing a teeny tiny bone"
  },
  "skeleton:3": {
-  "type": "photo",
-  "q": "bone cross section",
-  "alt": "Кость в разрезе",
-  "src": "commons"
+  "type": "art",
+  "p": "A friendly cartoon bone cut open showing the spongy inside with tiny red blood vessels and soft bone marrow, cute and educational, bright colors"
  },
  "skeleton:4": {
   "type": "photo",
@@ -104,16 +102,12 @@
   "p": "A cute cartoon heart with little arms jogging alongside a running child in a park, both cheerful"
  },
  "cover:heart_blood": {
-  "type": "photo",
-  "q": "anatomical heart model",
-  "alt": "Модель сердца",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat listening with a stethoscope to a big smiling cartoon heart, little red blood cells flowing like a river"
  },
  "heart_blood:0": {
-  "type": "photo",
-  "q": "clenched fist",
-  "alt": "Сердце размером с кулак",
-  "src": "commons"
+  "type": "art",
+  "p": "A child's hand making a fist next to a cute smiling cartoon heart of the same size, simple and bright"
  },
  "heart_blood:1": {
   "type": "photo",
@@ -122,10 +116,8 @@
   "src": "commons"
  },
  "heart_blood:2": {
-  "type": "photo",
-  "q": "veins on hand",
-  "alt": "Вены на руке",
-  "src": "commons"
+  "type": "art",
+  "p": "A cute cartoon map of the body's blood vessels like rivers and roads: red arteries, blue veins and tiny capillaries, a smiling heart in the center"
  },
  "heart_blood:3": {
   "type": "photo",
@@ -166,10 +158,8 @@
   "p": "An upside-down cartoon tree of pink branches ending in clusters of cute tiny balloons, little bubbles hopping between them"
  },
  "lungs:3": {
-  "type": "photo",
-  "q": "balloon",
-  "alt": "Воздушный шарик",
-  "src": "commons"
+  "type": "art",
+  "p": "A cute cartoon torso diagram showing two pink lungs and a dome-shaped diaphragm muscle below them moving down as air flows in, bright and friendly"
  },
  "lungs:4": {
   "type": "photo",
@@ -206,16 +196,12 @@
   "p": "A bite of food riding a wavy tube slide down into a round cartoon stomach that churns like a gentle washing machine"
  },
  "digestion:3": {
-  "type": "photo",
-  "q": "torso anatomical model",
-  "alt": "Анатомическая модель",
-  "src": "commons"
+  "type": "art",
+  "p": "A cute cartoon of a long winding tunnel slide shaped like an intestine where tiny food particles ride and wave, bright playful colors"
  },
  "digestion:4": {
-  "type": "photo",
-  "q": "chemistry laboratory flasks",
-  "alt": "Лаборатория",
-  "src": "commons"
+  "type": "art",
+  "p": "A friendly cartoon liver as a busy little laboratory with tiny workers in white coats mixing green bile in flasks, cheerful"
  },
  "digestion:5": {
   "type": "art",
@@ -246,10 +232,8 @@
   "src": "commons"
  },
  "brain:3": {
-  "type": "photo",
-  "q": "chess game",
-  "alt": "Мозг работает целиком",
-  "src": "commons"
+  "type": "art",
+  "p": "A cartoon brain lit up everywhere with colorful glowing areas like a city at night, a magnifying glass showing all parts working"
  },
  "brain:4": {
   "type": "photo",
@@ -282,10 +266,8 @@
   "src": "commons"
  },
  "senses:2": {
-  "type": "photo",
-  "q": "ear anatomical model",
-  "alt": "Модель уха",
-  "src": "commons"
+  "type": "art",
+  "p": "Cute cartoon cross-section of an ear: sound waves entering, the eardrum vibrating and three tiny bones like a hammer, anvil and stirrup, bright educational"
  },
  "senses:3": {
   "type": "photo",
@@ -389,8 +371,8 @@
  },
  "cells:7": {
   "type": "photo",
-  "q": "plant cells microscope",
-  "alt": "Клетки растения под микроскопом",
+  "q": "onion cells microscope",
+  "alt": "Клетки лука под микроскопом",
   "src": "commons"
  },
  "cells:8": {

@@ -16,14 +16,8 @@
   "q": "soap and towel",
   "alt": "Мыло и полотенце"
  },
- "hygiene:0": {
-  "q": "shower head",
-  "alt": "Душ"
- },
- "hygiene:1": {
-  "q": "deodorant stick",
-  "alt": "Дезодорант"
- },
+ "hygiene:0": null,
+ "hygiene:1": null,
  "hygiene:2": {
   "q": "socks",
   "alt": "Чистые носки"
@@ -40,10 +34,7 @@
   "q": "soap bar",
   "alt": "Мыло для умывания"
  },
- "hygiene:6": {
-  "q": "hair comb",
-  "alt": "Своя расчёска"
- },
+ "hygiene:6": null,
  "cover:emotions": {
   "q": "emoticons",
   "alt": "Смайлики-эмоции"
@@ -60,18 +51,12 @@
   "q": "calm lake",
   "alt": "Спокойное озеро"
  },
- "emotions:3": {
-  "q": "rain on window",
-  "alt": "Дождь за окном"
- },
+ "emotions:3": null,
  "emotions:4": {
   "q": "teddy bear",
   "alt": "Плюшевый мишка"
  },
- "emotions:5": {
-  "q": "reading nook",
-  "alt": "Уютный уголок"
- },
+ "emotions:5": null,
  "emotions:6": {
   "q": "telephone",
   "alt": "Телефон доверия"
@@ -84,26 +69,14 @@
   "q": "friendship bracelets",
   "alt": "Браслеты дружбы"
  },
- "friendship:1": {
-  "q": "handshake",
-  "alt": "Рукопожатие"
- },
- "friendship:2": {
-  "q": "board game",
-  "alt": "Настольная игра"
- },
+ "friendship:1": null,
+ "friendship:2": null,
  "friendship:3": {
   "q": "crowd of people",
   "alt": "Толпа"
  },
- "friendship:4": {
-  "q": "school corridor",
-  "alt": "Школьный коридор"
- },
- "friendship:5": {
-  "q": "two dogs playing",
-  "alt": "Два друга"
- },
+ "friendship:4": null,
+ "friendship:5": null,
  "friendship:6": {
   "q": "stop sign",
   "alt": "Знак «Стоп»"
@@ -124,14 +97,8 @@
   "q": "butterflies",
   "alt": "Бабочки"
  },
- "crush:3": {
-  "q": "greeting card",
-  "alt": "Открытка"
- },
- "crush:4": {
-  "q": "rain on window",
-  "alt": "Дождь за окном"
- },
+ "crush:3": null,
+ "crush:4": null,
  "crush:5": {
   "q": "two swans",
   "alt": "Пара лебедей"
@@ -144,18 +111,9 @@
   "q": "sunflower",
   "alt": "Подсолнух"
  },
- "confidence:0": {
-  "q": "mirror",
-  "alt": "Зеркало"
- },
- "confidence:1": {
-  "q": "smartphone",
-  "alt": "Смартфон"
- },
- "confidence:2": {
-  "q": "different trees",
-  "alt": "Все деревья разные"
- },
+ "confidence:0": null,
+ "confidence:1": null,
+ "confidence:2": null,
  "confidence:3": {
   "q": "fruit basket",
   "alt": "Корзина фруктов"
@@ -176,10 +134,7 @@
   "q": "garden fence",
   "alt": "Садовый забор"
  },
- "boundaries:0": {
-  "q": "garden fence",
-  "alt": "Невидимая граница"
- },
+ "boundaries:0": null,
  "boundaries:1": null,
  "boundaries:2": null,
  "boundaries:3": {
@@ -188,10 +143,7 @@
  },
  "boundaries:4": null,
  "boundaries:5": null,
- "boundaries:6": {
-  "q": "stop sign",
-  "alt": "Знак «Стоп»"
- },
+ "boundaries:6": null,
  "boundaries:7": {
   "q": "telephone",
   "alt": "Телефон доверия"
@@ -216,30 +168,18 @@
   "q": "padlock",
   "alt": "Замок"
  },
- "online:4": {
-  "q": "laptop",
-  "alt": "Ноутбук"
- },
- "online:5": {
-  "q": "park bench",
-  "alt": "Скамейка в парке"
- },
+ "online:4": null,
+ "online:5": null,
  "cover:is_it_normal": {
   "q": "diary and pen",
   "alt": "Дневник и ручка"
  },
  "is_it_normal:0": null,
- "is_it_normal:3": {
-  "q": "deodorant stick",
-  "alt": "Дезодорант"
- },
- "is_it_normal:5": {
-  "q": "tissues box",
-  "alt": "Салфетки"
- },
+ "is_it_normal:3": null,
+ "is_it_normal:5": null,
  "is_it_normal:6": {
-  "q": "foal",
-  "alt": "Жеребёнок"
+  "q": "newborn foal standing",
+  "alt": "Жеребёнок учится стоять"
  },
  "is_it_normal:7": {
   "q": "teddy bear",
@@ -266,10 +206,7 @@
   "q": "toothbrush",
   "alt": "Зубная щётка"
  },
- "hygiene:10": {
-  "q": "folded t-shirt",
-  "alt": "Сменная футболка"
- },
+ "hygiene:10": null,
  "confidence:9": {
   "q": "apple and pear",
   "alt": "Яблоко и груша"
@@ -290,10 +227,7 @@
   "q": "footprints in sand",
   "alt": "Следы на песке"
  },
- "online:9": {
-  "q": "phone on nightstand",
-  "alt": "Телефон на тумбочке"
- },
+ "online:9": null,
  "is_it_normal:13": {
   "q": "alarm clock",
   "alt": "Будильник"
@@ -326,10 +260,7 @@
   "q": "payment card chip",
   "alt": "Банковская карта"
  },
- "exam_stress:2": {
-  "q": "planner notebook",
-  "alt": "Ежедневник"
- },
+ "exam_stress:2": null,
  "exam_stress:4": {
   "q": "school backpack",
   "alt": "Школьный рюкзак"

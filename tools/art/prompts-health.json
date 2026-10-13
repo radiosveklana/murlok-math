@@ -68,10 +68,8 @@
   "p": "a sweaty anime kid in sportswear taking a big sip from a water bottle on a sunny playground"
  },
  "water:3": {
-  "type": "photo",
-  "q": "water jug",
-  "alt": "Кувшин воды",
-  "src": "commons"
+  "type": "art",
+  "p": "A cute child drinking a glass of clear water, little thought bubbles showing thirst signs like a sleepy face, bright kitchen"
  },
  "water:4": {
   "type": "photo",
@@ -166,22 +164,16 @@
   "src": "commons"
  },
  "hygiene:6": {
-  "type": "photo",
-  "q": "paper tissues",
-  "alt": "Бумажные салфетки",
-  "src": "commons"
+  "type": "art",
+  "p": "A child sneezing into the bend of their elbow, a tissue box on the table nearby, cheerful classroom"
  },
  "cover:sport": {
-  "type": "photo",
-  "q": "children playing football",
-  "alt": "Дети играют в футбол",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat jumping rope in a sunny park with a ball and a bicycle nearby"
  },
  "sport:0": {
-  "type": "photo",
-  "q": "children playing park",
-  "alt": "Игры на улице",
-  "src": "commons"
+  "type": "art",
+  "p": "Happy children running, jumping and playing ball in a green sunny park, seen from a distance"
  },
  "sport:1": {
   "type": "photo",
@@ -212,10 +204,8 @@
   "src": "commons"
  },
  "sport:6": {
-  "type": "photo",
-  "q": "bicycle",
-  "alt": "Велосипед",
-  "src": "commons"
+  "type": "art",
+  "p": "A child standing up from a desk and stretching arms high, a kitten stretching too, a clock on the wall, bright room"
  },
  "cover:sleep": {
   "type": "photo",
@@ -254,10 +244,8 @@
   "src": "commons"
  },
  "sleep:5": {
-  "type": "photo",
-  "q": "glass of warm milk",
-  "alt": "Тёплое молоко",
-  "src": "commons"
+  "type": "art",
+  "p": "A child lying calmly in bed with eyes closed, breathing slowly, soft moonlight through the window, a teddy bear, no phone"
  },
  "cover:screens": {
   "type": "photo",
@@ -288,10 +276,8 @@
   "src": "commons"
  },
  "screens:4": {
-  "type": "photo",
-  "q": "children playing outdoors",
-  "alt": "Перерыв на улице",
-  "src": "commons"
+  "type": "art",
+  "p": "A child stepping away from a tablet to look out of a window at green trees, stretching, bright sunny day"
  },
  "screens:5": {
   "type": "photo",
@@ -415,8 +401,8 @@
  },
  "habits:5": {
   "type": "photo",
-  "q": "park walk",
-  "alt": "Прогулка в парке",
+  "q": "sunny park path autumn trees",
+  "alt": "Дорожка в парке",
   "src": "commons"
  },
  "habits:6": {
@@ -437,8 +423,8 @@
  },
  "plate:9": {
   "type": "photo",
-  "q": "broccoli plate fork",
-  "alt": "Брокколи на тарелке",
+  "q": "broccoli carrots vegetables colorful",
+  "alt": "Брокколи и морковь",
   "src": "commons"
  },
  "water:6": {
@@ -504,10 +490,8 @@
   "p": "Two cute anime friends jogging side by side in a park and chatting happily, autumn trees and a path"
  },
  "sport:9": {
-  "type": "photo",
-  "q": "children playing sports park",
-  "alt": "Спорт для всех",
-  "src": "commons"
+  "type": "art",
+  "p": "Kids playing different sports in a park seen from afar: swimming, cycling with helmets, dancing, playing ball, all happy"
  },
  "sleep:6": {
   "type": "photo",
@@ -517,7 +501,7 @@
  },
  "sleep:7": {
   "type": "photo",
-  "q": "alarm clock bedside",
+  "q": "red alarm clock",
   "alt": "Будильник",
   "src": "commons"
  },

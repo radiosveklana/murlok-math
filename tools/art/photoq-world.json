@@ -7,10 +7,7 @@
   "q": "cat drinking water bowl",
   "alt": "Котик пьёт воду"
  },
- "pet_care:2": {
-  "q": "dog looking at food",
-  "alt": "Собака и еда"
- },
+ "pet_care:2": null,
  "pet_care:3": {
   "q": "Syrian hamster",
   "alt": "Сирийский хомяк"
@@ -48,8 +45,8 @@
   "alt": "Скворечник"
  },
  "eco_care:0": {
-  "q": "plastic bottles litter beach",
-  "alt": "Мусор на берегу"
+  "q": "plastic bottles recycling container",
+  "alt": "Пластиковые бутылки на переработку"
  },
  "eco_care:1": {
   "q": "recycled paper bales",
@@ -59,10 +56,7 @@
   "q": "recycling bins",
   "alt": "Контейнеры для сортировки"
  },
- "eco_care:3": {
-  "q": "used batteries AA",
-  "alt": "Старые батарейки"
- },
+ "eco_care:3": null,
  "eco_care:4": {
   "q": "dripping water tap",
   "alt": "Капающий кран"
@@ -83,10 +77,7 @@
   "q": "thunderstorm clouds lightning",
   "alt": "Гроза и молния"
  },
- "world_peoples:0": {
-  "q": "crowd of people city street",
-  "alt": "Много людей"
- },
+ "world_peoples:0": null,
  "world_peoples:1": {
   "q": "Japanese bow greeting",
   "alt": "Поклон в Японии"
@@ -135,14 +126,8 @@
   "q": "Edison light bulb",
   "alt": "Лампочка Эдисона"
  },
- "inventions:0": {
-  "q": "power lines pylon",
-  "alt": "Линия электропередачи"
- },
- "inventions:2": {
-  "q": "vintage refrigerator",
-  "alt": "Старинный холодильник"
- },
+ "inventions:0": null,
+ "inventions:2": null,
  "inventions:3": {
   "q": "airplane wing takeoff",
   "alt": "Самолёт на взлёте"
@@ -159,10 +144,7 @@
   "q": "chameleon branch",
   "alt": "Хамелеон на ветке"
  },
- "amazing_animals:8": {
-  "q": "Greenland shark",
-  "alt": "Гренландская акула"
- },
+ "amazing_animals:8": null,
  "amazing_animals:9": {
   "q": "ant carrying leaf",
   "alt": "Муравей несёт лист"
@@ -200,8 +182,8 @@
   "alt": "Контейнер для пластика"
  },
  "eco_care:8": {
-  "q": "planting tree sapling hands",
-  "alt": "Посадка дерева"
+  "q": "young tree sapling green leaves",
+  "alt": "Молодое деревце"
  },
  "plants:6": {
   "q": "plant roots soil",
@@ -284,7 +266,7 @@
   "alt": "Лёд и вода"
  },
  "water_cycle:1": {
-  "q": "boiling water pot",
+  "q": "boiling water bubbles",
   "alt": "Кипящая вода"
  },
  "water_cycle:2": {
@@ -296,8 +278,8 @@
   "alt": "Облака над горами"
  },
  "water_cycle:4": {
-  "q": "rain drops puddle",
-  "alt": "Дождь"
+  "q": "raindrops on green leaf",
+  "alt": "Капли дождя на листе"
  },
  "water_cycle:5": {
   "q": "mountain stream river",
@@ -328,8 +310,8 @@
   "alt": "Газовая плита"
  },
  "minerals:4": {
-  "q": "iron ore",
-  "alt": "Железная руда"
+  "q": "hematite mineral specimen",
+  "alt": "Гематит — железная руда"
  },
  "minerals:5": {
   "q": "granite embankment Saint Petersburg",
@@ -339,10 +321,7 @@
   "q": "salt lake Baskunchak",
   "alt": "Соляное озеро"
  },
- "minerals:8": {
-  "q": "sandstone porous rock",
-  "alt": "Пористый камень"
- },
+ "minerals:8": null,
  "red_book:0": {
   "q": "Amur leopard",
   "alt": "Дальневосточный леопард"

@@ -43,10 +43,7 @@
   "q": "waxing crescent moon",
   "alt": "Растущий серп Луны"
  },
- "moon:5": {
-  "q": "total lunar eclipse",
-  "alt": "Красная Луна в затмении"
- },
+ "moon:5": null,
  "cover:stars": {
   "q": "starry night sky",
   "alt": "Звёздное небо"
@@ -107,10 +104,7 @@
   "q": "winter snowy forest",
   "alt": "Зимний лес"
  },
- "earth_motion:5": {
-  "q": "summer meadow sunny",
-  "alt": "Летний луг"
- },
+ "earth_motion:5": null,
  "cover:cosmonauts": {
   "q": "Soyuz rocket launch",
   "alt": "Старт ракеты «Союз»"
@@ -119,10 +113,7 @@
   "q": "astronauts floating ISS",
   "alt": "Космонавты парят на МКС"
  },
- "cover:universe": {
-  "q": "Milky Way night sky",
-  "alt": "Млечный Путь"
- },
+ "cover:universe": null,
  "universe:0": {
   "q": "Andromeda Galaxy",
   "alt": "Галактика Андромеды"
@@ -283,10 +274,7 @@
   "q": "RATAN-600 radio telescope",
   "alt": "Радиотелескоп РАТАН-600"
  },
- "telescopes:5": {
-  "q": "Pulkovo Observatory",
-  "alt": "Пулковская обсерватория"
- },
+ "telescopes:5": null,
  "telescopes:6": {
   "q": "Hubble Space Telescope orbit",
   "alt": "Телескоп «Хаббл»"
@@ -374,5 +362,7 @@
  "probes:8": {
   "q": "Luna 16 lander",
   "alt": "Станция «Луна-16»"
- }
+ },
+ "stars:5": null,
+ "comets:3": null
 }

@@ -366,10 +366,8 @@
   "p": "a child keeping two big steps away from an adult on a sunny sidewalk, glowing footprints showing the safe distance, child walking toward parents"
  },
  "street_stranger:8": {
-  "type": "photo",
-  "q": "elevator doors",
-  "alt": "Лифт и подъезд",
-  "src": "commons"
+  "type": "art",
+  "p": "a child waiting calmly in a bright apartment lobby next to open elevator doors, choosing to wait for the next one, safe and friendly"
  },
  "street_stranger:9": {
   "type": "art",

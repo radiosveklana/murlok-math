@@ -11,18 +11,12 @@
   "q": "ice cream cones",
   "alt": "Дело вкуса"
  },
- "fact_opinion:2": {
-  "q": "thinking statue",
-  "alt": "Я думаю…"
- },
+ "fact_opinion:2": null,
  "fact_opinion:3": {
   "q": "optical illusion",
   "alt": "Оптическая иллюзия"
  },
- "fact_opinion:4": {
-  "q": "fruit bowl",
-  "alt": "Смесь в миске"
- },
+ "fact_opinion:4": null,
  "fact_opinion:5": {
   "q": "balance scale",
   "alt": "Взвесить причины"
@@ -36,7 +30,7 @@
   "alt": "Дождь и лужа"
  },
  "cause_effect:1": {
-  "q": "black cat",
+  "q": "black cat sitting",
   "alt": "Чёрная кошка"
  },
  "cause_effect:2": {
@@ -47,10 +41,7 @@
   "q": "ice cream summer",
   "alt": "Мороженое летом"
  },
- "cause_effect:4": {
-  "q": "baking cake",
-  "alt": "Торт в духовке"
- },
+ "cause_effect:4": null,
  "cause_effect:5": {
   "q": "dominoes",
   "alt": "Цепочка домино"
@@ -103,42 +94,27 @@
   "q": "squirrel",
   "alt": "Белка"
  },
- "traps:4": {
-  "q": "crown",
-  "alt": "Корона"
- },
+ "traps:4": null,
  "traps:5": {
   "q": "apple pie",
   "alt": "Пирог"
  },
- "cover:ads": {
-  "q": "billboard city",
-  "alt": "Рекламный щит"
- },
+ "cover:ads": null,
  "ads:0": {
   "q": "shopping cart",
   "alt": "Тележка в магазине"
  },
- "ads:1": {
-  "q": "lemonade glass",
-  "alt": "Лимонад"
- },
+ "ads:1": null,
  "ads:2": {
   "q": "alarm clock",
   "alt": "Будильник торопит"
  },
- "ads:3": {
-  "q": "football stadium",
-  "alt": "Стадион"
- },
+ "ads:3": null,
  "ads:4": {
   "q": "magnifying glass paper",
   "alt": "Читаем мелкий шрифт"
  },
- "ads:5": {
-  "q": "mousetrap cheese",
-  "alt": "Сыр в мышеловке"
- },
+ "ads:5": null,
  "cover:news_fakes": {
   "q": "newspapers",
   "alt": "Газеты"
@@ -147,26 +123,14 @@
   "q": "carnival mask",
   "alt": "Маска"
  },
- "news_fakes:1": {
-  "q": "detective hat",
-  "alt": "Шляпа детектива"
- },
- "news_fakes:2": {
-  "q": "megaphone",
-  "alt": "Громкий заголовок"
- },
- "news_fakes:3": {
-  "q": "old photographs",
-  "alt": "Старые фотографии"
- },
+ "news_fakes:1": null,
+ "news_fakes:2": null,
+ "news_fakes:3": null,
  "news_fakes:4": {
   "q": "robot",
   "alt": "Робот"
  },
- "news_fakes:5": {
-  "q": "checklist pencil",
-  "alt": "Сначала проверь"
- },
+ "news_fakes:5": null,
  "cover:logic": {
   "q": "chess game",
   "alt": "Шахматы"
@@ -180,17 +144,11 @@
   "alt": "Зонт под дождём"
  },
  "logic:2": {
-  "q": "cat eating fish",
-  "alt": "Кот и рыба"
+  "q": "orange tabby cat",
+  "alt": "Рыжий кот"
  },
- "logic:3": {
-  "q": "gears",
-  "alt": "Шестерёнки"
- },
- "logic:4": {
-  "q": "fog landscape",
-  "alt": "Туман — не видно"
- },
+ "logic:3": null,
+ "logic:4": null,
  "logic:5": {
   "q": "nesting dolls",
   "alt": "Матрёшки по росту"
@@ -251,10 +209,7 @@
   "q": "school debate",
   "alt": "Школьные дебаты"
  },
- "kind_debate:0": {
-  "q": "handshake",
-  "alt": "Рукопожатие"
- },
+ "kind_debate:0": null,
  "kind_debate:1": {
   "q": "brick wall",
   "alt": "Кирпичи доводов"
@@ -375,8 +330,5 @@
   "q": "encyclopedia library shelf",
   "alt": "Надёжные места"
  },
- "logic_grids:1": {
-  "q": "graph paper grid",
-  "alt": "Рисуем таблицу"
- }
+ "logic_grids:1": null
 }

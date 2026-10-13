@@ -23,10 +23,7 @@
   "q": "onion root mitosis",
   "alt": "Клетки делятся"
  },
- "cells:5": {
-  "q": "cheek cells microscope",
-  "alt": "Клетки кожи щеки"
- },
+ "cells:5": null,
  "cover:skeleton": {
   "q": "skeleton model",
   "alt": "Модель скелета"
@@ -43,10 +40,7 @@
   "q": "femur bone model",
   "alt": "Бедренная кость"
  },
- "skeleton:3": {
-  "q": "bone cross section",
-  "alt": "Кость в разрезе"
- },
+ "skeleton:3": null,
  "skeleton:4": {
   "q": "x-ray knee",
   "alt": "Рентген колена"
@@ -67,10 +61,7 @@
   "q": "anatomical model muscles",
   "alt": "Модель мышц"
  },
- "muscles:2": {
-  "q": "arm wrestling",
-  "alt": "Бицепс тянет"
- },
+ "muscles:2": null,
  "muscles:3": {
   "q": "rock climbing",
   "alt": "Сильные мышцы"
@@ -83,22 +74,13 @@
   "q": "anatomical heart model",
   "alt": "Модель сердца"
  },
- "cover:heart_blood": {
-  "q": "anatomical heart model",
-  "alt": "Модель сердца"
- },
- "heart_blood:0": {
-  "q": "clenched fist",
-  "alt": "Сердце размером с кулак"
- },
+ "cover:heart_blood": null,
+ "heart_blood:0": null,
  "heart_blood:1": {
   "q": "stethoscope",
   "alt": "Стетоскоп"
  },
- "heart_blood:2": {
-  "q": "veins on hand",
-  "alt": "Вены на руке"
- },
+ "heart_blood:2": null,
  "heart_blood:3": {
   "q": "red blood cells microscope",
   "alt": "Клетки крови"
@@ -127,10 +109,7 @@
   "q": "bunch of grapes",
   "alt": "Как гроздь винограда"
  },
- "lungs:3": {
-  "q": "balloon",
-  "alt": "Воздушный шарик"
- },
+ "lungs:3": null,
  "lungs:4": {
   "q": "chest x-ray",
   "alt": "Рентген грудной клетки"
@@ -155,14 +134,8 @@
   "q": "digestive system model",
   "alt": "Модель пищеварения"
  },
- "digestion:3": {
-  "q": "torso anatomical model",
-  "alt": "Анатомическая модель"
- },
- "digestion:4": {
-  "q": "chemistry laboratory flasks",
-  "alt": "Лаборатория"
- },
+ "digestion:3": null,
+ "digestion:4": null,
  "digestion:5": {
   "q": "glass of water",
   "alt": "Стакан воды"
@@ -183,10 +156,7 @@
   "q": "brain model",
   "alt": "Части мозга"
  },
- "brain:3": {
-  "q": "chess game",
-  "alt": "Мозг работает целиком"
- },
+ "brain:3": null,
  "brain:4": {
   "q": "reflex hammer",
   "alt": "Молоточек для рефлекса"
@@ -207,10 +177,7 @@
   "q": "human eye macro",
   "alt": "Глаз крупно"
  },
- "senses:2": {
-  "q": "ear anatomical model",
-  "alt": "Модель уха"
- },
+ "senses:2": null,
  "senses:3": {
   "q": "strawberries",
   "alt": "Вкусная клубника"
@@ -280,8 +247,8 @@
   "alt": "Моем руки с мылом"
  },
  "cells:7": {
-  "q": "plant cells microscope",
-  "alt": "Клетки растения под микроскопом"
+  "q": "onion cells microscope",
+  "alt": "Клетки лука под микроскопом"
  },
  "cells:8": {
   "q": "DNA double helix model",

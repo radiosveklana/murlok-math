@@ -39,8 +39,8 @@
  },
  "first_aid_kit:0": {
   "type": "photo",
-  "q": "first aid kit wall",
-  "alt": "Аптечка на стене",
+  "q": "first aid kit box open",
+  "alt": "Аптечка",
   "src": "commons"
  },
  "first_aid_kit:1": {
@@ -56,10 +56,8 @@
   "src": "commons"
  },
  "first_aid_kit:3": {
-  "type": "photo",
-  "q": "antiseptic bottle",
-  "alt": "Антисептик",
-  "src": "commons"
+  "type": "art",
+  "p": "A clean first aid kit open on a table with a bottle of antiseptic, cotton pads and plasters, bright and tidy"
  },
  "first_aid_kit:4": {
   "type": "photo",
@@ -68,16 +66,12 @@
   "src": "commons"
  },
  "first_aid_kit:5": {
-  "type": "photo",
-  "q": "notebook phone numbers",
-  "alt": "Список телефонов",
-  "src": "commons"
+  "type": "art",
+  "p": "An open first aid box with a neat paper card of phone numbers drawn as simple phone icons and hearts, no readable text"
  },
  "cover:wounds": {
-  "type": "photo",
-  "q": "adhesive bandage",
-  "alt": "Пластырь",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat putting a colorful plaster on a teddy bear's knee next to a bowl of clean water"
  },
  "wounds:0": {
   "type": "photo",
@@ -92,22 +86,16 @@
   "src": "commons"
  },
  "wounds:2": {
-  "type": "photo",
-  "q": "gauze bandage roll",
-  "alt": "Бинт",
-  "src": "commons"
+  "type": "art",
+  "p": "A calm adult pressing a clean white bandage on a child's arm, a phone nearby, reassuring and gentle, no blood visible"
  },
  "wounds:3": {
-  "type": "photo",
-  "q": "paper tissues",
-  "alt": "Салфетки",
-  "src": "commons"
+  "type": "art",
+  "p": "A child sitting and leaning slightly forward, pinching the soft part of the nose with a tissue, a caring adult beside them, calm"
  },
  "wounds:4": {
-  "type": "photo",
-  "q": "gauze pads",
-  "alt": "Стерильные салфетки",
-  "src": "commons"
+  "type": "art",
+  "p": "Two little cartoon children side by side: one tilting the head back with a red cross-out mark, one leaning forward with a green check mark, simple and friendly"
  },
  "wounds:5": {
   "type": "photo",
@@ -138,10 +126,8 @@
   "src": "commons"
  },
  "burns:3": {
-  "type": "photo",
-  "q": "gauze bandage roll",
-  "alt": "Чистая повязка",
-  "src": "commons"
+  "type": "art",
+  "p": "A gentle adult covering a child's hand with a clean non-stick bandage after cooling it, calm and safe"
  },
  "burns:4": {
   "type": "photo",
@@ -150,32 +136,24 @@
   "src": "commons"
  },
  "burns:5": {
-  "type": "photo",
-  "q": "sunscreen",
-  "alt": "Солнцезащитный крем",
-  "src": "commons"
+  "type": "art",
+  "p": "A child resting in the shade of a beach umbrella wearing a sun hat, drinking water, sunny beach"
  },
  "cover:injuries": {
   "type": "art",
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat pressing a cold pack on a bunny friend's knee while an adult hurries over with a first aid kit"
  },
  "injuries:0": {
-  "type": "photo",
-  "q": "ice pack",
-  "alt": "Холод на ушиб",
-  "src": "commons"
+  "type": "art",
+  "p": "A child holding a cold pack wrapped in a towel on the knee, sitting on a bench, calm"
  },
  "injuries:1": {
-  "type": "photo",
-  "q": "elastic bandage",
-  "alt": "Эластичный бинт",
-  "src": "commons"
+  "type": "art",
+  "p": "A child with an ankle gently wrapped in an elastic bandage resting the foot on a pillow, an adult nearby"
  },
  "injuries:2": {
-  "type": "photo",
-  "q": "x-ray hand",
-  "alt": "Рентген руки",
-  "src": "commons"
+  "type": "art",
+  "p": "A child sitting still holding their arm carefully while a kind adult calls for help on the phone, calm"
  },
  "injuries:3": {
   "type": "photo",
@@ -224,15 +202,13 @@
   "src": "commons"
  },
  "bites:4": {
-  "type": "photo",
-  "q": "grass snake",
-  "alt": "Уж",
-  "src": "commons"
+  "type": "art",
+  "p": "A child in hiking boots stepping carefully on a forest path, looking at the ground, a small grass snake slithering away far in the grass"
  },
  "bites:5": {
   "type": "photo",
-  "q": "forest path",
-  "alt": "Тропинка в лесу",
+  "q": "sunny forest path summer",
+  "alt": "Солнечная лесная тропинка",
   "src": "commons"
  },
  "cover:choking": {
@@ -242,10 +218,8 @@
   "src": "commons"
  },
  "choking:0": {
-  "type": "photo",
-  "q": "apple slices",
-  "alt": "Кусочки яблока",
-  "src": "commons"
+  "type": "art",
+  "p": "A child coughing at a lunch table while a calm friend waits beside, bright cafeteria"
  },
  "choking:1": {
   "type": "photo",
@@ -260,16 +234,12 @@
   "src": "commons"
  },
  "choking:3": {
-  "type": "photo",
-  "q": "first aid training mannequin",
-  "alt": "Учебный манекен",
-  "src": "commons"
+  "type": "art",
+  "p": "A child making the international choking sign with both hands near the throat, an adult rushing to help, calm safe illustration"
  },
  "choking:4": {
-  "type": "photo",
-  "q": "family meal",
-  "alt": "Едим не спеша",
-  "src": "commons"
+  "type": "art",
+  "p": "Children sitting at a table eating small pieces of fruit calmly and chewing well, bright cheerful dining room"
  },
  "choking:5": {
   "type": "photo",
@@ -296,10 +266,8 @@
   "src": "commons"
  },
  "weather_water:2": {
-  "type": "photo",
-  "q": "winter mittens",
-  "alt": "Тёплые варежки",
-  "src": "commons"
+  "type": "art",
+  "p": "A child coming in from the snowy cold into a warm room, taking off wet mittens, rosy cheeks, cozy"
  },
  "weather_water:3": {
   "type": "photo",
@@ -368,28 +336,20 @@
   "src": "commons"
  },
  "feeling_unwell:0": {
-  "type": "photo",
-  "q": "pillow",
-  "alt": "Подушка",
-  "src": "commons"
+  "type": "art",
+  "p": "A child helping a classmate who feels dizzy sit down on a bench, a teacher coming, calm and caring"
  },
  "feeling_unwell:1": {
-  "type": "photo",
-  "q": "glass of water",
-  "alt": "Стакан воды",
-  "src": "commons"
+  "type": "art",
+  "p": "A person lying on their back on the grass with legs raised on a backpack, a child calling an adult, calm and safe"
  },
  "feeling_unwell:2": {
-  "type": "photo",
-  "q": "pillow",
-  "alt": "Мягкая подушка",
-  "src": "commons"
+  "type": "art",
+  "p": "A child moving a chair and toys away to make space and calling an adult on the phone, calm"
  },
  "feeling_unwell:3": {
-  "type": "photo",
-  "q": "wristwatch",
-  "alt": "Засекаем время",
-  "src": "commons"
+  "type": "art",
+  "p": "A child calmly calling for help on the phone, looking at a clock to note the time, a soft pillow nearby"
  },
  "feeling_unwell:4": {
   "type": "photo",
@@ -404,10 +364,8 @@
   "src": "commons"
  },
  "help_rule:6": {
-  "type": "photo",
-  "q": "mobile phone hand",
-  "alt": "Телефон в руке",
-  "src": "commons"
+  "type": "art",
+  "p": "A cute anime child calmly holding a simple mobile phone to the ear calling for help, a big glowing emergency button on screen"
  },
  "help_rule:7": {
   "type": "art",
@@ -442,10 +400,8 @@
   "src": "commons"
  },
  "wounds:6": {
-  "type": "photo",
-  "q": "tweezers magnifying glass",
-  "alt": "Пинцет и лупа",
-  "src": "commons"
+  "type": "art",
+  "p": "Tweezers, a magnifying glass and a plaster on a clean white table next to a small wooden splinter, bright"
  },
  "wounds:7": {
   "type": "art",
@@ -484,10 +440,8 @@
   "p": "A soft blue X-ray image of hand bones glowing on a light box in a calm doctor office"
  },
  "injuries:8": {
-  "type": "photo",
-  "q": "door stopper",
-  "alt": "Ограничитель двери",
-  "src": "commons"
+  "type": "art",
+  "p": "A soft door stopper placed on a white door edge in a bright hallway, a child holding a cold pack on their finger"
  },
  "injuries:9": {
   "type": "photo",
@@ -584,10 +538,8 @@
   "src": "commons"
  },
  "electric_gas:1": {
-  "type": "photo",
-  "q": "hand towel dry hands",
-  "alt": "Сухие руки",
-  "src": "commons"
+  "type": "art",
+  "p": "Hands drying on a fluffy towel in a bathroom, the light switch on the wall far from the sink"
  },
  "electric_gas:2": {
   "type": "art",
@@ -660,10 +612,8 @@
   "src": "commons"
  },
  "water_ice:7": {
-  "type": "photo",
-  "q": "rescue rope coiled",
-  "alt": "Спасательная верёвка",
-  "src": "commons"
+  "type": "art",
+  "p": "A coiled rescue rope and a long wooden pole lying on snow near a frozen lake, safe distance, winter"
  },
  "cover:lost": {
   "type": "art",
@@ -686,10 +636,8 @@
   "p": "A cute anime child with eyes closed remembering home, a glowing picture of the house and family in a thought bubble"
  },
  "lost:4": {
-  "type": "photo",
-  "q": "meeting point fountain",
-  "alt": "Место встречи",
-  "src": "commons"
+  "type": "art",
+  "p": "A bright fountain in the middle of a park plaza with benches, a child and a parent pointing at it as a meeting point"
  },
  "lost:5": {
   "type": "photo",
@@ -720,10 +668,8 @@
   "p": "Light-colored long trousers tucked into socks, a hat and hiking boots laid out on a bench before a forest walk"
  },
  "ticks_forest:2": {
-  "type": "photo",
-  "q": "forest path trail",
-  "alt": "Лесная тропинка",
-  "src": "commons"
+  "type": "art",
+  "p": "A wide sunny forest path with short grass and tall trees, a family walking in the middle of the trail in light clothes"
  },
  "ticks_forest:3": {
   "type": "art",

@@ -22,10 +22,8 @@
   "src": "commons"
  },
  "meet:3": {
-  "type": "photo",
-  "q": "magnifying glass",
-  "alt": "Лупа детектива",
-  "src": "commons"
+  "type": "art",
+  "p": "Two children at school, one pointing with a smile at the other's backpack with a dragon patch, friendly start of conversation"
  },
  "meet:4": {
   "type": "photo",
@@ -40,10 +38,8 @@
   "src": "commons"
  },
  "cover:listen": {
-  "type": "photo",
-  "q": "tin can telephone",
-  "alt": "Телефон из банок",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat listening carefully with big ears to a little bunny telling a story"
  },
  "listen:0": {
   "type": "photo",
@@ -58,10 +54,8 @@
   "src": "commons"
  },
  "listen:2": {
-  "type": "photo",
-  "q": "red traffic light",
-  "alt": "Красный — подожди",
-  "src": "commons"
+  "type": "art",
+  "p": "Two children talking, one speaking while the other waits patiently with a finger gently folded, friendly park bench"
  },
  "listen:3": {
   "type": "photo",
@@ -88,10 +82,8 @@
   "src": "commons"
  },
  "empathy:0": {
-  "type": "photo",
-  "q": "theatre masks",
-  "alt": "Маски эмоций",
-  "src": "commons"
+  "type": "art",
+  "p": "A row of cute cartoon faces showing joy, sadness, anger and surprise, bright colors"
  },
  "empathy:1": {
   "type": "photo",
@@ -100,10 +92,8 @@
   "src": "commons"
  },
  "empathy:2": {
-  "type": "photo",
-  "q": "pair of shoes",
-  "alt": "Побыть на месте другого",
-  "src": "commons"
+  "type": "art",
+  "p": "A child comforting a friend whose drawing got torn, kneeling beside them with a kind expression"
  },
  "empathy:3": {
   "type": "photo",
@@ -118,10 +108,8 @@
   "src": "commons"
  },
  "empathy:5": {
-  "type": "photo",
-  "q": "teacher classroom",
-  "alt": "Взрослый рядом",
-  "src": "commons"
+  "type": "art",
+  "p": "A child talking to a kind teacher in a bright classroom, the teacher listening attentively"
  },
  "cover:i_message": {
   "type": "photo",
@@ -130,10 +118,8 @@
   "src": "commons"
  },
  "i_message:0": {
-  "type": "photo",
-  "q": "pointing finger",
-  "alt": "Указательный палец",
-  "src": "commons"
+  "type": "art",
+  "p": "Two cartoon children, one pointing a finger angrily and the other hiding behind arms, a little storm cloud above"
  },
  "i_message:1": {
   "type": "photo",
@@ -148,10 +134,8 @@
   "src": "commons"
  },
  "i_message:3": {
-  "type": "photo",
-  "q": "vintage camera",
-  "alt": "Только факты",
-  "src": "commons"
+  "type": "art",
+  "p": "A child calmly explaining with open hands to a friend, a broken crayon drawing between them, friendly"
  },
  "i_message:4": {
   "type": "photo",
@@ -160,26 +144,20 @@
   "src": "commons"
  },
  "i_message:5": {
-  "type": "photo",
-  "q": "calm lake",
-  "alt": "Спокойное озеро",
-  "src": "commons"
+  "type": "art",
+  "p": "A child taking a deep breath with eyes closed, a small steam cloud fading above the head, calm blue background"
  },
  "cover:ask_refuse": {
   "type": "art",
   "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat politely asking a hedgehog for a ruler, while gently refusing a pushy crow's offer"
  },
  "ask_refuse:0": {
-  "type": "photo",
-  "q": "gift box",
-  "alt": "Вежливая просьба",
-  "src": "commons"
+  "type": "art",
+  "p": "A child politely asking a hedgehog friend for a ruler, both smiling at a school desk"
  },
  "ask_refuse:1": {
-  "type": "photo",
-  "q": "closed door",
-  "alt": "Закрытая дверь",
-  "src": "commons"
+  "type": "art",
+  "p": "A child hearing no from a friend and nodding calmly, then looking for another toy, friendly playroom"
  },
  "ask_refuse:2": {
   "type": "photo",
@@ -188,10 +166,8 @@
   "src": "commons"
  },
  "ask_refuse:3": {
-  "type": "photo",
-  "q": "cup of tea",
-  "alt": "Мягкий отказ",
-  "src": "commons"
+  "type": "art",
+  "p": "A child warmly declining an invitation, holding a hand on the heart, the friend smiling back"
  },
  "ask_refuse:4": {
   "type": "photo",
@@ -200,26 +176,20 @@
   "src": "commons"
  },
  "ask_refuse:5": {
-  "type": "photo",
-  "q": "wooden fence gate",
-  "alt": "Твёрдая граница",
-  "src": "commons"
+  "type": "art",
+  "p": "A confident child raising a hand in a firm stop gesture to refuse something, standing tall, bright background"
  },
  "cover:compromise": {
   "type": "art",
   "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat holding a balance scale level between a bunny and a puppy who both smile"
  },
  "compromise:0": {
-  "type": "photo",
-  "q": "two goats",
-  "alt": "Два упрямых козла",
-  "src": "commons"
+  "type": "art",
+  "p": "Two kids debating calmly with thought bubbles showing different ideas, a magnifying glass between them"
  },
  "compromise:1": {
-  "type": "photo",
-  "q": "building blocks",
-  "alt": "Кирпичики аргументов",
-  "src": "commons"
+  "type": "art",
+  "p": "A child counting on fingers explaining an idea to friends playing hide and seek in a sunny yard"
  },
  "compromise:2": {
   "type": "photo",
@@ -268,10 +238,8 @@
   "src": "commons"
  },
  "make_up:3": {
-  "type": "photo",
-  "q": "handshake",
-  "alt": "Пожать руки",
-  "src": "commons"
+  "type": "art",
+  "p": "Two kids making up after a quarrel, one apologizing and the other smiling and accepting, a heart between them"
  },
  "make_up:4": {
   "type": "photo",
@@ -298,10 +266,8 @@
   "src": "commons"
  },
  "speech:1": {
-  "type": "photo",
-  "q": "staircase",
-  "alt": "Шаги плана",
-  "src": "commons"
+  "type": "art",
+  "p": "A child presenting in front of a class holding a paper crane, three simple steps drawn as a little staircase behind"
  },
  "speech:2": {
   "type": "photo",
@@ -310,10 +276,8 @@
   "src": "commons"
  },
  "speech:3": {
-  "type": "photo",
-  "q": "lecture hall audience",
-  "alt": "Слушатели в зале",
-  "src": "commons"
+  "type": "art",
+  "p": "A child speaking in front of a class looking at friendly smiling faces of classmates"
  },
  "speech:4": {
   "type": "photo",
@@ -322,16 +286,12 @@
   "src": "commons"
  },
  "speech:5": {
-  "type": "photo",
-  "q": "lighthouse",
-  "alt": "Найти опору",
-  "src": "commons"
+  "type": "art",
+  "p": "A child pausing during a speech, glancing at a small card, a calm smile, classroom"
  },
  "cover:online": {
-  "type": "photo",
-  "q": "laptop keyboard",
-  "alt": "Клавиатура",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat typing on a tablet with colorful emoji bubbles floating around"
  },
  "online:0": {
   "type": "photo",
@@ -364,10 +324,8 @@
   "src": "commons"
  },
  "online:5": {
-  "type": "photo",
-  "q": "whispering statue",
-  "alt": "Шёпот за спиной",
-  "src": "commons"
+  "type": "art",
+  "p": "A sad child looking at a phone with a gossip message bubble crossed out, a friend comforting them"
  },
  "cover:teamwork": {
   "type": "photo",
@@ -376,10 +334,8 @@
   "src": "commons"
  },
  "teamwork:0": {
-  "type": "photo",
-  "q": "sunflower",
-  "alt": "Подсолнух",
-  "src": "commons"
+  "type": "art",
+  "p": "A child praising a classmate's cloud drawing, both smiling, sunny classroom"
  },
  "teamwork:1": {
   "type": "photo",
@@ -394,16 +350,12 @@
   "src": "commons"
  },
  "teamwork:3": {
-  "type": "photo",
-  "q": "orchestra",
-  "alt": "Оркестр",
-  "src": "commons"
+  "type": "art",
+  "p": "A team of kids around a table: one leading, one writing, one holding a timer, cooperating happily"
  },
  "teamwork:4": {
-  "type": "photo",
-  "q": "ants working together",
-  "alt": "Муравьи помогают",
-  "src": "commons"
+  "type": "art",
+  "p": "A child helping a teammate fix a mistake on a poster, both smiling, colorful classroom"
  },
  "teamwork:5": {
   "type": "photo",

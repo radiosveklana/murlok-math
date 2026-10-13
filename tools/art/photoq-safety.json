@@ -11,10 +11,7 @@
   "q": "magnifying glass",
   "alt": "Проверка профиля"
  },
- "street_stranger:8": {
-  "q": "elevator doors",
-  "alt": "Лифт и подъезд"
- },
+ "street_stranger:8": null,
  "home_alone:6": {
   "q": "house keys",
   "alt": "Ключи под присмотром"
@@ -74,5 +71,9 @@
  "transport:7": {
   "q": "bicycle helmet",
   "alt": "Шлем и самокат"
- }
+ },
+ "emergency_numbers:5": null,
+ "road_water_ice:1": null,
+ "online_strangers:5": null,
+ "street_stranger:2": null
 }
