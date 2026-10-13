@@ -22,7 +22,7 @@ const AcadGames = (() => {
   SCREENS.solar = () => {
     let next = 0, miss = 0, stage = 1, ok = 0; const order = shuffle(PLANETS.map((p, i) => i));
     app.innerHTML = `${topbar('🪐 Собери Солнечную систему', 'subject')}<div class="page solar"><svg width="0" height="0" style="position:absolute"><defs><radialGradient id="pl-sh" cx="35%" cy="35%" r="75%"><stop offset="60%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".35"/></radialGradient></defs></svg>
-      <p class="center" id="sinfo">Расставь планеты по порядку от Солнца: нажимай на ту, что ближе всего!</p><div class="orbit" id="orb"><div class="sun">☀️</div>${PLANETS.map((_, i) => `<div class="slot" data-i="${i}"></div>`).join('')}</div><div class="pl-pool" id="pool">${order.map(i => `<button class="pl" data-i="${i}">${planetSVG(PLANETS[i], 0.9)}<small>${PLANETS[i].n}</small></button>`).join('')}</div><div id="sres"></div></div>`;
+      <p class="center" id="sinfo">Расставь планеты по порядку от Солнца: нажимай на ту, что ближе всего!</p><div class="orbit" id="orb"><div class="sun" aria-label="Солнце"><svg viewBox="0 0 60 60"><defs><radialGradient id="sun-g" cx="40%" cy="38%" r="65%"><stop offset="0" stop-color="#FFF6C2"/><stop offset=".55" stop-color="#FFD24A"/><stop offset="1" stop-color="#FF9F1C"/></radialGradient></defs><circle cx="30" cy="30" r="28" fill="#FFD24A" opacity=".25"/><circle cx="30" cy="30" r="21" fill="url(#sun-g)" stroke="#E58A12" stroke-width="2"/><circle cx="24" cy="23" r="5" fill="#fff" opacity=".45"/></svg></div>${PLANETS.map((_, i) => `<div class="slot" data-i="${i}"></div>`).join('')}</div><div class="pl-pool" id="pool">${order.map(i => `<button class="pl" data-i="${i}">${planetSVG(PLANETS[i], 0.9)}<small>${PLANETS[i].n}</small></button>`).join('')}</div><div id="sres"></div></div>`;
     back('space');
     $$('.pl').forEach(b => b.addEventListener('click', () => {
       if (stage !== 1 || b.disabled) return; const i = +b.dataset.i;
@@ -221,6 +221,20 @@ const AcadGames = (() => {
   add('health', { id: 'practice2', icon: '🧘', name: 'Практики с таймером', run: () => go('practice2'), badge: () => { const n = Object.keys(S.practices || {}).length; return n ? 'освоено: ' + n : ''; }, prog: () => gb('practices') || 0 });
   add('obzh', { id: 'rescue', icon: '🚑', name: 'Скорая помощь котика', run: () => go('rescue'), badge: gbadge('rescue'), prog: () => gb('rescue') || 0 });
   ['solar', 'citywalk', 'fakenews', 'helpharm', 'bodybuild', 'practice2', 'rescue'].forEach(x => NO_FLOAT.includes(x) || NO_FLOAT.push(x));
+  /* v35: компоновка мини-игр — шапка-герой с котиком сверху, игра по центру оставшейся высоты (без пустой нижней половины) */
+  const HERO = {
+    solar: ['🪐', 'Котик-космонавт летит от Солнца к Нептуну', '#DCE3FF', '#F1E6FF'],
+    citywalk: ['🚶', 'Котик гуляет по городу — выбирай безопасный путь', '#DFF5EA', '#FFF0C9'],
+    fakenews: ['📰', 'Котик-журналист проверяет новости: правда или выдумка?', '#FFF0C9', '#ECE6FF'],
+    helpharm: ['🌍', 'Котик-эколог: поступок помогает природе или вредит?', '#D3F5EA', '#FFF0C9'],
+    bodybuild: ['🫀', 'Котик-доктор раскладывает органы по системам', '#FFE0E6', '#FFF0C9'],
+    practice2: ['🧘', 'Котик дышит и тянется вместе с тобой', '#E6F4FF', '#F1E6FF'],
+    rescue: ['⛑️', 'Котик-фельдшер: шаги первой помощи по порядку', '#FFE3E0', '#E6F4FF']
+  };
+  Object.keys(HERO).forEach(n => { const s = SCREENS[n]; if (!s) return; SCREENS[n] = arg => { const r = s(arg); try {
+    const pg = $('#app > .page'); if (!pg || $('.ag-hero', pg)) return r; const [ic, t, c1, c2] = HERO[n];
+    pg.classList.add('ag-fill'); pg.insertAdjacentHTML('afterbegin', `<div class="ag-hero" style="--ag-c1:${c1};--ag-c2:${c2}"><span class="ag-ic" aria-hidden="true">${ic}</span><span class="ag-t">${t}</span><div class="mini-cat">${myCat({ cls: 'mini' })}</div></div>`);
+  } catch (e) { console.warn(e); } return r; }; });
   return { PLANETS, get WALK() { return WALK.concat(window.EXTRA_WALK || []); }, CLAIMS };
 })();
 window.AcadGames = AcadGames;

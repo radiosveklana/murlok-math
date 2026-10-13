@@ -112,7 +112,37 @@ const Outfits = (() => {
     const it = lockedEarn(b.dataset.id || b.dataset.buy); if (!it) return;
     e.stopImmediatePropagation(); e.preventDefault(); SND.tap(); earnModal(it);
   }, true);
+  /* v35: превью наряда — тот же SVG-кот в этой вещи (а не чужой эмодзи: колпак ≠ 👩‍🍳, бабочка ≠ 🦋, берет ≠ 🎨) */
+  const VB = { head: '18 -14 174 158', face: '34 46 132 112', neck: '12 46 186 196', hand: '38 74 170 168' };
+  function outfitThumb(it, fur) {
+    const C = window.Cat; if (!C || !it || !VB[it.slot] || !(it.slot === 'hand' ? C.HAND[it.id] : C.ACC[it.id])) return '';
+    return C.catSVG({ fur: fur || S.fur, wear: { [it.slot]: it.id }, smile: true }).replace(/viewBox="[^"]*"/, `viewBox="${VB[it.slot]}"`);
+  }
+  function thumbs(root) {
+    $$('.item[data-id] .ii:not(.o-thumb)', root).forEach(ii => {
+      const b = ii.closest('.item'), it = ITEMS.find(x => x.id === b.dataset.id); if (!it || b.classList.contains('lockd')) return;
+      const svg = outfitThumb(it); if (!svg) return; ii.classList.add('o-thumb'); ii.setAttribute('aria-hidden', 'true'); ii.innerHTML = svg;
+    });
+  }
+  /* v35: длинные каталоги (Кондитерская, Примерочная) — разделы-вкладки вместо ленты в 7000 px */
+  const secPick = {};
+  function sections(box) {
+    if (!box) return; const heads = [...box.children].filter(h => /^H[34]$/.test(h.tagName) && h.nextElementSibling && h.nextElementSibling.matches('.items, .furs'));
+    const old = $(':scope > .sect-chips', box);
+    if (heads.length < 3) { if (old) old.remove(); return; }
+    const key = box.id + ':' + heads.map(h => h.textContent).join('|');
+    if (old && old.dataset.key === key) return;
+    if (old) old.remove();
+    const names = heads.map(h => h.textContent.trim());
+    let cur = secPick[box.id]; if (!names.includes(cur)) { const on = heads.find(h => h.nextElementSibling.querySelector('.on')); cur = on ? on.textContent.trim() : names[0]; }
+    const bar = document.createElement('div'); bar.className = 'sect-chips'; bar.dataset.key = key; bar.setAttribute('role', 'tablist');
+    bar.innerHTML = heads.map((h, i) => `<button type="button" role="tab" data-s="${i}">${h.innerHTML}<small>${h.nextElementSibling.children.length}</small></button>`).join('');
+    const show = name => { secPick[box.id] = name; heads.forEach((h, i) => { const on = names[i] === name; h.classList.toggle('sect-off', !on); h.nextElementSibling.classList.toggle('sect-off', !on); bar.children[i].classList.toggle('on', on); bar.children[i].setAttribute('aria-selected', on); }); };
+    bar.addEventListener('click', e => { const t = e.target.closest('button[data-s]'); if (!t) return; SND.tap(); show(names[+t.dataset.s]); });
+    heads[0].before(bar); show(cur);
+  }
   function mark(root = document) {
+    try { thumbs(root); sections($('#si', root)); sections($('#finv', root)); } catch (e) { console.warn(e); }
     $$('.item[data-id]', root).forEach(b => {
       const it = ITEMS.find(x => x.id === b.dataset.id); if (!it || b.dataset.o29) return; b.dataset.o29 = 1;
       if (it.season) { b.classList.add('season'); if (inSeason(it)) b.classList.add('in-season'); b.insertAdjacentHTML('beforeend', `<span class="o-tag" title="${SEASONS[it.season].name}">${SEASONS[it.season].icon}</span>`); }
