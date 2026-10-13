@@ -3,7 +3,7 @@
 # Код и страницы уходят целиком (это быстро), а тяжёлые папки img/ voice/ music/ — только новые и изменённые файлы:
 # остальное на сервере копируется жёсткими ссылками из текущей версии. Подмена версии — одним mv, сайт не «мигает».
 set -e; cd "$(dirname "$0")/.."
-HEAVY="img voice music"
+HEAVY="img voice music video"
 EXC="--exclude=./.git --exclude=./.claude --exclude=./tools --exclude=./server --exclude=./docs --exclude=*.md --exclude=./node_modules"
 for d in $HEAVY; do EXC="$EXC --exclude=./$d"; done
 # 1) лёгкая часть
