@@ -36,10 +36,10 @@ const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V29 OK ' : 
     return { keys: keys.length, n, bad: bad.slice(0, 5), nb: bad.length, school: Modes.schoolEntries().length };
   });
   ok('raccoon bugs valid for every topic', gen.nb === 0 && gen.keys > 100, JSON.stringify(gen));
-  ok('raccoon: all 22 school topics', gen.school === 22);
+  ok('raccoon: all 33 school topics', gen.school === 33); // v35: +11 новых тем
 
   await go('bugs'); ok('bugs hub: school + academy entries', !!(await p.$('.bug-hub [data-go="bugpick"][data-arg="s"]')) && !!(await p.$('.bug-hub [data-go="bugpick"][data-arg="a"]')) && !!(await p.$('.bugs2-link')));
-  await click('.bug-hub [data-arg="s"]'); ok('bugpick school: all topics as chips', await E(() => curScreen === 'bugpick' && document.querySelectorAll('#bpbody [data-bug^="u:math4:"]').length === 18 && document.querySelectorAll('#bpbody [data-bug^="c:"]').length === 4 && !!document.querySelector('[data-bug="school"]')));
+  await click('.bug-hub [data-arg="s"]'); ok('bugpick school: all topics as chips', await E(() => curScreen === 'bugpick' && document.querySelectorAll('#bpbody [data-bug^="u:math4:"]').length === 29 && document.querySelectorAll('#bpbody [data-bug^="c:"]').length === 4 && !!document.querySelector('[data-bug="school"]')));
   await click('.bp-tabs [data-t="a"]'); await click('.bp-sub[data-s="space"]');
   ok('bugpick academy: subject -> units + whole subject', await E(() => document.querySelectorAll('#bpunits [data-bug^="u:space:"]').length >= 5 && !!document.querySelector('#bpunits [data-bug="S:space"]') && !!document.querySelector('[data-bug="acad"]')));
   await shotSafe({ path: __dirname + '/shots/V29-bugpick.png' });
@@ -85,7 +85,7 @@ const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V29 OK ' : 
   await E(() => { S.unlockAll = false; save(); }); await go('newcase'); await click('.choice[data-t="pick"]');
   { const r = await E(() => { const v = [...document.querySelectorAll('.tb-pick input')].map(i => i.value), L = TaskBank.list().map(t => t.id); return { ok: v.length > 0 && v.length < 22 && v.every(x => L.includes(x)) && v.length === TaskBank.list().filter(t => !t.acad).length, v: v.join(',') }; }); ok('pick modal: only open school topics while lessons are locked', r.ok, r.v); }
   await E(() => { document.querySelectorAll('.modal').forEach(m => m.remove()); S.unlockAll = true; save(); }); await go('newcase'); await click('.choice[data-t="pick"]');
-  ok('pick modal: school chips + academy chips', await E(() => document.querySelectorAll('.tb-pick input').length === 22 && document.querySelectorAll('.tb-acad input').length > 50));
+  ok('pick modal: school chips + academy chips', await E(() => document.querySelectorAll('.tb-pick input').length === 33 && document.querySelectorAll('.tb-acad input').length > 50));
   await E(() => { document.querySelectorAll('.tb-pick input').forEach(i => { i.checked = i.value === 'math4:buy'; }); document.querySelectorAll('.tb-acad input').forEach(i => { i.checked = /^space:/.test(i.value); }); }); await click('#tbok');
   ok('pick saved both', await E(() => S.prefs.caseTopics.length === 1 && S.prefs.caseAcad.length >= 5 && /тем: \d+/.test(document.querySelector('#pickn').innerText)));
   await click('#go'); await sleep(600);

@@ -18,7 +18,7 @@ const Mistakes = (() => {
   const LOG = () => (S.mlog = S.mlog || []);
   const ERR = {
     'mul:carry': 'забываешь прибавить запомненное число', 'mul:tbl': 'путаешь таблицу умножения', 'mul:add': 'ошибаешься, когда складываешь неполные произведения',
-    'mul:shift': 'забываешь сдвинуть вторую строку на клетку влево', 'eq:order': 'не сразу находишь последнее действие', 'eq:role': 'путаешь названия: слагаемое, вычитаемое, множитель…',
+    'mul:shift': 'забываешь сдвинуть вторую строку на клетку влево', 'mul:zeros': 'забываешь приписать нули на конце (или пишешь строку для нуля)', 'eq:order': 'не сразу находишь последнее действие', 'eq:role': 'путаешь названия: слагаемое, вычитаемое, множитель…',
     'eq:rule': 'путаешь правило нахождения неизвестного', 'eq:calc': 'ошибаешься в вычислениях', 'eq:check': 'ошибаешься при проверке',
     'div:first': 'не сразу находишь первое неполное делимое', 'div:q': 'подбираешь цифру частного неточно', 'div:prod': 'ошибаешься, когда умножаешь цифру частного на делитель',
     'div:rem': 'ошибаешься при вычитании (остаток должен быть меньше делителя)', 'div:next': 'путаешься, когда сносишь следующую цифру', 'div:zero': 'забываешь написать 0 в частном',
@@ -234,22 +234,45 @@ const Mistakes = (() => {
     } catch (e) { return null; }
   }
   const rp = lines => lines.map((l, k) => `<div class="rp" style="animation-delay:${k * 0.6}s">${l}</div>`).join('');
-  function mulSteps(a, b) {
-    const P = E.mulPlan(a, b), out = [], rowSteps = i => P.steps.filter(s => s.t === 'mul' && s.row === i);
-    const rowReplay = i => rp(rowSteps(i).map(s => `${s.bd} × ${s.ad}${s.carry ? ` + <b class="cc">${s.carry}</b>` : ''} = ${s.v} → ${s.last ? `пишем <b>${s.v}</b>` : `пишем <b>${s.v % 10}</b>${s.v >= 10 ? `, <b class="cc">${Math.floor(s.v / 10)}</b> запоминаем` : ''}`}`).concat([`Получилось: <b>${P.rows[i].val}</b>`]));
-    const rowWrong = (i, v) => { const r = P.rows[i]; for (let j = 1; j < P.A.length; j++) if (v === E.mulDropCarry(a, r.bd, j)) return { t: 'mul:carry', h: 'Похоже, ты <b>забыл(а) прибавить запомненное число</b>. После умножения цифры прибавляй то, что записано маленькой цифрой сверху.' };
-      return { t: 'mul:tbl', h: `Проверь каждое умножение по таблице и запомненные числа. Вот как идёт строка ${a} × ${r.bd}:` }; };
-    if (P.B.length === 1) {
-      rowSteps(0).forEach(s => out.push({ q: `Умножаем <b>${s.bd} × ${s.ad}</b>${s.carry ? ' и прибавляем запомненное' : ''}. Какое число у тебя получилось на этом шаге?`, exp: s.v,
-        wrong: v => s.carry && v === s.bd * s.ad ? { t: 'mul:carry', h: `Ты <b>не прибавил(а) запомненное <b class="cc">${s.carry}</b></b>: ${s.bd} × ${s.ad} = ${s.bd * s.ad}, и ещё + ${s.carry} = ${s.v}.` } : { t: 'mul:tbl', h: `Проверь по таблице: ${s.bd} × ${s.ad} = ${s.bd * s.ad}${s.carry ? `, плюс запомненное ${s.carry} = ${s.v}` : ''}.`, f: factKey(s.bd, s.ad) },
-        replay: rp([`${s.bd} × ${s.ad} = ${s.bd * s.ad}`].concat(s.carry ? [`+ запомненное <b class="cc">${s.carry}</b> = ${s.v}`] : []).concat([s.last ? `Последняя цифра — пишем <b>${s.v}</b> целиком` : `Пишем <b>${s.v % 10}</b>${s.v >= 10 ? `, а <b class="cc">${Math.floor(s.v / 10)}</b> запоминаем` : ''}`])) }));
-      return out;
+  /* умножение — по записи Моро (E.mulPlanMoro): нули на конце множителей приписываем в конце, строку для нулевой цифры множителя не пишем */
+  const zw = z => `${z} ${plural(z, 'нуль', 'нуля', 'нулей')}`;
+  const mulStepLine = s => `${s.bd} × ${s.ad}${s.carry ? ` + <b class="cc">${s.carry}</b>` : ''} = ${s.v} → ${s.last ? `пишем <b>${s.v}</b>` : `пишем <b>${s.v % 10}</b>${s.v >= 10 ? `, <b class="cc">${Math.floor(s.v / 10)}</b> запоминаем` : ''}`}`;
+  const rowStepsOf = (a0, bd) => E.mulPlan(a0, bd).steps.filter(s => s.t === 'mul');
+  function mulZeros(a, b, v) { // ошибка с нулями на конце: забыли приписать или приписали не столько
+    const M = E.mulPlanMoro(a, b); if (!M.z || v === M.total) return null;
+    const lostZ = [0, 1, 2, 3, 4, 5, 6].some(j => j !== M.z && v === M.core * 10 ** j), wrongTail = v % 10 ** M.z !== 0;
+    if (!lostZ && !wrongTail) return null;
+    return { t: 'mul:zeros', h: `Нули на конце: у ${M.za ? M.a : ''}${M.za && M.zb ? ' и у ' : ''}${M.zb ? M.b : ''} вместе <b>${zw(M.z)}</b>. Умножаем без них: ${M.a0} × ${M.b0} = ${M.core}, а потом приписываем ${zw(M.z)} — в ответе на конце должно быть ровно ${zw(M.z)}.`, exp: M.total,
+      replay: rp([`Отбрасываем нули на конце: ${M.a} → ${M.a0}, ${M.b} → ${M.b0}`, `${M.a0} × ${M.b0} = ${M.core}`, `Приписываем ${zw(M.z)}: <b>${M.total}</b>`]) };
+  }
+  function mulDigitFind(a0, bd, got) { // однозначный множитель: сверяем цифры записанной строки справа налево — как они стоят в тетради
+    const st = rowStepsOf(a0, bd), s = String(got);
+    for (let j = 0; j < st.length; j++) {
+      const X = st[j], kd = X.last ? +(s.slice(0, Math.max(0, s.length - j)) || 0) : +(s[s.length - 1 - j] || 0), exp = X.last ? X.v : X.v % 10;
+      if (kd === exp) continue;
+      const noCarry = X.carry && (X.last ? kd === X.bd * X.ad : kd === (X.bd * X.ad) % 10);
+      const place = ['единиц', 'десятков', 'сотен', 'тысяч', 'десятков тысяч'][j] || '';
+      return { t: noCarry ? 'mul:carry' : 'mul:tbl', f: noCarry ? '' : factKey(X.bd, X.ad), kd, exp,
+        h: `${X.last ? 'Последняя цифра верхнего числа' : `Разряд <b>${place}</b>`}: у тебя ${kd}, а должно быть ${exp}. ${noCarry ? `Ты <b>не прибавил(а) запомненное <b class="cc">${X.carry}</b></b>: ${X.bd} × ${X.ad} = ${X.bd * X.ad}, и ещё + ${X.carry} = ${X.v}.` : `Проверь по таблице: ${X.bd} × ${X.ad} = ${X.bd * X.ad}${X.carry ? `, плюс запомненное ${X.carry} = ${X.v}` : ''}.`}`,
+        replay: rp(st.slice(0, j).map(mulStepLine).concat([mulStepLine(X)])) };
     }
-    P.rows.forEach((r, i) => out.push({ q: `Строка ${i + 1}: <b>${a} × ${r.bd}</b>${i ? ` (это ${r.bd} ${placeWord(i, r.bd)} — запись со сдвигом)` : ''}. Какое число у тебя в этой строке? <small>(нули сдвига не пиши)</small>`, exp: r.val, wrong: v => rowWrong(i, v), replay: rowReplay(i) }));
-    const noShift = P.rows.reduce((t, r) => t + r.val, 0);
-    out.push({ q: 'Теперь сложение: какая сумма неполных произведений получилась?', exp: P.total,
-      wrong: v => v === noShift ? { t: 'mul:shift', h: 'Похоже, вторую строку <b>не сдвинули влево</b>. Это десятки — пишем её на одну клетку левее!' } : { t: 'mul:add', h: 'Ошибка в сложении строк. Складывай по столбикам справа налево и не забывай запомненное.' },
-      replay: rp(P.rows.map((r, i) => `${r.val}<span class="g">${'0'.repeat(i)}</span>${i ? ' — со сдвигом' : ''}`).concat([`Сумма: ${P.rows.map((r, i) => r.val * 10 ** i).join(' + ')} = <b>${P.total}</b>`])) });
+    return null;
+  }
+  function mulSteps(a, b) {
+    const M = E.mulPlanMoro(a, b), out = [], a0 = M.a0;
+    const rowReplay = r => rp(rowStepsOf(a0, r.bd).map(mulStepLine).concat([`Получилось: <b>${r.val}</b>`]));
+    const rowWrong = (r, v) => { for (let j = 1; j < String(a0).length; j++) if (v === E.mulDropCarry(a0, r.bd, j)) return { t: 'mul:carry', h: 'Похоже, ты <b>забыл(а) прибавить запомненное число</b>. После умножения цифры прибавляй то, что записано маленькой цифрой сверху.' };
+      return { t: 'mul:tbl', h: `Проверь каждое умножение по таблице и запомненные числа. Вот как идёт строка ${a0} × ${r.bd}:` }; };
+    const pre = M.z ? `Нули на конце пока не трогаем: ${a0} × ${M.b0}, а ${zw(M.z)} припишем в конце. ` : '';
+    M.rows.forEach((r, i) => {
+      const skip = M.rows[i - 1] ? r.pos - M.rows[i - 1].pos > 1 : r.pos > 0;
+      out.push({ q: `${i ? '' : pre}Строка ${i + 1}: <b>${a0} × ${r.bd}</b>${r.pos ? ` (это ${r.bd} ${placeWord(r.pos, r.bd)} — запись со сдвигом на ${r.pos} ${plural(r.pos, 'клетку', 'клетки', 'клеток')}${skip ? '; строку для нуля не пишем' : ''})` : ''}. Какое число у тебя в этой строке? <small>(нули сдвига не пиши)</small>`, exp: r.val, wrong: v => rowWrong(r, v), replay: rowReplay(r) });
+    });
+    const noShift = M.rows.reduce((t, r) => t + r.val, 0), idxShift = M.rows.reduce((t, r) => t + r.val * 10 ** r.idx, 0);
+    out.push({ q: `Теперь сложение: какая сумма неполных произведений получилась?${M.z ? ' <small>(до того, как приписать нули)</small>' : ''}`, exp: M.core,
+      wrong: v => M.skipped && v === idxShift ? { t: 'mul:shift', h: 'Строку для нуля в множителе не пишут, но <b>следующую строку сдвигают на столько клеток, какой это разряд</b>: умножаем на сотни — начинаем писать под сотнями, на 2 клетки левее.' }
+        : v === noShift || v === idxShift ? { t: 'mul:shift', h: 'Похоже, вторую строку <b>не сдвинули влево</b>. Это десятки — пишем её на одну клетку левее!' } : { t: 'mul:add', h: 'Ошибка в сложении строк. Складывай по столбикам справа налево и не забывай запомненное.' },
+      replay: rp(M.rows.map(r => `${r.val}<span class="g">${'0'.repeat(r.pos)}</span>${r.pos ? ` — со сдвигом на ${r.pos}` : ''}`).concat([`Сумма: ${M.rows.map(r => r.val * 10 ** r.pos).join(' + ')} = <b>${M.core}</b>`]).concat(M.z ? [`Приписываем ${zw(M.z)}: <b>${M.total}</b>`] : [])) });
     return out;
   }
   function divSteps(a, b) {
@@ -294,7 +317,7 @@ const Mistakes = (() => {
     app.innerHTML = `${topbar('✏️ Проверь мою тетрадь', 'mistakes')}<div class="page mk-paper">${helperHTML('pbub')}<div class="seg pt">${Object.entries(PT).map(([k, n]) => `<button data-pt="${k}" class="${k === type ? 'on' : ''}">${n}</button>`).join('')}</div><div id="pwork"></div></div>`;
     const bub = h => { const b = $('#pbub'); if (b) { b.innerHTML = h; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); } };
     const gen = () => { const lv = S.prefs[{ mul: 'mulLv', div: 'divLv', add: 'addLv', eq: 'eqLv' }[type]] || 2;
-      if (type === 'mul') { const t = makeTask('mul', lv); return { kind: 'mul', a: t.a, b: t.b }; }
+      if (type === 'mul') { if (lv >= 3 && Math.random() < 0.35) { const [a, b] = E.genMul(lv, { zeros: true }); return { kind: 'mul', a, b }; } const t = makeTask('mul', lv); return { kind: 'mul', a: t.a, b: t.b }; }
       if (type === 'eq') { const t = makeTask('eq', lv); return { kind: 'eq', eq: t.eq }; }
       if (type === 'div') { const P = Column.genDiv(Math.min(4, lv)); return { kind: 'div', a: P.a, b: P.b }; }
       const P = Column.genAdd(Math.min(3, lv), Math.random() < 0.5 ? '+' : '-'); return { kind: 'add', a: P.a, b: P.b, op: P.op }; };
@@ -312,14 +335,21 @@ const Mistakes = (() => {
     };
     const record = (mistakes, t, f) => { if (tried) return; tried = true; if (mistakes) buf.push({ t, f: f || '' }); taskDone(prob.kind, { mistakes }, { level: level(prob), guided: false, paper: true }); begin({ ...prob }); };
     function check() {
-      const v = parseInt(($('#pans').value || '').replace(/\D/g, ''), 10), r = prob.kind === 'div' ? parseInt(($('#prem').value || '0').replace(/\D/g, '') || '0', 10) : 0;
+      const v = parseInt(($('#pans').value || '').replace(/\D/g, ''), 10), remRaw = prob.kind === 'div' ? ($('#prem').value || '').replace(/\D/g, '') : '', r = remRaw ? parseInt(remRaw, 10) : 0;
       if (isNaN(v)) { shake($('#pans')); return; }
+      // поле остатка не заполнено: пустое поле считаем нулём — но если остаток есть, сначала подсказываем, а не ругаем
+      if (prob.kind === 'div' && !remRaw && v === answerOf(prob) && prob.a % prob.b) { SND.tap(); shake($('#prem')); bub('Частное верное! 👍 А поле «ост.» пустое — пустое поле я считаю нулём, но в этом примере <b>остаток есть</b>. Впиши его (если остатка нет — пиши 0).'); try { $('#prem').focus(); } catch (e) { } return; }
       const right = v === answerOf(prob) && (prob.kind !== 'div' || r === prob.a % prob.b);
       if (right) { SND.win(); confetti(20); if (!tried) award(3, 12); record(0); bub(`🎉 Верно! ${esc(sampleOf(prob))}${prob.kind === 'div' && r ? ` (ост. ${r})` : ''} = ${prob.kind === 'eq' ? 'x = ' : ''}${answerOf(prob)}. Ты решил(а) это на бумаге — настоящий сыщик!`);
         $('#psteps').innerHTML = `<div class="row-btns"><button class="btn big pink" id="pnext">Следующий пример →</button></div>`; $('#pnext').addEventListener('click', () => { own = false; prob = gen(); show(); }); return; }
       SND.bad();
       if (prob.kind === 'add') { const f = addFind(prob.a, prob.b, prob.op, v); return f ? found(f, f.kd) : allOk(); }
       if (prob.kind === 'div' && v === answerOf(prob) && r !== prob.a % prob.b) return found({ t: 'div:rem', h: `Частное верное! А остаток: ${prob.a} − ${prob.b} · ${answerOf(prob)} = ${prob.a % prob.b}. Остаток всегда меньше делителя.`, exp: prob.a % prob.b, replay: rp([`${prob.b} · ${answerOf(prob)} = ${prob.b * answerOf(prob)}`, `${prob.a} − ${prob.b * answerOf(prob)} = <b>${prob.a % prob.b}</b>`]) }, r);
+      if (prob.kind === 'mul') { // по Моро: сначала нули на конце, при однозначном множителе — сверяем цифры ответа (промежуточных чисел в тетради нет)
+        const z = mulZeros(prob.a, prob.b, v); if (z) return found(z, v);
+        const M = E.mulPlanMoro(prob.a, prob.b);
+        if (M.rows.length === 1) { const got = M.z && v % 10 ** M.z === 0 ? v / 10 ** M.z : v, f = mulDigitFind(M.a0, M.rows[0].bd, got); return f ? found(f, f.kd) : allOk(); }
+      }
       const steps = prob.kind === 'mul' ? mulSteps(prob.a, prob.b) : prob.kind === 'div' ? divSteps(prob.a, prob.b) : eqStepsQ(prob.eq);
       bub('Ответ пока не сходится — не беда! Давай пройдём по шагам твоего решения. Пиши, что у тебя в тетради 🔎'); runSteps(steps);
     }
@@ -368,7 +398,7 @@ const Mistakes = (() => {
 
   /* ---------- листок для печати ---------- */
   function wsProblem(kind, lv) {
-    if (kind === 'mul') { const [a, b] = E.genMul(Math.max(1, Math.min(4, lv))); return { t: `${a} × ${b} =`, ans: a * b }; }
+    if (kind === 'mul') { const [a, b] = E.genMul(Math.max(1, Math.min(4, lv)), { zeros: true }); return { t: `${a} × ${b} =`, ans: a * b }; }
     if (kind === 'eq') { const eq = E.genEq(Math.max(1, Math.min(4, lv))); return { t: `${E.eqText(eq.lhs)} = ${eq.rhs}`, ans: 'x = ' + eq.x, eq: true }; }
     if (kind === 'div') { const P = Column.genDiv(Math.max(1, Math.min(4, lv))); return { t: `${P.a} : ${P.b} =`, ans: P.q + (P.r ? ` (ост. ${P.r})` : '') }; }
     const P = Column.genAdd(Math.max(1, Math.min(3, lv)), Math.random() < 0.5 ? '+' : '-'); return { t: `${P.a} ${P.op === '-' ? '−' : '+'} ${P.b} =`, ans: P.res };

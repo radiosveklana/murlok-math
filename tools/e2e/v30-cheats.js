@@ -26,7 +26,7 @@ const ok = (name, c, x = '') => { if (!c) fails++; console.log((c ? 'V30 OK ' : 
     await go('school');
     ok(T + 'school: cheats button', await E(() => !!document.querySelector('.page.school4 [data-go="cheats"]')));
     await E(() => document.querySelector('.page.school4 [data-go="cheats"]').click()); await sleep(500);
-    ok(T + 'full screen opens', await E(() => curScreen === 'cheats' && document.querySelectorAll('.cs-tab').length === 7 && !!document.querySelector('.cs-tt')));
+    ok(T + 'full screen opens', await E(() => curScreen === 'cheats' && document.querySelectorAll('.cs-tab').length === 9 && !!document.querySelector('.cs-tt')));
     // все листы без горизонтальной прокрутки
     for (const id of ['table', 'comp', 'order', 'column', 'units', 'formulas', 'ranks']) {
       await E(id => document.querySelector(`.cs-tab[data-cs="${id}"]`).click(), id); await sleep(150);

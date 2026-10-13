@@ -20,7 +20,22 @@ function numWithDigits(n, noZero) {
   return +s;
 }
 function hasCarry(a, b) { return digitsOf(b).some(d => digitsOf(a).some(x => x * d >= 10)); }
-function genMul(level) {
+/* Случаи с нулями (по Моро): нуль в середине множителя (245 · 302 — нулевую строку не пишем, следующую сдвигаем на 2 клетки),
+   нули на конце множителей (3400 · 56, 1250 · 70 — умножаем без нулей и приписываем их). Только по запросу opts.zeros:
+   пошаговый тренажёр столбика (app.js) пока рисует строку на каждую цифру множителя. */
+function genMulZero(level) {
+  for (let t = 0; t < 100; t++) {
+    const k = rnd(0, level >= 4 ? 2 : 1); let a, b;
+    if (k === 0) { a = numWithDigits(3, true); b = rnd(1, 9) * 100 + rnd(1, 9); }            // 245 · 302
+    else if (k === 1) { a = numWithDigits(2, true) * 100; b = numWithDigits(2, true); }      // 3400 · 56
+    else { a = numWithDigits(3, true) * 10; b = rnd(2, 9) * 10; }                            // 1250 · 70
+    if (a * b > 999999 || !hasCarry(a, b)) continue;
+    return [a, b];
+  }
+  return [245, 302];
+}
+function genMul(level, opts) {
+  if (opts && opts.zeros && level >= 3 && Math.random() < 0.5) return genMulZero(level);
   const [na, nb] = pick(MUL_LEVELS[level].shapes);
   for (let t = 0; t < 300; t++) {
     const a = numWithDigits(na, false), b = numWithDigits(nb, true);
@@ -63,6 +78,14 @@ function mulPlan(a, b) {
     }
   }
   return { a, b, A, B, rows, total, steps, sumCarries };
+}
+/* План записи по Моро (для разбора тетради и уроков): нули на конце множителей отбрасываем и приписываем к ответу,
+   строку для нулевой цифры множителя не пишем — следующая строка сдвигается на столько клеток, какой это разряд. */
+function mulPlanMoro(a, b) {
+  const tz = n => { let z = 0; while (n > 0 && n % 10 === 0) { n /= 10; z++; } return z; };
+  const za = tz(a), zb = tz(b), a0 = a / 10 ** za, b0 = b / 10 ** zb, B0 = digitsOf(b0).reverse();
+  const rows = []; B0.forEach((bd, pos) => { if (bd) rows.push({ bd, pos, val: a0 * bd, idx: rows.length }); });
+  return { a, b, a0, b0, za, zb, z: za + zb, rows, core: a0 * b0, total: a * b, skipped: B0.some(d => d === 0) };
 }
 /* значение строки, если «забыть» перенос в разряд jDrop */
 function mulDropCarry(a, bd, jDrop) {
@@ -299,6 +322,6 @@ function alibi(c, s, found) {
   return -1;
 }
 
-const api = { rnd, pick, shuffle, digitsOf, plural, MUL_LEVELS, genMul, mulPlan, mulDropCarry, SYM, fam, EQ_LEVELS, genEq, containsX, calc, evalE, eqHTML, eqText, evalChain, ROLES, ROLE_ORDER, PART_NAMES, eqSteps, genMulBug, genEqBug, ANIMALS, ATTRS, CRIMES, genCase, alibi };
+const api = { rnd, pick, shuffle, digitsOf, plural, MUL_LEVELS, genMul, genMulZero, mulPlan, mulPlanMoro, mulDropCarry, SYM, fam, EQ_LEVELS, genEq, containsX, calc, evalE, eqHTML, eqText, evalChain, ROLES, ROLE_ORDER, PART_NAMES, eqSteps, genMulBug, genEqBug, ANIMALS, ATTRS, CRIMES, genCase, alibi };
 if (typeof module !== 'undefined') module.exports = api; else root.Engine = api;
 })(this);
