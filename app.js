@@ -326,6 +326,7 @@ function say(tpl, ms, o = {}) {
   if (!o.silent) speakT(sp, { prio: o.prio });
   ms = ms || Math.max(3800, text.length * 75);
   const hs = $('#heroSay'); if (hs) return bubbleOn(hs, text, ms);
+  if (!mascot.hidden && !mascot.isConnected) mascotPlace(); // экран перерисовался без go()
   if (!mascot.hidden) return bubbleOn(msBub, text, ms);
   const hp = $('.modal .m-cat') || $('.helper') || $('.slide-head'); if (hp) { $$('.cheer').forEach(x => x.remove()); const c = document.createElement('div'); c.className = 'cheer'; c.textContent = text; hp.appendChild(c); setTimeout(() => c.remove(), Math.min(ms, 5000)); }
 }
@@ -335,11 +336,25 @@ function cheer(ok) {
   if (ok) { okRun++; if (okRun % 3 === 0 && now - lastCheer > 4000) { lastCheer = now; say(pick(PH.cheerOk), 0, { prio: 0 }); } }
   else { okRun = 0; if (now - lastCheer > 5000 && Math.random() < 0.6) { lastCheer = now; say(pick(PH.cheerBad), 0, { prio: 0 }); } }
 }
+/* v35: маскот не закрывает контент. На рабочих экранах он «паркуется» мини-аватаром в шапке (фраза — в шапке, ≤ 2 строк);
+   внизу экрана — только там, где снизу пусто (короткие и пустые экраны). Нет шапки и нет места — сворачивается. */
+function mascotPlace() {
+  const body = document.body;
+  if (mascot.hidden) { body.classList.remove('has-mascot', 'ms-parked'); if (mascot.parentNode !== body) body.appendChild(mascot); return; }
+  const top = $('#app > header.top'), last = app.lastElementChild;
+  const bottom = last ? last.getBoundingClientRect().bottom + scrollY : 0;
+  const free = innerHeight - bottom;
+  const floatOk = free >= 150 && mascot.parentNode !== top; // уже припаркован — не прыгаем обратно вниз
+  if (floatOk || (!top && free >= 150)) { if (mascot.parentNode !== body) body.appendChild(mascot); body.classList.add('has-mascot'); body.classList.remove('ms-parked'); return; }
+  if (top) { if (mascot.parentNode !== top) top.appendChild(mascot); body.classList.add('ms-parked'); body.classList.remove('has-mascot'); return; }
+  mascot.hidden = true; body.classList.remove('has-mascot', 'ms-parked'); // некуда — сворачиваем
+}
 function mascotScene(name) {
   curScreen = name; okRun = 0; M.hush();
   mascot.hidden = NO_FLOAT.includes(name);
-  document.body.classList.toggle('has-mascot', !mascot.hidden);
   msBub.hidden = true;
+  mascotPlace();
+  if (!mascot.hidden) setTimeout(() => { if (curScreen === name) mascotPlace(); }, 600); // экран мог дорасти (картинки, списки)
   if (!mascot.hidden || name === 'lesson' || name === 'blitz') { if (!mascot.hidden) msCat.innerHTML = myCat({ cls: 'mini' }); const key = PH[name] ? name : 'idle'; setTimeout(() => say(name === 'caseintro' && CASE ? [`Новое дело: ${CASE.c.crime.title}! Сегодня утром в ${CASE.c.crime.place} кто-то украл ${CASE.c.crime.what}.`, 'Решай задачи, {n}, — за каждую получишь улику!'] : pick(PH[key]), 0, { prio: name === 'caseintro' ? 2 : 0 }), 600); }
   if (name === 'home') { setTimeout(() => say(homeGreet(), 4500), 700); if (!mascotScene.hi) { mascotScene.hi = 1; setTimeout(() => M.custom('hello'), 300); } }
 }
@@ -1039,9 +1054,31 @@ function bindSuspects(root, found, onChange) {
   }));
 }
 /* «фото» с места происшествия: вспышка, луч фонарика, туман, пылинки; найденные улики отмечаются на фото */
+/* v35: сцена подбирается по типу места, а не по CASE.ci % 24 (преступлений больше, чем картинок: почта получала телескоп).
+   Первые SCENE_READY преступлений из engine.js нарисованы один к одному; остальным — сцена того же типа места,
+   а если похожей нет — нейтральный ночной фон без картинки. Когда догенерируют img/scene2/24..35 — поднять SCENE_READY до 36. */
+const SCENE_READY = 24;
+const SCENE_RULES = [ // порядок важен: первое совпадение по месту, потом по названию дела; -1 — честно нейтральная
+  [/зоопарк|вольер|пингвин|почт|посылк|оранжере|теплиц|ботаническ|сад(?!у)|мельниц|водопад|воздушных шар/, -1],
+  [/кондитер|торт|пирожн|кулинарн/, 0], [/пекарн|пончик|булоч|пирожк/, 1], [/банк|сейф|ратуш|мэр/, 2],
+  [/волшебник|библиотек|читальн|книг/, 13], [/музыкальн|концерт|оркестр|конкурс|стадион|спортивн|кубок/, 22],
+  [/каток|катк|хоккей|коньк|снежн|зимн|ледян/, 14], [/ярмар|аттракцион|карусел|рынк|рынок|лавк/, 3], [/кафе|рецепт/, 4],
+  [/фабрик|цех|конвейер|шахт/, 5], [/столов|школ|кабинет|класс|детском саду|научн|клуб/, 6], [/фонтан|парк/, 7],
+  [/чайн|самовар|деревенск|бабушк/, 8], [/магазин|сувенир|шляпн|фотостуд|мастерск|игрушек|больниц/, 9], [/погреб|подвал|пасек|ферм/, 10],
+  [/праздник|рождени|ёлк|новогод|питомц/, 11], [/маяк|лодоч|рыбац|лодк/, 12], [/музе|выставк|картин/, 15],
+  [/обсерватор|планетари|телескоп|космо|созвезд/, 16], [/(?:^|s)порт|пристан|корабл|пират/, 17], [/цирк|гримёр|гример|гадалк|театр|кукольн/, 18],
+  [/поезд|вокзал|перрон|касс/, 19], [/замк|замок|дворц|башн|корол/, 20], [/пляж|ракуш/, 21], [/туман|пикник|змея|змеев/, 23]
+];
+function crimeScene(crime, ci) {
+  if (ci != null && ci >= 0 && ci < SCENE_READY && E.CRIMES[ci] === crime) return ci;
+  const txt = ((crime && crime.place) || '') + ' | ' + ((crime && crime.title) || '');
+  for (const part of txt.toLowerCase().split(' | ')) for (const [re, i] of SCENE_RULES) if (re.test(part)) { if (i < SCENE_READY) return i; break; }
+  return -1; // нейтральная
+}
 function sceneHTML(cls = '') {
   const marks = CASE.marks.map(m => `<span class="mark" style="left:${m.x}%;top:${m.y}%">${m.e}</span>`).join('');
-  return `<div class="scene ${cls}" style="--img:url('img/scene2/${CASE.ci % 24}.jpg'), url('img/scene/${CASE.ci % 24}.jpg')"><div class="sc-img"></div><div class="sc-fog"></div><div class="sc-dust">${'<i></i>'.repeat(14)}</div><div class="sc-beam"></div>${marks}<div class="sc-tape">МЕСТО ПРОИСШЕСТВИЯ · НЕ ВХОДИТЬ</div><div class="sc-flash"></div><div class="sc-stamp">ФОТО №${CASE.c.n}</div></div>`;
+  const si = crimeScene(CASE.c.crime, CASE.ci);
+  return `<div class="scene ${cls} ${si < 0 ? 'neutral' : ''}" style="--img:${si < 0 ? 'none' : `url('img/scene2/${si}.jpg'), url('img/scene/${si}.jpg')`}"><div class="sc-img"></div><div class="sc-fog"></div><div class="sc-dust">${'<i></i>'.repeat(14)}</div><div class="sc-beam"></div>${marks}<div class="sc-tape">МЕСТО ПРОИСШЕСТВИЯ · НЕ ВХОДИТЬ</div><div class="sc-flash"></div><div class="sc-stamp">ФОТО №${CASE.c.n}</div></div>`;
 }
 function sceneSound() { M.sfx('shutter'); later(() => M.sfx('mystery'), 250); }
 function clueMark(k) { const a = CASE.c.order[k], v = E.ATTRS[a].vals[CASE.c.culprit[a]]; return a === 'scarf' ? '🧵' : v.e; }

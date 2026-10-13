@@ -1,7 +1,7 @@
 # Визуальный план «Мурлок и Ко» (аудит 12.10.2026)
 
 Аудит всех экранов приложения, сайта и папок с картинками: что выглядит хорошо, что сломано или выбивается из стиля, каких картинок не хватает, какую дизайн-систему завести.
-Скриншоты сняты на 390×844 (телефон), 1024×768 и 800×1280 (планшет) с сохранением «Саша / кот Мурзик, Легенда сыска, 1264 конфеты».
+Скриншоты сняты на 390×844 (телефон), 1024×768 и 800×1280 (планшет) с сохранением «Саша / кот Мурлок, Легенда сыска, 1264 конфеты».
 
 **Где скриншоты.** `SHOTS = C:\Users\izzye\AppData\Local\Temp\claude\C--Users-izzye\a5211679-5581-4935-8c1d-33661bd30878\scratchpad\visual\`
 - `shots\p-*.jpg` — телефон, `t-*.jpg` — планшет 1024, `v-*.jpg` — планшет 800, `x-*.jpg` — состояния (награды, тур, сундук), `s-*.jpg` — сайт и админка.
@@ -9,6 +9,18 @@
 - Папка временная. Скрипт съёмки `shoot.js` лежит там же; его можно перенести в `tools/e2e/`.
 
 Приоритеты: **P0** — сломано или мешает ребёнку, **P1** — заметно портит впечатление, **P2** — заметное улучшение, **P3** — полировка. Размер: **S** — до дня, **M** — 2–4 дня, **L** — неделя и больше.
+
+### Статус v35 (12.10.2026): что уже сделано по этому плану
+- ✅ Маскот на рабочих экранах — мини-аватар в шапке, фраза в шапке (≤ 2 строк, не на кнопках); внизу — только на коротких и пустых экранах (`mascotPlace()` в `app.js`).
+- ✅ Контраст: токены `--pink-ink #D6336F` (4.6:1), `--mint-ink #128163` (4.8:1), `--gold-ink`, `--plum-ink`; `--muted #6E5E82`; кегль ≥ 14 px (кроме кредитов фото и счётчиков-бейджей); тач-зоны ≥ 44 px; закрытые темы читаются (серая только обложка).
+- ✅ Сцены дел по типу места вместо `% 24` (раздел 3.2), очередь на 12 + 2 сцены.
+- ✅ Вёрстка: условие уравнения целиком, фраза котика в уроке под заголовком, замок комнаты без размытых вещей (затемнённый арт + карточка), тосты и «+N» под шапкой, шпаргалки (конфликт класса `.cs-card` с лентой дел), переносы `hyphens`, шапка столбика на телефоне не наезжает на условие.
+- ✅ Превью нарядов из `catSVG` (Кондитерская и Примерочная), разделы-вкладки вместо ленты в 7000 px.
+- ✅ Домик на телефоне: шкалы ухода с полоской и процентом, комната 55% высоты; на планшете — по центру.
+- ✅ Академия на планшете — 2–3 колонки; мини-игры и детективные игры — шапка-герой и игра по центру; одно рисованное солнце.
+- ✅ `art.js` пересобран: +25 обложек тем (1034 → 1059).
+- ✅ Сайт: «17 комнат», возраст 6+ / раздел 12+.
+- ⏳ Остаётся: генерация картинок (раздел 3), самохостинг эмодзи (#13), лента дел и фотостудия на `scene2` (#18, `medals.js`/`photo.js`), всё P1–P3.
 
 ---
 
@@ -18,7 +30,7 @@
 
 **Главная проблема — пять визуальных языков, которые смешаны без правил:**
 1. плоский SVG-кот и чиби-подозреваемые (векторы, обводка, без теней);
-2. FLUX-иллюстрации в стиле Ghibli (комнаты, обложки, сцены), где кот — **другой**: пушистый котёнок-аниме, а не наш SVG-Мурзик;
+2. FLUX-иллюстрации в стиле Ghibli (комнаты, обложки, сцены), где кот — **другой**: пушистый котёнок-аниме, а не наш SVG-Мурлок;
 3. настоящие фото с Wikimedia (794 карточки Академии и часть обложек);
 4. системные эмодзи, а это почти все иконки, все наряды, 142 из 154 вещей домика и вещи на полу комнат. На Windows, Android и iOS они выглядят по-разному;
 5. CSS- и SVG-заглушки (9 комнат в `roomart.js`, планеты, весы).
@@ -34,7 +46,7 @@
 |---|---|---|
 | SVG-кот (`cat.js`) | везде: маскот, герой, примерочная, дипломы | ✅ узнаваем; ❌ одна поза (сидит анфас), мало эмоций (happy/smile/wink/sad/star) |
 | Чиби-звери (`chibi.js`) | подозреваемые, Енот, свидетели | ✅ милые, живые; ❌ аксессуары (эмодзи 🎩🎀👓) висят рядом с головой, а не на ней; Сова Соня нарисована с кошачьими ушами (`ears: 'tuft'`) — выглядит как кошка (`crops\p-caseintro-0.jpg`) |
-| FLUX Ghibli | комнаты, обложки Академии, `scene2`, наклейки вещей | ✅ красиво; ❌ в обложках «котёнок-детектив» — другой персонаж, не Мурзик (`sheets\covers.jpg`) |
+| FLUX Ghibli | комнаты, обложки Академии, `scene2`, наклейки вещей | ✅ красиво; ❌ в обложках «котёнок-детектив» — другой персонаж, не Мурлок (`sheets\covers.jpg`) |
 | Старые сцены `img/scene` | лента дел (`medals.js:258`), фоны фотостудии (`photo.js:13`), запасной фон дела | ❌ тёмные, мутные, «Pixar 3D» — другой стиль (`sheets\scene.jpg`) |
 | Фото Commons | карточки Академии, ~35 обложек | ✅ честно и полезно для фактов; ❌ в обложках случайные фото: бутерброд, мох, рулетка, домино, мозаика |
 | Эмодзи | иконки плиток, наряды, вещи, бейджи, кнопки, табы | ❌ разный рендер на разных ОС; наряд в магазине показан чужим эмодзи: берет → 🎨, колпак → 👩‍🍳, бабочка → 🦋, монокль → 🧐 |
@@ -97,7 +109,7 @@
 ### Сайт (`?site=1`, `about/`)
 - ✅ Чистый лендинг, крупные мокапы телефонов, бегущая строка, честные цифры (`crops\site-1280-*.jpg`, `site-390-*.jpg`).
 - ❌ Копирайт отстал от продукта: «Пять комнат» (их 17), «для детей 9–11 лет» рядом с бейджем «6+». На мокапе домика старая версия комнаты. Аниме-арт и персонажи на сайте не используются, кроме кота. В блоке «Академия» показано фото гепарда — неплохо, но эмоции не даёт.
-- 🔧 Hero: аниме-сцена (кабинет детектива) с SVG-Мурзиком и 3–4 подозреваемыми. Блок «Знакомьтесь — команда» с листом персонажей. Обновить мокапы скриптом (`tools/e2e/site-shots.js`). OG-картинка в том же стиле.
+- 🔧 Hero: аниме-сцена (кабинет детектива) с SVG-Мурлоком и 3–4 подозреваемыми. Блок «Знакомьтесь — команда» с листом персонажей. Обновить мокапы скриптом (`tools/e2e/site-shots.js`). OG-картинка в том же стиле.
 
 ### Привет / знакомство (`p-hello.jpg`, `x-mascot-hello.jpg`)
 - ✅ Крупный кот, понятная форма, образцы окраса кружками.
@@ -125,7 +137,7 @@
 ### Новое дело → вступление → задача → арест → раскрыто (`sheets\g9.jpg`, `crops\p-caseintro-0.jpg`, `p-casetask.jpg`, `crops\p-accuse-0.jpg`, `p-solved.jpg`, `crops\p-interro-0.jpg`)
 - ✅ Сцена с лентой «Не входить», штамп «Секретно», допрос с лампой и «терпением» — очень атмосферно.
 - ❌
-  - **Сцена не совпадает с делом**: преступлений 36, картинок 24, индекс `CASE.ci % 24` (`app.js:1038`), поэтому дела 24–35 получают чужую картинку (например, почта → телескоп);
+  - **Сцена не совпадала с делом**: преступлений 96 (36 в `engine.js` + ~60 в `cases-extra.js`), картинок 24, индекс был `CASE.ci % 24`, поэтому почта получала телескоп. ✅ v35: подбор по типу места (`crimeScene()`), см. раздел 3.2;
   - карточки подозреваемых: аксессуары-эмодзи висят в воздухе, улики-атрибуты внизу — 4 мелких эмодзи;
   - на экране «Раскрыто» вор маленький и наполовину скрыт, «+18» летит поверх текста;
   - 5 подозреваемых дают сетку 2+2+1 с пустой ячейкой.
@@ -178,7 +190,7 @@
 
 ### Награды / значки / дипломы / дела (`crops\p-diplomas-0.jpg`, `x-aw-*.jpg`, `x-diploma-view.jpg`)
 - ✅ Уровни бронза, серебро, золото, легенда через цвет рамки. «Почти получены» с прогрессом.
-- ❌ Значок — эмодзи в кружке, все 223 похожи. Незаработанные — серые эмодзи. Диплом — рамка и системный serif, текст «Котик-напарник Мурзик» наезжает на печать. Лента дел использует старые тёмные сцены.
+- ❌ Значок — эмодзи в кружке, все 223 похожи. Незаработанные — серые эмодзи. Диплом — рамка и системный serif, текст «Котик-напарник Мурлок» наезжает на печать. Лента дел использует старые тёмные сцены.
 - 🔧 Медаль = SVG-шаблон (лента + металл по уровню + центральный пиктограмм из единого набора). Диплом: шапка-иллюстрация (кабинет детектива), шрифт заголовка — Nunito 900 или рукописный акцент (Caveat уже подключён на сайте), печать-лапа. Ленту дел перевести на `scene2`.
 
 ### Домик (`p-house-*.jpg`, `sheets\h3..h5.jpg`, `t-house-kitchen.jpg`, `x-house-chest.jpg`)
@@ -258,23 +270,33 @@
 **Предлагаемые дополнения к STYLE по видам** (чтобы слои совпали):
 - сцены/фоны: `+ , warm evening light, children's picture book, uncluttered center for UI overlay, no characters`
 - стикеры вещей: `+ , single object, centered, full view, sticker style with soft shading, thick soft outline, isolated on pure white background` (уже в коде)
-- обложки с героем: **не «ginger kitten», а описание нашего Мурзика**: `chibi ginger cat detective with big green eyes, brown deerstalker hat, round cream belly, holding a brass magnifying glass, simple flat-shaded mascot style, thick dark-plum outline` — так FLUX-кот станет ближе к SVG. Лучше — img2img/Kontext от рендера `catSVG` (опыт есть в пайплайне «Капибары»: FLUX Kontext держит персонажа).
+- обложки с героем: **не «ginger kitten», а описание нашего Мурлока**: `chibi ginger cat detective with big green eyes, brown deerstalker hat, round cream belly, holding a brass magnifying glass, simple flat-shaded mascot style, thick dark-plum outline` — так FLUX-кот станет ближе к SVG. Лучше — img2img/Kontext от рендера `catSVG` (опыт есть в пайплайне «Капибары»: FLUX Kontext держит персонажа).
 
-**P0 — 12 сцен преступлений** (1280×720, `img/scene2/24..35.jpg`, seed 54–65):
-| # | p |
-|---|---|
-| 24 | underwater cafe with round porthole windows, empty dessert tray, bubbles and jellyfish lamps, tiny paw prints on wet floor, mysterious detective mood, magical night atmosphere, no characters |
-| 25 | magical glass greenhouse at night, empty flower pot with soil spilled, glowing plants, open roof hatch, paw prints, mysterious detective mood, no characters |
-| 26 | hot air balloon festival field at dusk, one empty basket with candy wrappers, ropes untied, lanterns, mysterious detective mood, no characters |
-| 27 | city zoo at night, empty feeding bowl near an open gate, footprints in the sand, soft lamp light, mysterious detective mood, no characters |
-| 28 | puppet theater stage with red curtains half open, empty prop box, strings hanging, spotlight, mysterious detective mood, no characters |
-| 29 | ice palace hall with frozen columns, empty crystal plate on an ice table, snowflakes, blue moonlight, mysterious detective mood, no characters |
-| 30 | old wooden windmill interior, empty flour sack, flour footprints, moonbeam through a small window, mysterious detective mood, no characters |
-| 31 | toy cosmodrome with a small rocket on a launch pad, empty cargo crate, stars, searchlights, mysterious detective mood, no characters |
-| 32 | deck of a toy pirate ship at night, open empty treasure chest, lantern, rope ladder, mysterious detective mood, no characters |
-| 33 | rainbow waterfall in a fairy forest, empty picnic basket on a rock, mist and fireflies, mysterious detective mood, no characters |
-| 34 | night market street with paper lanterns, one empty sweets stall, scattered candy, mysterious detective mood, no characters |
-| 35 | candy mine tunnel with glowing sugar crystals, empty mine cart, rails, lantern, mysterious detective mood, no characters |
+**P0 — 12 сцен преступлений** (1280×720, `img/scene2/24..35.jpg`). Записи уже лежат в `tools/anime-assets.json` (раздел `scenes`, генерирует `tools/gen-anime.py`), промпт ниже — полностью, как в спецификации, без общего `STYLE`.
+После генерации: в `app.js` поднять `SCENE_READY` с 24 до 36 — тогда дела 24–35 получат свою сцену один к одному.
+
+| # | seed | p |
+|---|---|---|
+| 24 | 54 | cute underwater cafe with glass dome, jellyfish lamps, an empty cake stand on a table, pearls scattered, bubbles, mysterious detective mood, magical night atmosphere, no characters |
+| 25 | 55 | magical greenhouse at night, glowing flowers, an empty candy flower pot, garden tools, moonlight through glass roof, mysterious detective mood, magical night atmosphere, no characters |
+| 26 | 56 | hot air balloon festival at dusk, colorful balloons, an empty picnic basket on the grass, lanterns, mysterious detective mood, magical night atmosphere, no characters |
+| 27 | 57 | cute zoo at night, empty fruit basket near a monkey enclosure, banana peels, lanterns, stars, mysterious detective mood, magical night atmosphere, no characters |
+| 28 | 58 | puppet theater stage with red curtains, an open empty little chest, spotlight, puppets hanging, mysterious detective mood, magical night atmosphere, no characters |
+| 29 | 59 | ice palace hall, glittering ice columns, an empty ice pedestal, snowflakes floating, blue light, mysterious detective mood, magical night atmosphere, no characters |
+| 30 | 60 | old windmill interior at night, flour sacks, one torn sack with sugar spilled, moonlight through the window, mysterious detective mood, magical night atmosphere, no characters |
+| 31 | 61 | toy spaceport at night, little rockets, an empty crate, glowing runway lights, stars, mysterious detective mood, magical night atmosphere, no characters |
+| 32 | 62 | cute pirate ship deck at night, an empty barrel, rope, lantern, moon over the sea, mysterious detective mood, magical night atmosphere, no characters |
+| 33 | 63 | rainbow waterfall in a magical forest, an empty jar on a rock, sparkles and mist, mysterious detective mood, magical night atmosphere, no characters |
+| 34 | 64 | cozy night market with paper lanterns, an empty stall, a fallen lantern, warm lights, mysterious detective mood, magical night atmosphere, no characters |
+| 35 | 65 | candy mine tunnel, glowing gem-like chocolates in the walls, an empty mine cart, lantern light, mysterious detective mood, magical night atmosphere, no characters |
+
+**Как сцены подбираются сейчас (v35).** `CASE.ci % 24` убран. Функция `crimeScene()` в `app.js`: первые 24 преступления из `engine.js` получают свою картинку; остальные (12 из `engine.js` и ~60 из `content/extra/cases-extra.js`) — сцену того же типа места по словарю `SCENE_RULES` (вокзал → поезд, театр → цирк, ратуша → банк…). Если похожей сцены нет (зоопарк, почта, сад и теплица, мельница, водопад, воздушные шары — 13 из 96 дел), показывается нейтральный ночной фон без картинки. Проверка: `node tools/e2e/scenemap.js` (печатает соответствие для всех дел).
+
+**P1 — ещё 2 сцены для типов мест, которых нет даже в очереди выше** (seed 66–67, файлы `img/scene2/36.jpg`, `37.jpg`, добавить в `SCENE_RULES`):
+| # | seed | p |
+|---|---|---|
+| 36 | 66 | cozy little post office at night, sorting shelves with letters, an empty mail sack on the floor, scattered envelopes, desk lamp, mysterious detective mood, magical night atmosphere, no characters |
+| 37 | 67 | blooming spring garden at night, apple trees, an empty wicker basket on the grass, garden path, fireflies, mysterious detective mood, magical night atmosphere, no characters |
 
 **P0 — 9 комнат** (1280×720, `img/rooms/<id>.jpg`, общий кадр как у существующих: фронтальная стена, окно по центру, пол — нижняя четверть, без персонажей и **без крупной мебели в центре**):
 pool — `cozy indoor swimming pool room, turquoise tiles, big window with palm trees outside, empty pool edge at the bottom, soft daylight`;
@@ -298,7 +320,7 @@ fame — `hall of fame room, golden frames and trophy shelves on the walls, spot
 
 **P2 — 8 планет и ракета** (стикеры 512): «cute planet Mercury… sticker» и т. д. Ракета — лучше SVG.
 
-**P2 — 16 героев мини-игр** (1024×512, с Мурзиком): фельдшер, велосипедист, журналист с газетой, садовник с червяком, повар (Собери тело — кот у анатомического плаката), космонавт у планет, весы, сейф, библиотекарь, бегун.
+**P2 — 16 героев мини-игр** (1024×512, с Мурлоком): фельдшер, велосипедист, журналист с газетой, садовник с червяком, повар (Собери тело — кот у анатомического плаката), космонавт у планет, весы, сейф, библиотекарь, бегун.
 
 **P2 — схемы к текстовым задачам math4** — **не FLUX, а SVG-шаблоны** (дорога/скорость, трубы/бассейн, полка/доли, прямоугольник/площадь): 6 параметрических компонентов.
 
@@ -311,7 +333,7 @@ fame — `hall of fame room, golden frames and trophy shelves on the walls, spot
 
 ## 4. Персонажи
 
-### 4.1 Мурзик (SVG, `cat.js`)
+### 4.1 Мурлок (SVG, `cat.js`)
 Сейчас: одна поза «сидит анфас», выражения `happy / smile / wink / sad / star`, лупа в лапе, ~90 нарядов, 19 окрасов. Это сильная база. Не хватает поз и эмоций для обратной связи.
 
 **Лист эмоций (12, вариации лица в одном SVG — менять брови, глаза и рот):**
@@ -346,7 +368,7 @@ fame — `hall of fame room, golden frames and trophy shelves on the walls, spot
 Совёнок-библиотекарь (Академия), Мышка-лаборант (математика), Пингвин-космонавт (аркада). Это 2–3 персонажа-проводника по разделам вместо безликих эмодзи. Каждый — 4 эмоции в стиле чиби.
 
 ### 4.5 Лист персонажей (что положить в `docs/characters/`)
-1 лист Мурзика (6 поз × 12 эмоций на одном фоне), 1 лист Енота, 1 лист 26 подозреваемых (сетка, анфас), палитры каждого (уже в `SP`), правила обводки (2.5 px `#3B2A4A`), запреты (не рисовать людей-аниме рядом со зверями, кроме тем, где нужен ребёнок; там — тот же чиби-стиль).
+1 лист Мурлока (6 поз × 12 эмоций на одном фоне), 1 лист Енота, 1 лист 26 подозреваемых (сетка, анфас), палитры каждого (уже в `SP`), правила обводки (2.5 px `#3B2A4A`), запреты (не рисовать людей-аниме рядом со зверями, кроме тем, где нужен ребёнок; там — тот же чиби-стиль).
 
 ---
 
@@ -405,7 +427,7 @@ fame — `hall of fame room, golden frames and trophy shelves on the walls, spot
 1. **Иллюстрация — для мира игры:** обложки предметов и тем, сцены дел, комнаты, вещи, герои мини-игр, пустые состояния, награды. **Фото — только как «улика-факт»** внутри карточки урока, когда важна реальность: животное, планета, исторический портрет, прибор.
 2. **Обложки тем — никогда не фото.** 35 фото-обложек заменить иллюстрациями (бутерброд, мох, рулетка, домино…).
 3. **Фото всегда в «полароиде»:** белая рамка 6 px, лёгкий поворот −1°…+1°, подпись `--fs-cap` жирным + кредит, скотч-уголок как «улика на доске». Так фото читается как «вещдок в деле», а не как чужой стиль.
-4. **На одном экране — максимум один фото-блок.** Рядом с фото Мурзик может «держать» его (мини-кот у рамки), что связывает слои.
+4. **На одном экране — максимум один фото-блок.** Рядом с фото Мурлок может «держать» его (мини-кот у рамки), что связывает слои.
 5. **Люди на фото** — только исторические портреты и обезличенные действия. Детей-людей в иллюстрациях не рисовать (кроме тем Общения и Безопасности, и тогда в чиби-стиле наших зверей: ребёнок = зверёк).
 6. **Чувствительные темы** (подросток, безопасность, ОБЖ, тело) — только иллюстрации, без фото тел и травм.
 7. **Цвет:** иллюстрации — пастель, `STYLE` один на всё. Фото не фильтровать, но не ставить тёмные фото как обложки.
@@ -440,7 +462,7 @@ fame — `hall of fame room, golden frames and trophy shelves on the walls, spot
 | 16 | Главная: одна CTA, плитки L/S, без дублей статуса | P1 | M | `accounts.js`/`app.js` home |
 | 17 | Аксессуары подозреваемых в SVG, исправить Сову, «арестован» | P1 | M | `chibi.js` |
 | 18 | Лента дел и фотостудия → `scene2`, старые `img/scene` убрать | P1 | S | `medals.js:258`, `photo.js:13` |
-| 19 | Мурзик: 12 эмоций + 6 поз, подключить к фидбеку и туру | P1 | L | `cat.js`, `onboarding.js` |
+| 19 | Мурлок: 12 эмоций + 6 поз, подключить к фидбеку и туру | P1 | L | `cat.js`, `onboarding.js` |
 | 20 | Планшет: Академия в 2 колонки, урок «фото слева, текст справа», дело с колонкой подозреваемых | P1 | M | `style.css` |
 | 21 | Медали SVG-шаблоном, диплом с шапкой-иллюстрацией | P2 | M | `medals.js`, `diplomas.js` |
 | 22 | 142 вещи домика (партиями по 40) | P2 | L | `img/items` |
