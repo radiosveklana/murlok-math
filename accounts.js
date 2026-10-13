@@ -303,10 +303,10 @@ const Accounts = (() => {
   const devOpen = () => !!window.VIEW_RO || location.hostname === 'localhost' && !S.pin && !localStorage.getItem('murlok-strict-gate'); // автотесты на своём компьютере
   const adultOk = () => devOpen() || Date.now() < adultUntil;
   const unlock = () => { adultUntil = Date.now() + 20 * 60 * 1000; };
-  // устройство ребёнка из семьи: ушли из раздела для взрослых — сессия взрослого закрывается (у ребёнка её быть не должно)
+  // устройство ребёнка из семьи: сессия взрослого остаётся (не просим код из почты снова и снова), но спрятана за замком —
+  // кабинет и всё взрослое открываются только через ПИН устройства или код из почты; в ⚙️ ребёнка нет ни почты взрослого, ни «Выйти из кабинета»
   const kidDevice = () => linked() && !(child() || {}).adult && S.role !== 'adult';
-  let inAdult = false;
-  { const g0 = go; go = function (name) { if (ADULT.has(name)) inAdult = true; else { if (inAdult && kidDevice() && parent()) { const P = parent(); ls.set(PK, null); api('logout', {}, P.token).catch(() => { }); } inAdult = false; adultUntil = 0; } return g0.apply(this, arguments); }; }
+  { const g0 = go; go = function (name) { if (!ADULT.has(name)) adultUntil = 0; return g0.apply(this, arguments); }; }
   const gate = next => go('agate', next || 'parents');
   SCREENS.agate = next => {
     next = next || 'parents'; if (adultOk()) return go(next);
