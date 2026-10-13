@@ -101,7 +101,7 @@ const Column = (() => {
       let buf = ''; $('#cask').innerHTML = `${label} <span class="inp" id="cv">?</span>`; $('#cin').innerHTML = numpad(true);
       bindPad($('#cin'), { digit: x => { if (buf.length < 6) { buf += x; $('#cv').textContent = buf; } }, back: () => { buf = buf.slice(0, -1); $('#cv').textContent = buf || '?'; }, ok: () => { if (!buf || wait) return; const v = +buf; buf = ''; $('#cv').textContent = '?'; check(v); } });
     };
-    const wrong = (h, show) => { mistakes++; tries++; SND.bad(); noteErr('div', null, 'div:' + phase); bub(`${okN ? '<div class="fb gp-ok">✅ Предыдущие шаги — верно</div>' : ''}<div class="fb bad">🔎 Давай проверим</div>${tries >= 2 && show != null ? `${h}<br>Ответ: <b>${show}</b>` : h}`); if (tries >= 3) { helped = true; return true; } return false; };
+    const wrong = (h, show) => { mistakes++; tries++; SND.bad(); noteErr('div', null, 'div:' + phase); bub(`${okN ? '<div class="fb gp-ok">✏️ Предыдущие шаги — верно</div>' : ''}<div class="fb bad">🔎 Давай проверим</div>${tries >= 2 && show != null ? `${h}<br>Ответ: <b>${show}</b>` : h}`); if (tries >= 3) { helped = true; return true; } return false; };
     const ok = (h) => { tries = 0; okN++; SND.ok(); if (h) bub(`<div class="fb">✔ Верно!</div>${h}`); };
     function step() {
       if (!el.isConnected) return; // ушли с экрана — отложенный шаг не рисуем

@@ -451,7 +451,7 @@ function decorateResults() {
     r.dataset.gp = 1; const h = $('h2', r); if (!h) return;
     const m = h.textContent.match(/(\d+)\s*из\s*(\d+)/); if (!m) return; const ok = +m[1], n = +m[2], bad = Math.max(0, n - ok);
     const good = []; if (ok) good.push(`Верно: <b>${ok} из ${n}</b> ✅`);
-    if (ok === n && n) good.push('Без единой ошибки — внимательность на высоте ✅'); else if (ok >= n / 2 && ok) good.push('Больше половины — уже уверенно ✅');
+    if (ok === n && n) good.push('Без единой ошибки — внимательность на высоте ✅'); else if (ok > n / 2) good.push('Больше половины — уже уверенно ✅'); else if (ok * 2 === n && ok) good.push('Ровно половина — хорошая основа ✅');
     good.push('Дело доведено до конца — это упорство ✅');
     const grow = bad ? `${bad} ${pl(bad, 'вопрос', 'вопроса', 'вопросов')} разберём ещё раз — спокойно, по одному. Так и учатся!` : '';
     const at = $('.stars', r) || h; at.insertAdjacentHTML('afterend', gpBlock(good, grow));

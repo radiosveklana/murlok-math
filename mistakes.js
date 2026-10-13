@@ -205,7 +205,7 @@ const Mistakes = (() => {
         i++;
         if (i < N) { $('#after').innerHTML = `<button class="btn big pink" id="mdnext">Следующая задача →</button>`; $('#mdnext').addEventListener('click', () => { SND.tap(); const d = $$('.g-dots i', app)[i]; if (d) d.className = 'now'; run(); }); return; }
         const e = T()[key];
-        $('#after').innerHTML = `<div class="card center mk-end"><div class="big-emoji">${solo >= 2 || (one && perfect) ? '🏆' : '🐾'}</div><h3>${one ? (perfect ? 'Получилось без ошибок!' : 'Разобрались вместе!') : solo >= 2 ? 'Две задачи сам(а) без ошибок — супер!' : 'Хорошая тренировка!'}</h3>
+        $('#after').innerHTML = `<div class="card center mk-end"><div class="big-emoji">${solo >= 2 || (one && perfect) ? '🏆' : '🐾'}</div><h3>${one ? (perfect ? 'Получилось без ошибок!' : 'Разобрались вместе!') : solo >= 2 ? 'Две задачи ' + (gA() === 'а' ? 'сама' : gA() ? 'сам(а)' : 'сам') + ' без ошибок — супер!' : 'Хорошая тренировка!'}</h3>
           <p class="small">${e && !e.fixed ? (e.last === DAY() ? 'Чтобы тема ушла из «Работы над ошибками», завтра реши 2 такие задачи сам' + gA() + ' без ошибок — так знание закрепится надолго.' : 'Тема почти исправлена!') : 'Ошибаться не страшно — главное, разобраться.'}</p>
           <div class="row-btns"><button class="btn pink" data-go="mistakes">🩹 К работе над ошибками</button><button class="btn" id="mdagain">Ещё раз</button></div></div>`;
         $('#mdagain').addEventListener('click', () => go('mdrill', arg)); SND.win(); if (solo >= 2) confetti(25);
@@ -273,7 +273,7 @@ const Mistakes = (() => {
   function mulSteps(a, b) {
     const M = E.mulPlanMoro(a, b), out = [], a0 = M.a0;
     const rowReplay = r => rp(rowStepsOf(a0, r.bd).map(mulStepLine).concat([`Получилось: <b>${r.val}</b>`]));
-    const rowWrong = (r, v) => { for (let j = 1; j < String(a0).length; j++) if (v === E.mulDropCarry(a0, r.bd, j)) return { t: 'mul:carry', h: 'Похоже, ты <b>забыл(а) прибавить запомненное число</b>. После умножения цифры прибавляй то, что записано маленькой цифрой сверху.' };
+    const rowWrong = (r, v) => { for (let j = 1; j < String(a0).length; j++) if (v === E.mulDropCarry(a0, r.bd, j)) return { t: 'mul:carry', h: 'Похоже, ты <b>забыл' + gA() + ' прибавить запомненное число</b>. После умножения цифры прибавляй то, что записано маленькой цифрой сверху.' };
       return { t: 'mul:tbl', h: `Проверь каждое умножение по таблице и запомненные числа. Вот как идёт строка ${a0} × ${r.bd}:` }; };
     const pre = M.z ? `Нули на конце пока не трогаем: ${a0} × ${M.b0}, а ${zw(M.z)} припишем в конце. ` : '';
     M.rows.forEach((r, i) => {
@@ -352,7 +352,7 @@ const Mistakes = (() => {
       // поле остатка не заполнено: пустое поле считаем нулём — но если остаток есть, сначала подсказываем, а не ругаем
       if (prob.kind === 'div' && !remRaw && v === answerOf(prob) && prob.a % prob.b) { SND.tap(); shake($('#prem')); bub('Частное верное! 👍 А поле «ост.» пустое — пустое поле я считаю нулём, но в этом примере <b>остаток есть</b>. Впиши его (если остатка нет — пиши 0).'); try { $('#prem').focus(); } catch (e) { } return; }
       const right = v === answerOf(prob) && (prob.kind !== 'div' || r === prob.a % prob.b);
-      if (right) { SND.win(); confetti(20); if (!tried) award(3, 12); record(0); bub(`🎉 Верно! ${esc(sampleOf(prob))}${prob.kind === 'div' && r ? ` (ост. ${r})` : ''} = ${prob.kind === 'eq' ? 'x = ' : ''}${answerOf(prob)}. Ты решил(а) это на бумаге — настоящий сыщик!`);
+      if (right) { SND.win(); confetti(20); if (!tried) award(3, 12); record(0); bub(`🎉 Верно! ${esc(sampleOf(prob))}${prob.kind === 'div' && r ? ` (ост. ${r})` : ''} = ${prob.kind === 'eq' ? 'x = ' : ''}${answerOf(prob)}. Ты решил${gA()} это на бумаге — настоящий сыщик!`);
         $('#psteps').innerHTML = `<div class="row-btns"><button class="btn big pink" id="pnext">Следующий пример →</button></div>`; $('#pnext').addEventListener('click', () => { own = false; prob = gen(); show(); }); return; }
       SND.bad();
       if (prob.kind === 'add') { const f = addFind(prob.a, prob.b, prob.op, v); return f ? found(f, f.kd) : allOk(); }

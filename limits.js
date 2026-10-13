@@ -50,7 +50,7 @@ const Limits = (() => {
   setInterval(check, 5000); setTimeout(check, 1500);
 
   /* ---------- учёт: раздел, предмет Академии, перерывы (вызывает coach.js каждые 20 активных секунд) ---------- */
-  const SECT = { school: 'school', practice: 'school', lesson: 'school', colwork: 'school', collesson: 'school', newcase: 'case', caseintro: 'case', casetask: 'case', accuse: 'case', solved: 'case', book: 'case',
+  const SECT = { vpr: 'school', school: 'school', practice: 'school', lesson: 'school', colwork: 'school', collesson: 'school', newcase: 'case', caseintro: 'case', casetask: 'case', accuse: 'case', solved: 'case', book: 'case',
     blitz: 'paws', drill: 'paws', bugs: 'raccoon', bugs2: 'raccoon', games: 'games', game: 'games', schulte: 'games', academy: 'academy', subject: 'academy', alesson: 'academy', aquiz: 'academy', asearch: 'academy',
     roleplay: 'academy', rpchat: 'academy', solar: 'academy', rescue: 'academy', citywalk: 'academy', helpharm: 'academy', fakenews: 'academy', bodybuild: 'academy', ideas: 'academy', practice2: 'academy',
     house: 'house', shop: 'house', fitting: 'house', earn: 'house', photo: 'photo', studio: 'photo', spacetrip: 'arcade', spacefly: 'arcade', mission: 'arcade', starmap: 'starmap',
