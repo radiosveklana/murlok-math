@@ -1,48 +1,30 @@
 {
- "cover:what_creative": {
-  "q": "light bulb",
-  "alt": "Лампочка-идея"
- },
+ "cover:what_creative": null,
  "what_creative:0": {
-  "q": "lego bricks",
-  "alt": "Кубики конструктора"
+  "q": "colorful lego bricks",
+  "alt": "Разноцветные детали конструктора"
  },
  "what_creative:1": {
   "q": "seedling",
   "alt": "Росток"
  },
- "what_creative:2": {
-  "q": "fountain",
-  "alt": "Фонтан идей"
- },
- "what_creative:3": {
-  "q": "swiss army knife",
-  "alt": "Многофункциональный нож"
- },
+ "what_creative:2": null,
+ "what_creative:3": null,
  "what_creative:4": {
   "q": "white peacock",
   "alt": "Белый павлин"
  },
- "what_creative:5": {
-  "q": "architect sketch",
-  "alt": "Чертёж"
- },
+ "what_creative:5": null,
  "what_creative:6": {
   "q": "padlock chain",
   "alt": "Замок на цепи"
  },
- "cover:brainstorm": {
-  "q": "lightning",
-  "alt": "Молния"
- },
+ "cover:brainstorm": null,
  "brainstorm:0": {
-  "q": "sticky notes",
-  "alt": "Листочки с идеями"
+  "q": "colorful sticky notes wall",
+  "alt": "Разноцветные стикеры с идеями"
  },
- "brainstorm:1": {
-  "q": "green traffic light",
-  "alt": "Зелёный свет"
- },
+ "brainstorm:1": null,
  "brainstorm:2": {
   "q": "popcorn",
   "alt": "Много-много попкорна"
@@ -51,14 +33,8 @@
   "q": "hot air balloons",
   "alt": "Воздушные шары"
  },
- "brainstorm:4": {
-  "q": "relay race",
-  "alt": "Эстафета"
- },
- "brainstorm:5": {
-  "q": "whiteboard",
-  "alt": "Доска для штурма"
- },
+ "brainstorm:4": null,
+ "brainstorm:5": null,
  "cover:unusual_uses": {
   "q": "paper clips",
   "alt": "Скрепки"
@@ -67,10 +43,7 @@
   "q": "brick",
   "alt": "Кирпич"
  },
- "unusual_uses:1": {
-  "q": "spoon",
-  "alt": "Ложка"
- },
+ "unusual_uses:1": null,
  "unusual_uses:2": {
   "q": "paper clip",
   "alt": "Скрепка"
@@ -87,26 +60,17 @@
   "q": "safety goggles",
   "alt": "Защитные очки"
  },
- "cover:what_if": {
-  "q": "pig",
-  "alt": "Если бы свиньи летали"
- },
+ "cover:what_if": null,
  "what_if:0": {
   "q": "crystal ball",
   "alt": "Хрустальный шар"
  },
- "what_if:1": {
-  "q": "floating island",
-  "alt": "Остров в облаках"
- },
+ "what_if:1": null,
  "what_if:2": {
   "q": "dominoes falling",
   "alt": "Падают домино"
  },
- "what_if:3": {
-  "q": "coin",
-  "alt": "Две стороны монеты"
- },
+ "what_if:3": null,
  "what_if:4": {
   "q": "earth from space",
   "alt": "Земля из космоса"
@@ -123,10 +87,7 @@
   "q": "pencil eraser",
   "alt": "Карандаш с ластиком"
  },
- "combine:1": {
-  "q": "armchair",
-  "alt": "Кресло"
- },
+ "combine:1": null,
  "combine:2": {
   "q": "cat on chair",
   "alt": "Кот на стуле"
@@ -159,30 +120,15 @@
   "q": "ant on leaf",
   "alt": "Муравей на листке"
  },
- "new_view:3": {
-  "q": "firefighter",
-  "alt": "Пожарный"
- },
+ "new_view:3": null,
  "new_view:4": {
   "q": "hats",
   "alt": "Разные шляпы"
  },
- "new_view:5": {
-  "q": "petri dish",
-  "alt": "Чашка Петри"
- },
- "cover:inventor": {
-  "q": "workshop tools",
-  "alt": "Мастерская"
- },
- "inventor:0": {
-  "q": "gears",
-  "alt": "Шестерёнки"
- },
- "inventor:1": {
-  "q": "target bullseye",
-  "alt": "Мишень"
- },
+ "new_view:5": null,
+ "cover:inventor": null,
+ "inventor:0": null,
+ "inventor:1": null,
  "inventor:2": {
   "q": "umbrella",
   "alt": "Зонт"
@@ -207,38 +153,23 @@
   "q": "dice",
   "alt": "Игральные кубики"
  },
- "stories:0": {
-  "q": "open book",
-  "alt": "Раскрытая книга"
- },
+ "stories:0": null,
  "stories:1": {
   "q": "ginger cat",
   "alt": "Рыжий кот"
  },
- "stories:2": {
-  "q": "mountain path",
-  "alt": "Трудная тропа"
- },
+ "stories:2": null,
  "stories:3": {
   "q": "board game dice",
   "alt": "Бросок кубиков"
  },
- "stories:4": {
-  "q": "roller coaster",
-  "alt": "Американские горки"
- },
- "stories:5": {
-  "q": "frightened cat",
-  "alt": "Шерсть дыбом"
- },
+ "stories:4": null,
+ "stories:5": null,
  "cover:team_life": {
   "q": "paint brushes",
   "alt": "Кисти"
  },
- "team_life:0": {
-  "q": "light bulb",
-  "alt": "Есть идея!"
- },
+ "team_life:0": null,
  "team_life:1": {
   "q": "jigsaw puzzle",
   "alt": "Пазл"
@@ -247,18 +178,12 @@
   "q": "incandescent light bulb filament",
   "alt": "Нить лампы накаливания"
  },
- "team_life:3": {
-  "q": "cardboard model",
-  "alt": "Макет из картона"
- },
+ "team_life:3": null,
  "team_life:4": {
   "q": "orchestra",
   "alt": "Оркестр"
  },
- "team_life:5": {
-  "q": "kitchen cooking",
-  "alt": "Кухня"
- },
+ "team_life:5": null,
  "what_creative:9": {
   "q": "notebook pencil sketches",
   "alt": "Блокнот идей"

@@ -107,10 +107,8 @@
   "src": "commons"
  },
  "kids_heroes:4": {
-  "type": "photo",
-  "q": "earmuffs",
-  "alt": "Наушники от холода",
-  "src": "commons"
+  "type": "art",
+  "p": "A happy boy ice skating on a frozen pond wearing fluffy homemade earmuffs made of wire and fur, snowy winter day"
  },
  "kids_heroes:5": {
   "type": "photo",
@@ -266,9 +264,8 @@
   "alt": "Пёс Хатико"
  },
  "animal_heroes:3": {
-  "type": "photo",
-  "q": "Барри (собака)",
-  "alt": "Сенбернар Барри"
+  "type": "art",
+  "p": "A big friendly St Bernard rescue dog with a small barrel on its collar walking through deep snow in the Alps, a mountain monastery in the background"
  },
  "animal_heroes:4": {
   "type": "photo",
@@ -377,10 +374,8 @@
   "src": "commons"
  },
  "growth_mindset:1": {
-  "type": "photo",
-  "q": "child learning to ride bicycle",
-  "alt": "Учимся кататься",
-  "src": "commons"
+  "type": "art",
+  "p": "A smiling child at a desk solving a long division problem, a small staircase of steps glowing upward beside the notebook, warm light"
  },
  "growth_mindset:2": {
   "type": "photo",

@@ -53,10 +53,8 @@
   "p": "A boy pouring fresh clean water into a shiny bowl next to a bowl of pet food while a hungry cat waits politely, bright kitchen floor"
  },
  "pet_care:2": {
-  "type": "photo",
-  "q": "dog looking at food",
-  "alt": "Собака и еда",
-  "src": "commons"
+  "type": "art",
+  "p": "A worried cute puppy and kitten looking at a kitchen table with a chocolate bar, a bunch of grapes and an onion, a big red cross-out circle floating over the food, bright cozy kitchen"
  },
  "pet_care:3": {
   "type": "photo",
@@ -120,8 +118,8 @@
  },
  "eco_care:0": {
   "type": "photo",
-  "q": "plastic bottles litter beach",
-  "alt": "Мусор на берегу",
+  "q": "plastic bottles recycling container",
+  "alt": "Пластиковые бутылки на переработку",
   "src": "commons"
  },
  "eco_care:1": {
@@ -224,10 +222,8 @@
   "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat spinning a big colorful globe surrounded by children in traditional clothes from different countries"
  },
  "world_peoples:0": {
-  "type": "photo",
-  "q": "crowd of people city street",
-  "alt": "Много людей",
-  "src": "commons"
+  "type": "art",
+  "p": "A friendly round planet Earth with many tiny cheerful cartoon people of different cultures holding hands around it, colorful and bright"
  },
  "world_peoples:1": {
   "type": "art",
@@ -294,10 +290,8 @@
   "src": "commons"
  },
  "inventions:0": {
-  "type": "photo",
-  "q": "power lines pylon",
-  "alt": "Линия электропередачи",
-  "src": "commons"
+  "type": "art",
+  "p": "A glowing light bulb connected by a wire to a small toy wind turbine and a little river water wheel on a green hill, sparks of energy flowing, sunny day"
  },
  "inventions:1": {
   "type": "photo",
@@ -305,10 +299,8 @@
   "alt": "Александр Лодыгин"
  },
  "inventions:2": {
-  "type": "photo",
-  "q": "vintage refrigerator",
-  "alt": "Старинный холодильник",
-  "src": "commons"
+  "type": "art",
+  "p": "A cute open refrigerator with glowing blue cooling pipes at the back, frosty air and fresh vegetables and milk inside, a curious kitten peeking in"
  },
  "inventions:3": {
   "type": "photo",
@@ -368,10 +360,8 @@
   "p": "A bright green chameleon on a branch slowly turning orange and blue, its curly tail wrapped around the twig, jungle leaves behind"
  },
  "amazing_animals:8": {
-  "type": "photo",
-  "q": "Greenland shark",
-  "alt": "Гренландская акула",
-  "src": "commons"
+  "type": "art",
+  "p": "A large slow gray shark gliding through dark icy blue Arctic water under floating ice, calm and peaceful, tiny fish nearby"
  },
  "amazing_animals:9": {
   "type": "photo",
@@ -421,8 +411,8 @@
  },
  "eco_care:8": {
   "type": "photo",
-  "q": "planting tree sapling hands",
-  "alt": "Посадка дерева",
+  "q": "young tree sapling green leaves",
+  "alt": "Молодое деревце",
   "src": "commons"
  },
  "plants:6": {
@@ -573,7 +563,7 @@
  },
  "water_cycle:1": {
   "type": "photo",
-  "q": "boiling water pot",
+  "q": "boiling water bubbles",
   "alt": "Кипящая вода",
   "src": "commons"
  },
@@ -589,8 +579,8 @@
  },
  "water_cycle:4": {
   "type": "photo",
-  "q": "rain drops puddle",
-  "alt": "Дождь",
+  "q": "raindrops on green leaf",
+  "alt": "Капли дождя на листе",
   "src": "commons"
  },
  "water_cycle:5": {
@@ -643,8 +633,8 @@
  },
  "minerals:4": {
   "type": "photo",
-  "q": "iron ore",
-  "alt": "Железная руда",
+  "q": "hematite mineral specimen",
+  "alt": "Гематит — железная руда",
   "src": "commons"
  },
  "minerals:5": {
@@ -662,10 +652,8 @@
   "p": "An underground treasure chest of coal and oil slowly emptying, while wind turbines and solar panels shine on the surface above"
  },
  "minerals:8": {
-  "type": "photo",
-  "q": "sandstone porous rock",
-  "alt": "Пористый камень",
-  "src": "commons"
+  "type": "art",
+  "p": "Cross-section of underground layers where dark oil soaks into porous sandstone like water in a sponge, a tiny oil derrick on the green surface above, educational and colorful"
  },
  "cover:red_book": {
   "type": "art",

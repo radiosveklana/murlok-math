@@ -149,10 +149,8 @@
   "alt": "Солнечное затмение"
  },
  "moon:5": {
-  "type": "photo",
-  "q": "total lunar eclipse",
-  "alt": "Красная Луна в затмении",
-  "src": "commons"
+  "type": "art",
+  "p": "A total lunar eclipse: a big copper-red full moon in a dark blue starry sky above calm hills, the shadow of the Earth covering it"
  },
  "moon:6": {
   "type": "photo",
@@ -196,9 +194,8 @@
   "src": "commons"
  },
  "stars:5": {
-  "type": "photo",
-  "q": "Полярная звезда",
-  "alt": "Полярная звезда"
+  "type": "art",
+  "p": "A child and a ginger kitten on a hill at night pointing at one bright star in the north, the Big Dipper constellation nearby, starry deep blue sky"
  },
  "cover:comets": {
   "type": "photo",
@@ -223,9 +220,8 @@
   "alt": "Комета Галлея"
  },
  "comets:3": {
-  "type": "photo",
-  "q": "Астероид",
-  "alt": "Астероид"
+  "type": "art",
+  "p": "A lumpy gray-brown rocky asteroid floating in space among many smaller rocks of the asteroid belt, Mars and Jupiter far away, bright stars"
  },
  "comets:4": {
   "type": "photo",
@@ -275,10 +271,8 @@
   "src": "commons"
  },
  "earth_motion:5": {
-  "type": "photo",
-  "q": "summer meadow sunny",
-  "alt": "Летний луг",
-  "src": "commons"
+  "type": "art",
+  "p": "The Earth orbiting the bright Sun on a slightly oval path, a snowy winter landscape on the top half and a sunny summer beach on the bottom half, cute educational space scene"
  },
  "cover:cosmonauts": {
   "type": "photo",
@@ -323,10 +317,8 @@
   "src": "commons"
  },
  "cover:universe": {
-  "type": "photo",
-  "q": "Milky Way night sky",
-  "alt": "Млечный Путь",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat floating in space looking through a telescope at the glowing Milky Way galaxy, colorful nebulae"
  },
  "universe:0": {
   "type": "photo",
@@ -579,10 +571,8 @@
   "p": "A giant ring of tall metal reflector panels in a mountain valley listening to radio waves from space, gentle wave lines in the sky"
  },
  "telescopes:5": {
-  "type": "photo",
-  "q": "Pulkovo Observatory",
-  "alt": "Пулковская обсерватория",
-  "src": "commons"
+  "type": "art",
+  "p": "A classic white observatory building with three domes on a green hill under a starry evening sky, telescopes peeking out"
  },
  "telescopes:6": {
   "type": "art",

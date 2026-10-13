@@ -1,8 +1,5 @@
 {
- "cover:million_read": {
-  "q": "crowd stadium",
-  "alt": "Тысячи зрителей"
- },
+ "cover:million_read": null,
  "cover:million_compare": {
   "q": "abacus",
   "alt": "Счёты"
@@ -56,7 +53,7 @@
   "alt": "Каменщик кладёт стену"
  },
  "cover:buy": {
-  "q": "market fruit stall",
+  "q": "fruit market stall colorful",
   "alt": "Фруктовый прилавок"
  },
  "cover:part_num": {

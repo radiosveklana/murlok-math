@@ -18,10 +18,8 @@
   "src": "commons"
  },
  "fact_opinion:2": {
-  "type": "photo",
-  "q": "thinking statue",
-  "alt": "Я думаю…",
-  "src": "commons"
+  "type": "art",
+  "p": "A cartoon detective kitten holding two speech bubbles, one with a measuring ruler and numbers, one with a heart and a star"
  },
  "fact_opinion:3": {
   "type": "photo",
@@ -30,10 +28,8 @@
   "src": "commons"
  },
  "fact_opinion:4": {
-  "type": "photo",
-  "q": "fruit bowl",
-  "alt": "Смесь в миске",
-  "src": "commons"
+  "type": "art",
+  "p": "A cartoon raccoon next to a plate with three pies eaten, a detective kitten examining with a magnifying glass, funny"
  },
  "fact_opinion:5": {
   "type": "photo",
@@ -55,7 +51,7 @@
  },
  "cause_effect:1": {
   "type": "photo",
-  "q": "black cat",
+  "q": "black cat sitting",
   "alt": "Чёрная кошка",
   "src": "commons"
  },
@@ -72,10 +68,8 @@
   "src": "commons"
  },
  "cause_effect:4": {
-  "type": "photo",
-  "q": "baking cake",
-  "alt": "Торт в духовке",
-  "src": "commons"
+  "type": "art",
+  "p": "A collapsed cake on a kitchen table with clues around it: an empty sugar bowl, a clock, a cold oven, a detective kitten investigating"
  },
  "cause_effect:5": {
   "type": "photo",
@@ -156,10 +150,8 @@
   "src": "commons"
  },
  "traps:4": {
-  "type": "photo",
-  "q": "crown",
-  "alt": "Корона",
-  "src": "commons"
+  "type": "art",
+  "p": "A pompous cartoon lion with a crown arguing with a calm little hedgehog holding a book of facts"
  },
  "traps:5": {
   "type": "photo",
@@ -178,10 +170,8 @@
   "src": "commons"
  },
  "ads:1": {
-  "type": "photo",
-  "q": "lemonade glass",
-  "alt": "Лимонад",
-  "src": "commons"
+  "type": "art",
+  "p": "A cartoon lemonade stand with a huge sparkly sign of stars and exclamation shapes, a detective kitten raising an eyebrow"
  },
  "ads:2": {
   "type": "photo",
@@ -190,10 +180,8 @@
   "src": "commons"
  },
  "ads:3": {
-  "type": "photo",
-  "q": "football stadium",
-  "alt": "Стадион",
-  "src": "commons"
+  "type": "art",
+  "p": "A cartoon football star holding a soda can while a detective kitten looks skeptical"
  },
  "ads:4": {
   "type": "photo",
@@ -202,10 +190,8 @@
   "src": "commons"
  },
  "ads:5": {
-  "type": "photo",
-  "q": "mousetrap cheese",
-  "alt": "Сыр в мышеловке",
-  "src": "commons"
+  "type": "art",
+  "p": "A shiny free gift box with a hidden price tag peeking out, a detective kitten examining it with a magnifying glass"
  },
  "cover:news_fakes": {
   "type": "art",
@@ -218,22 +204,16 @@
   "src": "commons"
  },
  "news_fakes:1": {
-  "type": "photo",
-  "q": "detective hat",
-  "alt": "Шляпа детектива",
-  "src": "commons"
+  "type": "art",
+  "p": "A detective kitten reading a newspaper with three question mark bubbles floating above"
  },
  "news_fakes:2": {
-  "type": "photo",
-  "q": "megaphone",
-  "alt": "Громкий заголовок",
-  "src": "commons"
+  "type": "art",
+  "p": "A cartoon newspaper with a giant shouting headline made of exclamation marks, a calm detective kitten checking it"
  },
  "news_fakes:3": {
-  "type": "photo",
-  "q": "old photographs",
-  "alt": "Старые фотографии",
-  "src": "commons"
+  "type": "art",
+  "p": "A detective kitten comparing an old photo of a flood with a sunny window view, magnifying glass"
  },
  "news_fakes:4": {
   "type": "photo",
@@ -242,10 +222,8 @@
   "src": "commons"
  },
  "news_fakes:5": {
-  "type": "photo",
-  "q": "checklist pencil",
-  "alt": "Сначала проверь",
-  "src": "commons"
+  "type": "art",
+  "p": "A detective kitten checking a news story in three different books and a tablet before sharing"
  },
  "cover:logic": {
   "type": "photo",
@@ -267,21 +245,17 @@
  },
  "logic:2": {
   "type": "photo",
-  "q": "cat eating fish",
-  "alt": "Кот и рыба",
+  "q": "orange tabby cat",
+  "alt": "Рыжий кот",
   "src": "commons"
  },
  "logic:3": {
-  "type": "photo",
-  "q": "gears",
-  "alt": "Шестерёнки",
-  "src": "commons"
+  "type": "art",
+  "p": "Three cartoon steps showing a ginger kitten purring with little sound waves, connected by arrows, logical and cute"
  },
  "logic:4": {
-  "type": "photo",
-  "q": "fog landscape",
-  "alt": "Туман — не видно",
-  "src": "commons"
+  "type": "art",
+  "p": "A cake and a lollipop with a detective kitten shrugging and a question mark, candy shop"
  },
  "logic:5": {
   "type": "photo",
@@ -370,10 +344,8 @@
   "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat sitting at a tea table debating kindly with a squirrel, a white dove resting between them"
  },
  "kind_debate:0": {
-  "type": "photo",
-  "q": "handshake",
-  "alt": "Рукопожатие",
-  "src": "commons"
+  "type": "art",
+  "p": "Two friends debating calmly at a table with ideas drawn as light bulbs, then shaking hands, cheerful"
  },
  "kind_debate:1": {
   "type": "photo",
@@ -704,10 +676,8 @@
   "p": "three children holding a cat, a dog and a hamster in a row, question marks above who owns which pet"
  },
  "logic_grids:1": {
-  "type": "photo",
-  "q": "graph paper grid",
-  "alt": "Рисуем таблицу",
-  "src": "commons"
+  "type": "art",
+  "p": "a child drawing a neat grid on squared paper with a ruler and colored pencils, check marks and crosses"
  },
  "logic_grids:2": {
   "type": "art",

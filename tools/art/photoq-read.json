@@ -3,22 +3,13 @@
   "q": "open book",
   "alt": "Раскрытая книга"
  },
- "how:0": {
-  "q": "frog jumping",
-  "alt": "Прыжки лягушки"
- },
- "how:1": {
-  "q": "camera lens",
-  "alt": "Объектив"
- },
+ "how:0": null,
+ "how:1": null,
  "how:2": {
   "q": "library reading room",
   "alt": "Читальный зал"
  },
- "how:3": {
-  "q": "railway tracks",
-  "alt": "Только вперёд"
- },
+ "how:3": null,
  "how:4": {
   "q": "cheetah running",
   "alt": "Быстрый гепард"
@@ -39,25 +30,16 @@
   "q": "compass",
   "alt": "Компас"
  },
- "understand:3": {
-  "q": "film projector",
-  "alt": "Кинопроектор"
- },
+ "understand:3": null,
  "understand:4": {
   "q": "cat on book",
   "alt": "Котик и книга"
  },
- "cover:focus": {
-  "q": "reading lamp",
-  "alt": "Лампа для чтения"
- },
- "focus:0": {
-  "q": "television",
-  "alt": "Отвлекалка"
- },
+ "cover:focus": null,
+ "focus:0": null,
  "focus:1": {
-  "q": "desk lamp",
-  "alt": "Настольная лампа"
+  "q": "desk lamp book table",
+  "alt": "Настольная лампа и книга"
  },
  "focus:2": {
   "q": "window view",
@@ -67,10 +49,7 @@
   "q": "bookmark",
   "alt": "Закладка"
  },
- "focus:4": {
-  "q": "calendar",
-  "alt": "Каждый день"
- },
+ "focus:4": null,
  "how:5": {
   "q": "stopwatch",
   "alt": "Секундомер"
@@ -103,10 +82,7 @@
   "q": "dinosaur skeleton museum",
   "alt": "Скелет динозавра"
  },
- "techniques:0": {
-  "q": "library shelves",
-  "alt": "Полки библиотеки"
- },
+ "techniques:0": null,
  "techniques:7": {
   "q": "pencil on book",
   "alt": "Карандаш над строкой"

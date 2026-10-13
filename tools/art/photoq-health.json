@@ -47,10 +47,7 @@
   "q": "drinking water bottle sport",
   "alt": "Пьём после спорта"
  },
- "water:3": {
-  "q": "water jug",
-  "alt": "Кувшин воды"
- },
+ "water:3": null,
  "water:4": {
   "q": "glass of water",
   "alt": "Лучший напиток — вода"
@@ -115,18 +112,9 @@
   "q": "towels",
   "alt": "Свои полотенца"
  },
- "hygiene:6": {
-  "q": "paper tissues",
-  "alt": "Бумажные салфетки"
- },
- "cover:sport": {
-  "q": "children playing football",
-  "alt": "Дети играют в футбол"
- },
- "sport:0": {
-  "q": "children playing park",
-  "alt": "Игры на улице"
- },
+ "hygiene:6": null,
+ "cover:sport": null,
+ "sport:0": null,
  "sport:1": {
   "q": "running shoes",
   "alt": "Кроссовки"
@@ -147,10 +135,7 @@
   "q": "bicycle helmet",
   "alt": "Велошлем"
  },
- "sport:6": {
-  "q": "bicycle",
-  "alt": "Велосипед"
- },
+ "sport:6": null,
  "cover:sleep": {
   "q": "sleeping cat",
   "alt": "Спящий котик"
@@ -175,10 +160,7 @@
   "q": "bedroom",
   "alt": "Уютная спальня"
  },
- "sleep:5": {
-  "q": "glass of warm milk",
-  "alt": "Тёплое молоко"
- },
+ "sleep:5": null,
  "cover:screens": {
   "q": "tablet computer",
   "alt": "Планшет"
@@ -199,10 +181,7 @@
   "q": "school desk chair",
   "alt": "Парта и стул"
  },
- "screens:4": {
-  "q": "children playing outdoors",
-  "alt": "Перерыв на улице"
- },
+ "screens:4": null,
  "screens:5": {
   "q": "hourglass",
   "alt": "Песочные часы"
@@ -292,8 +271,8 @@
   "alt": "Часы"
  },
  "habits:5": {
-  "q": "park walk",
-  "alt": "Прогулка в парке"
+  "q": "sunny park path autumn trees",
+  "alt": "Дорожка в парке"
  },
  "habits:6": {
   "q": "sunshine",
@@ -308,8 +287,8 @@
   "alt": "Плов"
  },
  "plate:9": {
-  "q": "broccoli plate fork",
-  "alt": "Брокколи на тарелке"
+  "q": "broccoli carrots vegetables colorful",
+  "alt": "Брокколи и морковь"
  },
  "water:6": {
   "q": "sugar cubes glass",
@@ -347,16 +326,13 @@
   "q": "toothbrush toothpaste glass",
   "alt": "Зубная щётка"
  },
- "sport:9": {
-  "q": "children playing sports park",
-  "alt": "Спорт для всех"
- },
+ "sport:9": null,
  "sleep:6": {
   "q": "moon night window bedroom",
   "alt": "Ночь за окном"
  },
  "sleep:7": {
-  "q": "alarm clock bedside",
+  "q": "red alarm clock",
   "alt": "Будильник"
  },
  "screens:9": {

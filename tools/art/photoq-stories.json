@@ -15,10 +15,7 @@
   "q": "popsicle",
   "alt": "Мороженое на палочке"
  },
- "kids_heroes:4": {
-  "q": "earmuffs",
-  "alt": "Наушники от холода"
- },
+ "kids_heroes:4": null,
  "kids_heroes:5": {
   "q": "Ann Makosinski",
   "alt": "Энн Макосински"
@@ -87,10 +84,7 @@
   "q": "search and rescue volunteers forest",
   "alt": "Поисковики в лесу"
  },
- "kindness:5": {
-  "q": "James Harrison blood donor",
-  "alt": "Джеймс Харрисон"
- },
+ "kindness:5": null,
  "cover:growth_mindset": {
   "q": "mountain climber summit",
   "alt": "Восхождение на вершину"
@@ -99,10 +93,7 @@
   "q": "child doing homework",
   "alt": "Ученик за уроками"
  },
- "growth_mindset:1": {
-  "q": "child learning to ride bicycle",
-  "alt": "Учимся кататься"
- },
+ "growth_mindset:1": null,
  "growth_mindset:2": {
   "q": "neurons microscope",
   "alt": "Нейроны мозга"
@@ -111,10 +102,7 @@
   "q": "track cycling team",
   "alt": "Велогонщики на треке"
  },
- "growth_mindset:4": {
-  "q": "Dyson vacuum cleaner",
-  "alt": "Пылесос Дайсон"
- },
+ "growth_mindset:4": null,
  "growth_mindset:5": {
   "q": "Michael Phelps",
   "alt": "Майкл Фелпс"
@@ -402,5 +390,6 @@
  "young_inventors:6": {
   "q": "Igor Sikorsky helicopter",
   "alt": "Игорь Сикорский"
- }
+ },
+ "animal_heroes:3": null
 }

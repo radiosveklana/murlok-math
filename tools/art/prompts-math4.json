@@ -1,9 +1,7 @@
 {
  "cover:million_read": {
-  "type": "photo",
-  "q": "crowd stadium",
-  "alt": "Тысячи зрителей",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat standing next to a huge colorful abacus with beads in groups of three, a giant stack of coins"
  },
  "million_read:0": {
   "type": "none"
@@ -283,7 +281,7 @@
  },
  "cover:buy": {
   "type": "photo",
-  "q": "market fruit stall",
+  "q": "fruit market stall colorful",
   "alt": "Фруктовый прилавок",
   "src": "commons"
  },

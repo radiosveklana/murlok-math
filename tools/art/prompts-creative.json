@@ -1,14 +1,12 @@
 {
  "cover:what_creative": {
-  "type": "photo",
-  "q": "light bulb",
-  "alt": "Лампочка-идея",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat surrounded by four glowing icons: a lightning bolt, a rainbow, a star and a pencil"
  },
  "what_creative:0": {
   "type": "photo",
-  "q": "lego bricks",
-  "alt": "Кубики конструктора",
+  "q": "colorful lego bricks",
+  "alt": "Разноцветные детали конструктора",
   "src": "commons"
  },
  "what_creative:1": {
@@ -18,16 +16,12 @@
   "src": "commons"
  },
  "what_creative:2": {
-  "type": "photo",
-  "q": "fountain",
-  "alt": "Фонтан идей",
-  "src": "commons"
+  "type": "art",
+  "p": "A child happily drawing many different uses of a single red brick in a notebook, ideas bursting around"
  },
  "what_creative:3": {
-  "type": "photo",
-  "q": "swiss army knife",
-  "alt": "Многофункциональный нож",
-  "src": "commons"
+  "type": "art",
+  "p": "A brick turned into many things: a bookend, a doorstop, a step, a tiny house for a toy, colorful"
  },
  "what_creative:4": {
   "type": "photo",
@@ -36,10 +30,8 @@
   "src": "commons"
  },
  "what_creative:5": {
-  "type": "photo",
-  "q": "architect sketch",
-  "alt": "Чертёж",
-  "src": "commons"
+  "type": "art",
+  "p": "A detailed blueprint-style drawing of a flying school backpack with a propeller, made by a child, bright colors"
  },
  "what_creative:6": {
   "type": "photo",
@@ -48,22 +40,18 @@
   "src": "commons"
  },
  "cover:brainstorm": {
-  "type": "photo",
-  "q": "lightning",
-  "alt": "Молния",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat with a butterfly net catching glowing light bulb ideas"
  },
  "brainstorm:0": {
   "type": "photo",
-  "q": "sticky notes",
-  "alt": "Листочки с идеями",
+  "q": "colorful sticky notes wall",
+  "alt": "Разноцветные стикеры с идеями",
   "src": "commons"
  },
  "brainstorm:1": {
-  "type": "photo",
-  "q": "green traffic light",
-  "alt": "Зелёный свет",
-  "src": "commons"
+  "type": "art",
+  "p": "Kids sharing wild ideas while no one frowns, a big green check mark balloon above"
  },
  "brainstorm:2": {
   "type": "photo",
@@ -78,16 +66,12 @@
   "src": "commons"
  },
  "brainstorm:4": {
-  "type": "photo",
-  "q": "relay race",
-  "alt": "Эстафета",
-  "src": "commons"
+  "type": "art",
+  "p": "Kids passing a glowing idea ball from one to another, each adding a piece, playful"
  },
  "brainstorm:5": {
-  "type": "photo",
-  "q": "whiteboard",
-  "alt": "Доска для штурма",
-  "src": "commons"
+  "type": "art",
+  "p": "A team of kids with a big timer, writing ideas on colorful sticky notes on a board"
  },
  "cover:unusual_uses": {
   "type": "photo",
@@ -102,10 +86,8 @@
   "src": "commons"
  },
  "unusual_uses:1": {
-  "type": "photo",
-  "q": "spoon",
-  "alt": "Ложка",
-  "src": "commons"
+  "type": "art",
+  "p": "A spoon used as a catapult, a mirror and a shovel for a toy garden, a curious kitten watching"
  },
  "unusual_uses:2": {
   "type": "photo",
@@ -132,10 +114,8 @@
   "src": "commons"
  },
  "cover:what_if": {
-  "type": "photo",
-  "q": "pig",
-  "alt": "Если бы свиньи летали",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat floating among dreamy what-if scenes: a talking cat, a flying house, an upside-down tree"
  },
  "what_if:0": {
   "type": "photo",
@@ -144,10 +124,8 @@
   "src": "commons"
  },
  "what_if:1": {
-  "type": "photo",
-  "q": "floating island",
-  "alt": "Остров в облаках",
-  "src": "commons"
+  "type": "art",
+  "p": "A cartoon cat talking with a speech bubble to surprised children in a garden"
  },
  "what_if:2": {
   "type": "photo",
@@ -156,10 +134,8 @@
   "src": "commons"
  },
  "what_if:3": {
-  "type": "photo",
-  "q": "coin",
-  "alt": "Две стороны монеты",
-  "src": "commons"
+  "type": "art",
+  "p": "Invisible children playing hide and seek shown as floating clothes, one side happy, the other side confused, funny"
  },
  "what_if:4": {
   "type": "photo",
@@ -186,10 +162,8 @@
   "src": "commons"
  },
  "combine:1": {
-  "type": "photo",
-  "q": "armchair",
-  "alt": "Кресло",
-  "src": "commons"
+  "type": "art",
+  "p": "A funny chair combined with a cat: fluffy, purring, with cute ears, in a bright room"
  },
  "combine:2": {
   "type": "photo",
@@ -240,10 +214,8 @@
   "src": "commons"
  },
  "new_view:3": {
-  "type": "photo",
-  "q": "firefighter",
-  "alt": "Пожарный",
-  "src": "commons"
+  "type": "art",
+  "p": "One playground seen through the eyes of a baby, a grandma, a firefighter and a cook, four friendly panels"
  },
  "new_view:4": {
   "type": "photo",
@@ -252,28 +224,20 @@
   "src": "commons"
  },
  "new_view:5": {
-  "type": "photo",
-  "q": "petri dish",
-  "alt": "Чашка Петри",
-  "src": "commons"
+  "type": "art",
+  "p": "Colorful sticky notes on a wall and a happy cartoon scientist discovering a weak glue, playful"
  },
  "cover:inventor": {
-  "type": "photo",
-  "q": "workshop tools",
-  "alt": "Мастерская",
-  "src": "commons"
+  "type": "art",
+  "p": "A small fluffy ginger kitten detective in a tiny deerstalker hat in a bright workshop with gears, a light bulb and inventions"
  },
  "inventor:0": {
-  "type": "photo",
-  "q": "gears",
-  "alt": "Шестерёнки",
-  "src": "commons"
+  "type": "art",
+  "p": "A cartoon inventor with a big book of ideas surrounded by flying inventions, cheerful"
  },
  "inventor:1": {
-  "type": "photo",
-  "q": "target bullseye",
-  "alt": "Мишень",
-  "src": "commons"
+  "type": "art",
+  "p": "A garden watering itself with rain collected from the roof, plants smiling, sunny"
  },
  "inventor:2": {
   "type": "photo",
@@ -312,10 +276,8 @@
   "src": "commons"
  },
  "stories:0": {
-  "type": "photo",
-  "q": "open book",
-  "alt": "Раскрытая книга",
-  "src": "commons"
+  "type": "art",
+  "p": "A storybook path with five stepping stones: a cat hero, a goal, an obstacle, a helper, a happy ending"
  },
  "stories:1": {
   "type": "photo",
@@ -324,10 +286,8 @@
   "src": "commons"
  },
  "stories:2": {
-  "type": "photo",
-  "q": "mountain path",
-  "alt": "Трудная тропа",
-  "src": "commons"
+  "type": "art",
+  "p": "A ginger kitten trying to reach a milk bottle on a high shelf, a bandaged paw, funny obstacle"
  },
  "stories:3": {
   "type": "photo",
@@ -336,16 +296,12 @@
   "src": "commons"
  },
  "stories:4": {
-  "type": "photo",
-  "q": "roller coaster",
-  "alt": "Американские горки",
-  "src": "commons"
+  "type": "art",
+  "p": "A treasure chest opening to reveal an old map with a surprise twist, a kitten amazed"
  },
  "stories:5": {
-  "type": "photo",
-  "q": "frightened cat",
-  "alt": "Шерсть дыбом",
-  "src": "commons"
+  "type": "art",
+  "p": "A cartoon kitten frightened with fur standing on end and a fluffy tail like a brush, funny not scary"
  },
  "cover:team_life": {
   "type": "photo",
@@ -354,10 +310,8 @@
   "src": "commons"
  },
  "team_life:0": {
-  "type": "photo",
-  "q": "light bulb",
-  "alt": "Есть идея!",
-  "src": "commons"
+  "type": "art",
+  "p": "A child presenting an idea for a class newspaper to friends with a drawing on a board"
  },
  "team_life:1": {
   "type": "photo",
@@ -372,10 +326,8 @@
   "src": "commons"
  },
  "team_life:3": {
-  "type": "photo",
-  "q": "cardboard model",
-  "alt": "Макет из картона",
-  "src": "commons"
+  "type": "art",
+  "p": "Kids building a small cardboard model of a playground on a table, happy"
  },
  "team_life:4": {
   "type": "photo",
@@ -384,10 +336,8 @@
   "src": "commons"
  },
  "team_life:5": {
-  "type": "photo",
-  "q": "kitchen cooking",
-  "alt": "Кухня",
-  "src": "commons"
+  "type": "art",
+  "p": "A child inventing a new game with a younger brother using cardboard boxes at home"
  },
  "what_creative:7": {
   "type": "art",

@@ -129,16 +129,12 @@
   "src": "commons"
  },
  "hygiene:0": {
-  "type": "photo",
-  "q": "shower head",
-  "alt": "Душ",
-  "src": "commons"
+  "type": "art",
+  "p": "A cozy bathroom with a shower, a towel and a bottle of shower gel, clean and bright, no people"
  },
  "hygiene:1": {
-  "type": "photo",
-  "q": "deodorant stick",
-  "alt": "Дезодорант",
-  "src": "commons"
+  "type": "art",
+  "p": "A neat bathroom shelf with a deodorant stick, a towel and a toothbrush, morning light, no brands"
  },
  "hygiene:2": {
   "type": "photo",
@@ -165,10 +161,8 @@
   "src": "commons"
  },
  "hygiene:6": {
-  "type": "photo",
-  "q": "hair comb",
-  "alt": "Своя расчёска",
-  "src": "commons"
+  "type": "art",
+  "p": "Personal items each in its own colorful cup: a toothbrush, a comb, a towel, marked with different shapes"
  },
  "cover:emotions": {
   "type": "art",
@@ -193,10 +187,8 @@
   "src": "commons"
  },
  "emotions:3": {
-  "type": "photo",
-  "q": "rain on window",
-  "alt": "Дождь за окном",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager sitting by a window on a rainy day with a cup of tea and a book, soft cozy light"
  },
  "emotions:4": {
   "type": "photo",
@@ -205,10 +197,8 @@
   "src": "commons"
  },
  "emotions:5": {
-  "type": "photo",
-  "q": "reading nook",
-  "alt": "Уютный уголок",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager reading in a cozy corner of their room with headphones, door slightly closed, peaceful"
  },
  "emotions:6": {
   "type": "photo",
@@ -227,16 +217,12 @@
   "src": "commons"
  },
  "friendship:1": {
-  "type": "photo",
-  "q": "handshake",
-  "alt": "Рукопожатие",
-  "src": "commons"
+  "type": "art",
+  "p": "Two teenagers talking calmly on a bench after a quarrel, one apologizing, warm light"
  },
  "friendship:2": {
-  "type": "photo",
-  "q": "board game",
-  "alt": "Настольная игра",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager joining a friendly club of kids drawing together, welcoming smiles"
  },
  "friendship:3": {
   "type": "photo",
@@ -245,16 +231,12 @@
   "src": "commons"
  },
  "friendship:4": {
-  "type": "photo",
-  "q": "school corridor",
-  "alt": "Школьный коридор",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager telling a school counselor about bullying, the counselor listening kindly"
  },
  "friendship:5": {
-  "type": "photo",
-  "q": "two dogs playing",
-  "alt": "Два друга",
-  "src": "commons"
+  "type": "art",
+  "p": "Two friends laughing together walking home from school, supportive and happy"
  },
  "friendship:6": {
   "type": "art",
@@ -285,16 +267,12 @@
   "src": "commons"
  },
  "crush:3": {
-  "type": "photo",
-  "q": "greeting card",
-  "alt": "Открытка",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager writing a friendly note with a little heart, sitting by a window, gentle"
  },
  "crush:4": {
-  "type": "photo",
-  "q": "rain on window",
-  "alt": "Дождь за окном",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager feeling a bit sad, comforted by a friend with a hug, sunset light"
  },
  "crush:5": {
   "type": "photo",
@@ -315,22 +293,16 @@
   "src": "commons"
  },
  "confidence:0": {
-  "type": "photo",
-  "q": "mirror",
-  "alt": "Зеркало",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager smiling gently at their reflection in a mirror, warm room, kind atmosphere"
  },
  "confidence:1": {
-  "type": "photo",
-  "q": "smartphone",
-  "alt": "Смартфон",
-  "src": "commons"
+  "type": "art",
+  "p": "A phone showing a perfect photo with filters while behind it the real cozy messy room is visible, friendly"
  },
  "confidence:2": {
-  "type": "photo",
-  "q": "different trees",
-  "alt": "Все деревья разные",
-  "src": "commons"
+  "type": "art",
+  "p": "A diverse group of teenagers of different heights and body types laughing together in a park"
  },
  "confidence:3": {
   "type": "photo",
@@ -361,10 +333,8 @@
   "p": "a small fluffy ginger kitten detective in a tiny deerstalker hat standing inside a softly glowing circle on the grass, waving a friendly stop paw"
  },
  "boundaries:0": {
-  "type": "photo",
-  "q": "garden fence",
-  "alt": "Невидимая граница",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager standing within a soft glowing circle of personal space, friends respecting it with smiles"
  },
  "boundaries:1": {
   "type": "art",
@@ -389,10 +359,8 @@
   "p": "a fully clothed anime tween showing a smartphone to a caring parent at the kitchen table"
  },
  "boundaries:6": {
-  "type": "photo",
-  "q": "stop sign",
-  "alt": "Знак «Стоп»",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager raising a hand in a firm stop gesture and walking toward a trusted adult"
  },
  "boundaries:7": {
   "type": "photo",
@@ -429,16 +397,12 @@
   "src": "commons"
  },
  "online:4": {
-  "type": "photo",
-  "q": "laptop",
-  "alt": "Ноутбук",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager closing a laptop and talking to a parent, calm and supportive"
  },
  "online:5": {
-  "type": "photo",
-  "q": "park bench",
-  "alt": "Скамейка в парке",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager meeting an online friend in a cafe with a parent sitting nearby, safe and friendly"
  },
  "cover:is_it_normal": {
   "type": "art",
@@ -455,24 +419,20 @@
   "type": "none"
  },
  "is_it_normal:3": {
-  "type": "photo",
-  "q": "deodorant stick",
-  "alt": "Дезодорант",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager after sports wearing a cotton t-shirt, with a towel and a water bottle, bright gym"
  },
  "is_it_normal:4": {
   "type": "none"
  },
  "is_it_normal:5": {
-  "type": "photo",
-  "q": "tissues box",
-  "alt": "Салфетки",
-  "src": "commons"
+  "type": "art",
+  "p": "A teenager crying a little while a friend offers a tissue and a hug, gentle"
  },
  "is_it_normal:6": {
   "type": "photo",
-  "q": "foal",
-  "alt": "Жеребёнок",
+  "q": "newborn foal standing",
+  "alt": "Жеребёнок учится стоять",
   "src": "commons"
  },
  "is_it_normal:7": {
@@ -569,10 +529,8 @@
   "src": "commons"
  },
  "hygiene:10": {
-  "type": "photo",
-  "q": "folded t-shirt",
-  "alt": "Сменная футболка",
-  "src": "commons"
+  "type": "art",
+  "p": "a neatly folded clean t-shirt in an open school backpack, a small travel deodorant and wet wipes"
  },
  "emotions:7": {
   "type": "art",
@@ -673,10 +631,8 @@
   "p": "a fully clothed anime tween and her dad looking at a phone together, small shield and lock icons floating"
  },
  "online:9": {
-  "type": "photo",
-  "q": "phone on nightstand",
-  "alt": "Телефон на тумбочке",
-  "src": "commons"
+  "type": "art",
+  "p": "a smartphone lying face down on a nightstand beside a book and a lamp at bedtime"
  },
  "is_it_normal:12": {
   "type": "art",
@@ -787,10 +743,8 @@
   "p": "a fully clothed anime tween breathing calmly while a glowing square traces around her, peaceful pastel room"
  },
  "exam_stress:2": {
-  "type": "photo",
-  "q": "planner notebook",
-  "alt": "Ежедневник",
-  "src": "commons"
+  "type": "art",
+  "p": "an open planner notebook with colored sticky notes and pens, a small plan broken into steps"
  },
  "exam_stress:3": {
   "type": "art",
