@@ -118,7 +118,7 @@ export function makeAdmin({ DIR, SAVE_DIR, acc, send, mail, tg, tgLinks, TG_BOT 
       if (m[2] === 'resetpin') { ch.pinHash = null; acc.touch(); return json(res, 200, { ok: true }); }
       if (m[2] === 'restore') { const dd = String(d.day || ''), src = path.join(acc.SNAP, dd, ch.cloudCode + '.json'); if (!/^\d{4}-\d{2}-\d{2}$/.test(dd) || !fs.existsSync(src)) return json(res, 400, { error: 'day' }); fs.copyFileSync(path.join(SAVE_DIR, ch.cloudCode + '.json'), path.join(SAVE_DIR, ch.cloudCode + '.before-restore.json')); fs.copyFileSync(src, path.join(SAVE_DIR, ch.cloudCode + '.json')); (A.pending[ch.cloudCode] = A.pending[ch.cloudCode] || []).push({ type: 'restore', day: dd, at: Date.now() }); acc.touch(); return json(res, 200, { ok: true }); }
     }
-    // код входа от поддержки: если письмо не дошло, админ выдаёт взрослому одноразовый код (15 минут), тот вводит его в «У меня уже есть код»
+    // код входа от поддержки: если письмо не дошло, админ выдаёт взрослому одноразовый код (30 минут), тот вводит его в «У меня уже есть код». Вход по нему — с письмом взрослому и строкой в «Истории входов» (accounts.mjs)
     m = p.match(/^\/admin\/api\/family\/(F[A-Z0-9]{10})\/logincode$/);
     if (m && req.method === 'POST') { const f = A.families[m[1]]; if (!f) return json(res, 404, { error: 'nf' }); const d = await body(req), email = String(d.email || f.email).trim().toLowerCase();
       const ok = email === f.email || (f.parents || []).some(x => x.email === email); if (!ok) return json(res, 400, { error: 'email' });

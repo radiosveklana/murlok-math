@@ -39,12 +39,14 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes, members
   const byCode = () => { const m = new Map(); for (const c of Object.values(A.children)) m.set(c.cloudCode, c); return m; };
   const snapXp = (code, day) => { try { return JSON.parse(fs.readFileSync(path.join(SNAP, day, code + '.json'), 'utf8')).xp || 0; } catch { return null; } };
 
+  const DAY_XP = 6000, DAY_TASKS = 1500, DAY_ACAD = 600;
   /* ---------- метрики ребёнка за период ---------- */
   function metrics(ch, from, to, s = readSave(ch.cloudCode) || {}) {
-    const days = range(from, to), D = s.days || {}, daily = s.daily || {};
-    const tasks = days.reduce((t, d) => t + (+D[d] || 0), 0), acad = days.reduce((t, d) => t + (+(daily[d] || {}).a || 0), 0);
-    let xp = 0; if (Object.keys(daily).length) xp = days.reduce((t, d) => t + (+(daily[d] || {}).x || 0), 0);
-    else { const x0 = snapXp(ch.cloudCode, from); if (x0 != null) xp = Math.max(0, (s.xp || 0) - x0); } // старые версии приложения: по снимку на начало периода
+    // v35: числа из сохранения не принимаем на веру — не больше разумного за один день (так же режет и /save)
+    const days = range(from, to), D = s.days || {}, daily = s.daily || {}, cap = (v, m) => Math.max(0, Math.min(m, +v || 0));
+    const tasks = days.reduce((t, d) => t + cap(D[d], DAY_TASKS), 0), acad = days.reduce((t, d) => t + cap((daily[d] || {}).a, DAY_ACAD), 0);
+    let xp = 0; if (Object.keys(daily).length) xp = days.reduce((t, d) => t + cap((daily[d] || {}).x, DAY_XP), 0);
+    else { const x0 = snapXp(ch.cloudCode, from); if (x0 != null) xp = Math.min(Math.max(0, (s.xp || 0) - x0), DAY_XP * days.length); } // старые версии приложения: по снимку на начало периода
     let run = 0, streak10 = 0; days.forEach(d => { run = (+D[d] || 0) >= 10 ? run + 1 : 0; streak10 = Math.max(streak10, run); });
     const active = days.filter(d => (+D[d] || 0) > 0);
     return { tasks, acad, xp, streak10, active };
@@ -75,6 +77,8 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes, members
   /* ---------- вызовы ---------- */
   const DUEL_EXP = 7 * 864e5;
   const cleanNum = (v, max, dec = 0) => { const x = Math.max(0, Math.min(max, +v || 0)); return dec ? Math.round(x * 10 ** dec) / 10 ** dec : Math.round(x); };
+  // нижние границы «по-человечески возможного»: Шульте 4×4 — не быстрее 2 с, 5×5 — 3,5 с; лапки — до 150 верных за минуту; блиц — 10 вопросов, не быстрее 5 с
+  const plausible = (game, r) => game === 'schulte4' ? r.time >= 2 : game === 'schulte5' ? r.time >= 3.5 : game === 'paws' ? r.score <= 150 : game === 'topic' ? r.score <= 10 && r.time >= 5 : false;
   function better(d, a, b) { // 1 — a лучше, -1 — b лучше, 0 — ничья
     if (DUEL_GAMES[d.game].lower) { const x = a.time + a.errs, y = b.time + b.errs; return x < y ? 1 : x > y ? -1 : 0; }
     if (a.score !== b.score) return a.score > b.score ? 1 : -1;
@@ -142,7 +146,9 @@ export function makeSocial({ A, touch, readSave, rnd, SNAP, friendCodes, members
       if (m[2] === 'result') {
         if (du.r[ch.id]) return bad(400, 'played'); if (du.exp < now()) return bad(400, 'expired');
         if (du.to === ch.id && !du.r[du.from]) return bad(400, 'early');
-        du.r[ch.id] = { score: cleanNum(d.score, 500), time: cleanNum(d.time, 3600, 1), errs: cleanNum(d.errs, 999), at: now() };
+        const res0 = { score: cleanNum(d.score, 500), time: cleanNum(d.time, 3600, 1), errs: cleanNum(d.errs, 999), at: now() };
+        if (!plausible(du.game, res0)) return bad(400, 'bad'); // результат, которого человек не может показать, не засчитываем
+        du.r[ch.id] = res0;
         const other = du.from === ch.id ? du.to : du.from;
         if (du.r[other]) { const w = better(du, du.r[ch.id], du.r[other]); du.done = true; du.doneAt = now(); du.winner = w > 0 ? ch.id : w < 0 ? other : null; }
         touch(); return ok({ duel: duelView(du, ch.id) });

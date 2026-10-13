@@ -4,7 +4,7 @@
 // Письма с кодами пишутся в файл (MAIL_LOG), клиент ходит в локальный API через localStorage 'murlok-api-base' (работает только на localhost).
 const puppeteer = require('puppeteer-core');
 const { spawn } = require('child_process'), fs = require('fs'), os = require('os'), path = require('path'), crypto = require('crypto');
-const ROOT = path.resolve(__dirname, '../..'), API_PORT = 3916, WEB_PORT = 8766;
+const ROOT = path.resolve(__dirname, '../..'), API_PORT = +process.env.API_PORT || 3916, WEB_PORT = +process.env.WEB_PORT || 8766; // порты можно переопределить, если заняты
 const API = `http://127.0.0.1:${API_PORT}`, WEB = `http://localhost:${WEB_PORT}`, APP = WEB + '/app/';
 const DATA = fs.mkdtempSync(path.join(os.tmpdir(), 'mjourney-')), MAIL = path.join(DATA, 'mail.log');
 const ONLY = process.argv[2] || ''; // можно запустить часть: node journey.js duels
@@ -62,11 +62,14 @@ async function adultLogin(U, email, { consent = true, invited = false } = {}) {
   await U.waitScreen('pauth'); await U.type('#aem', email); await U.click('#asend');
   await U.p.waitForSelector('#acode', { visible: true, timeout: 8000 }); await sleep(300);
   const code = lastCode(email); if (!code) throw new Error('нет письма для ' + email);
-  if (invited) ok(U.name + ': invitation text on login', await U.has(/Вас пригласил/));
+  if (invited) ok(U.name + ': invitation text on login', await U.has(/Приглашение в семейный кабинет/));
   await U.type('#acode', code);
   if (await U.E(() => !document.querySelector('#acons').hidden)) { if (consent) { await U.E(() => { document.querySelector('#ac1').checked = true; document.querySelector('#ac2') && (document.querySelector('#ac2').checked = true); }); } }
   await U.click('#averify'); await sleep(1500);
 }
+// взрослый подтверждает вход ребёнка без ПИН (то же, что кнопка «Разрешить вход» в кабинете)
+async function approveKid(tok, name) { for (let i = 0; i < 30; i++) { const f = await apiJ('/acc/family', null, tok); const q = ((f.body.family || {}).loginReqs || []).find(x => x.name === name); if (q) return (await apiJ('/acc/fam/loginreq', { id: q.id, ok: true }, tok)).status === 200; await sleep(300); } return false; }
+const openAll = U => U.E(() => document.querySelectorAll('#app details').forEach(d => { d.open = true; })); // все блоки кабинета раскрыты
 async function setPin(U, pin = '2580') { if (await U.screen() !== 'pinset') return false; await U.type('#pin1', pin); await U.type('#pin2', pin); await U.click('#pinok'); await sleep(800); return true; }
 async function passGate(U, pin = '2580') { if (await U.screen() !== 'agate') return; await U.type('#pinin', pin); await U.click('#pingo'); await sleep(800); }
 async function newPlayer(U, kid, cat) { await U.p.goto(APP); await U.p.waitForSelector('#kid', { visible: true }); await U.type('#kid', kid); await U.type('#nm', cat); await U.click('#start'); await U.waitScreen('home'); await sleep(800); await U.close(); }
@@ -79,7 +82,7 @@ async function playPaws(U, count, wrong = 0) {
   }
   await U.E(() => { const d0 = Date.now.bind(Date); window.__d0 = d0; Date.now = () => d0() + 61000; }); await sleep(900); await U.E(() => { if (window.__d0) Date.now = window.__d0; });
 }
-async function playSchulte(U) { const N = await U.E(() => document.querySelectorAll('.schulte .sc').length); for (let v = 1; v <= N; v++) await U.E(v => document.querySelector(`.schulte .sc[data-v="${v}"]`).click(), v); await sleep(900); }
+async function playSchulte(U) { const N = await U.E(() => document.querySelectorAll('.schulte .sc').length); for (let v = 1; v <= N; v++) { await U.E(v => document.querySelector(`.schulte .sc[data-v="${v}"]`).click(), v); await sleep(160); } await sleep(900); } // не быстрее человека: сервер не принимает невозможное время
 async function playTopic(U) { for (let k = 0; k < 80; k++) { if (await U.E(() => !document.querySelector('#dq'))) break; await U.E(() => { const dq = document.querySelector('#dq'); const okk = dq.querySelector('.k[data-k="ok"]'); if (okk) { dq.querySelector('.k[data-k="1"]').click(); okk.click(); return; } const o = dq.querySelector('.opt:not(.right):not(.wrong)'); if (o) { o.click(); return; } const ords = [...dq.querySelectorAll('.ord:not([disabled])')]; if (ords.length) { ords.forEach(x => x.click()); return; } const any = [...dq.querySelectorAll('button')].find(x => !x.disabled && !x.classList.contains('on')); if (any) any.click(); }); await sleep(700); } await sleep(1500); }
 
 async function journey() {
@@ -88,7 +91,7 @@ async function journey() {
   const K = await person('kid-tablet', { width: 800, height: 1180 }); ctx.K = K;
   await K.p.goto(WEB + '/'); await sleep(800);
   ok('site: landing opens (no auto-redirect for a new visitor)', /\/$/.test(K.p.url()) && await K.has(/Мурлок/));
-  await K.clickText('a.btn', /Играть/); await sleep(1500);
+  await K.clickText('a.btn', /Играть/); await K.p.waitForFunction(() => /\/app\/$/.test(location.pathname) && typeof curScreen !== 'undefined' && !!curScreen, { timeout: 12000 }).catch(() => { }); await sleep(500);
   ok('site «Играть» → app hello', /\/app\/$/.test(K.p.url()) && await K.screen() === 'hello', K.p.url());
   await K.p.goto(APP + '?choose=1'); await sleep(1200);
   ok('hello: three roads (adult, family code, just play)', await K.E(() => [...document.querySelectorAll('.hl-roads .road')].map(b => b.id).join() === 'aparent,achild,atry'));
@@ -101,8 +104,8 @@ async function journey() {
   ok('unlinked kid: nudge «Позвать взрослого»', await K.has(/Позвать взрослого/));
   await K.go('board'); ok('unlinked kid: board explains the family way', await K.has(/Вместе со взрослым/));
   await K.go('friends'); ok('unlinked kid: friends explains the family way', await K.has(/вместе со взрослым/i));
-  await K.go('home'); await sleep(500); await K.click('#nudgeGo');
-  ok('nudge → adult login', await K.screen() === 'pauth');
+  await K.go('home'); await sleep(500); await K.E(() => document.querySelector('#nudgeGo').click()); // кнопку может перекрывать котик-маскот — нажимаем напрямую
+  ok('nudge → adult login', await K.waitScreen('pauth', 4000), await K.screen() + ' ' + (await K.E(() => !!document.querySelector('#nudgeGo'))));
   /* ===== 3. Мама регистрируется прямо на планшете ребёнка: игра привязывается сама ===== */
   await adultLogin(K, 'mama@test.ru');
   ok('mama registered (consent) on kid tablet → PIN for adult section', await setPin(K, '2580'), await K.screen());
@@ -111,6 +114,11 @@ async function journey() {
   ok('cabinet opens after PIN', await K.waitScreen('pcab') && await K.waitText(/Семейный код/));
   ctx.famCode = await K.E(() => (document.querySelector('.ccode') || {}).textContent);
   ok('family code shown', /^[A-Z0-9]{6}$/.test(ctx.famCode || ''), ctx.famCode);
+  ctx.mamaTok = await K.E(() => Accounts.parent().token); // сессия мамы на планшете (остаётся за замком)
+  ok('cabinet: «Дети» go first, sections are collapsible', await K.E(() => { const s = [...document.querySelectorAll('.cab-sec')].map(d => d.id); return s[0] === 'sec-kids' && s.indexOf('sec-fam') > 0 && document.querySelector('#sec-kids').open; }));
+  ok('cabinet: no game currency in the header', await K.E(() => [...document.querySelectorAll('header.top .pill')].every(p => getComputedStyle(p).display === 'none')));
+  await K.E(() => { document.querySelector('#sec-tg').open = true; }); ok('cabinet: Telegram «send now / disconnect» hidden while not connected', await K.waitText(/Пока не подключено/, 6000) && await K.E(() => !document.querySelector('#tgnow').offsetParent && !document.querySelector('#tgoff').offsetParent && !!document.querySelector('#tglink').offsetParent));
+  ok('cabinet: no referral link on the kid card', await K.E(() => !/Ссылка ребёнка для друзей/.test(document.body.innerText)));
   await K.push(); await sleep(500);
   const vas = Object.values(accounts().children).find(c => c.name === 'Василиса'); ctx.vas = vas;
   ok('kid progress is in the cloud after linking', (saveOf(vas.cloudCode) || {}).xp >= 6);
@@ -118,20 +126,30 @@ async function journey() {
   const K2 = await person('kid-phone', { width: 360, height: 740 }); ctx.K2 = K2;
   await K2.p.goto(APP + '?choose=1'); await sleep(1000); await K2.click('#achild');
   await K2.type('#fcode', ctx.famCode.toLowerCase()); await K2.click('#fgo');
-  await K2.clickText('.prof', /Василиса/); await K2.click('#cgo'); await sleep(3000);
+  await K2.clickText('.prof', /Василиса/);
+  // v35: у Василисы нет картинки-ПИН и она заведена уже после обновления — одного семейного кода мало, вход подтверждает мама
+  ok('kid phone: child without PIN is asked to call an adult', await K2.has(/позови взрослого/i));
+  await K2.click('#cgo'); ok('kid phone: waits for the adult', await K2.waitText(/Ждём взрослого/));
+  ok('kid phone: approve via cabinet', await approveKid(ctx.mamaTok, 'Василиса'));
+  await K2.p.waitForFunction(() => typeof S !== 'undefined' && S.kid === 'Василиса' && S.xp > 0, { timeout: 15000 }).catch(() => { }); await sleep(1500);
   ok('kid phone: login by family code loads the same progress', await K2.S('kid') === 'Василиса' && (await K2.S('xp')) === (await K.S('xp')) && await K2.E(() => Accounts.linked()), `${await K2.S('xp')} vs ${await K.S('xp')}`);
   await K2.close();
   /* ===== 5. Мама на своём телефоне: вход, приглашение папы, «Играть самому» ===== */
   const M = await person('mama-phone'); ctx.M = M;
   await M.p.goto(APP + '?choose=1'); await sleep(1000); await M.click('#aparent');
   await adultLogin(M, 'mama@test.ru');
+  ok('mama phone without own game: device PIN is offered right after login', await setPin(M, '2580'), await M.screen());
   ok('mama phone: existing account → cabinet (no consent again)', await M.waitScreen('pcab') && await M.waitText(/Василиса/));
+  ctx.mamaTok = await M.E(() => Accounts.parent().token);
   await M.E(() => document.querySelectorAll('#app details').forEach(d => { d.open = true; }));
   await M.type('#iemail', 'papa@test.ru'); await M.click('#irole .chip[data-r="Второй родитель"]'); await M.click('#iadd'); await sleep(1200);
-  ok('invite sent to papa by email', mails().some(m => m.to === 'papa@test.ru' && /Приглашение/.test(m.subject)));
+  const inv = mails().filter(m => m.to === 'papa@test.ru' && /Приглашение/.test(m.subject)).pop();
+  ok('invite sent to papa by email', !!inv);
+  ok('invite e-mail: greeting without the role, direct «accept» link', /^Здравствуйте!/.test(inv.text) && /\/app\/#join=papa%40test\.ru/.test(inv.text));
   const F = await person('papa-phone'); ctx.F = F;
-  await F.p.goto(APP + '?choose=1'); await sleep(1000); await F.click('#aparent');
-  await adultLogin(F, 'papa@test.ru', { invited: true });
+  await F.p.goto(APP + '#join=papa%40test.ru'); await sleep(1500); // ссылка из письма открывает вход взрослого с этой почтой
+  ok('invite link opens adult login with the e-mail filled in', await F.waitScreen('pauth') && await F.E(() => document.querySelector('#aem').value === 'papa@test.ru'));
+  await adultLogin(F, 'papa@test.ru', { invited: true }); await setPin(F, '1470');
   ok('papa joins the same family and sees the kid', await F.waitScreen('pcab') && await F.waitText(/Василиса/) && await F.has(new RegExp(ctx.famCode)));
   await M.go('pcab'); await M.waitText(/Играть самому/);
   await M.click('#gp-go'); await sleep(3500);
@@ -184,30 +202,31 @@ async function journey() {
   ok('mama on home: «Итог вызова» pops up with both results, reward given', got && await M.E(() => document.querySelectorAll('.modal .fm-score > div').length === 2) && await until(() => Object.values(accounts().duels).filter(d => d.game === 'topic').every(d => d.claimed && Object.keys(d.claimed).length >= 1)));
   await M.close();
   /* ===== 10. Кабинет: взрослый видит последние вызовы ===== */
-  await F.go('pcab'); await F.waitText(/Последние вызовы/, 10000);
+  await F.go('pcab'); await F.waitScreen('pcab'); await F.waitText(/Ваша семья|Семья «/); await openAll(F); await F.waitText(/Последние вызовы/, 10000);
   ok('papa cabinet: recent duels with names and results', await F.E(() => { const t = (document.querySelector('.fm-recent') || {}).innerText || ''; return /Мама/.test(t) && /Василиса/.test(t) && /9 верных/.test(t) && /4 верных/.test(t); }), await F.E(() => ((document.querySelector('.fm-recent') || {}).innerText || '').slice(0, 200)));
   /* ===== 11. Два устройства одного ребёнка: отставшее не затирает прогресс ===== */
   const xpTab = await K.S('xp'); await K.push();
   ok('tablet progress (with duels) is in the cloud', (saveOf(ctx.vas.cloudCode) || {}).xp === xpTab, `${(saveOf(ctx.vas.cloudCode) || {}).xp} vs ${xpTab}`);
-  await K2.E(() => { award(0, 1); cloudDirty = true; cloudPush(); }); await sleep(1500);
+  await K2.close(); await K2.E(() => { award(0, 1); cloudDirty = true; cloudPush(); }); await sleep(1500); await K2.E(() => document.querySelectorAll('.modal').forEach(m => { if (!m.querySelector('#csYes')) m.remove(); })); // окно «Подарок за вход» не должно заслонять вопрос
   ok('stale phone does not overwrite tablet progress', (saveOf(ctx.vas.cloudCode) || {}).xp === xpTab);
-  ok('stale phone asks to continue from the fresher progress', await K2.waitText(/На другом устройстве ты ушла дальше/, 5000));
+  ok('stale phone asks to continue from the fresher progress', await K2.waitText(/На другом устройстве ты ушла дальше/, 5000), await K2.E(() => JSON.stringify({ scr: curScreen, modals: [...document.querySelectorAll('.modal')].map(m => m.innerText.slice(0, 60)), xp: S.xp, at: S.cloudAt, linked: Accounts.linked() })) + ' srv=' + JSON.stringify({ xp: (saveOf(ctx.vas.cloudCode) || {}).xp, at: (saveOf(ctx.vas.cloudCode) || {}).savedAt }));
   await K2.click('#csYes'); await sleep(2500);
   ok('phone continues from tablet progress', (await K2.S('xp')) === xpTab, `${await K2.S('xp')} vs ${xpTab}`);
   /* ===== 12. Один планшет на двоих: мама играет на планшете ребёнка, переключение через замок ===== */
   await K.close(); await K.E(() => openSettings()); await sleep(400); await K.click('#set-adult'); await passGate(K);
   ok('adult section from kid profile asks PIN, then opens', await K.waitScreen('parents'));
-  await K.go('pcab'); await passGate(K); await K.waitText(/Играть самому/); await K.click('#gp-go'); await sleep(4000);
+  await K.go('pcab'); await passGate(K); if (await K.waitScreen('pauth', 3000)) await adultLogin(K, 'mama@test.ru'); // на случай, если сессии нет
+  await K.waitScreen('pcab'); await K.waitText(/Ваша семья|Семья «/); await openAll(K); await K.waitText(/Играть самому/); await K.click('#gp-go'); await sleep(2000); await K.p.waitForFunction(() => typeof S !== 'undefined' && S.role === 'adult' && typeof Extras !== 'undefined', { timeout: 15000 }).catch(() => { }); await sleep(800);
   ok('mama plays on the kid tablet: her cloud progress loaded', await K.S('role') === 'adult' && await K.S('kid') === 'Мама' && (await K.S('xp')) >= 12, JSON.stringify([await K.S('kid'), await K.S('xp')]));
-  await K.close(); await K.E(() => Extras.openProfiles()); await sleep(400);
+  await K.p.waitForFunction(() => typeof Extras !== 'undefined' && document.querySelector('#app header, #app .page'), { timeout: 15000 }).catch(() => { }); await K.close(); await K.E(() => Extras.openProfiles()); await sleep(400);
   ok('«Кто играет?»: only family players (Mama, Vasilisa)', await K.E(() => [...document.querySelectorAll('.modal .prof b')].map(b => b.innerText).sort().join() === 'Василиса,Мама'));
   await K.clickText('.modal .prof', /Василиса/); await sleep(3500);
   ok('adult switches back to the kid without PIN', await K.S('kid') === 'Василиса' && await K.S('role') !== 'adult');
-  await K.close(); await K.E(() => Extras.openProfiles()); await sleep(400); await K.clickText('.modal .prof', /Мама/); await sleep(800);
+  await K.p.waitForFunction(() => typeof Extras !== 'undefined' && document.querySelector('#app header, #app .page'), { timeout: 15000 }).catch(() => { }); await K.close(); await K.E(() => Extras.openProfiles()); await sleep(400); await K.clickText('.modal .prof', /Мама/); await sleep(800);
   ok('kid → adult profile goes through the lock', await K.screen() === 'agate');
   await passGate(K); await sleep(3500);
   ok('after PIN — mama profile', await K.S('kid') === 'Мама');
-  await K.close(); await K.E(() => Extras.openProfiles()); await sleep(300); await K.clickText('.modal .prof', /Василиса/); await sleep(3500); await K.close();
+  await K.p.waitForFunction(() => typeof Extras !== 'undefined' && document.querySelector('#app header, #app .page'), { timeout: 15000 }).catch(() => { }); await K.close(); await K.E(() => Extras.openProfiles()); await sleep(300); await K.clickText('.modal .prof', /Василиса/); await sleep(3500); await K.close();
   ok('back to Vasilisa for the rest of the journey', await K.S('kid') === 'Василиса');
   /* ===== 13. Второй ребёнок: папа заводит Петю с картинкой-ПИНом, Петя переносит игру с планшета ===== */
   await F.go('pcab'); await F.waitText(/Добавить ребёнка/); await F.E(() => document.querySelectorAll('#app details').forEach(d => { d.open = true; }));
@@ -228,7 +247,7 @@ async function journey() {
   await F.go('pcab'); await F.E(() => document.querySelectorAll('#app details').forEach(d => { d.open = true; })); await F.type('#kname', 'Соня'); for (const i of [1, 2, 3]) await F.E(i => document.querySelector(`#pk1 .pp[data-i="${i}"]`).click(), i); await F.click('#kadd'); await sleep(1000);
   const So = await person('sonya-phone', { width: 390, height: 844 });
   await newPlayer(So, 'Соня', 'Снежок'); await So.go('blitz'); await So.click('#go'); await sleep(300); await playPaws(So, 3); await So.go('home'); await sleep(500);
-  await So.click('#nudgeGo'); await adultLogin(So, 'mama@test.ru'); await setPin(So, '2580'); await sleep(2500);
+  await So.p.waitForSelector('#nudgeGo'); await So.E(() => document.querySelector('#nudgeGo').click()); await sleep(400); await adultLogin(So, 'papa@test.ru'); await setPin(So, '2580'); // на устройстве Сони входит папа (почта мамы бережёт лимит писем с кодом) await sleep(2500);
   const sonyas = Object.values(accounts().children).filter(c => c.name === 'Соня');
   ok('Sonya: device game attached to the empty child (no duplicate)', sonyas.length === 1 && sonyas[0].cloudCode === await So.E(() => S.cloudCode) && await So.E(() => Accounts.linked()), JSON.stringify(sonyas.map(c => c.cloudCode)));
   /* ===== 15. Друзья: семья — автоматически; другая семья — по кодам и с разрешения взрослых обеих семей ===== */
@@ -236,7 +255,7 @@ async function journey() {
   ok('kid friends: family members are friends automatically (Petya, Mama)', await K.E(() => { const t = document.querySelector('.fr-list').innerText; return /Петя/.test(t) && /Мама/.test(t) && /семья/.test(t); }));
   const vasPub = await K.E(() => document.querySelector('.fr-me .ccode').textContent.trim());
   const L = await person('liza-tablet', { width: 800, height: 1180 }); ctx.L = L;
-  await newPlayer(L, 'Лиза', 'Пушок'); await L.click('#nudgeGo'); await adultLogin(L, 'liza-mama@test.ru'); await setPin(L, '1397'); await sleep(2500);
+  await newPlayer(L, 'Лиза', 'Пушок'); await L.p.waitForSelector('#nudgeGo'); await L.E(() => document.querySelector('#nudgeGo').click()); await sleep(400); await adultLogin(L, 'liza-mama@test.ru'); await setPin(L, '1397'); await sleep(2500);
   ok('another family registers on Liza tablet', await L.E(() => Accounts.linked()));
   await L.go('friends'); await L.waitText(/Мой код друга/); const lizaPub = await L.E(() => document.querySelector('.fr-me .ccode').textContent.trim());
   await L.type('#frc', vasPub); await L.click('#fradd'); await sleep(800);
@@ -244,8 +263,8 @@ async function journey() {
   ok('kid sees «wants to be friends» from Liza', await K.has(/Хотят дружить/) && await K.has(/Лиза/));
   await K.click('[data-acc]'); await sleep(800);
   ok('codes matched → waiting for adults of both families', await K.waitText(/Ждём разрешения взрослых/));
-  await F.go('pcab'); await F.waitText(/Хочет дружить/, 10000); await F.click('[data-fok]'); await sleep(800);
-  await L.go('pcab'); await passGate(L, '1397'); await L.waitText(/Хочет дружить/, 10000); await L.click('[data-fok]'); await sleep(800);
+  await F.go('pcab'); await F.waitScreen('pcab'); await openAll(F); await F.waitText(/Хочет дружить/, 10000); await F.click('[data-fok]'); await sleep(800);
+  await L.go('pcab'); await passGate(L, '1397'); if (await L.waitScreen('pauth', 3000)) await adultLogin(L, 'liza-mama@test.ru'); await L.waitScreen('pcab'); await sleep(800); await openAll(L); await L.waitText(/Хочет дружить/, 10000); await L.click('[data-fok]'); await sleep(800);
   await K.go('friends'); await K.waitText(/Мои друзья/);
   ok('after both approvals — Vasilisa and Liza are friends', await K.E(() => /Лиза/.test(document.querySelector('.fr-list').innerText)));
   await K.go('board'); await K.waitText(/опыта/); await K.click('.fm-scope button[data-s="friends"]'); await sleep(800);
@@ -274,12 +293,13 @@ async function journey() {
   await M.go('chal'); await M.waitText(/500 задач семьёй/);
   ok('adult player sees the family challenge, reward is for kids', await M.has(/награду за семейный челлендж получают дети/));
   /* ===== 17. Взрослый в своём профиле открывает раздел для взрослых (ПИНа на телефоне ещё нет) ===== */
-  await M.close(); await M.E(() => openSettings()); await sleep(400); await M.click('#set-adult');
-  ok('adult profile without PIN: lock offers a code by email', await M.screen() === 'agate' && await M.has(/Получить код на почту/));
-  await M.click('#gmail'); await adultLogin(M, 'mama@test.ru'); ok('then sets a PIN', await setPin(M, '4682')); await sleep(800);
+  await M.p.waitForFunction(() => typeof openSettings === 'function' && typeof S !== 'undefined', { timeout: 15000 }).catch(() => { }); await M.close(); await M.E(() => openSettings()); await sleep(400); if (!(await M.E(() => !!document.querySelector('.modal #set-adult')))) { await M.close(); await M.E(() => openSettings()); await sleep(800); } await M.click('#set-adult');
+  // v35: ПИН устройства мама поставила сразу после первого входа (без своей игры) — он перешёл и в её игровой профиль
+  ok('adult profile: lock asks the device PIN set at first login (no e-mail every time)', await M.screen() === 'agate' && await M.E(() => !!document.querySelector('#pinin')));
+  await passGate(M, '2580'); await sleep(800);
   ok('and lands in the adult section', await M.waitScreen('parents'));
   /* ===== 18. Время игры: норма, предупреждение, «Пора отдохнуть», +15 минут через замок ===== */
-  await M.go('pcab'); await passGate(M, '4682'); await M.waitText(/Время игры/);
+  await M.go('pcab'); await passGate(M, '2580'); await M.waitText(/Время игры/);
   await M.E(id => { const box = document.querySelector(`.lim-kid[data-k="${id}"]`); box.querySelector('.lim-daily .chip[data-d="15"]').click(); box.querySelector('.lim-save').click(); }, ctx.vasId); await sleep(1200);
   ok('limit saved on the server', await until(() => (accounts().children[ctx.vasId].limits || {}).daily === 15));
   await K.reload(); await sleep(1500); await K.close();
@@ -295,19 +315,27 @@ async function journey() {
   ok('wrong adult PIN rejected', await K.has(/Неверный ПИН/));
   await passGate(K); await sleep(800);
   ok('after PIN: +15 minutes, back to the game', await K.screen() === 'home' && (await K.E(() => Limits.state())) === null);
-  await M.go('pcab'); await passGate(M, '4682'); await M.waitText(/Время игры/); await M.E(id => { const box = document.querySelector(`.lim-kid[data-k="${id}"]`); box.querySelector('.lim-daily .chip[data-d="0"]').click(); box.querySelector('.lim-save').click(); }, ctx.vasId); await sleep(800);
+  await M.go('pcab'); await passGate(M, '2580'); await M.waitText(/Время игры/); await M.E(id => { const box = document.querySelector(`.lim-kid[data-k="${id}"]`); box.querySelector('.lim-daily .chip[data-d="0"]').click(); box.querySelector('.lim-save').click(); }, ctx.vasId); await sleep(800);
   /* ===== 19. Раздел для взрослых: вкладки, Telegram без токена бота ===== */
   await K.close(); await K.E(() => openSettings()); await sleep(300); await K.click('#set-adult'); await passGate(K); await K.waitScreen('parents');
   for (const t of ['sum', 'prog', 'acc']) { await K.click(`.ptabs button[data-tab="${t}"]`); await sleep(300); }
   ok('parents section: three tabs work, family report inside', await K.E(() => document.querySelectorAll('.ptabs button').length === 3 && !!document.querySelector('#fmrep')));
-  await K.go('pcab'); await passGate(K); await K.waitText(/Отчёт в Telegram/); await K.waitText(/Пока не подключено|Подключено/, 6000);
+  // v35: на планшете ребёнка сессия взрослого остаётся, но за замком: в кабинет — по ПИН устройства, без нового письма; в ⚙️ ребёнка нет взрослых пунктов
+  await K.go('home'); await K.close(); await K.E(() => openSettings()); await sleep(300);
+  ok('kid settings: no «log out adult» row and no adult e-mail', await K.E(() => !document.querySelector('.modal #set-pout') && !/mama@test.ru/.test(document.querySelector('.modal').innerText)));
+  await K.close(); const mails0 = mails().filter(m => m.to === 'mama@test.ru').length; await K.go('pcab');
+  ok('kid tablet: cabinet is locked (PIN asked)', await K.screen() === 'agate' && await K.E(() => !!document.querySelector('#pinin')));
+  await passGate(K); ok('kid tablet: adult PIN opens the cabinet, no new e-mail', await K.waitScreen('pcab') && mails().filter(m => m.to === 'mama@test.ru').length === mails0);
+  await K.E(() => document.querySelectorAll('#app details').forEach(d => { d.open = true; }));
+  await K.waitText(/Отчёт в Telegram/); await K.waitText(/Пока не подключено|Подключено/, 6000);
   await K.E(() => { window.open = () => ({ location: '', close() { } }); }); await K.click('#tglink'); await sleep(800);
   ok('Telegram card without bot token: graceful, no crash', await K.screen() === 'pcab' && !(await K.has(/Не получилось — попробуйте/)));
   /* ===== 20. Выход ребёнка и вход снова — без потерь ===== */
   const xpBefore = await K2.S('xp');
-  await K2.close(); await K2.E(() => openSettings()); await sleep(300); await K2.click('#set-exit'); await K2.click('#cout'); await sleep(2500);
+  await K2.close(); await K2.E(() => openSettings()); await sleep(300); await K2.click('#set-exit'); await K2.click('#cout'); await K2.p.waitForFunction(() => /site=1/.test(location.search), { timeout: 12000 }).catch(() => { }); await sleep(500);
   ok('kid exit: saved to cloud and back to the site', /site=1/.test(K2.p.url()));
-  await K2.p.goto(APP + '?choose=1'); await sleep(1200); await K2.click('#achild'); await K2.type('#fcode', ctx.famCode); await K2.click('#fgo'); await K2.clickText('.prof', /Василиса/); await K2.click('#cgo'); await sleep(3500);
+  await K2.p.goto(APP + '?choose=1'); await sleep(1200); await K2.click('#achild'); await K2.type('#fcode', ctx.famCode); await K2.click('#fgo'); await K2.clickText('.prof', /Василиса/); await K2.click('#cgo');
+  await approveKid(ctx.mamaTok, 'Василиса'); await K2.p.waitForFunction(() => typeof S !== 'undefined' && S.kid === 'Василиса' && S.xp > 0, { timeout: 15000 }).catch(() => { }); await sleep(1500);
   ok('login again by family code: same progress', (await K2.S('xp')) >= xpBefore && await K2.E(() => Accounts.linked()), `${await K2.S('xp')} vs ${xpBefore}`);
   /* ===== 21. «У меня уже есть код» — код от поддержки (админка) ===== */
   const adm = await fetch(API + '/admin/api/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ user: 'adm', pass: 'secret' }) });
@@ -315,8 +343,9 @@ async function journey() {
   const famId = Object.values(accounts().families).find(f => f.email === 'mama@test.ru').id;
   const lc = await (await fetch(API + `/admin/api/family/${famId}/logincode`, { method: 'POST', headers: { cookie, 'content-type': 'application/json' }, body: JSON.stringify({ email: 'papa@test.ru' }) })).json();
   const A2 = await person('papa-laptop', { width: 1280, height: 800 });
-  await A2.p.goto(APP + '?choose=1'); await sleep(1000); await A2.click('#aparent'); await A2.type('#aem', 'papa@test.ru'); await A2.click('#ahave'); await A2.type('#acode', lc.code); await A2.click('#averify'); await sleep(1500);
+  await A2.p.goto(APP + '?choose=1'); await sleep(1000); await A2.click('#aparent'); await A2.type('#aem', 'papa@test.ru'); await A2.click('#ahave'); await A2.type('#acode', lc.code); await A2.click('#averify'); await sleep(1500); await setPin(A2, '1470');
   ok('admin login code works via «У меня уже есть код»', await A2.waitScreen('pcab') && await A2.waitText(/Василиса/));
+  ok('support login: e-mail to the adult + line in «История входов»', mails().some(m => m.to === 'papa@test.ru' && /коду поддержки/.test(m.subject)) && await A2.E(() => /по коду поддержки/.test(document.querySelector('#cab-alerts').innerText + document.querySelector('#sec-data').textContent)));
   /* ===== 22. Админка: метрики и страница ===== */
   const met = await (await fetch(API + '/admin/api/metrics?fresh=1', { headers: { cookie } })).json(), st = await (await fetch(API + '/admin/api/stats', { headers: { cookie } })).json();
   ok('admin metrics + stats respond', !!met && typeof met === 'object' && st.families >= 2 && st.children >= 4, JSON.stringify(st).slice(0, 150));
@@ -334,7 +363,7 @@ async function journey() {
     await Fr.p.goto(APP + '?choose=1'); await sleep(900); let o = await Fr.overflow(); if (o.sw > o.w || o.bad.length) bad.push('hello ' + JSON.stringify(o));
     for (const s of ['pauth', 'clogin']) { await Fr.go(s); await sleep(400); o = await Fr.overflow(); if (o.sw > o.w || o.bad.length) bad.push(s + ' ' + JSON.stringify(o)); }
     for (const s of ['board', 'duels', 'chal', 'friends']) { await K.go(s); await sleep(1500); o = await K.overflow(); if (o.sw > o.w || o.bad.length) bad.push(s + ' ' + JSON.stringify(o)); }
-    await K.go('pcab'); await passGate(K); await K.waitText(/Последние вызовы/, 8000); o = await K.overflow(); if (o.sw > o.w || o.bad.length) bad.push('pcab ' + JSON.stringify(o));
+    await F.p.setViewport({ width: w, height: 800, isMobile: w < 700, hasTouch: true }); await F.go('pcab'); await passGate(F, '1470'); await F.waitScreen('pcab'); await sleep(800); await openAll(F); await F.waitText(/Последние вызовы/, 8000); o = await F.overflow(); if (o.sw > o.w || o.bad.length) bad.push('pcab ' + JSON.stringify(o)); // кабинет — на телефоне папы (на планшете ребёнка сессия взрослого не хранится)
     await K.go('parents'); await passGate(K); await sleep(800); o = await K.overflow(); if (o.sw > o.w || o.bad.length) bad.push('parents ' + JSON.stringify(o));
     ok(`width ${w}: no horizontal overflow on journey screens`, !bad.length, bad.join(' | ').slice(0, 400));
   }

@@ -53,15 +53,18 @@ r = await AD('POST', '/admin/api/login', { user: 'adm', pass: 'secret' }); const
 r = await AD('GET', '/admin/api/stats', null, { cookie }); ok('admin stats', r.body.families === 2 && r.body.children === 1 && r.body.sources.viaRef === 1, JSON.stringify(r.body).slice(0, 120));
 r = await AD('GET', '/admin/api/stats'); ok('admin api closed without cookie', r.code === 401);
 r = await AD('POST', `/admin/api/child/${kid.id}/grant`, { candies: 50, gems: 5, note: 'За старание' }, { cookie }); ok('admin grant', r.body.ok);
-r = await A('POST', '/acc/pending', { code: 'KIDCODE1' }); ok('child receives grant once', r.body.items.length === 1 && r.body.items[0].candies === 50);
-r = await A('POST', '/acc/pending', { code: 'KIDCODE1' }); ok('grant not repeated', r.body.items.length === 0);
+r = await A('POST', '/acc/pending', { code: 'KIDCODE1' }); ok('grant needs child token (code alone is not enough)', r.code === 401 && !r.body.items);
+r = await A('POST', '/acc/pending', { code: 'KIDCODE1' }, { authorization: 'Bearer ' + ctok }); ok('child receives grant once', r.body.items.length === 1 && r.body.items[0].candies === 50);
+r = await A('POST', '/acc/pending', { code: 'KIDCODE1' }, { authorization: 'Bearer ' + ctok }); ok('grant not repeated', r.body.items.length === 0);
 acc.flag({ flag: 'distress', kid: 'Кэтика', cat: 'Котофей', code: 'KIDCODE1', text: 'мне грустно' }); r = await AD('GET', '/admin/api/flags', null, { cookie }); ok('flags visible to admin', r.body.flags.length === 1);
 r = await AD('GET', `/admin/api/family/${fam.id}`, null, { cookie }); ok('admin family card', r.body.children[0].name === 'Кэтика' && r.body.children[0].xp === 32130);
 // ---------- v30: семья из нескольких взрослых, семья = друзья, успехи, вызовы, челленджи ----------
 const { makeExtra } = await import('../server/extra.mjs');
 const extra = makeExtra({ DIR, SAVE_DIR, ORIGINS: ['https://murlok.tech-wave.ru'], limit: () => true, send, claude: async () => ({}), parseReply: x => x, maskPII: x => x, BAD_OUT: /$^/, MODEL: 'x', dayOk: () => true });
 acc.setHooks({ friendCodes: extra.friendCodes, friendsAdmin: extra.friendsAdmin }); extra.setFamilyHook(c => acc.siblings(c));
-const FR = (code, act, body = {}) => call(extra, 'POST', '/friend/' + act, { code, ...body });
+const TOKS = { KIDCODE1: ctok }; // v35: друзья — только с токеном ребёнка семьи
+extra.setAccess((req, code, o) => acc.codeAccess(req, code, o)); const asks = []; extra.setAskHook((a, b) => { asks.push([a, b]); acc.friendAsk(a, b); });
+const FR = (code, act, body = {}, tok = TOKS[code]) => call(extra, 'POST', '/friend/' + act, { code, ...body }, tok ? { authorization: 'Bearer ' + tok } : {});
 const mskDay = (k = 0) => new Date(Date.now() + 3 * 36e5 - k * 864e5).toISOString().slice(0, 10);
 const CH = t => ({ authorization: 'Bearer ' + t });
 mails.length = 0;
@@ -79,7 +82,7 @@ r = await A('GET', '/acc/family', null, CH(btok)); ok('invited adult sees childr
 fs.writeFileSync(path.join(SAVE_DIR, 'KIDCODE2.json'), JSON.stringify({ v: 1, kid: 'Миша Иванов', name: 'Барсик', xp: 500, days: { [mskDay()]: 40 }, daily: { [mskDay()]: { x: 300, t: 40, a: 6 } }, read: { schulte: { 4: 21.5 } }, acad: { space: { best: { a: 3, b: 2 } } }, savedAt: Date.now() }));
 const s1 = JSON.parse(fs.readFileSync(path.join(SAVE_DIR, 'KIDCODE1.json'), 'utf8')); Object.assign(s1, { days: { [mskDay()]: 120 }, daily: { [mskDay()]: { x: 900, t: 120, a: 25 } } }); fs.writeFileSync(path.join(SAVE_DIR, 'KIDCODE1.json'), JSON.stringify(s1));
 r = await A('POST', '/acc/child', { name: 'Миша Иванов', pin: [2, 3, 4], cloudCode: 'KIDCODE2' }, CH(btok)); ok('invited adult can add a child', r.code === 200);
-const misha = r.body.child, mtok = r.body.token;
+const misha = r.body.child, mtok = r.body.token; TOKS.KIDCODE2 = mtok;
 r = await FR('KIDCODE1', 'list'); ok('family kids are friends automatically', r.body.friends.some(f => f.family && f.kid === 'Миша'));
 r = await FR('KIDCODE1', 'remove', { pub: r.body.friends[0].pub }); ok('family friend cannot be removed', r.code === 400);
 r = await A('GET', '/acc/social/board', null, CH(ctok)); const fb = r.body.family || [];
@@ -111,10 +114,18 @@ r = await A('POST', `/acc/chal/${solo.id}/claim`, {}, CH(ctok)); ok('challenge r
 r = await A('POST', `/acc/chal/${solo.id}/claim`, {}, CH(ctok)); ok('challenge reward once', r.code === 400);
 r = await A('POST', '/acc/chal/start', { tpl: 'fr_race', with: [misha.id] }, CH(ctok)); ok('friends race with family member', r.code === 200 && r.body.chal.members.length === 2);
 // друзья из другой семьи — по кодам и с разрешения взрослых обеих семей
-r = await A('POST', '/acc/child', { name: 'Петя', pin: [5, 6, 7], cloudCode: 'KIDCODE3' }, CH(tok2)); const petya = r.body.child, ptok3 = r.body.token;
+r = await A('POST', '/acc/child', { name: 'Петя', pin: [5, 6, 7], cloudCode: 'KIDCODE3' }, CH(tok2)); const petya = r.body.child, ptok3 = r.body.token; TOKS.KIDCODE3 = ptok3;
 fs.writeFileSync(path.join(SAVE_DIR, 'KIDCODE3.json'), JSON.stringify({ v: 1, kid: 'Петя', name: 'Рыжик', xp: 10, days: { [mskDay()]: 3 }, savedAt: Date.now() }));
 const pubK = (await FR('KIDCODE1', 'me')).body.pub, pubP = (await FR('KIDCODE3', 'me')).body.pub;
+r = await FR('KIDCODE3', 'list', {}, ''); ok('friends api without token refused', r.code === 401);
+r = await FR('KIDCODE3', 'list', {}, ctok); ok('friends api with token of another child refused', r.code === 403);
+mails.length = 0; tgSent.length = 0;
 await FR('KIDCODE1', 'add', { pub: pubP }); r = await FR('KIDCODE3', 'add', { pub: pubK }); ok('friendship waits for adults', r.body.status === 'approval');
+await new Promise(x => setTimeout(x, 30));
+ok('both families notified about the friend request', asks.length === 2 && mails.some(m => m.to === 'mama@test.ru' && /дружб/.test(m.subj)) && mails.some(m => m.to === 'papa@test.ru' && /дружб/.test(m.subj)), JSON.stringify(mails.map(m => m.to)));
+await A('POST', '/acc/fam/title', { title: 'Петровы <b>' }, CH(tok2));
+r = await A('GET', '/acc/fam/friends', null, H); const rq = r.body.kids.find(k => k.id === kid.id).requests[0] || {};
+ok('friend request shows the other family title, no internal codes', rq.family === 'Петровы b' && !('code' in rq) && !/KIDCODE/.test(JSON.stringify(r.body)), JSON.stringify(rq));
 r = await FR('KIDCODE1', 'list'); ok('not friends before approval', !r.body.friends.some(f => f.pub === pubP) && r.body.pending.some(f => f.pub === pubP && f.wait === 'parent'));
 r = await A('POST', '/acc/duel/new', { to: petya.id, game: 'paws' }, CH(ctok)); ok('no duel with unapproved friend', r.code === 403);
 r = await A('GET', '/acc/fam/friends', null, H); ok('parent sees friend request', r.body.kids.find(k => k.id === kid.id).requests.some(x => x.pub === pubP));
@@ -176,11 +187,76 @@ r = await AD('POST', `/admin/api/family/${fam.id}/logincode`, { email: 'mama@tes
 await A('POST', '/acc/start', { email: 'mama@test.ru' });
 r = await A('POST', '/acc/verify', { email: 'mama@test.ru', code: scode }); ok('support code survives a new «get code»', r.code === 200 && !!r.body.token, JSON.stringify(r.body).slice(0, 80));
 r = await A('POST', '/acc/verify', { email: 'mama@test.ru', code: scode }); ok('support code is one-time', r.code === 400);
+r = await A('GET', '/acc/family', null, H); const sup = (r.body.family.logins || [])[0] || {};
+ok('support login is in the family login history', sup.how === 'support' && sup.email === 'mama@test.ru');
+await new Promise(x => setTimeout(x, 30));
+ok('support login: e-mail to the adult + consents log', mails.some(m => m.to === 'mama@test.ru' && /кодом поддержки|коду поддержки/.test(m.subj)) && fs.readFileSync(path.join(DIR, 'consents.log'), 'utf8').includes('"type":"support-login"'));
+
+// ---------- v35: облачная копия только с токеном, белый список полей, пределы прироста ----------
+const C = (m, p, b, h) => call(acc.cloud, m, p, b, h);
+r = await C('POST', '/save', { code: 'KIDCODE1', data: { v: 1, kid: 'Взлом', xp: 1 } }); ok('save of family code without token refused', r.code === 401);
+r = await C('POST', '/save', { code: 'KIDCODE1', data: { v: 1, kid: 'Взлом', xp: 1 } }, CH(mtok)); ok('save with token of another child refused', r.code === 403);
+r = await C('POST', '/save', { code: 'KIDCODE1', data: { v: 1, kid: 'Взлом', xp: 1 } }, CH(tok)); ok('parent token cannot write a child save', r.code === 403);
+r = await C('POST', '/save', { code: 'KIDCODE1', data: { v: 1, kid: 'Взлом', xp: 1 } }, CH('dead' + ctok.slice(4))); ok('unknown token → 401 auth (device unlinks)', r.code === 401 && r.body.error === 'auth');
+const before = JSON.parse(fs.readFileSync(path.join(SAVE_DIR, 'KIDCODE1.json'), 'utf8'));
+r = await C('POST', '/save', { code: 'KIDCODE1', data: { ...before, v: 1, kid: 'Другое имя', god: true, role: 'adult', pin: '1234', pinLock: {}, chatLog: ['x'], evil: 1, xp: before.xp + 999999, daily: { [mskDay()]: { x: 999999, t: 5, a: 1 } }, days: { [mskDay()]: 99999 } } }, CH(ctok));
+const after = JSON.parse(fs.readFileSync(path.join(SAVE_DIR, 'KIDCODE1.json'), 'utf8'));
+ok('save with own child token accepted', r.code === 200 && r.body.ok);
+ok('whitelist: service fields dropped', !('god' in after) && !('role' in after) && !('pin' in after) && !('chatLog' in after) && !('evil' in after) && !('pinLock' in after));
+ok('kid name in save comes from the cabinet', after.kid === 'Кэтика' && r.body.kid === 'Кэтика');
+ok('xp growth capped per day', after.xp <= before.xp + 8000 && after.daily[mskDay()].x === 6000 && after.days[mskDay()] === 1500, `${after.xp - before.xp} ${JSON.stringify(after.daily)}`);
+r = await A('GET', '/acc/social/board', null, CH(ctok)); ok('board does not trust huge numbers', (r.body.family.find(x => x.name === 'Кэтика') || {}).xp <= 6000);
+r = await C('GET', '/load?code=KIDCODE1'); ok('load of family code without token refused', r.code === 401);
+r = await C('GET', '/load?code=KIDCODE1', null, CH(ctok)); ok('child loads own save', r.code === 200 && r.body.xp === after.xp && !('god' in r.body));
+r = await C('GET', '/load?code=KIDCODE1', null, H); ok('parent of the family can open the report (load)', r.code === 200);
+r = await C('GET', '/load?code=KIDCODE1', null, CH(tok2)); ok('adult of another family cannot load', r.code === 403);
+r = await C('GET', '/load?code=' + mamaP.cloudCode, null, CH(mptok)); ok('adult player save gets role from the server', r.code === 200 && r.body.role === 'adult');
+r = await C('POST', '/save', { code: 'FREEDEV1', data: { v: 1, kid: 'Без семьи', xp: 50, role: 'adult' } }); ok('device without family still saves by code (backward compat)', r.code === 200);
+r = await C('GET', '/load?code=FREEDEV1'); ok('…and restores by code; service fields stripped', r.code === 200 && r.body.xp === 50 && !('role' in r.body));
+// дуэль: невозможный результат не засчитывается
+r = await A('POST', '/acc/duel/new', { to: misha.id, game: 'schulte4' }, CH(ctok)); const d2 = r.body.duel.id;
+r = await A('POST', `/acc/duel/${d2}/result`, { time: 0.5, errs: 0 }, CH(ctok)); ok('duel: impossible result rejected', r.code === 400 && r.body.error === 'bad');
+r = await A('POST', `/acc/duel/${d2}/result`, { time: 12.3, errs: 0 }, CH(ctok)); ok('duel: plausible result accepted', r.code === 200);
+// переименование доходит до сохранения и до устройства
+r = await A('POST', `/acc/child/${misha.id}/rename`, { name: 'Михаил' }, H); ok('rename ok', r.code === 200);
+ok('rename patches cloud save', JSON.parse(fs.readFileSync(path.join(SAVE_DIR, 'KIDCODE2.json'), 'utf8')).kid === 'Михаил');
+r = await A('GET', '/acc/child/me', null, CH(mtok)); ok('child/me returns the new name', r.body.name === 'Михаил');
+// приглашение: роль — не имя, в письме — прямая ссылка
+mails.length = 0; r = await A('POST', '/acc/fam/invite', { email: 'ded@test.ru', kin: 'Дедушка' }, H);
+ok('invite e-mail: no role as a name, direct accept link', r.code === 200 && /^Здравствуйте!/.test(mails[0].text) && mails[0].text.includes('/app/#join=ded%40test.ru') && !/Я взрослый: регистрация/.test(mails[0].text));
+r = await A('POST', '/acc/fam/invite', { email: 'old@test.ru', name: 'Второй родитель' }, H); ok('legacy client: role sent as name is stored as kin', r.body.family.invites.find(v => v.email === 'old@test.ru').kin === 'Второй родитель' && !r.body.family.invites.find(v => v.email === 'old@test.ru').name);
+// новый ребёнок без картинки-ПИН: вход по семейному коду — только с подтверждения взрослого
+r = await A('POST', '/acc/child', { name: 'Без ПИН' }, H); const np = r.body.child; ok('new child without PIN is not legacy', r.code === 200 && !np.hasPin && !np.legacyNoPin);
+r = await A('POST', '/acc/child/list', { familyCode: fam.code }); ok('child list marks «needs adult ok»', r.body.kids.find(k => k.id === np.id).needOk === true);
+r = await A('POST', '/acc/child/login', { familyCode: fam.code, childId: np.id }); const rid = r.body.pending; ok('login without PIN → waits for adult', r.code === 202 && !r.body.token && /^[a-f0-9]{24}$/.test(rid || ''));
+r = await A('POST', '/acc/child/login/wait', { rid }); ok('still waiting', r.body.pending === true && !r.body.token);
+r = await A('GET', '/acc/family', null, H); const lq = (r.body.family.loginReqs || []).find(q => q.childId === np.id); ok('parent sees the login request', !!lq && lq.name === 'Без ПИН');
+r = await A('POST', '/acc/fam/loginreq', { id: lq.id, ok: true }, CH(tok2)); ok('other family cannot approve', r.code === 404);
+r = await A('POST', '/acc/fam/loginreq', { id: lq.id, ok: true }, H); ok('parent approves', r.code === 200);
+r = await A('POST', '/acc/child/login/wait', { rid }); ok('approved → child gets token once', r.code === 200 && !!r.body.token && r.body.cloudCode === np.cloudCode);
+r = await A('POST', '/acc/child/login/wait', { rid }); ok('request is one-time', r.code === 404);
+r = await A('POST', '/acc/child/login', { familyCode: fam.code, childId: np.id }); const rid2 = r.body.pending; r = await A('GET', '/acc/family', null, H);
+await A('POST', '/acc/fam/loginreq', { id: r.body.family.loginReqs.find(q => q.childId === np.id).id, ok: false }, H);
+r = await A('POST', '/acc/child/login/wait', { rid: rid2 }); ok('denied request → 403', r.code === 403 && r.body.error === 'denied');
+// миграция: дети без ПИН из уже существующих семей входят как раньше, роль взрослого переезжает из имени
+{
+  const D2 = fs.mkdtempSync(path.join(os.tmpdir(), 'macc2-')), S2 = path.join(D2, 'saves'); fs.mkdirSync(S2);
+  fs.writeFileSync(path.join(D2, 'accounts.json'), JSON.stringify({ families: { FOLD000001A: { id: 'FOLD000001A', email: 'own@test.ru', code: 'OLDFAM', salt: 'ab', created: 1, consent: {}, children: ['COLDKID0001'], players: ['COLDPLR0001'], parents: [{ id: 'PO1', email: 'own@test.ru', role: 'owner' }, { id: 'PO2', email: 'two@test.ru', role: 'adult', name: 'Второй родитель' }] } },
+    children: { COLDKID0001: { id: 'COLDKID0001', familyId: 'FOLD000001A', name: 'Вася', cloudCode: 'OLDKID01', pinHash: null }, COLDPLR0001: { id: 'COLDPLR0001', familyId: 'FOLD000001A', name: 'Папа', cloudCode: 'OLDPLR01', pinHash: null, role: 'adult-player', adultOf: 'PO2' } }, famCodes: { OLDFAM: 'FOLD000001A' }, emailIdx: { 'own@test.ru': 'FOLD000001A', 'two@test.ru': 'FOLD000001A' }, sessions: {}, codes: {}, refs: {}, invites: {} }));
+  const acc2 = makeAccounts({ DIR: D2, SAVE_DIR: S2, limit: () => true, send, mail, tg: async () => ({ ok: true }), weekly: () => '', TG_BOT: 'bot' });
+  ok('migration: existing child without PIN marked legacy, adult player untouched', acc2.A.children.COLDKID0001.legacyNoPin === true && !acc2.A.children.COLDPLR0001.legacyNoPin && acc2.A.migr.v35 > 0);
+  ok('migration: role moved out of the adult name', acc2.A.families.FOLD000001A.parents[1].kin === 'Второй родитель' && acc2.A.families.FOLD000001A.parents[1].name === '');
+  const r2 = await call(acc2.acc, 'POST', '/acc/child/login', { familyCode: 'oldfam', childId: 'COLDKID0001' }); ok('legacy child keeps logging in by family code without PIN', r2.code === 200 && !!r2.body.token);
+  const r3 = await call(acc2.cloud, 'POST', '/save', { code: 'OLDKID01', data: { v: 1, kid: 'Вася', xp: 5 } }, { authorization: 'Bearer ' + r2.body.token }); ok('legacy child saves with its token', r3.code === 200);
+  acc2.flush(); fs.rmSync(D2, { recursive: true, force: true });
+}
+
 // выгрузка и удаление
-r = await A('GET', '/acc/export', null, H); ok('export has progress', r.code === 200 && JSON.parse(r.raw).progress['Кэтика'].xp === 32130);
+r = await A('GET', '/acc/export', null, H); ok('export has progress', r.code === 200 && JSON.parse(r.raw).progress['Кэтика'].xp === after.xp);
 r = await A('POST', '/acc/revoke', { confirm: 'нет' }, H); ok('revoke needs confirm', r.code === 400);
 r = await A('POST', '/acc/revoke', { confirm: 'УДАЛИТЬ' }, H); ok('revoke wipes family', r.body.ok && !fs.existsSync(path.join(SAVE_DIR, 'KIDCODE1.json')) && !acc.A.families[fam.id]);
 ok('revoke wipes adult player too', !acc.A.children[mamaP.childId] && !fs.existsSync(path.join(SAVE_DIR, mamaP.cloudCode + '.json')));
 r = await A('GET', '/acc/family', null, H); ok('old token dead', r.code === 401);
+r = await C('POST', '/save', { code: 'KIDCODE1', data: { v: 1, kid: 'Кэтика', xp: 1 } }, CH(ctok)); ok('after family deletion the child device gets 401 auth (no «saved» with a dead token)', r.code === 401 && r.body.error === 'auth' && !fs.existsSync(path.join(SAVE_DIR, 'KIDCODE1.json')));
 ok('revoke logged', fs.readFileSync(path.join(DIR, 'consents.log'), 'utf8').includes('"type":"revoke"'));
 acc.flush(); console.log(fails ? 'ACC FAILED ' + fails : 'ACC ALL OK'); process.exit(fails ? 1 : 0);

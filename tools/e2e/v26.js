@@ -76,9 +76,11 @@ const ok = (name, c, x = '') => { n++; if (!c) fails++; console.log((c ? 'V26 OK
   /* ---------- выход родителя ---------- */
   await E(() => localStorage.setItem('murlok-parent', JSON.stringify({ token: 'T', email: 'mama@test.ru' })));
   await go('home'); await E(() => document.querySelector('#cfg').click()); await sleep(300);
-  ok('settings: parent logout row', !!(await p.$('.modal #set-pout')));
+  ok('settings: no «log out adult» row on a kid device (v35)', !(await p.$('.modal #set-pout')));
+  const acc0 = await E(() => localStorage.getItem('murlok-acc:' + KEY)); await E(() => { localStorage.removeItem('murlok-acc:' + KEY); localStorage.setItem('murlok-parent', JSON.stringify({ token: 'T', email: 'mama@test.ru' })); }); await go('home'); await E(() => document.querySelector('#cfg').click()); await sleep(300);
+  ok('settings: parent logout row (adult device)', !!(await p.$('.modal #set-pout')));
   await E(() => document.querySelector('.modal #set-pout').click()); await sleep(600);
-  ok('parent logged out', await E(() => !localStorage.getItem('murlok-parent')));
+  ok('parent logged out', await E(() => !localStorage.getItem('murlok-parent'))); await E(a => a && localStorage.setItem('murlok-acc:' + KEY, a), acc0);
   await E(() => localStorage.setItem('murlok-parent', JSON.stringify({ token: 'T', email: 'mama@test.ru' })));
   await go('parents'); ok('adult section: logout button in cabinet card', !!(await p.$('#aout3')));
   await E(() => document.querySelector('#aout3').click()); await sleep(600); ok('logout from adult section', await E(() => !localStorage.getItem('murlok-parent')));

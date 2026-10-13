@@ -100,7 +100,7 @@ let played = false;
   ok('limits saved with parent token', !!lc && lc.auth === 'Bearer PTOKEN' && lc.d.daily === 45 && lc.d.from === '09:00' && lc.d.to === '19:30' && lc.d.breaks === true, JSON.stringify(lc && lc.d));
   ok('same device: applied at once', await E(() => S.limits.daily === 45 && S.limits.breaks === true));
   /* ---------- «Играть самому» ---------- */
-  ok('cabinet: «Играть самому» card', await E(() => /Играть самому/.test(document.querySelector('#gplay').innerText) && document.querySelectorAll('#gp-role .chip').length === 4));
+  ok('cabinet: «Играть самому» card', await E(() => /Играть самому/.test(document.querySelector('#gplay').textContent) && document.querySelectorAll('#gp-role .chip').length === 4));
   await E(() => { S.pin = '2580'; save(); document.querySelector('#gp-role .chip[data-r="Папа"]').click(); document.querySelector('#gp-cat').value = 'Мурзик'; });
   ok('role chip fills the name', await E(() => document.querySelector('#gp-name').value === 'Папа'));
   await Promise.all([p.waitForNavigation({ timeout: 15000 }).catch(() => { }), E(() => document.querySelector('#gp-go').click())]); await sleep(2500);

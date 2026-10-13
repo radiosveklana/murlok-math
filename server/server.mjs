@@ -174,7 +174,10 @@ function send(res, code, obj, origin) {
 }
 function cors(origin) { return ORIGINS.includes(origin) ? { 'access-control-allow-origin': origin, 'vary': 'Origin', 'access-control-allow-headers': 'content-type, authorization', 'access-control-allow-methods': 'GET,POST,OPTIONS', 'access-control-max-age': '86400' } : {}; }
 function ipOf(req) { return String(req.headers['x-real-ip'] || req.socket.remoteAddress || ''); }
-const extra = makeExtra({ DIR, CODE_DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk }); // друзья, тренажёр разговора, Telegram
+const extra = makeExtra({ DIR, CODE_DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk, chatLimit: (d, ip) => chatLimitOk(d, ip) }); // друзья, тренажёр разговора, Telegram
+// v35: дневной лимит разговоров — на адрес и на семью, а не только общий: один человек не может «выключить» котика всем.
+// Общий DAY_CAP остаётся аварийным потолком.
+function chatLimitOk(d, ip) { const fk = accounts.famKey(String((d && d.code) || '').toUpperCase().slice(0, 8)); return limit('dip:' + ip, 300, 864e5) && (!fk || limit('dfam:' + fk, 400, 864e5)); }
 // почта (team@tech-wave.ru через Яндекс) — для кодов входа и рассылок
 let mailer = null; try { const nm = requireCJS('nodemailer'); if (process.env.SMTP_HOST) mailer = nm.createTransport({ host: process.env.SMTP_HOST, port: +process.env.SMTP_PORT || 465, secure: process.env.SMTP_SECURE !== 'false', auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } }); } catch (e) { console.error('nodemailer', e.message); }
 const MAIL_LOG = process.env.MAIL_LOG || ''; // только для локальной разработки: без SMTP письма пишутся в файл
@@ -182,6 +185,7 @@ const mail = async (to, subject, text) => { if (!mailer && MAIL_LOG) { fs.append
 const accounts = makeAccounts({ DIR, SAVE_DIR, limit, send, mail, tg: extra.tg, weekly: extra.weekly, TG_BOT: extra.TG_BOT });
 extra.setStartHook((tok, chat) => accounts.tgStart(tok, chat)); extra.setStopHook(chat => accounts.tgStop(chat));
 accounts.setHooks({ friendCodes: extra.friendCodes, friendsAdmin: extra.friendsAdmin }); extra.setFamilyHook(code => accounts.siblings(code)); // v30: семья = друзья, одобрение друзей взрослыми
+extra.setAccess((req, code, o) => accounts.codeAccess(req, code, o)); extra.setAskHook((code, other) => accounts.friendAsk(code, other)); // v35: друзья — по токену ребёнка, уведомление взрослым о запросе
 const admin = makeAdmin({ DIR: CODE_DIR, SAVE_DIR, acc: accounts, send, mail, tg: extra.tg, tgLinks: extra.tgLinks, TG_BOT: extra.TG_BOT });
 const flagIt = (d, out, text) => { if (out && out.flag && out.flag !== 'none') accounts.flag({ flag: out.flag, kid: String(d.kid || '').slice(0, 20), cat: String(d.cat || '').slice(0, 20), code: String(d.code || '').slice(0, 8), text: maskPII(String(text || '')).slice(0, 300) }); };
 http.createServer(async (req, res) => {
@@ -204,18 +208,9 @@ http.createServer(async (req, res) => {
       res.writeHead(200, { 'content-type': 'audio/mpeg', 'cache-control': 'public, max-age=31536000, immutable', ...cors(origin) });
       return fs.createReadStream(file).pipe(res);
     }
-    if (url.pathname === '/save' && req.method === 'POST') { // облачная копия прогресса (только игровые данные)
+    if (url.pathname === '/save' && req.method === 'POST') { // облачная копия прогресса (только игровые данные, белый список и токен — в accounts.mjs)
       if (!ORIGINS.includes(origin)) return send(res, 403, { error: 'origin' }, origin);
-      let body = ''; for await (const c of req) { body += c; if (body.length > 400000) return send(res, 413, { error: 'big' }, origin); }
-      const d = JSON.parse(body || '{}'), code = String(d.code || '').toUpperCase();
-      if (!/^[A-Z0-9]{8}$/.test(code) || !d.data || d.data.v !== 1) return send(res, 400, { error: 'bad' }, origin);
-      delete d.data.pin; delete d.data.pinLock; delete d.data.chatLog; // ПИН взрослого и переписка в облаке не хранятся
-      if (!limit('save:' + code, 30, 6e5)) return send(res, 429, { error: 'slow' }, origin);
-      const file = path.join(SAVE_DIR, code + '.json'); let old = null; try { old = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { }
-      // устройство отстало (на другом устройстве с тем же кодом ушли дальше, а это его не видело) — не затираем: клиент спросит, какой прогресс оставить
-      if (old && d.force !== true && (+d.data.xp || 0) < (+old.xp || 0) && (+d.data.cloudAt || 0) < (+old.savedAt || 0) - 5000) return send(res, 409, { error: 'stale', xp: old.xp || 0, candies: old.candies || 0, cases: old.cases || 0, savedAt: old.savedAt || 0 }, origin);
-      const savedAt = Date.now(); fs.writeFileSync(file, JSON.stringify({ ...d.data, savedAt }));
-      return send(res, 200, { ok: true, savedAt }, origin);
+      return await accounts.cloud(req, res, url, origin, ip);
     }
     if (url.pathname === '/find' && req.method === 'GET') return send(res, 200, { found: [] }, origin); // отключено (152-ФЗ): вход на новом устройстве — по семейному коду
     if (false) { // найти сохранение по имени ребёнка и котика (для нового устройства)
@@ -227,14 +222,7 @@ http.createServer(async (req, res) => {
       found.sort((x, y) => y.savedAt - x.savedAt);
       return send(res, 200, { found: found.slice(0, 3) }, origin);
     }
-    if (url.pathname === '/load' && req.method === 'GET') {
-      const code = String(url.searchParams.get('code') || '').toUpperCase();
-      if (!/^[A-Z0-9]{8}$/.test(code) || !limit('load:' + ip, 60, 6e5)) return send(res, 400, { error: 'bad' }, origin);
-      const f = path.join(SAVE_DIR, code + '.json'); if (!fs.existsSync(f)) return send(res, 404, { error: 'nf' }, origin);
-      let sv = {}; try { sv = JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return send(res, 500, { error: 'read' }, origin); }
-      delete sv.pin; delete sv.pinLock; delete sv.chatLog; // старые копии могли содержать ПИН — наружу не отдаём
-      return send(res, 200, sv, origin);
-    }
+    if (url.pathname === '/load' && req.method === 'GET') return await accounts.cloud(req, res, url, origin, ip); // код семьи — только с токеном ребёнка или взрослого этой семьи
     if (url.pathname === '/voice' && req.method === 'POST') { // голос ребёнка → текст → ответ котика
       if (!ORIGINS.includes(origin)) return send(res, 403, { error: 'origin' }, origin);
       const chunks = []; let size = 0; for await (const c of req) { size += c.length; if (size > 2500000) return send(res, 413, { error: 'big' }, origin); chunks.push(c); }
@@ -245,7 +233,7 @@ http.createServer(async (req, res) => {
       if (!heard || heard.length < 2) return send(res, 200, { heard: '', reply: 'Мур? Я не расслышал. Скажи ещё раз, чуть громче!', mood: 'think', flag: 'none' }, origin);
       if (d.scenario && extra.hasRp(d.scenario)) return extra.rp({ ...d, text: heard, heard }, res, origin, ip); // тренажёр разговора
       if (isCrisis(heard)) { let out; try { out = crisisFix(await chat({ ...d, text: heard })); } catch (e) { out = CRISIS; } flags.distress++; flagIt(d, out, heard); startSay(out.reply); return send(res, 200, { heard, ...out }, origin); }
-      if (!dayOk()) return send(res, 429, { error: 'cap', heard, reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
+      if (!chatLimitOk(d, ip) || !dayOk()) return send(res, 429, { error: 'cap', heard, reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat({ ...d, text: heard }); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
       if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1; flagIt(d, out, heard);
       startSay(out.reply);
@@ -258,7 +246,7 @@ http.createServer(async (req, res) => {
       if (!d.text || String(d.text).trim().length < 1) return send(res, 400, { error: 'empty' }, origin);
       if (isCrisis(d.text) && limit('cr:' + ip, 60, 6e5)) { let out; try { out = crisisFix(await chat(d)); } catch (e) { out = CRISIS; } flags.distress++; flagIt(d, out, d.text); startSay(out.reply); return send(res, 200, out, origin); }
       if (!limit('m:' + dev, 30, 6e5) || !limit('d:' + dev, 150, 864e5) || !limit('ip:' + ip, 600, 6e5)) return send(res, 429, { error: 'limit', reply: 'Мур, я немного устал болтать! Давай отдохнём и решим пару примеров, а потом продолжим?', mood: 'sad', flag: 'none' }, origin);
-      if (!dayOk()) return send(res, 429, { error: 'cap', reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
+      if (!chatLimitOk(d, ip) || !dayOk()) return send(res, 429, { error: 'cap', reply: 'Котик сегодня очень много болтал и пошёл спать. Поговорим завтра!', mood: 'sad', flag: 'none' }, origin);
       let out; try { out = await chat(d); } catch (e) { console.error('chat', e.message); out = FALLBACK; }
       if (out.flag !== 'none') flags[out.flag] = (flags[out.flag] || 0) + 1; flagIt(d, out, d.text);
       startSay(out.reply);

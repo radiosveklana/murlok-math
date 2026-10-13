@@ -30,9 +30,9 @@ const Grownup = (() => {
     let prof = P.list.find(p => p.adult && p.cloudCode === r.cloudCode);
     if (!prof) {
       if (P.list.length >= 6) { if (btn) { btn.disabled = false; btn.textContent = '🎮 Играть'; } toast('На устройстве уже 6 игроков — уберите кого-нибудь в ⚙️ «Игроки»'); return; }
-      let base = null; if (r.hasSave) { try { const x = await fetch(CLOUD + '/load?code=' + r.cloudCode); if (x.ok) base = await x.json(); } catch (e) { } }
+      let base = null; if (r.hasSave) { try { const x = await fetch(CLOUD + '/load?code=' + r.cloudCode, { headers: { authorization: 'Bearer ' + r.token } }); if (x.ok) base = await x.json(); } catch (e) { } }
       const id = 'a' + Date.now().toString(36), key = keyOf(id);
-      const sv = Object.assign(fresh(), base && base.v === 1 ? base : {}, { kid: r.name, name: (base && base.name) || r.cat || cat || 'Барсик', cloudCode: r.cloudCode, role: 'adult', seenVersion: APP_VERSION, limits: null });
+      const sv = Object.assign(fresh(), base && base.v === 1 ? base : {}, { kid: r.name, name: (base && base.name) || r.cat || cat || 'Мурлок', cloudCode: r.cloudCode, role: 'adult', seenVersion: APP_VERSION, limits: null });
       if (S.pin) { sv.pin = S.pin; sv.pinLock = { n: 0, until: 0 }; } // тот же ПИН раздела для взрослых — замок не ломается
       try { localStorage.setItem(key, JSON.stringify(sv)); } catch (e) { toast('Не хватает места на устройстве'); return; }
       prof = { id, kid: sv.kid, cat: sv.name, fur: sv.fur, wear: sv.wear, xp: sv.xp, adult: true, cloudCode: r.cloudCode }; P.list.push(prof);
@@ -73,7 +73,7 @@ const Grownup = (() => {
     const playCard = `<div class="card" id="gplay"><h3>🎮 Играть самому</h3><p class="small">Играйте вместе с детьми: у Вас будет свой котик и свой прогресс. Вы появитесь в таблице успехов семьи с пометкой «взрослый», дети смогут бросать Вам вызовы, а Вы — им. Награды за семейные челленджи получают только дети.</p>
       ${mine ? `<div class="gp-me">${catSVG({ fur: FURS[mine.fur] ? mine.fur : 'ginger', wear: mine.wear || {}, smile: true })}<div><b>${esc(mine.name)}</b><small>котик ${esc(mine.cat || '')} · ⭐ ${mine.xp} · ${mine.minutesWeek} мин за неделю</small></div></div>
         <div class="row-btns">${isAdult() ? '<span class="small">Сейчас на этом устройстве играете Вы.</span><button class="btn" id="gp-back">👥 Вернуться к ребёнку</button>' : '<button class="btn pink" id="gp-go">🎮 Играть</button>'}<button class="btn sm" id="gp-del">Убрать моего котика</button></div>`
-      : `<div class="fm-roles" id="gp-role">${ROLES.map((x, i) => `<label class="chip ${i ? '' : 'on'}" data-r="${x}">${x}</label>`).join('')}</div><input id="gp-name" class="nmi" maxlength="20" value="${ROLES[0]}" placeholder="Как Вас зовут в игре"><input id="gp-cat" class="nmi" maxlength="20" placeholder="Имя Вашего котика" value="Барсик"><button class="btn pink" id="gp-go">🎮 Создать котика и играть</button>`}
+      : `<div class="fm-roles" id="gp-role">${ROLES.map((x, i) => `<label class="chip ${i ? '' : 'on'}" data-r="${x}">${x}</label>`).join('')}</div><input id="gp-name" class="nmi" maxlength="20" value="${ROLES[0]}" placeholder="Как Вас зовут в игре"><input id="gp-cat" class="nmi" maxlength="20" placeholder="Имя Вашего котика" value="Мурлок"><button class="btn pink" id="gp-go">🎮 Создать котика и играть</button>`}
       ${others.length ? `<p class="small">Ещё играют: ${others.map(p => `${esc(p.name)} (котик ${esc(p.cat || '')}, ⭐ ${p.xp})`).join(', ')}</p>` : ''}
       <p class="small">На этом устройстве Ваш котик появится в ⚙️ «Игроки». С профиля ребёнка войти в него можно только через ПИН или код из почты.</p></div>`;
     const kids = F.children || [];
@@ -86,15 +86,17 @@ const Grownup = (() => {
         <label class="tgl"><input type="checkbox" class="lim-hrs" ${hours ? 'checked' : ''}> Только в разрешённые часы</label>
         <div class="lim-hsel" ${hours ? '' : 'hidden'}>с <select class="lim-from">${opt(l.from, '08:00')}</select> до <select class="lim-to">${opt(l.to, '20:00')}</select></div>
         <label class="tgl"><input type="checkbox" class="lim-brk" ${l.breaks ? 'checked' : ''}> Перерыв 5 минут каждые 25 минут игры</label>
-        <button class="btn sm pink lim-save">Сохранить для ${esc(k.name)}</button></div>`; };
-    const limCard = `<div class="card" id="glim"><h3>⏳ Время игры</h3><p class="small">Считаются только активные минуты (когда ребёнок что-то нажимает); раздел для взрослых не считается. За 5 минут до конца котик предупредит, потом покажет экран «Пора отдохнуть». Продлить на 15 минут можно на устройстве ребёнка — через ПИН или код из почты. Без интернета работают последние сохранённые настройки.</p>
+        <button class="btn sm pink lim-save">Сохранить: ${esc(k.name)}</button></div>`; };
+    const limCard = `<div class="card" id="glim"><h3>⏳ Время игры</h3><p class="small">Считаются только активные минуты (когда ребёнок что-то нажимает); раздел для взрослых не считается. За 5 минут до конца котик предупредит, потом покажет экран «Пора отдохнуть». Продлить на 15 минут можно на устройстве ребёнка — через ПИН взрослого (не ребёнка) или код из почты взрослого этой семьи. Без интернета работают последние сохранённые настройки.</p>
       ${kids.length ? kids.map(kidRow).join('') : '<p class="small">Добавьте ребёнка — и здесь можно будет настроить время игры.</p>'}</div>`;
-    const ad = $('#fadults', root); if (ad) ad.insertAdjacentHTML('afterend', playCard); else root.insertAdjacentHTML('beforeend', playCard);
-    const pr = $('.prio', root), prCard = pr && pr.closest('.card'); if (prCard) prCard.insertAdjacentHTML('beforebegin', limCard); else root.insertAdjacentHTML('beforeend', limCard);
+    // v35: в кабинете есть места под эти карточки (раскрывающиеся блоки «Время игры» и «Взрослые семьи»)
+    const slotP = $('#slot-play', root), slotL = $('#slot-lim', root), ad = $('#fadults', root);
+    if (slotP) slotP.outerHTML = playCard; else if (ad) ad.insertAdjacentHTML('afterend', playCard); else root.insertAdjacentHTML('beforeend', playCard);
+    const pr = $('.prio', root), prCard = pr && pr.closest('.card'); if (slotL) slotL.outerHTML = limCard; else if (prCard) prCard.insertAdjacentHTML('beforebegin', limCard); else root.insertAdjacentHTML('beforeend', limCard);
 
     // «Играть самому»
     $$('#gp-role .chip', root).forEach(c => c.addEventListener('click', () => { $$('#gp-role .chip', root).forEach(x => x.classList.toggle('on', x === c)); $('#gp-name', root).value = c.dataset.r; SND.tap(); }));
-    $('#gp-go', root)?.addEventListener('click', e => { const name = mine ? mine.name : $('#gp-name', root).value.trim(), cat = mine ? mine.cat : $('#gp-cat', root).value.trim(); if (!mine && name.length < 2) return toast('Имя — хотя бы 2 буквы'); play(Pp, name, cat || 'Барсик', e.currentTarget); });
+    $('#gp-go', root)?.addEventListener('click', e => { const name = mine ? mine.name : $('#gp-name', root).value.trim(), cat = mine ? mine.cat : $('#gp-cat', root).value.trim(); if (!mine && name.length < 2) return toast('Имя — хотя бы 2 буквы'); play(Pp, name, cat || 'Мурлок', e.currentTarget); });
     $('#gp-back', root)?.addEventListener('click', () => window.Extras && Extras.openProfiles());
     $('#gp-del', root)?.addEventListener('click', () => { const m = modal(`<h2>Убрать Вашего котика?</h2><p>Прогресс взрослого игрока удалится, из таблицы успехов и вызовов Вы пропадёте. Прогресс детей не изменится.</p><div class="row-btns"><button class="btn danger" id="gpd">Убрать</button><button class="btn" data-close>Отмена</button></div>`);
       $('#gpd', m.el).addEventListener('click', async () => { try { await Accounts.api('play/remove', {}, Pp.token); } catch (e) { toast('Не получилось'); return; }
@@ -112,7 +114,7 @@ const Grownup = (() => {
         if (hours && body.from === body.to) return toast('Начало и конец разрешённого времени совпадают');
         try { const r = await Accounts.api('child/' + k.id + '/limits', body, Pp.token); k.limits = r.limits;
           if (S.cloudCode && S.cloudCode === k.cloudCode && !isAdult()) Limits.apply(r.limits);
-          toast(`Сохранено для ${esc(k.name)}. На устройстве ребёнка применится в течение 10 минут или при следующем запуске`); SND.win(); }
+          toast(`Сохранено: ${esc(k.name)}. На устройстве ребёнка правила применятся при следующем входе или в течение 10 минут`); SND.win(); }
         catch (e) { toast('Не получилось сохранить — проверьте интернет'); }
       });
     });

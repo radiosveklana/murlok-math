@@ -7,7 +7,9 @@ import path from 'node:path';
 import https from 'node:https';
 import { randomInt } from 'node:crypto';
 
-export function makeExtra({ DIR, CODE_DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk }) {
+export function makeExtra({ DIR, CODE_DIR, SAVE_DIR, ORIGINS, limit, send, claude, parseReply, maskPII, BAD_OUT, MODEL, dayOk, chatLimit }) {
+  // v35: доступ по коду облачной копии решает модуль кабинетов (accounts.mjs): закреплённый за семьёй код — только с токеном
+  let access = () => ({ ok: true }), askHook = () => { };
   /* ---------- хранилище друзей (один JSON, запись через временный файл) ---------- */
   const FFILE = path.join(DIR, 'friends.json');
   let F = { pub: {}, own: {}, links: {}, inbox: {}, tg: {}, tgTok: {}, sent: '', appr: {} };
@@ -42,6 +44,7 @@ export function makeExtra({ DIR, CODE_DIR, SAVE_DIR, ORIGINS, limit, send, claud
     let body = ''; for await (const c of req) { body += c; if (body.length > 4000) return send(res, 413, { error: 'big' }, origin); }
     const d = JSON.parse(body || '{}'), code = String(d.code || '').toUpperCase(), act = url.pathname.slice(8);
     if (!okCode(code)) return send(res, 400, { error: 'nocloud' }, origin);
+    const g = access(req, code, { owned: true }); if (!g.ok) return send(res, g.code, { error: g.error }, origin); // друзья — только ребёнку семьи, со своим токеном
     if (act === 'here' ? !limit('frh:' + code, 400, 6e5) : (!limit('fr:' + code, 120, 6e5) || !limit('frip:' + ip, 400, 6e5))) return send(res, 429, { error: 'slow' }, origin);
     if (!F.own[code]) { const p = newPub(); F.pub[p] = code; F.own[code] = p; touch(); }
     const me = F.own[code];
@@ -53,8 +56,9 @@ export function makeExtra({ DIR, CODE_DIR, SAVE_DIR, ORIGINS, limit, send, claud
       if (pub === me) return send(res, 400, { error: 'self' }, origin);
       if (family(code, F.pub[pub])) { const c0 = card(pub); return send(res, 200, { status: 'family', friend: { pub, cat: c0.cat, kid: c0.kid } }, origin); }
       const L = F.links[code] = F.links[code] || []; if (!L.includes(pub)) { if (L.length >= 30) return send(res, 400, { error: 'many' }, origin); L.push(pub); touch(); }
-      const other = F.pub[pub], c = card(pub);
-      return send(res, 200, { status: mutual(code, other) ? 'mutual' : linked2(code, other) ? 'approval' : 'pending', friend: { pub, cat: c.cat, kid: c.kid } }, origin);
+      const other = F.pub[pub], c = card(pub), st = mutual(code, other) ? 'mutual' : linked2(code, other) ? 'approval' : 'pending';
+      if (st === 'approval') { if (!approved(code, other)) askHook(code, other); if (!approved(other, code)) askHook(other, code); } // взрослым обеих семей — уведомление о запросе
+      return send(res, 200, { status: st, friend: { pub, cat: c.cat, kid: c.kid } }, origin);
     }
     if (act === 'list') {
       const mine = F.links[code] || [];
@@ -118,7 +122,7 @@ export function makeExtra({ DIR, CODE_DIR, SAVE_DIR, ORIGINS, limit, send, claud
   async function rpHandle(d, res, origin, ip) {
     const dev = String(d.device || '').slice(0, 40) || ip, sc = RP[d.scenario];
     if (!sc) return send(res, 400, { error: 'scenario' }, origin);
-    if (!limit('m:' + dev, 30, 6e5) || !limit('d:' + dev, 150, 864e5) || !dayOk()) return send(res, 429, { error: 'limit', reply: 'Мур, давай немного отдохнём и потренируемся позже!', mood: 'sad', flag: 'none' }, origin);
+    if (!limit('m:' + dev, 30, 6e5) || !limit('d:' + dev, 150, 864e5) || (chatLimit && !chatLimit(d, ip)) || !dayOk()) return send(res, 429, { error: 'limit', reply: 'Мур, давай немного отдохнём и потренируемся позже!', mood: 'sad', flag: 'none' }, origin);
     const nm = s => String(s || '').replace(/[^\p{L}\s-]/gu, '').slice(0, 20).trim(), kid = nm(d.kid) || 'друг';
     const clean = s => maskPII(String(s || '').slice(0, 400));
     const msgs = []; (Array.isArray(d.history) ? d.history.slice(-12) : []).forEach(h => { const role = h.r === 'u' ? 'user' : 'assistant', t = clean(h.t); if (!t) return; if (msgs.length && msgs[msgs.length - 1].role === role) msgs[msgs.length - 1].content += '\n' + t; else msgs.push({ role, content: t }); });
@@ -178,6 +182,7 @@ ${RULES}
     let body = ''; for await (const c of req) { body += c; if (body.length > 2000) return send(res, 413, { error: 'big' }, origin); }
     const d = JSON.parse(body || '{}'), code = String(d.code || '').toUpperCase();
     if (!okCode(code)) return send(res, 400, { error: 'nocloud' }, origin);
+    const g = access(req, code); if (!g.ok) return send(res, g.code, { error: g.error }, origin);
     if (!TG || !TG_BOT) return send(res, 200, { disabled: true }, origin);
     if (url.pathname === '/tg/link') { const tok = Array.from({ length: 16 }, () => AB[randomInt(AB.length)]).join(''); F.tgTok[tok] = { code, t: Date.now() }; touch(); return send(res, 200, { url: `https://t.me/${TG_BOT}?start=${tok}` }, origin); }
     if (url.pathname === '/tg/status') return send(res, 200, { linked: Object.values(F.tg).some(x => x.code === code) }, origin);
@@ -221,11 +226,12 @@ ${RULES}
   route.hasRp = id => !!RP[id];
   // v30: связь с кабинетами семьи (accounts.mjs)
   route.setFamilyHook = f => { famOf = f; };
+  route.setAccess = f => { access = f; }; route.setAskHook = f => { askHook = f; };
   route.friendCodes = code => (F.links[code] || []).map(p => F.pub[p]).filter(c => c && !family(code, c) && mutual(code, c));
   route.friendsAdmin = {
     list(code) { // для взрослого: друзья ребёнка из других семей и заявки, которые ждут разрешения
       const me = F.own[code], out = { friends: [], requests: [], waiting: [] }; if (!me) return out;
-      (F.links[code] || []).forEach(p => { const o = F.pub[p]; if (!o || family(code, o)) return; const c = card(p), x = { pub: p, cat: c.cat, kid: c.kid };
+      (F.links[code] || []).forEach(p => { const o = F.pub[p]; if (!o || family(code, o)) return; const c = card(p), x = { pub: p, cat: c.cat, kid: c.kid, code: o }; // code — только для сервера (accounts.mjs убирает его из ответа)
         if (mutual(code, o)) out.friends.push(x); else if (linked2(code, o)) (approved(code, o) ? out.waiting : out.requests).push(x); });
       return out;
     },
