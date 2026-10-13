@@ -9,16 +9,17 @@ const Friends = (() => {
   const on = () => S.friendsOn !== false;
   async function call(act, body = {}) {
     if (!S.kid) throw new Error('nokid');
-    const r = await fetch(API + act, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), ...body }) });
+    const r = await fetch(API + act, { method: 'POST', headers: { 'content-type': 'application/json', ...cloudHdr() }, body: JSON.stringify({ code: cloudCode(), ...body }) }); // v35: друзья — только с токеном ребёнка семьи
     const d = await r.json().catch(() => ({}));
     if (d.error === 'nocloud') { cloudDirty = true; cloudPush(); throw Object.assign(new Error('nocloud'), { soft: true }); }
+    if (r.status === 401 && d.error === 'auth' && typeof window.cloudUnlinked === 'function') window.cloudUnlinked();
     if (!r.ok) throw Object.assign(new Error(d.error || r.status), { code: d.error });
     return d;
   }
   const pubRooms = () => { try { return window.Lines.ROOMS.filter(roomOpen).map(r => r.id); } catch (e) { return []; } };
   function syncPub() { const pr = pubRooms(); if (JSON.stringify(pr) !== JSON.stringify(S.pubRooms || [])) { S.pubRooms = pr; save(); } }
   const furSafe = f => (FURS[f] ? f : 'ginger');
-  const ago = ts => { if (!ts) return ''; const m = Math.round((Date.now() - ts) / 6e4); return m < 60 ? 'был(а) недавно' : m < 1440 ? `был(а) ${Math.round(m / 60)} ч назад` : `был(а) ${Math.round(m / 1440)} дн. назад`; };
+  const ago = ts => { if (!ts) return ''; const m = Math.round((Date.now() - ts) / 6e4); return m < 60 ? 'в игре недавно' : m < 1440 ? `в игре ${Math.round(m / 60)} ч назад` : `в игре ${Math.round(m / 1440)} дн. назад`; };
   const roomName = id => (window.Lines.ROOMS.find(r => r.id === id) || {}).name || id;
 
   /* ---------- экран «Друзья» ---------- */

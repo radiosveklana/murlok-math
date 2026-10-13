@@ -39,7 +39,7 @@ const Extras = (() => {
   // каждое устройство хранит свой прогресс; если на другом устройстве (с тем же кодом) ушли дальше — предлагаем продолжить оттуда
   function cloudFresher() {
     if (!S.kid || !S.cloudCode || cloudOff() || sessionStorage.getItem('cloudChecked')) return; sessionStorage.setItem('cloudChecked', '1');
-    fetch(CLOUD + '/load?code=' + S.cloudCode).then(r => r.ok ? r.json() : null).then(d => {
+    fetch(CLOUD + '/load?code=' + S.cloudCode, { headers: cloudHdr() }).then(r => r.ok ? r.json() : null).then(d => {
       if (!d || d.v !== 1 || !d.savedAt || d.savedAt <= (S.cloudAt || 0) + 60000 || (d.xp || 0) <= (S.xp || 0)) return;
       const m = modal(`<div class="big-emoji">☁️🐾</div><h2>На другом устройстве ты ушла дальше!</h2><p>В облаке: ⭐ <b>${d.xp}</b> опыта, 🍬 ${d.candies || 0}, дел: ${d.cases || 0}.<br>Здесь: ⭐ <b>${S.xp}</b>.</p><p>Продолжить с более свежего прогресса?</p><div class="row-btns"><button class="btn pink" id="cfYes">Да, продолжить оттуда</button><button class="btn" id="cfNo">Нет, оставить этот</button></div>`.replace('ушла', /[аяь]$/i.test(S.kid || '') ? 'ушла' : 'ушёл'));
       $('#cfYes', m.el).addEventListener('click', () => { exportBackup(); cloudRestore(S.cloudCode).catch(() => { m.close(); toast('Не получилось загрузить'); }); });
@@ -60,7 +60,7 @@ const Extras = (() => {
   setTimeout(cloudFresher, 3500);
 
   /* ================= Telegram для родителя ================= */
-  const tg = (act, body = {}) => fetch(CLOUD + '/tg/' + act, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), ...body }) }).then(r => r.json());
+  const tg = (act, body = {}) => fetch(CLOUD + '/tg/' + act, { method: 'POST', headers: { 'content-type': 'application/json', ...cloudHdr() }, body: JSON.stringify({ code: cloudCode(), ...body }) }).then(r => r.json());
   // отчёт теперь семейный и подключается в кабинете родителя (accounts.js) — здесь только путь туда
   { const par = SCREENS.parents; SCREENS.parents = arg => {
     par(arg); const pg = $('.page.parents', app), anchor = pg && $('#reset', pg); if (!anchor) return; const hasP = window.Accounts && Accounts.parent();

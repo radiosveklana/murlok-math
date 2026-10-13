@@ -65,7 +65,7 @@ const FAMCHAL = { id: 'HFAMCHAL01', tpl: 'fam_tasks', kind: 'family', mode: '', 
   await E2(() => { award(0, 50); }); ok('daily XP tracked', await E2(() => S.daily[today()].x === 50));
   /* приглашённый взрослый: другое согласие */
   await E2(() => go('pauth')); await sleep(400); await q.type('#aem', 'babushka@test.ru'); await E2(() => document.querySelector('#asend').click()); await sleep(700);
-  ok('invited adult: invitation shown, consent for self', await E2(() => /Вас пригласил\(а\) mama@test.ru/.test(document.body.innerText) && /член семьи ребёнка/.test(document.querySelector('#acons').innerText)));
+  ok('invited adult: invitation shown, consent for self', await E2(() => /Приглашение в семейный кабинет от mama@test.ru/.test(document.body.innerText) && /член семьи ребёнка/.test(document.querySelector('#acons').innerText)));
 
   /* ---------- ребёнок из кабинета семьи ---------- */
   const p = await page(); await p.goto(URL); await p.waitForSelector('#kid');
@@ -132,9 +132,9 @@ const FAMCHAL = { id: 'HFAMCHAL01', tpl: 'fam_tasks', kind: 'family', mode: '', 
   /* ---------- кабинет взрослого ---------- */
   await E(() => localStorage.setItem('murlok-parent', JSON.stringify({ token: 'PTOKEN', email: 'mama@test.ru' })));
   await go('pcab'); await sleep(1200);
-  ok('cabinet: adults of the family', await E(() => { const t = document.querySelector('#fadults').innerText; return /mama@test.ru/.test(t) && /Бабушка/.test(t) && !!document.querySelector('[data-arm="PADULT002"]'); }));
+  ok('cabinet: adults of the family', await E(() => { const t = document.querySelector('#fadults').textContent; return /mama@test.ru/.test(t) && /Бабушка/.test(t) && !!document.querySelector('[data-arm="PADULT002"]'); }));
   await E(() => document.querySelectorAll('#app details').forEach(d => { d.open = true; })); await p.type('#iemail', 'papa2@test.ru'); await click('#irole .chip[data-r="Дедушка"]'); await click('#iadd'); await sleep(500);
-  ok('invite adult sent', calls.some(c => c.act === 'acc/fam/invite' && c.d.email === 'papa2@test.ru' && c.d.name === 'Дедушка' && c.auth === 'Bearer PTOKEN'));
+  ok('invite adult sent', calls.some(c => c.act === 'acc/fam/invite' && c.d.email === 'papa2@test.ru' && c.d.kin === 'Дедушка' && c.auth === 'Bearer PTOKEN'));
   await go('pcab'); await sleep(1500);
   ok('cabinet: weekly table + challenges', await E(() => document.querySelectorAll('#pcab-social .fm-tbl tr').length === 3 && /500 задач семьёй/.test(document.querySelector('#pcab-social').innerText)));
   await E(() => document.querySelectorAll('#app details').forEach(d => { d.open = true; })); await click('[data-cadd="fam_days"]'); await sleep(300); ok('parent creates family challenge', calls.some(c => c.act === 'acc/fam/chal' && c.d.tpl === 'fam_days'));

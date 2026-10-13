@@ -32,7 +32,9 @@ function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e
 // на своём домене — тот же адрес, без CORS. Только на localhost: localStorage 'murlok-api-base' направляет игру на локальный сервер (tools/e2e/journey.js)
 const API_DEV = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && (() => { try { return localStorage.getItem('murlok-api-base') || ''; } catch (e) { return ''; } })();
 const CLOUD = API_DEV || (location.hostname === 'murlok.tech-wave.ru' ? '/api' : 'https://level.tech-wave.ru/murlok-api');
-if (VIEW) { try { const x = new XMLHttpRequest(); x.open('GET', CLOUD + '/load?code=' + VIEW, false); x.send(); const d = x.status === 200 ? JSON.parse(x.responseText) : null; if (d && d.v === 1) { const f = fresh(); S = { ...f, ...d, st: { ...f.st, ...d.st }, wear: { ...f.wear, ...d.wear }, music: { ...f.music, ...(d.music || {}) }, prefs: { ...f.prefs, ...d.prefs }, lessons: { ...f.lessons, ...d.lessons }, sound: false, voice: false, music: { mode: 'off', vol: 0 }, chatOn: false }; } else window.VIEW_FAIL = true; } catch (e) { window.VIEW_FAIL = true; } }
+// v35: облачная копия ребёнка из семьи — только с токеном (ребёнка на его устройстве, взрослого — в окне отчёта)
+function cloudHdr(parentToo) { try { const c = window.Accounts ? Accounts.child() : JSON.parse(localStorage.getItem('murlok-acc:' + KEY) || 'null'); if (c && c.token) return { authorization: 'Bearer ' + c.token }; if (parentToo) { const p = JSON.parse(localStorage.getItem('murlok-parent') || 'null'); if (p && p.token) return { authorization: 'Bearer ' + p.token }; } } catch (e) { } return {}; }
+if (VIEW) { try { const x = new XMLHttpRequest(); x.open('GET', CLOUD + '/load?code=' + VIEW, false); const ph = (() => { try { return JSON.parse(localStorage.getItem('murlok-parent') || 'null'); } catch (e) { return null; } })(); if (ph && ph.token) x.setRequestHeader('authorization', 'Bearer ' + ph.token); x.send(); const d = x.status === 200 ? JSON.parse(x.responseText) : null; if (d && d.v === 1) { const f = fresh(); S = { ...f, ...d, st: { ...f.st, ...d.st }, wear: { ...f.wear, ...d.wear }, music: { ...f.music, ...(d.music || {}) }, prefs: { ...f.prefs, ...d.prefs }, lessons: { ...f.lessons, ...d.lessons }, sound: false, voice: false, music: { mode: 'off', vol: 0 }, chatOn: false }; } else window.VIEW_FAIL = true; } catch (e) { window.VIEW_FAIL = true; } }
 let cloudT = null, cloudDirty = false, cloudFirst = 0, cloudP = null;
 function cloudCode() { if (!S.cloudCode) { const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; S.cloudCode = Array.from({ length: 8 }, () => a[Math.floor(Math.random() * a.length)]).join(''); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } } return S.cloudCode; }
 // 8 с тишины — и в облако; при непрерывной игре — не реже раза в 25 с (раньше каждое сохранение сдвигало отправку, и таблица успехов отставала)
@@ -41,15 +43,16 @@ const cloudOff = () => !!VIEW || (location.hostname === 'localhost' && !window.A
 // cloudAt — время последней синхронизации по часам сервера. Если в облаке прогресс больше, а это устройство его не видело
 // (играли на другом устройстве), сервер отвечает 409 — не затираем, а спрашиваем, с какого прогресса продолжить (extras.js)
 function cloudPush(force) { if (!cloudDirty || !S.kid || cloudOff()) return cloudP; cloudDirty = false; clearTimeout(cloudT); cloudT = null; const data = { ...S, chatLog: [] }; delete data.pin; delete data.pinLock; /* переписку с котиком и ПИН взрослого на сервер не отправляем */
-  return cloudP = fetch(CLOUD + '/save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: cloudCode(), data, ...(force === true ? { force: true } : {}) }) })
-    .then(r => r.json().catch(() => ({})).then(j => { if (r.ok) { S.cloudAt = j.savedAt || Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } } else if (r.status === 409) { if (typeof window.cloudStale === 'function') window.cloudStale(j); } else cloudDirty = true; }))
+  return cloudP = fetch(CLOUD + '/save', { method: 'POST', headers: { 'content-type': 'application/json', ...cloudHdr() }, body: JSON.stringify({ code: cloudCode(), data, ...(force === true ? { force: true } : {}) }) })
+    .then(r => r.json().catch(() => ({})).then(j => { if (r.ok) { S.cloudAt = j.savedAt || Date.now(); if (j.kid && S.role !== 'adult' && j.kid !== S.kid) S.kid = j.kid; /* взрослый переименовал ребёнка в кабинете */ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } } else if (r.status === 409) { if (typeof window.cloudStale === 'function') window.cloudStale(j); } else if (r.status === 401 && j.error === 'auth') { if (typeof window.cloudUnlinked === 'function') window.cloudUnlinked(); } else cloudDirty = true; }))
     .catch(() => { cloudDirty = true; }).finally(() => { cloudP = null; }); }
 // перед показом таблицы успехов и вызовов — свежий прогресс уже на сервере (иначе «я сыграла, а цифры старые»)
+const cloudSaved = () => !!S.cloudAt && (typeof window.accLinked !== 'function' || window.accLinked()); // «☁️ сохранено» — только пока устройство в семье
 function cloudFlush() { return Promise.resolve(cloudPush()).then(() => cloudP).catch(() => { }); }
 document.addEventListener('visibilitychange', () => { if (document.hidden) cloudPush(); });
 async function cloudRestore(code) {
   code = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); if (code.length !== 8) throw new Error('code');
-  const r = await fetch(CLOUD + '/load?code=' + code); if (!r.ok) throw new Error('nf');
+  const r = await fetch(CLOUD + '/load?code=' + code, { headers: cloudHdr() }); if (!r.ok) throw new Error('nf');
   const d = await r.json(); if (!d || d.v !== 1) throw new Error('bad'); d.cloudCode = code; d.cloudAt = d.savedAt || Date.now(); if (S.pin && S.kid === d.kid) { d.pin = S.pin; d.pinLock = S.pinLock; } else delete d.pin; localStorage.setItem(KEY, JSON.stringify(d)); location.reload();
 }
 try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { }
@@ -904,7 +907,7 @@ SCREENS.home = () => {
       <div class="hero-say" id="heroSay" hidden></div>
       <div class="hero-name">Детектив ${esc(S.kid)}</div>
       <div class="small">Напарник — кот ${esc(S.name)} 🐾</div>
-      <div class="rank">🎖️ ${r.name} <span class="xpn">⭐ ${S.xp} опыта${S.cloudAt ? ' · ☁️ сохранено' : ''}</span></div>
+      <div class="rank">🎖️ ${r.name} <span class="xpn">⭐ ${S.xp} опыта${cloudSaved() ? ' · ☁️ сохранено' : ''}</span></div>
       <div class="bar"><i style="width:${Math.round(r.prog * 100)}%"></i></div>
       <div class="small">${r.next ? `До звания «${r.next[1]}» — ещё ${r.next[0] - S.xp} ⭐` : 'Высшее звание агентства!'}</div>
       <div class="daily"><div><b>Задание дня:</b> решено ${todayN} ${plural(todayN, 'задача', 'задачи', 'задач')}</div><div class="goalbar"><div class="bar mint"><i style="width:${Math.min(1, todayN / 20) * 100}%"></i></div>${GOAL_TIERS.map(g => `<span class="gt ${todayN >= g.n ? 'got' : ''}" style="left:${g.n / 20 * 100}%">${todayN >= g.n ? '✅' : g.icon}<small>${g.n}</small></span>`).join('')}</div><div class="small">Сундуки за 5, 10 и 20 задач в день 🎁</div></div>

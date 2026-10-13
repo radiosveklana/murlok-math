@@ -1375,3 +1375,18 @@ a.set-row { text-decoration: none; color: inherit; }
 body.view-ro header.top .back, body.view-ro header.top .pill, body.view-ro #mascot, body.view-ro .upd, body.view-ro #reset, body.view-ro .danger { display: none !important; }
 body.view-ro .to-game, body.view-ro .ptabs button[data-tab="acc"] { display: none !important; }
 .top-note { border: 2px solid var(--mint, #2ec4a0); }
+
+/* v35: кабинет взрослого — раскрывающиеся блоки; в разделе для взрослых нет игровой валюты */
+.scr-pcab header.top .pill, .scr-pauth header.top .pill, .scr-agate header.top .pill, .scr-pinset header.top .pill, .scr-linknow header.top .pill, .scr-parents header.top .pill { display: none; }
+.cab-sec { margin: 10px 0; background: #fff; border-radius: 20px; box-shadow: var(--sh); overflow: hidden; }
+.cab-sec > summary { cursor: pointer; padding: 14px 18px; font-weight: 800; font-size: 18px; list-style: none; display: flex; align-items: center; gap: 8px; }
+.cab-sec > summary::-webkit-details-marker { display: none; }
+.cab-sec > summary::after { content: '›'; margin-left: auto; font-size: 22px; transition: transform .2s; }
+.cab-sec[open] > summary::after { transform: rotate(90deg); }
+.cab-sec > summary small { color: var(--muted); font-weight: 700; }
+.cab-sec > .card, .cab-sec > div > .card { box-shadow: none; margin: 0; border-radius: 0; border-top: 1px solid var(--line); }
+.kid-row { grid-template-columns: 56px 1fr; } .kr-btns { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+.kr-btns .kr-del { margin-left: auto; }
+.fr-from { display: block; color: var(--muted); }
+.pin-big { font-size: 28px; letter-spacing: 6px; }
+.cab-logins { max-height: 220px; overflow: auto; }
