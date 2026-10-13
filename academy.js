@@ -195,7 +195,9 @@ const ACAD_Q = {
   },
   tf: {
     render: q => `<div class="q-text">${q.q}</div><div class="opts"><button class="opt" data-v="1">✅ Правда</button><button class="opt" data-v="0">❌ Неправда</button></div>`,
-    bind: (el, q, done) => { let d = false; $$('.opt', el).forEach(b => b.addEventListener('click', () => { if (d) return; d = true; const r = (b.dataset.v === '1') === !!q.c; b.classList.add(r ? 'right' : 'wrong'); done(r, q.why); })); },
+    bind: (el, q, done) => { let d = false; $$('.opt', el).forEach(b => b.addEventListener('click', () => { if (d) return; d = true; const r = (b.dataset.v === '1') === !!q.c; b.classList.add(r ? 'right' : 'wrong'); $(`.opt[data-v="${q.c ? 1 : 0}"]`, el).classList.add('right');
+      // при ошибке разбор не начинаем с «Да!»/«Нет!» — сначала прямо говорим, какой ответ верный
+      done(r, r ? q.why : `Правильный ответ — <b>${q.c ? 'Правда' : 'Неправда'}</b>. ${String(q.why || '').replace(/^\s*(Да|Нет|Верно|Правда|Неправда)\s*[!,.:—–-]*\s*/i, '').replace(/^./, ch => ch.toUpperCase())}`); })); },
   },
   order: {
     render: q => `<div class="q-text">${q.q}</div><div class="ord-ans" id="oa"></div><div class="ord-pool">${shuffle(q.items.map((t, i) => ({ t, i }))).map(o => `<button class="ord" data-i="${o.i}">${o.t}</button>`).join('')}</div><div class="row-btns"><button class="btn sm" id="ores">↺ Заново</button><button class="btn pink" id="ochk" disabled>Проверить</button></div>`,

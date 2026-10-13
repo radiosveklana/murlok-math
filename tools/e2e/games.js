@@ -1,12 +1,13 @@
 const puppeteer = require('puppeteer-core');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const URL = process.env.URL || 'http://localhost:8765/app/';
 (async () => {
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new', args: ['--autoplay-policy=no-user-gesture-required'] });
   const p = await b.newPage(); await p.setViewport({ width: 820, height: 1180 });
   const errs = []; p.on('pageerror', e => errs.push(e.message));
-  await p.goto('http://localhost:8765/app/'); await p.waitForSelector('#kid');
+  await p.goto(URL); await p.waitForSelector('#kid');
   await p.evaluate(() => { localStorage.setItem('murlok-detective-v1', JSON.stringify(Object.assign(fresh(), { name: 'Мурзик', kid: 'Света', seenVersion: '17', login: { last: today(), day: 1 }, houseV: 2, care: { food: 90, water: 90, fun: 90, energy: 90, clean: 90, t: Date.now() } }))); });
-  await p.goto('http://localhost:8765/app/'); await sleep(1200);
+  await p.goto(URL); await sleep(1200);
   await p.evaluate(() => go('games')); await sleep(500); await p.screenshot({ path: __dirname + '/shots/G-hub.png' });
   const ev = s => Function('return (' + s.replace(/×/g, '*').replace(/·/g, '*').replace(/:/g, '/').replace(/−/g, '-') + ')')();
   const key = async k => { await p.keyboard.press(k); await sleep(30); };
@@ -15,7 +16,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   for (let i = 0; i < 40; i++) {
     if (await p.$('.g-result')) break;
     if (await p.$('#gn')) { await p.click('#gn'); await sleep(400); continue; }
-    if (await p.$('#sin')) { const r = await p.evaluate(() => { const t = document.querySelector('.eqline').innerText; return t; }); const m = r.match(/(?:(\d+) · )?x(?: \+ (\d+))? = (\d+)/); const a = +(m[1] || 1), bb = +(m[2] || 0), c = +m[3]; for (const ch of String((c - bb) / a)) await key(ch); await key('Enter'); await sleep(500); continue; }
+    if (await p.$('#sin')) { const r = await p.evaluate(() => document.querySelector('.eqline').innerText.replace('?', document.querySelector('.pan.r .wt').innerText)); const m = r.match(/(?:(\d+) · )?x(?: \+ (\d+))? = (\d+)/); const a = +(m[1] || 1), bb = +(m[2] || 0), c = +m[3]; for (const ch of String((c - bb) / a)) await key(ch); await key('Enter'); await sleep(500); continue; }
     const opts = await p.$$('#sq .opt'); for (const o of opts) { const t = await o.evaluate(e => e.innerText); if (/обеих|Разделить/.test(t)) { await o.click(); break; } } await sleep(800);
   }
   await p.screenshot({ path: __dirname + '/shots/G-scales-end.png' });

@@ -115,7 +115,7 @@ SCREENS.house = (roomId) => {
       <div class="room-cat" id="rcat" style="left:${cat.x}%;bottom:${cat.y}%;z-index:${zOf(cat.y) + 1}">${myCat()}</div>
       <div class="trash" id="trash">🗑️<small>в сундук</small></div>
       ${placing ? `<div class="ghost" id="ghost" style="--s:${FSIZE[placing] || 10}">${icon(placing, anyItem(placing).icon)}</div>` : ''}
-      ${open ? '' : `<div class="room-lock"><div class="big-emoji">🔒</div><h3>«${cur.name}»</h3><p>Чтобы открыть, реши <b>${lockText(cur)}</b>.</p><div class="bar"><i style="width:${Math.min(1, (Math.min(n, cur.need) + Math.min(S.st.eq.done, cur.eq || 0)) / (cur.need + (cur.eq || 0) || 1)) * 100}%"></i></div><p class="small">Задач: ${n} из ${cur.need} · уравнений: ${S.st.eq.done} из ${cur.eq || 0}</p>${(cur.eq || 0) > S.st.eq.done ? '<button class="btn pink sm" id="goeq">📦 Решать уравнения</button>' : ''}</div>`}`;
+      ${open ? '' : `<div class="room-lock"><div class="big-emoji">🔒</div><h3>«${cur.name}»</h3><p>Чтобы открыть, реши <b>${lockText(cur)}</b>.</p><div class="bar"><i style="width:${Math.min(1, (Math.min(n, cur.need) + Math.min(S.st.eq.done, cur.eq || 0)) / (cur.need + (cur.eq || 0) || 1)) * 100}%"></i></div><p class="small">Задач: ${Math.min(n, cur.need)} из ${cur.need}${n >= cur.need ? " ✔" : ""}${cur.eq ? ` · уравнений: ${Math.min(S.st.eq.done, cur.eq)} из ${cur.eq}${S.st.eq.done >= cur.eq ? " ✔" : ""}` : ""}</p>${(cur.eq || 0) > S.st.eq.done ? '<button class="btn pink sm" id="goeq">📦 Решать уравнения</button>' : ''}</div>`}`;
     $('#invn').textContent = invList().length || '';
     drawCare();
     if (!open) { hint(''); say((cur.eq || 0) > S.st.eq.done ? PH.quest[0] : PH.room[1]); const ge = $('#goeq'); if (ge) ge.addEventListener('click', goEquations); return; }

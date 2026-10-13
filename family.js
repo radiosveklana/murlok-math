@@ -112,7 +112,7 @@ const Family = (() => {
   /* ---------- вызовы ---------- */
   async function people() { const d = await api('social/people'); return [...(d.family || []).map(p => ({ ...p, fam: true })), ...(d.friends || [])]; }
   function pickGame(p, pre) {
-    const m = modal(`<h2>⚔️ Вызов: ${esc(p.name)}</h2><p class="small">Вы оба пройдёте <b>одно и то же</b> задание. Ты — первым, а ${esc(p.name)} получит вызов в игре. Победитель получит 🍬!</p>
+    const m = modal(`<h2>⚔️ Вызов: ${esc(p.name)}</h2><p class="small">Вы оба пройдёте <b>одно и то же</b> задание. Ты играешь перв${girl(S.kid) ? "ой" : "ым"}, а ${esc(p.name)} получит вызов в игре. Победитель получит 🍬!</p>
       <div class="fm-games">${Object.entries(GAMES).map(([id, g]) => `<button class="btn ${pre === id ? 'pink' : ''}" data-g="${id}">${g.icon} ${g.name}</button>`).join('')}</div><div id="fmtop"></div><button class="btn" data-close>Отмена</button>`);
     $$('[data-g]', m.el).forEach(b => b.addEventListener('click', () => {
       if (b.dataset.g !== 'topic') { m.close(); start(p, b.dataset.g); return; }
@@ -138,7 +138,7 @@ const Family = (() => {
   }
   async function drawDuels(box) {
     const [d, L] = await Promise.all([api('duel/list'), people().catch(() => [])]); if (!$('#fmp')) return;
-    const dl = (x, act) => `<div class="fm-duel ${x.result || ''}">${ava(x.other)}<div class="fm-who"><b>${x.icon} ${esc(plain(gameName(x)))}</b><small>${x.iStarted ? 'ты вызвал' + (girl(S.kid) ? 'а' : '') : 'тебя вызвал' + (girl(x.other.name) ? 'а' : '')} ${x.iStarted ? esc(x.other.name) : esc(x.other.name)}</small>
+    const dl = (x, act) => `<div class="fm-duel ${x.result || ''}">${ava(x.other)}<div class="fm-who"><b>${x.icon} ${esc(plain(gameName(x)))}</b><small>${x.iStarted ? 'твой вызов: ' + esc(x.other.name) : 'тебя вызвал' + (girl(x.other.name) ? 'а ' : ' ') + esc(x.other.name)}</small>
       <small>Ты: <b>${resText(x.game, x.mine)}</b> · ${esc(x.other.name)}: <b>${x.theirs ? resText(x.game, x.theirs) : 'ещё не играл' + (girl(x.other.name) ? 'а' : '')}</b></small></div>${act || (x.result ? `<span class="fm-res">${x.result === 'win' ? '🏆' : x.result === 'draw' ? '🤝' : '💪'}</span>` : '<span class="fm-res">⏳</span>')}</div>`;
     box.innerHTML = `${d.incoming.length ? `<div class="card hl"><h3>📨 Тебе бросили вызов!</h3>${d.incoming.map(x => dl(x, `<button class="btn sm pink" data-play="${x.id}">Принять!</button>`)).join('')}</div>` : ''}
       <div class="card"><h3>⚔️ Бросить вызов</h3>${L.length ? `<div class="fm-people">${L.map(p => `<button class="fm-person" data-p="${p.id}">${ava(p)}<b>${esc(p.name)}</b><small>${p.adult ? '🧑 взрослый' : p.fam ? '👨‍👩‍👧 семья' : '🤝 друг'}</small></button>`).join('')}</div><p class="small">Игры: таблица Шульте, Быстрые лапки или блиц по теме из Школы сыщика. Вы проходите одно и то же задание — кто лучше?</p>` : '<p class="small">Вызвать можно семью и друзей. Пока никого нет — добавь друзей в разделе «Друзья».</p><button class="btn" data-go="friends">🤝 К друзьям</button>'}</div>
@@ -156,7 +156,7 @@ const Family = (() => {
     const box = $('#dbox'); if (!box) return; // пока грузили — ушли на другой экран
     if (d.mine) return showResult(box, d);
     box.innerHTML = `<div class="fm-vs">${ava({ fur: S.fur, wear: S.wear })}<b>VS</b>${ava(d.other)}</div><h2>${d.icon} ${esc(plain(gameName(d)))}</h2>
-      <p>${d.theirs ? `${esc(d.other.name)} уже сыграл${girl(d.other.name) ? 'а' : ''}: <b>${resText(d.game, d.theirs)}</b>. Сможешь лучше?` : `Ты играешь первым${girl(S.kid) ? '(ой)' : ''}. Потом ${esc(d.other.name)} пройдёт <b>то же самое</b> задание.`}</p>
+      <p>${d.theirs ? `${esc(d.other.name)} уже сыграл${girl(d.other.name) ? 'а' : ''}: <b>${resText(d.game, d.theirs)}</b>. Сможешь лучше?` : `Ты играешь перв${girl(S.kid) ? 'ой' : 'ым'}. Потом ${esc(d.other.name)} пройдёт <b>то же самое</b> задание.`}</p>
       <p class="small">${/^schulte/.test(d.game) ? 'Побеждает тот, кто быстрее. Каждая ошибка — +1 секунда.' : d.game === 'paws' ? 'За 60 секунд — как можно больше верных ответов.' : '10 заданий: побеждает тот, у кого больше верных, а при равенстве — кто быстрее.'} Попытка одна!</p>
       <button class="btn big pink" id="dgo">Старт!</button>`;
     $('#dgo').addEventListener('click', () => {
@@ -188,13 +188,15 @@ const Family = (() => {
   const resShown = () => { try { return JSON.parse(sessionStorage.getItem('duelResShown') || '[]'); } catch (e) { return []; } };
   function showFinished(n) {
     const L = (n.finished || []).filter(d => d.done && !d.claimed && !resShown().includes(d.id)); if (!L.length) return;
-    const tryIt = k => { if (curScreen !== 'home' || resShown().includes(L[0].id)) return; if ($('.modal')) { if (k < 20) setTimeout(() => tryIt(k + 1), 1500); return; }
-      const d = L[0]; try { sessionStorage.setItem('duelResShown', JSON.stringify([...resShown(), d.id])); } catch (e) { }
+    // v35: итог вызова не теряется в очереди окон главной: очередь (новости, подарок, сундук) ждёт, пока итог не покажется (window.__homeHold)
+    window.__homeHold = true;
+    const tryIt = k => { if (curScreen !== 'home' || resShown().includes(L[0].id)) { window.__homeHold = false; return; } if ($('.modal')) { setTimeout(() => tryIt(k + 1), 400); return; }
+      window.__homeHold = false; const d = L[0]; try { sessionStorage.setItem('duelResShown', JSON.stringify([...resShown(), d.id])); } catch (e) { }
       const m = modal(`<div class="big-emoji">${d.result === 'win' ? '🏆' : d.result === 'draw' ? '🤝' : '🐾'}</div><h2>Итог вызова: ${headOf(d)}</h2><p>${d.icon} <b>${esc(plain(gameName(d)))}</b></p>${scoreHTML(d)}<div class="row-btns"><button class="btn pink" data-go="duels">К вызовам</button><button class="btn" data-close>Ура!</button></div>`);
       if (d.result === 'win') confetti(30); M.meow({ shape: 'happy' }); claimDuels([d]).then(() => { news = null; if (L.length > 1) setTimeout(() => showFinished({ finished: L.slice(1) }), 1200); });
       m.el.addEventListener('click', e => { if (e.target.closest('[data-close]')) news = null; });
     };
-    setTimeout(() => tryIt(0), 2500);
+    setTimeout(() => tryIt(0), 300);
   }
 
   /* ---------- челленджи ---------- */

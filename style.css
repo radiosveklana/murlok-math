@@ -1375,3 +1375,19 @@ a.set-row { text-decoration: none; color: inherit; }
 body.view-ro header.top .back, body.view-ro header.top .pill, body.view-ro #mascot, body.view-ro .upd, body.view-ro #reset, body.view-ro .danger { display: none !important; }
 body.view-ro .to-game, body.view-ro .ptabs button[data-tab="acc"] { display: none !important; }
 .top-note { border: 2px solid var(--mint, #2ec4a0); }
+
+/* v35 (отзыв ребёнка): кнопка обновления — компактная, внизу справа, не закрывает заголовки; в заданиях с клавиатурой не мешает */
+.upd { top: auto; left: auto; right: max(10px, env(safe-area-inset-right)); bottom: max(10px, env(safe-area-inset-bottom)); transform: none; padding: 7px 12px; font-size: 13px; font-weight: 800; animation: updIn .4s; box-shadow: 0 4px 12px rgba(47,191,151,.35); }
+@keyframes updIn { from { opacity: 0; transform: translateY(20px); } }
+body:has(#app .pad) .upd { display: none; }
+/* шпаргалка 📋 в играх на время не показывается (честный рекорд) */
+body:has(#app .timer, #app .bz-score, #app .fake-timer) .cs-btn { display: none !important; }
+/* зелёная ручка при ошибке: нейтральный цвет, без «галочки» */
+html body .fb.gp-ok { color: var(--muted, #7a6b88); font-weight: 700; font-size: .95em; }
+/* телефон: шпаргалка 📋 в шапке — в своей колонке, а не на второй строке; условие задачи видно целиком (раньше обрезалось и подлезало под заголовок) */
+@media (max-width: 420px) {
+  .top:has(> .cs-btn) { grid-template-columns: auto minmax(0, 1fr) auto auto; }
+  .top > .cs-btn { grid-row: 1 / span 2; grid-column: 3; }
+  .top:has(> .cs-btn) > .pill { grid-column: 4; }
+}
+@media (max-width: 640px) { .task-page .story-card { display: block; -webkit-line-clamp: unset; overflow: visible; line-height: 1.35; } }

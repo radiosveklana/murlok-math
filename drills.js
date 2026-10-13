@@ -4,6 +4,7 @@
 'use strict';
 const Drills = (() => {
   const R = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  const gA = () => (S.kid ? (/[аяь]$/i.test(S.kid) ? 'а' : '') : '(а)'); // род по имени ребёнка
   const MODES = {
     div: { icon: '➗', name: 'Деление по таблице', gen: () => { const b = R(2, 9), q = R(2, 10); return { t: `${b * q} : ${b}`, a: q }; } },
     round: { icon: '🔟', name: '×10, ×100, ×1000 и :', gen: () => { const k = [10, 100, 1000][R(0, 2)], n = R(2, 99); return Math.random() < 0.5 ? { t: `${n} · ${k}`, a: n * k } : { t: `${n * k} : ${k}`, a: n }; } },
@@ -66,10 +67,10 @@ const Drills = (() => {
         if (r && q.wrong && q.correct != null) { // поймал Енота — а правильный ответ знаешь?
           let buf = ''; $('#b2w').innerHTML = `<div class="fb">✔ Поймал${/[аяь]$/i.test(S.kid || '') ? 'а' : ''} Енота!</div><p>А какой ответ правильный? <span class="inp" id="b2v">?</span> <small>(+3 🍬)</small></p>${numpad(true)}<button class="btn sm" id="b2skip">Пропустить</button>`;
           $('#b2skip').addEventListener('click', () => { keyHandler = null; next(); });
-          bindPad($('#b2w'), { digit: x => { if (buf.length < 7) { buf += x; $('#b2v').textContent = buf; } }, back: () => { buf = buf.slice(0, -1); $('#b2v').textContent = buf || '?'; }, ok: () => { if (!buf) return; keyHandler = null; if (+buf === q.correct) { SND.win(); award(3, 10); toast('🎯 Точно! Ты исправил(а) Енота'); } else { SND.bad(); toast('Правильно: ' + q.correct); } next(); } });
+          bindPad($('#b2w'), { digit: x => { if (buf.length < 7) { buf += x; $('#b2v').textContent = buf; } }, back: () => { buf = buf.slice(0, -1); $('#b2v').textContent = buf || '?'; }, ok: () => { if (!buf) return; keyHandler = null; if (+buf === q.correct) { SND.win(); award(3, 10); toast('🎯 Точно! Ты исправил' + gA() + ' Енота'); } else { SND.bad(); toast('Правильно: ' + q.correct); } next(); } });
         } else next();
       }); };
-    const fin = () => { if (ok === N) awardGems(1, 'за то, что поймал(а) все ошибки Енота'); SND.win(); $('#b2q').innerHTML = `<div class="center g-result"><div class="big-emoji">${ok === N ? '🏆' : '🦝'}</div><h2>${ok} из ${N}!</h2><div class="row-btns"><button class="btn big pink" id="b2a">Ещё</button><button class="btn" data-go="bugs">К ошибкам Енота</button></div></div>`; $('#b2a').addEventListener('click', () => go('bugs2')); };
+    const fin = () => { if (ok === N) awardGems(1, 'за то, что поймал' + gA() + ' все ошибки Енота'); SND.win(); $('#b2q').innerHTML = `<div class="center g-result"><div class="big-emoji">${ok === N ? '🏆' : '🦝'}</div><h2>${ok} из ${N}!</h2><div class="row-btns"><button class="btn big pink" id="b2a">Ещё</button><button class="btn" data-go="bugs">К ошибкам Енота</button></div></div>`; $('#b2a').addEventListener('click', () => go('bugs2')); };
     ask();
   };
   { const bg = SCREENS.bugs; SCREENS.bugs = arg => { bg(arg); const pg = $('.page', app); if (pg) pg.insertAdjacentHTML('afterbegin', '<button class="btn mint bugs2-link" data-go="bugs2">🦝 Ошибки Енота во всей программе: деление, задачи, величины, порядок действий →</button>'); }; }

@@ -218,6 +218,8 @@ const Modes = (() => {
     eq: () => { const eq = E.genEq(R(2, 3)), right = Math.random() < RIGHT_P; let x = eq.x; if (!right) { const c = shuffle([-3, -2, -1, 1, 2, 3, 10, -10]).map(dd => eq.x + dd).filter(v => v > 0 && E.evalE(eq.lhs, v) !== eq.rhs); x = c.length ? c[0] : eq.x + 1; }
       return { type: 'tf', c: right, wrong: !right, correct: eq.x, fix: { kind: 'num', c: eq.x }, q: `<div class="small">📦 Уравнения</div>Енот решил уравнение <b>${E.eqText(eq.lhs)} = ${eq.rhs}</b> и получил <b>x = ${x}</b>.${VERDICT}`, why: `Проверка: подставим x = ${eq.x}: ${E.eqText(eq.lhs, eq.x)} = ${eq.rhs} ✔. Правильно: <b>x = ${eq.x}</b>.` }; },
   };
+  // v35: место преступления в предложном падеже — добавляем предлог («в кафе», «на ярмарке»)
+  const inPlace = p => /^у\s/.test(p) ? p : (/(^|\s)(ярмарке|конкурсе|катке|кассе|шахте|пляже|пасеке|ферме|рынке|корабле|поле|празднике|мельнице|маяке|лодке|фабрике|фестивале|коробке)(\s|$)/.test(String(p).split(' ').slice(0, 2).join(' ')) ? 'на ' : 'в ') + p;
   /* темы Школы: старые темы + все темы программы + будущие школьные предметы */
   function schoolEntries() {
     const out = [], m4 = sbj('math4'), G = window.School4 ? School4.GROUPS : [];
@@ -342,7 +344,7 @@ const Modes = (() => {
     const p = S.prefs; if (![...TOPICS, ...CLASSIC].some(t => t[0] === p.topic)) p.topic = 'all';
     const cr = nextCrime(), n = S.cases + 1;
     app.innerHTML = `${topbar('Новое дело')}<div class="page newcase nc2">
-      <div class="helper nc-case"><div class="mini-cat">${myCat({ cls: 'mini' })}</div><div class="nc-ct"><span class="nc-no">📁 Дело №${n}</span><b>«${esc(cr.title)}»</b><small>Где: ${esc(cr.place)}</small></div></div>
+      <div class="helper nc-case"><div class="mini-cat">${myCat({ cls: 'mini' })}</div><div class="nc-ct"><span class="nc-no">📁 Дело №${n}</span><b>«${esc(cr.title)}»</b><small>Где: ${esc(inPlace(cr.place))}</small></div></div>
       <div class="nc-step"><span class="nc-n">1</span>Что расследуем?</div>
       <div class="choice-grid topic nc-topics">${TOPICS.map(([t, i, nm, sub]) => `<button class="choice nc-t" data-t="${t}"><span>${i}</span><b>${nm}</b><small id="${t === 'pick' ? 'pickn' : ''}">${t === 'pick' ? (pickCount() ? 'тем: ' + pickCount() : 'ты выбираешь') : sub}</small></button>`).join('')}</div>
       <div class="nc-classic"><span>Классика:</span>${CLASSIC.map(([t, i, nm]) => `<button class="choice nc-c" data-t="${t}">${i} ${nm}</button>`).join('')}</div>

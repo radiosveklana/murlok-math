@@ -62,6 +62,7 @@ SCREENS.games = () => {
   say(pick(['Выбирай игру, {n}! Все они делают тебя сильнее в математике.', 'Весы — самый простой путь к уравнениям!', 'Допрос учит проверять ответы — как настоящий сыщик!']), 0, { silent: true });
 };
 
+const gA = () => (S.kid ? (/[аяь]$/i.test(S.kid) ? 'а' : '') : '(а)'); // род по имени ребёнка; имя неизвестно — «(а)»
 /* общий каркас: раунды, счёт, награда */
 function gameShell(g, rounds) {
   app.innerHTML = `${topbar(g.icon + ' ' + g.name, 'games')}<div class="page game-page"><div class="g-head"><div class="g-dots" id="gdots">${Array.from({ length: rounds }, () => '<i></i>').join('')}</div><div class="pill">⭐ <b id="gsc">0</b></div></div>${helperHTML('gbub')}<div id="garea"></div><div id="gafter" class="after"></div></div>`;
@@ -140,9 +141,12 @@ const GAME_FN = {
       const t = Math.min(2, Math.max(0, rnd(0, lvl()))); const x = rnd(2, t === 2 ? 15 : 30), a = t === 0 ? 1 : rnd(2, t === 2 ? 5 : 6), b = t === 1 ? 0 : rnd(3, 25), c = a * x + b;
       let left = { a, b }, right = c, phase = b ? 'sub' : 'div';
       const boxes = n => Array.from({ length: n }, () => '<span class="box3">📦</span>').join('');
+      if (!$('#scw')) $('#garea').innerHTML = `<div id="scw"></div><div id="sq"></div>`; // весы рисуем отдельно от #sq — клавиатура и кнопки не пропадают при перерисовке
       const draw = (tilt = 0) => {
-        $('#garea').innerHTML = `<div class="scales" style="--tilt:${tilt}deg"><div class="beam"><div class="pan l"><div class="pan-in">${boxes(left.a)}${left.b ? `<span class="wt">${left.b}</span>` : ''}</div></div><div class="pan r"><div class="pan-in"><span class="wt big">${right}</span></div></div></div><div class="pivot">▲</div></div>
-          <div class="eqline">${left.a > 1 ? left.a + ' · ' : ''}<i class="x">x</i>${left.b ? ' + ' + left.b : ''} = ${right}</div><div id="sq"></div>`;
+        const k = `${left.a}|${left.b}|${right}`, sc = $('#scw .scales');
+        const eq = `<div class="eqline">${left.a > 1 ? left.a + ' · ' : ''}<i class="x">x</i>${left.b ? ' + ' + left.b : ''} = ${phase === 'ans' && left.a === 1 ? '?' : right}</div>`; // одна коробка — ответ в строке не подсказываем
+        if (sc && sc.dataset.k === k) { sc.style.setProperty('--tilt', tilt + 'deg'); $('#scw .eqline').outerHTML = eq; return; } // те же гирьки — только наклон, с анимацией
+        $('#scw').innerHTML = `<div class="scales" data-k="${k}" style="--tilt:${tilt}deg"><div class="beam"><div class="pan l"><div class="pan-in">${boxes(left.a)}${left.b ? `<span class="wt">${left.b}</span>` : ''}</div></div><div class="pan r"><div class="pan-in"><span class="wt big">${right}</span></div></div></div><div class="pivot">▲</div></div>${eq}`;
       };
       const ask = () => {
         draw();
@@ -167,7 +171,7 @@ const GAME_FN = {
         $$('#sq .opt').forEach(btn => btn.addEventListener('click', () => {
           const o = list[+btn.dataset.i];
           if (o[1]) { SND.ok(); btn.classList.add('right'); setTimeout(onOk, 500); }
-          else { SND.bad(); btn.classList.add('wrong'); st.mistakes++; draw(o[0].includes('левой') ? -14 : 14); setTimeout(() => draw(), 900); st.say(`<div class="fb bad">${o[2]}</div>Попробуй другой способ.`); setTimeout(() => opts(list, onOk), 950); }
+          else { SND.bad(); btn.classList.add('wrong'); btn.disabled = true; st.mistakes++; draw(o[0].includes('левой') ? -14 : 14); setTimeout(() => draw(), 900); st.say(`<div class="fb bad">${o[2]}</div>Попробуй другой способ.`); }
         }));
       }
       ask();
@@ -297,14 +301,14 @@ const GAME_FN = {
       }
       const grid = who.map(() => Array(n).fill(0));
       st.say('Узнай, кто где был вчера вечером. Читай улики и отмечай в таблице: нажми один раз — ✔, ещё раз — ✖.');
-      $('#garea').innerHTML = `<div class="clue-list">${clues.map(c => `<div class="clue">🔎 ${who[c.a][1]} ${c.pos ? 'был(а)' : '<b>не</b> был(а)'} ${pl[c.p][1]} ${pl[c.p][0]}</div>`).join('')}</div>
+      $('#garea').innerHTML = `<div class="clue-list">${clues.map(c => `<div class="clue">🔎 ${who[c.a][1]} ${c.pos ? '' : '<b>не</b> '}был${((window.Lines || {}).PERSONA || {})[who[c.a][1]] && Lines.PERSONA[who[c.a][1]].g === 'f' ? 'а' : ''} ${pl[c.p][1]} ${pl[c.p][0]}</div>`).join('')}</div>
         <div class="lgrid" style="--n:${n}"><span></span>${pl.map(p => `<span class="lh">${p[0]}</span>`).join('')}${who.map((w, i) => `<span class="lw">${face(w)}<small>${w[1].split(' ')[1]}</small></span>${pl.map((p, j) => `<button class="lc" data-i="${i}" data-j="${j}"></button>`).join('')}`).join('')}</div>
         <button class="btn big pink" id="lchk">Проверить 🔍</button>`;
       $$('.lc', app).forEach(c => c.addEventListener('click', () => { const i = +c.dataset.i, j = +c.dataset.j; grid[i][j] = (grid[i][j] + 1) % 3; c.textContent = ['', '✔', '✖'][grid[i][j]]; c.className = 'lc s' + grid[i][j]; SND.tap(); }));
       let tries = 0;
       $('#lchk').addEventListener('click', () => {
         const right = who.every((_, i) => grid[i].filter(v => v === 1).length === 1 && grid[i][sol[i]] === 1);
-        if (right) { st.mark(true); st.say('<div class="fb">🔍 Всё сходится!</div>Ты распутал(а) алиби, как настоящий детектив!'); $('#lchk').remove(); st.nextBtn(round); }
+        if (right) { st.mark(true); st.say('<div class="fb">🔍 Всё сходится!</div>Ты распутал' + gA() + ' алиби, как настоящий детектив!'); $('#lchk').remove(); st.nextBtn(round); }
         else { tries++; SND.bad(); shake($('.lgrid')); if (tries >= 2) { st.mark(false); st.say(`Ответ: ${who.map((w, i) => `${w[1].split(' ')[1]} — ${pl[sol[i]][0]}`).join(', ')}. Подсказка сыщика: начинай с уверенной улики, потом вычёркивай.`); $('#lchk').remove(); st.nextBtn(round); } else st.say('<div class="fb bad">Пока не сходится.</div>У каждого ровно одно место, и в каждом месте — один зверь. Проверь улики по одной.'); }
       });
     }

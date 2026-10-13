@@ -60,8 +60,8 @@ function markDay(n = 1) { const t = today(); S.days[t] = (S.days[t] || 0) + n; }
 function streak() { let n = 0; const d = new Date(); if (!S.days[dkey(d)]) d.setDate(d.getDate() - 1); while (S.days[dkey(d)]) { n++; d.setDate(d.getDate() - 1); } return n; }
 function noteErr(type, fact) { S.err[type] = (S.err[type] || 0) + 1; if (fact) S.facts[fact] = (S.facts[fact] || 0) + 1; save(); }
 const factKey = (p, q) => Math.min(p, q) + '×' + Math.max(p, q);
-/* метод зелёной ручки (v30): сначала — что уже верно, потом одна поправка, в конце — ободрение */
-function gpFb(good, fix) { const end = ((window.MASCOT_BANK || {}).gpEnd) || ['Ты справишься! 💚']; return `<div class="fb gp-ok">✅ ${good}</div><div class="gp-fix">🔎 ${fix} <span class="gp-end">${pick(end)}</span></div>`; }
+/* метод зелёной ручки (v30): сначала — что уже верно, потом одна поправка, в конце — ободрение. v35: при ошибке без ✅ и зелёного — нейтральный ✏️, иначе ребёнок думает, что ответ верный */
+function gpFb(good, fix) { const end = ((window.MASCOT_BANK || {}).gpEnd) || ['Ты справишься! 💚']; return `<div class="fb gp-ok gp-note">✏️ ${good}</div><div class="gp-fix">🔎 ${fix} <span class="gp-end">${pick(end)}</span></div>`; }
 const gpSum = (ok, all) => all ? `<div class="gp-sum">🖊️ Зелёная ручка: ${ok} из ${all} ${plural(all, 'шага', 'шагов', 'шагов')} — верно с первой попытки!</div>` : '';
 
 /* ================= Звания, награды ================= */
@@ -564,7 +564,9 @@ function mountMul(el, { a, b, guided, onDone }) {
   }
   // клик по клетке — выбор сдвига
   $('.mgrid', el).addEventListener('click', e => {
-    const c = e.target.closest('.cell.tap'); if (!c || done) return; const s = cur(); if (!s || s.t !== 'shift') return;
+    const c = e.target.closest('.cell.tap'), s0 = cur();
+    if (!c && !done && s0 && s0.t === 'shift' && e.target.closest('.cell')) { SND.bad(); toast(`👆 Не эта клетка. Нажми на клетку в строке ${s0.row + 1} — на ${s0.row} ${plural(s0.row, 'клетку', 'клетки', 'клеток')} левее начала первой строки`); return; } // v35: тап мимо — не тишина
+    if (!c || done) return; const s = cur(); if (!s || s.t !== 'shift') return;
     const col = +c.dataset.c;
     if (col === s.row) { SND.ok(); gpStep(); for (let q = 0; q < s.row; q++) set('p' + s.row, q, '0', 'ghost'); si++; next(`✔ Верно! Сдвиг на ${s.row} ${plural(s.row, 'клетку', 'клетки', 'клеток')}. Пустая клетка — как невидимый нолик: мы ведь умножаем на ${s.bd * 10 ** s.row}.`); return; }
     mistakes++; tries++; SND.bad(); noteErr('shift'); c.classList.add('wrong'); setTimeout(() => c.classList.remove('wrong'), 700);
@@ -747,7 +749,7 @@ function mountEq(el, { eq, guided, onDone }) {
 /* ======================================================================
    ОШИБКИ ЕНОТА — найти неверную строку
    ====================================================================== */
-const raccoonPic = () => window.Chibi ? `<span class="pt chibi-pt talking">${Chibi.chibiSVG('Енот Тимоша', { hat: '🎩' })}</span><b>Енот Тимоша</b><small>«Я умножаю быстрее всех!»</small>` : '🦝';
+const raccoonPic = () => window.Chibi ? `<span class="pt chibi-pt talking">${Chibi.chibiSVG('Енот Тимоша', { hat: '🎩' })}</span><b>Енот Тимоша</b><small>«Я считаю быстрее всех!»</small>` : '🦝';
 function mountBugMul(el, { level, onDone }) {
   const g = E.genMulBug(level), { a, b, rows, sum } = g, nB = rows.length;
   const W = Math.max(String(sum).length, String(a * b).length, ...rows.map(r => String(r.val).length + r.shift), String(a).length) + 1;
@@ -958,7 +960,7 @@ SCREENS.home = () => {
   const qg = $('#qgo'); if (qg) qg.addEventListener('click', () => { SND.tap(); goEquations(); });
   // окна на главной — по очереди: новости → подарок за вход → сундуки → новая комната
   const queue = [checkNews, checkLogin, checkGoals, checkRooms];
-  const step = () => { if (curScreen !== 'home') return; if ($('.modal')) return setTimeout(step, 700); const f = queue.shift(); if (!f) return; f(); setTimeout(step, 500); };
+  const step = () => { if (curScreen !== 'home') return; if ($('.modal') || window.__homeHold) return setTimeout(step, 700); const f = queue.shift(); if (!f) return; f(); setTimeout(step, 500); }; // __homeHold — итог вызова (family.js) идёт первым
   setTimeout(step, 900);
 };
 
@@ -1022,7 +1024,7 @@ function interrogate(i) {
     $('#ipt', m.el).innerHTML = portrait(s, 'big talking' + (mood === 'angry' ? ' angry' : ''), mood);
     const say_ = $('#isay', m.el); say_.textContent = `«${text}»`; say_.classList.toggle('angry', mood === 'angry'); say_.classList.remove('pop'); void say_.offsetWidth; say_.classList.add('pop');
     const pat = 5 - Math.min(5, n);
-    $('#imood', m.el).innerHTML = n >= 5 ? '😤 Обиделся(ась) — больше не отвечает' : `Терпение: ${'💛'.repeat(pat)}${'🖤'.repeat(5 - pat)}`;
+    $('#imood', m.el).innerHTML = n >= 5 ? `😤 ${f ? 'Обиделась' : 'Обиделся'} — больше не отвечает` : `Терпение: ${'💛'.repeat(pat)}${'🖤'.repeat(5 - pat)}`;
     personaSay(s, kind);
     if (mood === 'angry') { M.sfx('drum'); M.haptic([40, 40, 80]); } else M.sfx('magic');
     if (n >= 5) { const b = $('#ask', m.el); b.disabled = true; b.textContent = '🤐 Молчит'; }
@@ -1044,7 +1046,7 @@ function bindSuspects(root, found, onChange) {
   $$('.sus', root).forEach(b => b.addEventListener('click', () => {
     const i = +b.dataset.i, s = CASE.c.suspects[i];
     if (CASE.crossed.has(i)) { CASE.crossed.delete(i); b.classList.remove('crossed'); SND.tap(); onChange && onChange(); return; }
-    if (E.alibi(CASE.c, s, found) < 0) { SND.bad(); shake(b); say(found ? `Подожди, {n}! ${s.animal[1]} подходит под все улики.` : PH.noClue[0]); return; }
+    if (E.alibi(CASE.c, s, found) < 0) { SND.bad(); shake(b); toast(found ? `🔎 ${s.animal[1]} подходит под все улики — вычёркивать рано!` : '🔎 Улик пока нет — реши задачу, чтобы получить первую'); say(found ? `Подожди, {n}! ${s.animal[1]} подходит под все улики.` : PH.noClue[0]); return; }
     CASE.crossed.add(i); b.classList.add('crossed'); SND.tap(); catMood('happy', 700); say(Math.random() < 0.4 ? `${s.animal[1]} — не вор!` : pick(PH.cross), 0, { silent: true }); personaSay(s, 'free'); onChange && onChange();
   }));
 }
@@ -1251,7 +1253,7 @@ SCREENS.practice = (topic = 'mul') => {
       count++; taskDone(topic, res, { level: t.level, guided }); if (!guided) trackPerf(topic, t.level, res, (Date.now() - t0) / 1000);
       if (!guided && t.level >= 3 && !res.mistakes && !res.helped) awardGems(1, 'за сложную задачу без ошибок');
       const c = ((!res.mistakes && !res.helped) ? 2 : 1) * (topic === 'eq' ? 2 : 1); award(c, (guided ? 6 : 10) + (topic === 'eq' ? 4 : 0));
-      if (topic === 'eq') { const q = nextQuest(); if (q && q.e) toast(`<span class="tb">📦</span><div>До комнаты «${q.r.name}»: ещё ${lockText(q.r)}</div>`); }
+      if (topic === 'eq') { const q = nextQuest(); if (q && q.e) toast(`<span class="tb">📦</span><div>До комнаты «${q.r.name}»: ${lockText(q.r)}</div>`); }
       $('#after').innerHTML = `<button class="btn big pink" id="more">Ещё пример →</button>`;
       $('#more').addEventListener('click', () => { SND.tap(); load(); });
     });
@@ -1441,7 +1443,7 @@ function checkNews() {
   $('#newsOk', m.el).addEventListener('click', () => { S.seenVersion = APP_VERSION; save(); m.close(); });
   speakT(PH.news[0]);
 }
-setInterval(() => { if (document.hidden) return; fetch('version.json?t=' + Date.now()).then(r => r.json()).then(v => { if (v.v && v.v !== APP_VERSION && !$('.upd')) { const t = document.createElement('button'); t.className = 'upd'; t.textContent = '✨ Есть обновление — нажми!'; t.onclick = () => location.reload(); document.body.appendChild(t); } }).catch(() => { }); }, 5 * 60 * 1000);
+setInterval(() => { if (document.hidden) return; fetch('version.json?t=' + Date.now()).then(r => r.json()).then(v => { if (v.v && v.v !== APP_VERSION && !$('.upd')) { const t = document.createElement('button'); t.className = 'upd'; t.textContent = '✨ Обновить игру'; t.title = 'Вышла новая версия. Прогресс сохранится'; t.onclick = () => location.reload(); document.body.appendChild(t); } }).catch(() => { }); }, 5 * 60 * 1000);
 function exportProgress() { const b = new Blob([JSON.stringify(S)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `murlok-progress-${today()}.json`; a.click(); }
 function importProgress(file) { const fr = new FileReader(); fr.onload = () => { try { const d = JSON.parse(fr.result); if (d.v !== 1) throw 0; localStorage.setItem(KEY, JSON.stringify(d)); location.reload(); } catch (e) { toast('Не получилось прочитать файл'); } }; fr.readAsText(file); }
 

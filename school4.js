@@ -4,7 +4,7 @@
 'use strict';
 const School4 = (() => {
   const GROUPS = [
-    { t: '✍️ Письменные вычисления', items: ['@mul', '@div', '@add'] },
+    { t: '✍️ Письменные вычисления', items: ['@add', '@mul', '@div'], free: true }, // v35: от простого к сложному; все три открыты сразу (сложение — повторение 3 класса)
     { t: '📦 Уравнения', items: ['@eq', 'eq_moro'] },
     { t: '🔢 Числа до миллиона', items: ['million_read', 'million_compare', 'more_less', 'million_classes'] },
     { t: '📏 Величины', items: ['length_mass', 'time', 'area_units', 'part_qty', 'volume_capacity', 'area_big', 'compound_units', 'calendar_time'] },
