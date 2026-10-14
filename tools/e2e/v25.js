@@ -75,6 +75,7 @@ const SAVE = { v: 1, kid: 'Кэтика', name: 'Котофей', fur: 'galaxy',
   ok('after code: parent creates adult PIN', await E2(() => curScreen === 'pinset'));
   await E2(() => { pin1.value = '2580'; pin2.value = '2580'; pinok.click(); }); await sleep(1500);
   ok('parent cabinet opened', await E2(() => curScreen === 'pcab' && /FAM123/.test(document.body.innerText)));
+  await E2(() => document.querySelectorAll('#app details').forEach(d => { d.open = true; })); await sleep(300); // v39: ссылка семьи — в свёрнутом блоке «Рассказать знакомым»
   ok('referral counters shown', await E2(() => /Переходы: 3/.test(document.body.innerText) && /регистрации: 1/.test(document.body.innerText)));
   // вход взрослого на устройстве с непривязанной игрой — игра привязывается сама (без отдельного шага с картинками)
   ok('device progress auto-linked on adult login', (await E2(() => Accounts.linked())) && calls.some(c => c.startsWith('acc/child') && c.includes('DEVICE01')));

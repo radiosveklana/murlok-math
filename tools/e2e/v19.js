@@ -14,9 +14,10 @@ const LIST = { me: 'MYCODE', friends: [{ pub: 'FRND22', cat: 'Пушок', kid: 
   await p.setRequestInterception(true);
   p.on('request', r => {
     const u = r.url();
-    if (r.method() === 'OPTIONS' && /murlok-api/.test(u)) return r.respond({ status: 204, headers: { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET,POST,OPTIONS' } });
+    if (r.method() === 'OPTIONS' && /murlok-api/.test(u)) return r.respond({ status: 204, headers: { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type, authorization', 'access-control-allow-methods': 'GET,POST,OPTIONS' } });
     if (/murlok-api\/friend\//.test(u)) { const act = u.split('/friend/')[1]; sent.push(act + ' ' + (r.postData() || '')); const pd = JSON.parse(r.postData() || '{}'); const body = act === 'list' ? LIST : act === 'house' ? HOUSE : act === 'add' ? { status: 'mutual', friend: { pub: 'NEWF33', cat: 'Барсик', kid: 'Петя' } } : act === 'here' ? (pd.at === 'home' ? { guests: [{ pub: 'FRND22', cat: 'Пушок', kid: 'Маша', fur: 'galaxy', wear: {}, room: 'kitchen' }], unread: 0, last: null } : { host: { online: true, at: 'home', room: 'kitchen' }, conflict: !!global.CONFLICT, guests: [] }) : { ok: true }; return r.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(body) }); }
     if (/murlok-api\/roleplay/.test(u)) { const d = JSON.parse(r.postData() || '{}'); sent.push('rp ' + (d.end ? 'end' : d.text)); return r.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(d.end ? { good: ['Ты спросил(а) про чувства'], try: ['Скажи «я рядом»'], stars: 3, reply: 'Молодец!' } : { reply: 'Ой, привет! Я Рыжик.', mood: 'happy', flag: 'none' }) }); }
+    if (/murlok-api\/acc\//.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: '{}' }); // v39: кабинет подменён — без похода на настоящий сервер
     if (/murlok-api\/(tts|tg|save|chat)/.test(u)) return r.respond({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: '{}' });
     r.continue();
   });
